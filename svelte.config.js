@@ -6,15 +6,26 @@ import rehypeExternalLinks from 'rehype-external-links';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
+const dev = process.argv.includes('dev');
 const extensions = ['.svelte', '.md'];
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			pages: "build",
+			assets: "build",
+			fallback: "404.html",
+			precompress: false,
+			strict: true
+		}),
+		// paths: {
+		// 	base: dev ? '' : '/hjh3311504.github.io',
+		// 	// base: '',
+		// },
 		prerender: {
 			handleHttpError: 'warn'
-		}
+		},
 	},
 	preprocess: [
 		vitePreprocess(),
@@ -40,7 +51,7 @@ const config = {
 			]
 		})
 	],
-	extensions: extensions
+	extensions: extensions,
 };
 
 export default config;
