@@ -10,30 +10,30 @@
 	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
 >
   <channel>
-    <atom:link href="https://sveltekit-static-blog-template.vercel.app//rss.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://hjh3311504.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <title>SvelteKit Static Blog Template</title>
-    <link>https://sveltekit-static-blog-template.vercel.app/</link>
+    <link>https://hjh3311504.github.io</link>
     <description>A light, neat, and easy-to-use SvelteKit template for your next website.</description>
     <image>
-      <url>https://sveltekit-static-blog-template.vercel.app//favicons/favicon-32x32.png</url>
+      <url>https://hjh3311504.github.io/favicons/favicon-32x32.png</url>
       <title>SvelteKit Static Blog Template</title>
-      <link>https://sveltekit-static-blog-template.vercel.app/</link>
+      <link>https://hjh3311504.github.io</link>
       <width>32</width>
       <height>32</height>
     </image>
     
         <item>
-          <guid>https://sveltekit-static-blog-template.vercel.app//customization</guid>
+          <guid>https://hjh3311504.github.io/customization</guid>
           <title>How to Customize this Template</title>
           <description>How to customize what you're seeing here and make it your own.</description>
-          <link>https://sveltekit-static-blog-template.vercel.app//customization</link>
+          <link>https://hjh3311504.github.io/customization</link>
           <pubDate>Sun, 23 Apr 2023 06:55:27 +0900</pubDate>
           <category>Documentation</category>
           <content:encoded><![CDATA[
             <div style="margin: 50px 0; font-style: italic;">
               If anything looks wrong, 
               <strong>
-                <a href="https://sveltekit-static-blog-template.vercel.app//customization">
+                <a href="https://hjh3311504.github.io/customization">
                   read on the site!
                 </a>
               </strong>
@@ -66,22 +66,22 @@
 <h2 id="social-media-link-preview"><a class="heading-link" title="Permalink" aria-hidden="true" href="#social-media-link-preview"><span>#</span></a>Social Media Link Preview</h2>
 <p>You probably want to customize how links to your website look when posted on social media/messaging apps. To do that, you can edit the info in <code>src/lib/data/meta.ts</code>. There, you can edit the site’s title, description, tags (used by search engines) and the image that appears when sharing a link.</p>
           ]]></content:encoded>
-          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://sveltekit-static-blog-template.vercel.app///images/posts/customization.jpg"/>
-          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://sveltekit-static-blog-template.vercel.app///images/posts/customization.jpg"/>          
+          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hjh3311504.github.io//images/posts/customization.jpg"/>
+          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://hjh3311504.github.io//images/posts/customization.jpg"/>          
         </item>
       
         <item>
-          <guid>https://sveltekit-static-blog-template.vercel.app//project-structure</guid>
+          <guid>https://hjh3311504.github.io/project-structure</guid>
           <title>Project Structure</title>
           <description>How code and structure are organized.</description>
-          <link>https://sveltekit-static-blog-template.vercel.app//project-structure</link>
+          <link>https://hjh3311504.github.io/project-structure</link>
           <pubDate>Sun, 23 Apr 2023 06:55:21 +0900</pubDate>
           <category>Documentation</category>
           <content:encoded><![CDATA[
             <div style="margin: 50px 0; font-style: italic;">
               If anything looks wrong, 
               <strong>
-                <a href="https://sveltekit-static-blog-template.vercel.app//project-structure">
+                <a href="https://hjh3311504.github.io/project-structure">
                   read on the site!
                 </a>
               </strong>
@@ -112,22 +112,22 @@
 <h2 id="blog-posts"><a class="heading-link" title="Permalink" aria-hidden="true" href="#blog-posts"><span>#</span></a>Blog Posts</h2>
 <p>To know how blog posts work and how to create new ones, check out <a href="/blog-posts">How Blog Posts Work</a>.</p>
           ]]></content:encoded>
-          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://sveltekit-static-blog-template.vercel.app///images/posts/project-structure.jpg"/>
-          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://sveltekit-static-blog-template.vercel.app///images/posts/project-structure.jpg"/>          
+          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hjh3311504.github.io//images/posts/project-structure.jpg"/>
+          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://hjh3311504.github.io//images/posts/project-structure.jpg"/>          
         </item>
       
         <item>
-          <guid>https://sveltekit-static-blog-template.vercel.app//blog-posts</guid>
+          <guid>https://hjh3311504.github.io/blog-posts</guid>
           <title>How Blog Posts Work</title>
           <description>How to manage existing blog posts and create new ones</description>
-          <link>https://sveltekit-static-blog-template.vercel.app//blog-posts</link>
+          <link>https://hjh3311504.github.io/blog-posts</link>
           <pubDate>Sun, 23 Apr 2023 06:55:15 +0900</pubDate>
           <category>Documentation</category>
           <content:encoded><![CDATA[
             <div style="margin: 50px 0; font-style: italic;">
               If anything looks wrong, 
               <strong>
-                <a href="https://sveltekit-static-blog-template.vercel.app//blog-posts">
+                <a href="https://hjh3311504.github.io/blog-posts">
                   read on the site!
                 </a>
               </strong>
@@ -166,8 +166,8 @@ tags:
 <h2 id="rss"><a class="heading-link" title="Permalink" aria-hidden="true" href="#rss"><span>#</span></a>RSS</h2>
 <p>This template automatically generates a RSS feed of your blog posts. It is generated in the <code>src/routes/rss.xml/+server.ts</code> file, and it is available at the <code>/rss.xml</code> URL.</p>
           ]]></content:encoded>
-          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://sveltekit-static-blog-template.vercel.app///images/posts/blog-posts.jpg"/>
-          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://sveltekit-static-blog-template.vercel.app///images/posts/blog-posts.jpg"/>          
+          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hjh3311504.github.io//images/posts/blog-posts.jpg"/>
+          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://hjh3311504.github.io//images/posts/blog-posts.jpg"/>          
         </item>
       
   </channel>

@@ -1,1 +1,0 @@
-const t="https://sveltekit-static-blog-template.vercel.app/",e=["Svelte","SvelteKit","Template","Blog","Starter","Static Site"],s="A light, neat, and easy-to-use SvelteKit template for your next website.",a="SvelteKit Static Blog Template",i=`${t}/images/site-preview.png`;export{s as d,i,e as k,t as s,a as t};
