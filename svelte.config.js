@@ -6,7 +6,6 @@ import rehypeExternalLinks from 'rehype-external-links';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
-const dev = process.argv.includes('dev');
 const extensions = ['.svelte', '.md'];
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -19,13 +18,26 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
-		// paths: {
-		// 	base: dev ? '' : '/hjh3311504.github.io',
-		// 	// base: '',
-		// },
 		prerender: {
 			handleHttpError: 'warn'
 		},
+		alias: {
+
+		},
+		typescript: {
+			config: (tsconfig) => {
+				// 원하지 않는 속성
+				const {
+					importsNotUsedAsValues: _,
+					preserveValueImports: __,
+				} = tsconfig.compilerOptions;
+
+				return {
+					...tsconfig,
+					compilerOptions: {}
+				}
+			}
+		}
 	},
 	preprocess: [
 		vitePreprocess(),

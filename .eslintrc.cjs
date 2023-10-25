@@ -1,6 +1,6 @@
 module.exports = {
 	root: true,
-	extends: ['eslint:recommended', 'prettier'],
+	extends: ['eslint:recommended'],
 	plugins: ['svelte3'],
 	overrides: [
 		{
@@ -16,5 +16,8 @@ module.exports = {
 		browser: true,
 		es2017: true,
 		node: true
-	}
+	},
+	rules: {
+    "no-unused-vars": "warn",
+  }
 };
