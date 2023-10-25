@@ -161,8 +161,8 @@ tags:
 </div>
 <h2 id="managing-blog-posts"><a class="heading-link" title="Permalink" aria-hidden="true" href="#managing-blog-posts"><span>#</span></a>Managing blog posts</h2>
 <p>I highly recommend the <a href="https://frontmatter.codes/" rel="nofollow">Front Matter VS Code extension</a> to manage blog posts. It gives you a nice CMS-like UI to manage the front matter of all blog posts, as well as a preview of their content. It is, of course, optional, and you can manage everything directly in the Markdown files if you prefer.</p>
-<img srcset="/images/posts/frontmatter-preview-dashboard.avif, /images/posts/frontmatter-preview-dashboard.webp, /images/posts/frontmatter-preview-dashboard.png" src="/images/posts/frontmatter-preview-dashboard.png" alt="Screenshot of the Front Matter VS Code extension, showing the dashboard with all posts" loading="lazy" decoding="async" class="svelte-1ykl0dj full-bleed">
-<img srcset="/images/posts/frontmatter-preview-edit.avif, /images/posts/frontmatter-preview-edit.webp, /images/posts/frontmatter-preview-edit.png" src="/images/posts/frontmatter-preview-edit.png" alt="Screenshot of the Front Matter VS Code extension, showing the post editing UI" loading="lazy" decoding="async" class="svelte-1ykl0dj full-bleed">
+<img fullbleed src="/images/posts/frontmatter-preview-dashboard.png" alt="Screenshot of the Front Matter VS Code extension, showing the dashboard with all posts">
+<img fullbleed src="/images/posts/frontmatter-preview-edit.png" alt="Screenshot of the Front Matter VS Code extension, showing the post editing UI">
 <h2 id="rss"><a class="heading-link" title="Permalink" aria-hidden="true" href="#rss"><span>#</span></a>RSS</h2>
 <p>This template automatically generates a RSS feed of your blog posts. It is generated in the <code>src/routes/rss.xml/+server.ts</code> file, and it is available at the <code>/rss.xml</code> URL.</p>
           ]]></content:encoded>
