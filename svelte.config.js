@@ -23,20 +23,6 @@ const config = {
 		},
 		alias: {
 
-		},
-		typescript: {
-			config: (tsconfig) => {
-				// 원하지 않는 속성
-				// const {
-				// 	importsNotUsedAsValues: _,
-				// 	preserveValueImports: __,
-				// } = tsconfig.compilerOptions;
-
-				return {
-					...tsconfig,
-					compilerOptions: {}
-				}
-			}
 		}
 	},
 	preprocess: [
