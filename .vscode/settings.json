@@ -1,11 +1,61 @@
+// {
+// 	"cssVariables.lookupFiles": ["**/*.css", "**/*.scss", "**/*.sass", "**/*.less"],
+// 	"editor.formatOnSave": true,
+// 	"prettier.singleQuote": true,
+// 	"frontMatter.preview.host": "http://localhost:5173/",
+// 	"frontMatter.framework.startCommand": "npm run dev",
+// 	"frontMatter.content.autoUpdateDate": false,
+// 	"frontMatter.content.fmHighlight": true,
+// 	"frontMatter.content.publicFolder": "static",
+// 	"files.autoSave": "afterDelay"
+// }
 {
-	"cssVariables.lookupFiles": ["**/*.css", "**/*.scss", "**/*.sass", "**/*.less"],
-	"editor.formatOnSave": true,
-	"prettier.singleQuote": true,
-	"frontMatter.preview.host": "http://localhost:5173/",
-	"frontMatter.framework.startCommand": "npm run dev",
-	"frontMatter.content.autoUpdateDate": false,
-	"frontMatter.content.fmHighlight": true,
-	"frontMatter.content.publicFolder": "static",
-	"files.autoSave": "afterDelay"
+  "typescript.suggest.paths": false,
+  "javascript.suggest.paths": false,
+  "path-intellisense.extensionOnImport": true,
+  "path-intellisense.mappings": {
+    "/": "${workspaceFolder}/static"
+  },
+
+  "npm-intellisense.importES6": true,
+  "npm-intellisense.importQuotes": "'",
+  "npm-intellisense.importLinebreak": ";\r\n",
+  "npm-intellisense.importDeclarationType": "const",
+  "npm-intellisense.scanDevDependencies": true,
+
+  "html-css-class-completion.searchRemoteGlobPattern": "**/*.{svelte,html}",
+  "html-css-class-completion.enableScssFindUsage": true,
+
+  "[scss]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[svelte]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
+  "[javascript]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.tokenColorCustomizations": {
+    "types" : { "foreground" : "#FF8964" },
+    "textMateRules": [
+      {
+          "scope": "entity.name.tag",
+          "settings": { 
+            // "foreground" : "#00c28b" 
+            // "foreground" : "#ff7c94" 
+            "foreground" : "#ff5c5c" 
+            // "foreground" : "#ff858e" 
+          }
+      }
+    ]
+  }
 }
