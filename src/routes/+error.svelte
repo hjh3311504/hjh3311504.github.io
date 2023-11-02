@@ -15,9 +15,9 @@
 			<div class="svg-wrapper">
 				<Error />
 			</div>
-			<p>It seems like coffee was spilled all over this page, and now it can't be displayed.</p>
+			<p>오류가 발생했습니다.</p>
 			<br />
-			<Button href="/">Start over</Button>
+			<Button href="/">메인 페이지로 이동</Button>
 		</div>
 	</div>
 </main>
