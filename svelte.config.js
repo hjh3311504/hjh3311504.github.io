@@ -22,7 +22,9 @@ const config = {
 			handleHttpError: 'warn'
 		},
 		alias: {
-
+			'$components': 'src/lib/components',
+      '$data': 'src/lib/data',
+      '$stores': 'src/lib/stores'
 		}
 	},
 	preprocess: [
