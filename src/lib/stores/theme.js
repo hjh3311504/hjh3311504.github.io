@@ -7,11 +7,12 @@ function createTheme() {
     currentTheme = localStorage.getItem('theme-preference') || 'auto';
   }
 
-  const { subscribe, set } = writable<string>(currentTheme);
+  const { subscribe, set } = writable(currentTheme);
 
   return {
     subscribe,
-    set: (value: string) => {
+    /** @param {string} value */
+    set: (value) => {
       if (browser) {
         localStorage.setItem('theme-preference', value);
         document.firstElementChild?.setAttribute('data-theme', value);
