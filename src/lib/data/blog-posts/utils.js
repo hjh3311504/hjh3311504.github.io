@@ -8,7 +8,6 @@ const ifYouRemoveMeTheBuildFails = Prism;
 import 'prism-svelte';
 import readingTime from 'reading-time/lib/reading-time';
 import striptags from 'striptags';
-import type { BlogPost } from "$lib/utils/types";
 
 export const importPosts = (render = false) => {
   const blogImports = import.meta.glob('$routes/*/*/*.md', { eager: true });
@@ -16,9 +15,10 @@ export const importPosts = (render = false) => {
 
   const imports = { ...blogImports, ...innerImports };
 
-  const posts: BlogPost[] = [];
+  /** @type {App.BlogPost[]} */
+  const posts = [];
   for (const path in imports) {
-    const post = imports[path] as any;
+    const post = imports[path];
     if (post) {
       posts.push({
         ...post.metadata,
@@ -30,7 +30,11 @@ export const importPosts = (render = false) => {
   return posts;
 }
 
-export const filterPosts = (posts: BlogPost[]) => {
+/** 
+ * @param {App.BlogPost[]} posts 
+ * @return {App.BlogPost}
+ * */
+export const filterPosts = (posts) => {
   return posts.filter((post) => !post.hidden)
     .sort((a, b) =>
       new Date(a.date).getTime() > new Date(b.date).getTime()
@@ -47,13 +51,16 @@ export const filterPosts = (posts: BlogPost[]) => {
         ...post,
         readingTime: readingTimeResult ? readingTimeResult.text : '',
         relatedPosts: relatedPosts,
-      } as BlogPost;
+      };
     });
 }
 
 // #region Unexported Functions
-
-const getRelatedPosts = (posts: BlogPost[], post: BlogPost) => {
+/** 
+ * @param {App.BlogPost[]} posts 
+ * @param {App.BlogPost} post
+ * */
+const getRelatedPosts = (posts, post) => {
   // Get the first 3 posts that have the highest number of tags in common
   const relatedPosts = posts
     .filter((p) => p.slug !== post.slug)

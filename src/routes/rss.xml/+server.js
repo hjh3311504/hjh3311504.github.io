@@ -1,5 +1,4 @@
 import { description, siteBaseUrl, title } from '$lib/data/meta';
-import type { BlogPost } from '$lib/utils/types';
 import dateformat from 'dateformat';
 import { filterPosts, importPosts } from '$lib/data/blog-posts/utils';
 
@@ -17,7 +16,8 @@ export async function GET() {
   return new Response(body, { headers });
 }
 
-const xml = (posts: BlogPost[]) => `
+/** @param {App.BlogPost[]} posts */
+const xml = (posts) => `
 <rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"

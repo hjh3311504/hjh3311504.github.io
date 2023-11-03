@@ -1,5 +1,4 @@
-import type { Feature } from "$lib/utils/types";
-
+/** @type {App.Feature} */
 export default [ 
   {
     name: 'Markdown Support',
@@ -40,4 +39,4 @@ export default [
       'All code is open source, which means you can copy and modify it to your heart\'s content. All I ask is that you make your code open too so that knowledge can be passed on.',
     image: 'images/features/open-source.jpg'
   },
-] as Feature[];
+];
