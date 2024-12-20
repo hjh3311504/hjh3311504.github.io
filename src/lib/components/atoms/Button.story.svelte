@@ -1,14 +1,13 @@
-<script lang="ts">
+<script>
 	import '$lib/scss/global.scss';
-	import type { ComponentProps } from 'svelte';
-	import type { Hst } from '@histoire/plugin-svelte';
 	import Button from './Button.svelte';
-	import type { NoUndefinedField } from '$lib/utils/types';
 	import Icon from '$lib/icons/chat.svelte';
 
-	export let Hst: Hst;
+  /** @type {import("@histoire/plugin-svelte").Hst} */
+	export let Hst;
 
-	let props: NoUndefinedField<ComponentProps<Button>> = {
+  /** @type {App.NoUndefinedField<import("svelte").ComponentProps<Button>>}}*/
+	let props = {
 		color: 'primary',
 		style: 'solid',
 		size: 'medium',

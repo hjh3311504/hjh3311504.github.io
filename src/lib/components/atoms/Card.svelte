@@ -1,11 +1,16 @@
-<script lang="ts">
+<script>
 	import { HttpRegex } from '$lib/utils/regex';
 
-	export let additionalClass: string | undefined = undefined;
+  /** @type {string | undefined} */
+	export let additionalClass = undefined;
 
-	export let href: string | undefined = undefined;
+  /** @type {string | undefined} */
+	export let href = undefined;
+
 	const isExternalLink = !!href && HttpRegex.test(href);
-	export let target: '_self' | '_blank' = isExternalLink ? '_blank' : '_self';
+
+  /** @type {'_self' | '_blank'} */
+	export let target = isExternalLink ? '_blank' : '_self';
 	export let rel = isExternalLink ? 'noopener noreferrer' : undefined;
 
 	$: tag = href ? 'a' : 'article';

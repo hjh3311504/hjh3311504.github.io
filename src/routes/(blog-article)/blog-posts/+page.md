@@ -1,7 +1,7 @@
 ---
 title: How Blog Posts Work
 slug: blog-posts
-coverImage: /images/posts/blog-posts.jpg
+coverImage: /static/images/posts/blog-posts.jpg
 date: 2023-04-22T21:55:15.361Z
 excerpt: How to manage existing blog posts and create new ones
 tags:

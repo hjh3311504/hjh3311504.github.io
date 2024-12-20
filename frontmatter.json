@@ -66,7 +66,7 @@
       "path": "[[workspace]]/src/routes/(blog-article)"
     }
   ],
-  "frontMatter.taxonomy.tags": [
-    "Documentation"
-  ]
+  "frontMatter.preview.host": "http://localhost:5173",
+  "frontMatter.website.host": "https://hjh3311504.github.io",
+  "frontMatter.dashboard.openOnStart": false
 }

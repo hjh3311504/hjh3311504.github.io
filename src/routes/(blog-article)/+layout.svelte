@@ -1,15 +1,15 @@
-<script lang="ts">
+<script>
 	import Header from '$lib/components/organisms/Header.svelte';
 	import Footer from '$lib/components/organisms/Footer.svelte';
 	import Tag from '$lib/components/atoms/Tag.svelte';
 	import dateformat from 'dateformat';
 
-	import { keywords, siteBaseUrl, title } from '$lib/data/meta';
-	import type { BlogPost } from '$lib/utils/types';
+	import { keywords, siteBaseUrl, title } from '$data/meta';
 	import RelatedPosts from '$lib/components/organisms/RelatedPosts.svelte';
 	import Image from '$lib/components/atoms/Image.svelte';
 
-	export let data: { post: BlogPost };
+  /** @type {{post: App.BlogPost}}*/
+	export let data;
 	$: ({ post } = data);
 
 	let metaKeywords = keywords;

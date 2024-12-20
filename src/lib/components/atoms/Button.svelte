@@ -1,15 +1,25 @@
-<script lang="ts">
+<script>
 	import { HttpRegex } from '$lib/utils/regex';
 
-	export let color: 'primary' | 'secondary' = 'primary';
-	export let style: 'solid' | 'understated' | 'clear' = 'solid';
-	export let size: 'small' | 'medium' | 'large' = 'medium';
-	export let href: string | undefined = undefined;
+  /** @type {'primary' | 'secondary'} */
+	export let color = 'primary';
 
-	export let additionalClass: string | undefined = undefined;
+  /** @type {'solid' | 'understated' | 'clear'} */
+	export let style = 'solid';
+
+  /** @type {'small' | 'medium' | 'large'} */
+	export let size = 'medium';
+
+  /** @type {string | undefined} */
+	export let href = undefined;
+
+  /** @type {string | undefined} */
+	export let additionalClass = undefined;
 
 	const isExternalLink = !!href && HttpRegex.test(href);
-	export let target: '_self' | '_blank' = isExternalLink ? '_blank' : '_self';
+
+  /** @type {'_self' | '_blank'} */
+	export let target = isExternalLink ? '_blank' : '_self';
 	export let rel = isExternalLink ? 'noopener noreferrer' : undefined;
 
 	$: tag = href ? 'a' : 'button';
