@@ -31,15 +31,6 @@
 		/>
 		<link rel="shortcut icon" href="%sveltekit.assets%/favicons/favicon.ico" />
 		<link rel="icon" href="%sveltekit.assets%/favicons/favicon.png" />
-		<link
-			href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT/fonts/static/woff2/SUIT.css"
-			rel="stylesheet"
-		/>
-		<link
-			href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css"
-			rel="stylesheet"
-		/>
-
 		<!-- Tell browser this site is responsive -->
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!-- Tell browser this site supports light and dark mode -->
@@ -53,10 +44,14 @@
 		<script>
 			// Calling this here so that it loads as quickly as possible
 			// Avoiding a flash of light mode in case dark mode is used
-			const theme = localStorage.getItem('theme-preference') || 'auto';
+			let theme = 'auto';
+			try {
+				theme = localStorage.getItem('theme-preference') || theme;
+			} catch {
+				// 저장 공간을 사용할 수 없어도 기본 테마로 화면을 계속 연다.
+			}
 			document.firstElementChild?.setAttribute('data-theme', theme);
 		</script>
-
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

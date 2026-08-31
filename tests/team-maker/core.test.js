@@ -12,7 +12,7 @@ import {
 	makeTeams,
 	parseParticipantNames,
 	rebalanceParticipantColumns
-} from '../../static/team-maker/core.js';
+} from '../../src/lib/team-maker/core.js';
 
 const people = (...names) => names.map((name, index) => ({ id: `p${index + 1}`, name }));
 const steadyRandom = () => 0.37;

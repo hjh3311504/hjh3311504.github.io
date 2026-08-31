@@ -14,8 +14,7 @@ export default [
 			'node_modules/**',
 			'output/**',
 			'package/**',
-			'package-lock.json',
-			'static/team-maker/**'
+			'package-lock.json'
 		]
 	},
 	js.configs.recommended,
