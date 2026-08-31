@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="참가자와 규칙을 입력해 고르게 팀을 나누고 승패와 추첨 결과를 기록합니다."
+		/>
+		<title>팀 메이커</title>
+		<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+		<link rel="stylesheet" href="./styles.css" />
+		<script type="module" src="./app.js"></script>
+	</head>
+	<body>
+		<main class="app-shell">
+			<header class="page-header">
+				<p class="eyebrow">모임을 빠르게 시작하세요</p>
+				<h1>팀 메이커</h1>
+			</header>
+			<!-- AD_SLOT_TOP: 실제 광고는 별도 디자인 승인 뒤 이 위치에 추가합니다. -->
+
+			<div id="storage-alert" class="storage-alert" role="alert" hidden>
+				<span class="alert-mark" aria-hidden="true">!</span>
+				<div>
+					<strong>저장하지 못했습니다</strong>
+					<p>이 브라우저의 저장 공간을 사용할 수 없습니다. 창을 닫으면 입력이 사라질 수 있습니다.</p>
+				</div>
+			</div>
+
+			<section class="card participant-card" aria-labelledby="participant-title">
+				<div class="section-heading">
+					<h2 id="participant-title">
+						1. 참가자 입력 <span id="participant-count" class="count-label">(전체 0명 · 참가 0명)</span>
+					</h2>
+					<div class="heading-actions">
+						<button id="toggle-all-button" class="utility-button" type="button">전체 선택</button>
+						<button id="open-rosters-button" class="icon-text-button roster-button" type="button">
+							명단 저장·불러오기
+						</button>
+						<button id="clear-list-button" class="icon-button danger-button" type="button" aria-label="명단 비우기" title="명단 비우기">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+				</div>
+
+				<form id="add-person-form" class="add-person-form">
+					<label class="sr-only" for="person-name">참가자 이름</label>
+					<input id="person-name" name="person-name" type="text" placeholder="예: 김지원" autocomplete="off" />
+					<button class="soft-primary-button" type="submit">추가</button>
+					<button id="open-bulk-button" class="utility-button" type="button">일괄 추가</button>
+				</form>
+
+				<p id="participant-notice" class="inline-notice" role="status" hidden></p>
+				<p id="participant-empty" class="empty-box">아직 추가한 참가자가 없습니다. 위 칸에 이름을 적고 Enter를 눌러 주세요.</p>
+				<ul id="participant-list" class="participant-list" aria-label="참가자 목록"></ul>
+
+				<div class="rules-area">
+					<div class="rules-heading">
+						<div>
+							<h3>배정 규칙</h3>
+							<p>참가자를 골라 같은 팀이나 다른 팀으로 지정할 수 있습니다.</p>
+						</div>
+						<div class="rule-actions">
+							<button id="add-together-rule" class="rule-button together" type="button">같은 팀 지정</button>
+							<button id="add-apart-rule" class="rule-button apart" type="button">다른 팀 지정</button>
+						</div>
+					</div>
+					<p id="rules-empty" class="subtle-empty">추가한 배정 규칙이 없습니다.</p>
+					<ul id="rules-list" class="rules-list" aria-label="배정 규칙 목록"></ul>
+				</div>
+			</section>
+
+			<section class="card settings-card" aria-labelledby="settings-title">
+				<h2 id="settings-title">2. 나누는 방식</h2>
+				<div class="mode-switch" role="radiogroup" aria-label="나누는 방식">
+					<button id="team-mode-button" type="button" role="radio" aria-checked="true">팀 수로 나누기</button>
+					<button id="size-mode-button" type="button" role="radio" aria-checked="false">인원 수로 나누기</button>
+				</div>
+
+				<div class="stepper-row">
+					<div>
+						<label id="split-value-label" for="split-value">팀 수</label>
+						<p id="split-value-description">만들 팀의 수를 정해 주세요.</p>
+					</div>
+					<div class="stepper">
+						<button id="decrease-value" type="button" aria-label="값 줄이기">−</button>
+						<div class="number-field">
+							<input id="split-value" type="number" min="2" max="20" value="2" inputmode="numeric" aria-describedby="split-value-description setup-hint" />
+							<span id="split-unit" aria-hidden="true">개</span>
+						</div>
+						<button id="increase-value" type="button" aria-label="값 늘리기">+</button>
+					</div>
+				</div>
+				<p id="setup-hint" class="setup-hint">참가자를 두 명 이상 선택해 주세요.</p>
+			</section>
+
+			<button id="make-teams-button" class="primary-button make-button" type="button" disabled aria-describedby="setup-hint">
+				팀 만들기
+			</button>
+
+			<section class="results-section" aria-labelledby="results-title">
+				<div class="result-heading">
+					<h2 id="results-title">3. 결과</h2>
+					<div class="result-actions" hidden>
+						<button id="undo-win-button" class="pill-button" type="button" hidden>승리 취소</button>
+						<button id="reshuffle-button" class="utility-button reshuffle-button" type="button">다시 섞기</button>
+					</div>
+				</div>
+				<p id="result-live" class="sr-only" role="status" aria-live="polite"></p>
+				<div id="result-empty" class="result-empty" role="status">
+					<strong>아직 만든 팀이 없습니다</strong>
+					<span>참가자를 추가하고 팀 만들기를 눌러 주세요.</span>
+				</div>
+				<div id="team-grid" class="team-grid"></div>
+			</section>
+
+			<section class="history-card" aria-labelledby="today-history-title">
+				<div class="section-heading">
+					<div>
+						<h2 id="today-history-title">오늘 기록</h2>
+						<p id="today-history-count">0경기</p>
+					</div>
+					<button id="open-history-button" class="utility-button roster-button" type="button">기록 보기</button>
+				</div>
+				<p id="today-history-empty" class="subtle-empty">오늘 기록한 경기가 없습니다.</p>
+				<ul id="today-history-list" class="today-history-list"></ul>
+			</section>
+		</main>
+
+		<dialog id="bulk-dialog" class="app-dialog" aria-labelledby="bulk-title" aria-describedby="bulk-description">
+			<div class="dialog-heading">
+				<div>
+					<h2 id="bulk-title">참가자 일괄 추가</h2>
+					<p id="bulk-description">한 줄에 한 명씩 붙여넣으세요. 쉼표로 구분해도 됩니다.</p>
+				</div>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+			</div>
+			<label class="sr-only" for="bulk-names">추가할 참가자 이름</label>
+			<textarea id="bulk-names" rows="7" placeholder="김지원&#10;이서준&#10;박하은"></textarea>
+			<p id="bulk-preview" class="dialog-note">추가할 이름을 입력해 주세요.</p>
+			<div class="dialog-actions">
+				<button class="utility-button" type="button" data-close-dialog>취소</button>
+				<button id="bulk-add-button" class="primary-small-button" type="button" disabled>명단에 추가</button>
+			</div>
+		</dialog>
+
+		<dialog id="rule-dialog" class="app-dialog" aria-labelledby="rule-dialog-title" aria-describedby="rule-dialog-description">
+			<div class="dialog-heading">
+				<div>
+					<h2 id="rule-dialog-title">같은 팀 지정</h2>
+					<p id="rule-dialog-description">같은 팀에 넣을 참가자를 두 명 이상 골라 주세요.</p>
+				</div>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+			</div>
+			<ul id="rule-picker-list" class="picker-list"></ul>
+			<p id="rule-picker-note" class="dialog-note error-text">두 명 이상 골라 주세요.</p>
+			<div class="dialog-actions">
+				<button class="utility-button" type="button" data-close-dialog>취소</button>
+				<button id="save-rule-button" class="primary-small-button" type="button" disabled>규칙 추가</button>
+			</div>
+		</dialog>
+
+		<dialog id="roster-dialog" class="app-dialog roster-dialog" aria-labelledby="roster-title" aria-describedby="roster-description">
+			<div class="dialog-heading">
+				<div>
+					<h2 id="roster-title">명단 저장·불러오기</h2>
+					<p id="roster-description">저장할 이름을 적어 주세요. 이 브라우저에만 보관됩니다.</p>
+				</div>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+			</div>
+			<form id="save-roster-form" class="roster-save-row">
+				<label class="sr-only" for="roster-name">명단 이름</label>
+				<input id="roster-name" type="text" placeholder="예: 수요일 풋살" autocomplete="off" />
+				<button id="save-roster-button" class="primary-small-button" type="submit" disabled>저장</button>
+			</form>
+			<p id="roster-status" class="dialog-note" role="status">같은 이름은 현재 명단으로 덮어씁니다.</p>
+			<p id="rosters-empty" class="subtle-empty">저장한 명단이 없습니다.</p>
+			<ul id="rosters-list" class="rosters-list"></ul>
+		</dialog>
+
+		<dialog id="wheel-dialog" class="app-dialog wheel-dialog" aria-labelledby="wheel-title" aria-describedby="wheel-description">
+			<div class="dialog-heading">
+				<div>
+					<h2 id="wheel-title">1팀 돌림판</h2>
+					<p id="wheel-description">모든 참가자가 같은 확률로 뽑힙니다.</p>
+				</div>
+				<div class="dialog-heading-actions">
+					<button id="sound-toggle-button" class="dialog-close sound-toggle" type="button" aria-pressed="true" aria-label="효과음 끄기" title="효과음 끄기">♪</button>
+					<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+				</div>
+			</div>
+			<div class="wheel-wrap">
+				<span class="wheel-pointer" aria-hidden="true"></span>
+				<div id="wheel" class="wheel" aria-hidden="true"></div>
+			</div>
+			<ul id="wheel-legend" class="wheel-legend" aria-label="추첨 참가자"></ul>
+			<p id="wheel-result" class="wheel-result" role="status">돌리기를 누르면 당첨자를 뽑습니다.</p>
+			<div class="dialog-actions split-actions">
+				<button class="utility-button" type="button" data-close-dialog>닫기</button>
+				<button id="spin-wheel-button" class="primary-small-button" type="button">돌리기</button>
+			</div>
+		</dialog>
+
+		<dialog id="history-dialog" class="app-dialog history-dialog" aria-labelledby="history-title" aria-describedby="history-description">
+			<div class="dialog-heading">
+				<div>
+					<h2 id="history-title">전체 승패 기록</h2>
+					<p id="history-description">경기 당시 팀 명단을 날짜별로 확인할 수 있습니다.</p>
+				</div>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+			</div>
+			<p id="history-empty" class="subtle-empty">아직 기록이 없습니다.</p>
+			<div id="history-groups" class="history-groups"></div>
+		</dialog>
+
+		<dialog id="confirm-dialog" class="app-dialog confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+			<h2 id="confirm-title">삭제하시겠습니까?</h2>
+			<p id="confirm-description">삭제할 내용을 확인해 주세요.</p>
+			<div class="dialog-actions">
+				<button id="cancel-confirm-button" class="utility-button" type="button">취소</button>
+				<button id="confirm-action-button" class="danger-filled-button" type="button">삭제</button>
+			</div>
+		</dialog>
+	</body>
+</html>

@@ -1,49 +1,49 @@
-# SvelteKit Static Blog Template
+# hjh3311504.github.io
 
-A lightweight and customizable template for blogs and portfolio websites, built with SvelteKit.
+SvelteKit으로 만든 root 사이트와 정적 Team Maker를 한 저장소에서 관리합니다.
 
-<p align="center">
-    <img src="static/images/site-screenshot.png" alt="Screenshot" />
-</p>
+## 로컬 실행
 
-It was built with a few goals in mind:
-
-- Responsive design: the website looks and behaves well on screens of all sizes;
-- Fast: it only loads what's needed for it to work;
-- Adaptive: it supports dark mode from most operating systems by default (desktop and mobile);
-- Pretty: have a pleasant design that is both accessible and pleasing to the eye.
-
-I achieved this with the help of SvelteKit. There is almost no JavaScript running, and it actually works with JS disabled! While JS is awesome, it's important to know when it's not needed.
-
-# Demo site
-
-You can see the template live [on the demo site](https://sveltekit-static-blog-template.vercel.app/). Additionally, you can check all components in isolation [on Histoire](https://histoire-sveltekit-static-blog-template.vercel.app/).
-
-# Building & Running Locally
-
-To run it locally, you simply have to run:
+Node.js와 npm을 설치한 뒤 아래 명령을 실행하세요.
 
 ```shell
-# First, install dependencies
 npm install
-# Then, run it on dev mode
 npm run dev
 ```
 
-The site should now be available at http://localhost:5173/ on your local machine, and your local machine's IP address on your network—great for testing on mobile OSes.
+- root 사이트: `http://localhost:5173/`
+- Team Maker: `http://localhost:5173/team-maker/`
 
-# Histoire / Storybook
+Team Maker 제품 코드는 `static/team-maker/`에 있습니다. SvelteKit은 이 디렉터리를 그대로 build 결과에 복사합니다.
 
-I've used [Histoire](https://histoire.dev), a Vite-based Storybook alternative to be able to see and develop components in isolation. To open it, run `npm run story:dev`.
+## 검사와 build
 
-# Image Optimization
+```shell
+npm run check
+npm test
+npm run build
+npm run verify:team-maker
+```
 
-This website uses [image-transmutation](https://github.com/matfantinel/image-transmutation) to automatically optimize images used in the site. This means that even if you use non-optimal image formats (like lossless PNGs), it will go over the images and convert images to WebP and AVIF for you, as long as you use the `<Image />` component instead of `<img />`. This is done on build, so it doesn't change anything when running the website locally.
+`npm test`는 팀 분배와 배정 규칙을 검사합니다. `npm run verify:team-maker`는 root 페이지와 `build/team-maker/`의 필수 파일, 상대 자원 경로, 외부 HTTP 자원 사용 여부를 검사합니다.
 
-# Managing Posts
+## 배포
 
-All posts are Markdown files that are processed with [MDsveX](https://mdsvex.pngwn.io/) to allow using Svelte components inside them. In order to make it easier to manage posts, I highly recommend the [Front Matter VS Code extension](https://frontmatter.codes/), which gives you a nice CMS-like UI.
+`main` branch에 push하면 `.github/workflows/pages.yml`이 다음 작업을 실행합니다.
 
-# Hosting
+1. SvelteKit 검사와 Team Maker 단위 테스트
+2. root 사이트와 Team Maker build
+3. GitHub Pages artifact 업로드와 배포
+4. 공개 root 주소와 `/team-maker/` 주소 확인
 
-When you run `npm run build`, the website will be compiled into a static site, which means you can host it pretty much anywhere. Some free alternatives I recommend are GitHub Pages, Vercel and Netlify.
+GitHub 저장소의 **Settings → Pages → Build and deployment → Source**는 **GitHub Actions**로 설정해야 합니다.
+
+## Team Maker 데이터
+
+참가자, 설정, 저장 명단과 승패 기록은 현재 브라우저의 `localStorage`에만 저장됩니다. 생성된 팀 결과는 새로고침 뒤 복구하지 않습니다. 제품 코드는 참가자 데이터를 외부 서버로 보내지 않습니다.
+
+## 광고를 나중에 추가할 때
+
+실제 광고는 현재 범위에 없습니다. 광고를 추가하려면 디자인 승인을 다시 받은 뒤 `static/team-maker/index.html`의 `AD_SLOT_TOP` 주석 위치에 코드를 넣으세요.
+
+사이트 등록은 이 GitHub Pages root 도메인을 기준으로 진행하세요. `ads.txt`가 필요하면 `static/ads.txt`에 추가하세요. 이 파일은 `/ads.txt`로 배포되므로 Team Maker만이 아니라 root 사이트 전체에 영향을 줍니다.

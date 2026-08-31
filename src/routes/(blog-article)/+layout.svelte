@@ -165,18 +165,18 @@
 				1fr
 				min(var(--main-column-width), 100%)
 				1fr;
+		}
 
-			:global(> *) {
-				grid-column: 2;
-			}
+		.content > :global(*) {
+			grid-column: 2;
+		}
 
-			:global(> .full-bleed) {
-				grid-column: 1 / 4;
-				width: 100%;
-				max-width: 1600px;
-				margin-left: auto;
-				margin-right: auto;
-			}
+		.content > :global(.full-bleed) {
+			grid-column: 1 / 4;
+			width: 100%;
+			max-width: 1600px;
+			margin-left: auto;
+			margin-right: auto;
 		}
 
 		.tags {
