@@ -21,18 +21,19 @@ Team Maker 제품 코드는 `static/team-maker/`에 있습니다. SvelteKit은 �
 ```shell
 npm run check
 npm test
+npm run test:e2e:team-maker
 npm run build
 npm run verify:team-maker
 ```
 
-`npm test`는 팀 분배와 배정 규칙을 검사합니다. `npm run verify:team-maker`는 root 페이지와 `build/team-maker/`의 필수 파일, 상대 자원 경로, 외부 HTTP 자원 사용 여부를 검사합니다.
+`npm test`는 팀 분배와 배정 규칙을 검사합니다. `npm run test:e2e:team-maker`는 production build를 만든 뒤 Chromium에서 참가자 편집, 명단 저장, 승패 기록, 추첨, 새로고침, 모바일과 키보드 흐름을 검사합니다. 처음 실행할 때 Chromium이 없다면 `npx playwright install chromium`을 먼저 실행하세요. `npm run verify:team-maker`는 root 페이지와 `build/team-maker/`의 필수 파일, 상대 자원 경로, 외부 HTTP 자원 사용 여부를 검사합니다.
 
 ## 배포
 
 `main` branch에 push하면 `.github/workflows/pages.yml`이 다음 작업을 실행합니다.
 
 1. SvelteKit 검사와 Team Maker 단위 테스트
-2. root 사이트와 Team Maker build
+2. root 사이트와 Team Maker build 및 브라우저 E2E 테스트
 3. GitHub Pages artifact 업로드와 배포
 4. 공개 root 주소와 `/team-maker/` 주소 확인
 
