@@ -73,7 +73,9 @@ async function toggleParticipant(page, name, included) {
 	});
 }
 
-test('하위 경로에서 기본 화면과 내부 자원을 불러오며 외부로 요청하지 않는다', async ({ page }) => {
+test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오며 외부로 요청하지 않는다', async ({
+	page
+}) => {
 	const responses = new Map();
 	const requests = [];
 	page.on('response', (response) =>
@@ -90,10 +92,12 @@ test('하위 경로에서 기본 화면과 내부 자원을 불러오며 외부�
 	await expect(page.getByRole('heading', { name: '3. 결과' })).toBeVisible();
 	await expect(page.locator('#split-value')).toHaveText('2');
 	await expect(page.getByRole('button', { name: /결과.*복사/ })).toHaveCount(0);
+	await expect(page.locator('#svelte-root > .team-maker-page')).toBeVisible();
 
-	for (const path of ['/team-maker/styles.css', '/team-maker/app.js', '/team-maker/core.js']) {
-		expect(responses.get(path), `${path} 응답 상태`).toBe(200);
-	}
+	const svelteAssets = [...responses.entries()].filter(
+		([path, status]) => path.includes('/_app/immutable/') && status === 200
+	);
+	expect(svelteAssets.length).toBeGreaterThan(0);
 	const externalRequests = requests.filter((url) => url.origin !== 'http://127.0.0.1:4174');
 	expect(externalRequests.map((url) => url.href)).toEqual([]);
 });
@@ -317,6 +321,44 @@ test('승리·취소·기록 삭제와 돌림판 당첨자 및 효과음을 처�
 	const confirm = page.getByRole('dialog', { name: '삭제하시겠습니까?' });
 	await confirm.getByRole('button', { name: '삭제', exact: true }).click();
 	await expect(page.locator('#history-card')).toBeHidden();
+});
+
+test('룰렛 회전 중 dialog를 닫아도 다시 추첨할 수 있다', async ({ page }) => {
+	await openTeamMaker(page);
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await page.getByRole('button', { name: '1팀 승리 기록' }).click();
+
+	const openWheelButton = page.getByRole('button', { name: '1팀에서 한 명 뽑기' });
+	const wheelDialog = page.getByRole('dialog', { name: '1팀 뽑기' });
+	const spinButton = wheelDialog.locator('#spin-wheel-button');
+	const wheelResult = wheelDialog.locator('#wheel-result');
+
+	await openWheelButton.click();
+	await spinButton.click();
+	await expect(spinButton).toBeDisabled();
+	await expect(spinButton).toHaveText('돌리는 중…');
+	await wheelDialog.locator('[data-close-dialog]').last().click();
+	await expect(wheelDialog).not.toBeVisible();
+
+	await openWheelButton.click();
+	await expect(spinButton).toBeEnabled();
+	await expect(spinButton).toHaveText('돌리기');
+	await expect(wheelResult).toHaveText('돌리기를 누르세요.');
+
+	await spinButton.click();
+	await page.keyboard.press('Escape');
+	await expect(wheelDialog).not.toBeVisible();
+	await openWheelButton.click();
+	await expect(spinButton).toBeEnabled();
+	await expect(spinButton).toHaveText('돌리기');
+	await page.waitForTimeout(7_000);
+	await expect(wheelResult).toHaveText('돌리기를 누르세요.');
+	await expect(page.locator('.team-card').first().locator('.picked-person')).toHaveCount(0);
+
+	await spinButton.click();
+	await expect(wheelResult).toHaveText(/^당첨자 · /, { timeout: 8_000 });
+	await expect(page.locator('.team-card').first().locator('.picked-person strong')).toBeVisible();
 });
 
 test('저장 실패를 알리고 모바일에서 키보드와 dialog를 사용할 수 있다', async ({ page }) => {

@@ -10,5 +10,7 @@ node_modules
 output
 package
 package-lock.json
-static/team-maker
+static/team-maker/*.svg
+static/google*.html
+static/naver*.html
 static/favicons/site.webmanifest

@@ -5,10 +5,7 @@ const root = process.cwd();
 const requiredFiles = [
 	'build/index.html',
 	'build/team-maker/index.html',
-	'build/team-maker/favicon.svg',
-	'build/team-maker/styles.css',
-	'build/team-maker/app.js',
-	'build/team-maker/core.js'
+	'build/team-maker/favicon.svg'
 ];
 
 for (const file of requiredFiles) {
@@ -21,22 +18,37 @@ for (const file of requiredFiles) {
 }
 
 const html = await readFile(path.join(root, 'build/team-maker/index.html'), 'utf8');
-const app = await readFile(path.join(root, 'build/team-maker/app.js'), 'utf8');
-const css = await readFile(path.join(root, 'build/team-maker/styles.css'), 'utf8');
+const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
+const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
+const core = await readFile(path.join(root, 'src/lib/team-maker/core.js'), 'utf8');
+const css = await readFile(path.join(root, 'src/routes/team-maker/team-maker.css'), 'utf8');
 
 const requiredHtml = [
 	'<title>팀 메이커</title>',
-	'href="./styles.css"',
-	'src="./app.js"',
 	'id="participant-list"',
-	'id="team-grid"'
+	'id="team-grid"',
+	'_app/immutable/'
 ];
 for (const marker of requiredHtml) {
 	if (!html.includes(marker))
 		throw new Error(`team-maker HTML에서 ${marker} 표시를 찾지 못했습니다.`);
 }
 
-const combined = `${html}\n${app}\n${css}`;
+const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
+	.map((match) => match[1])
+	.filter((reference) => !/^(?:https?:|data:|#)/.test(reference));
+for (const reference of new Set(localReferences)) {
+	const cleanReference = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
+	const absolutePath = cleanReference.startsWith('/')
+		? path.join(root, 'build', cleanReference.slice(1))
+		: path.resolve(root, 'build/team-maker', cleanReference);
+	if (!absolutePath.startsWith(path.join(root, 'build'))) {
+		throw new Error(`team-maker HTML의 자원 경로가 build 밖을 가리킵니다: ${reference}`);
+	}
+	await access(absolutePath);
+}
+
+const combined = `${page}\n${app}\n${core}\n${css}`;
 if (/\b(?:src|href)=["']\/(?!\/)/.test(combined) || /url\(\s*["']?\//.test(combined)) {
 	throw new Error('team-maker 자원에 사이트 루트 기준 경로가 있습니다.');
 }
@@ -46,7 +58,13 @@ if (/https?:\/\//.test(combined)) {
 if (!app.includes("from './core.js'")) {
 	throw new Error('화면 코드가 분리된 팀 배정 로직을 불러오지 않습니다.');
 }
+if (!page.includes("from '$lib/team-maker/app.js'")) {
+	throw new Error('SvelteKit route가 Team Maker 화면 module을 불러오지 않습니다.');
+}
+if (html.includes('src="./app.js"') || html.includes('href="./styles.css"')) {
+	throw new Error('team-maker build가 이전 정적 entrypoint를 사용하고 있습니다.');
+}
 
 console.log(
-	`Team Maker build 검증 통과: ${requiredFiles.length}개 파일, 상대 경로와 외부 자원 확인 완료`
+	`Team Maker SvelteKit build 검증 통과: 필수 파일 ${requiredFiles.length}개, local 자원 ${new Set(localReferences).size}개`
 );

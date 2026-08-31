@@ -157,17 +157,15 @@ function createGroups(participants, rules, teamCount) {
 	for (const rule of rules.filter((item) => item.type === 'apart')) {
 		const roots = [
 			...new Set(
-				rule.participantIds
-					.filter((id) => available.has(id))
-					.map((id) => unionFind.find(id))
+				rule.participantIds.filter((id) => available.has(id)).map((id) => unionFind.find(id))
 			)
 		];
 		const includedCount = rule.participantIds.filter((id) => available.has(id)).length;
 
 		if (roots.length !== includedCount) {
-		throw new AssignmentError(
-			'RULE_CONFLICT',
-			'같은 팀 규칙과 다른 팀 규칙이 서로 충돌합니다. 규칙을 확인해 주세요.'
+			throw new AssignmentError(
+				'RULE_CONFLICT',
+				'같은 팀 규칙과 다른 팀 규칙이 서로 충돌합니다. 규칙을 확인해 주세요.'
 			);
 		}
 
@@ -205,8 +203,7 @@ function buildCapacities(participantCount, teamCount, random) {
 function assignGroups(groups, capacities, random) {
 	const ordered = shuffle(groups, random).sort((first, second) => {
 		return (
-			second.members.length - first.members.length ||
-			second.conflicts.size - first.conflicts.size
+			second.members.length - first.members.length || second.conflicts.size - first.conflicts.size
 		);
 	});
 	const assignedTeam = new Map();
