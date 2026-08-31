@@ -138,9 +138,11 @@ test('참가자 편집, 두 나누기 방식, 다시 섞기와 새로고침 복�
 	await expect(page.locator('#split-value')).toHaveText('2');
 });
 
-test('참가자 삭제 뒤 두 열의 순서를 다시 맞춘다', async ({ page }) => {
+test('쉼표로 참가자를 추가하고 삭제 뒤 빈자리를 순서대로 채운다', async ({ page }) => {
 	await openTeamMaker(page);
-	await addParticipants(page, ['1', '2', '3', '4', '5', '6', '7', '8']);
+	await page.getByRole('textbox', { name: '참가자 이름' }).fill('1, 2,3,4,5,6,7,8');
+	await page.getByRole('button', { name: '추가', exact: true }).click();
+	await expect(page.getByRole('heading', { name: '1. 참가자 입력 (8명)' })).toBeVisible();
 	await page.getByRole('button', { name: '5 삭제', exact: true }).click();
 
 	const firstColumn = page

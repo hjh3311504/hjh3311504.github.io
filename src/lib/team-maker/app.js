@@ -196,11 +196,8 @@ export function mountTeamMaker(root) {
 		wheelRotation: 0,
 		wheelSpinning: false,
 		confirmAction: null,
-		shuffleCount: 0,
 		animateTeams: false,
 		animateWinner: false,
-		enteringParticipants: new Set(),
-		leavingParticipants: new Set(),
 		enteringRules: new Set(),
 		leavingRules: new Set(),
 		enteringHistory: new Set(),
@@ -348,10 +345,6 @@ export function mountTeamMaker(root) {
 				const row = document.createElement('li');
 				row.className = 'participant-row';
 				row.dataset.included = String(participant.included);
-				row.dataset.flip = `participant-${participant.id}`;
-				row.classList.toggle('is-entering', runtime.enteringParticipants.has(participant.id));
-				row.classList.toggle('is-leaving', runtime.leavingParticipants.has(participant.id));
-
 				const checkbox = document.createElement('input');
 				checkbox.type = 'checkbox';
 				checkbox.checked = participant.included;
@@ -528,6 +521,10 @@ export function mountTeamMaker(root) {
 		for (const [teamIndex, team] of runtime.teams.entries()) {
 			const card = document.createElement('article');
 			card.className = 'team-card';
+			if (runtime.animateTeams) {
+				card.classList.add('animate-team');
+				card.style.setProperty('--team-delay', `${teamIndex * 90}ms`);
+			}
 			if (runtime.winnerTeamId !== null) {
 				const won = runtime.winnerTeamId === team.id;
 				card.dataset.result = won ? 'win' : 'lose';
@@ -556,12 +553,6 @@ export function mountTeamMaker(root) {
 			members.className = 'team-members';
 			for (const [memberIndex, member] of team.members.entries()) {
 				const item = document.createElement('li');
-				if (runtime.animateTeams) {
-					item.classList.add(
-						runtime.shuffleCount % 2 === 0 ? 'animate-member-a' : 'animate-member-b'
-					);
-					item.style.animationDelay = `${(memberIndex * runtime.teams.length + teamIndex) * 70}ms`;
-				}
 				const number = document.createElement('span');
 				number.className = 'member-number';
 				number.textContent = String(memberIndex + 1);
@@ -682,27 +673,16 @@ export function mountTeamMaker(root) {
 	}
 
 	function addParticipants(names) {
-		const previousPositions = captureFlipPositions();
-		let leftCount = state.participants.filter((participant) => participant.column === 0).length;
-		let rightCount = state.participants.length - leftCount;
-		const added = names.map((name) => {
-			const column = rightCount < leftCount ? 1 : 0;
-			if (column === 0) leftCount += 1;
-			else rightCount += 1;
+		const added = names.map((name, index) => {
 			return {
 				id: createId('person'),
 				name,
 				included: true,
-				column
+				column: (state.participants.length + index) % 2
 			};
 		});
 		state.participants = rebalanceParticipantColumns(state.participants.concat(added));
-		markEntering(
-			runtime.enteringParticipants,
-			added.map((participant) => participant.id)
-		);
 		saveAndRender();
-		playFlip(previousPositions);
 	}
 
 	function makeCurrentTeams() {
@@ -719,7 +699,6 @@ export function mountTeamMaker(root) {
 			runtime.winnerTeamId = null;
 			runtime.lastHistoryId = null;
 			runtime.picks = {};
-			runtime.shuffleCount += 1;
 			runtime.animateTeams = true;
 			runtime.animateWinner = false;
 			runtime.resultMessage = `${included.length}명을 ${runtime.teams.length}개 팀으로 나눴습니다.`;
@@ -872,6 +851,7 @@ export function mountTeamMaker(root) {
 
 	function recordWinner(teamId) {
 		if (runtime.winnerTeamId !== null) return;
+		runtime.animateTeams = false;
 		const now = new Date().toISOString();
 		const entry = {
 			id: createId('match'),
@@ -995,6 +975,7 @@ export function mountTeamMaker(root) {
 					label.style.setProperty('--label-background', tone.background);
 					label.style.setProperty('--label-border', tone.border);
 					const names = document.createElement('span');
+					names.className = 'history-team-names';
 					names.textContent = team.members.join(', ');
 					line.append(label, names);
 					teams.append(line);
@@ -1297,12 +1278,12 @@ export function mountTeamMaker(root) {
 	$('#add-person-form').addEventListener('submit', (event) => {
 		event.preventDefault();
 		const input = $('#person-name');
-		const name = input.value.trim();
-		if (!name) {
+		const names = parseParticipantNames(input.value);
+		if (!names.length) {
 			input.focus();
 			return;
 		}
-		addParticipants([name]);
+		addParticipants(names);
 		input.value = '';
 		input.focus();
 	});
@@ -1353,22 +1334,15 @@ export function mountTeamMaker(root) {
 
 	$('#participant-list').addEventListener('click', (event) => {
 		const id = event.target.closest('[data-participant-remove]')?.dataset.participantRemove;
-		if (!id || runtime.leavingParticipants.has(id)) return;
-		runtime.leavingParticipants.add(id);
-		renderParticipants();
-		setTimeout(() => {
-			const previousPositions = captureFlipPositions();
-			state.participants = rebalanceParticipantColumns(
-				state.participants.filter((participant) => participant.id !== id)
-			);
-			state.rules = cleanRulesAfterParticipantRemoval(
-				state.rules,
-				new Set(state.participants.map((participant) => participant.id))
-			);
-			runtime.leavingParticipants.delete(id);
-			saveAndRender();
-			playFlip(previousPositions);
-		}, 220);
+		if (!id) return;
+		state.participants = rebalanceParticipantColumns(
+			state.participants.filter((participant) => participant.id !== id)
+		);
+		state.rules = cleanRulesAfterParticipantRemoval(
+			state.rules,
+			new Set(state.participants.map((participant) => participant.id))
+		);
+		saveAndRender();
 	});
 
 	$('#clear-list-button').addEventListener('click', () => {
