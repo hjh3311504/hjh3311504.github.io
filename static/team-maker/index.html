@@ -133,18 +133,21 @@
 			</section>
 			</section>
 		</main>
-
 		<dialog id="bulk-dialog" class="app-dialog" aria-labelledby="bulk-title" aria-describedby="bulk-description">
 			<div class="dialog-heading">
 				<div>
 					<h2 id="bulk-title">참가자 일괄 추가</h2>
 					<p id="bulk-description">한 줄에 한 명씩 붙여넣으세요. 쉼표로 구분해도 됩니다.</p>
 				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
+					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M18 6 6 18"></path>
+						<path d="m6 6 12 12"></path>
+					</svg>
+				</button>
 			</div>
 			<label class="sr-only" for="bulk-names">추가할 참가자 이름</label>
 			<textarea id="bulk-names" rows="7" placeholder="김지원&#10;이서준&#10;박하은"></textarea>
-			<p id="bulk-preview" class="dialog-note">추가할 이름을 입력해 주세요.</p>
 			<div class="dialog-actions">
 				<button class="utility-button" type="button" data-close-dialog>취소</button>
 				<button id="bulk-add-button" class="primary-small-button" type="button" disabled>명단에 추가</button>
@@ -157,7 +160,12 @@
 					<h2 id="rule-dialog-title">같은 팀으로 지정</h2>
 					<p id="rule-dialog-description">고른 사람들은 항상 같은 팀에 배정됩니다.</p>
 				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
+					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M18 6 6 18"></path>
+						<path d="m6 6 12 12"></path>
+					</svg>
+				</button>
 			</div>
 			<ul id="rule-picker-list" class="picker-list"></ul>
 			<p id="rule-picker-note" class="dialog-note error-text">두 명 이상 골라 주세요.</p>
@@ -173,19 +181,24 @@
 					<h2 id="roster-title">명단 저장·불러오기</h2>
 					<p id="roster-description">저장할 이름을 적어 주세요. 이 브라우저에만 보관됩니다.</p>
 				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
+					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M18 6 6 18"></path>
+						<path d="m6 6 12 12"></path>
+					</svg>
+				</button>
 			</div>
 			<form id="save-roster-form" class="roster-save-row">
 				<label class="sr-only" for="roster-name">명단 이름</label>
 				<input id="roster-name" type="text" placeholder="예: 수요일 풋살" autocomplete="off" />
 				<button id="save-roster-button" class="primary-small-button" type="submit" disabled>저장</button>
 			</form>
-			<p id="roster-status" class="dialog-note" role="status">같은 이름은 현재 명단으로 덮어씁니다.</p>
 			<p id="rosters-empty" class="subtle-empty">저장한 명단이 없습니다. 이름을 적고 저장을 누르면 여기에 쌓입니다.</p>
 			<ul id="rosters-list" class="rosters-list"></ul>
 		</dialog>
 
 		<dialog id="wheel-dialog" class="app-dialog wheel-dialog" aria-labelledby="wheel-title" aria-describedby="wheel-description">
+			<div id="celebration-layer" class="celebration-layer" aria-hidden="true" hidden></div>
 			<div class="dialog-heading">
 				<div>
 					<h2 id="wheel-title">1팀 뽑기</h2>
@@ -198,7 +211,12 @@
 							<path id="sound-wave-path" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
 						</svg>
 					</button>
-					<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+					<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M18 6 6 18"></path>
+							<path d="m6 6 12 12"></path>
+						</svg>
+					</button>
 				</div>
 			</div>
 			<div class="wheel-wrap">
@@ -218,7 +236,12 @@
 					<h2 id="history-title">승패 기록</h2>
 					<p id="history-description">기록이 없습니다.</p>
 				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">×</button>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
+					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M18 6 6 18"></path>
+						<path d="m6 6 12 12"></path>
+					</svg>
+				</button>
 			</div>
 			<p id="history-empty" class="subtle-empty">아직 기록이 없습니다. 결과 카드의 승리 버튼을 눌러 기록해 보세요.</p>
 			<div id="history-groups" class="history-groups"></div>

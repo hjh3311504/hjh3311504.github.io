@@ -6,10 +6,12 @@ import {
 	SIZE_MODE,
 	TEAM_MODE,
 	calculateTeamCount,
+	calculateWheelTargetRotation,
 	cleanRulesAfterParticipantRemoval,
 	getSetupStatus,
 	makeTeams,
-	parseParticipantNames
+	parseParticipantNames,
+	rebalanceParticipantColumns
 } from '../../static/team-maker/core.js';
 
 const people = (...names) => names.map((name, index) => ({ id: `p${index + 1}`, name }));
@@ -158,4 +160,36 @@ test('참가자 삭제 뒤 2명 미만인 규칙을 정리한다', () => {
 		),
 		[{ id: 'r1', type: 'together', participantIds: ['p1', 'p2'] }]
 	);
+});
+
+test('왼쪽 5번 참가자를 지우면 아래 홀수 참가자가 올라오고 마지막 짝수 참가자는 왼쪽으로 옮긴다', () => {
+	const participants = Array.from({ length: 8 }, (_, index) => ({
+		id: `p${index + 1}`,
+		name: String(index + 1),
+		column: index % 2
+	}));
+	const result = rebalanceParticipantColumns(
+		participants.filter((participant) => participant.id !== 'p5')
+	);
+
+	assert.deepEqual(
+		result.filter((participant) => participant.column === 0).map((participant) => participant.name),
+		['1', '3', '7', '8']
+	);
+	assert.deepEqual(
+		result.filter((participant) => participant.column === 1).map((participant) => participant.name),
+		['2', '4', '6']
+	);
+});
+
+test('돌림판이 선택한 조각의 가운데를 포인터에 맞춘다', () => {
+	const segmentCount = 7;
+	const segmentDegrees = 360 / segmentCount;
+
+	for (let pickedIndex = 0; pickedIndex < segmentCount; pickedIndex += 1) {
+		const rotation = calculateWheelTargetRotation(127.25, segmentCount, pickedIndex);
+		const pickedCenter = pickedIndex * segmentDegrees + segmentDegrees / 2;
+		const stoppedAngle = ((rotation + pickedCenter) % 360 + 360) % 360;
+		assert.ok(Math.abs(stoppedAngle) < 1e-9 || Math.abs(stoppedAngle - 360) < 1e-9);
+	}
 });

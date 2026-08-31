@@ -1,19 +1,31 @@
 import {
 	SIZE_MODE,
 	TEAM_MODE,
+	calculateWheelTargetRotation,
 	cleanRulesAfterParticipantRemoval,
 	getSetupStatus,
 	makeTeams,
-	parseParticipantNames
+	parseParticipantNames,
+	rebalanceParticipantColumns
 } from './core.js';
 
 const STORAGE_KEY = 'team-maker:v1';
+const SVG_NAMESPACE = ['http:', '', 'www.w3.org', '2000', 'svg'].join('/');
 const wheelColors = ['#f39a8f', '#f7bd76', '#ecd772', '#9ed48b', '#74c7b4', '#84b5ec', '#b39ce4', '#f0a3c8'];
 const wheelTextColors = ['#7a261e', '#6b3d0a', '#665b09', '#285d22', '#14574d', '#204e83', '#4e3880', '#70204f'];
+const teamTones = [
+	{ color: '#00734f', background: '#e6f7f0', border: '#a8e0cd' },
+	{ color: '#1b5fbd', background: '#eaf3ff', border: '#c3ddfb' },
+	{ color: '#a83209', background: '#fff2ea', border: '#ffd9c2' },
+	{ color: '#a3187a', background: '#fdeef7', border: '#f7cee6' },
+	{ color: '#0f6470', background: '#e6f5f7', border: '#b6e0e6' },
+	{ color: '#6b6410', background: '#fbf8e0', border: '#eae3b0' }
+];
 
 const $ = (selector) => document.querySelector(selector);
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let sequence = 0;
 function createId(prefix) {
@@ -39,17 +51,24 @@ function defaultState() {
 function cleanParticipants(value) {
 	if (!Array.isArray(value)) return [];
 	const seen = new Set();
-	return value
-		.map((participant) => ({
+	const participants = value
+		.map((participant, index) => ({
 			id: typeof participant?.id === 'string' ? participant.id : createId('person'),
 			name: typeof participant?.name === 'string' ? participant.name.trim() : '',
-			included: participant?.included !== false
+			included: participant?.included !== false,
+			column:
+				participant?.column === 1 || participant?.col === 1
+					? 1
+					: participant?.column === 0 || participant?.col === 0
+						? 0
+						: index % 2
 		}))
 		.filter((participant) => {
 			if (!participant.name || seen.has(participant.id)) return false;
 			seen.add(participant.id);
 			return true;
 		});
+	return rebalanceParticipantColumns(participants);
 }
 
 function cleanRules(value, participants) {
@@ -147,8 +166,59 @@ const runtime = {
 	wheelTeamId: null,
 	wheelRotation: 0,
 	wheelSpinning: false,
-	confirmAction: null
+	confirmAction: null,
+	shuffleCount: 0,
+	animateTeams: false,
+	animateWinner: false,
+	enteringParticipants: new Set(),
+	leavingParticipants: new Set(),
+	enteringRules: new Set(),
+	leavingRules: new Set(),
+	enteringHistory: new Set(),
+	leavingHistory: new Set(),
+	celebrationTimer: null,
+	spinTimer: null,
+	audioContext: null,
+	audioSources: new Set()
 };
+
+function markEntering(collection, ids, duration = 420) {
+	for (const id of ids) collection.add(id);
+	setTimeout(() => {
+		for (const id of ids) collection.delete(id);
+	}, duration);
+}
+
+function captureFlipPositions() {
+	const positions = new Map();
+	for (const element of document.querySelectorAll('[data-flip]')) {
+		positions.set(element.dataset.flip, element.getBoundingClientRect());
+	}
+	return positions;
+}
+
+function playFlip(previousPositions) {
+	if (!previousPositions?.size || prefersReducedMotion()) return;
+	for (const element of document.querySelectorAll('[data-flip]')) {
+		const previous = previousPositions.get(element.dataset.flip);
+		if (!previous) continue;
+		const current = element.getBoundingClientRect();
+		const deltaX = previous.left - current.left;
+		const deltaY = previous.top - current.top;
+		if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1) continue;
+		element.style.transition = 'none';
+		element.style.transform = `translate(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px)`;
+		requestAnimationFrame(() => {
+			element.style.transition = 'transform 300ms cubic-bezier(0.2, 0, 0.2, 1)';
+			element.style.transform = '';
+		});
+	}
+}
+
+function teamTone(teamId) {
+	const index = Math.max(0, Number(teamId) - 1) % teamTones.length;
+	return teamTones[index];
+}
 
 function showStorageFailure() {
 	$('#storage-alert').hidden = !storageFailed;
@@ -170,6 +240,8 @@ function clearResult() {
 	runtime.winnerTeamId = null;
 	runtime.lastHistoryId = null;
 	runtime.picks = {};
+	runtime.animateTeams = false;
+	runtime.animateWinner = false;
 }
 
 function saveAndRender({ clearTeams = true } = {}) {
@@ -183,8 +255,22 @@ function createRemoveButton(label, dataset = {}) {
 	button.type = 'button';
 	button.className = 'remove-row-button';
 	button.setAttribute('aria-label', label);
-	button.textContent = '×';
 	Object.assign(button.dataset, dataset);
+
+	const svg = document.createElementNS(SVG_NAMESPACE, 'svg');
+	svg.setAttribute('viewBox', '0 0 15 15');
+	svg.setAttribute('width', '15');
+	svg.setAttribute('height', '15');
+	svg.setAttribute('fill', 'none');
+	svg.setAttribute('aria-hidden', 'true');
+	svg.setAttribute('focusable', 'false');
+	const path = document.createElementNS(SVG_NAMESPACE, 'path');
+	path.setAttribute('d', 'M3.75 3.75l7.5 7.5m0-7.5-7.5 7.5');
+	path.setAttribute('stroke', 'currentColor');
+	path.setAttribute('stroke-width', '1.8');
+	path.setAttribute('stroke-linecap', 'round');
+	svg.append(path);
+	button.append(svg);
 	return button;
 }
 
@@ -222,31 +308,38 @@ function renderParticipants() {
 		list.append(column);
 	});
 
-	for (const [index, participant] of state.participants.entries()) {
-		const row = document.createElement('li');
-		row.className = 'participant-row';
-		row.dataset.included = String(participant.included);
+	for (const [columnIndex, column] of columns.entries()) {
+		const participants = state.participants.filter((participant) => participant.column === columnIndex);
+		for (const [rowIndex, participant] of participants.entries()) {
+			const displayNumber = rowIndex * 2 + columnIndex + 1;
+			const row = document.createElement('li');
+			row.className = 'participant-row';
+			row.dataset.included = String(participant.included);
+			row.dataset.flip = `participant-${participant.id}`;
+			row.classList.toggle('is-entering', runtime.enteringParticipants.has(participant.id));
+			row.classList.toggle('is-leaving', runtime.leavingParticipants.has(participant.id));
 
-		const checkbox = document.createElement('input');
-		checkbox.type = 'checkbox';
-		checkbox.checked = participant.included;
-		checkbox.dataset.participantToggle = participant.id;
-		checkbox.setAttribute('aria-label', `${participant.name} 참가 ${participant.included ? '해제' : '선택'}`);
+			const checkbox = document.createElement('input');
+			checkbox.type = 'checkbox';
+			checkbox.checked = participant.included;
+			checkbox.dataset.participantToggle = participant.id;
+			checkbox.setAttribute('aria-label', `${participant.name} 참가 ${participant.included ? '해제' : '선택'}`);
 
-		const number = document.createElement('span');
-		number.className = 'participant-number';
-		number.setAttribute('aria-hidden', 'true');
-		number.textContent = String(index + 1);
+			const number = document.createElement('span');
+			number.className = 'participant-number';
+			number.setAttribute('aria-hidden', 'true');
+			number.textContent = String(displayNumber);
 
-		const input = document.createElement('input');
-		input.type = 'text';
-		input.className = 'participant-name';
-		input.value = participant.name;
-		input.dataset.participantName = participant.id;
-		input.setAttribute('aria-label', `${index + 1}번째 참가자 이름`);
+			const input = document.createElement('input');
+			input.type = 'text';
+			input.className = 'participant-name';
+			input.value = participant.name;
+			input.dataset.participantName = participant.id;
+			input.setAttribute('aria-label', `${displayNumber}번째 참가자 이름`);
 
-		row.append(checkbox, number, input, createRemoveButton(`${participant.name} 삭제`, { participantRemove: participant.id }));
-		columns[index % 2].append(row);
+			row.append(checkbox, number, input, createRemoveButton(`${participant.name} 삭제`, { participantRemove: participant.id }));
+			column.append(row);
+		}
 	}
 
 	const help = $('#participant-help');
@@ -281,9 +374,16 @@ function renderRules() {
 		? `같은 팀 ${togetherCount}개 · 다른 팀 ${apartCount}개`
 		: '꼭 같은 팀이거나, 꼭 다른 팀이어야 하는 사람을 지정할 수 있습니다.';
 
-	for (const rule of state.rules) {
+	const orderedRules = [...state.rules].sort((first, second) => {
+		return Number(first.type === 'apart') - Number(second.type === 'apart');
+	});
+
+	for (const rule of orderedRules) {
 		const row = document.createElement('li');
 		row.className = `rule-row ${rule.type}`;
+		row.dataset.flip = `rule-${rule.id}`;
+		row.classList.toggle('is-entering', runtime.enteringRules.has(rule.id));
+		row.classList.toggle('is-leaving', runtime.leavingRules.has(rule.id));
 
 		const chip = document.createElement('span');
 		chip.className = `rule-chip ${rule.type}`;
@@ -291,7 +391,25 @@ function renderRules() {
 
 		const names = document.createElement('span');
 		names.className = 'rule-names';
-		names.textContent = rule.participantIds.map(participantName).join(rule.type === 'together' ? ' + ' : ' ↔ ');
+		const participantNames = rule.participantIds.map(participantName);
+		const separatorText = rule.type === 'together' ? '+' : '↔';
+		names.setAttribute('aria-label', participantNames.join(` ${separatorText} `));
+		for (const [index, participant] of participantNames.entries()) {
+			const part = document.createElement('span');
+			part.className = 'rule-name-part';
+			if (index > 0) {
+				const separator = document.createElement('span');
+				separator.className = 'rule-separator';
+				separator.setAttribute('aria-hidden', 'true');
+				separator.textContent = separatorText;
+				part.append(separator);
+			}
+			const name = document.createElement('span');
+			name.setAttribute('aria-hidden', 'true');
+			name.textContent = participant;
+			part.append(name);
+			names.append(part);
+		}
 
 		row.append(chip, names, createRemoveButton('배정 규칙 삭제', { ruleRemove: rule.id }));
 		list.append(row);
@@ -309,6 +427,7 @@ function currentSetup() {
 
 function renderSettings() {
 	const teamMode = state.mode === TEAM_MODE;
+	$('.mode-switch').dataset.mode = teamMode ? 'teams' : 'size';
 	$('#team-mode-button').setAttribute('aria-checked', String(teamMode));
 	$('#size-mode-button').setAttribute('aria-checked', String(!teamMode));
 	$('#split-value-label').textContent = teamMode ? '팀 수' : '인원 수';
@@ -360,10 +479,14 @@ function renderResults() {
 		}
 	}
 
-	for (const team of runtime.teams) {
+	for (const [teamIndex, team] of runtime.teams.entries()) {
 		const card = document.createElement('article');
 		card.className = 'team-card';
-		if (runtime.winnerTeamId !== null) card.dataset.result = runtime.winnerTeamId === team.id ? 'win' : 'lose';
+		if (runtime.winnerTeamId !== null) {
+			const won = runtime.winnerTeamId === team.id;
+			card.dataset.result = won ? 'win' : 'lose';
+			if (runtime.animateWinner) card.classList.add(won ? 'animate-win' : 'animate-lose');
+		}
 
 		const heading = document.createElement('div');
 		heading.className = 'team-card-heading';
@@ -376,6 +499,10 @@ function renderResults() {
 			const won = runtime.winnerTeamId === team.id;
 			count.textContent = `${team.name}${won ? '승' : '패'}`;
 			count.dataset.result = won ? 'win' : 'lose';
+			if (runtime.animateWinner) {
+				count.classList.add('animate-result-chip');
+				count.style.setProperty('--chip-delay', won ? '120ms' : '200ms');
+			}
 		}
 		heading.append(name, count);
 
@@ -383,6 +510,10 @@ function renderResults() {
 		members.className = 'team-members';
 		for (const [memberIndex, member] of team.members.entries()) {
 			const item = document.createElement('li');
+			if (runtime.animateTeams) {
+				item.classList.add(runtime.shuffleCount % 2 === 0 ? 'animate-member-a' : 'animate-member-b');
+				item.style.animationDelay = `${(memberIndex * runtime.teams.length + teamIndex) * 70}ms`;
+			}
 			const number = document.createElement('span');
 			number.className = 'member-number';
 			number.textContent = String(memberIndex + 1);
@@ -463,12 +594,19 @@ function renderTodayHistory() {
 		const winner = winnerTeam(entry);
 		const row = document.createElement('li');
 		row.className = 'history-summary-row';
+		row.dataset.flip = `today-history-${entry.id}`;
+		row.classList.toggle('is-entering', runtime.enteringHistory.has(entry.id));
+		row.classList.toggle('is-leaving', runtime.leavingHistory.has(entry.id));
 		const time = document.createElement('span');
 		time.className = 'history-time';
 		time.textContent = formatTime(entry.occurredAt);
 		const chip = document.createElement('span');
 		chip.className = 'history-winner-chip';
-		chip.textContent = `${winner?.name || '팀'} 승`;
+		chip.textContent = `${winner?.name || '팀'}승`;
+		const tone = teamTone(winner?.id || 1);
+		chip.style.color = tone.color;
+		chip.style.background = tone.background;
+		chip.style.borderColor = tone.border;
 		const summary = document.createElement('span');
 		summary.className = 'history-summary';
 		summary.textContent = winner?.members.join(', ') || '';
@@ -487,14 +625,24 @@ function render() {
 }
 
 function addParticipants(names) {
-	state.participants.push(
-		...names.map((name) => ({
+	const previousPositions = captureFlipPositions();
+	let leftCount = state.participants.filter((participant) => participant.column === 0).length;
+	let rightCount = state.participants.length - leftCount;
+	const added = names.map((name) => {
+		const column = rightCount < leftCount ? 1 : 0;
+		if (column === 0) leftCount += 1;
+		else rightCount += 1;
+		return {
 			id: createId('person'),
 			name,
-			included: true
-		}))
-	);
+			included: true,
+			column
+		};
+	});
+	state.participants = rebalanceParticipantColumns(state.participants.concat(added));
+	markEntering(runtime.enteringParticipants, added.map((participant) => participant.id));
 	saveAndRender();
+	playFlip(previousPositions);
 }
 
 function makeCurrentTeams() {
@@ -511,6 +659,9 @@ function makeCurrentTeams() {
 		runtime.winnerTeamId = null;
 		runtime.lastHistoryId = null;
 		runtime.picks = {};
+		runtime.shuffleCount += 1;
+		runtime.animateTeams = true;
+		runtime.animateWinner = false;
 		runtime.resultMessage = `${included.length}명을 ${runtime.teams.length}개 팀으로 나눴습니다.`;
 	} catch (error) {
 		clearResult();
@@ -518,6 +669,9 @@ function makeCurrentTeams() {
 		runtime.resultMessage = runtime.resultError;
 	}
 	renderResults();
+	setTimeout(() => {
+		runtime.animateTeams = false;
+	}, 700);
 }
 
 function showDialog(dialog, focusSelector) {
@@ -527,6 +681,13 @@ function showDialog(dialog, focusSelector) {
 }
 
 function closeDialog(dialog) {
+	if (!dialog) return;
+	if (dialog.id === 'wheel-dialog') {
+		clearTimeout(runtime.spinTimer);
+		runtime.spinTimer = null;
+		runtime.wheelSpinning = false;
+		stopSounds();
+	}
 	if (dialog.open) dialog.close();
 }
 
@@ -540,7 +701,6 @@ function showConfirm({ title, description, actionLabel = '삭제', action }) {
 
 function renderBulkPreview() {
 	const names = parseParticipantNames($('#bulk-names').value);
-	$('#bulk-preview').textContent = names.length ? `${names.length}명 추가됩니다.` : '이름을 입력하면 여기에 인원 수가 표시됩니다.';
 	$('#bulk-add-button').textContent = names.length ? `명단에 ${names.length}명 추가` : '명단에 추가';
 	$('#bulk-add-button').disabled = names.length === 0;
 }
@@ -623,7 +783,7 @@ function saveRoster() {
 	if (existing) state.rosters[state.rosters.indexOf(existing)] = roster;
 	else state.rosters.unshift(roster);
 	persist();
-	$('#roster-status').textContent = existing ? `${name} 명단을 현재 내용으로 덮어썼습니다.` : `${name} 명단을 저장했습니다.`;
+	$('#result-live').textContent = existing ? `${name} 명단을 현재 내용으로 덮어썼습니다.` : `${name} 명단을 저장했습니다.`;
 	$('#roster-name').value = '';
 	renderRosters();
 }
@@ -655,10 +815,15 @@ function recordWinner(teamId) {
 	runtime.winnerTeamId = teamId;
 	runtime.lastHistoryId = entry.id;
 	runtime.picks = {};
+	runtime.animateWinner = true;
+	markEntering(runtime.enteringHistory, [entry.id]);
 	persist();
 	runtime.resultMessage = `${runtime.teams.find((team) => team.id === teamId)?.name || '팀'}의 승리를 기록했습니다.`;
 	renderResults();
 	renderTodayHistory();
+	setTimeout(() => {
+		runtime.animateWinner = false;
+	}, 900);
 }
 
 function undoWinner() {
@@ -667,6 +832,7 @@ function undoWinner() {
 	runtime.winnerTeamId = null;
 	runtime.lastHistoryId = null;
 	runtime.picks = {};
+	runtime.animateWinner = false;
 	runtime.resultMessage = '방금 기록한 승리를 취소했습니다.';
 	persist();
 	renderResults();
@@ -679,19 +845,31 @@ function deleteHistory(id) {
 	showConfirm({
 		title: '삭제하시겠습니까?',
 		description: `${localDateKey(entry.occurredAt)} ${formatTime(entry.occurredAt)} · ${winnerTeam(entry)?.name || '팀'}승 기록이 삭제됩니다.`,
-		action: () => {
-			state.history = state.history.filter((item) => item.id !== id);
-			if (runtime.lastHistoryId === id) {
-				runtime.winnerTeamId = null;
-				runtime.lastHistoryId = null;
-				runtime.picks = {};
-			}
-			persist();
-			renderResults();
-			renderTodayHistory();
-			renderHistoryDialog();
-		}
+		action: () => removeHistoryAnimated(id)
 	});
+}
+
+function removeHistoryAnimated(id) {
+	if (runtime.leavingHistory.has(id)) return;
+	runtime.leavingHistory.add(id);
+	renderTodayHistory();
+	renderHistoryDialog();
+	setTimeout(() => {
+		const previousPositions = captureFlipPositions();
+		state.history = state.history.filter((item) => item.id !== id);
+		runtime.leavingHistory.delete(id);
+		if (runtime.lastHistoryId === id) {
+			runtime.winnerTeamId = null;
+			runtime.lastHistoryId = null;
+			runtime.picks = {};
+			runtime.animateWinner = false;
+		}
+		persist();
+		renderResults();
+		renderTodayHistory();
+		renderHistoryDialog();
+		playFlip(previousPositions);
+	}, 220);
 }
 
 function renderHistoryDialog() {
@@ -721,6 +899,8 @@ function renderHistoryDialog() {
 		for (const entry of entries) {
 			const item = document.createElement('li');
 			item.className = 'history-match';
+			item.dataset.flip = `history-dialog-${entry.id}`;
+			item.classList.toggle('is-leaving', runtime.leavingHistory.has(entry.id));
 			const time = document.createElement('span');
 			time.className = 'history-time';
 			time.textContent = formatTime(entry.occurredAt);
@@ -730,8 +910,16 @@ function renderHistoryDialog() {
 				const line = document.createElement('div');
 				line.className = 'history-team-line';
 				line.dataset.win = String(team.id === entry.winnerTeamId);
-				const label = document.createElement('strong');
-				label.textContent = `${team.name} ${team.id === entry.winnerTeamId ? '승' : '패'}`;
+				const won = team.id === entry.winnerTeamId;
+				const label = document.createElement('span');
+				label.className = 'history-team-label';
+				label.textContent = `${team.name}${won ? '승' : '패'}`;
+				const tone = won
+					? teamTone(team.id)
+					: { color: '#c2333c', background: '#fff5f5', border: '#ffd6d8' };
+				label.style.setProperty('--label-color', tone.color);
+				label.style.setProperty('--label-background', tone.background);
+				label.style.setProperty('--label-border', tone.border);
 				const names = document.createElement('span');
 				names.textContent = team.members.join(', ');
 				line.append(label, names);
@@ -748,6 +936,7 @@ function renderHistoryDialog() {
 function openWheel(teamId) {
 	const team = runtime.teams.find((item) => item.id === teamId);
 	if (!team || runtime.winnerTeamId === null) return;
+	getAudioContext();
 	runtime.wheelTeamId = teamId;
 	runtime.wheelSpinning = false;
 	$('#wheel-title').textContent = `${team.name} 뽑기`;
@@ -791,31 +980,198 @@ function renderSoundButton() {
 	$('#sound-wave-path').setAttribute('d', state.soundEnabled ? 'M15.5 8.5a5 5 0 0 1 0 7' : 'M22 9l-6 6M16 9l6 6');
 }
 
-function playSound() {
-	if (!state.soundEnabled) return;
+function getAudioContext() {
+	if (!state.soundEnabled) return null;
 	try {
 		const AudioContext = window.AudioContext || window.webkitAudioContext;
-		if (!AudioContext) return;
-		const context = new AudioContext();
+		if (!AudioContext) return null;
+		if (!runtime.audioContext || runtime.audioContext.state === 'closed') {
+			runtime.audioContext = new AudioContext();
+		}
+		if (runtime.audioContext.state === 'suspended') {
+			runtime.audioContext.resume().catch(() => {});
+		}
+		return runtime.audioContext;
+	} catch {
+		return null;
+	}
+}
+
+function trackAudioSource(source) {
+	runtime.audioSources.add(source);
+	source.addEventListener(
+		'ended',
+		() => {
+			runtime.audioSources.delete(source);
+		},
+		{ once: true }
+	);
+}
+
+function stopSounds() {
+	for (const source of runtime.audioSources) {
+		try {
+			source.stop();
+		} catch {
+			// 이미 끝난 효과음은 무시한다.
+		}
+	}
+	runtime.audioSources.clear();
+}
+
+function playSpinTicks(totalDegrees, segmentDegrees, durationMilliseconds) {
+	const context = getAudioContext();
+	if (!context) return;
+	const duration = durationMilliseconds / 1000;
+	const startTime = context.currentTime;
+	const startFrequency = 1420;
+	const ratchetDegrees = Math.min(segmentDegrees, 120);
+	const count = Math.min(
+		Math.max(Math.floor(totalDegrees / ratchetDegrees) * 2, 50),
+		66
+	);
+	const tickDuration = Math.max(0.1, duration);
+	const rapidTickCount = Math.min(Math.round(count * 0.56), count - 1);
+	const rapidDuration = Math.min(0.87, tickDuration * 0.24);
+	const slowTickCount = count - rapidTickCount;
+
+	for (let index = 0; index < count - 1; index += 1) {
+		const isFirstTick = index === 0;
+		const progress = count === 1 ? 0 : index / (count - 1);
+		let offset;
+		if (index < rapidTickCount) {
+			offset = rapidDuration * (index / (rapidTickCount - 1));
+		} else {
+			const slowProgress = (index - rapidTickCount + 1) / slowTickCount;
+			const slowCurve = 0.1 * slowProgress + 0.9 * slowProgress ** 3.5;
+			offset = rapidDuration + (tickDuration - rapidDuration) * slowCurve;
+		}
+		const time = startTime + offset;
 		const oscillator = context.createOscillator();
 		const gain = context.createGain();
-		oscillator.frequency.value = 620;
-		gain.gain.setValueAtTime(0.06, context.currentTime);
-		gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.16);
-		oscillator.connect(gain);
-		gain.connect(context.destination);
-		oscillator.start();
-		oscillator.stop(context.currentTime + 0.16);
-		oscillator.addEventListener('ended', () => context.close());
-	} catch {
-		// 효과음을 재생하지 못해도 추첨은 계속한다.
+		const frequency = startFrequency - 620 * progress;
+		const peak = 0.24 + 0.04 * progress;
+		const decayDuration = 0.09;
+		oscillator.type = 'square';
+		oscillator.frequency.setValueAtTime(frequency, time);
+		if (isFirstTick) {
+			gain.gain.setValueAtTime(peak, time);
+		} else {
+			gain.gain.setValueAtTime(0.0001, time);
+			gain.gain.exponentialRampToValueAtTime(peak, time + 0.003);
+		}
+		gain.gain.exponentialRampToValueAtTime(0.0001, time + decayDuration);
+		oscillator.connect(gain).connect(context.destination);
+		if (isFirstTick) oscillator.start();
+		else oscillator.start(time);
+		oscillator.stop(time + decayDuration + 0.02);
+		trackAudioSource(oscillator);
 	}
+}
+
+function playFanfare() {
+	const context = getAudioContext();
+	if (!context) return;
+	const startTime = context.currentTime + 0.03;
+	const motif = [
+		{ frequency: 523.25, offset: 0, duration: 0.16 },
+		{ frequency: 659.25, offset: 0.11, duration: 0.16 },
+		{ frequency: 783.99, offset: 0.22, duration: 0.16 },
+		{ frequency: 1046.5, offset: 0.34, duration: 0.75 }
+	];
+
+	for (const [noteIndex, note] of motif.entries()) {
+		const noteStart = startTime + note.offset;
+		const peak = noteIndex === motif.length - 1 ? 0.18 : 0.13;
+		for (const [harmonicIndex, multiplier] of [1, 2].entries()) {
+			const oscillator = context.createOscillator();
+			const gain = context.createGain();
+			oscillator.type = 'triangle';
+			oscillator.frequency.value = note.frequency * multiplier;
+			gain.gain.setValueAtTime(0.0001, noteStart);
+			gain.gain.exponentialRampToValueAtTime(peak / (harmonicIndex + 1.2), noteStart + 0.015);
+			gain.gain.exponentialRampToValueAtTime(0.0001, noteStart + note.duration);
+			oscillator.connect(gain).connect(context.destination);
+			oscillator.start(noteStart);
+			oscillator.stop(noteStart + note.duration + 0.05);
+			trackAudioSource(oscillator);
+		}
+	}
+
+	for (const [index, frequency] of [1046.5, 1318.51, 1567.98].entries()) {
+		const oscillator = context.createOscillator();
+		const gain = context.createGain();
+		const chordStart = startTime + 0.34;
+		oscillator.type = 'sine';
+		oscillator.frequency.value = frequency;
+		gain.gain.setValueAtTime(0.0001, chordStart);
+		gain.gain.exponentialRampToValueAtTime(0.09 / (index + 1), chordStart + 0.03);
+		gain.gain.exponentialRampToValueAtTime(0.0001, chordStart + 1.1);
+		oscillator.connect(gain).connect(context.destination);
+		oscillator.start(chordStart);
+		oscillator.stop(chordStart + 1.2);
+		trackAudioSource(oscillator);
+	}
+
+	for (const [index, frequency] of [1568, 2093, 2637].entries()) {
+		const oscillator = context.createOscillator();
+		const gain = context.createGain();
+		const bellStart = startTime + 0.5 + index * 0.09;
+		oscillator.type = 'sine';
+		oscillator.frequency.value = frequency;
+		gain.gain.setValueAtTime(0.0001, bellStart);
+		gain.gain.exponentialRampToValueAtTime(0.05, bellStart + 0.01);
+		gain.gain.exponentialRampToValueAtTime(0.0001, bellStart + 0.5);
+		oscillator.connect(gain).connect(context.destination);
+		oscillator.start(bellStart);
+		oscillator.stop(bellStart + 0.55);
+		trackAudioSource(oscillator);
+	}
+}
+
+function celebrate() {
+	if (prefersReducedMotion()) return;
+	const layer = $('#celebration-layer');
+	const colors = ['#6e29e7', '#ff571a', '#009f70', '#3b6fe0', '#f2a20c'];
+	const particles = document.createDocumentFragment();
+	for (let index = 0; index < 160; index += 1) {
+		const particle = document.createElement('span');
+		const angle = Math.random() * Math.PI * 2;
+		const distance = 140 + Math.random() * 300;
+		const size = 8 + Math.random() * 12;
+		particle.className = 'celebration-particle';
+		particle.style.width = `${size.toFixed(1)}px`;
+		particle.style.height = `${(size * (Math.random() < 0.4 ? 1 : 0.45)).toFixed(1)}px`;
+		particle.style.background = colors[index % colors.length];
+		particle.style.borderRadius = Math.random() < 0.3 ? '50%' : '2px';
+		particle.style.setProperty('--dx', `${(Math.cos(angle) * distance).toFixed(1)}px`);
+		particle.style.setProperty('--dy', `${(Math.sin(angle) * distance + 110).toFixed(1)}px`);
+		particle.style.setProperty('--rot', `${Math.round(Math.random() * 720 - 360)}deg`);
+		particle.style.setProperty('--duration', `${Math.round(1100 + Math.random() * 800)}ms`);
+		particle.style.setProperty('--delay', `${Math.round(Math.random() * 180)}ms`);
+		particles.append(particle);
+	}
+	layer.replaceChildren(particles);
+	layer.hidden = false;
+	clearTimeout(runtime.celebrationTimer);
+	runtime.celebrationTimer = setTimeout(() => {
+		layer.replaceChildren();
+		layer.hidden = true;
+	}, 2300);
 }
 
 function spinWheel() {
 	if (runtime.wheelSpinning) return;
 	const team = runtime.teams.find((item) => item.id === runtime.wheelTeamId);
 	if (!team?.members.length) return;
+	const pickedIndex = Math.floor(Math.random() * team.members.length);
+	const segmentDegrees = 360 / team.members.length;
+	const previousRotation = runtime.wheelRotation;
+	const targetRotation = calculateWheelTargetRotation(
+		previousRotation,
+		team.members.length,
+		pickedIndex
+	);
 	runtime.wheelSpinning = true;
 	const button = $('#spin-wheel-button');
 	button.disabled = true;
@@ -823,29 +1179,37 @@ function spinWheel() {
 	const result = $('#wheel-result');
 	result.textContent = '돌리는 중…';
 	result.dataset.picked = 'false';
-	runtime.wheelRotation += 1440 + Math.floor(Math.random() * 360);
+	runtime.wheelRotation = targetRotation;
 	const wheel = $('#wheel');
 	wheel.style.transform = `rotate(${runtime.wheelRotation}deg)`;
 	for (const label of wheel.querySelectorAll('.wheel-label')) {
 		const angle = Number(label.dataset.angle);
 		label.style.setProperty('--label-counter-angle', `${-(angle + runtime.wheelRotation)}deg`);
 	}
+	stopSounds();
+	playSpinTicks(targetRotation - previousRotation, segmentDegrees, 6500);
 
-	setTimeout(() => {
+	clearTimeout(runtime.spinTimer);
+	runtime.spinTimer = setTimeout(() => {
+		runtime.spinTimer = null;
 		if (!$('#wheel-dialog').open) {
 			runtime.wheelSpinning = false;
 			return;
 		}
-		const picked = team.members[Math.floor(Math.random() * team.members.length)];
+		const picked = team.members[pickedIndex];
 		runtime.picks[team.id] = picked.name;
 		runtime.wheelSpinning = false;
 		button.disabled = false;
 		button.textContent = '다시 뽑기';
 		result.textContent = `당첨자 · ${picked.name}`;
 		result.dataset.picked = 'true';
-		playSound();
+		result.classList.remove('animate-pop');
+		void result.offsetWidth;
+		result.classList.add('animate-pop');
+		playFanfare();
+		celebrate();
 		renderResults();
-	}, 5300);
+	}, 6600);
 }
 
 $('#add-person-form').addEventListener('submit', (event) => {
@@ -906,11 +1270,20 @@ $('#participant-list').addEventListener('change', (event) => {
 });
 
 $('#participant-list').addEventListener('click', (event) => {
-	const id = event.target.dataset.participantRemove;
-	if (!id) return;
-	state.participants = state.participants.filter((participant) => participant.id !== id);
-	state.rules = cleanRulesAfterParticipantRemoval(state.rules, new Set(state.participants.map((participant) => participant.id)));
-	saveAndRender();
+	const id = event.target.closest('[data-participant-remove]')?.dataset.participantRemove;
+	if (!id || runtime.leavingParticipants.has(id)) return;
+	runtime.leavingParticipants.add(id);
+	renderParticipants();
+	setTimeout(() => {
+		const previousPositions = captureFlipPositions();
+		state.participants = rebalanceParticipantColumns(
+			state.participants.filter((participant) => participant.id !== id)
+		);
+		state.rules = cleanRulesAfterParticipantRemoval(state.rules, new Set(state.participants.map((participant) => participant.id)));
+		runtime.leavingParticipants.delete(id);
+		saveAndRender();
+		playFlip(previousPositions);
+	}, 220);
 });
 
 $('#clear-list-button').addEventListener('click', () => {
@@ -937,19 +1310,30 @@ $('#rule-picker-list').addEventListener('change', (event) => {
 });
 $('#save-rule-button').addEventListener('click', () => {
 	if (runtime.ruleSelection.size < 2) return;
-	state.rules.push({
+	const previousPositions = captureFlipPositions();
+	const rule = {
 		id: createId('rule'),
 		type: runtime.ruleType,
 		participantIds: [...runtime.ruleSelection]
-	});
+	};
+	state.rules.push(rule);
+	markEntering(runtime.enteringRules, [rule.id]);
 	closeDialog($('#rule-dialog'));
 	saveAndRender();
+	playFlip(previousPositions);
 });
 $('#rules-list').addEventListener('click', (event) => {
-	const id = event.target.dataset.ruleRemove;
-	if (!id) return;
-	state.rules = state.rules.filter((rule) => rule.id !== id);
-	saveAndRender();
+	const id = event.target.closest('[data-rule-remove]')?.dataset.ruleRemove;
+	if (!id || runtime.leavingRules.has(id)) return;
+	runtime.leavingRules.add(id);
+	renderRules();
+	setTimeout(() => {
+		const previousPositions = captureFlipPositions();
+		state.rules = state.rules.filter((rule) => rule.id !== id);
+		runtime.leavingRules.delete(id);
+		saveAndRender();
+		playFlip(previousPositions);
+	}, 220);
 });
 
 function selectMode(mode) {
@@ -983,7 +1367,6 @@ $('#team-grid').addEventListener('click', (event) => {
 
 $('#open-rosters-button').addEventListener('click', () => {
 	$('#roster-name').value = '';
-	$('#roster-status').textContent = '같은 이름은 현재 명단으로 덮어씁니다.';
 	renderRosters();
 	showDialog($('#roster-dialog'), '#roster-name');
 });
@@ -993,8 +1376,8 @@ $('#save-roster-form').addEventListener('submit', (event) => {
 	saveRoster();
 });
 $('#rosters-list').addEventListener('click', (event) => {
-	const loadId = event.target.dataset.rosterLoad;
-	const removeId = event.target.dataset.rosterRemove;
+	const loadId = event.target.closest('[data-roster-load]')?.dataset.rosterLoad;
+	const removeId = event.target.closest('[data-roster-remove]')?.dataset.rosterRemove;
 	if (loadId) loadRoster(loadId);
 	if (removeId) {
 		const roster = state.rosters.find((item) => item.id === removeId);
@@ -1016,14 +1399,18 @@ $('#open-history-button').addEventListener('click', () => {
 	showDialog($('#history-dialog'), '.dialog-close');
 });
 $('#today-history-list').addEventListener('click', (event) => {
-	if (event.target.dataset.historyRemove) deleteHistory(event.target.dataset.historyRemove);
+	const id = event.target.closest('[data-history-remove]')?.dataset.historyRemove;
+	if (id) deleteHistory(id);
 });
 $('#history-groups').addEventListener('click', (event) => {
-	if (event.target.dataset.historyRemove) deleteHistory(event.target.dataset.historyRemove);
+	const id = event.target.closest('[data-history-remove]')?.dataset.historyRemove;
+	if (id) deleteHistory(id);
 });
 
 $('#sound-toggle-button').addEventListener('click', () => {
 	state.soundEnabled = !state.soundEnabled;
+	if (state.soundEnabled) getAudioContext();
+	else stopSounds();
 	persist();
 	renderSoundButton();
 });

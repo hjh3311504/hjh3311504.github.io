@@ -21,6 +21,42 @@ export function calculateTeamCount(mode, value, participantCount) {
 	return Math.ceil(participantCount / value);
 }
 
+export function rebalanceParticipantColumns(participants) {
+	const result = participants.map((participant) => ({
+		...participant,
+		column: participant.column === 1 ? 1 : 0
+	}));
+
+	for (let guard = 0; guard < 200; guard += 1) {
+		const left = result.filter((participant) => participant.column === 0);
+		const right = result.filter((participant) => participant.column === 1);
+		const shouldMoveLeft = right.length > left.length;
+		const shouldMoveRight = left.length - right.length >= 2;
+		if (!shouldMoveLeft && !shouldMoveRight) break;
+
+		const source = shouldMoveLeft ? right : left;
+		const moved = source[source.length - 1];
+		const index = result.indexOf(moved);
+		result[index] = { ...moved, column: shouldMoveLeft ? 0 : 1 };
+	}
+
+	return result;
+}
+
+export function calculateWheelTargetRotation(currentRotation, segmentCount, pickedIndex) {
+	if (!Number.isInteger(segmentCount) || segmentCount < 1) {
+		throw new RangeError('돌림판 조각 수는 1개 이상이어야 합니다.');
+	}
+	if (!Number.isInteger(pickedIndex) || pickedIndex < 0 || pickedIndex >= segmentCount) {
+		throw new RangeError('당첨자 순번이 돌림판 범위를 벗어났습니다.');
+	}
+
+	const segmentDegrees = 360 / segmentCount;
+	const baseRotation = currentRotation + 360 * 8;
+	const pickedCenter = pickedIndex * segmentDegrees + segmentDegrees / 2;
+	return baseRotation + ((360 - ((baseRotation + pickedCenter) % 360)) % 360);
+}
+
 export function getSetupStatus({ mode, teamCount, teamSize, participantCount }) {
 	if (participantCount < 2) {
 		return {
