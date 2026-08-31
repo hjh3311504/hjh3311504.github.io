@@ -3,7 +3,7 @@ slug: customization
 title: How to Customize this Template
 date: 2023-04-22T21:55:27.154Z
 excerpt: How to customize what you're seeing here and make it your own.
-coverImage: /static/images/posts/customization.jpg
+coverImage: /images/posts/customization.jpg
 tags:
   - Documentation
 ---
@@ -12,9 +12,8 @@ In general, content can be modified by editing the **organisms** and the pages t
 
 ## Domain/site URL
 
-The first thing you might want to do is replace the domain of of the site with your own. There are two places where you need to do that:
+The first thing you might want to do is replace the site URL with your own domain:
 
-- In the `package.json` file, check the `postbuild` script. Change the domain there to your own, so it ends up like this: `svelte-sitemap --domain https://your-domain.com`. This is used to generate the sitemap of your website, which is used by search engines to index your site.
 - In the `src/lib/data/meta.ts` file, change the `siteBaseUrl` property to your own domain. This is used in multiple parts of the app wherever the site needs to link to itself.
 
 ## Header/site logo

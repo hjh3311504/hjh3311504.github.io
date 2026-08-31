@@ -6,27 +6,29 @@
 </script>
 
 <section id="hero">
-	<h1 class="hello">This is a SvelteKit Static Blog Template!<br>한글 글꼴은 이렇습니다!!</h1>
+	<h1 class="hello">
+		This is a SvelteKit Static Blog Template!<br />한글 글꼴은 이렇습니다!!
+	</h1>
 	<p class="intro">
 		<span class="left">It supports Markdown,</span>
 		<span class="right">and is really fast.</span>
 	</p>
 	<div class="ctas">
 		<Sparkles>
-			<Button href="https://github.com/matfantinel/sveltekit-static-blog-template">
+			<Button href="https://github.com/hjh3311504/hjh3311504.github.io">
 				<GitHubIcon slot="icon" />
 				Source Code
 			</Button>
 		</Sparkles>
-		<Button color="primary" href="https://histoire-sveltekit-static-blog-template.vercel.app/">
+		<Button color="primary" href="https://hjh3311504.github.io/team-maker/">
 			<FeaturesIcon slot="icon" />
-			Components
+			Team Maker
 		</Button>
 	</div>
 </section>
 
 <style lang="scss">
-	@import '$lib/scss/breakpoints.scss';
+	@use '$lib/scss/breakpoints' as *;
 
 	#hero {
 		display: flex;

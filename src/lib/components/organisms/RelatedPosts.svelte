@@ -6,12 +6,9 @@
 	export let posts: BlogPost[];
 </script>
 
-<ContentSection
-	id="related-posts"
-	title="Related Posts"
->
+<ContentSection id="related-posts" title="Related Posts">
 	<div class="simple-grid">
-		{#each posts as post}
+		{#each posts as post (post.slug)}
 			<BlogPostCard
 				slug={post.slug}
 				title={post.title}
@@ -25,7 +22,7 @@
 </ContentSection>
 
 <style lang="scss">
-	@import '$lib/scss/breakpoints.scss';
+	@use '$lib/scss/breakpoints' as *;
 
 	.simple-grid {
 		width: 100%;

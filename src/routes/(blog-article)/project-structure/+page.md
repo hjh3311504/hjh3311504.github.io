@@ -3,7 +3,7 @@ slug: project-structure
 title: Project Structure
 date: 2023-04-22T21:55:21.800Z
 excerpt: How code and structure are organized.
-coverImage: /static/images/posts/project-structure.jpg
+coverImage: /images/posts/project-structure.jpg
 tags:
   - Documentation
 ---
@@ -33,17 +33,13 @@ Organisms, in this project, are code blocks that represent a section of a page, 
 <CodeBlock lang="html" filename="+page.svelte">
 
 ```html
-<Header />
+<header />
 <Hero />
 <About />
-<Footer />
+<footer />
 ```
 
 </CodeBlock>
-
-## Component Gallery
-
-This project uses [Histoire](https://histoire.dev) to be able to see and develop components in isolation. To open it, run `npm run story:dev`. This way you can customize and build new components with placeholder content and without worrying about where to put them in a page.
 
 ## Pages
 

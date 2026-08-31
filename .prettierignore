@@ -1,0 +1,14 @@
+.context
+.frontmatter
+.svelte-kit
+.vscode
+build
+docs/design
+docs/requirements
+frontmatter.json
+node_modules
+output
+package
+package-lock.json
+static/team-maker
+static/favicons/site.webmanifest

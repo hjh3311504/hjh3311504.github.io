@@ -26,7 +26,9 @@ async function addParticipants(page, names) {
 	const dialog = page.getByRole('dialog', { name: '참가자 일괄 추가' });
 	await dialog.getByRole('textbox', { name: '추가할 참가자 이름' }).fill(names.join('\n'));
 	await dialog.getByRole('button', { name: `명단에 ${names.length}명 추가` }).click();
-	await expect(page.getByRole('heading', { name: new RegExp(`참가자 입력 \\(${names.length}명\\)`) })).toBeVisible();
+	await expect(
+		page.getByRole('heading', { name: new RegExp(`참가자 입력 \\(${names.length}명\\)`) })
+	).toBeVisible();
 }
 
 async function addRule(page, type, names) {
@@ -44,7 +46,9 @@ async function readTeams(page) {
 	return page.locator('#team-grid .team-card').evaluateAll((cards) =>
 		cards.map((card) => ({
 			name: card.querySelector('h3')?.textContent?.trim(),
-			members: [...card.querySelectorAll('.team-members li span:last-child')].map((member) => member.textContent?.trim())
+			members: [...card.querySelectorAll('.team-members li span:last-child')].map((member) =>
+				member.textContent?.trim()
+			)
 		}))
 	);
 }
@@ -64,13 +68,17 @@ async function toggleParticipant(page, name, included) {
 	const checkbox = page.getByRole('checkbox', { name: `${name} 참가 ${action}` });
 	await checkbox.evaluate((element) => element.click());
 	const nextAction = included ? '해제' : '선택';
-	await expect(page.getByRole('checkbox', { name: `${name} 참가 ${nextAction}` })).toBeChecked({ checked: included });
+	await expect(page.getByRole('checkbox', { name: `${name} 참가 ${nextAction}` })).toBeChecked({
+		checked: included
+	});
 }
 
 test('하위 경로에서 기본 화면과 내부 자원을 불러오며 외부로 요청하지 않는다', async ({ page }) => {
 	const responses = new Map();
 	const requests = [];
-	page.on('response', (response) => responses.set(new URL(response.url()).pathname, response.status()));
+	page.on('response', (response) =>
+		responses.set(new URL(response.url()).pathname, response.status())
+	);
 	page.on('request', (request) => requests.push(new URL(request.url())));
 
 	await openTeamMaker(page);
@@ -112,7 +120,9 @@ test('참가자 편집, 두 나누기 방식, 다시 섞기와 새로고침 복�
 
 	await toggleParticipant(page, '나연', false);
 	await expect(page.getByText('아직 만든 팀이 없습니다', { exact: true })).toBeVisible();
-	await expect(page.getByRole('heading', { name: '1. 참가자 입력 (5명 중 4명 참가)' })).toBeVisible();
+	await expect(
+		page.getByRole('heading', { name: '1. 참가자 입력 (5명 중 4명 참가)' })
+	).toBeVisible();
 
 	await page.reload();
 	await expect(page.getByRole('radio', { name: '인원 수로 나누기' })).toBeChecked();
@@ -129,10 +139,20 @@ test('참가자 삭제 뒤 두 열의 순서를 다시 맞춘다', async ({ page
 	await addParticipants(page, ['1', '2', '3', '4', '5', '6', '7', '8']);
 	await page.getByRole('button', { name: '5 삭제', exact: true }).click();
 
-	const firstColumn = page.locator('#participant-list .participant-column').nth(0).locator('.participant-name');
-	const secondColumn = page.locator('#participant-list .participant-column').nth(1).locator('.participant-name');
-	await expect.poll(() => firstColumn.evaluateAll((inputs) => inputs.map((input) => input.value))).toEqual(['1', '3', '7', '8']);
-	await expect.poll(() => secondColumn.evaluateAll((inputs) => inputs.map((input) => input.value))).toEqual(['2', '4', '6']);
+	const firstColumn = page
+		.locator('#participant-list .participant-column')
+		.nth(0)
+		.locator('.participant-name');
+	const secondColumn = page
+		.locator('#participant-list .participant-column')
+		.nth(1)
+		.locator('.participant-name');
+	await expect
+		.poll(() => firstColumn.evaluateAll((inputs) => inputs.map((input) => input.value)))
+		.toEqual(['1', '3', '7', '8']);
+	await expect
+		.poll(() => secondColumn.evaluateAll((inputs) => inputs.map((input) => input.value)))
+		.toEqual(['2', '4', '6']);
 });
 
 test('같은 팀 규칙을 먼저 표시하고 두 규칙을 지켜 팀을 만든다', async ({ page }) => {
@@ -262,7 +282,10 @@ test('승리·취소·기록 삭제와 돌림판 당첨자 및 효과음을 처�
 	const wheelDialog = page.getByRole('dialog', { name: '1팀 뽑기' });
 	const soundButton = wheelDialog.getByRole('button', { name: '효과음 끄기' });
 	await soundButton.click();
-	await expect(wheelDialog.getByRole('button', { name: '효과음 켜기' })).toHaveAttribute('aria-pressed', 'false');
+	await expect(wheelDialog.getByRole('button', { name: '효과음 켜기' })).toHaveAttribute(
+		'aria-pressed',
+		'false'
+	);
 	await wheelDialog.getByRole('button', { name: '효과음 켜기' }).click();
 	await wheelDialog.getByRole('button', { name: '돌리기' }).click();
 
@@ -275,12 +298,16 @@ test('승리·취소·기록 삭제와 돌림판 당첨자 및 효과음을 처�
 
 	const stoppedAngle = await wheelDialog.locator('#wheel').evaluate((wheel, picked) => {
 		const rotation = Number(wheel.style.transform.match(/-?\d+(?:\.\d+)?/)?.[0] || 0);
-		const label = [...wheel.querySelectorAll('.wheel-label')].find((item) => item.textContent?.trim() === picked);
+		const label = [...wheel.querySelectorAll('.wheel-label')].find(
+			(item) => item.textContent?.trim() === picked
+		);
 		const labelAngle = Number(label?.dataset.angle || 0);
-		return ((rotation + labelAngle) % 360 + 360) % 360;
+		return (((rotation + labelAngle) % 360) + 360) % 360;
 	}, pickedName);
 	expect(Math.min(stoppedAngle, 360 - stoppedAngle)).toBeLessThan(0.001);
-	await expect(page.locator('.team-card').first().locator('.picked-person strong')).toHaveText(pickedName);
+	await expect(page.locator('.team-card').first().locator('.picked-person strong')).toHaveText(
+		pickedName
+	);
 
 	await wheelDialog.locator('[data-close-dialog]').last().click();
 	await page.getByRole('button', { name: '승리 취소' }).click();

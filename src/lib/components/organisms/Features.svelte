@@ -13,7 +13,7 @@
 >
 	<div class="features-container">
 		<div class="three-group-grid">
-			{#each features as feature}
+			{#each features as feature (feature.name)}
 				<FeatureCard
 					name={feature.name}
 					description={feature.description}
@@ -26,7 +26,7 @@
 </ContentSection>
 
 <style lang="scss">
-	@import '$lib/scss/breakpoints.scss';
+	@use '$lib/scss/breakpoints' as *;
 
 	.features-container {
 		width: 100%;

@@ -1,57 +1,26 @@
 <script>
-	import TelegramIcon from '$lib/icons/socials/telegram.svelte';
+	import { resolve } from '$app/paths';
 	import GitHubIcon from '$lib/icons/socials/github.svelte';
-	import LinkedInIcon from '$lib/icons/socials/linkedin.svelte';
-	import EmailIcon from '$lib/icons/socials/email.svelte';
 	import RssIcon from '$lib/icons/rss.svelte';
-	import MastodonIcon from '$lib/icons/socials/mastodon.svelte';
 </script>
 
 <div class="socials">
 	<a
-		href="#"
+		href="https://github.com/hjh3311504"
 		target="_blank"
 		rel="noopener noreferrer"
-		title="Say Hi on Telegram"
-	>
-		<TelegramIcon />
-	</a>
-	<a
-		href="#"
-		target="_blank"
-		rel="me noreferrer"
-		title="Say Hi on Mastodon"
-	>
-		<MastodonIcon />
-	</a>
-	<a
-		href="#"
-		target="_blank"
-		rel="noopener noreferrer"
-		title="See my GitHub profile"
+		title="GitHub profile"
+		aria-label="GitHub profile"
 	>
 		<GitHubIcon />
 	</a>
-	<a
-		href="#"
-		target="_blank"
-		rel="noopener noreferrer"
-		title="Connect on LinkedIn"
-	>
-		<LinkedInIcon />
-	</a>
-	<a
-		href="#"
-		target="_blank"
-		rel="noopener noreferrer"
-		title="Send an email"
-	>
-		<EmailIcon />
+	<a href={resolve('/rss.xml')} title="RSS feed" aria-label="RSS feed">
+		<RssIcon />
 	</a>
 </div>
 
 <style lang="scss">
-	@import '../../scss/breakpoints.scss';
+	@use '$lib/scss/breakpoints' as *;
 	.socials {
 		display: flex;
 		align-items: center;

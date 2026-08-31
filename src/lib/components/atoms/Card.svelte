@@ -1,15 +1,15 @@
 <script>
 	import { HttpRegex } from '$lib/utils/regex';
 
-  /** @type {string | undefined} */
+	/** @type {string | undefined} */
 	export let additionalClass = undefined;
 
-  /** @type {string | undefined} */
+	/** @type {string | undefined} */
 	export let href = undefined;
 
 	const isExternalLink = !!href && HttpRegex.test(href);
 
-  /** @type {'_self' | '_blank'} */
+	/** @type {'_self' | '_blank'} */
 	export let target = isExternalLink ? '_blank' : '_self';
 	export let rel = isExternalLink ? 'noopener noreferrer' : undefined;
 

@@ -5,15 +5,15 @@ import { filterPosts, importPosts } from '$lib/data/blog-posts/utils';
 export const prerender = true;
 
 export async function GET() {
-  const allPosts = importPosts(true);
-  const filteredPosts = filterPosts(allPosts);
+	const allPosts = importPosts(true);
+	const filteredPosts = filterPosts(allPosts);
 
-  const body = xml(filteredPosts);
-  const headers = {
-    'Cache-Control': 'max-age=0, s-maxage=3600',
-    'Content-Type': 'application/xml'
-  };
-  return new Response(body, { headers });
+	const body = xml(filteredPosts);
+	const headers = {
+		'Cache-Control': 'max-age=0, s-maxage=3600',
+		'Content-Type': 'application/xml'
+	};
+	return new Response(body, { headers });
 }
 
 /** @param {App.BlogPost[]} posts */
@@ -41,8 +41,8 @@ const xml = (posts) => `
       <height>32</height>
     </image>
     ${posts
-    .map(
-      (post) => `
+			.map(
+				(post) => `
         <item>
           <guid>${siteBaseUrl}/${post.slug}</guid>
           <title>${post.title}</title>
@@ -62,11 +62,14 @@ const xml = (posts) => `
 
             ${post.html}
           ]]></content:encoded>
-          ${post.coverImage ? `<media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="${siteBaseUrl}/${post.coverImage}"/>` : ''}
-          ${post.coverImage ? `<media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="${siteBaseUrl}/${post.coverImage}"/>` : ''}          
+          ${post.coverImage ? `<media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="${absoluteUrl(post.coverImage)}"/>` : ''}
+          ${post.coverImage ? `<media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="${absoluteUrl(post.coverImage)}"/>` : ''}
         </item>
       `
-    )
-    .join('')}
+			)
+			.join('')}
   </channel>
 </rss>`;
+
+/** @param {string} pathname */
+const absoluteUrl = (pathname) => new URL(pathname, `${siteBaseUrl}/`).href;
