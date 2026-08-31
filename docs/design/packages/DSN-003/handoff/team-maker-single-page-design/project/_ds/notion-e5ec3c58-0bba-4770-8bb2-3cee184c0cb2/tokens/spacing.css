@@ -1,0 +1,8 @@
+:root{
+--space-xxs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:28px;--space-xxl:32px;
+--space-section:96px;--space-section-tight:64px;
+--container-wide:1300px;--container:1080px;--container-narrow:720px;
+--gutter:24px;--gutter-wide:40px;
+--pad-card:var(--space-lg);--pad-field:6px;--pad-button-utility:4px 14px; /* @kind spacing */ --pad-button-pill:12px 22px; /* @kind spacing */ 
+--bp-tablet:768px; /* @kind other */ --bp-desktop:1080px; /* @kind other */ --bp-wide:1440px; /* @kind other */ 
+}

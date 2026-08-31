@@ -1,0 +1,33 @@
+schema_version: 1
+id: DSN-003
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-009
+  - REQ-WEB-011
+  - REQ-WEB-012
+  - REQ-WEB-013
+  - REQ-WEB-014
+  - REQ-WEB-015
+  - REQ-WEB-016
+  - REQ-WEB-017
+  - REQ-WEB-018
+screens:
+  - SCR-WEB-001
+spec:
+  status: approved
+  approved_at: "2026-08-31T14:57:27+09:00"
+  ia_sha256: "b451515ce56797bdeae8e4cdb39071e915618dc92243e934995e082d503a1168"
+  screen_sha256:
+    SCR-WEB-001: "41e3dddd2c9c329e74d3230387b1478955f9a270289cb1522eaf1611f15c0edd"
+review:
+  type: expert
+  summary: 설정 변경 뒤 오래된 결과와 승리 상태를 지우고 dialog 설명 연결을 보완했다.
+handoff:
+  status: approved
+  approved_at: "2026-08-31T15:07:58+09:00"
+  tree_sha256: "26d127046f0478802bc0c39be91cc0b7a4245156f8fadc9409ec8a9fecbefb31"

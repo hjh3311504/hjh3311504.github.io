@@ -1,0 +1,29 @@
+schema_version: 1
+id: DSN-001
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-007
+  - REQ-WEB-009
+  - REQ-WEB-010
+  - REQ-WEB-011
+  - REQ-WEB-012
+screens:
+  - SCR-WEB-001
+spec:
+  status: approved
+  approved_at: "2026-08-30T22:42:13+09:00"
+  ia_sha256: "be084e76aca310395ad9fd4a96c4ed799092bf697d14f01f800b297d690977f2"
+  screen_sha256:
+    SCR-WEB-001: "632ead5ac227ae40fe7a744461d7d1bdb62eae1f5be4e4b8c655691d1b140d79"
+review:
+  type: expert
+  summary: 로컬 전용 도구의 삭제·저장 실패·오래된 결과·키보드 접근성 누락을 보완했다.
+handoff:
+  status: pending
+  approved_at:
+  tree_sha256:
