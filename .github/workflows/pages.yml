@@ -27,6 +27,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Lint
+        run: npm run lint
       - name: Check SvelteKit
         run: npm run check
       - name: Test Team Maker logic
