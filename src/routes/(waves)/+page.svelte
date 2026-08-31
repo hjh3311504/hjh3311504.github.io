@@ -4,7 +4,7 @@
 	import RecentPosts from '$lib/components/organisms/RecentPosts.svelte';
 	import Features from '$lib/components/organisms/Features.svelte';
 
-  /** @type {{ features: App.Feature[], posts: App.BlogPost[] }} */
+	/** @type {{ features: App.Feature[], posts: App.BlogPost[] }} */
 	export let data;
 
 	let { features, posts } = data;

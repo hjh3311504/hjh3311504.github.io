@@ -17,7 +17,7 @@
 		<Button href="/blog">View More</Button>
 	</div>
 	<div class="grid">
-		{#each posts as post}
+		{#each posts as post (post.slug)}
 			<BlogPostCard
 				slug={post.slug}
 				title={post.title}
@@ -31,7 +31,7 @@
 </ContentSection>
 
 <style lang="scss">
-	@import '$lib/scss/breakpoints.scss';
+	@use '$lib/scss/breakpoints' as *;
 
 	.grid {
 		width: 100%;

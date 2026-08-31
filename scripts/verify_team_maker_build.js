@@ -32,7 +32,8 @@ const requiredHtml = [
 	'id="team-grid"'
 ];
 for (const marker of requiredHtml) {
-	if (!html.includes(marker)) throw new Error(`team-maker HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+	if (!html.includes(marker))
+		throw new Error(`team-maker HTML에서 ${marker} 표시를 찾지 못했습니다.`);
 }
 
 const combined = `${html}\n${app}\n${css}`;
@@ -46,4 +47,6 @@ if (!app.includes("from './core.js'")) {
 	throw new Error('화면 코드가 분리된 팀 배정 로직을 불러오지 않습니다.');
 }
 
-console.log(`Team Maker build 검증 통과: ${requiredFiles.length}개 파일, 상대 경로와 외부 자원 확인 완료`);
+console.log(
+	`Team Maker build 검증 통과: ${requiredFiles.length}개 파일, 상대 경로와 외부 자원 확인 완료`
+);

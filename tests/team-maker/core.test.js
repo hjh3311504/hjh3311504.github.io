@@ -47,21 +47,19 @@ test('참가자와 설정값에 따라 팀 만들기 상태를 설명한다', ()
 });
 
 test('정확히 나눠지는 경우와 나머지가 있는 경우의 차이는 최대 한 명이다', () => {
-	const exact = makeTeams({ participants: people('가', '나', '다', '라'), teamCount: 2, random: steadyRandom });
-	assert.deepEqual(
-		exact.map((team) => team.members.length).sort(),
-		[2, 2]
-	);
+	const exact = makeTeams({
+		participants: people('가', '나', '다', '라'),
+		teamCount: 2,
+		random: steadyRandom
+	});
+	assert.deepEqual(exact.map((team) => team.members.length).sort(), [2, 2]);
 
 	const remainder = makeTeams({
 		participants: people('가', '나', '다', '라', '마', '바', '사', '아'),
 		teamCount: 3,
 		random: steadyRandom
 	});
-	assert.deepEqual(
-		remainder.map((team) => team.members.length).sort(),
-		[2, 3, 3]
-	);
+	assert.deepEqual(remainder.map((team) => team.members.length).sort(), [2, 3, 3]);
 });
 
 test('팀당 인원이 참가 인원과 같으면 한 팀을 만든다', () => {
@@ -85,7 +83,8 @@ test('같은 팀과 다른 팀 규칙을 함께 지킨다', () => {
 		],
 		random: steadyRandom
 	});
-	const teamOf = (id) => result.findIndex((team) => team.members.some((member) => member.id === id));
+	const teamOf = (id) =>
+		result.findIndex((team) => team.members.some((member) => member.id === id));
 	assert.equal(teamOf('p1'), teamOf('p2'));
 	assert.notEqual(teamOf('p1'), teamOf('p3'));
 	assert.notEqual(teamOf('p1'), teamOf('p4'));
@@ -127,8 +126,7 @@ test('서로 다른 팀 규칙보다 팀 수가 적으면 결과를 만들지 �
 				teamCount: 2,
 				rules: [{ type: 'apart', participantIds: ['p1', 'p2', 'p3'] }]
 			}),
-		(error) =>
-			error instanceof AssignmentError && error.code === 'NOT_ENOUGH_TEAMS_FOR_APART_RULE'
+		(error) => error instanceof AssignmentError && error.code === 'NOT_ENOUGH_TEAMS_FOR_APART_RULE'
 	);
 });
 
@@ -142,7 +140,8 @@ test('한 참가자만 여러 명과 떨어지는 규칙은 가능한 배정을 
 		],
 		random: steadyRandom
 	});
-	const teamOf = (id) => result.findIndex((team) => team.members.some((member) => member.id === id));
+	const teamOf = (id) =>
+		result.findIndex((team) => team.members.some((member) => member.id === id));
 
 	assert.notEqual(teamOf('p1'), teamOf('p2'));
 	assert.notEqual(teamOf('p1'), teamOf('p3'));
@@ -189,7 +188,7 @@ test('돌림판이 선택한 조각의 가운데를 포인터에 맞춘다', () 
 	for (let pickedIndex = 0; pickedIndex < segmentCount; pickedIndex += 1) {
 		const rotation = calculateWheelTargetRotation(127.25, segmentCount, pickedIndex);
 		const pickedCenter = pickedIndex * segmentDegrees + segmentDegrees / 2;
-		const stoppedAngle = ((rotation + pickedCenter) % 360 + 360) % 360;
+		const stoppedAngle = (((rotation + pickedCenter) % 360) + 360) % 360;
 		assert.ok(Math.abs(stoppedAngle) < 1e-9 || Math.abs(stoppedAngle - 360) < 1e-9);
 	}
 });

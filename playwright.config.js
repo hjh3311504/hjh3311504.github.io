@@ -10,10 +10,7 @@ export default defineConfig({
 	expect: {
 		timeout: 5_000
 	},
-	reporter: [
-		['list'],
-		['html', { outputFolder: 'output/playwright/report', open: 'never' }]
-	],
+	reporter: [['list'], ['html', { outputFolder: 'output/playwright/report', open: 'never' }]],
 	outputDir: 'output/playwright/test-results',
 	use: {
 		baseURL: 'http://127.0.0.1:4174',

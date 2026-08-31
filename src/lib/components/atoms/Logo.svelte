@@ -11,14 +11,10 @@
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
 	>
-		<text
-			xml:space="preserve"
-			id="text"
-			transform="translate(-278.77228,-206.83728)"
+		<text xml:space="preserve" id="text" transform="translate(-278.77228,-206.83728)"
 			><tspan x="275.57227" y="292.17088" id="tspan1319"
-				><tspan
-					style="font-size:106.667px; font-family: 'SUIT', sans-serif;"
-					id="tspan1317">Juno's develog</tspan
+				><tspan style="font-size:106.667px; font-family: 'SUIT', sans-serif;" id="tspan1317"
+					>Juno's develog</tspan
 				></tspan
 			></text
 		>
@@ -26,7 +22,7 @@
 </div>
 
 <style lang="scss">
-	@import '$lib/scss/breakpoints.scss';
+	@use '$lib/scss/breakpoints' as *;
 
 	.logo {
 		width: auto;
@@ -60,22 +56,6 @@
 
 	@media screen and (prefers-reduced-motion: no-preference) {
 		.animated {
-			#icon {
-				> path {
-					--text-color: var(--color--text-shade);
-					stroke-width: 2;
-					animation: svg-text-stroke 3s;
-				}
-
-				#darker {
-					> path {
-						--text-color: var(--color--text);
-						stroke-width: 2;
-						animation: svg-text-stroke 3s;
-					}
-				}
-			}
-
 			#text {
 				animation: svg-text-stroke 3s;
 				stroke-width: 2;

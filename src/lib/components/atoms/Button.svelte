@@ -1,24 +1,24 @@
 <script>
 	import { HttpRegex } from '$lib/utils/regex';
 
-  /** @type {'primary' | 'secondary'} */
+	/** @type {'primary' | 'secondary'} */
 	export let color = 'primary';
 
-  /** @type {'solid' | 'understated' | 'clear'} */
+	/** @type {'solid' | 'understated' | 'clear'} */
 	export let style = 'solid';
 
-  /** @type {'small' | 'medium' | 'large'} */
+	/** @type {'small' | 'medium' | 'large'} */
 	export let size = 'medium';
 
-  /** @type {string | undefined} */
+	/** @type {string | undefined} */
 	export let href = undefined;
 
-  /** @type {string | undefined} */
+	/** @type {string | undefined} */
 	export let additionalClass = undefined;
 
 	const isExternalLink = !!href && HttpRegex.test(href);
 
-  /** @type {'_self' | '_blank'} */
+	/** @type {'_self' | '_blank'} */
 	export let target = isExternalLink ? '_blank' : '_self';
 	export let rel = isExternalLink ? 'noopener noreferrer' : undefined;
 

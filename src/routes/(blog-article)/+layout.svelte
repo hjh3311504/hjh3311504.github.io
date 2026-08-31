@@ -8,7 +8,7 @@
 	import RelatedPosts from '$lib/components/organisms/RelatedPosts.svelte';
 	import Image from '$lib/components/atoms/Image.svelte';
 
-  /** @type {{post: App.BlogPost}}*/
+	/** @type {{post: App.BlogPost}}*/
 	export let data;
 	$: ({ post } = data);
 
@@ -52,16 +52,20 @@
 			<div class="header">
 				{#if post}
 					<h1>{post.title}</h1>
-					<div class="note">Published on {dateformat(post.date, 'UTC:dd mmmm yyyy')}</div>
+					<div class="note">
+						Published on {dateformat(post.date, 'UTC:dd mmmm yyyy')}
+					</div>
 					{#if post.updated}
-						<div class="note">Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}</div>
+						<div class="note">
+							Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}
+						</div>
 					{/if}
 					{#if post.readingTime}
 						<div class="note">{post.readingTime}</div>
 					{/if}
 					{#if post.tags?.length}
 						<div class="tags">
-							{#each post.tags as tag}
+							{#each post.tags as tag (tag)}
 								<Tag>{tag}</Tag>
 							{/each}
 						</div>
@@ -89,7 +93,8 @@
 </div>
 
 <style lang="scss">
-	@import '$lib/scss/_mixins.scss';
+	@use '$lib/scss/breakpoints' as *;
+	@use '$lib/scss/mixins' as *;
 
 	.article-layout {
 		--body-background-color: var(--color--post-page-background);
@@ -145,16 +150,11 @@
 			max-height: 400px;
 			box-shadow: var(--image-shadow);
 			border-radius: 6px;
-
-			img {
-				width: 100%;
-				height: 100%;
-				max-height: 400px;
-				object-fit: cover;
-			}
 		}
 
 		:global(.cover-image img) {
+			width: 100%;
+			height: 100%;
 			max-height: 400px;
 			object-fit: cover;
 		}

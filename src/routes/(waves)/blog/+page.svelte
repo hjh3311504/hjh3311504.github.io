@@ -2,7 +2,7 @@
 	import BlogPostCard from '$lib/components/molecules/BlogPostCard.svelte';
 	import ContentSection from '$lib/components/organisms/ContentSection.svelte';
 
-  /** @type {{posts: App.BlogPost[]}} */
+	/** @type {{posts: App.BlogPost[]}} */
 	export let data;
 
 	let { posts } = data;
@@ -11,7 +11,7 @@
 <div class="container">
 	<ContentSection title="All Blog Posts">
 		<div class="grid">
-			{#each posts as post}
+			{#each posts as post (post.slug)}
 				<BlogPostCard
 					title={post.title}
 					coverImage={post.coverImage}
@@ -26,7 +26,8 @@
 </div>
 
 <style lang="scss">
-	@import '$lib/scss/_mixins.scss';
+	@use '$lib/scss/breakpoints' as *;
+	@use '$lib/scss/mixins' as *;
 
 	.grid {
 		width: 100%;
