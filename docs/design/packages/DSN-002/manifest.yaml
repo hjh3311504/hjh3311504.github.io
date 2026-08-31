@@ -1,0 +1,33 @@
+schema_version: 1
+id: DSN-002
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-009
+  - REQ-WEB-011
+  - REQ-WEB-012
+  - REQ-WEB-013
+  - REQ-WEB-014
+  - REQ-WEB-015
+  - REQ-WEB-016
+  - REQ-WEB-017
+  - REQ-WEB-018
+screens:
+  - SCR-WEB-001
+spec:
+  status: approved
+  approved_at: "2026-08-31T14:57:27+09:00"
+  ia_sha256: "b451515ce56797bdeae8e4cdb39071e915618dc92243e934995e082d503a1168"
+  screen_sha256:
+    SCR-WEB-001: "41e3dddd2c9c329e74d3230387b1478955f9a270289cb1522eaf1611f15c0edd"
+review:
+  type: expert
+  summary: 설정 변경 뒤 이전 결과가 남아 시각 승인 후보에서 제외하고 같은 snapshot의 DSN-003으로 교체했다.
+handoff:
+  status: pending
+  approved_at:
+  tree_sha256: "1ae2f17f4232f4549b748f3b41db0dbeec81db457ea00ba266e71fd3faba649b"

@@ -1,0 +1,23 @@
+:root{
+--font-display:'SUITE','SUIT',Inter,-apple-system,system-ui,'Segoe UI',Helvetica,Arial,sans-serif;
+--font-body:'SUIT',Inter,-apple-system,system-ui,'Segoe UI',Helvetica,Arial,sans-serif;
+--fw-light:300; /* @kind other */ --fw-regular:400; /* @kind other */ --fw-medium:500; /* @kind other */ --fw-semibold:600; /* @kind other */ --fw-bold:700; /* @kind other */ --fw-extrabold:800; /* @kind other */ 
+/* display-1 */
+--fs-display-1:64px;--lh-display-1:1.0; /* @kind other */ --ls-display-1:-2.125px; /* @kind other */ 
+/* display-2 */
+--fs-display-2:54px;--lh-display-2:1.04; /* @kind other */ --ls-display-2:-1.875px; /* @kind other */ 
+/* heading-1 */
+--fs-heading-1:40px;--lh-heading-1:1.1; /* @kind other */ --ls-heading-1:-1px; /* @kind other */ 
+/* heading-2 */
+--fs-heading-2:26px;--lh-heading-2:1.23; /* @kind other */ --ls-heading-2:-.625px; /* @kind other */ 
+/* heading-3 */
+--fs-heading-3:22px;--lh-heading-3:1.27; /* @kind other */ --ls-heading-3:-.25px; /* @kind other */ 
+/* title */
+--fs-title:20px;--lh-title:1.4; /* @kind other */ --ls-title:-.125px; /* @kind other */ 
+/* body + utility */
+--fs-body-md:16px;--lh-body-md:1.5; /* @kind other */ --ls-body-md:0px; /* @kind other */ 
+--fs-body-sm:15px;--lh-body-sm:1.33; /* @kind other */ --ls-body-sm:0px; /* @kind other */ 
+--fs-button:16px;--lh-button:1.5; /* @kind other */ --ls-button:0px; /* @kind other */ 
+--fs-caption:14px;--lh-caption:1.43; /* @kind other */ --ls-caption:0px; /* @kind other */ 
+--fs-eyebrow:12px;--lh-eyebrow:1.33; /* @kind other */ --ls-eyebrow:.125px; /* @kind other */ 
+}
