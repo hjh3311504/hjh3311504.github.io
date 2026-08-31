@@ -1,8 +1,36 @@
+@font-face {
+	font-family: 'SUIT';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('$lib/team-maker/fonts/SUIT-Variable.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'SUITE';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('$lib/team-maker/fonts/SUITE-Variable.woff2') format('woff2');
+}
+
+@media (min-width: 768px) {
+	html:has(.team-maker-page) {
+		scrollbar-gutter: stable;
+	}
+}
+
 .team-maker-page {
 	color-scheme: light;
 	font-family:
-		-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic',
-		system-ui, sans-serif;
+		'SUIT',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Apple SD Gothic Neo',
+		'Malgun Gothic',
+		system-ui,
+		sans-serif;
 	font-synthesis: none;
 	--canvas: #f4f8fb;
 	--surface: #ffffff;
@@ -68,22 +96,10 @@
 	}
 }
 
-@keyframes tm-member-in-a {
+@keyframes tm-team-in {
 	0% {
 		opacity: 0;
-		transform: translateY(8px);
-	}
-
-	100% {
-		opacity: 1;
-		transform: none;
-	}
-}
-
-@keyframes tm-member-in-b {
-	0% {
-		opacity: 0;
-		transform: translateY(8px);
+		transform: translateY(10px) scale(0.985);
 	}
 
 	100% {
@@ -363,6 +379,12 @@
 		overflow-wrap: anywhere;
 	}
 
+	h1,
+	h2,
+	h3 {
+		font-family: 'SUITE', 'SUIT', sans-serif;
+	}
+
 	.section-heading h2,
 	.settings-card h2,
 	.result-heading h2,
@@ -379,6 +401,7 @@
 
 	.count-label {
 		color: var(--muted);
+		font-family: 'SUIT', sans-serif;
 		font-size: 14px;
 		font-variant-numeric: tabular-nums;
 		font-weight: 600;
@@ -655,13 +678,11 @@
 			border-color 200ms cubic-bezier(0.2, 0, 0.2, 1);
 	}
 
-	.participant-row.is-entering,
 	.rule-row.is-entering,
 	.history-summary-row.is-entering {
 		animation: tm-recv 260ms cubic-bezier(0.2, 0, 0.2, 1);
 	}
 
-	.participant-row.is-leaving,
 	.rule-row.is-leaving,
 	.history-summary-row.is-leaving,
 	.history-match.is-leaving {
@@ -688,6 +709,7 @@
 		width: 20px;
 		color: var(--muted);
 		font-size: 12px;
+		font-feature-settings: 'tnum';
 		font-weight: 650;
 		font-variant-numeric: tabular-nums;
 		text-align: right;
@@ -919,14 +941,7 @@
 		background: transparent;
 		border: 0;
 		border-radius: 8px;
-		transition:
-			color 200ms cubic-bezier(0.2, 0, 0.2, 1),
-			background 200ms cubic-bezier(0.2, 0, 0.2, 1);
-	}
-
-	.mode-switch button:hover {
-		color: var(--primary-dark);
-		background: rgb(110 41 231 / 7%);
+		transition: color 200ms cubic-bezier(0.2, 0, 0.2, 1);
 	}
 
 	.mode-switch button[aria-checked='true'] {
@@ -998,6 +1013,7 @@
 	.stepper output {
 		min-width: 44px;
 		font-size: 20px;
+		font-feature-settings: 'tnum';
 		font-weight: 700;
 		font-variant-numeric: tabular-nums;
 		text-align: center;
@@ -1134,6 +1150,10 @@
 			box-shadow 320ms cubic-bezier(0.2, 0, 0.2, 1);
 	}
 
+	.team-card.animate-team {
+		animation: tm-team-in 420ms cubic-bezier(0.2, 0, 0.2, 1) var(--team-delay, 0ms) both;
+	}
+
 	.team-card.animate-win {
 		animation: tm-win-pulse 760ms cubic-bezier(0.2, 0, 0.2, 1) forwards;
 	}
@@ -1234,14 +1254,6 @@
 		border-bottom: 1px solid #f2f5f9;
 	}
 
-	.team-members li.animate-member-a {
-		animation: tm-member-in-a 320ms cubic-bezier(0.2, 0, 0.2, 1) both;
-	}
-
-	.team-members li.animate-member-b {
-		animation: tm-member-in-b 320ms cubic-bezier(0.2, 0, 0.2, 1) both;
-	}
-
 	.team-members li:last-child {
 		border-bottom: 1px solid #f2f5f9;
 	}
@@ -1250,6 +1262,7 @@
 		width: 18px;
 		color: var(--muted);
 		font-size: 12px;
+		font-feature-settings: 'tnum';
 		font-weight: 650;
 		font-variant-numeric: tabular-nums;
 	}
@@ -1358,6 +1371,8 @@
 	}
 
 	.history-summary-row {
+		align-items: center;
+		min-width: 0;
 		font-size: 13px;
 	}
 
@@ -1367,6 +1382,7 @@
 		align-items: center;
 		color: var(--muted);
 		font-size: 12px;
+		font-feature-settings: 'tnum';
 		font-variant-numeric: tabular-nums;
 		line-height: 1;
 	}
@@ -1384,16 +1400,19 @@
 	.history-summary {
 		flex: 1;
 		min-width: 0;
-		overflow: hidden;
 		color: var(--muted);
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		line-height: 1.55;
+		overflow-wrap: anywhere;
+		white-space: normal;
 	}
 
 	.app-dialog {
+		position: fixed;
+		inset: 0;
 		width: min(calc(100% - 32px), 460px);
 		max-height: min(86vh, 760px);
 		padding: 22px;
+		margin: auto;
 		overflow-x: hidden;
 		overflow-y: auto;
 		color: var(--ink);
@@ -1719,15 +1738,23 @@
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
+		min-width: 0;
 	}
 
 	.history-team-line {
 		display: flex;
 		gap: 8px;
-		align-items: center;
+		align-items: flex-start;
 		min-height: 22px;
+		min-width: 0;
 		font-size: 13px;
 		line-height: 1.55;
+	}
+
+	.history-team-names {
+		flex: 1;
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
 
 	.history-team-label {
