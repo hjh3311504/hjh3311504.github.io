@@ -129,9 +129,9 @@ function createGroups(participants, rules, teamCount) {
 		const includedCount = rule.participantIds.filter((id) => available.has(id)).length;
 
 		if (roots.length !== includedCount) {
-			throw new AssignmentError(
-				'RULE_CONFLICT',
-				'같은 팀 규칙과 다른 팀 규칙이 충돌합니다. 겹치는 규칙을 고쳐 주세요.'
+		throw new AssignmentError(
+			'RULE_CONFLICT',
+			'같은 팀 규칙과 다른 팀 규칙이 서로 충돌합니다. 규칙을 확인해 주세요.'
 			);
 		}
 
@@ -229,7 +229,7 @@ export function makeTeams({ participants, rules = [], teamCount, random = Math.r
 	if (oversized) {
 		throw new AssignmentError(
 			'TOGETHER_GROUP_TOO_LARGE',
-			`같은 팀으로 묶은 ${oversized.members.length}명이 한 팀 정원 ${maximumTeamSize}명을 넘습니다.`
+			`같은 팀으로 지정한 인원이 한 팀 정원(${maximumTeamSize}명)보다 많습니다.`
 		);
 	}
 

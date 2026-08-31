@@ -9,14 +9,7 @@ import {
 
 const STORAGE_KEY = 'team-maker:v1';
 const wheelColors = ['#f39a8f', '#f7bd76', '#ecd772', '#9ed48b', '#74c7b4', '#84b5ec', '#b39ce4', '#f0a3c8'];
-const teamTones = [
-	{ color: '#00734f', soft: '#e6f7f0', line: '#a8e0cd' },
-	{ color: '#1b5fbd', soft: '#eaf3ff', line: '#c3ddfb' },
-	{ color: '#a83209', soft: '#fff2ea', line: '#ffd9c2' },
-	{ color: '#a3187a', soft: '#fdeef7', line: '#f7cee6' },
-	{ color: '#0f6470', soft: '#e6f5f7', line: '#b6e0e6' },
-	{ color: '#6b6410', soft: '#fbf8e0', line: '#eae3b0' }
-];
+const wheelTextColors = ['#7a261e', '#6b3d0a', '#665b09', '#285d22', '#14574d', '#204e83', '#4e3880', '#70204f'];
 
 const $ = (selector) => document.querySelector(selector);
 const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -197,7 +190,7 @@ function createRemoveButton(label, dataset = {}) {
 
 function duplicateCount() {
 	const counts = new Map();
-	for (const participant of state.participants) {
+	for (const participant of state.participants.filter((item) => item.included)) {
 		counts.set(participant.name, (counts.get(participant.name) || 0) + 1);
 	}
 	return [...counts.values()].reduce((sum, count) => sum + Math.max(0, count - 1), 0);
@@ -207,12 +200,27 @@ function renderParticipants() {
 	const list = $('#participant-list');
 	list.replaceChildren();
 	const includedCount = state.participants.filter((participant) => participant.included).length;
-	$('#participant-count').textContent = `(전체 ${state.participants.length}명 · 참가 ${includedCount}명)`;
+	const participantCount = state.participants.length;
+	$('#participant-count').textContent =
+		participantCount === 0
+			? '(참가자 0명)'
+			: includedCount === participantCount
+				? `(${participantCount}명)`
+				: `(${participantCount}명 중 ${includedCount}명 참가)`;
 	$('#participant-empty').hidden = state.participants.length > 0;
-	$('#toggle-all-button').disabled = state.participants.length === 0;
+	list.hidden = state.participants.length === 0;
+	$('#toggle-all-button').hidden = state.participants.length === 0;
 	$('#toggle-all-button').textContent =
 		state.participants.length > 0 && includedCount === state.participants.length ? '전체 해제' : '전체 선택';
 	$('#clear-list-button').hidden = state.participants.length === 0;
+	$('#rules-area').hidden = state.participants.length === 0;
+
+	const columns = [document.createElement('ul'), document.createElement('ul')];
+	columns.forEach((column, index) => {
+		column.className = 'participant-column';
+		column.setAttribute('aria-label', `참가자 목록 ${index + 1}열`);
+		list.append(column);
+	});
 
 	for (const [index, participant] of state.participants.entries()) {
 		const row = document.createElement('li');
@@ -238,29 +246,24 @@ function renderParticipants() {
 		input.setAttribute('aria-label', `${index + 1}번째 참가자 이름`);
 
 		row.append(checkbox, number, input, createRemoveButton(`${participant.name} 삭제`, { participantRemove: participant.id }));
-		list.append(row);
+		columns[index % 2].append(row);
 	}
 
-	const notice = $('#participant-notice');
+	const help = $('#participant-help');
 	const duplicates = duplicateCount();
 	if (state.participants.length > 0 && includedCount === 0) {
-		notice.textContent = '체크한 참가자가 없습니다. 팀에 넣을 사람을 체크해 주세요.';
-		notice.dataset.tone = 'error';
-		notice.hidden = false;
+		help.textContent = '체크한 참가자가 없습니다. 팀에 넣을 사람을 체크해 주세요.';
+		help.dataset.tone = 'error';
 	} else if (includedCount === 1) {
-		notice.textContent = '체크한 참가자가 한 명입니다. 팀을 나누려면 두 명 이상 필요합니다.';
-		notice.dataset.tone = 'error';
-		notice.hidden = false;
+		help.textContent = '체크한 참가자가 한 명입니다. 팀을 나누려면 두 명 이상 필요합니다.';
+		help.dataset.tone = 'error';
 	} else if (duplicates > 0) {
-		notice.textContent = '같은 이름이 2개 이상 있습니다. 그대로 각각 한 명으로 셉니다.';
-		notice.dataset.tone = 'warning';
-		notice.hidden = false;
+		help.textContent = `같은 이름이 ${duplicates}개 있습니다. 그대로 각각 한 명으로 셉니다.`;
+		help.dataset.tone = 'warning';
 	} else {
-		notice.hidden = true;
+		help.textContent = '이름을 적고 엔터를 누르면 아래 명단에 추가됩니다. 쉼표로 여러 명도 가능합니다.';
+		delete help.dataset.tone;
 	}
-
-	$('#add-together-rule').disabled = includedCount < 2;
-	$('#add-apart-rule').disabled = includedCount < 2;
 }
 
 function participantName(id) {
@@ -270,11 +273,17 @@ function participantName(id) {
 function renderRules() {
 	const list = $('#rules-list');
 	list.replaceChildren();
-	$('#rules-empty').hidden = state.rules.length > 0;
+	list.hidden = state.rules.length === 0;
+	$('#rules-empty').hidden = true;
+	const togetherCount = state.rules.filter((rule) => rule.type === 'together').length;
+	const apartCount = state.rules.filter((rule) => rule.type === 'apart').length;
+	$('#rules-summary').textContent = state.rules.length
+		? `같은 팀 ${togetherCount}개 · 다른 팀 ${apartCount}개`
+		: '꼭 같은 팀이거나, 꼭 다른 팀이어야 하는 사람을 지정할 수 있습니다.';
 
 	for (const rule of state.rules) {
 		const row = document.createElement('li');
-		row.className = 'rule-row';
+		row.className = `rule-row ${rule.type}`;
 
 		const chip = document.createElement('span');
 		chip.className = `rule-chip ${rule.type}`;
@@ -282,7 +291,7 @@ function renderRules() {
 
 		const names = document.createElement('span');
 		names.className = 'rule-names';
-		names.textContent = rule.participantIds.map(participantName).join(rule.type === 'together' ? ' · ' : ' ↔ ');
+		names.textContent = rule.participantIds.map(participantName).join(rule.type === 'together' ? ' + ' : ' ↔ ');
 
 		row.append(chip, names, createRemoveButton('배정 규칙 삭제', { ruleRemove: rule.id }));
 		list.append(row);
@@ -302,29 +311,36 @@ function renderSettings() {
 	const teamMode = state.mode === TEAM_MODE;
 	$('#team-mode-button').setAttribute('aria-checked', String(teamMode));
 	$('#size-mode-button').setAttribute('aria-checked', String(!teamMode));
-	$('#split-value-label').textContent = teamMode ? '팀 수' : '팀당 인원';
-	$('#split-value-description').textContent = teamMode ? '만들 팀의 수를 정해 주세요.' : '한 팀에 들어갈 인원을 정해 주세요.';
-	$('#split-unit').textContent = teamMode ? '개' : '명';
-	const input = $('#split-value');
-	input.min = teamMode ? '2' : '1';
-	input.max = '20';
-	input.value = String(teamMode ? state.teamCount : state.teamSize);
+	$('#split-value-label').textContent = teamMode ? '팀 수' : '인원 수';
+	$('#split-value').textContent = String(teamMode ? state.teamCount : state.teamSize);
 
 	const setup = currentSetup();
 	const hint = $('#setup-hint');
-	hint.textContent = setup.reason;
-	hint.dataset.tone = setup.disabled ? 'error' : 'ready';
+	const participantCount = state.participants.filter((participant) => participant.included).length;
+	if (participantCount < 2) {
+		hint.textContent = teamMode ? '2개부터 20개까지 정할 수 있습니다.' : '1명부터 20명까지 정할 수 있습니다.';
+		delete hint.dataset.tone;
+	} else {
+		if (teamMode && state.teamCount > participantCount) {
+			hint.textContent = `팀 수를 ${participantCount}개 이하로 줄여 주세요.`;
+		} else if (!teamMode && state.teamSize > participantCount) {
+			hint.textContent = `인원 수를 ${participantCount}명 이하로 줄여 주세요.`;
+		} else if (teamMode) {
+			hint.textContent = `${participantCount}명을 ${setup.teamCount}개 팀으로 나눕니다.`;
+		} else {
+			hint.textContent = `${participantCount}명이면 ${setup.teamCount}개 팀이 만들어집니다.`;
+		}
+		if (setup.disabled) hint.dataset.tone = 'error';
+		else delete hint.dataset.tone;
+	}
 	$('#make-teams-button').disabled = setup.disabled;
-}
-
-function teamTone(index) {
-	return teamTones[index % teamTones.length];
 }
 
 function renderResults() {
 	const grid = $('#team-grid');
 	grid.replaceChildren();
 	const hasTeams = runtime.teams.length > 0;
+	grid.hidden = !hasTeams;
 	$('.result-actions').hidden = !hasTeams;
 	$('#undo-win-button').hidden = runtime.winnerTeamId === null || !runtime.lastHistoryId;
 
@@ -332,7 +348,7 @@ function renderResults() {
 	empty.hidden = hasTeams;
 	if (!hasTeams) {
 		const title = empty.querySelector('strong');
-		const description = empty.querySelector('span');
+		const description = empty.querySelector('.result-empty-description');
 		if (runtime.resultError) {
 			empty.dataset.tone = 'error';
 			title.textContent = '팀을 만들지 못했습니다';
@@ -340,17 +356,13 @@ function renderResults() {
 		} else {
 			delete empty.dataset.tone;
 			title.textContent = '아직 만든 팀이 없습니다';
-			description.textContent = '참가자를 추가하고 팀 만들기를 눌러 주세요.';
+			description.textContent = '팀 만들기를 누르면 팀별 명단이 나타납니다.';
 		}
 	}
 
-	for (const [index, team] of runtime.teams.entries()) {
-		const tone = teamTone(index);
+	for (const team of runtime.teams) {
 		const card = document.createElement('article');
 		card.className = 'team-card';
-		card.style.setProperty('--team-color', tone.color);
-		card.style.setProperty('--team-soft', tone.soft);
-		card.style.setProperty('--team-line', tone.line);
 		if (runtime.winnerTeamId !== null) card.dataset.result = runtime.winnerTeamId === team.id ? 'win' : 'lose';
 
 		const heading = document.createElement('div');
@@ -359,7 +371,12 @@ function renderResults() {
 		name.textContent = team.name;
 		const count = document.createElement('span');
 		count.className = 'team-count-chip';
-		count.textContent = `${team.members.length}명`;
+		if (runtime.winnerTeamId === null) count.textContent = `${team.members.length}명`;
+		else {
+			const won = runtime.winnerTeamId === team.id;
+			count.textContent = `${team.name}${won ? '승' : '패'}`;
+			count.dataset.result = won ? 'win' : 'lose';
+		}
 		heading.append(name, count);
 
 		const members = document.createElement('ol');
@@ -386,12 +403,6 @@ function renderResults() {
 			win.textContent = '승리';
 			footer.append(win);
 		} else {
-			const stateLabel = document.createElement('span');
-			const won = runtime.winnerTeamId === team.id;
-			stateLabel.className = `match-state ${won ? 'win' : 'lose'}`;
-			stateLabel.textContent = won ? '승리 팀' : '패배 팀';
-			footer.append(stateLabel);
-
 			if (runtime.picks[team.id]) {
 				const picked = document.createElement('div');
 				picked.className = 'picked-person';
@@ -407,7 +418,7 @@ function renderResults() {
 			draw.type = 'button';
 			draw.className = 'draw-button';
 			draw.dataset.drawTeam = String(team.id);
-			draw.setAttribute('aria-label', `${team.name} 참가자 추첨`);
+			draw.setAttribute('aria-label', `${team.name}에서 한 명 뽑기`);
 			draw.textContent = runtime.picks[team.id] ? '다시 뽑기' : '뽑기';
 			footer.append(draw);
 		}
@@ -432,12 +443,7 @@ function formatTime(value) {
 }
 
 function formatDate(value) {
-	return new Intl.DateTimeFormat('ko-KR', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		weekday: 'short'
-	}).format(new Date(value));
+	return localDateKey(value).replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$1년 $2월 $3일');
 }
 
 function winnerTeam(entry) {
@@ -447,6 +453,7 @@ function winnerTeam(entry) {
 function renderTodayHistory() {
 	const todayKey = localDateKey(new Date());
 	const today = state.history.filter((entry) => localDateKey(entry.occurredAt) === todayKey);
+	$('#history-card').hidden = today.length === 0;
 	$('#today-history-count').textContent = `${today.length}경기`;
 	$('#today-history-empty').hidden = today.length > 0;
 	const list = $('#today-history-list');
@@ -533,18 +540,19 @@ function showConfirm({ title, description, actionLabel = '삭제', action }) {
 
 function renderBulkPreview() {
 	const names = parseParticipantNames($('#bulk-names').value);
-	$('#bulk-preview').textContent = names.length ? `빈 칸을 제외하고 ${names.length}명을 추가합니다.` : '추가할 이름을 입력해 주세요.';
+	$('#bulk-preview').textContent = names.length ? `${names.length}명 추가됩니다.` : '이름을 입력하면 여기에 인원 수가 표시됩니다.';
+	$('#bulk-add-button').textContent = names.length ? `명단에 ${names.length}명 추가` : '명단에 추가';
 	$('#bulk-add-button').disabled = names.length === 0;
 }
 
 function openRuleDialog(type) {
 	runtime.ruleType = type;
 	runtime.ruleSelection = new Set();
-	$('#rule-dialog-title').textContent = type === 'together' ? '같은 팀 지정' : '다른 팀 지정';
+	$('#rule-dialog-title').textContent = type === 'together' ? '같은 팀으로 지정' : '다른 팀으로 지정';
 	$('#rule-dialog-description').textContent =
 		type === 'together'
-			? '같은 팀에 넣을 참가자를 두 명 이상 골라 주세요.'
-			: '서로 다른 팀에 넣을 참가자를 두 명 이상 골라 주세요.';
+			? '고른 사람들은 항상 같은 팀에 배정됩니다.'
+			: '고른 사람들은 서로 다른 팀에 배정됩니다.';
 	renderRulePicker();
 	showDialog($('#rule-dialog'), 'input');
 }
@@ -567,7 +575,7 @@ function renderRulePicker() {
 		list.append(row);
 	}
 	const count = runtime.ruleSelection.size;
-	$('#rule-picker-note').textContent = count < 2 ? '두 명 이상 골라 주세요.' : `${count}명을 선택했습니다.`;
+	$('#rule-picker-note').textContent = count < 2 ? '두 명 이상 골라 주세요.' : `${count}명 선택`;
 	$('#rule-picker-note').classList.toggle('error-text', count < 2);
 	$('#save-rule-button').disabled = count < 2;
 }
@@ -669,8 +677,8 @@ function deleteHistory(id) {
 	const entry = state.history.find((item) => item.id === id);
 	if (!entry) return;
 	showConfirm({
-		title: '기록을 삭제하시겠습니까?',
-		description: `${formatDate(entry.occurredAt)} ${formatTime(entry.occurredAt)} 기록만 삭제합니다.`,
+		title: '삭제하시겠습니까?',
+		description: `${localDateKey(entry.occurredAt)} ${formatTime(entry.occurredAt)} · ${winnerTeam(entry)?.name || '팀'}승 기록이 삭제됩니다.`,
 		action: () => {
 			state.history = state.history.filter((item) => item.id !== id);
 			if (runtime.lastHistoryId === id) {
@@ -690,6 +698,7 @@ function renderHistoryDialog() {
 	const container = $('#history-groups');
 	container.replaceChildren();
 	$('#history-empty').hidden = state.history.length > 0;
+	$('#history-description').textContent = state.history.length ? `전체 ${state.history.length}경기` : '기록이 없습니다.';
 	const groups = new Map();
 	for (const entry of state.history) {
 		const key = localDateKey(entry.occurredAt);
@@ -741,7 +750,8 @@ function openWheel(teamId) {
 	if (!team || runtime.winnerTeamId === null) return;
 	runtime.wheelTeamId = teamId;
 	runtime.wheelSpinning = false;
-	$('#wheel-title').textContent = `${team.name} 돌림판`;
+	$('#wheel-title').textContent = `${team.name} 뽑기`;
+	$('#wheel-description').textContent = '이 팀 명단 중 한 명을 무작위로 뽑습니다.';
 	const gradient = team.members
 		.map((_, index) => {
 			const start = (index / team.members.length) * 100;
@@ -750,20 +760,23 @@ function openWheel(teamId) {
 		})
 		.join(', ');
 	$('#wheel').style.setProperty('--wheel-gradient', `conic-gradient(${gradient})`);
-	const legend = $('#wheel-legend');
-	legend.replaceChildren();
+	const wheel = $('#wheel');
+	wheel.replaceChildren();
 	for (const [index, member] of team.members.entries()) {
-		const item = document.createElement('li');
-		const marker = document.createElement('i');
-		marker.style.setProperty('--legend-color', wheelColors[index % wheelColors.length]);
-		const name = document.createElement('span');
-		name.textContent = member.name;
-		item.append(marker, name);
-		legend.append(item);
+		const label = document.createElement('span');
+		const angle = (index * 360) / team.members.length + 180 / team.members.length;
+		label.className = 'wheel-label';
+		label.textContent = member.name;
+		label.style.color = wheelTextColors[index % wheelTextColors.length];
+		label.dataset.angle = String(angle);
+		label.style.setProperty('--label-angle', `${angle}deg`);
+		label.style.setProperty('--label-counter-angle', `${-(angle + runtime.wheelRotation)}deg`);
+		wheel.append(label);
 	}
+	wheel.style.transform = `rotate(${runtime.wheelRotation}deg)`;
 	const previous = runtime.picks[teamId];
 	const result = $('#wheel-result');
-	result.textContent = previous ? `현재 당첨자는 ${previous}입니다.` : '돌리기를 누르면 당첨자를 뽑습니다.';
+	result.textContent = previous ? `당첨자 · ${previous}` : '돌리기를 누르세요.';
 	result.dataset.picked = String(Boolean(previous));
 	$('#spin-wheel-button').textContent = previous ? '다시 뽑기' : '돌리기';
 	renderSoundButton();
@@ -775,6 +788,7 @@ function renderSoundButton() {
 	button.setAttribute('aria-pressed', String(state.soundEnabled));
 	button.setAttribute('aria-label', state.soundEnabled ? '효과음 끄기' : '효과음 켜기');
 	button.title = state.soundEnabled ? '효과음 끄기' : '효과음 켜기';
+	$('#sound-wave-path').setAttribute('d', state.soundEnabled ? 'M15.5 8.5a5 5 0 0 1 0 7' : 'M22 9l-6 6M16 9l6 6');
 }
 
 function playSound() {
@@ -807,10 +821,15 @@ function spinWheel() {
 	button.disabled = true;
 	button.textContent = '돌리는 중…';
 	const result = $('#wheel-result');
-	result.textContent = '당첨자를 뽑고 있습니다.';
+	result.textContent = '돌리는 중…';
 	result.dataset.picked = 'false';
 	runtime.wheelRotation += 1440 + Math.floor(Math.random() * 360);
-	$('#wheel').style.transform = `rotate(${runtime.wheelRotation}deg)`;
+	const wheel = $('#wheel');
+	wheel.style.transform = `rotate(${runtime.wheelRotation}deg)`;
+	for (const label of wheel.querySelectorAll('.wheel-label')) {
+		const angle = Number(label.dataset.angle);
+		label.style.setProperty('--label-counter-angle', `${-(angle + runtime.wheelRotation)}deg`);
+	}
 
 	setTimeout(() => {
 		if (!$('#wheel-dialog').open) {
@@ -822,11 +841,11 @@ function spinWheel() {
 		runtime.wheelSpinning = false;
 		button.disabled = false;
 		button.textContent = '다시 뽑기';
-		result.textContent = `당첨자는 ${picked.name}입니다.`;
+		result.textContent = `당첨자 · ${picked.name}`;
 		result.dataset.picked = 'true';
 		playSound();
 		renderResults();
-	}, 950);
+	}, 5300);
 }
 
 $('#add-person-form').addEventListener('submit', (event) => {
@@ -896,8 +915,8 @@ $('#participant-list').addEventListener('click', (event) => {
 
 $('#clear-list-button').addEventListener('click', () => {
 	showConfirm({
-		title: '정말 명단을 비우시겠습니까?',
-		description: '현재 참가자, 배정 규칙과 팀 결과만 지웁니다. 저장 명단과 승패 기록은 남습니다.',
+		title: '정말 비우시겠습니까?',
+		description: `명단에 있는 ${state.participants.length}명이 모두 지워집니다. 저장한 명단은 그대로 남습니다.`,
 		actionLabel: '비우기',
 		action: () => {
 			state.participants = [];
@@ -952,10 +971,6 @@ $('#decrease-value').addEventListener('click', () => {
 $('#increase-value').addEventListener('click', () => {
 	setSplitValue((state.mode === TEAM_MODE ? state.teamCount : state.teamSize) + 1);
 });
-$('#split-value').addEventListener('change', (event) => {
-	setSplitValue(Number.parseInt(event.target.value, 10) || (state.mode === TEAM_MODE ? 2 : 1));
-});
-
 $('#make-teams-button').addEventListener('click', makeCurrentTeams);
 $('#reshuffle-button').addEventListener('click', makeCurrentTeams);
 $('#undo-win-button').addEventListener('click', undoWinner);
@@ -985,8 +1000,8 @@ $('#rosters-list').addEventListener('click', (event) => {
 		const roster = state.rosters.find((item) => item.id === removeId);
 		if (!roster) return;
 		showConfirm({
-			title: '저장 명단을 삭제하시겠습니까?',
-			description: `${roster.name} 저장 명단만 삭제합니다. 현재 참가자는 그대로 남습니다.`,
+			title: '삭제하시겠습니까?',
+			description: `저장한 명단 "${roster.name}"(${roster.participants.length}명)이 삭제됩니다.`,
 			action: () => {
 				state.rosters = state.rosters.filter((item) => item.id !== removeId);
 				persist();
