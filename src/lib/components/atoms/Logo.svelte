@@ -14,7 +14,7 @@
 		<text xml:space="preserve" id="text" transform="translate(-278.77228,-206.83728)"
 			><tspan x="275.57227" y="292.17088" id="tspan1319"
 				><tspan style="font-size:106.667px; font-family: 'SUIT', sans-serif;" id="tspan1317"
-					>Juno's develog</tspan
+					>Lake's develog</tspan
 				></tspan
 			></text
 		>

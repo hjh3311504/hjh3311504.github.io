@@ -509,6 +509,7 @@ export function mountTeamMaker(root) {
 		const grid = $('#team-grid');
 		grid.replaceChildren();
 		const hasTeams = runtime.teams.length > 0;
+		$('#make-teams-button').dataset.hasResult = String(hasTeams);
 		$('.results-section').dataset.hasResult = String(hasTeams);
 		grid.hidden = !hasTeams;
 		$('.result-actions').hidden = !hasTeams;

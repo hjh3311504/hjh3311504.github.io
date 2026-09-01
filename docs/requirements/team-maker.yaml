@@ -217,6 +217,12 @@
   source: "사용자 요청 2026-09-01 > 블로그 전체 삭제 후 재배포"
   kind: structural
   risk: medium
+- id: REQ-SEO-001
+  text: Team Maker는 실제 화면 기능과 일치하는 검색 제목, 설명, canonical, 소셜 공유 metadata와 WebApplication 구조화 데이터를 정적 HTML에 제공한다.
+  surface: [pages]
+  source: "사용자 요청 2026-09-02 > Team Maker SEO와 GEO 최적화"
+  kind: structural
+  risk: low
 - id: REQ-DOCS-001
   text: 루트 저장소 README는 team-maker의 실행·검사·배포 방법, 추후 광고 코드 위치, 사이트 등록과 ads.txt가 루트 사이트의 영향을 받는다는 점을 설명한다.
   surface: [docs]

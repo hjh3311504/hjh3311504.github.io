@@ -5,7 +5,8 @@ const root = process.cwd();
 const requiredFiles = [
 	'build/index.html',
 	'build/team-maker/index.html',
-	'build/team-maker/favicon.svg'
+	'build/team-maker/favicon.svg',
+	'build/images/team-maker-open-graph-1200x630.png'
 ];
 
 for (const file of requiredFiles) {
@@ -34,7 +35,14 @@ const core = await readFile(path.join(root, 'src/lib/team-maker/core.js'), 'utf8
 const css = await readFile(path.join(root, 'src/routes/team-maker/team-maker.css'), 'utf8');
 
 const requiredHtml = [
-	'<title>팀 메이커</title>',
+	'<title>팀짜기 · 조짜기 프로그램 | 팀 메이커</title>',
+	'<link rel="canonical" href="https://hjh3311504.github.io/team-maker/"',
+	'<meta property="og:title" content="팀짜기 · 조짜기 프로그램 | 팀 메이커"',
+	'<meta property="og:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
+	'<meta property="og:image:width" content="1200"',
+	'<meta property="og:image:height" content="630"',
+	'<meta name="twitter:card" content="summary_large_image"',
+	'<meta name="twitter:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
 	'id="participant-list"',
 	'id="team-grid"',
 	'_app/immutable/'
@@ -42,6 +50,19 @@ const requiredHtml = [
 for (const marker of requiredHtml) {
 	if (!html.includes(marker))
 		throw new Error(`team-maker HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+
+const structuredDataMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+if (!structuredDataMatch) {
+	throw new Error('team-maker HTML에서 JSON-LD 구조화 데이터를 찾지 못했습니다.');
+}
+const structuredData = JSON.parse(structuredDataMatch[1]);
+const webApplication = structuredData['@graph']?.find((item) => item['@type'] === 'WebApplication');
+if (!webApplication || webApplication.url !== 'https://hjh3311504.github.io/team-maker/') {
+	throw new Error('Team Maker WebApplication 구조화 데이터의 URL이 올바르지 않습니다.');
+}
+if (webApplication.offers?.price !== 0 || webApplication.offers?.priceCurrency !== 'KRW') {
+	throw new Error('Team Maker 무료 제공 정보가 구조화 데이터에 올바르게 표시되지 않았습니다.');
 }
 
 const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
@@ -59,10 +80,11 @@ for (const reference of new Set(localReferences)) {
 }
 
 const combined = `${page}\n${app}\n${core}\n${css}`;
+const runtimeCode = `${app}\n${core}\n${css}`;
 if (/\b(?:src|href)=["']\/(?!\/)/.test(combined) || /url\(\s*["']?\//.test(combined)) {
 	throw new Error('team-maker 자원에 사이트 루트 기준 경로가 있습니다.');
 }
-if (/https?:\/\//.test(combined)) {
+if (/https?:\/\//.test(runtimeCode)) {
 	throw new Error('team-maker 제품 코드에서 외부 HTTP 자원을 찾았습니다.');
 }
 if (!app.includes("from './core.js'")) {
