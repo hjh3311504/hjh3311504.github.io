@@ -1,16 +1,10 @@
-import { filteredPosts } from '$lib/data/blog-posts';
 import { siteBaseUrl } from '$lib/data/meta';
 
 export const prerender = true;
 
 export function GET() {
-	const staticPages = ['/', '/blog', '/team-maker/'].map((pathname) => ({ pathname }));
-	const blogPages = filteredPosts.map((post) => ({
-		pathname: `/blog/${post.slug}`,
-		lastModified: post.updated ?? post.date
-	}));
-
-	const body = sitemap([...staticPages, ...blogPages]);
+	const pages = ['/', '/team-maker/'].map((pathname) => ({ pathname }));
+	const body = sitemap(pages);
 
 	return new Response(body, {
 		headers: {

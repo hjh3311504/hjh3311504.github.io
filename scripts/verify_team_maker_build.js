@@ -17,6 +17,16 @@ for (const file of requiredFiles) {
 	}
 }
 
+const removedOutputs = ['build/blog.html', 'build/blog', 'build/rss.xml'];
+for (const output of removedOutputs) {
+	try {
+		await access(path.join(root, output));
+		throw new Error(`${output} 파일 또는 디렉터리가 남아 있습니다.`);
+	} catch (error) {
+		if (error?.code !== 'ENOENT') throw error;
+	}
+}
+
 const html = await readFile(path.join(root, 'build/team-maker/index.html'), 'utf8');
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');

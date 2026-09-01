@@ -1,7 +1,5 @@
 <script>
-	import { resolve } from '$app/paths';
 	import GitHubIcon from '$lib/icons/socials/github.svelte';
-	import RssIcon from '$lib/icons/rss.svelte';
 </script>
 
 <div class="socials">
@@ -13,9 +11,6 @@
 		aria-label="GitHub profile"
 	>
 		<GitHubIcon />
-	</a>
-	<a href={resolve('/rss.xml')} title="RSS feed" aria-label="RSS feed">
-		<RssIcon />
 	</a>
 </div>
 

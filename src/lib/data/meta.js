@@ -9,13 +9,13 @@ export const keywords = [
 	'SvelteKit',
 	'스벨트',
 	'스벨트킷',
-	'Blog',
-	'블로그',
 	'developer',
-	'개발자'
+	'개발자',
+	'프로젝트',
+	'Team Maker'
 ];
 
-export const description = '황준호의 개발 블로그입니다. 잘 부탁드립니다!!';
+export const description = '황준호가 만든 도구와 프로젝트를 소개하는 사이트입니다.';
 
 export const title = "Juno's develog";
 

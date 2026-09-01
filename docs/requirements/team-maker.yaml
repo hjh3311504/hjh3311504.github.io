@@ -140,15 +140,15 @@
   design_ref: DSN-004
   examples_ref: policies/REQ-WEB-018.md
 - id: REQ-WEB-019
-  text: 루트 페이지는 개발자 소개와 Team Maker·Blog 진입점을 한 열의 세로 목록으로 보여주고 새 프로젝트도 같은 목록에 추가하되 템플릿 안내와 블로그 글 목록은 노출하지 않는다.
+  text: 루트 페이지는 개발자 소개와 Team Maker 진입점을 한 열의 세로 목록으로 보여주고 새 프로젝트도 같은 목록에 추가하되 템플릿 안내는 노출하지 않는다.
   surface: [web]
-  source: "사용자 요청 2026-09-01 > 루트 페이지 개선, 이후 프로젝트 추가와 세로 구성"
+  source: "사용자 요청 2026-09-01 > 루트 페이지 개선, 이후 프로젝트 추가와 세로 구성; 블로그 전체 삭제"
   kind: crud
   ui: true
   design_status: approved
   design_ref: DSN-004
 - id: REQ-WEB-020
-  text: 루트, Team Maker와 Blog 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용한다.
+  text: 루트와 Team Maker 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용한다.
   surface: [web]
   source: "사용자 확정 2026-09-01 > 데스크톱 고정 사이드바와 고정 해제 drawer"
   kind: crud
@@ -212,9 +212,9 @@
   risk: medium
   adr: docs/adr/2026-08-30-루트-저장소-monorepo-사용.md
 - id: REQ-PAGES-004
-  text: 모든 블로그 글은 /blog/<slug>/에서 열리고 기존 루트 글 주소는 같은 글의 새 주소로 이동하며 내부 링크, canonical, RSS와 sitemap도 새 주소를 사용한다.
+  text: 정적 빌드는 /blog, /blog/<slug>와 /rss.xml을 생성하지 않고 sitemap에는 루트와 Team Maker 주소만 포함한다.
   surface: [pages]
-  source: "사용자 요청 2026-09-01 > 블로그 글을 /blog로 이동"
+  source: "사용자 요청 2026-09-01 > 블로그 전체 삭제 후 재배포"
   kind: structural
   risk: medium
 - id: REQ-DOCS-001
