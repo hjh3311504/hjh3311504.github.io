@@ -1,6 +1,13 @@
 export const TEAM_MODE = 'teams';
 export const SIZE_MODE = 'size';
 
+export const PARTICIPANT_REMOVAL_PATTERN = Object.freeze({
+	EXIT_ONLY: 'exit-only',
+	CROSS_ONLY: 'cross-only',
+	SHIFT_ONLY: 'shift-only',
+	SHIFT_AND_CROSS: 'shift-and-cross'
+});
+
 export class AssignmentError extends Error {
 	constructor(code, message) {
 		super(message);
@@ -21,26 +28,117 @@ export function calculateTeamCount(mode, value, participantCount) {
 	return Math.ceil(participantCount / value);
 }
 
+function participantColumns(participants) {
+	const columns = [[], []];
+	for (const [sourceIndex, participant] of participants.entries()) {
+		const column = participant.column === 1 ? 1 : 0;
+		columns[column].push({
+			participant: { ...participant, column },
+			sourceIndex,
+			sortOrder: Number.isInteger(participant.columnOrder) ? participant.columnOrder : sourceIndex
+		});
+	}
+	for (const column of columns) {
+		column.sort(
+			(first, second) =>
+				first.sortOrder - second.sortOrder || first.sourceIndex - second.sourceIndex
+		);
+	}
+	return columns;
+}
+
 export function rebalanceParticipantColumns(participants) {
-	const result = participants.map((participant) => ({
-		...participant,
-		column: participant.column === 1 ? 1 : 0
-	}));
+	const columns = participantColumns(participants);
 
 	for (let guard = 0; guard < 200; guard += 1) {
-		const left = result.filter((participant) => participant.column === 0);
-		const right = result.filter((participant) => participant.column === 1);
+		const [left, right] = columns;
 		const shouldMoveLeft = right.length > left.length;
 		const shouldMoveRight = left.length - right.length >= 2;
 		if (!shouldMoveLeft && !shouldMoveRight) break;
 
 		const source = shouldMoveLeft ? right : left;
-		const moved = source[source.length - 1];
-		const index = result.indexOf(moved);
-		result[index] = { ...moved, column: shouldMoveLeft ? 0 : 1 };
+		const destination = shouldMoveLeft ? left : right;
+		const destinationColumn = shouldMoveLeft ? 0 : 1;
+		const moved = source.pop();
+		moved.participant = { ...moved.participant, column: destinationColumn };
+		destination.push(moved);
 	}
 
+	const result = Array(participants.length);
+	for (const [columnIndex, column] of columns.entries()) {
+		for (const [columnOrder, item] of column.entries()) {
+			result[item.sourceIndex] = {
+				...item.participant,
+				column: columnIndex,
+				columnOrder
+			};
+		}
+	}
 	return result;
+}
+
+export function orderParticipantsForColumns(participants) {
+	const columns = participantColumns(participants);
+	const result = [];
+	for (let row = 0; row < Math.max(columns[0].length, columns[1].length); row += 1) {
+		if (columns[0][row]) result.push(columns[0][row].participant);
+		if (columns[1][row]) result.push(columns[1][row].participant);
+	}
+	return result;
+}
+
+function participantPositions(participants) {
+	const positions = new Map();
+	for (const [columnIndex, column] of participantColumns(participants).entries()) {
+		for (const [row, item] of column.entries()) {
+			positions.set(item.participant.id, { column: columnIndex, row });
+		}
+	}
+	return positions;
+}
+
+export function planParticipantRemoval(participants, removedId) {
+	const removedParticipant = participants.find((participant) => participant.id === removedId);
+	if (!removedParticipant) return null;
+
+	const before = participantPositions(participants);
+	const nextParticipants = rebalanceParticipantColumns(
+		participants.filter((participant) => participant.id !== removedId)
+	);
+	const after = participantPositions(nextParticipants);
+	const shiftingParticipantIds = [];
+	let crossingParticipantId = null;
+
+	for (const participant of nextParticipants) {
+		const previousPosition = before.get(participant.id);
+		const nextPosition = after.get(participant.id);
+		if (!previousPosition || !nextPosition) continue;
+		if (previousPosition.column !== nextPosition.column) {
+			crossingParticipantId = participant.id;
+		} else if (previousPosition.row !== nextPosition.row) {
+			shiftingParticipantIds.push(participant.id);
+		}
+	}
+
+	const hasShift = shiftingParticipantIds.length > 0;
+	const hasCross = crossingParticipantId !== null;
+	const pattern = hasShift
+		? hasCross
+			? PARTICIPANT_REMOVAL_PATTERN.SHIFT_AND_CROSS
+			: PARTICIPANT_REMOVAL_PATTERN.SHIFT_ONLY
+		: hasCross
+			? PARTICIPANT_REMOVAL_PATTERN.CROSS_ONLY
+			: PARTICIPANT_REMOVAL_PATTERN.EXIT_ONLY;
+
+	const removedPosition = before.get(removedId);
+	return {
+		pattern,
+		removedId,
+		removedDisplayNumber: removedPosition.row * 2 + removedPosition.column + 1,
+		shiftingParticipantIds,
+		crossingParticipantId,
+		nextParticipants
+	};
 }
 
 export function calculateWheelTargetRotation(currentRotation, segmentCount, pickedIndex) {

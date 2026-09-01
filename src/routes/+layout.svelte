@@ -8,11 +8,14 @@
 	import '@fontsource/ubuntu-mono';
 	import '$lib/scss/global.scss';
 
-	$: loadSiteScripts = !$page.url.pathname.startsWith('/team-maker');
+	$: isHome = $page.url.pathname === '/';
+	$: isTeamMaker = $page.url.pathname.startsWith('/team-maker');
+	$: loadSiteFonts = !isTeamMaker;
+	$: loadAds = !isHome && !isTeamMaker;
 </script>
 
 <svelte:head>
-	{#if loadSiteScripts}
+	{#if loadSiteFonts}
 		<link
 			href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT/fonts/static/woff2/SUIT.css"
 			rel="stylesheet"
@@ -21,6 +24,8 @@
 			href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css"
 			rel="stylesheet"
 		/>
+	{/if}
+	{#if loadAds}
 		<script
 			async
 			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3102141816876720"
