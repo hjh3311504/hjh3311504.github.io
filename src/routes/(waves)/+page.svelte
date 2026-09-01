@@ -76,6 +76,49 @@
 							</span>
 						</a>
 					</li>
+					<li>
+						<a class="project-card blog-card" href={resolve('/blog/')}>
+							<span class="project-icon" aria-hidden="true">
+								<svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+									<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+								</svg>
+							</span>
+							<span class="project-copy">
+								<span class="project-title-row">
+									<span class="project-title">Blog</span>
+									<span class="project-kind">콘텐츠</span>
+								</span>
+								<span class="project-description">
+									개발하며 배운 내용과 프로젝트를 정리한 글을 한곳에서 살펴봅니다.
+								</span>
+							</span>
+							<span class="open-button" aria-hidden="true">
+								열기
+								<svg
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M5 12h14M12 5l7 7-7 7"></path>
+								</svg>
+							</span>
+						</a>
+					</li>
 				</ul>
 			</section>
 
@@ -264,6 +307,11 @@
 		background: #2a9d99;
 		border-radius: 12px;
 		box-shadow: 0 6px 16px -6px rgb(42 157 153 / 70%);
+	}
+
+	.blog-card .project-icon {
+		background: #0075de;
+		box-shadow: 0 6px 16px -6px rgb(0 117 222 / 70%);
 	}
 
 	.project-copy {

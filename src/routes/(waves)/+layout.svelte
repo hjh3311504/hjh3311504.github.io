@@ -6,7 +6,7 @@
 
 	import { description, image, keywords, title, siteBaseUrl } from '$data/meta';
 
-	$: isHome = $page.url.pathname === '/';
+	$: usesSiteShell = $page.url.pathname === '/' || $page.url.pathname.startsWith('/blog');
 </script>
 
 <svelte:head>
@@ -27,7 +27,7 @@
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
-{#if isHome}
+{#if usesSiteShell}
 	<slot />
 {:else}
 	<Waves />

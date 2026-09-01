@@ -1,6 +1,6 @@
 <script>
-	import Header from '$lib/components/organisms/Header.svelte';
 	import Footer from '$lib/components/organisms/Footer.svelte';
+	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import Tag from '$lib/components/atoms/Tag.svelte';
 	import dateformat from 'dateformat';
 
@@ -31,7 +31,7 @@
 		<meta name="description" content={post.excerpt} />
 		<meta property="og:description" content={post.excerpt} />
 		<meta name="twitter:description" content={post.excerpt} />
-		<link rel="canonical" href="{siteBaseUrl}/{post.slug}" />
+		<link rel="canonical" href="{siteBaseUrl}/blog/{post.slug}" />
 
 		<title>{post.title} - {title}</title>
 		<meta property="og:title" content="{post.title} - {title}" />
@@ -44,53 +44,53 @@
 	{/if}
 </svelte:head>
 
-<div class="article-layout">
-	<Header showBackground />
-
-	<main>
-		<article id="article-content">
-			<div class="header">
-				{#if post}
-					<h1>{post.title}</h1>
-					<div class="note">
-						Published on {dateformat(post.date, 'UTC:dd mmmm yyyy')}
-					</div>
-					{#if post.updated}
+<SiteShell active="blog" variant="home">
+	<div class="article-layout">
+		<main>
+			<article id="article-content">
+				<div class="header">
+					{#if post}
+						<h1>{post.title}</h1>
 						<div class="note">
-							Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}
+							Published on {dateformat(post.date, 'UTC:dd mmmm yyyy')}
 						</div>
+						{#if post.updated}
+							<div class="note">
+								Updated on {dateformat(post.updated, 'UTC:dd mmmm yyyy')}
+							</div>
+						{/if}
+						{#if post.readingTime}
+							<div class="note">{post.readingTime}</div>
+						{/if}
+						{#if post.tags?.length}
+							<div class="tags">
+								{#each post.tags as tag (tag)}
+									<Tag>{tag}</Tag>
+								{/each}
+							</div>
+						{/if}
 					{/if}
-					{#if post.readingTime}
-						<div class="note">{post.readingTime}</div>
-					{/if}
-					{#if post.tags?.length}
-						<div class="tags">
-							{#each post.tags as tag (tag)}
-								<Tag>{tag}</Tag>
-							{/each}
-						</div>
-					{/if}
+				</div>
+				{#if post && post.coverImage}
+					<div class="cover-image">
+						<Image src={post.coverImage} alt={post.title} />
+					</div>
 				{/if}
-			</div>
-			{#if post && post.coverImage}
-				<div class="cover-image">
-					<Image src={post.coverImage} alt={post.title} />
+				<div class="content">
+					<slot />
+				</div>
+			</article>
+
+			{#if post.relatedPosts && post.relatedPosts.length > 0}
+				<div class="container">
+					<RelatedPosts posts={post.relatedPosts} />
 				</div>
 			{/if}
-			<div class="content">
-				<slot />
-			</div>
-		</article>
+		</main>
 
-		{#if post.relatedPosts && post.relatedPosts.length > 0}
-			<div class="container">
-				<RelatedPosts posts={post.relatedPosts} />
-			</div>
-		{/if}
-	</main>
-
-	<Footer />
-</div>
+		<Footer />
+	</div>
+</SiteShell>
 
 <style lang="scss">
 	@use '$lib/scss/breakpoints' as *;

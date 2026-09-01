@@ -14,9 +14,9 @@ tags:
   import Image from "$lib/components/atoms/Image.svelte";
 </script>
 
-All blog posts are located inside the `src/routes/(blog-article)` folder. Each folder inside it represents a blog post, and each folder has a `+page.md` file, which is the file that contains the post's content.
+All blog posts are located inside the `src/routes/(blog-article)/blog` folder. Each folder inside it represents a blog post, and each folder has a `+page.md` file, which is the file that contains the post's content.
 
-This way, the URL for each blog post is generated with the folder's name. For example, the folder `src/routes/(blog-article)/how-blog-posts-work` will generate the URL `https://mysite.com/how-blog-posts-work`.
+This way, the URL for each blog post is generated with the folder's name. For example, the folder `src/routes/(blog-article)/blog/how-blog-posts-work` will generate the URL `https://mysite.com/blog/how-blog-posts-work`.
 
 All posts are Markdown files, which means you can use the [Markdown syntax](https://www.markdownguide.org/basic-syntax) in them, and it will work out of the box. However, since this projects uses [MDsveX](https://mdsvex.pngwn.io/) to parse Markdown, you can also use Svelte components inside them! This means that the components used in other pages can also be used in blog posts.
 
@@ -34,7 +34,7 @@ There is also some basic logic to get related posts based on a post's tags. The 
 
 ## Creating a new post
 
-To create a new post, create a new folder inside the `src/routes/(blog-article)` folder, and inside it, create a `+page.md` file. The folder name will be used as the post's URL slug, so make sure it's a valid URL slug.
+To create a new post, create a new folder inside the `src/routes/(blog-article)/blog` folder, and inside it, create a `+page.md` file. The folder name will be used as the post's URL slug, so make sure it's a valid URL slug.
 
 Inside the `+page.md` file, you must start with the front matter, which is a YAML-like syntax that is used to define metadata for the post. The front matter must be the first thing in the file, and must be separated from the rest of the content by three dashes (`---`). An example of a front matter is:
 
