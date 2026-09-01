@@ -19,7 +19,7 @@
 
 <div class="site-nav">
 	<div class="site-nav-heading">
-		<a class="site-name" href={resolve('/')}>Juno's develog</a>
+		<a class="site-name" href={resolve('/')}>Lake's develog</a>
 
 		{#if showTheme}
 			<button
@@ -191,7 +191,7 @@
 				>
 					<path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path>
 				</svg>
-				<span>Team Maker</span>
+				<span>팀 메이커</span>
 				{#if active === 'team-maker'}<span class="current-badge">현재</span>{/if}
 			</a>
 		</div>

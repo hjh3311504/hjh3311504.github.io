@@ -2,8 +2,81 @@
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
+	import { siteBaseUrl } from '$lib/data/meta.js';
 	import { mountTeamMaker } from '$lib/team-maker/app.js';
 	import './team-maker.css';
+
+	const seoTitle = '팀짜기 · 조짜기 프로그램 | 팀 메이커';
+	const seoDescription =
+		'스포츠, 게임, 모임 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 도구입니다. 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.';
+	const teamMakerUrl = `${siteBaseUrl}/team-maker/`;
+	const teamMakerImageUrl = `${siteBaseUrl}/images/team-maker-open-graph-1200x630.png`;
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'WebSite',
+				'@id': `${siteBaseUrl}/#website`,
+				url: `${siteBaseUrl}/`,
+				name: "Lake's develog",
+				inLanguage: 'ko-KR'
+			},
+			{
+				'@type': 'WebPage',
+				'@id': `${teamMakerUrl}#webpage`,
+				url: teamMakerUrl,
+				name: seoTitle,
+				description: seoDescription,
+				inLanguage: 'ko-KR',
+				isPartOf: { '@id': `${siteBaseUrl}/#website` },
+				primaryImageOfPage: { '@id': `${teamMakerUrl}#primaryimage` },
+				mainEntity: { '@id': `${teamMakerUrl}#application` }
+			},
+			{
+				'@type': 'ImageObject',
+				'@id': `${teamMakerUrl}#primaryimage`,
+				url: teamMakerImageUrl,
+				contentUrl: teamMakerImageUrl,
+				width: 1200,
+				height: 630,
+				caption: '팀 메이커 — 무료 온라인 팀짜기·조짜기 도구'
+			},
+			{
+				'@type': 'WebApplication',
+				'@id': `${teamMakerUrl}#application`,
+				name: '팀 메이커',
+				alternateName: ['Team Maker', '팀짜기', '조짜기'],
+				url: teamMakerUrl,
+				description: seoDescription,
+				applicationCategory: 'UtilitiesApplication',
+				operatingSystem: 'Any',
+				browserRequirements: 'JavaScript를 지원하는 최신 웹 브라우저',
+				inLanguage: 'ko-KR',
+				image: { '@id': `${teamMakerUrl}#primaryimage` },
+				isAccessibleForFree: true,
+				offers: {
+					'@type': 'Offer',
+					price: 0,
+					priceCurrency: 'KRW'
+				},
+				featureList: [
+					'참가자 직접 입력 및 일괄 추가',
+					'팀 수 또는 팀당 인원 기준 자동 배정',
+					'같은 팀 및 다른 팀 배정 규칙',
+					'참가자 명단 저장 및 불러오기',
+					'승패 기록과 팀별 무작위 추첨'
+				],
+				author: {
+					'@type': 'Person',
+					name: 'Lake',
+					url: 'https://github.com/hjh3311504'
+				}
+			}
+		]
+	};
+	const structuredDataScript =
+		`<script type="application/ld+json">${JSON.stringify(structuredData).replaceAll('<', '\\u003c')}<` +
+		'/script>';
 
 	let pageRoot;
 
@@ -11,12 +84,39 @@
 </script>
 
 <svelte:head>
-	<title>팀 메이커</title>
+	<title>{seoTitle}</title>
+	<meta name="description" content={seoDescription} />
+	<meta name="keywords" content="팀짜기, 조짜기, 팀 나누기, 랜덤 팀 배정, 조 편성, 팀 메이커" />
+	<meta name="author" content="Lake" />
+	<meta name="application-name" content="팀 메이커" />
 	<meta
-		name="description"
-		content="참가자와 규칙을 입력해 고르게 팀을 나누고 승패와 추첨 결과를 기록합니다."
+		name="robots"
+		content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
 	/>
+	<link rel="canonical" href={teamMakerUrl} />
 	<link rel="icon" href={resolve('/team-maker/favicon.svg')} type="image/svg+xml" />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:locale" content="ko_KR" />
+	<meta property="og:site_name" content="Lake's develog" />
+	<meta property="og:title" content={seoTitle} />
+	<meta property="og:description" content={seoDescription} />
+	<meta property="og:url" content={teamMakerUrl} />
+	<meta property="og:image" content={teamMakerImageUrl} />
+	<meta property="og:image:secure_url" content={teamMakerImageUrl} />
+	<meta property="og:image:type" content="image/png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="팀 메이커에서 참가자를 세 팀으로 나눈 모습" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={seoTitle} />
+	<meta name="twitter:description" content={seoDescription} />
+	<meta name="twitter:image" content={teamMakerImageUrl} />
+	<meta name="twitter:image:alt" content="팀 메이커에서 참가자를 세 팀으로 나눈 모습" />
+
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{@html structuredDataScript}
 </svelte:head>
 
 <SiteShell active="team-maker" variant="team-maker">
@@ -24,6 +124,7 @@
 		<main class="app-shell">
 			<header class="page-header">
 				<h1>팀 메이커</h1>
+				<p>스포츠·게임·모임 참가자를 고르게 나누는 무료 팀짜기·조짜기 도구입니다.</p>
 			</header>
 			<!-- AD_SLOT_TOP: 실제 광고는 별도 디자인 승인 뒤 이 위치에 추가합니다. -->
 

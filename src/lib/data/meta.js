@@ -15,8 +15,8 @@ export const keywords = [
 	'Team Maker'
 ];
 
-export const description = '황준호가 만든 도구와 프로젝트를 소개하는 사이트입니다.';
+export const description = 'Lake가 만든 도구와 프로젝트를 소개하는 사이트입니다.';
 
-export const title = "Juno's develog";
+export const title = "Lake's develog";
 
 export const image = `${siteBaseUrl}/images/site-preview.png`;

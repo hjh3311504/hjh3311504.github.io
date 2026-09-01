@@ -8,7 +8,7 @@
 		<main class="home-card">
 			<section class="home-intro" aria-labelledby="home-intro-title">
 				<div class="eyebrow">개발 기록</div>
-				<h1 id="home-intro-title">Juno's develog</h1>
+				<h1 id="home-intro-title">Lake's develog</h1>
 				<p>
 					개발하며 만든 도구와 프로젝트를 여기에 모아 둡니다.<br />직접 쓰려고 만든 결과물을
 					아래에서 살펴볼 수 있습니다.
@@ -51,12 +51,11 @@
 							</span>
 							<span class="project-copy">
 								<span class="project-title-row">
-									<span class="project-title">Team Maker</span>
+									<span class="project-title">팀 메이커</span>
 									<span class="project-kind">도구</span>
 								</span>
 								<span class="project-description">
-									스포츠나 게임 모임의 팀짜기·조짜기. 참가자를 조건에 맞춰 고르게 나누고 그날의
-									승패를 기록합니다.
+									스포츠·게임·모임 참가자를 고르게 나누는<br />무료 팀짜기·조짜기 도구입니다.
 								</span>
 							</span>
 							<span class="open-button" aria-hidden="true">
@@ -79,7 +78,7 @@
 				</ul>
 			</section>
 
-			<footer><span>© 2026 Juno's develog</span></footer>
+			<footer><span>© 2026 Lake's develog</span></footer>
 		</main>
 	</div>
 </SiteShell>
