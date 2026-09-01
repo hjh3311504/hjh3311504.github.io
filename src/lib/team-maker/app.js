@@ -5,7 +5,9 @@ import {
 	cleanRulesAfterParticipantRemoval,
 	getSetupStatus,
 	makeTeams,
+	orderParticipantsForColumns,
 	parseParticipantNames,
+	planParticipantRemoval,
 	rebalanceParticipantColumns
 } from './core.js';
 
@@ -47,6 +49,7 @@ export function mountTeamMaker(root) {
 	const clone = (value) => JSON.parse(JSON.stringify(value));
 	const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
 	const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const participantLayoutQuery = window.matchMedia('(max-width: 640px)');
 
 	let sequence = 0;
 	function createId(prefix) {
@@ -62,8 +65,8 @@ export function mountTeamMaker(root) {
 			rules: [],
 			rosters: [],
 			mode: TEAM_MODE,
-			teamCount: 2,
-			teamSize: 2,
+			teamCount: 3,
+			teamSize: 4,
 			history: [],
 			soundEnabled: true
 		};
@@ -77,6 +80,9 @@ export function mountTeamMaker(root) {
 				id: typeof participant?.id === 'string' ? participant.id : createId('person'),
 				name: typeof participant?.name === 'string' ? participant.name.trim() : '',
 				included: participant?.included !== false,
+				columnOrder: Number.isInteger(participant?.columnOrder)
+					? participant.columnOrder
+					: undefined,
 				column:
 					participant?.column === 1 || participant?.col === 1
 						? 1
@@ -164,8 +170,8 @@ export function mountTeamMaker(root) {
 			rules: cleanRules(value.rules, participants),
 			rosters: Array.isArray(value.rosters) ? value.rosters.map(cleanRoster).filter(Boolean) : [],
 			mode: value.mode === SIZE_MODE ? SIZE_MODE : TEAM_MODE,
-			teamCount: clamp(Number.parseInt(value.teamCount, 10) || 2, 2, 20),
-			teamSize: clamp(Number.parseInt(value.teamSize, 10) || 2, 1, 20),
+			teamCount: clamp(Number.parseInt(value.teamCount, 10) || 3, 2, 20),
+			teamSize: clamp(Number.parseInt(value.teamSize, 10) || 4, 1, 20),
 			history: cleanHistory(value.history),
 			soundEnabled: value.soundEnabled !== false
 		};
@@ -198,6 +204,11 @@ export function mountTeamMaker(root) {
 		confirmAction: null,
 		animateTeams: false,
 		animateWinner: false,
+		enteringParticipants: new Set(),
+		leavingParticipants: new Set(),
+		removingParticipantId: null,
+		participantRemovalTimer: null,
+		participantMovementTimer: null,
 		enteringRules: new Set(),
 		leavingRules: new Set(),
 		enteringHistory: new Set(),
@@ -223,8 +234,9 @@ export function mountTeamMaker(root) {
 		return positions;
 	}
 
-	function playFlip(previousPositions) {
-		if (!previousPositions?.size || prefersReducedMotion()) return;
+	function playFlip(previousPositions, movementTypes) {
+		if (!previousPositions?.size || prefersReducedMotion()) return 0;
+		let movementDuration = 0;
 		for (const element of root.querySelectorAll('[data-flip]')) {
 			const previous = previousPositions.get(element.dataset.flip);
 			if (!previous) continue;
@@ -232,6 +244,11 @@ export function mountTeamMaker(root) {
 			const deltaX = previous.left - current.left;
 			const deltaY = previous.top - current.top;
 			if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1) continue;
+			const movementType = movementTypes?.get(element.dataset.flip) || 'layout';
+			movementDuration = 300;
+			if (movementTypes) {
+				element.dataset.removalMovement = movementType;
+			}
 			element.style.transition = 'none';
 			element.style.transform = `translate(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px)`;
 			requestAnimationFrame(() => {
@@ -239,6 +256,7 @@ export function mountTeamMaker(root) {
 				element.style.transform = '';
 			});
 		}
+		return movementDuration;
 	}
 
 	function teamTone(teamId) {
@@ -329,51 +347,44 @@ export function mountTeamMaker(root) {
 		$('#clear-list-button').hidden = state.participants.length === 0;
 		$('#rules-area').hidden = state.participants.length === 0;
 
-		const columns = [document.createElement('ul'), document.createElement('ul')];
-		columns.forEach((column, index) => {
-			column.className = 'participant-column';
-			column.setAttribute('aria-label', `참가자 목록 ${index + 1}열`);
-			list.append(column);
-		});
-
-		for (const [columnIndex, column] of columns.entries()) {
-			const participants = state.participants.filter(
-				(participant) => participant.column === columnIndex
+		const displayedParticipants = participantLayoutQuery.matches
+			? state.participants
+			: orderParticipantsForColumns(state.participants);
+		for (const [index, participant] of displayedParticipants.entries()) {
+			const displayNumber = index + 1;
+			const row = document.createElement('li');
+			row.className = 'participant-row';
+			row.dataset.flip = `participant-${participant.id}`;
+			row.dataset.included = String(participant.included);
+			row.classList.toggle('is-entering', runtime.enteringParticipants.has(participant.id));
+			row.classList.toggle('is-leaving', runtime.leavingParticipants.has(participant.id));
+			const checkbox = document.createElement('input');
+			checkbox.type = 'checkbox';
+			checkbox.checked = participant.included;
+			checkbox.dataset.participantToggle = participant.id;
+			checkbox.setAttribute(
+				'aria-label',
+				`${participant.name} 참가 ${participant.included ? '해제' : '선택'}`
 			);
-			for (const [rowIndex, participant] of participants.entries()) {
-				const displayNumber = rowIndex * 2 + columnIndex + 1;
-				const row = document.createElement('li');
-				row.className = 'participant-row';
-				row.dataset.included = String(participant.included);
-				const checkbox = document.createElement('input');
-				checkbox.type = 'checkbox';
-				checkbox.checked = participant.included;
-				checkbox.dataset.participantToggle = participant.id;
-				checkbox.setAttribute(
-					'aria-label',
-					`${participant.name} 참가 ${participant.included ? '해제' : '선택'}`
-				);
 
-				const number = document.createElement('span');
-				number.className = 'participant-number';
-				number.setAttribute('aria-hidden', 'true');
-				number.textContent = String(displayNumber);
+			const number = document.createElement('span');
+			number.className = 'participant-number';
+			number.setAttribute('aria-hidden', 'true');
+			number.textContent = String(displayNumber);
 
-				const input = document.createElement('input');
-				input.type = 'text';
-				input.className = 'participant-name';
-				input.value = participant.name;
-				input.dataset.participantName = participant.id;
-				input.setAttribute('aria-label', `${displayNumber}번째 참가자 이름`);
+			const input = document.createElement('input');
+			input.type = 'text';
+			input.className = 'participant-name';
+			input.value = participant.name;
+			input.dataset.participantName = participant.id;
+			input.setAttribute('aria-label', `${displayNumber}번째 참가자 이름`);
 
-				row.append(
-					checkbox,
-					number,
-					input,
-					createRemoveButton(`${participant.name} 삭제`, { participantRemove: participant.id })
-				);
-				column.append(row);
-			}
+			const removeButton = createRemoveButton(`${participant.name} 삭제`, {
+				participantRemove: participant.id
+			});
+			removeButton.disabled = runtime.removingParticipantId !== null;
+			row.append(checkbox, number, input, removeButton);
+			list.append(row);
 		}
 
 		const help = $('#participant-help');
@@ -498,6 +509,7 @@ export function mountTeamMaker(root) {
 		const grid = $('#team-grid');
 		grid.replaceChildren();
 		const hasTeams = runtime.teams.length > 0;
+		$('.results-section').dataset.hasResult = String(hasTeams);
 		grid.hidden = !hasTeams;
 		$('.result-actions').hidden = !hasTeams;
 		$('#undo-win-button').hidden = runtime.winnerTeamId === null || !runtime.lastHistoryId;
@@ -557,6 +569,7 @@ export function mountTeamMaker(root) {
 				number.className = 'member-number';
 				number.textContent = String(memberIndex + 1);
 				const memberName = document.createElement('span');
+				memberName.className = 'member-name';
 				memberName.textContent = member.name;
 				item.append(number, memberName);
 				members.append(item);
@@ -682,6 +695,10 @@ export function mountTeamMaker(root) {
 			};
 		});
 		state.participants = rebalanceParticipantColumns(state.participants.concat(added));
+		markEntering(
+			runtime.enteringParticipants,
+			added.map((participant) => participant.id)
+		);
 		saveAndRender();
 	}
 
@@ -1334,15 +1351,55 @@ export function mountTeamMaker(root) {
 
 	$('#participant-list').addEventListener('click', (event) => {
 		const id = event.target.closest('[data-participant-remove]')?.dataset.participantRemove;
-		if (!id) return;
-		state.participants = rebalanceParticipantColumns(
-			state.participants.filter((participant) => participant.id !== id)
-		);
-		state.rules = cleanRulesAfterParticipantRemoval(
-			state.rules,
-			new Set(state.participants.map((participant) => participant.id))
-		);
-		saveAndRender();
+		if (!id || runtime.removingParticipantId !== null) return;
+		const initialPlan = planParticipantRemoval(state.participants, id);
+		if (!initialPlan) return;
+		runtime.removingParticipantId = id;
+		runtime.leavingParticipants.add(id);
+		renderParticipants();
+		runtime.participantRemovalTimer = setTimeout(() => {
+			runtime.participantRemovalTimer = null;
+			const previousPositions = captureFlipPositions();
+			const plan = planParticipantRemoval(state.participants, id);
+			if (!plan) {
+				runtime.leavingParticipants.delete(id);
+				runtime.removingParticipantId = null;
+				renderParticipants();
+				return;
+			}
+			state.participants = plan.nextParticipants;
+			state.rules = cleanRulesAfterParticipantRemoval(
+				state.rules,
+				new Set(state.participants.map((participant) => participant.id))
+			);
+			runtime.leavingParticipants.delete(id);
+			saveAndRender();
+			const movementTypes = new Map(
+				plan.shiftingParticipantIds.map((participantId) => [
+					`participant-${participantId}`,
+					'shift'
+				])
+			);
+			if (plan.crossingParticipantId) {
+				movementTypes.set(`participant-${plan.crossingParticipantId}`, 'cross');
+			}
+			const movementDuration = playFlip(previousPositions, movementTypes);
+			const finishRemoval = () => {
+				runtime.participantMovementTimer = null;
+				runtime.removingParticipantId = null;
+				for (const row of root.querySelectorAll('[data-removal-movement]')) {
+					delete row.dataset.removalMovement;
+					row.style.removeProperty('transition');
+					row.style.removeProperty('transform');
+				}
+				for (const button of root.querySelectorAll('[data-participant-remove]')) {
+					button.disabled = false;
+				}
+			};
+			if (movementDuration) {
+				runtime.participantMovementTimer = setTimeout(finishRemoval, movementDuration + 20);
+			} else finishRemoval();
+		}, 220);
 	});
 
 	$('#clear-list-button').addEventListener('click', () => {
@@ -1398,15 +1455,17 @@ export function mountTeamMaker(root) {
 	function selectMode(mode) {
 		if (state.mode === mode) return;
 		state.mode = mode;
-		saveAndRender();
+		saveAndRender({ clearTeams: false });
 	}
 	$('#team-mode-button').addEventListener('click', () => selectMode(TEAM_MODE));
 	$('#size-mode-button').addEventListener('click', () => selectMode(SIZE_MODE));
+	const handleParticipantLayoutChange = () => renderParticipants();
+	participantLayoutQuery.addEventListener('change', handleParticipantLayoutChange);
 
 	function setSplitValue(value) {
 		if (state.mode === TEAM_MODE) state.teamCount = clamp(value, 2, 20);
 		else state.teamSize = clamp(value, 1, 20);
-		saveAndRender();
+		saveAndRender({ clearTeams: false });
 	}
 	$('#decrease-value').addEventListener('click', () => {
 		setSplitValue((state.mode === TEAM_MODE ? state.teamCount : state.teamSize) - 1);
@@ -1497,7 +1556,10 @@ export function mountTeamMaker(root) {
 
 	return () => {
 		cancelWheelSpin();
+		participantLayoutQuery.removeEventListener('change', handleParticipantLayoutChange);
 		clearTimeout(runtime.celebrationTimer);
+		clearTimeout(runtime.participantRemovalTimer);
+		clearTimeout(runtime.participantMovementTimer);
 		try {
 			runtime.audioContext?.close?.();
 		} catch {

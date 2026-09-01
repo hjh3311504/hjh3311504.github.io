@@ -1,6 +1,8 @@
 <script>
 	import BlogPostCard from '$lib/components/molecules/BlogPostCard.svelte';
 	import ContentSection from '$lib/components/organisms/ContentSection.svelte';
+	import Footer from '$lib/components/organisms/Footer.svelte';
+	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 
 	/** @type {{posts: App.BlogPost[]}} */
 	export let data;
@@ -8,26 +10,45 @@
 	let { posts } = data;
 </script>
 
-<div class="container">
-	<ContentSection title="All Blog Posts">
-		<div class="grid">
-			{#each posts as post (post.slug)}
-				<BlogPostCard
-					title={post.title}
-					coverImage={post.coverImage}
-					excerpt={post.excerpt}
-					readingTime={post.readingTime}
-					slug={post.slug}
-					tags={post.tags}
-				/>
-			{/each}
-		</div>
-	</ContentSection>
-</div>
+<SiteShell active="blog" variant="home">
+	<div class="blog-page">
+		<main>
+			<div class="container">
+				<ContentSection title="All Blog Posts">
+					<div class="grid">
+						{#each posts as post (post.slug)}
+							<BlogPostCard
+								title={post.title}
+								coverImage={post.coverImage}
+								excerpt={post.excerpt}
+								readingTime={post.readingTime}
+								slug={post.slug}
+								tags={post.tags}
+							/>
+						{/each}
+					</div>
+				</ContentSection>
+			</div>
+		</main>
+		<Footer />
+	</div>
+</SiteShell>
 
 <style lang="scss">
 	@use '$lib/scss/breakpoints' as *;
 	@use '$lib/scss/mixins' as *;
+
+	.blog-page {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		min-width: 0;
+		min-height: 100vh;
+
+		main {
+			flex: 1 1 auto;
+		}
+	}
 
 	.grid {
 		width: 100%;

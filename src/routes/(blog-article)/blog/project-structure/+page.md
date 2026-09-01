@@ -50,4 +50,4 @@ Pages obey the default SvelteKit structure, but can be summarized as follows:
 
 ## Blog Posts
 
-To know how blog posts work and how to create new ones, check out [How Blog Posts Work](/blog-posts).
+To know how blog posts work and how to create new ones, check out [How Blog Posts Work](/blog/blog-posts).

@@ -6,7 +6,7 @@ export const prerender = true;
 export function GET() {
 	const staticPages = ['/', '/blog', '/team-maker/'].map((pathname) => ({ pathname }));
 	const blogPages = filteredPosts.map((post) => ({
-		pathname: `/${post.slug}`,
+		pathname: `/blog/${post.slug}`,
 		lastModified: post.updated ?? post.date
 	}));
 

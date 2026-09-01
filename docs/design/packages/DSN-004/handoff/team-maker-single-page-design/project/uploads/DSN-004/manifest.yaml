@@ -1,0 +1,39 @@
+schema_version: 1
+id: DSN-004
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-009
+  - REQ-WEB-011
+  - REQ-WEB-012
+  - REQ-WEB-013
+  - REQ-WEB-014
+  - REQ-WEB-015
+  - REQ-WEB-016
+  - REQ-WEB-017
+  - REQ-WEB-018
+  - REQ-WEB-019
+  - REQ-WEB-020
+  - REQ-WEB-021
+  - REQ-WEB-022
+screens:
+  - SCR-WEB-001
+  - SCR-WEB-002
+spec:
+  status: approved
+  approved_at: "2026-09-01T12:02:14+09:00"
+  ia_sha256: "0e9bc94b224705cf99433c3d1be7335c1066246186ca01616f4dfd475048a5dc"
+  screen_sha256:
+    SCR-WEB-001: "85684f3e118ec539d0edab75c84f0789ff916e881ed0a468ac2286c17ac6ff5b"
+    SCR-WEB-002: "0376906bb093a09b1f06dc740d05e251c9bb4cfd462a1db097c85065080db8f0"
+review:
+  type: expert
+  summary: 프로젝트가 늘어날 때의 세로 탐색 구조와 drawer의 초점·닫기 동작을 명시했다.
+handoff:
+  status: pending
+  approved_at:
+  tree_sha256:

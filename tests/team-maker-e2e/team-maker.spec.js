@@ -73,6 +73,121 @@ async function toggleParticipant(page, name, included) {
 	});
 }
 
+test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색을 지원한다', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.goto('/');
+
+	await expect(page.getByRole('heading', { name: "Juno's develog", level: 1 })).toBeVisible();
+	await expect(page.getByRole('complementary')).toBeVisible();
+	await expect(page.getByRole('link', { name: '홈' })).toHaveAttribute('aria-current', 'page');
+	await expect(page.getByRole('link', { name: /Team Maker 도구/ })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Blog', exact: true })).toBeVisible();
+	await page.getByRole('button', { name: '테마 변경, 현재 자동' }).click();
+	await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'light');
+	await page.getByRole('button', { name: '테마 변경, 현재 밝게' }).click();
+	await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'dark');
+
+	await page.getByRole('button', { name: '사이드바 고정 해제' }).click();
+	const menuButton = page.getByRole('button', { name: '메뉴 열기' });
+	await expect(menuButton).toBeVisible();
+	await menuButton.click();
+	await expect(page.getByRole('dialog', { name: '사이트 내비게이션' })).toBeVisible();
+	await expect(page.getByRole('link', { name: '홈' })).toBeFocused();
+
+	await page.keyboard.press('Escape');
+	await expect(menuButton).toBeFocused();
+
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.reload();
+	await expect(page.getByRole('button', { name: '메뉴 열기' })).toBeVisible();
+	await expectNoHorizontalOverflow(page);
+});
+
+test('Team Maker의 다크 모드는 Home과 같은 기본 색상표를 사용한다', async ({ page }) => {
+	await page.addInitScript(() => localStorage.setItem('juno.develog.theme', 'dark'));
+	await page.goto('/');
+
+	const homeColors = await page.locator('.site-shell').evaluate((shell) => {
+		const card = shell.querySelector('.home-card');
+		const sidebar = shell.querySelector('.site-sidebar');
+		return {
+			rightGap: window.innerWidth - shell.getBoundingClientRect().right,
+			canvas: getComputedStyle(shell).backgroundColor,
+			background: getComputedStyle(shell).backgroundImage,
+			backgroundSize: getComputedStyle(shell).backgroundSize,
+			body: getComputedStyle(document.body).backgroundColor,
+			pageLayer: getComputedStyle(shell.querySelector('.home-stage')).backgroundColor,
+			surface: getComputedStyle(card).backgroundColor,
+			sidebar: getComputedStyle(sidebar).backgroundColor,
+			text: getComputedStyle(card).color,
+			line: getComputedStyle(card).borderTopColor
+		};
+	});
+
+	await page.goto(TEAM_MAKER_PATH);
+	const teamMakerColors = await page.locator('.site-shell').evaluate((shell) => {
+		const card = shell.querySelector('.team-maker-page .card');
+		const sidebar = shell.querySelector('.site-sidebar');
+		return {
+			rightGap: window.innerWidth - shell.getBoundingClientRect().right,
+			canvas: getComputedStyle(shell).backgroundColor,
+			background: getComputedStyle(shell).backgroundImage,
+			backgroundSize: getComputedStyle(shell).backgroundSize,
+			body: getComputedStyle(document.body).backgroundColor,
+			pageLayer: getComputedStyle(shell.querySelector('.team-maker-page')).backgroundColor,
+			surface: getComputedStyle(card).backgroundColor,
+			sidebar: getComputedStyle(sidebar).backgroundColor,
+			text: getComputedStyle(card).color,
+			line: getComputedStyle(card).borderTopColor
+		};
+	});
+
+	expect(homeColors.rightGap).toBe(0);
+	expect(teamMakerColors).toEqual(homeColors);
+});
+
+test('승패 기록의 긴 참가자 이름은 생략하지 않고 여러 줄로 표시한다', async ({ page }) => {
+	const names = [
+		'가영'.repeat(18),
+		'나연'.repeat(18),
+		'다현'.repeat(18),
+		'라희'.repeat(18),
+		'마루'.repeat(18),
+		'바다'.repeat(18)
+	];
+	await openTeamMaker(page);
+	await addParticipants(page, names);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await page.getByRole('button', { name: '1팀 승리 기록' }).click();
+
+	const summary = page.locator('.history-summary').first();
+	await expect(summary).toBeVisible();
+	const summaryLayout = await summary.evaluate((element) => ({
+		clientWidth: element.clientWidth,
+		scrollWidth: element.scrollWidth,
+		height: element.getBoundingClientRect().height,
+		lineHeight: Number.parseFloat(getComputedStyle(element).lineHeight)
+	}));
+	expect(summaryLayout.scrollWidth).toBeLessThanOrEqual(summaryLayout.clientWidth + 1);
+	expect(summaryLayout.height).toBeGreaterThan(summaryLayout.lineHeight * 1.5);
+
+	await page.getByRole('button', { name: '기록 보기' }).click();
+	const teamNames = page.locator('.history-team-names');
+	await expect(teamNames).toHaveCount(3);
+	const renderedNames = (await teamNames.allTextContents()).join(', ');
+	for (const name of names) expect(renderedNames).toContain(name);
+	const teamNameLayouts = await teamNames.evaluateAll((elements) =>
+		elements.map((element) => ({
+			clientWidth: element.clientWidth,
+			scrollWidth: element.scrollWidth,
+			height: element.getBoundingClientRect().height,
+			lineHeight: Number.parseFloat(getComputedStyle(element).lineHeight)
+		}))
+	);
+	expect(teamNameLayouts.every((item) => item.scrollWidth <= item.clientWidth + 1)).toBe(true);
+	expect(teamNameLayouts.some((item) => item.height > item.lineHeight * 1.5)).toBe(true);
+});
+
 test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오며 외부로 요청하지 않는다', async ({
 	page
 }) => {
@@ -90,9 +205,9 @@ test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오�
 	await expect(page.getByRole('heading', { name: '2. 나누는 방식' })).toBeVisible();
 	await expect(page.getByRole('button', { name: '팀 만들기' })).toBeDisabled();
 	await expect(page.getByRole('heading', { name: '3. 결과' })).toBeVisible();
-	await expect(page.locator('#split-value')).toHaveText('2');
+	await expect(page.locator('#split-value')).toHaveText('3');
 	await expect(page.getByRole('button', { name: /결과.*복사/ })).toHaveCount(0);
-	await expect(page.locator('#svelte-root > .team-maker-page')).toBeVisible();
+	await expect(page.locator('.team-maker-page')).toBeVisible();
 
 	const svelteAssets = [...responses.entries()].filter(
 		([path, status]) => path.includes('/_app/immutable/') && status === 200
@@ -110,12 +225,12 @@ test('참가자 편집, 두 나누기 방식, 다시 섞기와 새로고침 복�
 	await firstName.fill('가영 수정');
 	await firstName.press('Tab');
 	await page.getByRole('radio', { name: '인원 수로 나누기' }).click();
-	await expect(page.locator('#split-value')).toHaveText('2');
+	await expect(page.locator('#split-value')).toHaveText('4');
 	await page.getByRole('button', { name: '팀 만들기' }).click();
 
-	await expect(page.locator('#team-grid .team-card')).toHaveCount(3);
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
 	let teams = await readTeams(page);
-	expect(teams.map((team) => team.members.length).sort()).toEqual([1, 2, 2]);
+	expect(teams.map((team) => team.members.length).sort()).toEqual([2, 3]);
 	const firstMembers = teams.flatMap((team) => team.members).sort();
 
 	await page.getByRole('button', { name: '다시 섞기' }).click();
@@ -135,7 +250,7 @@ test('참가자 편집, 두 나누기 방식, 다시 섞기와 새로고침 복�
 	await expect(page.getByText('아직 만든 팀이 없습니다', { exact: true })).toBeVisible();
 
 	await page.getByRole('radio', { name: '팀 수로 나누기' }).click();
-	await expect(page.locator('#split-value')).toHaveText('2');
+	await expect(page.locator('#split-value')).toHaveText('3');
 });
 
 test('쉼표로 참가자를 추가하고 삭제 뒤 빈자리를 순서대로 채운다', async ({ page }) => {
@@ -145,20 +260,19 @@ test('쉼표로 참가자를 추가하고 삭제 뒤 빈자리를 순서대로 �
 	await expect(page.getByRole('heading', { name: '1. 참가자 입력 (8명)' })).toBeVisible();
 	await page.getByRole('button', { name: '5 삭제', exact: true }).click();
 
-	const firstColumn = page
-		.locator('#participant-list .participant-column')
-		.nth(0)
-		.locator('.participant-name');
-	const secondColumn = page
-		.locator('#participant-list .participant-column')
-		.nth(1)
-		.locator('.participant-name');
+	const participantNames = page.locator('#participant-list .participant-name');
 	await expect
-		.poll(() => firstColumn.evaluateAll((inputs) => inputs.map((input) => input.value)))
-		.toEqual(['1', '3', '7', '8']);
-	await expect
-		.poll(() => secondColumn.evaluateAll((inputs) => inputs.map((input) => input.value)))
-		.toEqual(['2', '4', '6']);
+		.poll(() => participantNames.evaluateAll((inputs) => inputs.map((input) => input.value)))
+		.toEqual(['1', '2', '3', '4', '7', '6', '8']);
+	await expect(page.locator('#participant-list .participant-number')).toHaveText([
+		'1',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'7'
+	]);
 });
 
 test('같은 팀 규칙을 먼저 표시하고 두 규칙을 지켜 팀을 만든다', async ({ page }) => {
@@ -280,7 +394,11 @@ test('승리·취소·기록 삭제와 돌림판 당첨자 및 효과음을 처�
 	await expect(page.getByText('2팀패', { exact: true }).first()).toBeVisible();
 	await page.getByRole('button', { name: '기록 보기' }).click();
 	const historyDialog = page.getByRole('dialog', { name: '승패 기록' });
-	await expect(historyDialog.locator('.history-team-label')).toHaveText(['1팀승', '2팀패']);
+	await expect(historyDialog.locator('.history-team-label')).toHaveText([
+		'1팀승',
+		'2팀패',
+		'3팀패'
+	]);
 	await page.keyboard.press('Escape');
 	await expect(historyDialog).not.toBeVisible();
 
@@ -382,6 +500,7 @@ test('저장 실패를 알리고 모바일에서 키보드와 dialog를 사용�
 	await page.keyboard.type('나연');
 	await page.keyboard.press('Enter');
 
+	await page.getByRole('button', { name: '값 줄이기' }).click();
 	await page.getByRole('button', { name: '값 늘리기' }).focus();
 	await page.keyboard.press('Tab');
 	const makeButton = page.getByRole('button', { name: '팀 만들기' });

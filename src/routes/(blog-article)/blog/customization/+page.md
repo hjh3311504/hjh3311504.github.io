@@ -20,7 +20,7 @@ The first thing you might want to do is replace the site URL with your own domai
 
 To replace the logo that appears in the header, modify or replace the contents of the `Logo.svelte` atom.
 
-The links that appear on the header can be modified directly in the `Header.svelte` organism.
+The links that appear in the common navigation can be modified directly in the `SiteNav.svelte` organism.
 
 ## Hero section
 

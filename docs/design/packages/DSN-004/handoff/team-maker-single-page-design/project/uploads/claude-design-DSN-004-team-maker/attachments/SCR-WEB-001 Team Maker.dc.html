@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  html, body { margin:0; padding:0; background:#f4f8fb; }
+  * { box-sizing:border-box; }
+  a { color:#6E29E7; text-decoration:underline; text-underline-offset:2px; }
+  a:hover { color:#5620b8; }
+  textarea, button, input { font-family:inherit; }
+  :focus-visible { outline:2px solid #6E29E7; outline-offset:2px; border-radius:6px; }
+  @keyframes tm-burst {
+    0%   { transform: translate3d(0,0,0) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot)) scale(.6); opacity: 0; }
+  }
+  @keyframes tm-recv {
+    0%   { opacity: 0; transform: scale(.92) translateY(-4px); }
+    60%  { opacity: 1; }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes tm-send {
+    0%   { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: scale(.88) translateY(-6px); }
+  }
+  @keyframes tm-member-in-a {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes tm-member-in-b {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes tm-win-pulse {
+    0%   { transform: scale(1) translateY(0); box-shadow: 0 0 0 0 rgba(110,41,231,.34), 0 2px 8px rgba(28,30,38,.06); }
+    22%  { transform: scale(1.045) translateY(-6px); box-shadow: 0 0 0 10px rgba(110,41,231,.16), 0 18px 34px rgba(110,41,231,.28); }
+    46%  { transform: scale(.995) translateY(0); box-shadow: 0 0 0 16px rgba(110,41,231,0), 0 10px 24px rgba(110,41,231,.18); }
+    68%  { transform: scale(1.018) translateY(-2px); }
+    100% { transform: scale(1) translateY(0); box-shadow: 0 8px 22px rgba(110,41,231,.16); }
+  }
+  @keyframes tm-lose-fade {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(.962) translateY(3px); }
+    70%  { transform: scale(.986) translateY(0); }
+    100% { transform: scale(.99); }
+  }
+  @keyframes tm-chip-pop {
+    0%   { transform: scale(.4) rotate(-8deg); opacity: 0; }
+    55%  { transform: scale(1.22) rotate(3deg); opacity: 1; }
+    78%  { transform: scale(.95) rotate(-1deg); }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+  @keyframes tm-sweep {
+    0%   { transform: translateX(-120%); opacity: 0; }
+    18%  { opacity: 1; }
+    100% { transform: translateX(120%); opacity: 0; }
+  }
+  @keyframes tm-name-lift {
+    0%   { transform: translateY(0); }
+    40%  { transform: translateY(-3px); }
+    100% { transform: translateY(0); }
+  }
+  @keyframes tm-pop {
+    0%   { transform: scale(.7); opacity: 0; }
+    60%  { transform: scale(1.06); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+</style>
+</helmet>
+<div style="min-height:100vh; background:#f4f8fb; color:#1c1e26; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif; -webkit-font-smoothing:antialiased; padding:40px 16px 72px; display:flex; justify-content:center;">
+  <main style="width:100%; max-width:640px; display:flex; flex-direction:column; gap:20px;">
+
+    <header style="display:flex; flex-direction:column; gap:8px; padding:0 4px;">
+      <h1 style="margin:0; font-size:28px; line-height:1.25; font-weight:800; letter-spacing:-0.5px;">팀 메이커</h1>
+      
+    </header>
+
+    <sc-if value="{{ saveFailed }}" hint-placeholder-val="{{ false }}">
+      <div role="alert" style="display:flex; gap:12px; align-items:flex-start; background:#fff; border:1px solid #f95256; border-left:4px solid #f95256; border-radius:12px; padding:14px 16px; box-shadow:0 2px 8px rgba(28,30,38,0.06);">
+        <span aria-hidden="true" style="flex:none; width:20px; height:20px; border-radius:50%; background:#f95256; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px;">!</span>
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <strong style="font-size:14px; font-weight:700; color:#c2333c;">저장하지 못했습니다</strong>
+          <span style="font-size:13px; line-height:1.6; color:#5b5f6b;">이 브라우저의 저장 공간을 사용할 수 없어 입력이 유지되지 않습니다. 창을 닫으면 참가자를 다시 입력해야 합니다.</span>
+        </div>
+      </div>
+    </sc-if>
+
+    <section aria-labelledby="sec-input" style="background:#ffffff; border:1px solid #e7ecf2; border-radius:14px; padding:22px; box-shadow:0 2px 8px rgba(28,30,38,0.06); display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <h2 id="sec-input" style="margin:0; font-size:17px; font-weight:700; letter-spacing:-0.2px;">1. 참가자 입력 <span aria-live="polite" style="font-weight:600; color:#5b5f6b; font-variant-numeric:tabular-nums;">({{ countLabel }})</span></h2>
+        <div style="flex:none; display:flex; align-items:center; gap:8px;">
+          <sc-if value="{{ hasPeople }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ onToggleAll }}" style="cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:13px; font-weight:600; height:36px; padding:0 12px; border-radius:8px;">{{ toggleAllLabel }}</button>
+          </sc-if>
+          <button type="button" onClick="{{ onOpenRosters }}" aria-label="명단 저장·불러오기" title="명단 저장·불러오기" style="flex:none; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5620b8; border-radius:8px;" style-hover="background:#f3ecff; border-color:#d9c4fb">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
+          </button>
+          <sc-if value="{{ hasPeople }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ onClearList }}" aria-label="명단 비우기" title="명단 비우기" style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:#fff; border:1px solid #ffd6d8; color:#c2333c; border-radius:8px;" style-hover="background:#fff5f5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+            </button>
+          </sc-if>
+        </div>
+      </div>
+      <label for="names" aria-live="polite" style="display:block; font-size:13px; line-height:1.5; color:{{ noticeColor }}; font-weight:{{ noticeWeight }};">{{ inputHelpText }}</label>
+      <div style="display:flex; gap:8px;">
+        <input id="names" type="text" value="{{ draft }}" onChange="{{ onDraftChange }}" onKeyDown="{{ onDraftKey }}" onKeyUp="{{ onDraftKeyUp }}" placeholder="예: 김지원" autoComplete="off" style="flex:1; min-width:0; font-size:15px; line-height:1.5; color:#1c1e26; background:#fff; border:1px solid #d7dee7; border-radius:10px; padding:12px 14px;">
+        <button type="button" onClick="{{ onAdd }}" aria-label="참가자 추가" style="flex:none; cursor:pointer; background:#f3ecff; border:1px solid #d9c4fb; color:#5620b8; font-size:15px; font-weight:700; padding:12px 18px; border-radius:10px;">추가</button>
+        <button type="button" onClick="{{ onOpenBulk }}" style="flex:none; cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:14px; font-weight:600; padding:12px 14px; border-radius:10px;" style-hover="border-color:#d9c4fb; color:#5620b8">일괄 추가</button>
+      </div>
+
+      <sc-if value="{{ hasPeople }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <sc-for list="{{ columns }}" as="col" hint-placeholder-count="2">
+            <ul aria-label="{{ col.label }}" style="margin:0; padding:0; list-style:none; flex:1 1 230px; min-width:230px; display:flex; flex-direction:column; gap:6px;">
+              <sc-for list="{{ col.people }}" as="p" hint-placeholder-count="3">
+            <li data-flip="{{ p.flipKey }}" style="background:{{ p.rowBg }}; border:1px solid #e7ecf2; border-radius:10px; padding:6px 8px 6px 10px; overflow:hidden; transition:background 200ms cubic-bezier(.2,0,.2,1), border-color 200ms cubic-bezier(.2,0,.2,1);">
+              <div style="display:flex; align-items:center; gap:10px; animation:{{ p.anim }};">
+              <input type="checkbox" id="{{ p.domId }}" checked="{{ p.included }}" onChange="{{ p.onToggle }}" style="flex:none; width:20px; height:20px; accent-color:#6E29E7; cursor:pointer; margin:0; transition:transform 120ms cubic-bezier(.2,0,.2,1);" style-active="transform:scale(.86)">
+              <label for="{{ p.domId }}" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;">{{ p.toggleLabel }}</label>
+              <span aria-hidden="true" style="flex:none; width:20px; height:36px; display:flex; align-items:center; justify-content:flex-end; font-size:12px; font-weight:600; color:#5b5f6b; font-variant-numeric:tabular-nums;">{{ p.no }}</span>
+              <input type="text" value="{{ p.name }}" onChange="{{ p.onRename }}" aria-label="{{ p.nameLabel }}" style="flex:1; min-width:0; height:36px; font-size:15px; line-height:34px; color:{{ p.nameColor }}; text-decoration:{{ p.nameDecoration }}; background:transparent; border:1px solid transparent; border-radius:8px; padding:0 10px; transition:color 200ms cubic-bezier(.2,0,.2,1), background 160ms cubic-bezier(.2,0,.2,1), border-color 160ms cubic-bezier(.2,0,.2,1);" style-hover="border-color:#e7ecf2; background:#fff" style-focus="border-color:#6E29E7; background:#fff">
+              <button type="button" onClick="{{ p.onRemove }}" aria-label="{{ p.removeLabel }}" style="flex:none; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:transparent; border:1px solid transparent; border-radius:8px; color:#8a90a0; font-size:18px; line-height:1; padding:0;" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c">×</button>
+              </div>
+            </li>
+              </sc-for>
+            </ul>
+          </sc-for>
+        </div>
+        <div style="border-top:1px solid #eef2f7; padding-top:14px; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:baseline; gap:8px; min-width:0;">
+              <h3 style="margin:0; flex:none; font-size:14px; font-weight:700;">규칙</h3>
+              <span style="font-size:12px; line-height:1.5; color:{{ ruleHintColor }};">{{ ruleHint }}</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" onClick="{{ onAddTogether }}" style="cursor:pointer; background:#fff; border:1px solid #d9c4fb; color:#5620b8; font-size:13px; font-weight:600; padding:8px 14px; border-radius:8px;">같은 팀 지정</button>
+              <button type="button" onClick="{{ onAddApart }}" style="cursor:pointer; background:#fff; border:1px solid #ffd9c2; color:#d1400e; font-size:13px; font-weight:600; padding:8px 14px; border-radius:8px;">다른 팀 지정</button>
+            </div>
+          </div>
+          <sc-if value="{{ hasRules }}" hint-placeholder-val="{{ false }}">
+            <ul aria-label="규칙 목록" style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px;">
+              <sc-for list="{{ rules }}" as="rule" hint-placeholder-count="2">
+                <li data-flip="r{{ rule.key }}" style="background:#f9fbfd; border:1px solid {{ rule.border }}; border-radius:10px; padding:8px 8px 8px 12px; overflow:hidden;">
+                  <div style="display:flex; align-items:center; gap:10px; animation:{{ rule.anim }};">
+                  <span style="flex:none; display:inline-flex; align-items:center; height:24px; font-size:12px; line-height:1; font-weight:700; color:{{ rule.color }}; background:{{ rule.chipBg }}; border-radius:999px; padding:0 10px;">{{ rule.typeLabel }}</span>
+                  <span aria-label="{{ rule.namesLabel }}" style="flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:center; min-height:24px; font-size:14px; line-height:1.4; color:#1c1e26;">
+                    <sc-for list="{{ rule.parts }}" as="part" hint-placeholder-count="2">
+                      <span aria-hidden="true" style="display:inline-flex; align-items:center;">
+                        <sc-if value="{{ part.hasSep }}" hint-placeholder-val="{{ false }}">
+                          <span style="display:inline-flex; justify-content:center; width:22px; color:#5b5f6b;">{{ part.sep }}</span>
+                        </sc-if>
+                        <span style="overflow-wrap:anywhere;">{{ part.name }}</span>
+                      </span>
+                    </sc-for>
+                  </span>
+                  <button type="button" onClick="{{ rule.onRemove }}" aria-label="{{ rule.removeLabel }}" style="flex:none; width:32px; height:32px; cursor:pointer; background:transparent; border:1px solid transparent; border-radius:8px; color:#8a90a0; font-size:16px; line-height:1;" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c">×</button>
+                  </div>
+                </li>
+              </sc-for>
+            </ul>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ noPeople }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0; background:#f9fbfd; border:1px dashed #cbd3dd; border-radius:10px; padding:18px; text-align:center; font-size:13px; line-height:1.6; color:#5b5f6b;">아직 추가한 참가자가 없습니다. 위 칸에 이름을 적고 엔터를 눌러 주세요.</p>
+      </sc-if>
+
+    </section>
+
+    <section aria-labelledby="sec-config" style="background:#ffffff; border:1px solid #e7ecf2; border-radius:14px; padding:22px; box-shadow:0 2px 8px rgba(28,30,38,0.06); display:flex; flex-direction:column; gap:16px;">
+      <h2 id="sec-config" style="margin:0; font-size:17px; font-weight:700; letter-spacing:-0.2px;">2. 나누는 방식</h2>
+
+      <div role="radiogroup" aria-label="나누는 방식" style="position:relative; display:grid; grid-template-columns:1fr 1fr; gap:6px; background:#f4f8fb; border:1px solid #e7ecf2; border-radius:10px; padding:4px;">
+        <span aria-hidden="true" style="position:absolute; top:4px; left:4px; width:calc(50% - 7px); height:calc(100% - 8px); background:#ffffff; border-radius:8px; box-shadow:0 1px 2px rgba(28,30,38,0.10), 0 0 0 1px #d9c4fb inset; transform:{{ toggleShift }}; transition:transform 220ms cubic-bezier(.2,0,.2,1); pointer-events:none;"></span>
+        <button type="button" role="radio" aria-checked="{{ isTeamMode }}" onClick="{{ onPickTeamMode }}" style="position:relative; z-index:1; border:none; background:transparent; cursor:pointer; padding:11px 8px; border-radius:8px; font-size:14px; font-weight:600; color:{{ teamModeFg }}; transition:color 200ms cubic-bezier(.2,0,.2,1);">팀 수로 나누기</button>
+        <button type="button" role="radio" aria-checked="{{ isSizeMode }}" onClick="{{ onPickSizeMode }}" style="position:relative; z-index:1; border:none; background:transparent; cursor:pointer; padding:11px 8px; border-radius:8px; font-size:14px; font-weight:600; color:{{ sizeModeFg }}; transition:color 200ms cubic-bezier(.2,0,.2,1);">인원 수로 나누기</button>
+      </div>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; gap:4px; min-width:180px;">
+          <span id="stepper-label" style="font-size:14px; font-weight:600;">{{ stepperLabel }}</span>
+          <span role="status" style="font-size:13px; line-height:1.5; color:{{ stepperHintColor }}; font-weight:{{ stepperHintWeight }};">{{ stepperHint }}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button type="button" onClick="{{ onDec }}" aria-label="값 줄이기" style="width:44px; height:44px; border-radius:10px; border:1px solid #d7dee7; background:#fff; color:#1c1e26; font-size:20px; font-weight:600; cursor:pointer; line-height:1;">−</button>
+          <output aria-labelledby="stepper-label" style="min-width:44px; text-align:center; font-size:20px; font-weight:700; font-variant-numeric:tabular-nums;">{{ stepperValue }}</output>
+          <button type="button" onClick="{{ onInc }}" aria-label="값 늘리기" style="width:44px; height:44px; border-radius:10px; border:1px solid #d7dee7; background:#fff; color:#1c1e26; font-size:20px; font-weight:600; cursor:pointer; line-height:1;">+</button>
+        </div>
+      </div>
+
+
+    </section>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <sc-if value="{{ canSubmit }}" hint-placeholder-val="{{ false }}">
+        <button type="button" onClick="{{ onMake }}" style="width:100%; border:1px solid #6E29E7; cursor:pointer; background:#6E29E7; color:#fff; font-size:16px; font-weight:700; padding:16px 20px; border-radius:12px; box-shadow:0 4px 14px rgba(110,41,231,0.24); transition:background 160ms ease;" style-hover="background:#5620b8" style-active="background:#4c1aa3">{{ submitLabel }}</button>
+      </sc-if>
+      <sc-if value="{{ cannotSubmit }}" hint-placeholder-val="{{ true }}">
+        <button type="button" disabled="{{ true }}" aria-describedby="disabled-why" style="width:100%; border:1px dashed #cbd3dd; cursor:not-allowed; background:#eef2f7; color:#8a90a0; font-size:16px; font-weight:700; padding:16px 20px; border-radius:12px;">팀 만들기</button>
+        
+      </sc-if>
+      <sc-if value="{{ hasResult }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; gap:10px;">
+          
+        </div>
+      </sc-if>
+    </div>
+
+    <section aria-labelledby="sec-result" style="display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0 4px;">
+        <h2 id="sec-result" style="margin:0; flex:1; min-width:0; font-size:17px; font-weight:700; letter-spacing:-0.2px;">3. 결과</h2>
+        <sc-if value="{{ hasRecorded }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ onUndoWin }}" aria-label="{{ undoLabel }}" style="flex:none; cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:13px; font-weight:600; height:36px; padding:0 14px; border-radius:999px; transition:background 200ms cubic-bezier(.2,0,.2,1), border-color 200ms cubic-bezier(.2,0,.2,1);" style-hover="background:#f4f8fb; border-color:#cbd3dd">승리 취소</button>
+        </sc-if>
+        <sc-if value="{{ hasResult }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ onMake }}" style="flex:none; cursor:pointer; background:#fff; border:1px solid #ffd9c2; color:#a83209; font-size:13px; font-weight:600; height:36px; padding:0 14px; border-radius:8px;" style-hover="background:#fff7f2">다시 섞기</button>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ hasResult }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+            <sc-for list="{{ teams }}" as="team" hint-placeholder-count="2">
+              <article style="position:relative; overflow:hidden; background:{{ team.cardBg }}; border:{{ team.cardBorder }}; border-top:{{ team.topBorder }}; border-radius:14px; padding:16px 18px; box-shadow:{{ team.cardShadow }}; opacity:{{ team.cardOpacity }}; display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; transition:background 320ms cubic-bezier(.2,0,.2,1), border-color 320ms cubic-bezier(.2,0,.2,1), box-shadow 320ms cubic-bezier(.2,0,.2,1); animation:{{ team.anim }};">
+                <sc-if value="{{ team.isWinner }}" hint-placeholder-val="{{ false }}">
+                  <span aria-hidden="true" style="position:absolute; top:0; bottom:0; left:0; width:45%; background:linear-gradient(90deg, rgba(110,41,231,0) 0%, rgba(110,41,231,0.14) 50%, rgba(110,41,231,0) 100%); opacity:0; transform:translateX(-120%); animation:tm-sweep 720ms cubic-bezier(.2,0,.2,1) 60ms; pointer-events:none;"></span>
+                </sc-if>
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                  <h3 style="margin:0; font-size:15px; font-weight:{{ team.nameWeight }}; color:{{ team.nameColor }}; font-variant-numeric:tabular-nums; font-feature-settings:'tnum' 1; animation:{{ team.nameAnim }};">{{ team.name }}</h3>
+                  <span style="display:inline-flex; align-items:center; height:24px; font-size:12px; font-weight:700; color:{{ team.chipColor }}; background:{{ team.chipBg }}; border:1px solid {{ team.chipBorder }}; border-radius:999px; padding:0 10px; font-variant-numeric:tabular-nums; font-feature-settings:'tnum' 1; animation:{{ team.chipAnim }};">{{ team.chipLabel }}</span>
+                </div>
+                <ul style="margin:0; padding:0 0 4px; list-style:none; display:flex; flex-direction:column; gap:2px;">
+                  <sc-for list="{{ team.members }}" as="member" hint-placeholder-count="3">
+                    <li style="display:flex; gap:10px; align-items:baseline; font-size:15px; line-height:1.7; padding:3px 0; border-bottom:1px solid #f2f5f9; animation:{{ member.anim }};">
+                      <span aria-hidden="true" style="flex:none; width:18px; font-size:12px; font-weight:600; color:#5b5f6b; font-variant-numeric:tabular-nums;">{{ member.no }}</span>
+                      <span style="min-width:0; overflow-wrap:anywhere;">{{ member.name }}</span>
+                    </li>
+                  </sc-for>
+                </ul>
+                <div style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
+                  <sc-if value="{{ team.canWin }}" hint-placeholder-val="{{ true }}">
+                    <button type="button" onClick="{{ team.onWin }}" aria-label="{{ team.winLabel }}" style="width:100%; height:40px; cursor:pointer; background:#f3ecff; border:1px solid #e4d5fd; color:#5620b8; font-size:14px; font-weight:700; border-radius:8px;" style-hover="background:#e9dcff; border-color:#d9c4fb">승리</button>
+                  </sc-if>
+                  <sc-if value="{{ team.hasPick }}" hint-placeholder-val="{{ false }}">
+                    <div role="status" style="display:flex; align-items:center; gap:8px; background:#eefaf5; border:1px solid #c7ecdf; border-radius:8px; padding:8px 10px;">
+                      <span style="flex:none; font-size:12px; font-weight:700; color:#00815c;">당첨자</span>
+                      <span style="flex:1; min-width:0; font-size:15px; font-weight:700; color:#1c1e26; overflow-wrap:anywhere;">{{ team.pickName }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ team.isDone }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" onClick="{{ team.onDraw }}" aria-label="{{ team.drawLabel }}" style="width:100%; height:40px; cursor:pointer; background:#fff; border:1px solid #c7ecdf; color:#00815c; font-size:14px; font-weight:700; border-radius:8px;" style-hover="background:#eefaf5; border-color:#a8e0cd">{{ team.drawButtonLabel }}</button>
+                  </sc-if>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ noResult }}" hint-placeholder-val="{{ true }}">
+        <div role="status" style="background:{{ emptyBg }}; border:1px dashed {{ emptyBorder }}; border-radius:14px; padding:32px 24px; display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center;">
+          <span aria-hidden="true" style="width:36px; height:36px; border-radius:10px; border:2px dashed {{ emptyBorder }}; display:block;"></span>
+          <strong style="font-size:15px; font-weight:700; color:{{ emptyTitleColor }};">{{ emptyTitle }}</strong>
+          <span style="font-size:13px; line-height:1.6; color:#5b5f6b; white-space:nowrap;">{{ emptyText }}</span>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasTodayLogs }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff; border:1px solid #e7ecf2; border-radius:14px; padding:18px; box-shadow:0 2px 8px rgba(28,30,38,0.06); display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:baseline; gap:8px;">
+              <h3 style="margin:0; font-size:14px; font-weight:700;">오늘 기록</h3>
+              <span style="font-size:12px; color:#5b5f6b;">{{ todayLogLabel }}</span>
+            </div>
+            <button type="button" onClick="{{ onOpenLogs }}" style="cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5620b8; font-size:13px; font-weight:600; height:36px; padding:0 14px; border-radius:8px;">기록 보기</button>
+          </div>
+          <ul aria-label="오늘 기록" style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px;">
+            <sc-for list="{{ todayLogs }}" as="log" hint-placeholder-count="2">
+              <li data-flip="{{ log.flipKey }}" style="background:#f9fbfd; border:1px solid #e7ecf2; border-radius:10px; padding:8px 8px 8px 12px; overflow:hidden;">
+                <div style="display:flex; align-items:center; gap:10px; animation:{{ log.anim }};">
+                <span style="flex:none; font-size:12px; font-weight:600; color:#5b5f6b; font-variant-numeric:tabular-nums; font-feature-settings:'tnum' 1;">{{ log.time }}</span>
+                <span style="flex:none; display:inline-flex; align-items:center; height:24px; font-size:12px; line-height:1; font-weight:700; color:{{ log.toneFg }}; background:{{ log.toneBg }}; border:1px solid {{ log.toneBd }}; border-radius:999px; padding:0 9px; font-variant-numeric:tabular-nums; font-feature-settings:'tnum' 1;">{{ log.winner }}승</span>
+                <span style="flex:1; min-width:0; font-size:13px; line-height:1.5; color:#5b5f6b; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ log.summary }}</span>
+                <button type="button" onClick="{{ log.onRemove }}" aria-label="{{ log.removeLabel }}" style="flex:none; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:transparent; border:1px solid transparent; border-radius:8px; color:#8a90a0; font-size:16px; line-height:1; padding:0;" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c">×</button>
+                </div>
+              </li>
+            </sc-for>
+          </ul>
+        </div>
+      </sc-if>
+
+    </section>
+
+    
+
+  </main>
+
+  <sc-if value="{{ wheelOpen }}" hint-placeholder-val="{{ false }}">
+    <div ref="{{ burstRef }}" aria-hidden="true" style="position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:80;"></div>
+    <div onClick="{{ onCloseWheel }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:center; justify-content:center; padding:32px 16px; z-index:65; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain;">
+      <div role="dialog" aria-modal="true" aria-labelledby="wheel-title" aria-describedby="wheel-desc" onClick="{{ stop }}" style="margin:auto; width:100%; max-width:440px; background:#fff; border:1px solid #e7ecf2; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; align-items:center; gap:16px;">
+        <div style="width:100%; display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <h2 id="wheel-title" style="margin:0; font-size:19px; font-weight:800; letter-spacing:-0.3px;">{{ wheelTitle }}</h2>
+            <span id="wheel-desc" style="font-size:13px; line-height:1.6; color:#5b5f6b;">{{ wheelHint }}</span>
+          </div>
+          <div style="flex:none; display:flex; gap:8px;">
+            <button type="button" onClick="{{ onToggleSound }}" aria-label="{{ soundLabel }}" title="{{ soundLabel }}" style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:{{ soundBg }}; border:1px solid {{ soundBorder }}; border-radius:10px; color:{{ soundColor }};">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"></path><path d="{{ soundPath }}"></path></svg>
+            </button>
+            <button type="button" onClick="{{ onCloseWheel }}" aria-label="닫기" style="display:flex; align-items:center; justify-content:center; width:36px; height:36px; cursor:pointer; background:#f4f8fb; border:1px solid #e7ecf2; border-radius:10px; color:#5b5f6b; font-size:18px; line-height:1; padding:0; transition:background 200ms cubic-bezier(.2,0,.2,1), border-color 200ms cubic-bezier(.2,0,.2,1), color 200ms cubic-bezier(.2,0,.2,1), transform 420ms cubic-bezier(.2,0,.2,1);" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c; transform:rotate(90deg)" style-active="transform:rotate(90deg) scale(.9)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+          </div>
+        </div>
+
+        <div style="position:relative; width:min(360px, calc(100vw - 92px)); height:calc(min(360px, calc(100vw - 92px)) + 18px);">
+          <div aria-hidden="true" style="position:absolute; top:0; left:50%; margin-left:-11px; width:22px; height:20px; background:#1c1e26; clip-path:polygon(50% 100%, 0 0, 100% 0); z-index:2;"></div>
+          <div style="position:absolute; top:18px; left:0; width:min(360px, calc(100vw - 92px)); height:min(360px, calc(100vw - 92px)); border-radius:50%; border:6px solid #ffffff; box-shadow:0 0 0 1px #d7dee7, 0 8px 20px rgba(28,30,38,0.14); overflow:hidden; background:{{ wheelGradient }}; transform:rotate({{ wheelRotation }}deg); transition:transform 5200ms cubic-bezier(.1,.72,.06,1);">
+            <sc-for list="{{ wheelLabels }}" as="seg" hint-placeholder-count="4">
+              <span style="position:absolute; top:50%; left:50%; width:min(140px, 34vw); margin:-12px 0 0 calc(min(140px, 34vw) / -2); text-align:center; font-size:clamp(13px, 3.9vw, 18px); font-weight:800; color:{{ seg.fg }}; text-shadow:0 1px 0 rgba(255,255,255,0.45); transform:{{ seg.transform }}; transition:transform 5200ms cubic-bezier(.1,.72,.06,1); overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">{{ seg.name }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="width:100%; min-height:52px; display:flex; align-items:center; justify-content:center; background:{{ wheelResultBg }}; border:1px solid {{ wheelResultBorder }}; border-radius:10px; padding:10px 12px;">
+          <span role="status" style="font-size:16px; font-weight:800; color:{{ wheelResultColor }}; text-align:center; overflow-wrap:anywhere; animation:{{ wheelResultAnim }};">{{ wheelResultText }}</span>
+        </div>
+
+        <div style="width:100%; display:flex; gap:8px;">
+          <button type="button" onClick="{{ onCloseWheel }}" style="flex:1; cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:14px; font-weight:600; height:44px; border-radius:10px;">닫기</button>
+          <sc-if value="{{ canSpin }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ onSpin }}" style="flex:1; cursor:pointer; background:#6E29E7; border:1px solid #6E29E7; color:#fff; font-size:14px; font-weight:700; height:44px; border-radius:10px;">{{ spinLabel }}</button>
+          </sc-if>
+          <sc-if value="{{ spinning }}" hint-placeholder-val="{{ false }}">
+            <button type="button" disabled="{{ true }}" style="flex:1; border:1px dashed #cbd3dd; background:#eef2f7; color:#8a90a0; font-size:14px; font-weight:700; height:44px; border-radius:10px; cursor:not-allowed;">돌리는 중…</button>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ logsOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onCloseLogs }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:flex-start; justify-content:center; padding:32px 16px; z-index:55; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain;">
+      <div role="dialog" aria-modal="true" aria-labelledby="logs-title" aria-describedby="logs-desc" onClick="{{ stop }}" style="margin:auto; width:100%; max-width:520px; background:#fff; border:1px solid #e7ecf2; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <h2 id="logs-title" style="margin:0; font-size:17px; font-weight:700; letter-spacing:-0.2px;">승패 기록</h2>
+            <span id="logs-desc" style="font-size:13px; line-height:1.6; color:#5b5f6b;">{{ logsSummary }}</span>
+          </div>
+          <button type="button" onClick="{{ onCloseLogs }}" aria-label="닫기" style="flex:none; display:flex; align-items:center; justify-content:center; width:36px; height:36px; cursor:pointer; background:#f4f8fb; border:1px solid #e7ecf2; border-radius:10px; color:#5b5f6b; font-size:18px; line-height:1; padding:0; transition:background 200ms cubic-bezier(.2,0,.2,1), border-color 200ms cubic-bezier(.2,0,.2,1), color 200ms cubic-bezier(.2,0,.2,1), transform 420ms cubic-bezier(.2,0,.2,1);" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c; transform:rotate(90deg)" style-active="transform:rotate(90deg) scale(.9)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+        </div>
+        <sc-if value="{{ hasLogs }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; flex-direction:column; gap:16px; max-height:420px; overflow-y:auto; overflow-x:hidden; padding-right:12px; margin-right:-6px;">
+            <sc-for list="{{ logGroups }}" as="group" hint-placeholder-count="2">
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; border-bottom:1px solid #eef2f7; padding-bottom:6px;">
+                  <strong style="font-size:14px; font-weight:700;">{{ group.dateLabel }}</strong>
+                  <span style="font-size:12px; color:#5b5f6b;">{{ group.countLabel }}</span>
+                </div>
+                <ul aria-label="{{ group.dateLabel }} 기록" style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px;">
+                  <sc-for list="{{ group.logs }}" as="log" hint-placeholder-count="2">
+                    <li style="display:flex; align-items:flex-start; gap:10px; background:#f9fbfd; border:1px solid #e7ecf2; border-radius:10px; padding:10px 8px 10px 12px;">
+                      <span style="flex:none; font-size:12px; font-weight:600; color:#5b5f6b; font-variant-numeric:tabular-nums; padding-top:4px;">{{ log.time }}</span>
+                      <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;">
+                        <sc-for list="{{ log.teamLines }}" as="line" hint-placeholder-count="2">
+                          <div style="display:flex; align-items:flex-start; gap:8px; min-width:0;">
+                            <span style="flex:none; display:inline-flex; align-items:center; height:22px; font-size:12px; line-height:1; font-weight:700; color:{{ line.color }}; background:{{ line.bg }}; border:1px solid {{ line.border }}; border-radius:999px; padding:0 10px; font-variant-numeric:tabular-nums; font-feature-settings:'tnum' 1;">{{ line.label }}</span>
+                            <span style="flex:1; min-width:0; font-size:13px; line-height:1.7; color:#1c1e26; overflow-wrap:anywhere;">{{ line.names }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <button type="button" onClick="{{ log.onRemove }}" aria-label="{{ log.removeLabel }}" style="flex:none; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:transparent; border:1px solid transparent; border-radius:8px; color:#8a90a0; font-size:16px; line-height:1; padding:0;" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c">×</button>
+                    </li>
+                  </sc-for>
+                </ul>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noLogs }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0; background:#f9fbfd; border:1px dashed #cbd3dd; border-radius:10px; padding:18px; text-align:center; font-size:13px; line-height:1.6; color:#5b5f6b;">아직 기록이 없습니다. 결과 카드의 승리 버튼을 눌러 기록해 보세요.</p>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ bulkOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onCloseBulk }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:flex-start; justify-content:center; padding:32px 16px; z-index:55; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain;">
+      <div role="dialog" aria-modal="true" aria-labelledby="bulk-title" aria-describedby="bulk-desc" onClick="{{ stop }}" style="margin:auto; width:100%; max-width:460px; background:#fff; border:1px solid #e7ecf2; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <h2 id="bulk-title" style="margin:0; font-size:17px; font-weight:700; letter-spacing:-0.2px;">참가자 일괄 추가</h2>
+            <span id="bulk-desc" style="font-size:13px; line-height:1.6; color:#5b5f6b;">한 줄에 한 명씩 붙여넣으세요. 쉼표로 구분해도 됩니다.</span>
+          </div>
+          <button type="button" onClick="{{ onCloseBulk }}" aria-label="닫기" style="flex:none; display:flex; align-items:center; justify-content:center; width:36px; height:36px; cursor:pointer; background:#f4f8fb; border:1px solid #e7ecf2; border-radius:10px; color:#5b5f6b; font-size:18px; line-height:1; padding:0; transition:background 200ms cubic-bezier(.2,0,.2,1), border-color 200ms cubic-bezier(.2,0,.2,1), color 200ms cubic-bezier(.2,0,.2,1), transform 420ms cubic-bezier(.2,0,.2,1);" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c; transform:rotate(90deg)" style-active="transform:rotate(90deg) scale(.9)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+        </div>
+        <textarea aria-label="참가자 목록" value="{{ bulkText }}" onChange="{{ onBulkChange }}" rows="9" placeholder="김지원
+이서준
+박하은" style="width:100%; resize:vertical; min-height:180px; font-size:15px; line-height:1.7; color:#1c1e26; background:#fff; border:1px solid #d7dee7; border-radius:10px; padding:12px 14px;"></textarea>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+          <span style="font-size:12px; color:{{ bulkNoteColor }};">{{ bulkNote }}</span>
+          <div style="display:flex; gap:8px;">
+            <button type="button" onClick="{{ onCloseBulk }}" style="cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:14px; font-weight:600; padding:11px 16px; border-radius:10px;">취소</button>
+            <sc-if value="{{ canBulkAdd }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ onBulkAdd }}" style="cursor:pointer; background:#6E29E7; border:1px solid #6E29E7; color:#fff; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px;">{{ bulkAddLabel }}</button>
+            </sc-if>
+            <sc-if value="{{ cannotBulkAdd }}" hint-placeholder-val="{{ true }}">
+              <button type="button" disabled="{{ true }}" style="border:1px dashed #cbd3dd; background:#eef2f7; color:#8a90a0; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px; cursor:not-allowed;">명단에 추가</button>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onClosePicker }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:flex-start; justify-content:center; padding:32px 16px; z-index:55; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain;">
+      <div role="dialog" aria-modal="true" aria-labelledby="picker-title" aria-describedby="picker-desc" onClick="{{ stop }}" style="margin:auto; width:100%; max-width:460px; background:#fff; border:1px solid #e7ecf2; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <h2 id="picker-title" style="margin:0; font-size:17px; font-weight:700; letter-spacing:-0.2px;">{{ pickerTitle }}</h2>
+            <span id="picker-desc" style="font-size:13px; line-height:1.6; color:#5b5f6b;">{{ pickerHint }}</span>
+          </div>
+          <button type="button" onClick="{{ onClosePicker }}" aria-label="닫기" style="flex:none; display:flex; align-items:center; justify-content:center; width:36px; height:36px; cursor:pointer; background:#f4f8fb; border:1px solid #e7ecf2; border-radius:10px; color:#5b5f6b; font-size:18px; line-height:1; padding:0; transition:background 200ms cubic-bezier(.2,0,.2,1), border-color 200ms cubic-bezier(.2,0,.2,1), color 200ms cubic-bezier(.2,0,.2,1), transform 420ms cubic-bezier(.2,0,.2,1);" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c; transform:rotate(90deg)" style-active="transform:rotate(90deg) scale(.9)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+        </div>
+        <ul aria-label="참가자 선택" style="margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:6px; max-height:300px; overflow:auto;">
+          <sc-for list="{{ pickerPeople }}" as="c" hint-placeholder-count="4">
+            <li style="display:flex; align-items:center; gap:10px; background:{{ c.bg }}; border:1px solid #e7ecf2; border-radius:10px; padding:8px 10px;">
+              <input type="checkbox" id="{{ c.domId }}" checked="{{ c.picked }}" onChange="{{ c.onToggle }}" style="flex:none; width:18px; height:18px; accent-color:#6E29E7; cursor:pointer; margin:0;">
+              <label for="{{ c.domId }}" style="flex:1; min-width:0; font-size:14px; line-height:1.5; cursor:pointer; overflow-wrap:anywhere;">{{ c.name }}</label>
+            </li>
+          </sc-for>
+        </ul>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+          <span style="font-size:12px; color:{{ pickerNoteColor }};">{{ pickerNote }}</span>
+          <div style="display:flex; gap:8px;">
+            <button type="button" onClick="{{ onClosePicker }}" style="cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:14px; font-weight:600; padding:11px 16px; border-radius:10px;">취소</button>
+            <sc-if value="{{ canSaveRule }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ onSaveRule }}" style="cursor:pointer; background:#6E29E7; border:1px solid #6E29E7; color:#fff; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px;">규칙 추가</button>
+            </sc-if>
+            <sc-if value="{{ cannotSaveRule }}" hint-placeholder-val="{{ true }}">
+              <button type="button" disabled="{{ true }}" style="border:1px dashed #cbd3dd; background:#eef2f7; color:#8a90a0; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px; cursor:not-allowed;">규칙 추가</button>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ confirmRoster }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onCancelRosterDelete }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:center; justify-content:center; padding:24px 16px; z-index:75;">
+      <div role="alertdialog" aria-modal="true" aria-labelledby="rosterdel-title" aria-describedby="rosterdel-desc" onClick="{{ stop }}" style="width:100%; max-width:380px; background:#fff; border:1px solid #ffd6d8; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; gap:14px;">
+        <h2 id="rosterdel-title" style="margin:0; font-size:17px; font-weight:700; color:#c2333c; letter-spacing:-0.2px;">삭제하시겠습니까?</h2>
+        <p id="rosterdel-desc" style="margin:0; font-size:13px; line-height:1.6; color:#5b5f6b;">{{ confirmRosterText }}</p>
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button type="button" onClick="{{ onCancelRosterDelete }}" style="cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:14px; font-weight:600; padding:11px 16px; border-radius:10px;">취소</button>
+          <button type="button" onClick="{{ onConfirmRosterDelete }}" style="cursor:pointer; background:#f95256; border:1px solid #f95256; color:#fff; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px;">삭제</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ confirmLog }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onCancelLogDelete }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:center; justify-content:center; padding:24px 16px; z-index:70;">
+      <div role="alertdialog" aria-modal="true" aria-labelledby="logdel-title" aria-describedby="logdel-desc" onClick="{{ stop }}" style="width:100%; max-width:380px; background:#fff; border:1px solid #ffd6d8; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; gap:14px;">
+        <h2 id="logdel-title" style="margin:0; font-size:17px; font-weight:700; color:#c2333c; letter-spacing:-0.2px;">삭제하시겠습니까?</h2>
+        <p id="logdel-desc" style="margin:0; font-size:13px; line-height:1.6; color:#5b5f6b; font-variant-numeric:tabular-nums;">{{ confirmLogText }}</p>
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button type="button" onClick="{{ onCancelLogDelete }}" style="cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:14px; font-weight:600; padding:11px 16px; border-radius:10px;">취소</button>
+          <button type="button" onClick="{{ onConfirmLogDelete }}" style="cursor:pointer; background:#f95256; border:1px solid #f95256; color:#fff; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px;">삭제</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ confirmClear }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onCancelClear }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:center; justify-content:center; padding:24px 16px; z-index:60;">
+      <div role="alertdialog" aria-modal="true" aria-labelledby="clear-title" aria-describedby="clear-desc" onClick="{{ stop }}" style="width:100%; max-width:380px; background:#fff; border:1px solid #ffd6d8; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; gap:14px;">
+        <h2 id="clear-title" style="margin:0; font-size:17px; font-weight:700; color:#c2333c; letter-spacing:-0.2px;">정말 비우시겠습니까?</h2>
+        <p id="clear-desc" style="margin:0; font-size:13px; line-height:1.6; color:#5b5f6b;">{{ confirmClearText }}</p>
+        <div style="display:flex; gap:8px; justify-content:flex-end;">
+          <button type="button" onClick="{{ onCancelClear }}" style="cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5b5f6b; font-size:14px; font-weight:600; padding:11px 16px; border-radius:10px;">취소</button>
+          <button type="button" onClick="{{ onConfirmClear }}" style="cursor:pointer; background:#f95256; border:1px solid #f95256; color:#fff; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px;">비우기</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ rosterOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onScrimClick }}" style="position:fixed; inset:0; background:rgba(28,30,38,0.45); display:flex; align-items:center; justify-content:center; padding:32px 16px; z-index:50; overflow:auto;">
+      <div role="dialog" aria-modal="true" aria-labelledby="roster-title" aria-describedby="roster-desc" onClick="{{ stop }}" style="margin:auto; width:100%; max-width:480px; background:#fff; border:1px solid #e7ecf2; border-radius:16px; box-shadow:0 24px 56px rgba(28,30,38,0.22); padding:22px; display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <h2 id="roster-title" style="margin:0; font-size:17px; font-weight:700; letter-spacing:-0.2px;">명단 저장·불러오기</h2>
+            <span id="roster-desc" style="font-size:13px; line-height:1.6; color:#5b5f6b;">저장할 이름을 적어 주세요. 이 브라우저에만 보관됩니다.</span>
+          </div>
+          <button type="button" onClick="{{ onCloseRosters }}" aria-label="닫기" style="flex:none; display:flex; align-items:center; justify-content:center; width:36px; height:36px; cursor:pointer; background:#f4f8fb; border:1px solid #e7ecf2; border-radius:10px; color:#5b5f6b; font-size:18px; line-height:1; padding:0; transition:background 200ms cubic-bezier(.2,0,.2,1), border-color 200ms cubic-bezier(.2,0,.2,1), color 200ms cubic-bezier(.2,0,.2,1), transform 420ms cubic-bezier(.2,0,.2,1);" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c; transform:rotate(90deg)" style-active="transform:rotate(90deg) scale(.9)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+        </div>
+
+        <div style="display:flex; gap:8px;">
+          <input type="text" value="{{ rosterDraft }}" onChange="{{ onRosterDraftChange }}" onKeyDown="{{ onRosterKey }}" aria-label="명단 이름" placeholder="예: 수요일 풋살" autoComplete="off" style="flex:1; min-width:0; font-size:14px; line-height:1.5; color:#1c1e26; background:#fff; border:1px solid #d7dee7; border-radius:10px; padding:11px 12px;">
+          <sc-if value="{{ canSaveRoster }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ onSaveRoster }}" style="flex:none; cursor:pointer; background:#6E29E7; border:1px solid #6E29E7; color:#fff; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px;">저장</button>
+          </sc-if>
+          <sc-if value="{{ cannotSaveRoster }}" hint-placeholder-val="{{ true }}">
+            <button type="button" disabled="{{ true }}" aria-describedby="save-why" style="flex:none; border:1px dashed #cbd3dd; background:#eef2f7; color:#8a90a0; font-size:14px; font-weight:700; padding:11px 16px; border-radius:10px; cursor:not-allowed;">저장</button>
+          </sc-if>
+        </div>
+        
+
+        <sc-if value="{{ hasRosters }}" hint-placeholder-val="{{ true }}">
+          <ul aria-label="저장한 명단 목록" style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; max-height:320px; overflow:auto;">
+            <sc-for list="{{ rosters }}" as="r" hint-placeholder-count="2">
+              <li style="display:flex; align-items:center; gap:10px; background:#f9fbfd; border:1px solid #e7ecf2; border-radius:10px; padding:8px 8px 8px 12px;">
+                <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-size:14px; font-weight:600; overflow-wrap:anywhere;">{{ r.name }}</span>
+                  <span style="font-size:12px; color:#5b5f6b;">{{ r.meta }}</span>
+                </div>
+                <button type="button" onClick="{{ r.onLoad }}" aria-label="{{ r.loadLabel }}" style="flex:none; cursor:pointer; background:#fff; border:1px solid #d7dee7; color:#5620b8; font-size:13px; font-weight:600; padding:8px 12px; border-radius:8px;">불러오기</button>
+                <button type="button" onClick="{{ r.onDelete }}" aria-label="{{ r.deleteLabel }}" title="삭제" style="flex:none; width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:transparent; border:1px solid transparent; border-radius:8px; color:#8a90a0; padding:0;" style-hover="background:#fff5f5; border-color:#ffd6d8; color:#c2333c">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                </button>
+              </li>
+            </sc-for>
+          </ul>
+        </sc-if>
+        <sc-if value="{{ noRosters }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0; background:#f9fbfd; border:1px dashed #cbd3dd; border-radius:10px; padding:18px; text-align:center; font-size:13px; line-height:1.6; color:#5b5f6b;">저장한 명단이 없습니다. 이름을 적고 저장을 누르면 여기에 쌓입니다.</p>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const KEY = 'team-maker.scr-web-001';
+
+class Component extends DCLogic {
+  burst = React.createRef();
+  _sources = [];
+  _locked = false;
+  _lockY = 0;
+  state = { people: [], draft: '', seq: 1, rosters: [], rosterDraft: '', rosterSeq: 1, rosterOpen: false, confirmClear: false, rules: [], ruleSeq: 1, pickerOpen: false, pickerType: 'together', pickerSel: [], bulkOpen: false, bulkText: '', logs: [], logSeq: 1, logsOpen: false, confirmLogId: null, confirmRosterId: null, leaving: [], leavingRules: [], entering: [], enteringRules: [], leavingLogs: [], enteringLogs: [], recordedWinner: null, lastLogId: null, picks: {}, wheelTeam: null, wheelRotation: 0, wheelSpinning: false, wheelResult: '', soundOn: true, resultError: '', mode: 'teams', teams: 2, size: 2, result: null, saveFailed: false, shuffles: 0 };
+
+  componentDidMount() {
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (s && typeof s === 'object') {
+        const people = Array.isArray(s.people)
+          ? s.people.filter(p => p && typeof p.name === 'string').map((p, i) => ({ id: Number(p.id) || i + 1, name: p.name, included: p.included !== false, col: p.col === 1 ? 1 : (p.col === 0 ? 0 : i % 2) }))
+          : (typeof s.raw === 'string' ? s.raw.split(/[\n,]/).map(t => t.trim()).filter(Boolean).map((name, i) => ({ id: i + 1, name, included: true })) : []);
+        const rosters = Array.isArray(s.rosters)
+          ? s.rosters.filter(r => r && typeof r.name === 'string' && Array.isArray(r.people))
+              .map((r, i) => ({ id: Number(r.id) || i + 1, name: r.name, savedAt: r.savedAt || '', rules: Array.isArray(r.rules) ? r.rules : [], people: r.people.map((p, k) => ({ name: String(p.name || ''), included: p.included !== false, col: p.col === 1 ? 1 : (p.col === 0 ? 0 : k % 2) })) }))
+          : [];
+        const rules = Array.isArray(s.rules)
+          ? s.rules.filter(r => r && Array.isArray(r.ids) && r.ids.length > 1).map((r, i) => ({ id: Number(r.id) || i + 1, type: r.type === 'apart' ? 'apart' : 'together', ids: r.ids.map(Number) }))
+          : [];
+        const logs = Array.isArray(s.logs)
+          ? s.logs.filter(l => l && l.winner && Array.isArray(l.teams)).map((l, i) => ({
+              id: Number(l.id) || i + 1, at: l.at || '', date: l.date || '', winner: l.winner,
+              teams: l.teams.map(t => ({ name: String(t.name || ''), members: (t.members || []).map(String) }))
+            }))
+          : [];
+        this.setState({
+          people: this.rebalance(people),
+          logs,
+          soundOn: s.soundOn !== false,
+          logSeq: logs.reduce((m, l) => Math.max(m, l.id), 0) + 1,
+          rules,
+          ruleSeq: rules.reduce((m, r) => Math.max(m, r.id), 0) + 1,
+          rosters,
+          rosterSeq: rosters.reduce((m, r) => Math.max(m, r.id), 0) + 1,
+          seq: people.reduce((m, p) => Math.max(m, p.id), 0) + 1,
+          mode: s.mode === 'size' ? 'size' : 'teams',
+          teams: Number(s.teams) || 2,
+          size: Number(s.size) || 2
+        });
+      }
+    } catch (e) { this.setState({ saveFailed: true }); }
+    this._onKey = e => {
+      if (e.key === 'Enter' && this.state.confirmRosterId !== null) {
+        e.preventDefault();
+        const rid = this.state.confirmRosterId;
+        this.commit({ rosters: this.state.rosters.filter(q => q.id !== rid), confirmRosterId: null });
+        return;
+      }
+      if (e.key === 'Enter' && this.state.confirmLogId !== null) {
+        e.preventDefault();
+        this.removeLog(this.state.confirmLogId);
+        return;
+      }
+      if (e.key !== 'Escape') return;
+      if (this.state.confirmRosterId !== null) { this.setState({ confirmRosterId: null }); return; }
+      if (this.state.wheelTeam !== null) { clearTimeout(this._spinTimer); this.stopSounds(); this.setState({ wheelTeam: null, wheelSpinning: false }); }
+      else if (this.state.confirmLogId !== null) this.setState({ confirmLogId: null });
+      else if (this.state.confirmClear) this.setState({ confirmClear: false });
+      else if (this.state.logsOpen) this.setState({ logsOpen: false });
+      else if (this.state.bulkOpen) this.setState({ bulkOpen: false, bulkText: '' });
+      else if (this.state.pickerOpen) this.setState({ pickerOpen: false, pickerSel: [] });
+      else if (this.state.rosterOpen) this.setState({ rosterOpen: false, rosterDraft: '' });
+    };
+    document.addEventListener('keydown', this._onKey);
+  }
+
+  anyModalOpen() {
+    const s = this.state;
+    return s.wheelTeam !== null || s.logsOpen || s.bulkOpen || s.pickerOpen || s.rosterOpen || s.confirmClear || s.confirmLogId !== null || s.confirmRosterId !== null;
+  }
+
+  lockScroll(on) {
+    const b = document.body, d = document.documentElement;
+    if (!b || this._locked === on) return;
+    if (!on && !b.style.position) { this._locked = false; return; }
+    this._locked = on;
+    if (on) {
+      this._lockY = window.scrollY || d.scrollTop || 0;
+      b.style.position = 'fixed';
+      b.style.top = -this._lockY + 'px';
+      b.style.left = '0';
+      b.style.right = '0';
+      b.style.width = '100%';
+      b.style.overflowY = 'scroll';
+      b.style.touchAction = 'none';
+    } else {
+      const y = this._lockY || 0;
+      b.style.position = '';
+      b.style.top = '';
+      b.style.left = '';
+      b.style.right = '';
+      b.style.width = '';
+      b.style.overflowY = '';
+      b.style.touchAction = '';
+      window.scrollTo(0, y);
+    }
+  }
+
+  decorate(list, col) {
+    const s = this.state;
+    return list.map((p, row) => ({
+      domId: 'p-' + p.id,
+      flipKey: 'p' + p.id,
+      no: row * 2 + col + 1,
+      name: p.name,
+      included: p.included,
+      rowBg: p.included ? '#ffffff' : '#f4f8fb',
+      nameColor: p.included ? '#1c1e26' : '#8a90a0',
+      nameDecoration: p.included ? 'none' : 'line-through',
+      toggleLabel: (p.name || '참가자') + ' 팀에 포함',
+      nameLabel: (p.name || '참가자') + ' 이름',
+      removeLabel: (p.name || '참가자') + ' 삭제',
+      anim: s.leaving.indexOf(p.id) >= 0
+        ? 'tm-send 220ms cubic-bezier(.2,0,.2,1) forwards'
+        : (s.entering.indexOf(p.id) >= 0 ? 'tm-recv 260ms cubic-bezier(.2,0,.2,1)' : 'none'),
+      onToggle: () => this.commit({ people: s.people.map(q => q.id === p.id ? { ...q, included: !q.included } : q), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }),
+      onRename: e => { const v = e.target.value; this.commit({ people: s.people.map(q => q.id === p.id ? { ...q, name: v } : q), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }); },
+      onRemove: () => {
+        this.setState(st => ({ leaving: st.leaving.concat([p.id]) }));
+        setTimeout(() => {
+          this.captureFlip();
+          this.commit({
+            people: this.rebalance(this.state.people.filter(q => q.id !== p.id)),
+            rules: this.state.rules.map(r => ({ ...r, ids: r.ids.filter(x => x !== p.id) })).filter(r => r.ids.length > 1),
+            leaving: this.state.leaving.filter(x => x !== p.id),
+            result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {}
+          });
+        }, 220);
+      }
+    }));
+  }
+
+  rebalance(people) {
+    const out = people.slice();
+    for (let guard = 0; guard < 200; guard++) {
+      const a = out.filter(p => (p.col === 1 ? 1 : 0) === 0);
+      const b = out.filter(p => (p.col === 1 ? 1 : 0) === 1);
+      // 왼쪽 열이 항상 먼저 채워지고, 차이는 1명 이내
+      const needPullLeft = b.length > a.length;
+      const needPushRight = a.length - b.length >= 2;
+      if (!needPullLeft && !needPushRight) break;
+      const from = needPullLeft ? b : a;
+      const to = needPullLeft ? 0 : 1;
+      const moved = from[from.length - 1];
+      const i = out.indexOf(moved);
+      out[i] = Object.assign({}, moved, { col: to });
+    }
+    return out;
+  }
+
+  nextCol() {
+    const a = this.state.people.filter(p => (p.col === 1 ? 1 : 0) === 0).length;
+    const b = this.state.people.length - a;
+    return b < a ? 1 : 0;
+  }
+
+  markEntering(ids, key) {
+    const field = key === 'rules' ? 'enteringRules' : (key === 'logs' ? 'enteringLogs' : 'entering');
+    this.setState(st => {
+      const next = {};
+      next[field] = st[field].concat(ids);
+      return next;
+    });
+    setTimeout(() => this.setState(st => {
+      const next = {};
+      next[field] = st[field].filter(x => ids.indexOf(x) < 0);
+      return next;
+    }), 420);
+  }
+
+  removeLog(id) {
+    this.setState({ confirmLogId: null, leavingLogs: this.state.leavingLogs.concat([id]) });
+    setTimeout(() => {
+      this.captureFlip();
+      this.commit({
+        logs: this.state.logs.filter(q => q.id !== id),
+        leavingLogs: this.state.leavingLogs.filter(x => x !== id)
+      });
+    }, 220);
+  }
+
+  // 팀 카드 명단이 1팀→2팀→1팀 순으로 번갈아 나타나도록 delay를 직접 적용
+  // (animation shorthand의 delay가 cubic-bezier 쉼표 때문에 유실되어 JS로 지정)
+  applyStagger() {
+    const cards = document.querySelectorAll('section article ul');
+    const n = cards.length;
+    if (!n) return;
+    cards.forEach((ul, ti) => {
+      [...ul.children].forEach((li, k) => {
+        const d = ((k * n + ti) * 70) + 'ms';
+        if (li.style.animationDelay !== d) li.style.animationDelay = d;
+      });
+    });
+  }
+
+  captureFlip() {
+    const map = new Map();
+    document.querySelectorAll('[data-flip]').forEach(el => {
+      const r = el.getBoundingClientRect();
+      map.set(el.getAttribute('data-flip'), { x: r.left, y: r.top });
+    });
+    this._flip = map;
+  }
+
+  playFlip() {
+    const prev = this._flip;
+    if (!prev) return;
+    this._flip = null;
+    document.querySelectorAll('[data-flip]').forEach(el => {
+      const old = prev.get(el.getAttribute('data-flip'));
+      if (!old) return;
+      const r = el.getBoundingClientRect();
+      const dx = old.x - r.left, dy = old.y - r.top;
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+      el.style.transition = 'none';
+      el.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
+      requestAnimationFrame(() => {
+        el.style.transition = 'transform 300ms cubic-bezier(.2,0,.2,1)';
+        el.style.transform = '';
+      });
+    });
+  }
+
+  componentDidUpdate() {
+    this.lockScroll(this.anyModalOpen());
+    this.playFlip();
+    this.applyStagger();
+  }
+
+  componentWillUnmount() {
+    this.lockScroll(false);
+    clearTimeout(this._spinTimer);
+    clearTimeout(this._burstTimer);
+    this.stopSounds();
+    if (this._onKey) document.removeEventListener('keydown', this._onKey);
+  }
+
+  persist(next) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ people: next.people, rules: next.rules, logs: next.logs, soundOn: next.soundOn, rosters: next.rosters, mode: next.mode, teams: next.teams, size: next.size }));
+      if (this.state.saveFailed) this.setState({ saveFailed: false });
+    } catch (e) { this.setState({ saveFailed: true }); }
+  }
+
+  commit(patch) {
+    this.setState(patch, () => this.persist(this.state));
+  }
+
+  addDraft() {
+    this.captureFlip();
+    const text = this.state.draft;
+    const now = Date.now();
+    if (this._lastText === text && now - (this._lastAt || 0) < 400) return; // IME 중복 엔터 방지
+    const parts = text.split(/[,\n]/).map(t => t.trim()).filter(Boolean);
+    if (!parts.length) return;
+    this._lastText = text; this._lastAt = now;
+    let seq = this.state.seq;
+    let colA = this.state.people.filter(p => (p.col === 1 ? 1 : 0) === 0).length;
+    let colB = this.state.people.length - colA;
+    const added = parts.map(name => {
+      const col = colB < colA ? 1 : 0;
+      if (col === 1) colB++; else colA++;
+      return { id: seq++, name, included: true, col };
+    });
+    this.commit({ people: this.rebalance(this.state.people.concat(added)), seq, draft: '', result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} });
+    this.markEntering(added.map(a => a.id), 'people');
+  }
+
+  saveRoster() {
+    const name = this.state.rosterDraft.trim();
+    if (!name || !this.state.people.length) return;
+    const now = Date.now();
+    if (this._lastRoster === name && now - (this._lastRosterAt || 0) < 400) return; // IME 중복 엔터 방지
+    this._lastRoster = name; this._lastRosterAt = now;
+    const stamp = new Date();
+    const savedAt = (stamp.getMonth() + 1) + '월 ' + stamp.getDate() + '일';
+    const entry = {
+      id: this.state.rosters.find(r => r.name === name)?.id || this.state.rosterSeq,
+      name, savedAt,
+      people: this.state.people.map(p => ({ name: p.name, included: p.included, col: p.col === 1 ? 1 : 0 })),
+      rules: this.state.rules.map(r => ({ type: r.type, at: r.ids.map(id => this.state.people.findIndex(p => p.id === id)).filter(i => i >= 0) })).filter(r => r.at.length > 1)
+    };
+    const rest = this.state.rosters.filter(r => r.name !== name);
+    this.commit({ rosters: rest.concat([entry]), rosterSeq: Math.max(this.state.rosterSeq, entry.id + 1), rosterDraft: '' });
+  }
+
+  names() {
+    return this.state.people.filter(p => p.included).map(p => p.name.trim()).filter(Boolean);
+  }
+
+  celebrate() {
+    const host = this.burst.current;
+    if (host) {
+      const colors = ['#6E29E7', '#ff571a', '#009f70', '#3b6fe0', '#f2a20c'];
+      for (let i = 0; i < 160; i++) {
+        const p = document.createElement('span');
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 140 + Math.random() * 300;
+        const size = 8 + Math.random() * 12;
+        p.style.cssText = [
+          'position:absolute', 'left:50%', 'top:45%',
+          'width:' + size.toFixed(1) + 'px',
+          'height:' + (size * (Math.random() < 0.4 ? 1 : 0.45)).toFixed(1) + 'px',
+          'background:' + colors[i % colors.length],
+          'border-radius:' + (Math.random() < 0.3 ? '50%' : '2px'),
+          '--dx:' + (Math.cos(angle) * dist).toFixed(1) + 'px',
+          '--dy:' + (Math.sin(angle) * dist + 110).toFixed(1) + 'px',
+          '--rot:' + Math.round(Math.random() * 720 - 360) + 'deg',
+          'animation:tm-burst ' + (1100 + Math.random() * 800).toFixed(0) + 'ms cubic-bezier(.16,.7,.3,1) forwards',
+          'animation-delay:' + Math.round(Math.random() * 180) + 'ms'
+        ].join(';');
+        host.appendChild(p);
+      }
+      clearTimeout(this._burstTimer);
+      this._burstTimer = setTimeout(() => { if (this.burst.current) this.burst.current.innerHTML = ''; }, 2300);
+    }
+    if (this.state.soundOn) this.fanfare();
+  }
+
+  audioCtx() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      const ctx = this._audio || (this._audio = new AC());
+      if (ctx.state === 'suspended') ctx.resume();
+      return ctx;
+    } catch (e) { return null; }
+  }
+
+  // 회전 중 "드르르륵" — 조각이 포인터를 지날 때마다 짧은 클릭
+  spinTicks(totalDeg, segDeg, durationMs) {
+    if (!this.state.soundOn) return;
+    const ctx = this.audioCtx();
+    if (!ctx) return;
+    const T = durationMs / 1000;
+    const count = Math.min(Math.floor(totalDeg / segDeg), 140);
+    const t0 = ctx.currentTime + 0.02;
+    for (let k = 1; k <= count; k++) {
+      const p = (k * segDeg) / totalDeg;
+      const t = t0 + T * (1 - Math.pow(1 - p, 1 / 3));
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(1500 - 500 * p, t);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.1, t + 0.004);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.07);
+      this._sources.push(osc);
+    }
+  }
+
+  // 당첨 "빰 빰 빠—밤"
+  fanfare() {
+    const ctx = this.audioCtx();
+    if (!ctx) return;
+    const t0 = ctx.currentTime + 0.03;
+    // 밝은 장조 아르페지오: 도-미-솔-도(위) + 마지막 화음
+    const motif = [
+      { f: 523.25, at: 0.00, d: 0.16 },
+      { f: 659.25, at: 0.11, d: 0.16 },
+      { f: 783.99, at: 0.22, d: 0.16 },
+      { f: 1046.50, at: 0.34, d: 0.75 }
+    ];
+    motif.forEach((n, i) => {
+      const start = t0 + n.at;
+      const peak = i === 3 ? 0.18 : 0.13;
+      [1, 2].forEach((mult, hi) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = n.f * mult;
+        const amp = peak / (hi + 1.2);
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(amp, start + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + n.d);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + n.d + 0.05);
+        this._sources.push(osc);
+      });
+    });
+    // 마지막 화음(도-미-솔) 길게
+    [1046.50, 1318.51, 1567.98].forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = f;
+      const start = t0 + 0.34;
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(0.09 / (i + 1), start + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 1.1);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(start);
+      osc.stop(start + 1.2);
+      this._sources.push(osc);
+    });
+    // 반짝이는 벨 꼬리
+    [1568, 2093, 2637].forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = f;
+      const start = t0 + 0.5 + i * 0.09;
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(0.05, start + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.5);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(start);
+      osc.stop(start + 0.55);
+      this._sources.push(osc);
+    });
+  }
+
+  stopSounds() {
+    (this._sources || []).forEach(s => { try { s.stop(); } catch (e) {} });
+    this._sources = [];
+  }
+
+  openWheel(teamName) {
+    this.setState({ wheelTeam: teamName, wheelResult: '', wheelSpinning: false });
+  }
+
+  spinWheel() {
+    const s = this.state;
+    const team = (s.result || []).find(t => t.name === s.wheelTeam);
+    if (!team || s.wheelSpinning) return;
+    const names = team.members.map(m => m.name);
+    const i = Math.floor(Math.random() * names.length);
+    const seg = 360 / names.length;
+    const base = s.wheelRotation + 360 * 8;
+    const target = base + ((360 - ((base + i * seg + seg / 2) % 360)) % 360);
+    this.setState({ wheelRotation: target, wheelSpinning: true, wheelResult: '' });
+    this.stopSounds();
+    this.spinTicks(target - s.wheelRotation, seg, 5200);
+    clearTimeout(this._spinTimer);
+    this._spinTimer = setTimeout(() => {
+      this.setState(st => {
+        const picks = Object.assign({}, st.picks);
+        picks[s.wheelTeam] = names[i];
+        return { picks, wheelSpinning: false, wheelResult: names[i] };
+      }, () => { this.persist(this.state); this.celebrate(); });
+    }, 5300);
+  }
+
+  // 돌림판 조각: 진한 파스텔 배경 + 같은 색 계열의 짙은 글자
+  wheelTones() {
+    return [
+      { bg: '#f39a8f', fg: '#6b1f18' },
+      { bg: '#f7bd76', fg: '#6b3b09' },
+      { bg: '#ecd772', fg: '#635008' },
+      { bg: '#9ed48b', fg: '#1f4a15' },
+      { bg: '#74c7b4', fg: '#0d3d33' },
+      { bg: '#84b5ec', fg: '#143a64' },
+      { bg: '#b39ce4', fg: '#371f66' },
+      { bg: '#f0a3c8', fg: '#6b1f46' }
+    ];
+  }
+
+  teamTone(name) {
+    const n = parseInt(String(name).replace(/[^0-9]/g, ''), 10) || 1;
+    // 보라(#6E29E7)는 primary 전용이라 팀 색에서 제외
+    const tones = [
+      { fg: '#00734f', bg: '#e6f7f0', bd: '#a8e0cd' },
+      { fg: '#1b5fbd', bg: '#eaf3ff', bd: '#c3ddfb' },
+      { fg: '#a83209', bg: '#fff2ea', bd: '#ffd9c2' },
+      { fg: '#a3187a', bg: '#fdeef7', bd: '#f7cee6' },
+      { fg: '#0f6470', bg: '#e6f5f7', bd: '#b6e0e6' },
+      { fg: '#6b6410', bg: '#fbf8e0', bd: '#eae3b0' }
+    ];
+    return tones[(n - 1) % tones.length];
+  }
+
+  recordWin(teamName) {
+    const now = new Date();
+    const pad = v => (v < 10 ? '0' + v : '' + v);
+    const entry = {
+      id: this.state.logSeq,
+      at: now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()),
+      date: now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate()),
+      winner: teamName,
+      teams: (this.state.result || []).map(t => ({ name: t.name, members: t.members.map(m => m.name) }))
+    };
+    this.commit({ logs: [entry].concat(this.state.logs), logSeq: this.state.logSeq + 1, recordedWinner: teamName, lastLogId: entry.id, picks: {} });
+    this.markEntering([entry.id], 'logs');
+  }
+
+  shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  build() {
+    const s = this.state;
+    const people = s.people.filter(p => p.included && p.name.trim());
+    const n = people.length;
+    const groupCount = s.mode === 'teams' ? Math.min(s.teams, n) : Math.max(1, Math.ceil(n / s.size));
+    const idx = new Map(people.map((p, i) => [p.id, i]));
+
+    // 같은 팀 규칙 → 묶음(클러스터)
+    const parent = people.map((_, i) => i);
+    const find = a => (parent[a] === a ? a : (parent[a] = find(parent[a])));
+    s.rules.filter(r => r.type === 'together').forEach(r => {
+      const ids = r.ids.map(id => idx.get(id)).filter(i => i !== undefined);
+      ids.slice(1).forEach(i => { parent[find(i)] = find(ids[0]); });
+    });
+    const map = new Map();
+    people.forEach((p, i) => {
+      const root = find(i);
+      if (!map.has(root)) map.set(root, []);
+      map.get(root).push(p);
+    });
+    const clusters = Array.from(map.values());
+    const clusterOf = new Map();
+    clusters.forEach((c, ci) => c.forEach(p => clusterOf.set(p.id, ci)));
+
+    // 다른 팀 규칙 → 클러스터 간 금지쌍
+    const forbid = new Map();
+    let selfConflict = false;
+    s.rules.filter(r => r.type === 'apart').forEach(r => {
+      const ids = r.ids.filter(id => clusterOf.has(id));
+      for (let a = 0; a < ids.length; a++) for (let b = a + 1; b < ids.length; b++) {
+        const ca = clusterOf.get(ids[a]), cb = clusterOf.get(ids[b]);
+        if (ca === cb) { selfConflict = true; continue; }
+        if (!forbid.has(ca)) forbid.set(ca, new Set());
+        if (!forbid.has(cb)) forbid.set(cb, new Set());
+        forbid.get(ca).add(cb); forbid.get(cb).add(ca);
+      }
+    });
+    if (selfConflict) return { error: '같은 팀 규칙과 다른 팀 규칙이 서로 충돌합니다. 규칙을 확인해 주세요.' };
+
+    const cap = Math.ceil(n / groupCount);
+    if (clusters.some(c => c.length > cap)) return { error: '같은 팀으로 지정한 인원이 한 팀 정원(' + cap + '명)보다 많습니다.' };
+
+    for (let attempt = 0; attempt < 400; attempt++) {
+      const order = this.shuffle(clusters.map((_, ci) => ci))
+        .sort((x, y) => clusters[y].length - clusters[x].length);
+      const buckets = Array.from({ length: groupCount }, () => ({ members: [], cids: [] }));
+      let ok = true;
+      for (const ci of order) {
+        const f = forbid.get(ci);
+        const cands = buckets
+          .map((_, ti) => ti)
+          .filter(ti => buckets[ti].members.length + clusters[ci].length <= cap)
+          .filter(ti => !f || !buckets[ti].cids.some(c => f.has(c)));
+        if (!cands.length) { ok = false; break; }
+        const min = Math.min.apply(null, cands.map(ti => buckets[ti].members.length));
+        const best = cands.filter(ti => buckets[ti].members.length === min);
+        const pick = best[Math.floor(Math.random() * best.length)];
+        buckets[pick].members = buckets[pick].members.concat(clusters[ci]);
+        buckets[pick].cids.push(ci);
+      }
+      if (!ok || buckets.some(b => b.members.length === 0)) continue;
+      return {
+        teams: buckets.map((b, i) => {
+          const m = this.shuffle(b.members);
+          return {
+            name: (i + 1) + '팀',
+            countLabel: m.length + '명',
+            members: m.map((p, k) => ({ name: p.name, no: k + 1 }))
+          };
+        })
+      };
+    }
+    return { error: '이 규칙으로는 팀을 나눌 수 없습니다. 규칙이나 팀 수를 조정해 주세요.' };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const names = this.names();
+    const n = names.length;
+    const dupes = n - new Set(names).size;
+
+    let configError = '';
+    if (n > 0) {
+      if (s.mode === 'teams' && s.teams > n) configError = '팀 수를 ' + n + '개 이하로 줄여 주세요.';
+      if (s.mode === 'size' && s.size > n) configError = '인원 수를 ' + n + '명 이하로 줄여 주세요.';
+    }
+
+    const total = s.people.length;
+    let noticeText = '', noticeColor = '#5b5f6b', noticeMark = '';
+    if (total > 0 && n === 0) { noticeText = '체크한 참가자가 없습니다. 팀에 넣을 사람을 체크해 주세요.'; noticeColor = '#c2333c'; noticeMark = '!'; }
+    else if (n === 1) { noticeText = '체크한 참가자가 한 명입니다. 팀을 나누려면 두 명 이상 필요합니다.'; noticeColor = '#c2333c'; noticeMark = '!'; }
+    else if (dupes > 0) { noticeText = '같은 이름이 ' + dupes + '개 있습니다. 그대로 각각 한 명으로 셉니다.'; noticeColor = '#d1400e'; noticeMark = '!'; }
+
+    const canSubmit = n >= 2 && !configError;
+    const groupsIfMade = s.mode === 'teams' ? Math.min(s.teams, n) : Math.max(1, Math.ceil(n / (s.size || 1)));
+
+    const active = { fg: '#5620b8' };
+    const idle = { fg: '#5b5f6b' };
+    const tm = s.mode === 'teams' ? active : idle;
+    const sm = s.mode === 'size' ? active : idle;
+
+    const allIncluded = total > 0 && s.people.every(p => p.included);
+    const bulkNames = s.bulkText.split(/[,\n]/).map(t => t.trim()).filter(Boolean);
+    const now = new Date();
+    const pad2 = v => (v < 10 ? '0' + v : '' + v);
+    const todayKey = now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate());
+    const todayLogs = s.logs.filter(l => l.date === todayKey);
+    const logDates = s.logs.map(l => l.date).filter((d, i, a) => a.indexOf(d) === i).sort().reverse();
+
+    return {
+      draft: s.draft,
+      onDraftChange: e => this.setState({ draft: e.target.value }),
+      onDraftKey: e => {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        if (e.nativeEvent && (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229)) return;
+        this.addDraft();
+      },
+      onDraftKeyUp: e => {
+        if (e.key !== 'Enter') return;
+        if (e.nativeEvent && e.nativeEvent.isComposing) return;
+        this.addDraft();
+      },
+      onAdd: () => this.addDraft(),
+      bulkOpen: s.bulkOpen,
+      bulkText: s.bulkText,
+      onOpenBulk: () => this.setState({ bulkOpen: true }),
+      onCloseBulk: () => this.setState({ bulkOpen: false, bulkText: '' }),
+      onBulkChange: e => this.setState({ bulkText: e.target.value }),
+      bulkNote: bulkNames.length === 0 ? '이름을 입력하면 여기에 인원 수가 표시됩니다.' : bulkNames.length + '명 추가됩니다.',
+      bulkNoteColor: bulkNames.length === 0 ? '#5b5f6b' : '#00815c',
+      bulkAddLabel: '명단에 ' + bulkNames.length + '명 추가',
+      canBulkAdd: bulkNames.length > 0,
+      cannotBulkAdd: bulkNames.length === 0,
+      onBulkAdd: () => {
+        this.captureFlip();
+        let seq = s.seq;
+        let cA = s.people.filter(p => (p.col === 1 ? 1 : 0) === 0).length;
+        let cB = s.people.length - cA;
+        const added = bulkNames.map(name => {
+          const col = cB < cA ? 1 : 0;
+          if (col === 1) cB++; else cA++;
+          return { id: seq++, name, included: true, col };
+        });
+        this.commit({ people: this.rebalance(s.people.concat(added)), seq, bulkOpen: false, bulkText: '', result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} });
+        this.markEntering(added.map(a => a.id), 'people');
+      },
+
+      hasPeople: total > 0,
+      noPeople: total === 0,
+      columns: [0, 1].map(c => ({
+        label: '참가자 명단 ' + (c + 1) + '열',
+        people: this.decorate(s.people.filter(p => (p.col === 1 ? 1 : 0) === c), c)
+      })),
+      people: s.people.map((p, i) => ({
+        domId: 'p-' + p.id,
+        flipKey: 'p' + p.id,
+        no: i + 1,
+        name: p.name,
+        included: p.included,
+        rowBg: p.included ? '#ffffff' : '#f4f8fb',
+        nameColor: p.included ? '#1c1e26' : '#8a90a0',
+        nameDecoration: p.included ? 'none' : 'line-through',
+        toggleLabel: p.name ? p.name + ' 팀에 포함' : '참가자 ' + (i + 1) + ' 팀에 포함',
+        nameLabel: '참가자 ' + (i + 1) + ' 이름',
+        removeLabel: (p.name || '참가자 ' + (i + 1)) + ' 삭제',
+        onToggle: () => this.commit({ people: s.people.map(q => q.id === p.id ? { ...q, included: !q.included } : q), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }),
+        onRename: e => { const v = e.target.value; this.commit({ people: s.people.map(q => q.id === p.id ? { ...q, name: v } : q), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }); },
+        anim: s.leaving.indexOf(p.id) >= 0
+          ? 'tm-send 220ms cubic-bezier(.2,0,.2,1) forwards'
+          : (s.entering.indexOf(p.id) >= 0 ? 'tm-recv 260ms cubic-bezier(.2,0,.2,1)' : 'none'),
+        onRemove: () => {
+          this.setState(st => ({ leaving: st.leaving.concat([p.id]) }));
+          setTimeout(() => {
+            this.captureFlip();
+            this.commit({
+            people: this.rebalance(this.state.people.filter(q => q.id !== p.id)),
+            rules: this.state.rules.map(r => ({ ...r, ids: r.ids.filter(x => x !== p.id) })).filter(r => r.ids.length > 1),
+              leaving: this.state.leaving.filter(x => x !== p.id),
+              result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {}
+            });
+          }, 220);
+        }
+      })),
+      rosterOpen: s.rosterOpen,
+      noRosters: s.rosters.length === 0,
+      rosterSummary: s.rosters.length === 0
+        ? '명단을 이름 붙여 저장하면 다음에 그대로 불러올 수 있습니다.'
+        : '저장한 명단 ' + s.rosters.length + '개가 있습니다.',
+      onOpenRosters: () => this.setState({ rosterOpen: true }),
+      onCloseRosters: () => this.setState({ rosterOpen: false, rosterDraft: '' }),
+      onScrimClick: () => this.setState({ rosterOpen: false, rosterDraft: '' }),
+      stop: e => e.stopPropagation(),
+
+      rosterDraft: s.rosterDraft,
+      onRosterDraftChange: e => this.setState({ rosterDraft: e.target.value }),
+      onRosterKey: e => {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        if (e.nativeEvent && (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229)) return;
+        this.saveRoster();
+      },
+      onSaveRoster: () => this.saveRoster(),
+      canSaveRoster: total > 0 && !!s.rosterDraft.trim(),
+      cannotSaveRoster: !(total > 0 && !!s.rosterDraft.trim()),
+      rosterCountLabel: s.rosters.length === 0 ? '없음' : s.rosters.length + '개',
+      rosterHint: total === 0
+        ? '명단에 참가자를 추가하면 이름을 붙여 저장할 수 있습니다.'
+        : (s.rosterDraft.trim()
+            ? (s.rosters.some(r => r.name === s.rosterDraft.trim()) ? '같은 이름의 저장 명단을 덮어씁니다.' : '현재 ' + total + '명을 이 이름으로 저장합니다.')
+            : '저장할 이름을 적어 주세요. 이 브라우저에만 보관됩니다.'),
+      hasRosters: s.rosters.length > 0,
+      rosters: s.rosters.map(r => ({
+        name: r.name,
+        meta: r.people.length + '명' + (r.savedAt ? ' · ' + r.savedAt : ''),
+        loadLabel: r.name + ' 불러오기',
+        deleteLabel: r.name + ' 저장 명단 삭제',
+        onLoad: () => {
+          let seq = 1;
+          const loaded = r.people.map((p, k) => ({ id: seq++, name: p.name, included: p.included, col: p.col === 1 ? 1 : (p.col === 0 ? 0 : k % 2) }));
+          let rseq = 1;
+          const rules = (r.rules || []).map(x => ({ id: rseq++, type: x.type === 'apart' ? 'apart' : 'together', ids: x.at.map(i => (loaded[i] || {}).id).filter(Boolean) })).filter(x => x.ids.length > 1);
+          this.commit({ people: this.rebalance(loaded), seq, rules, ruleSeq: rseq, result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {}, shuffles: 0, draft: '', rosterOpen: false, rosterDraft: '' });
+        },
+        onDelete: () => this.setState({ confirmRosterId: r.id })
+      })),
+
+      includedLabel: '전체 ' + total + '명 중 ' + n + '명 참가',
+      toggleAllLabel: allIncluded ? '전체 해제' : '전체 선택',
+      onToggleAll: () => this.commit({ people: s.people.map(q => ({ ...q, included: !allIncluded })), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }),
+      onClearList: () => this.setState({ confirmClear: true }),
+      confirmClear: s.confirmClear,
+      confirmClearText: '명단에 있는 ' + total + '명이 모두 지워집니다. 저장한 명단은 그대로 남습니다.',
+      onCancelClear: () => this.setState({ confirmClear: false }),
+      onConfirmClear: () => this.commit({ people: [], rules: [], result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {}, shuffles: 0, confirmClear: false }),
+
+      saveFailed: s.saveFailed,
+      countLabel: total === 0 ? '참가자 0명' : (n === total ? total + '명' : total + '명 중 ' + n + '명 참가'),
+      inputHelpText: noticeText || '이름을 적고 엔터를 누르면 아래 명단에 추가됩니다. 쉼표로 여러 명도 가능합니다.',
+      noticeWeight: noticeText ? '600' : '400',
+      stepperHintColor: configError ? '#c2333c' : '#5b5f6b',
+      stepperHintWeight: configError ? '600' : '400',
+      noticeText, noticeColor, noticeMark,
+      noticeBg: noticeColor === '#c2333c' ? '#fff5f5' : (noticeColor === '#d1400e' ? '#fff8f2' : '#f9fbfd'),
+      noticeBorder: noticeColor === '#c2333c' ? '#ffd6d8' : (noticeColor === '#d1400e' ? '#ffd9c2' : '#e7ecf2'),
+
+      toggleShift: s.mode === 'teams' ? 'translateX(0)' : 'translateX(calc(100% + 6px))',
+      isTeamMode: s.mode === 'teams',
+      isSizeMode: s.mode === 'size',
+      teamModeFg: tm.fg,
+      sizeModeFg: sm.fg,
+      onPickTeamMode: () => this.commit({ mode: 'teams', result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }),
+      onPickSizeMode: () => this.commit({ mode: 'size', result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }),
+
+      stepperLabel: s.mode === 'teams' ? '팀 수' : '인원 수',
+      stepperHint: configError ? configError : s.mode === 'teams'
+        ? (n >= 2 ? n + '명을 ' + groupsIfMade + '개 팀으로 나눕니다.' : '2개부터 20개까지 정할 수 있습니다.')
+        : (n >= 2 ? n + '명이면 ' + groupsIfMade + '개 팀이 만들어집니다.' : '1명부터 20명까지 정할 수 있습니다.'),
+      stepperValue: s.mode === 'teams' ? s.teams : s.size,
+      onInc: () => s.mode === 'teams'
+        ? this.commit({ teams: Math.min(20, s.teams + 1), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} })
+        : this.commit({ size: Math.min(20, s.size + 1), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }),
+      onDec: () => s.mode === 'teams'
+        ? this.commit({ teams: Math.max(2, s.teams - 1), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} })
+        : this.commit({ size: Math.max(1, s.size - 1), result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {} }),
+
+      hasConfigError: !!configError,
+      configError,
+
+      canSubmit,
+      cannotSubmit: !canSubmit,
+      submitLabel: '팀 만들기',
+      disabledWhy: configError
+        ? '위 설정을 고치면 팀을 만들 수 있습니다.'
+        : '참가자를 두 명 이상 체크하면 팀을 만들 수 있습니다.',
+
+      onMake: () => {
+        const r = this.build();
+        if (r.error) this.setState({ result: null, resultError: r.error, recordedWinner: null, lastLogId: null, picks: {} });
+        else this.setState(p => ({ result: r.teams, resultError: '', recordedWinner: null, lastLogId: null, picks: {}, shuffles: p.shuffles + 1 }));
+      },
+
+      confirmRoster: s.confirmRosterId !== null,
+      confirmRosterText: (function () {
+        const r = s.rosters.find(q => q.id === s.confirmRosterId);
+        return r ? '저장한 명단 "' + r.name + '"(' + r.people.length + '명)이 삭제됩니다.' : '';
+      })(),
+      onCancelRosterDelete: () => this.setState({ confirmRosterId: null }),
+      onConfirmRosterDelete: () => this.commit({ rosters: s.rosters.filter(q => q.id !== s.confirmRosterId), confirmRosterId: null }),
+
+      confirmLog: s.confirmLogId !== null,
+      confirmLogText: (function () {
+        const l = s.logs.find(q => q.id === s.confirmLogId);
+        return l ? l.at + ' · ' + l.winner + '승 기록이 삭제됩니다.' : '';
+      })(),
+      onCancelLogDelete: () => this.setState({ confirmLogId: null }),
+      onConfirmLogDelete: () => this.removeLog(s.confirmLogId),
+
+      hasRecorded: s.recordedWinner !== null,
+      undoLabel: (s.recordedWinner || '') + ' 승리 기록 취소',
+      onUndoWin: () => {
+        const id = s.lastLogId;
+        this.commit({
+          logs: id === null ? s.logs : s.logs.filter(q => q.id !== id),
+          recordedWinner: null, lastLogId: null, picks: {}
+        });
+      },
+
+      wheelOpen: s.wheelTeam !== null,
+      wheelTitle: (s.wheelTeam || '') + ' 뽑기',
+      wheelHint: s.wheelSpinning ? '돌림판이 멈추면 결과가 표시됩니다.' : '이 팀 명단 중 한 명을 무작위로 뽑습니다.',
+      wheelRotation: s.wheelRotation,
+      burstRef: this.burst,
+      soundOn: s.soundOn,
+      soundLabel: s.soundOn ? '효과음 끄기' : '효과음 켜기',
+      soundPath: s.soundOn ? 'M15.5 8.5a5 5 0 0 1 0 7' : 'M22 9l-6 6M16 9l6 6',
+      soundBg: s.soundOn ? '#f3ecff' : '#f4f8fb',
+      soundBorder: s.soundOn ? '#e4d5fd' : '#e7ecf2',
+      soundColor: s.soundOn ? '#5620b8' : '#5b5f6b',
+      onToggleSound: () => this.commit({ soundOn: !s.soundOn }),
+      wheelResultAnim: s.wheelResult && !s.wheelSpinning ? 'tm-pop 260ms cubic-bezier(.2,0,.2,1)' : 'none',
+      wheelGradient: (() => {
+        const team = (s.result || []).find(t => t.name === s.wheelTeam);
+        const names = team ? team.members.map(m => m.name) : [];
+        if (!names.length) return '#e7ecf2';
+        const tones = this.wheelTones();
+        const seg = 360 / names.length;
+        const stops = names.map((_, i) => tones[i % tones.length].bg + ' ' + (i * seg).toFixed(2) + 'deg ' + ((i + 1) * seg).toFixed(2) + 'deg');
+        return 'conic-gradient(' + stops.join(', ') + ')';
+      })(),
+      wheelLabels: (() => {
+        const team = (s.result || []).find(t => t.name === s.wheelTeam);
+        const names = team ? team.members.map(m => m.name) : [];
+        const seg = 360 / (names.length || 1);
+        const rot = s.wheelRotation;
+        const tones = this.wheelTones();
+        return names.map((name, i) => {
+          const a = i * seg + seg / 2;
+          return {
+            name,
+            fg: tones[i % tones.length].fg,
+            angle: a.toFixed(2),
+            transform: 'rotate(' + a.toFixed(2) + 'deg) translateY(calc(min(360px, calc(100vw - 92px)) * -0.345)) rotate(' + (-(a + rot)).toFixed(2) + 'deg)'
+          };
+        });
+      })(),
+      spinning: s.wheelSpinning,
+      canSpin: !s.wheelSpinning,
+      spinLabel: s.wheelResult ? '다시 돌리기' : '돌리기',
+      onSpin: () => this.spinWheel(),
+      onCloseWheel: () => { clearTimeout(this._spinTimer); this.stopSounds(); this.setState({ wheelTeam: null, wheelSpinning: false }); },
+      wheelResultText: s.wheelSpinning ? '돌리는 중…' : (s.wheelResult ? '당첨자 · ' + s.wheelResult : '돌리기를 누르세요.'),
+      wheelResultColor: s.wheelResult && !s.wheelSpinning ? '#00815c' : '#5b5f6b',
+      wheelResultBg: s.wheelResult && !s.wheelSpinning ? '#eefaf5' : '#f9fbfd',
+      wheelResultBorder: s.wheelResult && !s.wheelSpinning ? '#c7ecdf' : '#e7ecf2',
+
+      logsOpen: s.logsOpen,
+      onOpenLogs: () => this.setState({ logsOpen: true }),
+      onCloseLogs: () => this.setState({ logsOpen: false }),
+      hasLogs: s.logs.length > 0,
+      noLogs: s.logs.length === 0,
+      logsSummary: s.logs.length === 0 ? '기록이 없습니다.' : '전체 ' + s.logs.length + '경기',
+      hasTodayLogs: todayLogs.length > 0,
+      todayLogLabel: todayLogs.length + '경기',
+      todayLogs: todayLogs.map(l => ({
+        flipKey: 'log' + l.id,
+        anim: s.leavingLogs.indexOf(l.id) >= 0
+          ? 'tm-send 220ms cubic-bezier(.2,0,.2,1) forwards'
+          : (s.enteringLogs.indexOf(l.id) >= 0 ? 'tm-recv 260ms cubic-bezier(.2,0,.2,1)' : 'none'),
+        time: l.at.slice(11),
+        winner: l.winner,
+        toneFg: this.teamTone(l.winner).fg,
+        toneBg: this.teamTone(l.winner).bg,
+        toneBd: this.teamTone(l.winner).bd,
+        summary: (l.teams.find(t => t.name === l.winner) || { members: [] }).members.join(', '),
+        removeLabel: l.at + ' ' + l.winner + '승 기록 삭제',
+        onRemove: () => this.setState({ confirmLogId: l.id })
+      })),
+      logGroups: logDates.map(d => ({
+        dateLabel: d.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$1년 $2월 $3일'),
+        countLabel: s.logs.filter(l => l.date === d).length + '경기',
+        logs: s.logs.filter(l => l.date === d).map(l => ({
+          time: l.at.slice(11),
+          winner: l.winner,
+          teamLines: l.teams.map(t => {
+            const won = t.name === l.winner;
+            return {
+              label: t.name + (won ? '승' : '패'),
+              names: t.members.join(', '),
+              color: won ? this.teamTone(t.name).fg : '#c2333c',
+              bg: won ? this.teamTone(t.name).bg : '#fff5f5',
+              border: won ? this.teamTone(t.name).bd : '#ffd6d8'
+            };
+          }),
+          removeLabel: l.at + ' ' + l.winner + '승 기록 삭제',
+          onRemove: () => this.setState({ confirmLogId: l.id })
+        }))
+      })),
+
+      hasRules: s.rules.length > 0,
+      ruleHint: s.rules.length === 0
+        ? '꼭 같은 팀이거나, 꼭 다른 팀이어야 하는 사람을 지정할 수 있습니다.'
+        : '같은 팀 ' + s.rules.filter(r => r.type === 'together').length + '개 · 다른 팀 ' + s.rules.filter(r => r.type === 'apart').length + '개',
+      ruleHintColor: '#5b5f6b',
+      rules: s.rules.map(r => {
+        const names = r.ids.map(id => (s.people.find(p => p.id === id) || {}).name).filter(Boolean);
+        const together = r.type === 'together';
+        return {
+          typeLabel: together ? '같은 팀' : '다른 팀',
+          color: together ? '#5620b8' : '#a83209',
+          chipBg: together ? '#f3ecff' : '#fff7f2',
+          border: together ? '#e7ecf2' : '#ffd9c2',
+          namesLabel: names.join(together ? ' + ' : ' ↔ '),
+          parts: names.map((name, i) => ({ name, hasSep: i > 0, sep: together ? '+' : '↔' })),
+          removeLabel: (together ? '같은 팀' : '다른 팀') + ' 규칙 ' + names.join(', ') + ' 삭제',
+          key: r.id,
+          anim: s.leavingRules.indexOf(r.id) >= 0
+            ? 'tm-send 220ms cubic-bezier(.2,0,.2,1) forwards'
+            : (s.enteringRules.indexOf(r.id) >= 0 ? 'tm-recv 260ms cubic-bezier(.2,0,.2,1)' : 'none'),
+          onRemove: () => {
+            this.setState(st => ({ leavingRules: st.leavingRules.concat([r.id]) }));
+            setTimeout(() => {
+              this.captureFlip();
+              this.commit({
+              rules: this.state.rules.filter(q => q.id !== r.id),
+                leavingRules: this.state.leavingRules.filter(x => x !== r.id),
+                result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {}
+              });
+            }, 220);
+          }
+        };
+      }),
+      onAddTogether: () => this.setState({ pickerOpen: true, pickerType: 'together', pickerSel: [] }),
+      onAddApart: () => this.setState({ pickerOpen: true, pickerType: 'apart', pickerSel: [] }),
+      onClosePicker: () => this.setState({ pickerOpen: false, pickerSel: [] }),
+      pickerOpen: s.pickerOpen,
+      pickerTitle: s.pickerType === 'together' ? '같은 팀으로 지정' : '다른 팀으로 지정',
+      pickerHint: s.pickerType === 'together'
+        ? '고른 사람들은 항상 같은 팀에 배정됩니다.'
+        : '고른 사람들은 서로 다른 팀에 배정됩니다.',
+      pickerPeople: s.people.filter(p => p.included && p.name.trim()).map(p => ({
+        domId: 'pick-' + p.id,
+        name: p.name,
+        picked: s.pickerSel.indexOf(p.id) >= 0,
+        bg: s.pickerSel.indexOf(p.id) >= 0 ? '#f3ecff' : '#f9fbfd',
+        onToggle: () => this.setState(st => ({
+          pickerSel: st.pickerSel.indexOf(p.id) >= 0 ? st.pickerSel.filter(x => x !== p.id) : st.pickerSel.concat([p.id])
+        }))
+      })),
+      pickerNote: s.pickerSel.length < 2 ? '두 명 이상 골라 주세요.' : s.pickerSel.length + '명 선택',
+      pickerNoteColor: s.pickerSel.length < 2 ? '#c2333c' : '#5b5f6b',
+      canSaveRule: s.pickerSel.length >= 2,
+      cannotSaveRule: s.pickerSel.length < 2,
+      onSaveRule: () => {
+        if (s.pickerSel.length < 2) return;
+        this.captureFlip();
+        this.commit({
+          rules: s.rules.concat([{ id: s.ruleSeq, type: s.pickerType, ids: s.pickerSel.slice() }]),
+          ruleSeq: s.ruleSeq + 1,
+          pickerOpen: false, pickerSel: [], result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {}
+        });
+        this.markEntering([s.ruleSeq], 'rules');
+      },
+      onReset: () => this.commit({ people: [], rules: [], draft: '', result: null, resultError: '', recordedWinner: null, lastLogId: null, picks: {}, shuffles: 0 }),
+
+      emptyBg: s.resultError ? '#fff5f5' : '#fff',
+      emptyBorder: s.resultError ? '#ffd6d8' : '#cbd3dd',
+      emptyTitleColor: s.resultError ? '#c2333c' : '#1c1e26',
+      emptyTitle: s.resultError ? '팀을 만들지 못했습니다' : '아직 만든 팀이 없습니다',
+      emptyText: s.resultError || '팀 만들기를 누르면 팀별 명단이 나타납니다.',
+
+      teams: (s.result || []).map((t, ti, all) => {
+        const done = s.recordedWinner !== null;
+        const won = s.recordedWinner === t.name;
+        const beat = s.shuffles % 2 === 0 ? 'tm-member-in-a' : 'tm-member-in-b';
+        return Object.assign({}, t, {
+          members: t.members.map(m => Object.assign({}, m, {
+            anim: beat + ' 320ms cubic-bezier(.2,0,.2,1) both'
+          })),
+          isWinner: done && won,
+          cardBg: done ? (won ? '#f7f1ff' : '#fbfbfc') : '#ffffff',
+          cardBorder: done ? (won ? '2px solid #6E29E7' : '1px solid #e7ecf2') : '1px solid #e7ecf2',
+          topBorder: done ? (won ? '6px solid #6E29E7' : '3px solid #cbd3dd') : '3px solid #6E29E7',
+          cardShadow: done ? (won ? '0 8px 22px rgba(110,41,231,0.16)' : '0 1px 4px rgba(28,30,38,0.04)') : '0 2px 8px rgba(28,30,38,0.06)',
+          cardOpacity: '1',
+          nameWeight: done && won ? '800' : '700',
+          nameColor: done && won ? '#5620b8' : '#1c1e26',
+          nameAnim: done && won ? 'tm-name-lift 520ms cubic-bezier(.2,0,.2,1) 80ms' : 'none',
+          chipAnim: done ? 'tm-chip-pop 480ms cubic-bezier(.2,0,.2,1) ' + (won ? '120ms' : '200ms') + ' both' : 'none',
+          anim: done ? (won ? 'tm-win-pulse 760ms cubic-bezier(.2,0,.2,1) forwards' : 'tm-lose-fade 520ms cubic-bezier(.2,0,.2,1) forwards') : 'none',
+          canWin: !done,
+          isDone: done,
+          winLabel: t.name + ' 승리로 기록',
+          onWin: () => this.recordWin(t.name),
+          drawLabel: t.name + '에서 한 명 뽑기',
+          drawButtonLabel: s.picks[t.name] ? '다시 뽑기' : '뽑기',
+          hasPick: !!s.picks[t.name],
+          pickName: s.picks[t.name] || '',
+          onDraw: () => this.openWheel(t.name),
+          chipLabel: done ? (won ? t.name + '승' : t.name + '패') : t.countLabel,
+          chipColor: done ? (won ? this.teamTone(t.name).fg : '#c2333c') : '#5b5f6b',
+          chipBg: done ? (won ? this.teamTone(t.name).bg : '#fff5f5') : '#f4f8fb',
+          chipBorder: done ? (won ? this.teamTone(t.name).bd : '#ffd6d8') : '#e7ecf2',
+          statusLabel: done ? (won ? t.name + '승' : t.name + '패') : '',
+          statusColor: won ? '#5620b8' : '#c2333c',
+          statusBg: won ? '#f3ecff' : '#fff5f5',
+          statusBorder: won ? '#e4d5fd' : '#ffd6d8'
+        });
+      }),
+      hasResult: !!s.result,
+      noResult: !s.result,
+      resultSummary: s.result ? s.result.length + '개 팀 · ' + n + '명' : '대기 중',
+      successText: !s.result ? '' : (s.shuffles > 1
+        ? '다시 섞었습니다. ' + s.result.length + '개 팀으로 나눴습니다.'
+        : '팀을 만들었습니다. ' + s.result.length + '개 팀으로 나눴습니다.')
+    };
+  }
+}
+</script>
+</body>
+</html>
