@@ -81,7 +81,7 @@ test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색
 	await expect(page.getByRole('complementary')).toBeVisible();
 	await expect(page.getByRole('link', { name: '홈' })).toHaveAttribute('aria-current', 'page');
 	await expect(page.getByRole('link', { name: /Team Maker 도구/ })).toBeVisible();
-	await expect(page.getByRole('link', { name: 'Blog' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Blog', exact: true })).toBeVisible();
 	await page.getByRole('button', { name: '테마 변경, 현재 자동' }).click();
 	await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'light');
 	await page.getByRole('button', { name: '테마 변경, 현재 밝게' }).click();
