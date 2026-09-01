@@ -1,6 +1,6 @@
 {
-	"name": "SvelteKit Static Blog Template",
-	"short_name": "SvelteKit Template",
+	"name": "Juno's develog",
+	"short_name": "Juno's develog",
 	"icons": [
 		{
 			"src": "/favicons/android-chrome-192x192.png",

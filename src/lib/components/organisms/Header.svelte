@@ -2,7 +2,6 @@
 	import { resolve } from '$app/paths';
 	import Logo from '$lib/components/atoms/Logo.svelte';
 	import ThemeToggle from '$lib/components/molecules/ThemeToggle.svelte';
-	import RssLink from '$lib/components/atoms/RssLink.svelte';
 
 	export let showBackground = false;
 </script>
@@ -13,8 +12,6 @@
 			<Logo />
 		</a>
 		<div class="links">
-			<a href={resolve('/blog')}>Blog</a>
-			<RssLink />
 			<ThemeToggle />
 		</div>
 	</nav>
@@ -43,14 +40,6 @@
 			display: flex;
 			align-items: center;
 			gap: 30px;
-
-			@include for-phone-only {
-				.links {
-					a {
-						display: none;
-					}
-				}
-			}
 		}
 
 		.logo {
@@ -67,15 +56,6 @@
 			align-items: center;
 			justify-content: flex-end;
 			gap: 30px;
-
-			a {
-				text-decoration: none;
-
-				&:hover {
-					color: var(--color--primary);
-					filter: drop-shadow(0px 0px 3px var(--color--primary));
-				}
-			}
 		}
 	}
 </style>

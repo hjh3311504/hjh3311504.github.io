@@ -6,7 +6,7 @@
 
 	import { description, image, keywords, title, siteBaseUrl } from '$data/meta';
 
-	$: usesSiteShell = $page.url.pathname === '/' || $page.url.pathname.startsWith('/blog');
+	$: usesSiteShell = $page.url.pathname === '/';
 </script>
 
 <svelte:head>
