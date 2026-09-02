@@ -1,11 +1,11 @@
 - id: REQ-WEB-001
-  text: 첫 화면은 제목 “팀 메이커”, 참가자 입력, 나누는 방식, 팀 만들기, 결과를 이 순서로 보여준다.
+  text: 첫 화면은 제목 “팀 메이커”, 용도를 설명하는 한 문장, 참가자 입력, 나누는 방식, 팀 만들기, 결과, 별도 통계를 이 순서로 보여준다.
   surface: [web]
-  source: "사용자 승인 handoff > SCR-WEB-001 Team Maker.dc.html"
+  source: "사용자 확정 2026-09-02 > 오늘 기록을 별도 4. 통계로 이동; 현재 구현 기준 재동결"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-002
   text: 참가자는 한 명씩 추가하거나 줄바꿈·쉼표로 구분해 일괄 추가하며 빈 이름과 앞뒤 공백은 제거하되 같은 이름은 별도 참가자로 유지하고 전체·참가 인원을 표시한다.
   surface: [web]
@@ -13,7 +13,7 @@
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   examples_ref: policies/REQ-WEB-002.md
 - id: REQ-WEB-003
   text: 선택된 참가자가 2명 미만이거나 현재 나누기 방식의 설정값이 선택된 참가자 수보다 크면 팀 만들기를 비활성화하고 이유를 글로 보여준다.
@@ -22,7 +22,7 @@
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   examples_ref: policies/REQ-WEB-003.md
 - id: REQ-WEB-004
   text: 팀을 만들 때 선택된 참가자를 무작위로 섞고 팀별 인원 차이를 최대 1명으로 유지하면서 같은 팀·다른 팀 규칙을 모두 만족시키며 불가능하면 이유를 보여준다.
@@ -37,7 +37,7 @@
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-006
   text: 다시 섞기를 실행하면 선택된 참가자, 나누기 방식과 규칙을 유지한 채 새 배정 결과를 만들고 현재 승패와 추첨 결과를 초기화한다.
   surface: [web]
@@ -45,7 +45,7 @@
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-007
   text: 현재 화면은 팀 결과를 클립보드에 복사하는 기능을 제공하지 않는다.
   surface: [web]
@@ -57,13 +57,13 @@
   source: "사용자 승인 handoff > SCR-WEB-001 Team Maker.dc.html"
   kind: policy
 - id: REQ-WEB-009
-  text: 명단 비우기는 확인 뒤 현재 참가자, 규칙과 결과만 지우고 저장 명단과 승패 기록은 유지한다.
+  text: 명단 삭제는 확인 뒤 현재 참가자, 규칙과 결과만 지우고 저장 명단과 승패 기록은 유지한다.
   surface: [web]
   source: "사용자 승인 handoff > SCR-WEB-001 Team Maker.dc.html"
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-010
   text: 페이지는 참가자 이름과 저장된 사용 데이터를 외부 서버로 전송하지 않는다.
   surface: [web]
@@ -77,7 +77,7 @@
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-012
   text: 주요 기능과 dialog는 키보드만으로 사용할 수 있고 초점이 보이며 입력·오류·비활성화·결과 상태는 색상 외의 글이나 모양으로도 구분해야 한다.
   surface: [web]
@@ -85,7 +85,7 @@
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-013
   text: 사용자는 참가자 이름을 고치고 개별 또는 전체 참가 여부를 바꾸며 한 명씩 삭제할 수 있고 이 변경 뒤 이전 팀 결과는 사라진다.
   surface: [web]
@@ -93,7 +93,7 @@
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-014
   text: 사용자는 선택된 참가자 2명 이상을 같은 팀 또는 서로 다른 팀 규칙으로 추가하고 규칙을 삭제할 수 있다.
   surface: [web]
@@ -101,25 +101,25 @@
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   examples_ref: policies/REQ-WEB-014.md
 - id: REQ-WEB-015
-  text: 사용자는 기본 2개인 팀 수 또는 기본 2명인 팀당 인원 방식으로 나누며 값을 각각 2~20개와 1~20명에서 바꾸고 설정 변경 뒤 이전 결과를 지운다.
+  text: 사용자는 기본 2개인 팀 수 또는 기본 4명인 팀당 인원 방식으로 나누며 값을 각각 2~20개와 1~20명에서 바꾸고 설정 변경 뒤 이전 결과를 지운다.
   surface: [web]
-  source: "사용자 확정 2026-08-31 > 팀 수와 팀당 인원 기본값"
+  source: "사용자 확정 2026-09-02 > DSN-005 팀 수 2개, 팀당 인원 4명"
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   examples_ref: policies/REQ-WEB-015.md
 - id: REQ-WEB-016
-  text: 사용자는 결과에서 한 팀의 승리를 한 번 기록하고 방금 기록한 승리를 취소하며 날짜별 전체 기록을 열어 개별 기록을 확인 후 삭제할 수 있다.
+  text: 사용자는 결과에서 한 팀의 승리를 한 번 기록하고 방금 기록한 승리를 취소하며 결과 뒤의 별도 `4. 통계`에서 오늘 기록과 날짜별 전체 기록을 열어 개별 기록을 확인 후 삭제할 수 있다.
   surface: [web]
-  source: "사용자 승인 handoff > SCR-WEB-001 Team Maker.dc.html"
+  source: "사용자 확정 2026-09-02 > 오늘 기록을 별도 4. 통계로 이동"
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   examples_ref: policies/REQ-WEB-016.md
 - id: REQ-WEB-017
   text: 승리를 기록한 뒤 각 팀의 돌림판으로 참가자 한 명을 무작위 추첨하고 다시 추첨할 수 있으며 사용자는 효과음을 켜거나 끌 수 있다.
@@ -128,7 +128,7 @@
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   examples_ref: policies/REQ-WEB-017.md
 - id: REQ-WEB-018
   text: 사용자는 현재 참가자, 참가 여부와 같은 팀·다른 팀 규칙을 이름 붙인 명단으로 저장하고 불러오며 같은 이름으로 덮어쓰거나 확인 후 삭제할 수 있다.
@@ -137,24 +137,24 @@
   kind: policy
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   examples_ref: policies/REQ-WEB-018.md
 - id: REQ-WEB-019
-  text: 루트 페이지는 개발자 소개와 Team Maker 진입점을 한 열의 세로 목록으로 보여주고 새 프로젝트도 같은 목록에 추가하되 템플릿 안내는 노출하지 않는다.
+  text: 루트 페이지는 개발자 소개와 팀 메이커 진입점을 한 열의 세로 목록으로 보여주고 새 프로젝트도 같은 목록에 추가하며 내용이 짧으면 footer를 첫 화면 하단에 두되 템플릿 안내는 노출하지 않는다.
   surface: [web]
-  source: "사용자 요청 2026-09-01 > 루트 페이지 개선, 이후 프로젝트 추가와 세로 구성; 블로그 전체 삭제"
+  source: "사용자 요청 2026-09-01 > 루트 페이지 개선, 이후 프로젝트 추가와 세로 구성; 블로그 전체 삭제; 사용자 확정 2026-09-02 > footer를 첫 화면 하단 영역에 배치"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
 - id: REQ-WEB-020
-  text: 루트와 Team Maker 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용한다.
+  text: 루트와 팀 메이커 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용한다.
   surface: [web]
   source: "사용자 확정 2026-09-01 > 데스크톱 고정 사이드바와 고정 해제 drawer"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-021
   text: 공통 내비게이션은 현재 화면을 글과 모양으로 구분하고 drawer의 열기·닫기·초점 복귀를 포함한 모든 동작을 키보드와 보조 기술에 제공한다.
@@ -163,16 +163,16 @@
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-022
-  text: 공통 내비게이션은 1200px 이하에서 상단 bar의 햄버거 버튼으로 여는 왼쪽 drawer에 모든 이동 항목을 세로로 보여준다.
+  text: 공통 내비게이션은 1200px 이하에서 화면 위 햄버거 버튼으로 여는 왼쪽 drawer에 모든 이동 항목을 세로로 보여준다.
   surface: [web]
-  source: "사용자 확정 2026-09-01 > 모바일 상단 햄버거와 drawer"
+  source: "사용자 확정 2026-09-01 > 모바일 햄버거와 drawer; 사용자 선택 2026-09-02 > DSN-005 현재 구현 기준 재동결"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: DSN-004
+  design_ref: DSN-008
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-BUILD-001
   text: team-maker는 HTML, CSS, JavaScript를 우선 사용하며 무작위 섞기와 팀 분배 로직을 화면 코드와 분리한다.

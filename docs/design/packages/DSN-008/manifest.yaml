@@ -1,0 +1,54 @@
+schema_version: 3
+id: DSN-008
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-009
+  - REQ-WEB-011
+  - REQ-WEB-012
+  - REQ-WEB-013
+  - REQ-WEB-014
+  - REQ-WEB-015
+  - REQ-WEB-016
+  - REQ-WEB-017
+  - REQ-WEB-018
+  - REQ-WEB-019
+  - REQ-WEB-020
+  - REQ-WEB-021
+  - REQ-WEB-022
+screens:
+  - SCR-WEB-001
+  - SCR-WEB-002
+spec:
+  status: approved
+  approved_at: "2026-09-02T18:00:07+09:00"
+  ia_sha256: "a003288c469313709b1ef79b3a2ccecb8129db5433381b4c9004c237c390d07b"
+  screen_sha256:
+    SCR-WEB-001: "9716ba5891165b49057386c736e4dc62e172a7af45cafc4e9483061f25bc337c"
+    SCR-WEB-002: "8feb2bb898a1b2df05462e3574cd9babe44db7e34ec15a447be832528bfffe8a"
+design_system:
+  source: claude-design
+  connection: project-attached
+  publication: draft
+  name: Notion
+  project_id: e5ec3c58-0bba-4770-8bb2-3cee184c0cb2
+  source_repo:
+  source_revision:
+  source_paths: []
+  checked_at: "2026-09-02T21:14:47+09:00"
+claude_design:
+  transport: direct-mcp
+  project_id: 02f8142c-f18a-4f7c-9106-d62f7551d9c5
+  project_url: "https://claude.ai/design/p/02f8142c-f18a-4f7c-9106-d62f7551d9c5"
+  last_synced_at: "2026-09-02T21:14:47+09:00"
+handoff:
+  status: approved
+  approved_at: "2026-09-02T21:14:47+09:00"
+  tree_sha256: "08f083ca5990a768ec1ba6ab31682f35d7beb5ef6907ef8059274b44f321aa6e"
+review:
+  type: expert
+  summary: 돌림판을 현재 구현과 같게 되돌리고 가운데를 24px 원으로 가렸다. 승패 표기 설명, 삭제 확인 경고 줄, 삭제 버튼 설명을 프레임과 맞추고 SCR-WEB-001을 문서 6개로 나눴다.

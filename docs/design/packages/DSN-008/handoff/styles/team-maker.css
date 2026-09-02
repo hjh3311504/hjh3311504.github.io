@@ -1,0 +1,178 @@
+/* =====================================================================
+   DSN-008 · SCR-WEB-001 팀 메이커 전용 확장
+   screens.css 다음에 읽는다. Notion 토큰만 쓰고 새 색을 만들지 않는다.
+   ===================================================================== */
+
+/* 터치 대상은 데스크톱 36px, 모바일 44px 아래로 내려가지 않는다. */
+.btn-utility {
+	height: 36px;
+}
+
+/* 카드 머리의 아이콘 버튼은 옆의 utility 버튼과 같은 높이의 정사각형으로 세운다. */
+.card-head .circle-btn {
+	width: 36px;
+	height: 36px;
+}
+
+.person .circle-btn {
+	width: 40px;
+	height: 40px;
+}
+
+.screen.mobile .btn-utility {
+	height: 44px;
+}
+
+/* 모바일은 버튼과 입력칸도 44px 아래로 내려가지 않는다. */
+.screen.mobile {
+	--control-h: 44px;
+}
+
+.screen.mobile .circle-btn {
+	width: 44px;
+	height: 44px;
+}
+
+.screen.mobile .stepper .value {
+	min-width: 44px;
+}
+
+/* 같은 팀·다른 팀은 글자와 색으로 구분한다. */
+
+/* 결과 영역의 실패 상태. 색만이 아니라 왼쪽 굵은 선과 경고 모양을 함께 쓴다. */
+.result-error {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: center;
+	padding: 28px 24px;
+	text-align: center;
+	word-break: keep-all;
+	background: var(--surface);
+	border: 1px solid var(--hairline);
+	border-left: 3px solid var(--warn-mark);
+	border-radius: var(--radius-lg);
+}
+
+.result-error strong {
+	color: var(--text-heading);
+	font-family: var(--font-display);
+	font-size: var(--fs-title);
+	font-weight: var(--fw-bold);
+	letter-spacing: var(--ls-title);
+}
+
+.result-error p {
+	max-width: none;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+}
+
+/* 되돌릴 수 없는 확인. 빨간 제목, 빨간 마지막 줄, 빨간 테두리를 함께 쓴다. */
+.modal.confirm {
+	max-width: 460px;
+	border-color: var(--danger-line);
+}
+
+/* 되돌릴 수 없는 확인이므로 문구와 버튼 사이를 더 벌려 둔다. */
+.modal.confirm .modal-actions {
+	margin-top: 8px;
+}
+
+.modal.confirm .modal-head h2 {
+	color: var(--danger);
+}
+
+/* 삭제 확인의 마지막 줄. 지워지는 대상 다음에 되돌릴 수 없다는 점만 따로 알린다.
+   색에만 기대지 않도록 굵기도 함께 올린다. */
+.modal.confirm .modal-head .confirm-warn {
+	margin-top: 8px;
+	color: var(--danger);
+	font-weight: var(--fw-bold);
+}
+
+.confirm-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 14px 16px;
+	margin: 0;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+	list-style: none;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+}
+
+.confirm-list li {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.confirm-list b {
+	flex: none;
+	width: 76px;
+	color: var(--text-heading);
+	font-weight: var(--fw-semibold);
+}
+
+.confirm-list li.warn {
+	color: var(--warn-text);
+	font-weight: var(--fw-semibold);
+}
+
+.confirm-list li.warn b {
+	color: var(--warn-text);
+}
+
+/* 자리를 맞춰야 읽히는 숫자. */
+.tabular {
+	font-feature-settings: 'tnum';
+}
+
+/* 돌림판 이름표는 자기 조각 위에 그대로 얹고, 흰 그림자로 글자를 띄운다.
+   --label-angle 은 조각 가운데 방향, --label-counter-angle 은 글자를 다시 세우는 값이다.
+   조각 색과 짝이 되는 짙은 글자색은 frame markup에서 정한다. */
+.wheel-label {
+	position: absolute;
+	top: calc(18px + var(--wheel-size) / 2);
+	left: 50%;
+	width: 140px;
+	margin: -12px 0 0 -70px;
+	overflow: hidden;
+	font-size: 18px;
+	font-weight: var(--fw-bold);
+	line-height: 1.33;
+	text-align: center;
+	text-overflow: ellipsis;
+	text-shadow: 0 1px 0 rgb(255 255 255 / 45%);
+	white-space: nowrap;
+	transform: rotate(var(--label-angle)) translateY(calc(var(--wheel-size) * -0.345))
+		rotate(var(--label-counter-angle));
+}
+
+/* 좁은 화면은 돌림판이 작아지므로 이름표도 같이 줄인다. */
+.screen.mobile .wheel-label {
+	width: 132px;
+	margin-left: -66px;
+	font-size: 15px;
+}
+
+/* 오늘 기록 한 줄 안에서 승·패 두 줄을 쌓는다. */
+.who.lines {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+}
+
+.who.lines .row {
+	align-items: center;
+}
