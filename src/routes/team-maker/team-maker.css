@@ -35,11 +35,14 @@
 	--faint: #8a90a0;
 	--line: #e7ecf2;
 	--line-strong: #d7dee7;
-	--primary: #6e29e7;
-	--primary-dark: #5620b8;
-	--on-primary: #fff;
-	--primary-soft: #f3ecff;
-	--primary-line: #d9c4fb;
+	--primary: #0075de;
+	--primary-active: #005bab;
+	--primary-dark: #005bab;
+	--on-primary: #ffffff;
+	--on-danger: #ffffff;
+	--focus: #0075de;
+	--primary-soft: rgb(0 117 222 / 10%);
+	--primary-line: rgb(0 117 222 / 30%);
 	--danger: #c2333c;
 	--danger-fill: #f95256;
 	--danger-soft: #fff5f5;
@@ -64,11 +67,14 @@
 	--faint: #a7a099;
 	--line: #403d3a;
 	--line-strong: #514d49;
-	--primary: #a97dff;
-	--primary-dark: #c9b0ff;
-	--on-primary: #180b33;
-	--primary-soft: rgb(169 125 255 / 16%);
-	--primary-line: rgb(169 125 255 / 42%);
+	--primary: #0075de;
+	--primary-active: #005bab;
+	--primary-dark: #62aef0;
+	--on-primary: #ffffff;
+	--on-danger: #180b33;
+	--focus: #62aef0;
+	--primary-soft: rgb(0 117 222 / 16%);
+	--primary-line: rgb(0 117 222 / 42%);
 	--danger: #ff9096;
 	--danger-fill: #ff6f75;
 	--danger-soft: rgb(255 111 117 / 12%);
@@ -94,11 +100,14 @@
 		--faint: #a7a099;
 		--line: #403d3a;
 		--line-strong: #514d49;
-		--primary: #a97dff;
-		--primary-dark: #c9b0ff;
-		--on-primary: #180b33;
-		--primary-soft: rgb(169 125 255 / 16%);
-		--primary-line: rgb(169 125 255 / 42%);
+		--primary: #0075de;
+		--primary-active: #005bab;
+		--primary-dark: #62aef0;
+		--on-primary: #ffffff;
+		--on-danger: #180b33;
+		--focus: #62aef0;
+		--primary-soft: rgb(0 117 222 / 16%);
+		--primary-line: rgb(0 117 222 / 42%);
 		--danger: #ff9096;
 		--danger-fill: #ff6f75;
 		--danger-soft: rgb(255 111 117 / 12%);
@@ -168,22 +177,22 @@
 @keyframes tm-win-pulse {
 	0% {
 		box-shadow:
-			0 0 0 0 rgb(110 41 231 / 34%),
+			0 0 0 0 rgb(0 117 222 / 34%),
 			0 2px 8px rgb(28 30 38 / 6%);
 		transform: scale(1) translateY(0);
 	}
 
 	22% {
 		box-shadow:
-			0 0 0 10px rgb(110 41 231 / 16%),
-			0 18px 34px rgb(110 41 231 / 28%);
+			0 0 0 10px rgb(0 117 222 / 16%),
+			0 18px 34px rgb(0 117 222 / 28%);
 		transform: scale(1.045) translateY(-6px);
 	}
 
 	46% {
 		box-shadow:
-			0 0 0 16px rgb(110 41 231 / 0%),
-			0 10px 24px rgb(110 41 231 / 18%);
+			0 0 0 16px rgb(0 117 222 / 0%),
+			0 10px 24px rgb(0 117 222 / 18%);
 		transform: scale(0.995) translateY(0);
 	}
 
@@ -192,7 +201,7 @@
 	}
 
 	100% {
-		box-shadow: 0 8px 22px rgb(110 41 231 / 16%);
+		box-shadow: 0 8px 22px rgb(0 117 222 / 16%);
 		transform: scale(1) translateY(0);
 	}
 }
@@ -308,7 +317,7 @@
 	input:focus-visible,
 	textarea:focus-visible,
 	dialog:focus-visible {
-		outline: 2px solid var(--primary);
+		outline: 2px solid var(--focus);
 		outline-offset: 2px;
 	}
 
@@ -1098,8 +1107,8 @@
 
 	.primary-button:hover,
 	.primary-small-button:hover {
-		background: var(--primary-dark);
-		border-color: var(--primary-dark);
+		background: var(--primary-active);
+		border-color: var(--primary-active);
 	}
 
 	.primary-button:active,
@@ -1114,7 +1123,7 @@
 		padding: 16px 20px;
 		font-size: 16px;
 		border-radius: 12px;
-		box-shadow: 0 4px 14px rgb(110 41 231 / 24%);
+		box-shadow: 0 4px 14px rgb(0 117 222 / 24%);
 	}
 
 	.make-button:disabled {
@@ -1156,9 +1165,9 @@
 	.results-section[data-has-result='true'] {
 		border-color: var(--primary);
 		box-shadow:
-			0 0 0 1px rgb(110 41 231 / 26%),
-			0 0 0 4px rgb(110 41 231 / 8%),
-			0 12px 26px -10px rgb(110 41 231 / 22%);
+			0 0 0 1px rgb(0 117 222 / 26%),
+			0 0 0 4px rgb(0 117 222 / 8%),
+			0 12px 26px -10px rgb(0 117 222 / 22%);
 	}
 
 	.result-heading {
@@ -1180,8 +1189,8 @@
 
 	.reshuffle-button:hover {
 		color: var(--on-primary);
-		background: var(--primary-dark);
-		border-color: var(--primary-dark);
+		background: var(--primary-active);
+		border-color: var(--primary-active);
 	}
 
 	.result-empty {
@@ -1278,9 +1287,9 @@
 		content: '';
 		background: linear-gradient(
 			90deg,
-			rgb(110 41 231 / 0%) 0%,
-			rgb(110 41 231 / 14%) 50%,
-			rgb(110 41 231 / 0%) 100%
+			rgb(0 117 222 / 0%) 0%,
+			rgb(0 117 222 / 14%) 50%,
+			rgb(0 117 222 / 0%) 100%
 		);
 		opacity: 0;
 		transform: translateX(-120%);
@@ -1326,9 +1335,9 @@
 	}
 
 	.team-count-chip[data-result='win'] {
-		color: var(--green);
-		background: var(--green-soft);
-		border-color: var(--green-line);
+		color: var(--on-primary);
+		background: var(--primary);
+		border-color: var(--primary);
 	}
 
 	.team-count-chip[data-result='lose'] {
@@ -1516,9 +1525,9 @@
 	}
 
 	.history-winner-chip {
-		color: var(--green);
-		background: var(--green-soft);
-		border-color: var(--green-line);
+		color: var(--primary-dark);
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
 	}
 
 	.history-summary {
@@ -1581,6 +1590,13 @@
 		color: var(--muted);
 		font-size: 13px;
 		line-height: 1.55;
+	}
+
+	/* 삭제 확인의 마지막 줄. 지워지는 대상 다음에 되돌릴 수 없다는 점을 따로 알린다. */
+	.confirm-dialog .confirm-warning {
+		margin: 8px 0 0;
+		color: var(--danger);
+		font-weight: 700;
 	}
 
 	.error-text {
@@ -1731,8 +1747,18 @@
 		transition: transform 6500ms cubic-bezier(0.1, 0.72, 0.06, 1);
 	}
 
+	/* 조각이 만나는 가운데 점만 가리는 작은 원. 이름표는 바깥쪽에 있어 겹치지 않는다. */
 	.wheel::after {
-		content: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 24px;
+		height: 24px;
+		content: '';
+		background: var(--surface);
+		border-radius: 50%;
+		box-shadow: 0 0 0 1px var(--line-strong);
+		transform: translate(-50%, -50%);
 	}
 
 	.wheel-pointer {
@@ -1880,6 +1906,12 @@
 		line-height: 1.55;
 	}
 
+	.history-team-line[data-win='true'] .history-team-label {
+		color: var(--primary-dark);
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
+	}
+
 	.history-team-names {
 		display: block;
 		flex: 1;
@@ -1898,13 +1930,13 @@
 		align-items: center;
 		height: 22px;
 		padding: 0 10px;
-		color: var(--label-color, var(--danger));
+		color: var(--danger);
 		font-size: 12px;
 		font-weight: 750;
 		font-variant-numeric: tabular-nums;
 		line-height: 1;
-		background: var(--label-background, var(--danger-soft));
-		border: 1px solid var(--label-border, var(--danger-line));
+		background: var(--danger-soft);
+		border: 1px solid var(--danger-line);
 		border-radius: 999px;
 	}
 
@@ -1926,7 +1958,7 @@
 	}
 
 	.danger-filled-button {
-		color: var(--on-primary);
+		color: var(--on-danger);
 		font-weight: 750;
 		background: var(--danger-fill);
 		border-color: var(--danger-fill);

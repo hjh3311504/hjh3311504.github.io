@@ -173,7 +173,7 @@ test('승패 기록의 긴 참가자 이름은 생략하지 않고 여러 줄로
 
 	await page.getByRole('button', { name: '기록 보기' }).click();
 	const teamNames = page.locator('.history-team-names');
-	await expect(teamNames).toHaveCount(3);
+	await expect(teamNames).toHaveCount(2);
 	const renderedNames = (await teamNames.allTextContents()).join(', ');
 	for (const name of names) expect(renderedNames).toContain(name);
 	const teamNameLayouts = await teamNames.evaluateAll((elements) =>
@@ -201,11 +201,11 @@ test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오�
 	await openTeamMaker(page);
 	await page.waitForLoadState('networkidle');
 
-	await expect(page.getByRole('heading', { name: '1. 참가자 입력 (참가자 0명)' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: '1. 참가자 입력 (0명)' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: '2. 나누는 방식' })).toBeVisible();
 	await expect(page.getByRole('button', { name: '팀 만들기' })).toBeDisabled();
 	await expect(page.getByRole('heading', { name: '3. 결과' })).toBeVisible();
-	await expect(page.locator('#split-value')).toHaveText('3');
+	await expect(page.locator('#split-value')).toHaveText('2');
 	await expect(page.getByRole('button', { name: /결과.*복사/ })).toHaveCount(0);
 	await expect(page.locator('.team-maker-page')).toBeVisible();
 
@@ -250,7 +250,7 @@ test('참가자 편집, 두 나누기 방식, 다시 섞기와 새로고침 복�
 	await expect(page.getByText('아직 만든 팀이 없습니다', { exact: true })).toBeVisible();
 
 	await page.getByRole('radio', { name: '팀 수로 나누기' }).click();
-	await expect(page.locator('#split-value')).toHaveText('3');
+	await expect(page.locator('#split-value')).toHaveText('2');
 });
 
 test('쉼표로 참가자를 추가하고 삭제 뒤 빈자리를 순서대로 채운다', async ({ page }) => {
@@ -331,7 +331,7 @@ test('명단을 저장하고 덮어쓴 뒤 불러오고 삭제한다', async ({ 
 	await page.getByRole('button', { name: '명단 저장·불러오기' }).click();
 	dialog = page.getByRole('dialog', { name: '명단 저장·불러오기' });
 	await dialog.getByRole('button', { name: '주말 경기 저장 명단 삭제' }).click();
-	const confirm = page.getByRole('dialog', { name: '삭제하시겠습니까?' });
+	const confirm = page.getByRole('dialog', { name: '저장한 명단을 삭제할까요?' });
 	await confirm.getByRole('button', { name: '삭제', exact: true }).click();
 	await expect(dialog.locator('.roster-row')).toHaveCount(0);
 	await expect(dialog.getByText('저장한 명단이 없습니다.', { exact: false })).toBeVisible();
@@ -394,11 +394,7 @@ test('승리·취소·기록 삭제와 돌림판 당첨자 및 효과음을 처�
 	await expect(page.getByText('2팀패', { exact: true }).first()).toBeVisible();
 	await page.getByRole('button', { name: '기록 보기' }).click();
 	const historyDialog = page.getByRole('dialog', { name: '승패 기록' });
-	await expect(historyDialog.locator('.history-team-label')).toHaveText([
-		'1팀승',
-		'2팀패',
-		'3팀패'
-	]);
+	await expect(historyDialog.locator('.history-team-label')).toHaveText(['1팀승', '2팀패']);
 	await page.keyboard.press('Escape');
 	await expect(historyDialog).not.toBeVisible();
 
@@ -438,7 +434,7 @@ test('승리·취소·기록 삭제와 돌림판 당첨자 및 효과음을 처�
 	await expect(page.locator('#history-card')).toBeHidden();
 	await page.getByRole('button', { name: '2팀 승리 기록' }).click();
 	await page.locator('#today-history-list [data-history-remove]').click();
-	const confirm = page.getByRole('dialog', { name: '삭제하시겠습니까?' });
+	const confirm = page.getByRole('dialog', { name: '이 기록을 삭제할까요?' });
 	await confirm.getByRole('button', { name: '삭제', exact: true }).click();
 	await expect(page.locator('#history-card')).toBeHidden();
 });
