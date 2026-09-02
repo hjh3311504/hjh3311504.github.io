@@ -142,7 +142,7 @@
 			<section class="card participant-card" aria-labelledby="participant-title">
 				<div class="section-heading">
 					<h2 id="participant-title">
-						1. 참가자 입력 <span id="participant-count" class="count-label">(참가자 0명)</span>
+						1. 참가자 입력 <span id="participant-count" class="count-label">(0명)</span>
 					</h2>
 					<div class="heading-actions">
 						<button id="toggle-all-button" class="utility-button" type="button" hidden
