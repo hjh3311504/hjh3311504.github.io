@@ -305,11 +305,11 @@
 		font-size: 14px;
 		font-weight: 700;
 		line-height: 1;
-		background: #6e29e7;
+		background: #0075de;
 		border-radius: 8px;
 		box-shadow:
-			0 1px 2px rgb(110 41 231 / 22%),
-			0 8px 18px -8px rgb(110 41 231 / 50%);
+			0 1px 2px rgb(0 117 222 / 22%),
+			0 8px 18px -8px rgb(0 117 222 / 50%);
 	}
 
 	footer {

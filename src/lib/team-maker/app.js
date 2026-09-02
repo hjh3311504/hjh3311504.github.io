@@ -36,15 +36,6 @@ export function mountTeamMaker(root) {
 		'#4e3880',
 		'#70204f'
 	];
-	const teamTones = [
-		{ color: '#00734f', background: '#e6f7f0', border: '#a8e0cd' },
-		{ color: '#1b5fbd', background: '#eaf3ff', border: '#c3ddfb' },
-		{ color: '#a83209', background: '#fff2ea', border: '#ffd9c2' },
-		{ color: '#a3187a', background: '#fdeef7', border: '#f7cee6' },
-		{ color: '#0f6470', background: '#e6f5f7', border: '#b6e0e6' },
-		{ color: '#6b6410', background: '#fbf8e0', border: '#eae3b0' }
-	];
-
 	const $ = (selector) => root.querySelector(selector);
 	const clone = (value) => JSON.parse(JSON.stringify(value));
 	const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
@@ -65,7 +56,7 @@ export function mountTeamMaker(root) {
 			rules: [],
 			rosters: [],
 			mode: TEAM_MODE,
-			teamCount: 3,
+			teamCount: 2,
 			teamSize: 4,
 			history: [],
 			soundEnabled: true
@@ -170,7 +161,7 @@ export function mountTeamMaker(root) {
 			rules: cleanRules(value.rules, participants),
 			rosters: Array.isArray(value.rosters) ? value.rosters.map(cleanRoster).filter(Boolean) : [],
 			mode: value.mode === SIZE_MODE ? SIZE_MODE : TEAM_MODE,
-			teamCount: clamp(Number.parseInt(value.teamCount, 10) || 3, 2, 20),
+			teamCount: clamp(Number.parseInt(value.teamCount, 10) || 2, 2, 20),
 			teamSize: clamp(Number.parseInt(value.teamSize, 10) || 4, 1, 20),
 			history: cleanHistory(value.history),
 			soundEnabled: value.soundEnabled !== false
@@ -259,11 +250,6 @@ export function mountTeamMaker(root) {
 		return movementDuration;
 	}
 
-	function teamTone(teamId) {
-		const index = Math.max(0, Number(teamId) - 1) % teamTones.length;
-		return teamTones[index];
-	}
-
 	function showStorageFailure() {
 		$('#storage-alert').hidden = !storageFailed;
 	}
@@ -333,7 +319,7 @@ export function mountTeamMaker(root) {
 		const participantCount = state.participants.length;
 		$('#participant-count').textContent =
 			participantCount === 0
-				? '(참가자 0명)'
+				? '(0명)'
 				: includedCount === participantCount
 					? `(${participantCount}명)`
 					: `(${participantCount}명 중 ${includedCount}명 참가)`;
@@ -660,10 +646,6 @@ export function mountTeamMaker(root) {
 			const chip = document.createElement('span');
 			chip.className = 'history-winner-chip';
 			chip.textContent = `${winner?.name || '팀'}승`;
-			const tone = teamTone(winner?.id || 1);
-			chip.style.color = tone.color;
-			chip.style.background = tone.background;
-			chip.style.borderColor = tone.border;
 			const summary = document.createElement('span');
 			summary.className = 'history-summary';
 			summary.textContent = winner?.members.join(', ') || '';
@@ -913,7 +895,7 @@ export function mountTeamMaker(root) {
 		const entry = state.history.find((item) => item.id === id);
 		if (!entry) return;
 		showConfirm({
-			title: '삭제하시겠습니까?',
+			title: '이 기록을 삭제할까요?',
 			description: `${localDateKey(entry.occurredAt)} ${formatTime(entry.occurredAt)} · ${winnerTeam(entry)?.name || '팀'}승 기록이 삭제됩니다.`,
 			action: () => removeHistoryAnimated(id)
 		});
@@ -986,12 +968,6 @@ export function mountTeamMaker(root) {
 					const label = document.createElement('span');
 					label.className = 'history-team-label';
 					label.textContent = `${team.name}${won ? '승' : '패'}`;
-					const tone = won
-						? teamTone(team.id)
-						: { color: '#c2333c', background: '#fff5f5', border: '#ffd6d8' };
-					label.style.setProperty('--label-color', tone.color);
-					label.style.setProperty('--label-background', tone.background);
-					label.style.setProperty('--label-border', tone.border);
 					const names = document.createElement('span');
 					names.className = 'history-team-names';
 					names.textContent = team.members.join(', ');
@@ -1405,9 +1381,8 @@ export function mountTeamMaker(root) {
 
 	$('#clear-list-button').addEventListener('click', () => {
 		showConfirm({
-			title: '정말 비우시겠습니까?',
+			title: '참가자 명단을 삭제할까요?',
 			description: `명단에 있는 ${state.participants.length}명이 모두 지워집니다. 저장한 명단은 그대로 남습니다.`,
-			actionLabel: '비우기',
 			action: () => {
 				state.participants = [];
 				state.rules = [];
@@ -1502,7 +1477,7 @@ export function mountTeamMaker(root) {
 			const roster = state.rosters.find((item) => item.id === removeId);
 			if (!roster) return;
 			showConfirm({
-				title: '삭제하시겠습니까?',
+				title: '저장한 명단을 삭제할까요?',
 				description: `저장한 명단 "${roster.name}"(${roster.participants.length}명)이 삭제됩니다.`,
 				action: () => {
 					state.rosters = state.rosters.filter((item) => item.id !== removeId);

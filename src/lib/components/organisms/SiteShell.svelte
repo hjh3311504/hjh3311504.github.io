@@ -252,17 +252,17 @@
 		--shell-text-heading: rgb(0 0 0 / 95%);
 		--shell-text-body: #31302e;
 		--shell-text-muted: #615d59;
-		--shell-focus: #6e29e7;
-		--shell-nav-accent: #6e29e7;
-		--shell-nav-wash: rgb(110 41 231 / 9%);
+		--shell-focus: #0075de;
+		--shell-nav-accent: #0075de;
+		--shell-nav-wash: rgb(0 117 222 / 9%);
 		--shell-row-hover: rgb(0 0 0 / 4%);
 		--shell-overlay: rgb(0 0 0 / 40%);
 		--shell-menu-shadow: rgb(0 0 0 / 5%) 0 23px 52px;
 		--shell-page-background: linear-gradient(
 			180deg,
-			rgb(110 41 231 / 10%) 0%,
-			rgb(110 41 231 / 5%) 42%,
-			rgb(110 41 231 / 0%) 100%
+			rgb(0 117 222 / 10%) 0%,
+			rgb(0 117 222 / 5%) 42%,
+			rgb(0 117 222 / 0%) 100%
 		);
 		display: flex;
 		align-items: flex-start;
@@ -292,17 +292,17 @@
 		--shell-text-heading: #fff;
 		--shell-text-body: #f2f0ed;
 		--shell-text-muted: #c3bdb6;
-		--shell-focus: #a97dff;
-		--shell-nav-accent: #a97dff;
-		--shell-nav-wash: rgb(169 125 255 / 16%);
+		--shell-focus: #62aef0;
+		--shell-nav-accent: #62aef0;
+		--shell-nav-wash: rgb(0 117 222 / 16%);
 		--shell-row-hover: rgb(255 255 255 / 7%);
 		--shell-overlay: rgb(0 0 0 / 62%);
 		--shell-menu-shadow: rgb(0 0 0 / 45%) 0 23px 52px;
 		--shell-page-background: linear-gradient(
 			180deg,
-			rgb(169 125 255 / 16%) 0%,
-			rgb(169 125 255 / 7%) 42%,
-			rgb(169 125 255 / 0%) 100%
+			rgb(98 174 240 / 16%) 0%,
+			rgb(98 174 240 / 7%) 42%,
+			rgb(98 174 240 / 0%) 100%
 		);
 		color-scheme: dark;
 	}
@@ -320,17 +320,17 @@
 			--shell-text-heading: #fff;
 			--shell-text-body: #f2f0ed;
 			--shell-text-muted: #c3bdb6;
-			--shell-focus: #a97dff;
-			--shell-nav-accent: #a97dff;
-			--shell-nav-wash: rgb(169 125 255 / 16%);
+			--shell-focus: #62aef0;
+			--shell-nav-accent: #62aef0;
+			--shell-nav-wash: rgb(0 117 222 / 16%);
 			--shell-row-hover: rgb(255 255 255 / 7%);
 			--shell-overlay: rgb(0 0 0 / 62%);
 			--shell-menu-shadow: rgb(0 0 0 / 45%) 0 23px 52px;
 			--shell-page-background: linear-gradient(
 				180deg,
-				rgb(169 125 255 / 16%) 0%,
-				rgb(169 125 255 / 7%) 42%,
-				rgb(169 125 255 / 0%) 100%
+				rgb(98 174 240 / 16%) 0%,
+				rgb(98 174 240 / 7%) 42%,
+				rgb(98 174 240 / 0%) 100%
 			);
 			color-scheme: dark;
 		}

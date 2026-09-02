@@ -142,7 +142,7 @@
 			<section class="card participant-card" aria-labelledby="participant-title">
 				<div class="section-heading">
 					<h2 id="participant-title">
-						1. 참가자 입력 <span id="participant-count" class="count-label">(참가자 0명)</span>
+						1. 참가자 입력 <span id="participant-count" class="count-label">(0명)</span>
 					</h2>
 					<div class="heading-actions">
 						<button id="toggle-all-button" class="utility-button" type="button" hidden
@@ -175,8 +175,8 @@
 							id="clear-list-button"
 							class="icon-button danger-button"
 							type="button"
-							aria-label="명단 비우기"
-							title="명단 비우기"
+							aria-label="명단 삭제"
+							title="명단 삭제"
 						>
 							<svg
 								width="16"
@@ -260,7 +260,7 @@
 					</div>
 					<div class="stepper">
 						<button id="decrease-value" type="button" aria-label="값 줄이기">−</button>
-						<output id="split-value" aria-labelledby="split-value-label">3</output>
+						<output id="split-value" aria-labelledby="split-value-label">2</output>
 						<button id="increase-value" type="button" aria-label="값 늘리기">+</button>
 					</div>
 				</div>
@@ -532,10 +532,11 @@
 			id="confirm-dialog"
 			class="app-dialog confirm-dialog"
 			aria-labelledby="confirm-title"
-			aria-describedby="confirm-description"
+			aria-describedby="confirm-description confirm-warning"
 		>
-			<h2 id="confirm-title">삭제하시겠습니까?</h2>
+			<h2 id="confirm-title">참가자 명단을 삭제할까요?</h2>
 			<p id="confirm-description">삭제할 내용을 확인해 주세요.</p>
+			<p id="confirm-warning" class="confirm-warning">되돌릴 수 없습니다.</p>
 			<div class="dialog-actions">
 				<button id="cancel-confirm-button" class="utility-button" type="button">취소</button>
 				<button id="confirm-action-button" class="danger-filled-button" type="button">삭제</button>
