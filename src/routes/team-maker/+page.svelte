@@ -64,7 +64,10 @@
 					'팀 수 또는 팀당 인원 기준 자동 배정',
 					'같은 팀 및 다른 팀 배정 규칙',
 					'참가자 명단 저장 및 불러오기',
-					'승패 기록과 팀별 무작위 추첨'
+					'승패 기록과 3팀 이상 순위 기록',
+					'팀별 무작위 추첨과 당첨자 누적',
+					'팀 결과 텍스트 복사',
+					'참가자별 승리·당첨·패배 통계'
 				],
 				author: {
 					'@type': 'Person',
@@ -280,7 +283,10 @@
 				<div class="result-heading">
 					<h2 id="results-title">3. 결과</h2>
 					<div class="result-actions" hidden>
-						<button id="undo-win-button" class="pill-button" type="button" hidden>승리 취소</button>
+						<button id="undo-win-button" class="utility-button" type="button" hidden
+							>승리 취소</button
+						>
+						<button id="copy-result-button" class="utility-button" type="button">결과 복사</button>
 						<button id="reshuffle-button" class="utility-button reshuffle-button" type="button"
 							>다시 섞기</button
 						>
@@ -293,6 +299,15 @@
 					<span class="result-empty-description">팀 만들기를 누르면 팀별 명단이 나타납니다.</span>
 				</div>
 				<div id="team-grid" class="team-grid"></div>
+				<section
+					id="picked-section"
+					class="picked-section"
+					aria-labelledby="picked-section-title"
+					hidden
+				>
+					<h3 id="picked-section-title" class="picked-section-title">당첨자</h3>
+					<div id="picked-groups" class="picked-groups"></div>
+				</section>
 			</section>
 
 			<section id="history-card" class="history-card" aria-labelledby="statistics-title" hidden>
@@ -303,9 +318,40 @@
 							<h3 id="today-history-title">오늘 기록</h3>
 							<p id="today-history-count">0경기</p>
 						</div>
-						<button id="open-history-button" class="utility-button roster-button" type="button"
-							>기록 보기</button
-						>
+						<div class="heading-actions">
+							<button id="open-player-stats-button" class="utility-button" type="button"
+								>참가자 통계</button
+							>
+							<button id="open-history-button" class="utility-button roster-button" type="button"
+								>기록 보기</button
+							>
+							<button
+								id="clear-today-button"
+								class="icon-button danger-button"
+								type="button"
+								aria-label="오늘 기록 지우기"
+								title="오늘 기록 지우기"
+								hidden
+							>
+								<svg
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									aria-hidden="true"
+								>
+									<path d="M3 6h18"></path>
+									<path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+									<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+									<path d="M10 11v6"></path>
+									<path d="M14 11v6"></path>
+								</svg>
+							</button>
+						</div>
 					</div>
 					<p id="today-history-empty" class="subtle-empty">오늘 기록한 경기가 없습니다.</p>
 					<ul id="today-history-list" class="today-history-list"></ul>
@@ -483,12 +529,25 @@
 					</button>
 				</div>
 			</div>
-			<div class="wheel-wrap">
-				<span class="wheel-pointer" aria-hidden="true"></span>
-				<div id="wheel" class="wheel" aria-hidden="true"></div>
+			<div class="wheel-body">
+				<div class="wheel-wrap">
+					<span class="wheel-pointer" aria-hidden="true"></span>
+					<div id="wheel" class="wheel" aria-hidden="true"></div>
+				</div>
+				<div id="wheel-side" class="wheel-side" aria-labelledby="wheel-side-title" hidden>
+					<h3 id="wheel-side-title" class="wheel-side-title">당첨자</h3>
+					<ol
+						id="wheel-picked-list"
+						class="wheel-picked-list"
+						aria-labelledby="wheel-side-title"
+					></ol>
+				</div>
 			</div>
 			<p id="wheel-result" class="wheel-result" role="status">돌리기를 누르세요.</p>
 			<div class="dialog-actions split-actions">
+				<button id="clear-picks-button" class="utility-button" type="button" hidden
+					>당첨자 지우기</button
+				>
 				<button class="utility-button" type="button" data-close-dialog>닫기</button>
 				<button id="spin-wheel-button" class="primary-small-button" type="button">돌리기</button>
 			</div>
@@ -525,7 +584,82 @@
 			<p id="history-empty" class="subtle-empty">
 				아직 기록이 없습니다. 결과 카드의 승리 버튼을 눌러 기록해 보세요.
 			</p>
+			<section
+				id="history-overview"
+				class="history-overview"
+				aria-labelledby="history-overview-title"
+				hidden
+			>
+				<h3 id="history-overview-title">전체 통계</h3>
+				<ul id="history-overview-facts" class="overview-facts"></ul>
+				<ol id="history-overview-ranking" class="overview-ranking" aria-label="많이 이긴 순서"></ol>
+				<p class="stats-note">막대는 승률이고, 3팀 이상 경기에서는 마지막 순위를 패로 셉니다.</p>
+			</section>
 			<div id="history-groups" class="history-groups"></div>
+		</dialog>
+
+		<dialog
+			id="player-stats-dialog"
+			class="app-dialog stats-dialog"
+			aria-labelledby="player-stats-title"
+			aria-describedby="player-stats-description"
+		>
+			<div class="dialog-heading">
+				<div>
+					<h2 id="player-stats-title">참가자 통계</h2>
+					<p id="player-stats-description">기록이 없습니다.</p>
+				</div>
+				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
+					<svg
+						width="15"
+						height="15"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+					>
+						<path d="M18 6 6 18"></path>
+						<path d="m6 6 12 12"></path>
+					</svg>
+				</button>
+			</div>
+			<p id="player-stats-empty" class="subtle-empty">
+				오늘 기록이 없습니다. 결과 카드에서 승리를 기록하면 여기에 쌓입니다. 지난 기록은 기록 보기의
+				전체 통계에서 볼 수 있습니다.
+			</p>
+			<div id="player-stats-body" class="stats-body" hidden>
+				<ul id="player-stats-leaders" class="stats-leader-list"></ul>
+				<p class="stats-note">오늘 기록만 셉니다. 3팀 이상 경기에서는 마지막 순위를 패로 셉니다.</p>
+				<div class="stats-section">
+					<h3 id="player-stats-pairs-title">같은 팀 궁합</h3>
+					<p id="player-stats-pairs-empty" class="subtle-empty" hidden>
+						두 경기 이상 같은 팀이었던 조합이 없습니다.
+					</p>
+					<ul
+						id="player-stats-pairs"
+						class="stats-pair-list"
+						aria-labelledby="player-stats-pairs-title"
+					></ul>
+				</div>
+				<div class="stats-section">
+					<h3 id="player-stats-table-title">참가자별 기록</h3>
+					<table class="stats-table" aria-labelledby="player-stats-table-title">
+						<thead>
+							<tr>
+								<th scope="col">이름</th>
+								<th scope="col">경기</th>
+								<th scope="col">승</th>
+								<th scope="col">패</th>
+								<th scope="col">당첨</th>
+							</tr>
+						</thead>
+						<tbody id="player-stats-rows"></tbody>
+					</table>
+				</div>
+			</div>
 		</dialog>
 
 		<dialog

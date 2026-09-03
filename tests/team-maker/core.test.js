@@ -9,12 +9,21 @@ import {
 	calculateTeamCount,
 	calculateWheelTargetRotation,
 	cleanRulesAfterParticipantRemoval,
+	appendTeamRank,
+	formatTeamResultLabel,
+	formatTeamsText,
 	getSetupStatus,
+	localDateKey,
 	makeTeams,
 	orderParticipantsForColumns,
 	parseParticipantNames,
 	planParticipantRemoval,
-	rebalanceParticipantColumns
+	rebalanceParticipantColumns,
+	removeLastTeamRank,
+	resolveTeamRanking,
+	selectTodayHistory,
+	shuffle,
+	summarizeParticipantStats
 } from '../../src/lib/team-maker/core.js';
 
 const people = (...names) => names.map((name, index) => ({ id: `p${index + 1}`, name }));
@@ -371,4 +380,233 @@ test('돌림판이 선택한 조각의 가운데를 포인터에 맞춘다', () 
 		const stoppedAngle = (((rotation + pickedCenter) % 360) + 360) % 360;
 		assert.ok(Math.abs(stoppedAngle) < 1e-9 || Math.abs(stoppedAngle - 360) < 1e-9);
 	}
+});
+
+const match = (id, ranking, teams) => ({
+	id,
+	occurredAt: `2026-09-02T0${id}:00:00.000Z`,
+	winnerTeamId: ranking[0],
+	ranking,
+	teams: teams.map((team, index) => ({
+		id: index + 1,
+		name: `${index + 1}팀`,
+		members: team.members,
+		picks: team.picks ?? []
+	}))
+});
+
+test('팀 결과를 팀 이름과 참가자 이름만 담은 여러 줄 글로 만든다', () => {
+	assert.equal(
+		formatTeamsText([
+			{ name: '1팀', members: [{ name: '황준호' }, { name: '권순범' }] },
+			{ name: '2팀', members: [{ name: '하종우' }, { name: '이민형' }] }
+		]),
+		'1팀\n황준호\n권순범\n2팀\n하종우\n이민형'
+	);
+	assert.equal(formatTeamsText([{ name: '1팀', members: ['가영', '나연'] }]), '1팀\n가영\n나연');
+	assert.equal(formatTeamsText([]), '');
+});
+
+test('2팀은 승리 한 번으로 순위가 완결되고 3팀 이상은 순차로 지정한다', () => {
+	assert.deepEqual(appendTeamRank([], 1, [1, 2]), [1, 2]);
+	assert.deepEqual(appendTeamRank([], 2, [1, 2]), [2, 1]);
+	assert.deepEqual(appendTeamRank([], 3, [1, 2, 3]), [3]);
+	assert.deepEqual(appendTeamRank([3], 1, [1, 2, 3]), [3, 1, 2]);
+	assert.deepEqual(appendTeamRank([], 2, [1, 2, 3, 4]), [2]);
+	assert.deepEqual(appendTeamRank([2], 4, [1, 2, 3, 4]), [2, 4]);
+	assert.deepEqual(appendTeamRank([2, 4], 1, [1, 2, 3, 4]), [2, 4, 1, 3]);
+});
+
+test('이미 순위를 받은 팀이나 목록 밖 팀을 고르면 입력을 그대로 돌려준다', () => {
+	const ranking = [3, 1, 2];
+	assert.equal(appendTeamRank(ranking, 1, [1, 2, 3]), ranking);
+	assert.equal(appendTeamRank(ranking, 9, [1, 2, 3]), ranking);
+});
+
+test('순위 취소는 자동으로 채워진 마지막 순위까지 함께 되돌린다', () => {
+	assert.deepEqual(removeLastTeamRank([1, 2], [1, 2]), []);
+	assert.deepEqual(removeLastTeamRank([3, 1, 2], [1, 2, 3]), [3]);
+	assert.deepEqual(removeLastTeamRank([3], [1, 2, 3]), []);
+	assert.deepEqual(removeLastTeamRank([], [1, 2, 3]), []);
+	assert.deepEqual(removeLastTeamRank([2, 4, 1, 3], [1, 2, 3, 4]), [2, 4]);
+});
+
+test('순위를 순서대로 넣었다 되돌리면 매 단계 이전 상태로 정확히 돌아온다', () => {
+	for (let teamCount = 2; teamCount <= 6; teamCount += 1) {
+		const teamIds = Array.from({ length: teamCount }, (_, index) => index + 1);
+		const order = shuffle(teamIds, () => 0.37);
+		const states = [[]];
+		let ranking = [];
+		for (const teamId of order) {
+			const next = appendTeamRank(ranking, teamId, teamIds);
+			if (next === ranking) continue;
+			ranking = next;
+			states.push(ranking);
+		}
+		assert.equal(ranking.length, teamCount);
+		for (let index = states.length - 1; index > 0; index -= 1) {
+			assert.deepEqual(removeLastTeamRank(states[index], teamIds), states[index - 1]);
+		}
+	}
+});
+
+test('저장된 기록의 순위를 정리하고 옛 기록도 되살린다', () => {
+	const teams = [
+		{ id: 1, name: '1팀', members: ['가영'] },
+		{ id: 2, name: '2팀', members: ['나연'] }
+	];
+	assert.deepEqual(resolveTeamRanking({ winnerTeamId: 1, teams }), {
+		ranking: [1, 2],
+		complete: true
+	});
+
+	const threeTeams = [...teams, { id: 3, name: '3팀', members: ['다현'] }];
+	assert.deepEqual(resolveTeamRanking({ winnerTeamId: 2, teams: threeTeams }), {
+		ranking: [2],
+		complete: false
+	});
+
+	assert.deepEqual(
+		resolveTeamRanking({ winnerTeamId: 2, ranking: [2, 2, 9, 1], teams: threeTeams }),
+		{ ranking: [2, 1, 3], complete: true }
+	);
+
+	assert.deepEqual(resolveTeamRanking({ winnerTeamId: 9, teams: threeTeams }), {
+		ranking: [],
+		complete: false
+	});
+});
+
+test('2팀은 승패로, 3팀 이상은 등수 숫자로 표시하고 꼴등이라는 말은 쓰지 않는다', () => {
+	assert.equal(formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 2 }), '1팀승');
+	assert.equal(formatTeamResultLabel({ teamName: '2팀', rank: 2, teamCount: 2 }), '2팀패');
+	assert.equal(formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 3 }), '1팀 1등');
+	assert.equal(formatTeamResultLabel({ teamName: '3팀', rank: 3, teamCount: 3 }), '3팀 3등');
+	assert.equal(formatTeamResultLabel({ teamName: '4팀', rank: null, teamCount: 4 }), '순위 미정');
+
+	// 팀 이름을 이미 보여 주는 칩에서는 등수만 적는다. 2팀 표기는 그대로 둔다.
+	assert.equal(
+		formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 3, compact: true }),
+		'1등'
+	);
+	assert.equal(
+		formatTeamResultLabel({ teamName: '3팀', rank: 3, teamCount: 3, compact: true }),
+		'3등'
+	);
+	assert.equal(
+		formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 2, compact: true }),
+		'1팀승'
+	);
+	assert.equal(
+		formatTeamResultLabel({ teamName: '2팀', rank: 2, teamCount: 2, compact: true }),
+		'2팀패'
+	);
+
+	for (let teamCount = 2; teamCount <= 6; teamCount += 1) {
+		for (let rank = 1; rank <= teamCount; rank += 1) {
+			for (const compact of [false, true]) {
+				const label = formatTeamResultLabel({ teamName: `${rank}팀`, rank, teamCount, compact });
+				assert.ok(!label.includes('꼴등'), `${label}에 꼴등이 들어갔습니다.`);
+			}
+		}
+	}
+});
+
+test('오늘 기록은 날짜와 지우기 시각을 함께 본다', () => {
+	const now = new Date('2026-09-02T20:00:00.000Z');
+	const todayKey = localDateKey(now);
+	const at = (hour) => {
+		const date = new Date(now);
+		date.setHours(hour, 0, 0, 0);
+		return date.toISOString();
+	};
+	const history = [
+		{ id: 'a', occurredAt: at(9) },
+		{ id: 'b', occurredAt: at(13) },
+		{ id: 'c', occurredAt: new Date(now.getTime() - 86_400_000).toISOString() }
+	];
+
+	assert.deepEqual(
+		selectTodayHistory(history, { now }).map((entry) => entry.id),
+		['a', 'b']
+	);
+	assert.deepEqual(
+		selectTodayHistory(history, { now, clearedAt: at(10) }).map((entry) => entry.id),
+		['b']
+	);
+	assert.deepEqual(selectTodayHistory(history, { now, clearedAt: at(13) }), []);
+	assert.equal(localDateKey(at(9)), todayKey);
+});
+
+test('참가자별 승리·당첨·패배와 같은 팀 궁합을 센다', () => {
+	const history = [
+		match(
+			1,
+			[1, 2],
+			[{ members: ['가영', '나연'], picks: ['가영'] }, { members: ['다현', '라희'] }]
+		),
+		match(
+			2,
+			[1, 2],
+			[{ members: ['가영', '나연'], picks: ['나연', '가영'] }, { members: ['다현', '라희'] }]
+		),
+		match(3, [1, 2], [{ members: ['가영', '다현'] }, { members: ['나연', '라희'] }])
+	];
+
+	const stats = summarizeParticipantStats(history);
+	assert.equal(stats.matchCount, 3);
+	assert.deepEqual(stats.topWins[0], { name: '가영', count: 3 });
+	assert.deepEqual(stats.topPicks[0], { name: '가영', count: 2 });
+	assert.deepEqual(stats.topLosses[0], { name: '라희', count: 3 });
+
+	const best = stats.pairs[0];
+	assert.deepEqual(best.names, ['가영', '나연']);
+	assert.equal(best.together, 2);
+	assert.equal(best.wins, 2);
+	assert.equal(best.winRate, 1);
+
+	const 가영 = stats.players.find((player) => player.name === '가영');
+	assert.equal(가영.matches, 3);
+	assert.equal(가영.wins, 3);
+	assert.equal(가영.losses, 0);
+});
+
+test('궁합은 같은 팀 횟수가 기준에 미치지 못하면 빼고 동점은 이름 순으로 정렬한다', () => {
+	const history = [
+		match(1, [1, 2], [{ members: ['가영', '나연'] }, { members: ['다현', '라희'] }]),
+		match(2, [1, 2], [{ members: ['가영', '마루'] }, { members: ['다현', '바다'] }])
+	];
+	assert.deepEqual(summarizeParticipantStats(history).pairs, []);
+	assert.deepEqual(
+		summarizeParticipantStats(history, { minimumTogether: 1 })
+			.pairs.map((pair) => pair.names.join('+'))
+			.slice(0, 2),
+		['가영+나연', '가영+마루']
+	);
+	assert.deepEqual(
+		summarizeParticipantStats(history).topWins.map((item) => item.name),
+		['가영', '나연', '마루']
+	);
+});
+
+test('한 팀에 같은 이름이 두 번 있어도 한 명으로 세고 순위가 미정이면 패로 세지 않는다', () => {
+	const duplicated = [match(1, [1, 2], [{ members: ['가영', '가영'] }, { members: ['나연'] }])];
+	const 가영 = summarizeParticipantStats(duplicated).players.find((item) => item.name === '가영');
+	assert.equal(가영.matches, 1);
+	assert.equal(가영.wins, 1);
+
+	const legacy = [
+		{
+			id: 'legacy',
+			occurredAt: '2026-09-02T01:00:00.000Z',
+			winnerTeamId: 1,
+			teams: [
+				{ id: 1, name: '1팀', members: ['가영'] },
+				{ id: 2, name: '2팀', members: ['나연'] },
+				{ id: 3, name: '3팀', members: ['다현'] }
+			]
+		}
+	];
+	assert.deepEqual(summarizeParticipantStats(legacy).topLosses, []);
+	assert.equal(summarizeParticipantStats(legacy).topWins[0].name, '가영');
 });

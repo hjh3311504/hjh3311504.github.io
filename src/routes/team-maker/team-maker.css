@@ -496,7 +496,6 @@
 	.icon-text-button,
 	.icon-button,
 	.rule-button,
-	.pill-button,
 	.primary-small-button,
 	.danger-filled-button,
 	.dialog-close {
@@ -514,8 +513,7 @@
 
 	.utility-button,
 	.icon-text-button,
-	.rule-button,
-	.pill-button {
+	.rule-button {
 		padding: 0 13px;
 		color: var(--muted);
 		font-size: 13px;
@@ -523,8 +521,7 @@
 	}
 
 	.utility-button:hover,
-	.icon-text-button:hover,
-	.pill-button:hover {
+	.icon-text-button:hover {
 		background: var(--canvas);
 		border-color: #cbd3dd;
 	}
@@ -916,8 +913,7 @@
 
 	.rule-chip,
 	.team-count-chip,
-	.history-winner-chip,
-	.match-state {
+	.history-winner-chip {
 		display: inline-flex;
 		flex: none;
 		align-items: center;
@@ -1176,10 +1172,6 @@
 		margin: 0;
 	}
 
-	.pill-button {
-		border-radius: 999px;
-	}
-
 	.reshuffle-button {
 		color: var(--on-primary);
 		font-weight: 700;
@@ -1296,13 +1288,13 @@
 		animation: tm-sweep 720ms cubic-bezier(0.2, 0, 0.2, 1) 60ms;
 	}
 
-	.team-card[data-result='win'] {
+	.team-card[data-place='first'] {
 		background: var(--primary-soft);
 		border: 2px solid var(--primary);
 		border-top-width: 6px;
 	}
 
-	.team-card[data-result='win'] h3 {
+	.team-card[data-place='first'] h3 {
 		color: var(--primary-dark);
 		font-weight: 800;
 	}
@@ -1311,9 +1303,14 @@
 		animation: tm-name-lift 520ms cubic-bezier(0.2, 0, 0.2, 1) 80ms;
 	}
 
-	.team-card[data-result='lose'] {
-		background: var(--surface-soft);
-		border-top-color: var(--line-strong);
+	.team-card[data-place='middle'] {
+		background: var(--orange-soft);
+		border-top-color: var(--orange-line);
+	}
+
+	.team-card[data-place='last'] {
+		background: var(--danger-soft);
+		border-top-color: var(--danger-line);
 	}
 
 	.team-card-heading {
@@ -1334,16 +1331,41 @@
 		border-color: var(--line);
 	}
 
-	.team-count-chip[data-result='win'] {
+	.team-count-chip[data-place='first'] {
 		color: var(--on-primary);
 		background: var(--primary);
 		border-color: var(--primary);
 	}
 
-	.team-count-chip[data-result='lose'] {
+	.team-count-chip[data-place='middle'] {
+		color: var(--orange);
+		background: var(--orange-soft);
+		border-color: var(--orange-line);
+	}
+
+	.team-count-chip[data-place='last'] {
 		color: var(--danger);
 		background: var(--danger-soft);
 		border-color: var(--danger-line);
+	}
+
+	.team-count-chip[data-place='none'] {
+		color: var(--faint);
+		background: var(--canvas);
+		border-style: dashed;
+		border-color: var(--line-strong);
+	}
+
+	/* 중간 순위가 여럿이면 주황에서 빨강 쪽으로 단계를 준다. */
+	@supports (color: color-mix(in oklab, red, blue)) {
+		.team-count-chip[data-place='middle'] {
+			color: color-mix(in oklab, var(--orange), var(--danger) calc(var(--rank-progress, 0) * 100%));
+			border-color: color-mix(
+				in oklab,
+				var(--orange-line),
+				var(--danger-line) calc(var(--rank-progress, 0) * 100%)
+			);
+		}
 	}
 
 	.team-count-chip.animate-result-chip {
@@ -1435,40 +1457,105 @@
 		border-color: var(--green);
 	}
 
-	.match-state {
-		align-self: flex-start;
+	.draw-button:disabled,
+	.primary-small-button:disabled {
+		color: var(--faint);
+		background: var(--surface-soft);
+		border-color: var(--line);
+		cursor: not-allowed;
 	}
 
-	.match-state.win {
-		color: var(--primary-dark);
-		background: var(--primary-soft);
-		border-color: var(--primary-line);
+	.primary-small-button:disabled:hover {
+		background: var(--surface-soft);
+		border-color: var(--line);
 	}
 
-	.match-state.lose {
-		color: var(--danger);
-		background: var(--danger-soft);
-		border-color: var(--danger-line);
+	.win-button.rank-button {
+		color: var(--orange);
+		background: var(--orange-soft);
+		border-color: var(--orange-line);
+	}
+
+	.win-button.rank-button:hover {
+		background: var(--orange-soft);
+		border-color: var(--orange);
+	}
+
+	.picked-section {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 14px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+	}
+
+	.picked-section-title {
+		margin: 0;
+		color: var(--muted);
+		font-size: 13px;
+		font-weight: 750;
+	}
+
+	.picked-groups {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 10px;
 	}
 
 	.picked-person {
 		display: flex;
-		gap: 8px;
-		align-items: center;
+		flex-direction: column;
+		gap: 6px;
+		align-items: stretch;
 		padding: 8px 10px;
 		background: var(--green-soft);
 		border: 1px solid var(--green-line);
 		border-radius: 8px;
 	}
 
-	.picked-person span:first-child {
+	.picked-label {
 		color: var(--green);
 		font-size: 12px;
 		font-weight: 750;
 	}
 
-	.picked-person strong {
+	/* 결과 카드와 같은 순위 색을 팀 이름에만 얹어 어느 팀 당첨자인지 빨리 읽히게 한다. */
+	.picked-person[data-place='first'] .picked-label {
+		color: var(--primary-dark);
+	}
+
+	.picked-person[data-place='middle'] .picked-label {
+		color: var(--orange);
+	}
+
+	.picked-person[data-place='last'] .picked-label {
+		color: var(--danger);
+	}
+
+	.picked-list {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.picked-row {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		min-width: 0;
+	}
+
+	.picked-name {
+		flex: 1;
+		min-width: 0;
 		font-size: 14px;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
 	}
 
 	.history-card {
@@ -1485,7 +1572,12 @@
 		gap: 12px;
 	}
 
-	.history-card .section-heading > div {
+	.history-card .section-heading {
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.history-card .section-heading > .today-heading {
 		display: flex;
 		gap: 8px;
 		align-items: baseline;
@@ -1503,8 +1595,6 @@
 	}
 
 	.history-summary-row {
-		display: flex;
-		align-items: center;
 		min-width: 0;
 		font-size: 13px;
 	}
@@ -1723,6 +1813,61 @@
 		border-color: var(--primary);
 	}
 
+	.wheel-body {
+		display: grid;
+		gap: 14px;
+		justify-items: center;
+		width: 100%;
+	}
+
+	.wheel-side {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		width: 100%;
+	}
+
+	.wheel-side-title {
+		margin: 0;
+		color: var(--muted);
+		font-size: 13px;
+		font-weight: 750;
+		text-align: center;
+	}
+
+	/* 좁은 화면에서는 지금처럼 판 아래에 쌓이고, 넓을 때만 우측으로 간다. */
+	@media (min-width: 640px) {
+		.wheel-dialog.has-picks {
+			width: min(calc(100% - 32px), 620px);
+		}
+
+		.wheel-dialog.has-picks .wheel-body {
+			grid-template-columns: minmax(0, 1fr) minmax(150px, 186px);
+			align-items: start;
+			justify-items: stretch;
+		}
+
+		.wheel-dialog.has-picks .wheel-wrap {
+			--wheel-size: 320px;
+		}
+
+		.wheel-dialog.has-picks .wheel-side-title,
+		.wheel-dialog.has-picks .wheel-picked-list {
+			text-align: left;
+			justify-content: flex-start;
+		}
+
+		.wheel-dialog.has-picks .wheel-picked-list {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.wheel-dialog.has-picks .wheel-picked-item {
+			justify-content: center;
+			min-height: 30px;
+		}
+	}
+
 	.wheel-wrap {
 		--wheel-size: min(360px, calc(100vw - 92px));
 		position: relative;
@@ -1744,7 +1889,8 @@
 		box-shadow:
 			0 0 0 1px var(--line-strong),
 			0 8px 20px rgb(28 30 38 / 14%);
-		transition: transform 6500ms cubic-bezier(0.1, 0.72, 0.06, 1);
+		transition: transform var(--wheel-spin-duration, 6500ms)
+			var(--wheel-spin-easing, cubic-bezier(0.1, 0.72, 0.06, 1));
 	}
 
 	/* 조각이 만나는 가운데 점만 가리는 작은 원. 이름표는 바깥쪽에 있어 겹치지 않는다. */
@@ -1787,7 +1933,8 @@
 		text-overflow: ellipsis;
 		transform: rotate(var(--label-angle)) translateY(calc(var(--wheel-size) * -0.345))
 			rotate(var(--label-counter-angle));
-		transition: transform 6500ms cubic-bezier(0.1, 0.72, 0.06, 1);
+		transition: transform var(--wheel-spin-duration, 6500ms)
+			var(--wheel-spin-easing, cubic-bezier(0.1, 0.72, 0.06, 1));
 		white-space: nowrap;
 	}
 
@@ -1836,8 +1983,125 @@
 		flex: 1;
 	}
 
+	/* 좁은 화면에서 버튼 셋을 한 줄에 밀어 넣으면 글자가 잘려 두 줄이 된다. */
+	@media (max-width: 480px) {
+		.wheel-dialog .split-actions {
+			flex-wrap: wrap;
+		}
+
+		.wheel-dialog .split-actions > button {
+			flex: 1 1 calc(50% - 4px);
+		}
+
+		.wheel-dialog #spin-wheel-button {
+			flex-basis: 100%;
+		}
+	}
+
 	.history-dialog {
 		width: min(calc(100% - 32px), 520px);
+	}
+
+	.history-overview {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 14px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+	}
+
+	.history-overview h3 {
+		margin: 0;
+		font-size: 14px;
+		font-weight: 800;
+	}
+
+	.overview-facts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+		gap: 8px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.overview-fact {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 8px 10px;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.overview-fact-label {
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+	}
+
+	.overview-fact-value {
+		font-size: 15px;
+		font-weight: 800;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.overview-ranking {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.overview-row {
+		display: grid;
+		grid-template-columns: 18px minmax(48px, 88px) minmax(0, 1fr) auto;
+		gap: 8px;
+		align-items: center;
+	}
+
+	.overview-place {
+		color: var(--faint);
+		font-size: 12px;
+		font-weight: 750;
+		font-variant-numeric: tabular-nums;
+		text-align: right;
+	}
+
+	.overview-name {
+		font-size: 13px;
+		font-weight: 700;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+	}
+
+	.overview-bar {
+		display: block;
+		height: 8px;
+		overflow: hidden;
+		background: var(--canvas);
+		border: 1px solid var(--line);
+		border-radius: 999px;
+	}
+
+	.overview-bar-fill {
+		display: block;
+		height: 100%;
+		background: var(--primary);
+		border-radius: 999px;
+	}
+
+	.overview-detail {
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
 	}
 
 	.history-groups {
@@ -1874,7 +2138,8 @@
 		list-style: none;
 	}
 
-	.history-match {
+	.history-match,
+	.history-summary-row {
 		display: grid;
 		grid-template-columns: auto 1fr auto;
 		gap: 10px;
@@ -1906,10 +2171,36 @@
 		line-height: 1.55;
 	}
 
-	.history-team-line[data-win='true'] .history-team-label {
+	.history-team-line[data-place='first'] .history-team-label {
 		color: var(--primary-dark);
 		background: var(--primary-soft);
 		border-color: var(--primary-line);
+	}
+
+	.history-team-line[data-place='middle'] .history-team-label {
+		color: var(--orange);
+		background: var(--orange-soft);
+		border-color: var(--orange-line);
+	}
+
+	.history-team-line[data-place='none'] .history-team-label {
+		color: var(--faint);
+		background: transparent;
+		border-style: dashed;
+	}
+
+	.history-team-picks {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		min-height: 22px;
+		padding: 0 8px;
+		color: var(--green);
+		font-size: 12px;
+		font-weight: 750;
+		background: var(--green-soft);
+		border: 1px solid var(--green-line);
+		border-radius: 999px;
 	}
 
 	.history-team-names {
@@ -1968,6 +2259,154 @@
 	.danger-filled-button:hover {
 		background: #d93d43;
 		border-color: #d93d43;
+	}
+
+	.wheel-picked-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		justify-content: center;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.wheel-picked-item {
+		display: inline-flex;
+		align-items: center;
+		min-height: 24px;
+		padding: 0 9px;
+		color: var(--green);
+		font-size: 12px;
+		font-weight: 750;
+		background: var(--green-soft);
+		border: 1px solid var(--green-line);
+		border-radius: 999px;
+	}
+
+	.stats-dialog {
+		width: min(calc(100% - 32px), 520px);
+	}
+
+	.stats-body {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.stats-leader-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 8px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.stats-leader {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 10px 12px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.stats-leader-label {
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+	}
+
+	.stats-leader-name {
+		font-size: 15px;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+	}
+
+	.stats-leader-count {
+		color: var(--muted);
+		font-size: 12px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.stats-note {
+		margin: -8px 0 0;
+		color: var(--faint);
+		font-size: 12px;
+	}
+
+	.stats-section {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.stats-section h3 {
+		margin: 0;
+		font-size: 14px;
+	}
+
+	.stats-pair-list {
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.stats-pair {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px 10px;
+		align-items: baseline;
+		padding: 8px 12px;
+		font-size: 13px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.stats-pair span {
+		color: var(--muted);
+		font-size: 12px;
+	}
+
+	.stats-table {
+		width: 100%;
+		font-size: 13px;
+		border-collapse: collapse;
+	}
+
+	.stats-table th,
+	.stats-table td {
+		padding: 7px 8px;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.stats-table thead th {
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+		text-align: right;
+	}
+
+	.stats-table thead th:first-child,
+	.stats-table tbody th {
+		text-align: left;
+	}
+
+	.stats-table tbody th {
+		font-weight: 650;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+	}
+
+	.stats-table td {
+		font-variant-numeric: tabular-nums;
+		text-align: right;
 	}
 
 	@media (max-width: 640px) {

@@ -47,10 +47,13 @@
   design_status: approved
   design_ref: DSN-008
 - id: REQ-WEB-007
-  text: 현재 화면은 팀 결과를 클립보드에 복사하는 기능을 제공하지 않는다.
+  text: 사용자는 결과 영역에서 팀 이름과 참가자 이름만 담은 여러 줄 글을 클립보드로 복사하고 실패하면 대체 수단과 안내를 받는다.
   surface: [web]
-  source: "사용자 승인 handoff > SCR-WEB-001 Team Maker.dc.html"
-  kind: structural
+  source: "사용자 요청 2026-09-03 > 팀 뽑기 결과를 텍스트로 복사"
+  kind: crud
+  ui: true
+  design_status: pending
+  design_ref: DSN-008
 - id: REQ-WEB-008
   text: 참가자 명단과 선택 상태, 규칙, 저장 명단, 나누기 방식과 값, 승패 기록, 효과음 설정을 현재 브라우저에만 저장하고 새로고침 뒤 복구한다.
   surface: [web]
@@ -113,21 +116,21 @@
   design_ref: DSN-008
   examples_ref: policies/REQ-WEB-015.md
 - id: REQ-WEB-016
-  text: 사용자는 결과에서 한 팀의 승리를 한 번 기록하고 방금 기록한 승리를 취소하며 결과 뒤의 별도 `4. 통계`에서 오늘 기록과 날짜별 전체 기록을 열어 개별 기록을 확인 후 삭제할 수 있다.
+  text: 사용자는 결과에서 팀의 순위를 기록하고 마지막으로 부여한 순위를 한 단계 취소하며 결과 뒤의 별도 `4. 통계`에서 오늘 기록과 날짜별 전체 기록을 열어 개별 기록을 확인 후 삭제할 수 있다.
   surface: [web]
-  source: "사용자 확정 2026-09-02 > 오늘 기록을 별도 4. 통계로 이동"
+  source: "사용자 확정 2026-09-02 > 오늘 기록을 별도 4. 통계로 이동; 사용자 요청 2026-09-03 > 3팀 이상 순위"
   kind: policy
   ui: true
-  design_status: approved
+  design_status: pending
   design_ref: DSN-008
   examples_ref: policies/REQ-WEB-016.md
 - id: REQ-WEB-017
-  text: 승리를 기록한 뒤 각 팀의 돌림판으로 참가자 한 명을 무작위 추첨하고 다시 추첨할 수 있으며 사용자는 효과음을 켜거나 끌 수 있다.
+  text: 순위를 받은 팀은 돌림판으로 이미 당첨된 사람을 뺀 나머지에서 여러 번 추첨해 결과 격자 아래 당첨자 영역에 쌓고 개별 취소하거나 모두 지울 수 있으며 도는 동안에는 소리를 내지 않고 판이 멈추면 당첨 팡파르만 울리며 켜거나 끌 수 있다.
   surface: [web]
-  source: "사용자 승인 handoff > SCR-WEB-001 Team Maker.dc.html"
+  source: "사용자 승인 handoff > SCR-WEB-001 Team Maker.dc.html; 사용자 확정 2026-09-03 > 당첨자 제외 추가 뽑기, 돌리는 소리 삭제, 당첨자 영역 분리"
   kind: policy
   ui: true
-  design_status: approved
+  design_status: pending
   design_ref: DSN-008
   examples_ref: policies/REQ-WEB-017.md
 - id: REQ-WEB-018
@@ -174,8 +177,32 @@
   design_status: approved
   design_ref: DSN-008
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
+- id: REQ-WEB-023
+  text: 팀이 2개면 `1팀승`·`2팀패`로 적고 3팀 이상이면 1등부터 순차로 순위를 지정하며 남은 팀이 하나면 자동으로 마지막 등수가 되고 팀 이름이 이미 보이는 결과 카드에서는 `1등`처럼 등수만, 기록 목록에서는 `1팀 1등`처럼 팀 이름과 함께 적는다.
+  surface: [web]
+  source: "사용자 확정 2026-09-03 > 마지막까지 순차 지정, 등수 숫자만 사용, 결과 카드 칩은 등수만"
+  kind: policy
+  ui: true
+  design_status: pending
+  examples_ref: policies/REQ-WEB-023.md
+- id: REQ-WEB-024
+  text: 오늘 기록 지우기는 확인 뒤 오늘 목록의 표시만 비우고 전체 기록과 통계 집계에는 그대로 남기며 통계 영역과 기록 보기 진입점은 계속 보여 준다.
+  surface: [web]
+  source: "사용자 요청 2026-09-03 > 화면에서만 사라지고 기록 보기에는 남음"
+  kind: policy
+  ui: true
+  design_status: pending
+  examples_ref: policies/REQ-WEB-024.md
+- id: REQ-WEB-025
+  text: 참가자 통계는 화면에 보이는 오늘 기록만으로 최다 승리·최다 당첨·최다 패배와 같은 팀 궁합을 별도 dialog에 보여 주고, 전체 기록 통계는 기록 보기 위쪽에서 경기 수·기록한 날·참가자 수와 승률 막대로 따로 보여 준다.
+  surface: [web]
+  source: "사용자 요청 2026-09-03 > 참가자별 통계; 사용자 확정 2026-09-03 > 참가자 통계는 오늘만, 전체는 기록 보기"
+  kind: crud
+  ui: true
+  design_status: pending
+  examples_ref: policies/REQ-WEB-025.md
 - id: REQ-BUILD-001
-  text: team-maker는 HTML, CSS, JavaScript를 우선 사용하며 무작위 섞기와 팀 분배 로직을 화면 코드와 분리한다.
+  text: team-maker는 HTML, CSS, JavaScript를 우선 사용하며 무작위 섞기, 팀 분배, 순위·통계 집계와 돌림판 시점 계산 로직을 화면 코드와 분리한다.
   surface: [build]
   source: "승인된 제품 브리프 > 제약과 구현 원칙"
   kind: structural
@@ -234,12 +261,12 @@
   source: "원 요청 > 검증; 사용자 승인 handoff"
   kind: structural
 - id: REQ-QA-002
-  text: 브라우저 검증은 참가자 편집, 명단 저장·덮어쓰기·불러오기·삭제, 다시 섞기, 승리·취소·기록 삭제, 추첨·효과음, 새로고침 복구, 저장 실패, 모바일, 키보드와 하위 경로 자원 로드를 확인한다.
+  text: 브라우저 검증은 참가자 편집, 명단 저장·덮어쓰기·불러오기·삭제, 다시 섞기, 승리·순위 지정·취소·기록 삭제, 당첨자 누적 추첨·효과음, 결과 복사, 오늘 기록 지우기, 참가자 통계, 새로고침 복구, 저장 실패, 모바일, 키보드와 하위 경로 자원 로드를 확인한다.
   surface: [qa]
   source: "원 요청 > 검증; 사용자 승인 handoff"
   kind: structural
 - id: REQ-SCOPE-001
-  text: 현재 화면은 능력치 모드, 주장 지정, 다국어, 후원, 공유 링크, 실제 광고, 결과 복사, 사용 방법, FAQ, 개인정보 문구, 루트 링크, 로그인, 서버 저장과 여러 기기 동기화를 제공하지 않는다.
+  text: 현재 화면은 능력치 모드, 주장 지정, 다국어, 후원, 공유 링크, 실제 광고, 사용 방법, FAQ, 개인정보 문구, 루트 링크, 로그인, 서버 저장과 여러 기기 동기화를 제공하지 않는다.
   surface: [scope]
   source: "승인된 제품 브리프 > 범위 밖; 사용자 승인 handoff"
   kind: structural

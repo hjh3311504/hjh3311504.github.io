@@ -1,14 +1,26 @@
 import {
 	SIZE_MODE,
 	TEAM_MODE,
+	WHEEL_SPIN_DURATION,
+	WHEEL_SPIN_EASING,
+	WHEEL_SPIN_SETTLE,
+	appendTeamRank,
 	calculateWheelTargetRotation,
 	cleanRulesAfterParticipantRemoval,
+	formatTeamResultLabel,
+	formatTeamsText,
 	getSetupStatus,
+	localDateKey,
 	makeTeams,
 	orderParticipantsForColumns,
 	parseParticipantNames,
 	planParticipantRemoval,
-	rebalanceParticipantColumns
+	rankOfTeam,
+	rebalanceParticipantColumns,
+	removeLastTeamRank,
+	resolveTeamRanking,
+	selectTodayHistory,
+	summarizeParticipantStats
 } from './core.js';
 
 export function mountTeamMaker(root) {
@@ -51,7 +63,7 @@ export function mountTeamMaker(root) {
 
 	function defaultState() {
 		return {
-			version: 1,
+			version: 2,
 			participants: [],
 			rules: [],
 			rosters: [],
@@ -59,7 +71,8 @@ export function mountTeamMaker(root) {
 			teamCount: 2,
 			teamSize: 4,
 			history: [],
-			soundEnabled: true
+			soundEnabled: true,
+			todayClearedAt: null
 		};
 	}
 
@@ -131,11 +144,8 @@ export function mountTeamMaker(root) {
 					Array.isArray(entry.teams)
 				);
 			})
-			.map((entry) => ({
-				id: entry.id,
-				occurredAt: entry.occurredAt,
-				winnerTeamId: entry.winnerTeamId,
-				teams: entry.teams
+			.map((entry) => {
+				const teams = entry.teams
 					.filter(
 						(team) =>
 							team &&
@@ -146,9 +156,20 @@ export function mountTeamMaker(root) {
 					.map((team) => ({
 						id: team.id,
 						name: team.name,
-						members: team.members.filter((name) => typeof name === 'string')
-					}))
-			}));
+						members: team.members.filter((name) => typeof name === 'string'),
+						picks: Array.isArray(team.picks)
+							? team.picks.filter((name) => typeof name === 'string')
+							: []
+					}));
+				const { ranking } = resolveTeamRanking({ ...entry, teams });
+				return {
+					id: entry.id,
+					occurredAt: entry.occurredAt,
+					winnerTeamId: ranking[0] ?? entry.winnerTeamId,
+					ranking,
+					teams
+				};
+			});
 	}
 
 	function sanitizeState(value) {
@@ -164,7 +185,8 @@ export function mountTeamMaker(root) {
 			teamCount: clamp(Number.parseInt(value.teamCount, 10) || 2, 2, 20),
 			teamSize: clamp(Number.parseInt(value.teamSize, 10) || 4, 1, 20),
 			history: cleanHistory(value.history),
-			soundEnabled: value.soundEnabled !== false
+			soundEnabled: value.soundEnabled !== false,
+			todayClearedAt: typeof value.todayClearedAt === 'string' ? value.todayClearedAt : null
 		};
 	}
 
@@ -184,7 +206,7 @@ export function mountTeamMaker(root) {
 		teams: [],
 		resultError: '',
 		resultMessage: '',
-		winnerTeamId: null,
+		ranking: [],
 		lastHistoryId: null,
 		picks: {},
 		ruleType: 'together',
@@ -206,8 +228,24 @@ export function mountTeamMaker(root) {
 		leavingHistory: new Set(),
 		celebrationTimer: null,
 		spinTimer: null,
+		wheelRedrawTimer: null,
+		copyResetTimer: null,
 		audioContext: null,
 		audioSources: new Set()
+	};
+
+	const currentTeamIds = () => runtime.teams.map((team) => team.id);
+	const rankOf = (teamId) => rankOfTeam(runtime.ranking, teamId);
+	const currentEntry = () =>
+		state.history.find((entry) => entry.id === runtime.lastHistoryId) ?? null;
+	const placeOf = (rank) => {
+		if (rank === null) return 'none';
+		if (rank === 1) return 'first';
+		return rank === runtime.teams.length ? 'last' : 'middle';
+	};
+	const remainingMembers = (team) => {
+		const picked = new Set((runtime.picks[team.id] ?? []).map((member) => member.id));
+		return team.members.filter((member) => !picked.has(member.id));
 	};
 
 	function markEntering(collection, ids, duration = 420) {
@@ -267,7 +305,7 @@ export function mountTeamMaker(root) {
 		runtime.teams = [];
 		runtime.resultError = '';
 		runtime.resultMessage = '';
-		runtime.winnerTeamId = null;
+		runtime.ranking = [];
 		runtime.lastHistoryId = null;
 		runtime.picks = {};
 		runtime.animateTeams = false;
@@ -499,7 +537,9 @@ export function mountTeamMaker(root) {
 		$('.results-section').dataset.hasResult = String(hasTeams);
 		grid.hidden = !hasTeams;
 		$('.result-actions').hidden = !hasTeams;
-		$('#undo-win-button').hidden = runtime.winnerTeamId === null || !runtime.lastHistoryId;
+		const undo = $('#undo-win-button');
+		undo.hidden = runtime.ranking.length === 0 || !runtime.lastHistoryId;
+		undo.textContent = runtime.teams.length === 2 ? '승리 취소' : '순위 취소';
 
 		const empty = $('#result-empty');
 		empty.hidden = hasTeams;
@@ -524,10 +564,17 @@ export function mountTeamMaker(root) {
 				card.classList.add('animate-team');
 				card.style.setProperty('--team-delay', `${teamIndex * 90}ms`);
 			}
-			if (runtime.winnerTeamId !== null) {
-				const won = runtime.winnerTeamId === team.id;
-				card.dataset.result = won ? 'win' : 'lose';
-				if (runtime.animateWinner) card.classList.add(won ? 'animate-win' : 'animate-lose');
+			const rank = rankOf(team.id);
+			const place = placeOf(rank);
+			if (rank !== null) {
+				card.dataset.place = place;
+				if (place === 'middle') {
+					card.style.setProperty(
+						'--rank-progress',
+						String((rank - 2) / Math.max(1, runtime.teams.length - 3))
+					);
+				}
+				if (runtime.animateWinner) card.classList.add(rank === 1 ? 'animate-win' : 'animate-lose');
 			}
 
 			const heading = document.createElement('div');
@@ -536,14 +583,18 @@ export function mountTeamMaker(root) {
 			name.textContent = team.name;
 			const count = document.createElement('span');
 			count.className = 'team-count-chip';
-			if (runtime.winnerTeamId === null) count.textContent = `${team.members.length}명`;
+			if (runtime.ranking.length === 0) count.textContent = `${team.members.length}명`;
 			else {
-				const won = runtime.winnerTeamId === team.id;
-				count.textContent = `${team.name}${won ? '승' : '패'}`;
-				count.dataset.result = won ? 'win' : 'lose';
-				if (runtime.animateWinner) {
+				count.textContent = formatTeamResultLabel({
+					teamName: team.name,
+					rank,
+					teamCount: runtime.teams.length,
+					compact: true
+				});
+				count.dataset.place = place;
+				if (runtime.animateWinner && rank !== null) {
 					count.classList.add('animate-result-chip');
-					count.style.setProperty('--chip-delay', won ? '120ms' : '200ms');
+					count.style.setProperty('--chip-delay', rank === 1 ? '120ms' : '200ms');
 				}
 			}
 			heading.append(name, count);
@@ -564,32 +615,38 @@ export function mountTeamMaker(root) {
 
 			const footer = document.createElement('div');
 			footer.className = 'team-card-footer';
-			if (runtime.winnerTeamId === null) {
-				const win = document.createElement('button');
-				win.type = 'button';
-				win.className = 'win-button';
-				win.dataset.winnerTeam = String(team.id);
-				win.setAttribute('aria-label', `${team.name} 승리 기록`);
-				win.textContent = '승리';
-				footer.append(win);
-			} else {
-				if (runtime.picks[team.id]) {
-					const picked = document.createElement('div');
-					picked.className = 'picked-person';
-					const label = document.createElement('span');
-					label.textContent = '당첨자';
-					const pickedName = document.createElement('strong');
-					pickedName.textContent = runtime.picks[team.id];
-					picked.append(label, pickedName);
-					footer.append(picked);
+			if (rank === null) {
+				const nextRank = runtime.ranking.length + 1;
+				const rankButton = document.createElement('button');
+				rankButton.type = 'button';
+				rankButton.className = nextRank === 1 ? 'win-button' : 'win-button rank-button';
+				rankButton.dataset.rankTeam = String(team.id);
+				if (runtime.teams.length === 2) {
+					rankButton.textContent = '승리';
+					rankButton.setAttribute('aria-label', `${team.name} 승리 기록`);
+				} else {
+					rankButton.textContent = `${nextRank}등`;
+					rankButton.setAttribute('aria-label', `${team.name} ${nextRank}등 기록`);
 				}
-
+				footer.append(rankButton);
+			} else {
+				const picks = runtime.picks[team.id] ?? [];
+				const remaining = remainingMembers(team);
 				const draw = document.createElement('button');
 				draw.type = 'button';
 				draw.className = 'draw-button';
 				draw.dataset.drawTeam = String(team.id);
-				draw.setAttribute('aria-label', `${team.name}에서 한 명 뽑기`);
-				draw.textContent = runtime.picks[team.id] ? '다시 뽑기' : '뽑기';
+				if (remaining.length === 0) {
+					draw.disabled = true;
+					draw.textContent = '모두 뽑음';
+					draw.setAttribute('aria-label', `${team.name}은 모두 뽑았습니다`);
+				} else {
+					draw.textContent = picks.length > 0 ? '한 번 더 뽑기' : '뽑기';
+					draw.setAttribute(
+						'aria-label',
+						picks.length > 0 ? `${team.name}에서 한 명 더 뽑기` : `${team.name}에서 한 명 뽑기`
+					);
+				}
 				footer.append(draw);
 			}
 
@@ -597,15 +654,58 @@ export function mountTeamMaker(root) {
 			grid.append(card);
 		}
 
+		renderPickedSection();
 		$('#result-live').textContent = runtime.resultMessage;
 	}
 
-	function localDateKey(value) {
-		const date = new Date(value);
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, '0');
-		const day = String(date.getDate()).padStart(2, '0');
-		return `${year}-${month}-${day}`;
+	// 당첨자는 팀 카드 안이 아니라 결과 격자 아래 한 곳에 모아 보여 준다.
+	function renderPickedSection() {
+		const section = $('#picked-section');
+		const groups = $('#picked-groups');
+		groups.replaceChildren();
+		const teamsWithPicks = runtime.teams.filter(
+			(team) => (runtime.picks[team.id] ?? []).length > 0
+		);
+		section.hidden = teamsWithPicks.length === 0;
+		if (section.hidden) return;
+
+		for (const team of teamsWithPicks) {
+			const picks = runtime.picks[team.id];
+			const rank = rankOf(team.id);
+			const group = document.createElement('div');
+			group.className = 'picked-person';
+			group.dataset.place = placeOf(rank);
+
+			const label = document.createElement('span');
+			label.className = 'picked-label';
+			label.textContent = team.name;
+
+			const list = document.createElement('ol');
+			list.className = 'picked-list';
+			for (const [pickIndex, member] of picks.entries()) {
+				const row = document.createElement('li');
+				row.className = 'picked-row';
+				const number = document.createElement('span');
+				number.className = 'picked-number';
+				number.setAttribute('aria-hidden', 'true');
+				number.textContent = String(pickIndex + 1);
+				const pickedName = document.createElement('strong');
+				pickedName.className = 'picked-name';
+				pickedName.textContent = member.name;
+				row.append(
+					number,
+					pickedName,
+					createRemoveButton(`${team.name} ${pickIndex + 1}번째 당첨자 ${member.name} 취소`, {
+						pickRemove: String(team.id),
+						pickIndex: String(pickIndex)
+					})
+				);
+				list.append(row);
+			}
+
+			group.append(label, list);
+			groups.append(group);
+		}
 	}
 
 	function formatTime(value) {
@@ -621,20 +721,68 @@ export function mountTeamMaker(root) {
 	}
 
 	function winnerTeam(entry) {
-		return entry.teams.find((team) => team.id === entry.winnerTeamId);
+		const { ranking } = resolveTeamRanking(entry);
+		return entry.teams.find((team) => team.id === ranking[0]);
+	}
+
+	function createHistoryTeamsElement(entry, { compact = false } = {}) {
+		const { ranking, complete } = resolveTeamRanking(entry);
+		const teams = document.createElement('div');
+		teams.className = 'history-teams';
+
+		for (const team of entry.teams) {
+			const rank = rankOfTeam(ranking, team.id);
+			const line = document.createElement('div');
+			line.className = 'history-team-line';
+			line.dataset.place =
+				rank === null
+					? 'none'
+					: rank === 1
+						? 'first'
+						: complete && rank === entry.teams.length
+							? 'last'
+							: 'middle';
+
+			const label = document.createElement('span');
+			label.className = 'history-team-label';
+			label.textContent = formatTeamResultLabel({
+				teamName: team.name,
+				rank,
+				teamCount: entry.teams.length
+			});
+
+			const names = document.createElement('span');
+			names.className = compact ? 'history-team-names history-summary' : 'history-team-names';
+			names.textContent = team.members.join(', ');
+			line.append(label, names);
+
+			if (team.picks?.length) {
+				const picks = document.createElement('span');
+				picks.className = 'history-team-picks';
+				picks.textContent = `당첨 ${team.picks.join(', ')}`;
+				line.append(picks);
+			}
+
+			teams.append(line);
+		}
+		return teams;
 	}
 
 	function renderTodayHistory() {
-		const todayKey = localDateKey(new Date());
-		const today = state.history.filter((entry) => localDateKey(entry.occurredAt) === todayKey);
-		$('#history-card').hidden = today.length === 0;
+		const todayAll = selectTodayHistory(state.history);
+		const today = selectTodayHistory(state.history, { clearedAt: state.todayClearedAt });
+		$('#history-card').hidden = state.history.length === 0;
 		$('#today-history-count').textContent = `${today.length}경기`;
 		$('#today-history-empty').hidden = today.length > 0;
+		$('#today-history-empty').textContent =
+			today.length === 0 && todayAll.length > 0
+				? '오늘 기록을 화면에서 지웠습니다. 기록 보기에는 그대로 남아 있습니다.'
+				: '오늘 기록한 경기가 없습니다.';
+		$('#clear-today-button').hidden = today.length === 0;
 		const list = $('#today-history-list');
 		list.replaceChildren();
 
 		for (const entry of today.slice(0, 3)) {
-			const winner = winnerTeam(entry);
 			const row = document.createElement('li');
 			row.className = 'history-summary-row';
 			row.dataset.flip = `today-history-${entry.id}`;
@@ -643,16 +791,9 @@ export function mountTeamMaker(root) {
 			const time = document.createElement('span');
 			time.className = 'history-time';
 			time.textContent = formatTime(entry.occurredAt);
-			const chip = document.createElement('span');
-			chip.className = 'history-winner-chip';
-			chip.textContent = `${winner?.name || '팀'}승`;
-			const summary = document.createElement('span');
-			summary.className = 'history-summary';
-			summary.textContent = winner?.members.join(', ') || '';
 			row.append(
 				time,
-				chip,
-				summary,
+				createHistoryTeamsElement(entry, { compact: true }),
 				createRemoveButton(`${formatTime(entry.occurredAt)} 기록 삭제`, { historyRemove: entry.id })
 			);
 			list.append(row);
@@ -696,7 +837,7 @@ export function mountTeamMaker(root) {
 				teamCount: setup.teamCount
 			});
 			runtime.resultError = '';
-			runtime.winnerTeamId = null;
+			runtime.ranking = [];
 			runtime.lastHistoryId = null;
 			runtime.picks = {};
 			runtime.animateTeams = true;
@@ -722,7 +863,9 @@ export function mountTeamMaker(root) {
 
 	function cancelWheelSpin() {
 		clearTimeout(runtime.spinTimer);
+		clearTimeout(runtime.wheelRedrawTimer);
 		runtime.spinTimer = null;
+		runtime.wheelRedrawTimer = null;
 		runtime.wheelSpinning = false;
 		$('#spin-wheel-button').disabled = false;
 		stopSounds();
@@ -733,9 +876,16 @@ export function mountTeamMaker(root) {
 		if (dialog.open) dialog.close();
 	}
 
-	function showConfirm({ title, description, actionLabel = '삭제', action }) {
+	function showConfirm({
+		title,
+		description,
+		warning = '되돌릴 수 없습니다.',
+		actionLabel = '삭제',
+		action
+	}) {
 		$('#confirm-title').textContent = title;
 		$('#confirm-description').textContent = description;
+		$('#confirm-warning').textContent = warning;
 		$('#confirm-action-button').textContent = actionLabel;
 		runtime.confirmAction = action;
 		showDialog($('#confirm-dialog'), '#cancel-confirm-button');
@@ -849,28 +999,42 @@ export function mountTeamMaker(root) {
 		$('#result-live').textContent = `${roster.name} 명단을 불러왔습니다.`;
 	}
 
-	function recordWinner(teamId) {
-		if (runtime.winnerTeamId !== null) return;
+	function recordRank(teamId) {
+		const nextRanking = appendTeamRank(runtime.ranking, teamId, currentTeamIds());
+		if (nextRanking === runtime.ranking) return;
 		runtime.animateTeams = false;
-		const now = new Date().toISOString();
-		const entry = {
-			id: createId('match'),
-			occurredAt: now,
-			winnerTeamId: teamId,
-			teams: runtime.teams.map((team) => ({
-				id: team.id,
-				name: team.name,
-				members: team.members.map((member) => member.name)
-			}))
-		};
-		state.history.unshift(entry);
-		runtime.winnerTeamId = teamId;
-		runtime.lastHistoryId = entry.id;
-		runtime.picks = {};
+		runtime.ranking = nextRanking;
+
+		const entry = currentEntry();
+		if (entry) {
+			entry.ranking = [...nextRanking];
+			entry.winnerTeamId = nextRanking[0];
+		} else {
+			const created = {
+				id: createId('match'),
+				occurredAt: new Date().toISOString(),
+				winnerTeamId: nextRanking[0],
+				ranking: [...nextRanking],
+				teams: runtime.teams.map((team) => ({
+					id: team.id,
+					name: team.name,
+					members: team.members.map((member) => member.name),
+					picks: []
+				}))
+			};
+			state.history.unshift(created);
+			runtime.lastHistoryId = created.id;
+			runtime.picks = {};
+			markEntering(runtime.enteringHistory, [created.id]);
+		}
+
 		runtime.animateWinner = true;
-		markEntering(runtime.enteringHistory, [entry.id]);
 		persist();
-		runtime.resultMessage = `${runtime.teams.find((team) => team.id === teamId)?.name || '팀'}의 승리를 기록했습니다.`;
+		const teamName = runtime.teams.find((team) => team.id === teamId)?.name || '팀';
+		runtime.resultMessage =
+			runtime.teams.length === 2
+				? `${teamName}의 승리를 기록했습니다.`
+				: `${teamName}을 ${rankOf(teamId)}등으로 기록했습니다.`;
 		renderResults();
 		renderTodayHistory();
 		setTimeout(() => {
@@ -878,17 +1042,73 @@ export function mountTeamMaker(root) {
 		}, 900);
 	}
 
-	function undoWinner() {
-		if (!runtime.lastHistoryId) return;
-		state.history = state.history.filter((entry) => entry.id !== runtime.lastHistoryId);
-		runtime.winnerTeamId = null;
-		runtime.lastHistoryId = null;
-		runtime.picks = {};
+	function undoRank() {
+		if (!runtime.lastHistoryId || runtime.ranking.length === 0) return;
+		const nextRanking = removeLastTeamRank(runtime.ranking, currentTeamIds());
+		const dropped = runtime.ranking.filter((teamId) => !nextRanking.includes(teamId));
+		runtime.ranking = nextRanking;
+
+		if (nextRanking.length === 0) {
+			state.history = state.history.filter((entry) => entry.id !== runtime.lastHistoryId);
+			runtime.lastHistoryId = null;
+			runtime.picks = {};
+			runtime.resultMessage = '방금 기록한 승리를 취소했습니다.';
+		} else {
+			const entry = currentEntry();
+			if (entry) {
+				entry.ranking = [...nextRanking];
+				entry.winnerTeamId = nextRanking[0];
+			}
+			for (const teamId of dropped) {
+				delete runtime.picks[teamId];
+				const team = entry?.teams.find((item) => item.id === teamId);
+				if (team) team.picks = [];
+			}
+			runtime.resultMessage = '마지막 순위를 취소했습니다.';
+		}
+
+		if (dropped.includes(runtime.wheelTeamId)) closeDialog($('#wheel-dialog'));
 		runtime.animateWinner = false;
-		runtime.resultMessage = '방금 기록한 승리를 취소했습니다.';
 		persist();
 		renderResults();
 		renderTodayHistory();
+	}
+
+	function recordPick(teamId, member) {
+		if (!runtime.lastHistoryId) return;
+		runtime.picks[teamId] = [
+			...(runtime.picks[teamId] ?? []),
+			{ id: member.id, name: member.name }
+		];
+		syncPicksToHistory();
+	}
+
+	function removePick(teamId, index) {
+		const picks = runtime.picks[teamId];
+		if (!picks || index < 0 || index >= picks.length) return;
+		runtime.picks[teamId] = picks.filter((_, pickIndex) => pickIndex !== index);
+		syncPicksToHistory();
+		if (runtime.wheelTeamId === teamId && $('#wheel-dialog').open) openWheel(teamId);
+	}
+
+	function clearTeamPicks(teamId) {
+		if (!runtime.picks[teamId]?.length) return;
+		delete runtime.picks[teamId];
+		syncPicksToHistory();
+		if (runtime.wheelTeamId === teamId && $('#wheel-dialog').open) openWheel(teamId);
+	}
+
+	function syncPicksToHistory() {
+		const entry = currentEntry();
+		if (entry) {
+			for (const team of entry.teams) {
+				team.picks = (runtime.picks[team.id] ?? []).map((member) => member.name);
+			}
+		}
+		persist();
+		renderResults();
+		renderTodayHistory();
+		renderHistoryDialog();
 	}
 
 	function deleteHistory(id) {
@@ -896,7 +1116,13 @@ export function mountTeamMaker(root) {
 		if (!entry) return;
 		showConfirm({
 			title: '이 기록을 삭제할까요?',
-			description: `${localDateKey(entry.occurredAt)} ${formatTime(entry.occurredAt)} · ${winnerTeam(entry)?.name || '팀'}승 기록이 삭제됩니다.`,
+			description: `${localDateKey(entry.occurredAt)} ${formatTime(entry.occurredAt)} · ${formatTeamResultLabel(
+				{
+					teamName: winnerTeam(entry)?.name || '팀',
+					rank: 1,
+					teamCount: entry.teams.length
+				}
+			)} 기록이 삭제됩니다.`,
 			action: () => removeHistoryAnimated(id)
 		});
 	}
@@ -911,7 +1137,7 @@ export function mountTeamMaker(root) {
 			state.history = state.history.filter((item) => item.id !== id);
 			runtime.leavingHistory.delete(id);
 			if (runtime.lastHistoryId === id) {
-				runtime.winnerTeamId = null;
+				runtime.ranking = [];
 				runtime.lastHistoryId = null;
 				runtime.picks = {};
 				runtime.animateWinner = false;
@@ -927,6 +1153,7 @@ export function mountTeamMaker(root) {
 	function renderHistoryDialog() {
 		const container = $('#history-groups');
 		container.replaceChildren();
+		renderHistoryOverview();
 		$('#history-empty').hidden = state.history.length > 0;
 		$('#history-description').textContent = state.history.length
 			? `전체 ${state.history.length}경기`
@@ -958,25 +1185,9 @@ export function mountTeamMaker(root) {
 				const time = document.createElement('span');
 				time.className = 'history-time';
 				time.textContent = formatTime(entry.occurredAt);
-				const teams = document.createElement('div');
-				teams.className = 'history-teams';
-				for (const team of entry.teams) {
-					const line = document.createElement('div');
-					line.className = 'history-team-line';
-					line.dataset.win = String(team.id === entry.winnerTeamId);
-					const won = team.id === entry.winnerTeamId;
-					const label = document.createElement('span');
-					label.className = 'history-team-label';
-					label.textContent = `${team.name}${won ? '승' : '패'}`;
-					const names = document.createElement('span');
-					names.className = 'history-team-names';
-					names.textContent = team.members.join(', ');
-					line.append(label, names);
-					teams.append(line);
-				}
 				item.append(
 					time,
-					teams,
+					createHistoryTeamsElement(entry),
 					createRemoveButton(`${formatTime(entry.occurredAt)} 기록 삭제`, {
 						historyRemove: entry.id
 					})
@@ -988,27 +1199,125 @@ export function mountTeamMaker(root) {
 		}
 	}
 
+	// 참가자 통계가 오늘만 세는 대신, 전체는 여기서 승률 막대로 한눈에 보여 준다.
+	function renderHistoryOverview() {
+		const overview = $('#history-overview');
+		const stats = summarizeParticipantStats(state.history, { limit: 1 });
+		const hasData = stats.matchCount > 0 && stats.players.length > 0;
+		overview.hidden = !hasData;
+		if (!hasData) return;
+
+		const days = new Set(state.history.map((entry) => localDateKey(entry.occurredAt))).size;
+		const facts = $('#history-overview-facts');
+		facts.replaceChildren();
+		const factList = [
+			{ label: '전체 경기', value: `${stats.matchCount}경기` },
+			{ label: '기록한 날', value: `${days}일` },
+			{ label: '참가자', value: `${stats.players.length}명` }
+		];
+		for (const fact of factList) {
+			const item = document.createElement('li');
+			item.className = 'overview-fact';
+			const label = document.createElement('span');
+			label.className = 'overview-fact-label';
+			label.textContent = fact.label;
+			const value = document.createElement('strong');
+			value.className = 'overview-fact-value';
+			value.textContent = fact.value;
+			item.append(label, value);
+			facts.append(item);
+		}
+
+		const ranking = $('#history-overview-ranking');
+		ranking.replaceChildren();
+		for (const [index, player] of stats.players.slice(0, 8).entries()) {
+			const row = document.createElement('li');
+			row.className = 'overview-row';
+			const place = document.createElement('span');
+			place.className = 'overview-place';
+			place.textContent = String(index + 1);
+			const name = document.createElement('span');
+			name.className = 'overview-name';
+			name.textContent = player.name;
+			const bar = document.createElement('span');
+			bar.className = 'overview-bar';
+			bar.setAttribute('aria-hidden', 'true');
+			const fill = document.createElement('span');
+			fill.className = 'overview-bar-fill';
+			fill.style.width = `${Math.round(player.winRate * 100)}%`;
+			bar.append(fill);
+			const detail = document.createElement('span');
+			detail.className = 'overview-detail';
+			detail.textContent = `${player.wins}승 ${player.losses}패 · ${Math.round(player.winRate * 100)}%`;
+			row.append(place, name, bar, detail);
+			ranking.append(row);
+		}
+	}
+
 	function openWheel(teamId) {
 		const team = runtime.teams.find((item) => item.id === teamId);
-		if (!team || runtime.winnerTeamId === null) return;
+		if (!team || rankOf(teamId) === null) return;
 		getAudioContext();
 		runtime.wheelTeamId = teamId;
 		runtime.wheelSpinning = false;
+
+		const picks = runtime.picks[teamId] ?? [];
+		const remaining = remainingMembers(team);
 		$('#wheel-title').textContent = `${team.name} 뽑기`;
-		$('#wheel-description').textContent = '이 팀 명단 중 한 명을 무작위로 뽑습니다.';
-		const gradient = team.members
+		$('#wheel-description').textContent =
+			picks.length > 0
+				? '이미 당첨된 사람은 빼고 남은 사람 중에서 뽑습니다.'
+				: '이 팀 명단 중 한 명을 무작위로 뽑습니다.';
+		drawWheel(remaining);
+
+		const pickedList = $('#wheel-picked-list');
+		pickedList.replaceChildren();
+		$('#wheel-side').hidden = picks.length === 0;
+		$('#wheel-dialog').classList.toggle('has-picks', picks.length > 0);
+		for (const [index, member] of picks.entries()) {
+			const item = document.createElement('li');
+			item.className = 'wheel-picked-item';
+			item.textContent = `${index + 1}. ${member.name}`;
+			pickedList.append(item);
+		}
+
+		const result = $('#wheel-result');
+		const lastPick = picks.at(-1);
+		result.textContent =
+			remaining.length === 0
+				? '이 팀은 모두 뽑았습니다.'
+				: lastPick
+					? `당첨자 · ${lastPick.name}`
+					: '돌리기를 누르세요.';
+		result.dataset.picked = String(Boolean(lastPick));
+
+		const spinButton = $('#spin-wheel-button');
+		spinButton.disabled = remaining.length === 0;
+		if (remaining.length === 0) spinButton.textContent = '모두 뽑음';
+		else spinButton.textContent = picks.length > 0 ? '한 번 더 뽑기' : '돌리기';
+		$('#clear-picks-button').hidden = picks.length === 0;
+		renderSoundButton();
+		showDialog($('#wheel-dialog'), '#spin-wheel-button');
+	}
+
+	function drawWheel(members) {
+		const wheel = $('#wheel');
+		const count = Math.max(1, members.length);
+		const gradient = members
 			.map((_, index) => {
-				const start = (index / team.members.length) * 100;
-				const end = ((index + 1) / team.members.length) * 100;
+				const start = (index / count) * 100;
+				const end = ((index + 1) / count) * 100;
 				return `${wheelColors[index % wheelColors.length]} ${start}% ${end}%`;
 			})
 			.join(', ');
-		$('#wheel').style.setProperty('--wheel-gradient', `conic-gradient(${gradient})`);
-		const wheel = $('#wheel');
+		wheel.style.setProperty(
+			'--wheel-gradient',
+			members.length > 0 ? `conic-gradient(${gradient})` : 'var(--surface-soft)'
+		);
 		wheel.replaceChildren();
-		for (const [index, member] of team.members.entries()) {
+		for (const [index, member] of members.entries()) {
 			const label = document.createElement('span');
-			const angle = (index * 360) / team.members.length + 180 / team.members.length;
+			const angle = (index * 360) / count + 180 / count;
 			label.className = 'wheel-label';
 			label.textContent = member.name;
 			label.style.color = wheelTextColors[index % wheelTextColors.length];
@@ -1018,15 +1327,6 @@ export function mountTeamMaker(root) {
 			wheel.append(label);
 		}
 		wheel.style.transform = `rotate(${runtime.wheelRotation}deg)`;
-		const previous = runtime.picks[teamId];
-		const result = $('#wheel-result');
-		result.textContent = previous ? `당첨자 · ${previous}` : '돌리기를 누르세요.';
-		result.dataset.picked = String(Boolean(previous));
-		const spinButton = $('#spin-wheel-button');
-		spinButton.disabled = false;
-		spinButton.textContent = previous ? '다시 뽑기' : '돌리기';
-		renderSoundButton();
-		showDialog($('#wheel-dialog'), '#spin-wheel-button');
 	}
 
 	function renderSoundButton() {
@@ -1077,53 +1377,6 @@ export function mountTeamMaker(root) {
 			}
 		}
 		runtime.audioSources.clear();
-	}
-
-	function playSpinTicks(totalDegrees, segmentDegrees, durationMilliseconds) {
-		const context = getAudioContext();
-		if (!context) return;
-		const duration = durationMilliseconds / 1000;
-		const startTime = context.currentTime;
-		const startFrequency = 1420;
-		const ratchetDegrees = Math.min(segmentDegrees, 120);
-		const count = Math.min(Math.max(Math.floor(totalDegrees / ratchetDegrees) * 2, 50), 66);
-		const tickDuration = Math.max(0.1, duration);
-		const rapidTickCount = Math.min(Math.round(count * 0.56), count - 1);
-		const rapidDuration = Math.min(0.87, tickDuration * 0.24);
-		const slowTickCount = count - rapidTickCount;
-
-		for (let index = 0; index < count - 1; index += 1) {
-			const isFirstTick = index === 0;
-			const progress = count === 1 ? 0 : index / (count - 1);
-			let offset;
-			if (index < rapidTickCount) {
-				offset = rapidDuration * (index / (rapidTickCount - 1));
-			} else {
-				const slowProgress = (index - rapidTickCount + 1) / slowTickCount;
-				const slowCurve = 0.1 * slowProgress + 0.9 * slowProgress ** 3.5;
-				offset = rapidDuration + (tickDuration - rapidDuration) * slowCurve;
-			}
-			const time = startTime + offset;
-			const oscillator = context.createOscillator();
-			const gain = context.createGain();
-			const frequency = startFrequency - 620 * progress;
-			const peak = 0.24 + 0.04 * progress;
-			const decayDuration = 0.09;
-			oscillator.type = 'square';
-			oscillator.frequency.setValueAtTime(frequency, time);
-			if (isFirstTick) {
-				gain.gain.setValueAtTime(peak, time);
-			} else {
-				gain.gain.setValueAtTime(0.0001, time);
-				gain.gain.exponentialRampToValueAtTime(peak, time + 0.003);
-			}
-			gain.gain.exponentialRampToValueAtTime(0.0001, time + decayDuration);
-			oscillator.connect(gain).connect(context.destination);
-			if (isFirstTick) oscillator.start();
-			else oscillator.start(time);
-			oscillator.stop(time + decayDuration + 0.02);
-			trackAudioSource(oscillator);
-		}
 	}
 
 	function playFanfare() {
@@ -1220,13 +1473,14 @@ export function mountTeamMaker(root) {
 	function spinWheel() {
 		if (runtime.wheelSpinning) return;
 		const team = runtime.teams.find((item) => item.id === runtime.wheelTeamId);
-		if (!team?.members.length) return;
-		const pickedIndex = Math.floor(Math.random() * team.members.length);
-		const segmentDegrees = 360 / team.members.length;
+		if (!team) return;
+		const candidates = remainingMembers(team);
+		if (!candidates.length) return;
+		const pickedIndex = Math.floor(Math.random() * candidates.length);
 		const previousRotation = runtime.wheelRotation;
 		const targetRotation = calculateWheelTargetRotation(
 			previousRotation,
-			team.members.length,
+			candidates.length,
 			pickedIndex
 		);
 		runtime.wheelSpinning = true;
@@ -1244,7 +1498,6 @@ export function mountTeamMaker(root) {
 			label.style.setProperty('--label-counter-angle', `${-(angle + runtime.wheelRotation)}deg`);
 		}
 		stopSounds();
-		playSpinTicks(targetRotation - previousRotation, segmentDegrees, 6500);
 
 		clearTimeout(runtime.spinTimer);
 		runtime.spinTimer = setTimeout(() => {
@@ -1253,11 +1506,12 @@ export function mountTeamMaker(root) {
 				cancelWheelSpin();
 				return;
 			}
-			const picked = team.members[pickedIndex];
-			runtime.picks[team.id] = picked.name;
+			const picked = candidates[pickedIndex];
+			recordPick(team.id, picked);
 			runtime.wheelSpinning = false;
-			button.disabled = false;
-			button.textContent = '다시 뽑기';
+			const stillRemaining = remainingMembers(team);
+			button.disabled = stillRemaining.length === 0;
+			button.textContent = stillRemaining.length === 0 ? '모두 뽑음' : '한 번 더 뽑기';
 			result.textContent = `당첨자 · ${picked.name}`;
 			result.dataset.picked = 'true';
 			result.classList.remove('animate-pop');
@@ -1265,8 +1519,19 @@ export function mountTeamMaker(root) {
 			result.classList.add('animate-pop');
 			playFanfare();
 			celebrate();
-			renderResults();
-		}, 6600);
+			redrawWheelAfterPick(team);
+		}, WHEEL_SPIN_DURATION + WHEEL_SPIN_SETTLE);
+	}
+
+	function redrawWheelAfterPick(team) {
+		clearTimeout(runtime.wheelRedrawTimer);
+		runtime.wheelRedrawTimer = setTimeout(() => {
+			runtime.wheelRedrawTimer = null;
+			if (!$('#wheel-dialog').open || runtime.wheelTeamId !== team.id || runtime.wheelSpinning) {
+				return;
+			}
+			openWheel(team.id);
+		}, 1000);
 	}
 
 	$('#add-person-form').addEventListener('submit', (event) => {
@@ -1451,12 +1716,20 @@ export function mountTeamMaker(root) {
 	});
 	$('#make-teams-button').addEventListener('click', makeCurrentTeams);
 	$('#reshuffle-button').addEventListener('click', makeCurrentTeams);
-	$('#undo-win-button').addEventListener('click', undoWinner);
+	$('#undo-win-button').addEventListener('click', undoRank);
+	$('#copy-result-button').addEventListener('click', copyResultText);
 	$('#team-grid').addEventListener('click', (event) => {
-		const winnerId = event.target.dataset.winnerTeam;
-		const drawId = event.target.dataset.drawTeam;
-		if (winnerId) recordWinner(Number(winnerId));
-		if (drawId) openWheel(Number(drawId));
+		const rankButton = event.target.closest('[data-rank-team]');
+		const drawButton = event.target.closest('[data-draw-team]');
+		if (rankButton) recordRank(Number(rankButton.dataset.rankTeam));
+		if (drawButton && !drawButton.disabled) openWheel(Number(drawButton.dataset.drawTeam));
+	});
+
+	$('#picked-groups').addEventListener('click', (event) => {
+		const pickButton = event.target.closest('[data-pick-remove]');
+		if (pickButton) {
+			removePick(Number(pickButton.dataset.pickRemove), Number(pickButton.dataset.pickIndex));
+		}
 	});
 
 	$('#open-rosters-button').addEventListener('click', () => {
@@ -1488,6 +1761,14 @@ export function mountTeamMaker(root) {
 		}
 	});
 
+	$('#open-player-stats-button').addEventListener('click', () => {
+		renderPlayerStats();
+		showDialog($('#player-stats-dialog'), '.dialog-close');
+	});
+	$('#clear-today-button').addEventListener('click', clearTodayHistory);
+	$('#clear-picks-button').addEventListener('click', () => {
+		if (runtime.wheelTeamId !== null) clearTeamPicks(runtime.wheelTeamId);
+	});
 	$('#open-history-button').addEventListener('click', () => {
 		renderHistoryDialog();
 		showDialog($('#history-dialog'), '.dialog-close');
@@ -1527,6 +1808,143 @@ export function mountTeamMaker(root) {
 	});
 	$('#wheel-dialog').addEventListener('close', cancelWheelSpin);
 
+	function copyWithTextarea(value) {
+		const textarea = document.createElement('textarea');
+		textarea.value = value;
+		textarea.setAttribute('readonly', '');
+		textarea.setAttribute('aria-hidden', 'true');
+		textarea.style.cssText = 'position:fixed;top:-1000px;left:0;opacity:0';
+		root.append(textarea);
+		textarea.select();
+		let copied = false;
+		try {
+			copied = document.execCommand('copy');
+		} catch {
+			// 복사를 막는 브라우저에서는 실패로 둔다.
+		}
+		textarea.remove();
+		return copied;
+	}
+
+	async function copyResultText() {
+		if (!runtime.teams.length) return;
+		const value = formatTeamsText(runtime.teams);
+		let copied = false;
+		if (navigator.clipboard?.writeText) {
+			try {
+				await navigator.clipboard.writeText(value);
+				copied = true;
+			} catch {
+				// 권한이 없으면 아래 대체 수단으로 넘어간다.
+			}
+		}
+		if (!copied) copied = copyWithTextarea(value);
+
+		const button = $('#copy-result-button');
+		button.textContent = copied ? '복사함' : '복사 실패';
+		$('#result-live').textContent = copied
+			? '팀 결과를 복사했습니다.'
+			: '복사하지 못했습니다. 결과를 직접 선택해 복사해 주세요.';
+		clearTimeout(runtime.copyResetTimer);
+		runtime.copyResetTimer = setTimeout(() => {
+			button.textContent = '결과 복사';
+		}, 1600);
+	}
+
+	function clearTodayHistory() {
+		const today = selectTodayHistory(state.history, { clearedAt: state.todayClearedAt });
+		if (today.length === 0) return;
+		showConfirm({
+			title: '오늘 기록을 화면에서 지울까요?',
+			description: `오늘 기록 ${today.length}경기가 이 화면에서만 사라집니다.`,
+			warning: '기록 보기에는 그대로 남습니다.',
+			actionLabel: '지우기',
+			action: () => {
+				state.todayClearedAt = new Date().toISOString();
+				persist();
+				renderTodayHistory();
+				$('#result-live').textContent = '오늘 기록을 화면에서 지웠습니다.';
+			}
+		});
+	}
+
+	function renderPlayerStats() {
+		const today = selectTodayHistory(state.history, { clearedAt: state.todayClearedAt });
+		const stats = summarizeParticipantStats(today);
+		const hasData = stats.matchCount > 0 && stats.players.length > 0;
+		$('#player-stats-description').textContent = hasData
+			? `오늘 ${stats.matchCount}경기 · 참가자 ${stats.players.length}명`
+			: '오늘 기록이 없습니다.';
+		$('#player-stats-empty').hidden = hasData;
+		$('#player-stats-body').hidden = !hasData;
+		if (!hasData) return;
+
+		const leaders = $('#player-stats-leaders');
+		leaders.replaceChildren();
+		const groups = [
+			{ label: '최다 승리', unit: '승', items: stats.topWins },
+			{ label: '최다 당첨', unit: '번', items: stats.topPicks },
+			{ label: '최다 패배', unit: '패', items: stats.topLosses }
+		];
+		for (const group of groups) {
+			const item = document.createElement('li');
+			item.className = 'stats-leader';
+			const label = document.createElement('span');
+			label.className = 'stats-leader-label';
+			label.textContent = group.label;
+			const name = document.createElement('strong');
+			name.className = 'stats-leader-name';
+			const count = document.createElement('span');
+			count.className = 'stats-leader-count';
+			const best = group.items[0];
+			if (best) {
+				const shared = group.items.filter((entry) => entry.count === best.count);
+				name.textContent = best.name;
+				count.textContent =
+					shared.length > 1
+						? `${best.count}${group.unit} · 공동 ${shared.length}명`
+						: `${best.count}${group.unit}`;
+			} else {
+				name.textContent = '기록 없음';
+				count.textContent = '';
+			}
+			item.append(label, name, count);
+			leaders.append(item);
+		}
+
+		const pairs = $('#player-stats-pairs');
+		pairs.replaceChildren();
+		$('#player-stats-pairs-empty').hidden = stats.pairs.length > 0;
+		for (const pair of stats.pairs) {
+			const item = document.createElement('li');
+			item.className = 'stats-pair';
+			const names = document.createElement('strong');
+			names.textContent = pair.names.join(' + ');
+			const detail = document.createElement('span');
+			detail.textContent = `같은 팀 ${pair.together}번 중 ${pair.wins}번 승리`;
+			item.append(names, detail);
+			pairs.append(item);
+		}
+
+		const rows = $('#player-stats-rows');
+		rows.replaceChildren();
+		for (const player of stats.players) {
+			const row = document.createElement('tr');
+			const name = document.createElement('th');
+			name.scope = 'row';
+			name.textContent = player.name;
+			row.append(name);
+			for (const value of [player.matches, player.wins, player.losses, player.picks]) {
+				const cell = document.createElement('td');
+				cell.textContent = String(value);
+				row.append(cell);
+			}
+			rows.append(row);
+		}
+	}
+
+	root.style.setProperty('--wheel-spin-duration', `${WHEEL_SPIN_DURATION}ms`);
+	root.style.setProperty('--wheel-spin-easing', `cubic-bezier(${WHEEL_SPIN_EASING.join(', ')})`);
 	showStorageFailure();
 	render();
 
@@ -1536,6 +1954,7 @@ export function mountTeamMaker(root) {
 		clearTimeout(runtime.celebrationTimer);
 		clearTimeout(runtime.participantRemovalTimer);
 		clearTimeout(runtime.participantMovementTimer);
+		clearTimeout(runtime.copyResetTimer);
 		try {
 			runtime.audioContext?.close?.();
 		} catch {
