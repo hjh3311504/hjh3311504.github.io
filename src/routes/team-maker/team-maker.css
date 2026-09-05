@@ -1794,10 +1794,46 @@ html.team-maker-dialog-open body {
 	}
 
 	.seo-section h2 {
-		margin: 0 0 18px;
+		margin: 0;
 		font-size: 18px;
 		line-height: 1.4;
 		letter-spacing: -0.2px;
+	}
+
+	.seo-details summary {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 36px;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.seo-details summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.seo-details summary::after {
+		flex: none;
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+		content: '펼치기';
+	}
+
+	.seo-details[open] summary {
+		margin-bottom: 18px;
+	}
+
+	.seo-details[open] summary::after {
+		content: '접기';
+	}
+
+	.seo-details summary:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 4px;
+		border-radius: 4px;
 	}
 
 	.guide-steps,
@@ -1826,7 +1862,7 @@ html.team-maker-dialog-open body {
 	.guide-steps h3,
 	.faq-item h3 {
 		margin: 0;
-		font-size: 15px;
+		font-size: 16px;
 		line-height: 1.5;
 	}
 
@@ -1909,7 +1945,7 @@ html.team-maker-dialog-open body {
 		margin: 0;
 		padding: 16px 18px;
 		color: var(--muted);
-		font-size: 13px;
+		font-size: 14px;
 		line-height: 1.65;
 		text-align: center;
 		background: var(--surface-soft);

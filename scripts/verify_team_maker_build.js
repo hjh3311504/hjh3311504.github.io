@@ -75,6 +75,14 @@ if (faqCount !== 6) {
 	throw new Error(`team-maker HTML의 FAQ는 6개여야 합니다. 현재 ${faqCount}개입니다.`);
 }
 
+const collapsibleSectionCount =
+	html.match(/<details class="seo-details" open(?:="")?>/g)?.length ?? 0;
+if (collapsibleSectionCount !== 4) {
+	throw new Error(
+		`team-maker HTML의 기본 펼침 안내 섹션은 4개여야 합니다. 현재 ${collapsibleSectionCount}개입니다.`
+	);
+}
+
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
 if (!structuredDataMatch) {
 	throw new Error('team-maker HTML에서 JSON-LD 구조화 데이터를 찾지 못했습니다.');
@@ -131,6 +139,13 @@ if (!page.includes("from '$lib/team-maker/app.js'")) {
 }
 if (html.includes('src="./app.js"') || html.includes('href="./styles.css"')) {
 	throw new Error('team-maker build가 이전 정적 entrypoint를 사용하고 있습니다.');
+}
+
+const oddFontSizes = [...css.matchAll(/font-size:\s*(\d+)px/g)]
+	.map((match) => Number(match[1]))
+	.filter((size) => size % 2 !== 0);
+if (oddFontSizes.length > 0) {
+	throw new Error(`team-maker CSS에 홀수 글자 크기가 있습니다: ${oddFontSizes.join(', ')}px`);
 }
 
 console.log(

@@ -251,6 +251,15 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 			'Lake가 만들고 직접 관리합니다. 참가자 이름은 현재 브라우저에만 저장되며 서버로 전송되지 않습니다.'
 		)
 	).toBeVisible();
+	const collapsibleSections = guide.locator('.seo-details');
+	await expect(collapsibleSections).toHaveCount(4);
+	for (const section of await collapsibleSections.all()) {
+		await expect(section).toHaveAttribute('open', '');
+		await section.locator('summary').click();
+		await expect(section).not.toHaveAttribute('open', '');
+		await section.locator('summary').click();
+		await expect(section).toHaveAttribute('open', '');
+	}
 	await expectNoHorizontalOverflow(page);
 
 	await addParticipants(page, ['가영', '나연', '다현', '라희']);
