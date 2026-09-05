@@ -567,10 +567,10 @@
 			<div class="dialog-heading">
 				<div>
 					<h2 id="history-title">전체 기록</h2>
-			<p id="history-description">
-				<span id="history-description-count">기록이 없습니다.</span>
-				<span id="history-description-legend" hidden>* 당첨자</span>
-			</p>
+					<p id="history-description">
+						<span id="history-description-count">기록이 없습니다.</span>
+						<span id="history-description-legend" hidden>* 당첨자</span>
+					</p>
 				</div>
 				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
 					<svg

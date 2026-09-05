@@ -1812,24 +1812,24 @@ html.team-maker-dialog-open body {
 		letter-spacing: -0.2px;
 	}
 
-.dialog-heading p,
-.confirm-dialog p {
-	margin: 3px 0 0;
-	color: var(--muted);
-	font-size: 14px;
-	line-height: 1.55;
-}
+	.dialog-heading p,
+	.confirm-dialog p {
+		margin: 3px 0 0;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.55;
+	}
 
-#history-description {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
+	#history-description {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
 
-#history-description-legend {
-	color: var(--green);
-	font-weight: 650;
-}
+	#history-description-legend {
+		color: var(--green);
+		font-weight: 650;
+	}
 
 	.dialog-note {
 		margin: 0;

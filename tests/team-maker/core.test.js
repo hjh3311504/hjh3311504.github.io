@@ -721,15 +721,7 @@ test('1등 확률은 유효한 1등이 있는 참가 경기만 분모로 센다'
 
 test('1등 확률은 화면에 표시하는 승패 합계를 분모로 센다', () => {
 	const player = summarizeParticipantStats([
-		match(
-			1,
-			[1, 2, 3],
-			[
-				{ members: ['가영'] },
-				{ members: ['가영'] },
-				{ members: ['가영'] }
-			]
-		)
+		match(1, [1, 2, 3], [{ members: ['가영'] }, { members: ['가영'] }, { members: ['가영'] }])
 	]).players.find((entry) => entry.name === '가영');
 
 	assert.equal(player.wins, 1);

@@ -669,9 +669,7 @@ export function mountTeamMaker(root) {
 					draw.textContent = picks.length > 0 ? '다음 당첨자 뽑기' : '뽑기';
 					draw.setAttribute(
 						'aria-label',
-						picks.length > 0
-							? `${team.name} 다음 당첨자 뽑기`
-							: `${team.name}에서 한 명 뽑기`
+						picks.length > 0 ? `${team.name} 다음 당첨자 뽑기` : `${team.name}에서 한 명 뽑기`
 					);
 				}
 				footer.append(draw);
@@ -1279,11 +1277,11 @@ export function mountTeamMaker(root) {
 		container.replaceChildren();
 		renderHistoryOverview();
 		$('#history-empty').hidden = state.history.length > 0;
-	const hasHistory = state.history.length > 0;
-	$('#history-description-count').textContent = hasHistory
-		? `전체 ${state.history.length}경기`
-		: '기록이 없습니다.';
-	$('#history-description-legend').hidden = !hasHistory;
+		const hasHistory = state.history.length > 0;
+		$('#history-description-count').textContent = hasHistory
+			? `전체 ${state.history.length}경기`
+			: '기록이 없습니다.';
+		$('#history-description-legend').hidden = !hasHistory;
 		const groups = new Map();
 		for (const entry of state.history) {
 			const key = localDateKey(entry.occurredAt);
