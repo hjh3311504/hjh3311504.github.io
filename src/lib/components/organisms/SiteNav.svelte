@@ -175,7 +175,7 @@
 		<div class="project-links">
 			<a
 				class:active={active === 'team-maker'}
-				href={resolve('/team-maker/')}
+				href={resolve('/team-maker')}
 				aria-current={active === 'team-maker' ? 'page' : undefined}
 			>
 				<svg
