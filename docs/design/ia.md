@@ -3,7 +3,7 @@
 ## 범위
 
 - surface: `web`
-- route: `/`, `/team-maker/`
+- route: `/`, `/team-maker`
 - 관련 REQ: `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-019`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`
 
 ## 화면과 이동

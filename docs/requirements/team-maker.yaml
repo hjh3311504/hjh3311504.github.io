@@ -221,19 +221,19 @@
   kind: structural
   risk: medium
 - id: REQ-PAGES-001
-  text: team-maker는 SvelteKit이 생성한 상대 CSS·JavaScript 경로와 하위 아이콘 경로를 사용해 /team-maker/에서 정상 동작한다.
+  text: team-maker는 SvelteKit이 생성한 상대 CSS·JavaScript 경로와 하위 아이콘 경로를 사용해 /team-maker에서 정상 동작한다.
   surface: [pages]
-  source: "사용자 확정 2026-08-31 > SvelteKit route 통합"
+  source: "사용자 확정 2026-09-05 > 공개 URL /team-maker; 현재 구현 src/routes/team-maker/+page.js의 trailingSlash = 'never'"
   kind: structural
   risk: medium
-  adr: docs/adr/2026-08-31-Team-Maker를-SvelteKit-route로-통합.md
+  adr: docs/adr/2026-09-05-Team-Maker-공개-URL은-마지막-슬래시-없이-사용.md
 - id: REQ-PAGES-002
-  text: 루트 사이트의 정적 빌드는 SvelteKit의 team-maker route를 build/team-maker/index.html로 생성하고 기존 루트 경로를 유지한다.
+  text: 루트 사이트의 정적 빌드는 SvelteKit의 team-maker route를 build/team-maker.html로 생성하고 기존 루트 경로를 유지한다.
   surface: [pages]
-  source: "사용자 확정 2026-08-31 > SvelteKit route 통합"
+  source: "사용자 확정 2026-09-05 > 정적 build build/team-maker.html; 현재 구현 scripts/verify_team_maker_build.js"
   kind: structural
   risk: medium
-  adr: docs/adr/2026-08-31-Team-Maker를-SvelteKit-route로-통합.md
+  adr: docs/adr/2026-09-05-Team-Maker-공개-URL은-마지막-슬래시-없이-사용.md
 - id: REQ-PAGES-003
   text: GitHub Actions는 루트 사이트와 team-maker를 검사·빌드·배포하고 두 공개 주소가 정상인지 확인한다.
   surface: [pages]

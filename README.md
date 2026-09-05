@@ -12,7 +12,7 @@ npm run dev
 ```
 
 - root 사이트: `http://localhost:5173/`
-- Team Maker: `http://localhost:5173/team-maker/`
+- Team Maker: `http://localhost:5173/team-maker`
 
 Team Maker 화면은 `src/routes/team-maker/+page.svelte`에 있습니다. 화면 동작과 팀 배정 로직은 각각 `src/lib/team-maker/app.js`와 `src/lib/team-maker/core.js`에서 관리하며 SvelteKit이 함께 build합니다.
 
@@ -35,7 +35,7 @@ npm run verify:team-maker
 1. SvelteKit 검사와 Team Maker 단위 테스트
 2. root 사이트와 Team Maker build 및 브라우저 E2E 테스트
 3. GitHub Pages artifact 업로드와 배포
-4. 공개 root 주소와 `/team-maker/` 주소 확인
+4. 공개 root 주소와 `/team-maker` 주소 확인
 
 GitHub 저장소의 **Settings → Pages → Build and deployment → Source**는 **GitHub Actions**로 설정해야 합니다.
 

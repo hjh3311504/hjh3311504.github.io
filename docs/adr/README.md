@@ -2,9 +2,10 @@
 
 ## 현재 결정
 
+- [Team Maker 공개 URL은 마지막 슬래시 없이 사용](./2026-09-05-Team-Maker-공개-URL은-마지막-슬래시-없이-사용.md) — 결정
 - [Claude Design은 초기 시안에만 선택적으로 사용](./2026-09-05-Claude-Design은-초기-시안에만-선택적으로-사용.md) — 결정
 - [공통 내비게이션은 고정 사이드바와 드로워를 함께 사용](./2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md) — 결정
-- [Team Maker를 SvelteKit route로 통합](./2026-08-31-Team-Maker를-SvelteKit-route로-통합.md) — 결정
+- [Team Maker를 SvelteKit route로 통합](./2026-08-31-Team-Maker를-SvelteKit-route로-통합.md) — 부분 대체됨: URL·정적 출력은 새 ADR이 대체하며, 나머지 통합 결정은 유지
 
 ## 대체됨
 

@@ -3,6 +3,8 @@
 상태: 결정
 일자: 2026-08-31
 
+부분 대체: [2026-09-05 ADR](./2026-09-05-Team-Maker-공개-URL은-마지막-슬래시-없이-사용.md)이 route 끝 `/`와 `build/team-maker/index.html` 결정만 대체하며, 나머지 SvelteKit 통합 결정은 유지한다.
+
 ## 결정
 
 - `/team-maker/` 화면은 `src/routes/team-maker/+page.svelte`에서 관리한다.
