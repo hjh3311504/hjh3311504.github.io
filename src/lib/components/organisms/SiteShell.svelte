@@ -14,7 +14,8 @@
 	let wide = true;
 	let pinned = true;
 	let drawerOpen = false;
-	let menuButton;
+	let floatingMenuButton;
+	let mobileMenuButton;
 	let drawer;
 	let mediaQuery;
 	let locked = false;
@@ -22,7 +23,10 @@
 
 	$: sidebarMode = wide && pinned;
 	$: floatingMenu = !sidebarMode && !(variant === 'team-maker' && !wide);
-	$: mobileTeamBar = variant === 'team-maker' && !wide;
+
+	function getMenuButton() {
+		return variant === 'team-maker' && !wide ? mobileMenuButton : floatingMenuButton;
+	}
 
 	function cycleTheme() {
 		const order = ['auto', 'light', 'dark'];
@@ -38,7 +42,7 @@
 			// 저장할 수 없어도 현재 화면에서는 고정 상태를 바꾼다.
 		}
 		await tick();
-		if (!pinned) menuButton?.focus();
+		if (!pinned) getMenuButton()?.focus();
 	}
 
 	async function openDrawer() {
@@ -52,7 +56,7 @@
 		if (!drawerOpen) return;
 		drawerOpen = false;
 		await tick();
-		if (restoreFocus) menuButton?.focus();
+		if (restoreFocus) getMenuButton()?.focus();
 	}
 
 	function trapDrawerFocus(event) {
@@ -147,7 +151,7 @@
 	{#if floatingMenu}
 		<div class="floating-menu">
 			<button
-				bind:this={menuButton}
+				bind:this={floatingMenuButton}
 				type="button"
 				on:click={openDrawer}
 				aria-label="메뉴 열기"
@@ -172,10 +176,10 @@
 	{/if}
 
 	<div class="shell-content">
-		{#if mobileTeamBar}
+		{#if variant === 'team-maker'}
 			<header class="mobile-team-bar">
 				<button
-					bind:this={menuButton}
+					bind:this={mobileMenuButton}
 					type="button"
 					on:click={openDrawer}
 					aria-label="메뉴 열기"
@@ -393,7 +397,7 @@
 		position: sticky;
 		top: 0;
 		z-index: 30;
-		display: flex;
+		display: none;
 		flex: none;
 		align-items: center;
 		height: 56px;
@@ -405,6 +409,16 @@
 	.mobile-team-bar button {
 		pointer-events: auto;
 		box-shadow: none;
+	}
+
+	@media (max-width: 1200px) {
+		.site-sidebar {
+			display: none;
+		}
+
+		.mobile-team-bar {
+			display: flex;
+		}
 	}
 
 	.drawer-layer {

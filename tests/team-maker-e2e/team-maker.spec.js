@@ -104,6 +104,28 @@ test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색
 	await expectNoHorizontalOverflow(page);
 });
 
+test('Team Maker 모바일 첫 화면은 JavaScript 실행 뒤에도 위치가 안정적이다', async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.addInitScript(() => {
+		window.__teamMakerLayoutShift = 0;
+		new PerformanceObserver((list) => {
+			for (const entry of list.getEntries()) {
+				if (!entry.hadRecentInput) window.__teamMakerLayoutShift += entry.value;
+			}
+		}).observe({ type: 'layout-shift', buffered: true });
+	});
+
+	await openTeamMaker(page);
+	await page.waitForLoadState('networkidle');
+	const cumulativeLayoutShift = await page.evaluate(async () => {
+		await document.fonts.ready;
+		await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+		return window.__teamMakerLayoutShift;
+	});
+
+	expect(cumulativeLayoutShift).toBeLessThanOrEqual(0.1);
+});
+
 test('Team Maker의 다크 모드는 Home과 같은 기본 색상표를 사용한다', async ({ page }) => {
 	await page.addInitScript(() => localStorage.setItem('juno.develog.theme', 'dark'));
 	await page.goto('/');
