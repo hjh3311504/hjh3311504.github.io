@@ -26,7 +26,10 @@ UUID_RE = re.compile(
     re.IGNORECASE,
 )
 DESIGN_STATUSES = {"pending", "approved", "deferred"}
-CLAUDE_DESIGN_TRANSPORTS = {"pending", "direct-mcp", "claude-cli", "manual"}
+LEGACY_CLAUDE_DESIGN_TRANSPORTS = {"pending", "direct-mcp", "claude-cli", "manual"}
+CLAUDE_DESIGN_TRANSPORTS_V4 = LEGACY_CLAUDE_DESIGN_TRANSPORTS | {"none"}
+CLAUDE_DESIGN_USAGES = {"pending", "none", "exploration"}
+HANDOFF_STATUSES_V4 = {"pending", "not-applicable", "approved"}
 DESIGN_SYSTEM_SOURCES = {"pending", "claude-design", "git", "none"}
 DESIGN_SYSTEM_CONNECTIONS = {
     "pending",
@@ -163,14 +166,14 @@ def valid_relative_path(value) -> bool:
 def validate_design_system_metadata(
     manifest: dict,
     manifest_path: Path,
-    handoff_approved: bool,
+    metadata_required: bool,
     errors: list[str],
 ) -> None:
-    if manifest.get("schema_version") != 3:
+    if manifest.get("schema_version") not in {3, 4}:
         return
     metadata = manifest.get("design_system")
     if not isinstance(metadata, dict):
-        errors.append(f"{manifest_path}: schema version 3에는 design_system object 필수")
+        errors.append(f"{manifest_path}: schema version 3 이상에는 design_system object 필수")
         return
 
     source = metadata.get("source")
@@ -189,8 +192,8 @@ def validate_design_system_metadata(
     ):
         return
 
-    if handoff_approved and "pending" in {source, connection, publication}:
-        errors.append(f"{manifest_path}: 승인 handoff에는 Design System 상태 확정 필수")
+    if metadata_required and "pending" in {source, connection, publication}:
+        errors.append(f"{manifest_path}: 구현 준비가 끝난 package에는 Design System 상태 확정 필수")
         return
     if source == "pending":
         return
@@ -211,7 +214,7 @@ def validate_design_system_metadata(
     elif len(source_paths) != len(set(source_paths)):
         errors.append(f"{manifest_path}: design_system.source_paths 중복")
 
-    if handoff_approved and not valid_timestamp(checked_at):
+    if metadata_required and not valid_timestamp(checked_at):
         errors.append(
             f"{manifest_path}: design_system.checked_at은 timezone 포함 ISO 8601이어야 함"
         )
@@ -261,10 +264,11 @@ def validate_design_system_metadata(
 def validate_claude_design_metadata(
     manifest: dict,
     manifest_path: Path,
-    handoff_approved: bool,
+    handoff_status: str,
     errors: list[str],
 ) -> None:
-    if manifest.get("schema_version") not in {2, 3}:
+    schema_version = manifest.get("schema_version")
+    if schema_version not in {2, 3, 4}:
         return
     metadata = manifest.get("claude_design")
     if not isinstance(metadata, dict):
@@ -272,21 +276,61 @@ def validate_claude_design_metadata(
         return
 
     transport = metadata.get("transport")
-    if transport not in CLAUDE_DESIGN_TRANSPORTS:
+    allowed_transports = (
+        CLAUDE_DESIGN_TRANSPORTS_V4
+        if schema_version == 4
+        else LEGACY_CLAUDE_DESIGN_TRANSPORTS
+    )
+    if transport not in allowed_transports:
         errors.append(
             f"{manifest_path}: claude_design.transport 값 오류 — {transport}"
         )
         return
-    if handoff_approved and transport == "pending":
+    if handoff_status == "approved" and transport == "pending":
         errors.append(f"{manifest_path}: 승인 handoff에는 Claude Design 연결 방식 확정 필수")
 
+    if schema_version == 4:
+        usage = metadata.get("usage")
+        if usage not in CLAUDE_DESIGN_USAGES:
+            errors.append(f"{manifest_path}: claude_design.usage 값 오류 — {usage}")
+            return
+        if usage == "pending":
+            errors.append(f"{manifest_path}: 구현 준비 전 claude_design.usage 확정 필수")
+            return
+        if usage == "none":
+            if transport != "none":
+                errors.append(f"{manifest_path}: Claude Design 미사용은 transport none 필수")
+            if handoff_status != "not-applicable":
+                errors.append(
+                    f"{manifest_path}: Claude Design 미사용은 handoff.status not-applicable 필수"
+                )
+            if any(
+                metadata.get(field) is not None
+                for field in ("project_id", "project_url", "checked_at")
+            ):
+                errors.append(
+                    f"{manifest_path}: Claude Design 미사용에는 project 참조와 확인 시각 금지"
+                )
+            return
+        if transport not in {"manual", "direct-mcp", "claude-cli"}:
+            errors.append(
+                f"{manifest_path}: Claude Design 탐색에는 manual 또는 자동 전송 방식 필수"
+            )
+        if handoff_status != "approved":
+            errors.append(
+                f"{manifest_path}: Claude Design 탐색 결과는 한 번 export해 handoff 승인을 받아야 함"
+            )
     project_id = metadata.get("project_id")
     project_url = metadata.get("project_url")
-    last_synced_at = metadata.get("last_synced_at")
+    timestamp = (
+        metadata.get("checked_at")
+        if schema_version == 4
+        else metadata.get("last_synced_at")
+    )
     remote_transport = transport in {"direct-mcp", "claude-cli"}
     has_remote_ref = project_id is not None or project_url is not None
 
-    if remote_transport or has_remote_ref:
+    if remote_transport or has_remote_ref or schema_version == 4:
         if not isinstance(project_id, str) or not UUID_RE.fullmatch(project_id):
             errors.append(f"{manifest_path}: claude_design.project_id UUID 형식 위반")
         expected_prefix = (
@@ -306,14 +350,13 @@ def validate_claude_design_metadata(
                 f"{manifest_path}: claude_design.project_url이 project_id와 일치하지 않음"
             )
 
-    if remote_transport and not valid_timestamp(last_synced_at):
+    timestamp_field = "checked_at" if schema_version == 4 else "last_synced_at"
+    if (remote_transport or schema_version == 4) and not valid_timestamp(timestamp):
         errors.append(
-            f"{manifest_path}: claude_design.last_synced_at은 timezone 포함 ISO 8601이어야 함"
+            f"{manifest_path}: claude_design.{timestamp_field}은 timezone 포함 ISO 8601이어야 함"
         )
-    elif last_synced_at is not None and not valid_timestamp(last_synced_at):
-        errors.append(
-            f"{manifest_path}: claude_design.last_synced_at 형식 위반"
-        )
+    elif timestamp is not None and not valid_timestamp(timestamp):
+        errors.append(f"{manifest_path}: claude_design.{timestamp_field} 형식 위반")
 
 
 def markdown_table_cells(line: str) -> list[str] | None:
@@ -441,8 +484,9 @@ def validate_package(
     if not isinstance(manifest, dict):
         errors.append(f"{manifest_path}: manifest가 object가 아님")
         return
-    if manifest.get("schema_version") not in {1, 2, 3}:
-        errors.append(f"{manifest_path}: 지원 schema_version은 1, 2 또는 3")
+    schema_version = manifest.get("schema_version")
+    if schema_version not in {1, 2, 3, 4}:
+        errors.append(f"{manifest_path}: 지원 schema_version은 1, 2, 3 또는 4")
     if manifest.get("id") != expected_id or package_dir.name != expected_id:
         errors.append(f"{manifest_path}: id와 디렉터리명이 {expected_id}와 일치하지 않음")
 
@@ -573,24 +617,37 @@ def validate_package(
     if not isinstance(handoff, dict):
         errors.append(f"{manifest_path}: handoff object 누락")
         return
+    handoff_status = handoff.get("status")
+    if schema_version == 4 and handoff_status not in HANDOFF_STATUSES_V4:
+        errors.append(f"{manifest_path}: handoff.status 값 오류 — {handoff_status}")
     validate_claude_design_metadata(
         manifest,
         manifest_path,
-        handoff.get("status") == "approved",
+        str(handoff_status),
         errors,
     )
     validate_design_system_metadata(
         manifest,
         manifest_path,
-        handoff.get("status") == "approved",
+        handoff_status in {"approved", "not-applicable"},
         errors,
     )
-    if handoff.get("status") != "approved":
+    if schema_version != 4 and handoff_status != "approved":
         errors.append(f"{manifest_path}: 2차 handoff 승인이 완료되지 않음")
-    if not valid_timestamp(handoff.get("approved_at")):
-        errors.append(f"{manifest_path}: handoff.approved_at은 timezone 포함 ISO 8601이어야 함")
+    if schema_version == 4 and handoff_status == "pending":
+        errors.append(f"{manifest_path}: 구현 참조가 아직 확정되지 않음")
     expected_tree = handoff.get("tree_sha256")
     handoff_dir = package_dir / "handoff"
+    if schema_version == 4 and handoff_status == "not-applicable":
+        if handoff.get("approved_at") is not None or expected_tree is not None:
+            errors.append(
+                f"{manifest_path}: not-applicable handoff에는 승인 시각과 tree hash 금지"
+            )
+        if handoff_dir.exists():
+            errors.append(f"{manifest_path}: not-applicable handoff 디렉터리 금지")
+        return
+    if not valid_timestamp(handoff.get("approved_at")):
+        errors.append(f"{manifest_path}: handoff.approved_at은 timezone 포함 ISO 8601이어야 함")
     reject_symlinks(handoff_dir, "handoff", errors)
     if not handoff_dir.is_dir() or not any(path.is_file() for path in handoff_dir.rglob("*")):
         errors.append(f"{manifest_path}: handoff 파일 누락")

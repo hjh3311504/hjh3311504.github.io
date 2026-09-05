@@ -18,7 +18,7 @@ test.afterEach(async ({ page }) => {
 
 async function openTeamMaker(page) {
 	await page.goto(TEAM_MAKER_PATH);
-	await expect(page.getByRole('heading', { name: '팀 메이커', level: 1 })).toBeVisible();
+	await expect(page.getByRole('heading', { name: '무료 팀짜기·조짜기', level: 1 })).toBeVisible();
 	expect(new URL(page.url()).pathname).toBe(TEAM_MAKER_PATH);
 }
 
@@ -217,6 +217,56 @@ test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오�
 	expect(svelteAssets.length).toBeGreaterThan(0);
 	const externalRequests = requests.filter((url) => url.origin !== 'http://127.0.0.1:4174');
 	expect(externalRequests.map((url) => url.href)).toEqual([]);
+});
+
+test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배치를 유지한다', async ({ page }) => {
+	await page.setViewportSize({ width: 1280, height: 900 });
+	await openTeamMaker(page);
+
+	await expect(page).toHaveTitle('무료 팀짜기·조짜기 프로그램 | 팀 메이커');
+	await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
+	await expect(page.locator('h1')).toHaveCount(1);
+	await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+		'href',
+		'https://hjh3311504.github.io/team-maker'
+	);
+
+	const guide = page.getByTestId('team-maker-guide');
+	for (const heading of [
+		'3단계로 팀 나누기',
+		'이럴 때 사용하세요',
+		'팀 메이커의 주요 기능',
+		'자주 묻는 질문'
+	]) {
+		await expect(guide.getByRole('heading', { name: heading, level: 2 })).toBeVisible();
+	}
+	await expect(guide.locator('.guide-steps > li')).toHaveCount(3);
+	await expect(guide.locator('.faq-item')).toHaveCount(6);
+	for (const faq of await guide.locator('.faq-item').all()) {
+		await expect(faq.getByRole('heading', { level: 3 })).toBeVisible();
+		await expect(faq.locator('p')).toBeVisible();
+	}
+	await expect(
+		guide.getByText(
+			'Lake가 만들고 직접 관리합니다. 참가자 이름은 현재 브라우저에만 저장되며 서버로 전송되지 않습니다.'
+		)
+	).toBeVisible();
+	await expectNoHorizontalOverflow(page);
+
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.reload();
+	await expect(guide).toBeVisible();
+	const mobileColumns = await guide
+		.locator('.use-case-grid')
+		.evaluate((element) =>
+			getComputedStyle(element).gridTemplateColumns.split(' ').filter(Boolean)
+		);
+	expect(mobileColumns).toHaveLength(1);
+	await expectNoHorizontalOverflow(page);
 });
 
 test('참가자 편집, 두 나누기 방식, 다시 섞기와 새로고침 복구가 동작한다', async ({ page }) => {

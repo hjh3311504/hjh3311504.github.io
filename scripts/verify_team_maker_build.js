@@ -33,16 +33,29 @@ const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
 const core = await readFile(path.join(root, 'src/lib/team-maker/core.js'), 'utf8');
 const css = await readFile(path.join(root, 'src/routes/team-maker/team-maker.css'), 'utf8');
+const seoTitle = '무료 팀짜기·조짜기 프로그램 | 팀 메이커';
+const seoDescription =
+	'이름을 입력하면 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 프로그램입니다. 같은 팀·다른 팀 규칙, 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.';
 
 const requiredHtml = [
-	'<title>팀짜기 · 조짜기 프로그램 | 팀 메이커</title>',
+	'<html lang="ko">',
+	`<title>${seoTitle}</title>`,
+	`<meta name="description" content="${seoDescription}"`,
 	'<link rel="canonical" href="https://hjh3311504.github.io/team-maker"',
-	'<meta property="og:title" content="팀짜기 · 조짜기 프로그램 | 팀 메이커"',
+	`<meta property="og:title" content="${seoTitle}"`,
+	`<meta property="og:description" content="${seoDescription}"`,
 	'<meta property="og:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
 	'<meta property="og:image:width" content="1200"',
 	'<meta property="og:image:height" content="630"',
 	'<meta name="twitter:card" content="summary_large_image"',
+	`<meta name="twitter:title" content="${seoTitle}"`,
+	`<meta name="twitter:description" content="${seoDescription}"`,
 	'<meta name="twitter:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
+	'<h1>무료 팀짜기·조짜기</h1>',
+	'<h2 id="how-to-title">3단계로 팀 나누기</h2>',
+	'<h2 id="use-cases-title">이럴 때 사용하세요</h2>',
+	'<h2 id="features-title">팀 메이커의 주요 기능</h2>',
+	'<h2 id="faq-title">자주 묻는 질문</h2>',
 	'id="participant-list"',
 	'id="team-grid"',
 	'_app/immutable/'
@@ -50,6 +63,16 @@ const requiredHtml = [
 for (const marker of requiredHtml) {
 	if (!html.includes(marker))
 		throw new Error(`team-maker HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+
+const h1Count = html.match(/<h1\b/g)?.length ?? 0;
+if (h1Count !== 1) {
+	throw new Error(`team-maker HTML의 h1은 1개여야 합니다. 현재 ${h1Count}개입니다.`);
+}
+
+const faqCount = html.match(/<article class="faq-item">/g)?.length ?? 0;
+if (faqCount !== 6) {
+	throw new Error(`team-maker HTML의 FAQ는 6개여야 합니다. 현재 ${faqCount}개입니다.`);
 }
 
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
@@ -61,8 +84,18 @@ const webApplication = structuredData['@graph']?.find((item) => item['@type'] ==
 if (!webApplication || webApplication.url !== 'https://hjh3311504.github.io/team-maker') {
 	throw new Error('Team Maker WebApplication 구조화 데이터의 URL이 올바르지 않습니다.');
 }
+if (webApplication.description !== seoDescription) {
+	throw new Error('Team Maker WebApplication 설명이 검색 설명과 일치하지 않습니다.');
+}
+const requiredAlternateNames = ['Team Maker', '팀짜기', '조짜기', '팀 나누기', '랜덤 팀 배정'];
+if (!requiredAlternateNames.every((name) => webApplication.alternateName?.includes(name))) {
+	throw new Error('Team Maker WebApplication의 대체 이름이 빠졌습니다.');
+}
 if (webApplication.offers?.price !== 0 || webApplication.offers?.priceCurrency !== 'KRW') {
 	throw new Error('Team Maker 무료 제공 정보가 구조화 데이터에 올바르게 표시되지 않았습니다.');
+}
+if (structuredData['@graph']?.some((item) => item['@type'] === 'FAQPage')) {
+	throw new Error('일반 사이트에 사용하지 않는 FAQPage 구조화 데이터가 포함됐습니다.');
 }
 
 const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]

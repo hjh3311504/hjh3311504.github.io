@@ -1,0 +1,59 @@
+schema_version: 4
+id: DSN-011
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-007
+  - REQ-WEB-009
+  - REQ-WEB-011
+  - REQ-WEB-012
+  - REQ-WEB-013
+  - REQ-WEB-014
+  - REQ-WEB-015
+  - REQ-WEB-016
+  - REQ-WEB-017
+  - REQ-WEB-018
+  - REQ-WEB-020
+  - REQ-WEB-021
+  - REQ-WEB-022
+  - REQ-WEB-023
+  - REQ-WEB-024
+  - REQ-WEB-025
+  - REQ-WEB-026
+screens:
+  - SCR-WEB-001
+spec:
+  status: approved
+  approved_at: "2026-09-05T23:04:55+09:00"
+  ia_sha256: "d1f2bf5674bbe990a1b0913135c66009158a5f09be70845ba3e0cc8e3befb0fb"
+  screen_sha256:
+    SCR-WEB-001: "f354f216367a0eae80e4cdcb5048af5479abeec81b2eac4926ee45bdc6ec97b4"
+design_system:
+  source: git
+  connection: project-attached
+  publication: draft
+  name: Team Maker Git UI
+  project_id:
+  source_repo: hjh3311504/hjh3311504.github.io
+  source_revision: 835c71a6128a2b1059de639b00edd523b136b48e
+  source_paths:
+    - src/routes/team-maker/team-maker.css
+    - src/lib/components/organisms/SiteShell.svelte
+  checked_at: "2026-09-05T23:04:55+09:00"
+claude_design:
+  usage: none
+  transport: none
+  project_id:
+  project_url:
+  checked_at:
+handoff:
+  status: not-applicable
+  approved_at:
+  tree_sha256:
+review:
+  type: expert
+  summary: 새 권한·서버·데이터 전송·위험 동작은 없다. 안내 문구가 실제 무작위 배정, 팀별 인원 차이 최대 1명, 브라우저 저장 동작과 일치하는지 검토했고 실력 균형을 보장한다는 표현은 제외했다. 기존 도구를 먼저 사용한 뒤 안내와 FAQ를 읽는 순서, H1 하나와 모바일 1열 배치를 함께 확인했다.
