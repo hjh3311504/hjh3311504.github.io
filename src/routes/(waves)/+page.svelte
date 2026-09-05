@@ -210,7 +210,7 @@
 	.browse h2 {
 		padding-top: 20px;
 		margin: 0;
-		font-size: 17px;
+		font-size: 18px;
 		font-weight: 700;
 		line-height: 1.4;
 		letter-spacing: -0.2px;
@@ -289,7 +289,7 @@
 
 	.project-description {
 		color: var(--shell-text-muted);
-		font-size: 15px;
+		font-size: 16px;
 		line-height: 1.65;
 		word-break: keep-all;
 	}
@@ -315,7 +315,7 @@
 	footer {
 		padding: 16px clamp(24px, 4vw, 36px);
 		margin: auto calc(-1 * clamp(24px, 4vw, 36px)) calc(-1 * clamp(24px, 4vw, 36px));
-		font-size: 13px;
+		font-size: 14px;
 		line-height: 1.6;
 		background: var(--shell-surface);
 		border-top: 1px solid var(--shell-hairline);

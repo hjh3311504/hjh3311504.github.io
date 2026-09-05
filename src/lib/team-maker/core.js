@@ -1,5 +1,6 @@
 export const TEAM_MODE = 'teams';
 export const SIZE_MODE = 'size';
+export const HISTORY_DAY_START_HOUR = 6;
 
 export const PARTICIPANT_REMOVAL_PATTERN = Object.freeze({
 	EXIT_ONLY: 'exit-only',
@@ -447,7 +448,7 @@ export function resolveTeamRanking(entry) {
 }
 
 export function formatTeamResultLabel({ teamName, rank, teamCount, compact = false }) {
-	if (rank === null || rank === undefined) return '순위 미정';
+	if (rank === null || rank === undefined) return compact ? '미정' : '순위 미정';
 	if (teamCount === 2) return `${teamName}${rank === 1 ? '승' : '패'}`;
 	// 팀 이름을 이미 보여 주는 자리에서는 등수만 적는다.
 	return compact ? `${rank}등` : `${teamName} ${rank}등`;
@@ -461,10 +462,19 @@ export function localDateKey(value) {
 	return `${year}-${month}-${day}`;
 }
 
-export function selectTodayHistory(history, { now = new Date(), clearedAt = null } = {}) {
-	const todayKey = localDateKey(now);
+function historyDayKey(value, startHour = HISTORY_DAY_START_HOUR) {
+	const date = new Date(value);
+	date.setHours(date.getHours() - startHour);
+	return localDateKey(date);
+}
+
+export function selectTodayHistory(
+	history,
+	{ now = new Date(), clearedAt = null, startHour = HISTORY_DAY_START_HOUR } = {}
+) {
+	const todayKey = historyDayKey(now, startHour);
 	return (Array.isArray(history) ? history : []).filter((entry) => {
-		if (localDateKey(entry?.occurredAt) !== todayKey) return false;
+		if (historyDayKey(entry?.occurredAt, startHour) !== todayKey) return false;
 		return !clearedAt || entry.occurredAt > clearedAt;
 	});
 }
@@ -487,20 +497,21 @@ export function summarizeParticipantStats(history, { minimumTogether = 2, limit 
 	};
 
 	for (const entry of entries) {
-		const { ranking, complete } = resolveTeamRanking(entry);
+		const { ranking } = resolveTeamRanking(entry);
 		const firstTeamId = ranking[0];
-		const lastTeamId = complete ? ranking[ranking.length - 1] : undefined;
+		const teams = Array.isArray(entry?.teams) ? entry.teams : [];
+		const hasValidFirst = teams.some((team) => team?.id === firstTeamId);
 		const countedNames = new Set();
 
-		for (const team of Array.isArray(entry?.teams) ? entry.teams : []) {
+		for (const team of teams) {
 			const names = [...new Set(Array.isArray(team?.members) ? team.members : [])];
-			const won = team?.id === firstTeamId;
-			const lost = lastTeamId !== undefined && team?.id === lastTeamId;
+			const won = hasValidFirst && team?.id === firstTeamId;
+			const lost = hasValidFirst && !won;
 
 			for (const name of names) {
 				const player = playerOf(name);
 				if (!countedNames.has(name)) {
-					player.matches += 1;
+					if (hasValidFirst) player.matches += 1;
 					countedNames.add(name);
 				}
 				if (won) player.wins += 1;
@@ -518,10 +529,15 @@ export function summarizeParticipantStats(history, { minimumTogether = 2, limit 
 							? [names[first], names[second]]
 							: [names[second], names[first]];
 					const key = `${ordered[0]}${ordered[1]}`;
-					if (!pairs.has(key)) pairs.set(key, { names: ordered, together: 0, wins: 0 });
+					if (!pairs.has(key)) {
+						pairs.set(key, { names: ordered, together: 0, wins: 0, losses: 0 });
+					}
 					const pair = pairs.get(key);
-					pair.together += 1;
-					if (won) pair.wins += 1;
+					if (hasValidFirst) {
+						pair.together += 1;
+						if (won) pair.wins += 1;
+						if (lost) pair.losses += 1;
+					}
 				}
 			}
 		}
@@ -537,10 +553,13 @@ export function summarizeParticipantStats(history, { minimumTogether = 2, limit 
 	return {
 		matchCount: entries.length,
 		players: [...players.values()]
-			.map((player) => ({
-				...player,
-				winRate: player.matches > 0 ? player.wins / player.matches : 0
-			}))
+			.map((player) => {
+				const decidedMatches = player.wins + player.losses;
+				return {
+					...player,
+					winRate: decidedMatches > 0 ? player.wins / decidedMatches : 0
+				};
+			})
 			.sort(
 				(first, second) =>
 					second.wins - first.wins ||

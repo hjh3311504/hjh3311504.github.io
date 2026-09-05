@@ -1,6 +1,7 @@
 import {
 	SIZE_MODE,
 	TEAM_MODE,
+	HISTORY_DAY_START_HOUR,
 	WHEEL_SPIN_DURATION,
 	WHEEL_SPIN_EASING,
 	WHEEL_SPIN_SETTLE,
@@ -53,6 +54,8 @@ export function mountTeamMaker(root) {
 	const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
 	const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	const participantLayoutQuery = window.matchMedia('(max-width: 640px)');
+	const assetUrl = (name) => `${root.dataset.assetsBase}/${name}`;
+	const formatPercent = (rate) => `${(rate * 100).toFixed(1).replace(/\.0$/, '')}%`;
 
 	let sequence = 0;
 	function createId(prefix) {
@@ -214,11 +217,18 @@ export function mountTeamMaker(root) {
 		wheelTeamId: null,
 		wheelRotation: 0,
 		wheelSpinning: false,
+		pendingWheelPick: null,
+		historyTab: 'log',
+		historySort: 'wins',
+		historySearch: '',
+		todayHistoryExpanded: false,
 		confirmAction: null,
 		animateTeams: false,
 		animateWinner: false,
 		enteringParticipants: new Set(),
 		leavingParticipants: new Set(),
+		checkboxAnimationKey: null,
+		checkboxAnimationTimer: null,
 		removingParticipantId: null,
 		participantRemovalTimer: null,
 		participantMovementTimer: null,
@@ -230,6 +240,7 @@ export function mountTeamMaker(root) {
 		spinTimer: null,
 		wheelRedrawTimer: null,
 		copyResetTimer: null,
+		todayHistoryResetTimer: null,
 		audioContext: null,
 		audioSources: new Set()
 	};
@@ -253,6 +264,15 @@ export function mountTeamMaker(root) {
 		setTimeout(() => {
 			for (const id of ids) collection.delete(id);
 		}, duration);
+	}
+
+	function markCheckboxAnimation(key) {
+		clearTimeout(runtime.checkboxAnimationTimer);
+		runtime.checkboxAnimationKey = key;
+		runtime.checkboxAnimationTimer = setTimeout(() => {
+			runtime.checkboxAnimationKey = null;
+			runtime.checkboxAnimationTimer = null;
+		}, 220);
 	}
 
 	function captureFlipPositions() {
@@ -384,7 +404,12 @@ export function mountTeamMaker(root) {
 			row.classList.toggle('is-leaving', runtime.leavingParticipants.has(participant.id));
 			const checkbox = document.createElement('input');
 			checkbox.type = 'checkbox';
+			checkbox.className = 'team-maker-checkbox';
 			checkbox.checked = participant.included;
+			checkbox.classList.toggle(
+				'is-animating',
+				runtime.checkboxAnimationKey === `participant:${participant.id}`
+			);
 			checkbox.dataset.participantToggle = participant.id;
 			checkbox.setAttribute(
 				'aria-label',
@@ -641,10 +666,12 @@ export function mountTeamMaker(root) {
 					draw.textContent = '모두 뽑음';
 					draw.setAttribute('aria-label', `${team.name}은 모두 뽑았습니다`);
 				} else {
-					draw.textContent = picks.length > 0 ? '한 번 더 뽑기' : '뽑기';
+					draw.textContent = picks.length > 0 ? '다음 당첨자 뽑기' : '뽑기';
 					draw.setAttribute(
 						'aria-label',
-						picks.length > 0 ? `${team.name}에서 한 명 더 뽑기` : `${team.name}에서 한 명 뽑기`
+						picks.length > 0
+							? `${team.name} 다음 당첨자 뽑기`
+							: `${team.name}에서 한 명 뽑기`
 					);
 				}
 				footer.append(draw);
@@ -745,23 +772,36 @@ export function mountTeamMaker(root) {
 
 			const label = document.createElement('span');
 			label.className = 'history-team-label';
-			label.textContent = formatTeamResultLabel({
-				teamName: team.name,
-				rank,
-				teamCount: entry.teams.length
-			});
+			label.textContent =
+				rank === null
+					? team.name
+					: formatTeamResultLabel({
+							teamName: team.name,
+							rank,
+							teamCount: entry.teams.length
+						});
 
 			const names = document.createElement('span');
 			names.className = compact ? 'history-team-names history-summary' : 'history-team-names';
-			names.textContent = team.members.join(', ');
-			line.append(label, names);
-
-			if (team.picks?.length) {
-				const picks = document.createElement('span');
-				picks.className = 'history-team-picks';
-				picks.textContent = `당첨 ${team.picks.join(', ')}`;
-				line.append(picks);
+			const pickedNames = new Set(team.picks ?? []);
+			const orderedNames = [
+				...team.members.filter((name) => pickedNames.has(name)),
+				...team.members.filter((name) => !pickedNames.has(name))
+			];
+			for (const memberName of orderedNames) {
+				const item = document.createElement('span');
+				item.className = 'history-person-name';
+				item.textContent = memberName;
+				if (pickedNames.has(memberName)) {
+					item.classList.add('is-picked');
+					const pickedDescription = document.createElement('span');
+					pickedDescription.className = 'sr-only';
+					pickedDescription.textContent = ' 당첨';
+					item.append(pickedDescription);
+				}
+				names.append(item);
 			}
+			line.append(label, names);
 
 			teams.append(line);
 		}
@@ -769,20 +809,30 @@ export function mountTeamMaker(root) {
 	}
 
 	function renderTodayHistory() {
-		const todayAll = selectTodayHistory(state.history);
-		const today = selectTodayHistory(state.history, { clearedAt: state.todayClearedAt });
+		const now = new Date();
+		const todayAll = selectTodayHistory(state.history, { now });
+		const today = selectTodayHistory(state.history, {
+			now,
+			clearedAt: state.todayClearedAt
+		});
 		$('#history-card').hidden = state.history.length === 0;
-		$('#today-history-count').textContent = `${today.length}경기`;
+		$('#today-history-count').textContent = `(${today.length}경기)`;
 		$('#today-history-empty').hidden = today.length > 0;
 		$('#today-history-empty').textContent =
 			today.length === 0 && todayAll.length > 0
-				? '오늘 기록을 화면에서 지웠습니다. 기록 보기에는 그대로 남아 있습니다.'
+				? '오늘 기록을 화면에서 지웠습니다. 전체 기록에는 그대로 남아 있습니다.'
 				: '오늘 기록한 경기가 없습니다.';
 		$('#clear-today-button').hidden = today.length === 0;
 		const list = $('#today-history-list');
 		list.replaceChildren();
+		const toggle = $('#today-history-toggle');
+		if (today.length <= 3) runtime.todayHistoryExpanded = false;
+		toggle.hidden = today.length <= 3;
+		toggle.textContent = runtime.todayHistoryExpanded ? '접기' : '펼치기';
+		toggle.setAttribute('aria-expanded', String(runtime.todayHistoryExpanded));
+		const visibleToday = runtime.todayHistoryExpanded ? today : today.slice(0, 3);
 
-		for (const entry of today.slice(0, 3)) {
+		for (const entry of visibleToday) {
 			const row = document.createElement('li');
 			row.className = 'history-summary-row';
 			row.dataset.flip = `today-history-${entry.id}`;
@@ -798,6 +848,20 @@ export function mountTeamMaker(root) {
 			);
 			list.append(row);
 		}
+	}
+
+	function scheduleTodayHistoryReset() {
+		clearTimeout(runtime.todayHistoryResetTimer);
+		const now = new Date();
+		const nextReset = new Date(now);
+		nextReset.setHours(HISTORY_DAY_START_HOUR, 0, 0, 0);
+		if (nextReset <= now) nextReset.setDate(nextReset.getDate() + 1);
+		runtime.todayHistoryResetTimer = setTimeout(() => {
+			runtime.todayHistoryExpanded = false;
+			renderTodayHistory();
+			if ($('#player-stats-dialog').open) renderPlayerStats();
+			scheduleTodayHistoryReset();
+		}, nextReset.getTime() - now.getTime());
 	}
 
 	function render() {
@@ -855,10 +919,45 @@ export function mountTeamMaker(root) {
 		}, 700);
 	}
 
+	let lockedPageScrollY = null;
+
+	function lockPageScroll() {
+		if (lockedPageScrollY !== null) return;
+		lockedPageScrollY = window.scrollY;
+		document.body.style.setProperty('--team-maker-scroll-offset', `-${lockedPageScrollY}px`);
+		document.documentElement.classList.add('team-maker-dialog-open');
+	}
+
+	function releasePageScrollLock() {
+		if (lockedPageScrollY === null) return;
+		const scrollY = lockedPageScrollY;
+		lockedPageScrollY = null;
+		document.documentElement.classList.add('team-maker-restoring-scroll');
+		document.documentElement.classList.remove('team-maker-dialog-open');
+		document.body.style.removeProperty('--team-maker-scroll-offset');
+		window.scrollTo(0, scrollY);
+		requestAnimationFrame(() => {
+			document.documentElement.classList.remove('team-maker-restoring-scroll');
+		});
+	}
+
+	function syncPageScrollLock() {
+		if (root.querySelector('dialog[open]')) lockPageScroll();
+		else releasePageScrollLock();
+	}
+
 	function showDialog(dialog, focusSelector) {
+		lockPageScroll();
 		if (!dialog.open) dialog.showModal();
+		syncPageScrollLock();
 		const focusTarget = focusSelector ? dialog.querySelector(focusSelector) : null;
-		setTimeout(() => (focusTarget || dialog.querySelector('button, input, textarea'))?.focus(), 0);
+		setTimeout(
+			() =>
+				(focusTarget || dialog.querySelector('button, input, textarea'))?.focus({
+					preventScroll: true
+				}),
+			0
+		);
 	}
 
 	function cancelWheelSpin() {
@@ -867,13 +966,33 @@ export function mountTeamMaker(root) {
 		runtime.spinTimer = null;
 		runtime.wheelRedrawTimer = null;
 		runtime.wheelSpinning = false;
+		runtime.pendingWheelPick = null;
+		$('#wheel-wrap')?.classList.remove('is-spinning');
+		$('#wheel-wrap')?.classList.remove('is-quick-finish');
 		$('#spin-wheel-button').disabled = false;
+		for (const button of root.querySelectorAll('#wheel-dialog [data-close-dialog]')) {
+			button.disabled = false;
+		}
 		stopSounds();
 	}
 
 	function closeDialog(dialog) {
 		if (!dialog) return;
+		if (dialog.id === 'wheel-dialog' && runtime.wheelSpinning) return;
 		if (dialog.open) dialog.close();
+		syncPageScrollLock();
+	}
+
+	function closeDialogFromBackdrop(event) {
+		const dialog = event.currentTarget;
+		if (event.target !== dialog) return;
+		const bounds = dialog.getBoundingClientRect();
+		const clickedOutside =
+			event.clientX < bounds.left ||
+			event.clientX > bounds.right ||
+			event.clientY < bounds.top ||
+			event.clientY > bounds.bottom;
+		if (clickedOutside) closeDialog(dialog);
 	}
 
 	function showConfirm({
@@ -920,8 +1039,13 @@ export function mountTeamMaker(root) {
 			row.className = 'picker-row';
 			const checkbox = document.createElement('input');
 			checkbox.type = 'checkbox';
+			checkbox.className = 'team-maker-checkbox';
 			checkbox.id = `rule-${participant.id}`;
 			checkbox.checked = runtime.ruleSelection.has(participant.id);
+			checkbox.classList.toggle(
+				'is-animating',
+				runtime.checkboxAnimationKey === `rule:${participant.id}`
+			);
 			checkbox.dataset.rulePick = participant.id;
 			const label = document.createElement('label');
 			label.htmlFor = checkbox.id;
@@ -1155,9 +1279,11 @@ export function mountTeamMaker(root) {
 		container.replaceChildren();
 		renderHistoryOverview();
 		$('#history-empty').hidden = state.history.length > 0;
-		$('#history-description').textContent = state.history.length
-			? `전체 ${state.history.length}경기`
-			: '기록이 없습니다.';
+	const hasHistory = state.history.length > 0;
+	$('#history-description-count').textContent = hasHistory
+		? `전체 ${state.history.length}경기`
+		: '기록이 없습니다.';
+	$('#history-description-legend').hidden = !hasHistory;
 		const groups = new Map();
 		for (const entry of state.history) {
 			const key = localDateKey(entry.occurredAt);
@@ -1199,7 +1325,34 @@ export function mountTeamMaker(root) {
 		}
 	}
 
-	// 참가자 통계가 오늘만 세는 대신, 전체는 여기서 승률 막대로 한눈에 보여 준다.
+	function setHistoryTab(tab) {
+		runtime.historyTab = tab === 'stats' ? 'stats' : 'log';
+		const isStats = runtime.historyTab === 'stats';
+		$('#history-log-tab').setAttribute('aria-selected', String(!isStats));
+		$('#history-stats-tab').setAttribute('aria-selected', String(isStats));
+		$('#history-log-panel').hidden = isStats;
+		$('#history-stats-panel').hidden = !isStats;
+		if (isStats) renderHistoryOverview();
+	}
+
+	const historySortOptions = {
+		wins: { label: '승리순', title: '승리 순위', field: 'wins' },
+		rate: { label: '1등 확률순', title: '1등 확률 순위', field: 'winRate' },
+		picks: { label: '당첨순', title: '당첨 순위', field: 'picks' }
+	};
+
+	function sortedHistoryPlayers(players) {
+		const field = historySortOptions[runtime.historySort]?.field ?? 'wins';
+		return [...players].sort(
+			(first, second) =>
+				second[field] - first[field] ||
+				second.wins - first.wins ||
+				second.matches - first.matches ||
+				first.name.localeCompare(second.name, 'ko')
+		);
+	}
+
+	// 참가자 통계가 오늘만 세는 대신, 전체 통계는 저장된 기록을 모두 센다.
 	function renderHistoryOverview() {
 		const overview = $('#history-overview');
 		const stats = summarizeParticipantStats(state.history, { limit: 1 });
@@ -1211,47 +1364,142 @@ export function mountTeamMaker(root) {
 		const facts = $('#history-overview-facts');
 		facts.replaceChildren();
 		const factList = [
-			{ label: '전체 경기', value: `${stats.matchCount}경기` },
-			{ label: '기록한 날', value: `${days}일` },
-			{ label: '참가자', value: `${stats.players.length}명` }
+			{ label: '전체 경기', value: `${stats.matchCount}경기`, icon: 'stat-games.png' },
+			{ label: '기록 일수', value: `${days}일`, icon: 'stat-days.png', tone: 'green' },
+			{
+				label: '참가자',
+				value: `${stats.players.length}명`,
+				icon: 'stat-people.png',
+				tone: 'violet'
+			}
 		];
 		for (const fact of factList) {
 			const item = document.createElement('li');
 			item.className = 'overview-fact';
+			const icon = document.createElement('span');
+			icon.className = 'overview-fact-icon';
+			if (fact.tone) icon.dataset.tone = fact.tone;
+			const image = document.createElement('img');
+			image.src = assetUrl(fact.icon);
+			image.alt = '';
+			icon.append(image);
+			const text = document.createElement('span');
+			text.className = 'overview-fact-text';
 			const label = document.createElement('span');
 			label.className = 'overview-fact-label';
 			label.textContent = fact.label;
 			const value = document.createElement('strong');
 			value.className = 'overview-fact-value';
 			value.textContent = fact.value;
-			item.append(label, value);
+			text.append(label, value);
+			item.append(icon, text);
 			facts.append(item);
 		}
 
-		const ranking = $('#history-overview-ranking');
-		ranking.replaceChildren();
-		for (const [index, player] of stats.players.slice(0, 8).entries()) {
-			const row = document.createElement('li');
-			row.className = 'overview-row';
-			const place = document.createElement('span');
-			place.className = 'overview-place';
-			place.textContent = String(index + 1);
-			const name = document.createElement('span');
-			name.className = 'overview-name';
+		const option = historySortOptions[runtime.historySort] ?? historySortOptions.wins;
+		$('#history-overview-title').textContent = option.title;
+		$('#history-sort-button').textContent = option.label;
+		for (const button of root.querySelectorAll('[data-history-sort]')) {
+			button.setAttribute(
+				'aria-checked',
+				String(button.dataset.historySort === runtime.historySort)
+			);
+		}
+
+		const allPlayers = sortedHistoryPlayers(stats.players);
+		const podium = $('#history-overview-podium');
+		podium.replaceChildren();
+		for (const [index, player] of allPlayers.slice(0, 3).entries()) {
+			const item = document.createElement('li');
+			item.className = 'podium-card';
+			item.dataset.rank = String(index + 1);
+			const laurel = document.createElement('img');
+			laurel.className = 'podium-laurel';
+			laurel.src = assetUrl(`laurel-${index + 1}.png`);
+			laurel.alt = `${index + 1}위`;
+			const name = document.createElement('strong');
+			name.className = 'podium-name';
 			name.textContent = player.name;
+			const detail = document.createElement('span');
+			detail.className = 'podium-detail';
+			detail.textContent = `${player.wins}승 ${player.losses}패 · ${formatPercent(player.winRate)}`;
+			const picks = document.createElement('span');
+			picks.className = 'pick-chip';
+			picks.dataset.zero = String(player.picks === 0);
+			picks.textContent = `당첨 ${player.picks}회`;
 			const bar = document.createElement('span');
-			bar.className = 'overview-bar';
+			bar.className = 'podium-bar';
 			bar.setAttribute('aria-hidden', 'true');
 			const fill = document.createElement('span');
-			fill.className = 'overview-bar-fill';
-			fill.style.width = `${Math.round(player.winRate * 100)}%`;
+			fill.className = 'podium-bar-fill';
+			fill.style.width = formatPercent(player.winRate);
 			bar.append(fill);
-			const detail = document.createElement('span');
-			detail.className = 'overview-detail';
-			detail.textContent = `${player.wins}승 ${player.losses}패 · ${Math.round(player.winRate * 100)}%`;
-			row.append(place, name, bar, detail);
+			item.append(laurel, name, detail, picks, bar);
+			podium.append(item);
+		}
+
+		const query = runtime.historySearch.trim().toLocaleLowerCase('ko');
+		const visiblePlayers = allPlayers
+			.map((player, index) => ({ ...player, place: index + 1 }))
+			.filter((player) => !query || player.name.toLocaleLowerCase('ko').includes(query))
+			.filter((player) => query || player.place > 3);
+		const ranking = $('#history-overview-ranking');
+		ranking.replaceChildren();
+		for (const player of visiblePlayers) {
+			const row = document.createElement('tr');
+			const place = document.createElement('td');
+			place.textContent = String(player.place);
+			const name = document.createElement('th');
+			name.scope = 'row';
+			name.textContent = player.name;
+			const record = document.createElement('td');
+			record.textContent = `${player.wins}승 ${player.losses}패`;
+			const rate = document.createElement('td');
+			const rateCell = document.createElement('span');
+			rateCell.className = 'rate-cell';
+			const rateNumber = document.createElement('span');
+			rateNumber.className = 'rate-num';
+			rateNumber.textContent = formatPercent(player.winRate);
+			const rateBar = document.createElement('span');
+			rateBar.className = 'rate-bar';
+			rateBar.setAttribute('aria-hidden', 'true');
+			const rateFill = document.createElement('span');
+			rateFill.className = 'rate-bar-fill';
+			rateFill.style.width = formatPercent(player.winRate);
+			rateBar.append(rateFill);
+			rateCell.append(rateNumber, rateBar);
+			rate.append(rateCell);
+			const picks = document.createElement('td');
+			if (player.picks > 0) picks.className = 'num-pick';
+			picks.textContent = `${player.picks}회`;
+			row.append(place, name, record, rate, picks);
 			ranking.append(row);
 		}
+		if (visiblePlayers.length === 0) {
+			const row = document.createElement('tr');
+			const empty = document.createElement('td');
+			empty.colSpan = 5;
+			empty.className = 'rank-table-empty';
+			empty.textContent = query ? '검색 결과가 없습니다.' : '4위 이하 참가자가 없습니다.';
+			row.append(empty);
+			ranking.append(row);
+		}
+	}
+
+	function renderWheelOutcome(result, pickNumber, pickedName) {
+		const eyebrow = document.createElement('span');
+		eyebrow.className = 'wheel-outcome-eyebrow';
+		const icon = document.createElement('img');
+		icon.className = 'wheel-outcome-icon';
+		icon.src = assetUrl('confetti.png');
+		icon.alt = '';
+		icon.width = 19;
+		icon.height = 20;
+		eyebrow.append(icon, `${pickNumber}번째 당첨자`);
+		const name = document.createElement('strong');
+		name.className = 'wheel-outcome-name';
+		name.textContent = pickedName;
+		result.replaceChildren(eyebrow, name);
 	}
 
 	function openWheel(teamId) {
@@ -1260,6 +1508,11 @@ export function mountTeamMaker(root) {
 		getAudioContext();
 		runtime.wheelTeamId = teamId;
 		runtime.wheelSpinning = false;
+		runtime.pendingWheelPick = null;
+		$('#wheel-wrap').classList.remove('is-spinning', 'is-quick-finish');
+		for (const button of root.querySelectorAll('#wheel-dialog [data-close-dialog]')) {
+			button.disabled = false;
+		}
 
 		const picks = runtime.picks[teamId] ?? [];
 		const remaining = remainingMembers(team);
@@ -1273,28 +1526,43 @@ export function mountTeamMaker(root) {
 		const pickedList = $('#wheel-picked-list');
 		pickedList.replaceChildren();
 		$('#wheel-side').hidden = picks.length === 0;
+		$('#wheel-side-title').textContent = `누적 당첨자 ${picks.length}명`;
 		$('#wheel-dialog').classList.toggle('has-picks', picks.length > 0);
 		for (const [index, member] of picks.entries()) {
 			const item = document.createElement('li');
 			item.className = 'wheel-picked-item';
-			item.textContent = `${index + 1}. ${member.name}`;
+			const number = document.createElement('span');
+			number.className = 'wheel-picked-number';
+			number.textContent = String(index + 1);
+			const name = document.createElement('strong');
+			name.className = 'wheel-picked-name';
+			name.textContent = member.name;
+			item.append(number, name);
+			if (index === picks.length - 1) {
+				item.dataset.latest = 'true';
+				const flag = document.createElement('span');
+				flag.className = 'wheel-picked-flag';
+				flag.textContent = '최근 당첨자';
+				item.append(flag);
+			}
 			pickedList.append(item);
 		}
 
 		const result = $('#wheel-result');
 		const lastPick = picks.at(-1);
-		result.textContent =
-			remaining.length === 0
-				? '이 팀은 모두 뽑았습니다.'
-				: lastPick
-					? `당첨자 · ${lastPick.name}`
-					: '돌리기를 누르세요.';
+		result.replaceChildren();
+		if (lastPick) {
+			renderWheelOutcome(result, picks.length, lastPick.name);
+		} else {
+			result.textContent =
+				remaining.length === 0 ? '이 팀은 모두 뽑았습니다.' : '돌리기를 누르세요.';
+		}
 		result.dataset.picked = String(Boolean(lastPick));
 
 		const spinButton = $('#spin-wheel-button');
 		spinButton.disabled = remaining.length === 0;
 		if (remaining.length === 0) spinButton.textContent = '모두 뽑음';
-		else spinButton.textContent = picks.length > 0 ? '한 번 더 뽑기' : '돌리기';
+		else spinButton.textContent = picks.length > 0 ? '다음 당첨자 뽑기' : '돌리기';
 		$('#clear-picks-button').hidden = picks.length === 0;
 		renderSoundButton();
 		showDialog($('#wheel-dialog'), '#spin-wheel-button');
@@ -1471,7 +1739,10 @@ export function mountTeamMaker(root) {
 	}
 
 	function spinWheel() {
-		if (runtime.wheelSpinning) return;
+		if (runtime.wheelSpinning) {
+			finishWheelSpin({ immediate: true });
+			return;
+		}
 		const team = runtime.teams.find((item) => item.id === runtime.wheelTeamId);
 		if (!team) return;
 		const candidates = remainingMembers(team);
@@ -1484,12 +1755,17 @@ export function mountTeamMaker(root) {
 			pickedIndex
 		);
 		runtime.wheelSpinning = true;
+		runtime.pendingWheelPick = { teamId: team.id, picked: candidates[pickedIndex] };
 		const button = $('#spin-wheel-button');
-		button.disabled = true;
-		button.textContent = '돌리는 중…';
+		button.disabled = false;
+		button.textContent = '바로 뽑기';
+		for (const closeButton of root.querySelectorAll('#wheel-dialog [data-close-dialog]')) {
+			closeButton.disabled = true;
+		}
 		const result = $('#wheel-result');
 		result.textContent = '돌리는 중…';
 		result.dataset.picked = 'false';
+		$('#wheel-wrap').classList.add('is-spinning');
 		runtime.wheelRotation = targetRotation;
 		const wheel = $('#wheel');
 		wheel.style.transform = `rotate(${runtime.wheelRotation}deg)`;
@@ -1501,26 +1777,46 @@ export function mountTeamMaker(root) {
 
 		clearTimeout(runtime.spinTimer);
 		runtime.spinTimer = setTimeout(() => {
-			runtime.spinTimer = null;
-			if (!$('#wheel-dialog').open) {
-				cancelWheelSpin();
-				return;
-			}
-			const picked = candidates[pickedIndex];
-			recordPick(team.id, picked);
-			runtime.wheelSpinning = false;
-			const stillRemaining = remainingMembers(team);
-			button.disabled = stillRemaining.length === 0;
-			button.textContent = stillRemaining.length === 0 ? '모두 뽑음' : '한 번 더 뽑기';
-			result.textContent = `당첨자 · ${picked.name}`;
-			result.dataset.picked = 'true';
-			result.classList.remove('animate-pop');
-			void result.offsetWidth;
-			result.classList.add('animate-pop');
-			playFanfare();
-			celebrate();
-			redrawWheelAfterPick(team);
+			finishWheelSpin();
 		}, WHEEL_SPIN_DURATION + WHEEL_SPIN_SETTLE);
+	}
+
+	function finishWheelSpin({ immediate = false } = {}) {
+		if (!runtime.wheelSpinning || !runtime.pendingWheelPick) return;
+		clearTimeout(runtime.spinTimer);
+		runtime.spinTimer = null;
+		const pending = runtime.pendingWheelPick;
+		runtime.pendingWheelPick = null;
+		const team = runtime.teams.find((item) => item.id === pending.teamId);
+		if (!team || !$('#wheel-dialog').open) {
+			cancelWheelSpin();
+			return;
+		}
+		if (immediate) {
+			$('#wheel-wrap').classList.add('is-quick-finish');
+			void $('#wheel').offsetWidth;
+		}
+
+		recordPick(team.id, pending.picked);
+		runtime.wheelSpinning = false;
+		$('#wheel-wrap').classList.remove('is-spinning');
+		for (const closeButton of root.querySelectorAll('#wheel-dialog [data-close-dialog]')) {
+			closeButton.disabled = false;
+		}
+		const stillRemaining = remainingMembers(team);
+		const button = $('#spin-wheel-button');
+		button.disabled = stillRemaining.length === 0;
+		button.textContent = stillRemaining.length === 0 ? '모두 뽑음' : '다음 당첨자 뽑기';
+		const result = $('#wheel-result');
+		const picks = runtime.picks[team.id] ?? [];
+		renderWheelOutcome(result, picks.length, pending.picked.name);
+		result.dataset.picked = 'true';
+		result.classList.remove('animate-pop');
+		void result.offsetWidth;
+		result.classList.add('animate-pop');
+		playFanfare();
+		celebrate();
+		redrawWheelAfterPick(team);
 	}
 
 	function redrawWheelAfterPick(team) {
@@ -1575,6 +1871,7 @@ export function mountTeamMaker(root) {
 		if (toggleId) {
 			const participant = state.participants.find((item) => item.id === toggleId);
 			if (participant) participant.included = event.target.checked;
+			markCheckboxAnimation(`participant:${toggleId}`);
 			saveAndRender();
 		}
 		if (nameId) {
@@ -1647,7 +1944,7 @@ export function mountTeamMaker(root) {
 	$('#clear-list-button').addEventListener('click', () => {
 		showConfirm({
 			title: '참가자 명단을 삭제할까요?',
-			description: `명단에 있는 ${state.participants.length}명이 모두 지워집니다. 저장한 명단은 그대로 남습니다.`,
+			description: `명단에 있는 ${state.participants.length}명이 모두 지워집니다.\n저장한 명단은 그대로 남습니다.`,
 			action: () => {
 				state.participants = [];
 				state.rules = [];
@@ -1663,6 +1960,7 @@ export function mountTeamMaker(root) {
 		if (!id) return;
 		if (event.target.checked) runtime.ruleSelection.add(id);
 		else runtime.ruleSelection.delete(id);
+		markCheckboxAnimation(`rule:${id}`);
 		renderRulePicker();
 	});
 	$('#save-rule-button').addEventListener('click', () => {
@@ -1766,12 +2064,36 @@ export function mountTeamMaker(root) {
 		showDialog($('#player-stats-dialog'), '.dialog-close');
 	});
 	$('#clear-today-button').addEventListener('click', clearTodayHistory);
+	$('#today-history-toggle').addEventListener('click', () => {
+		runtime.todayHistoryExpanded = !runtime.todayHistoryExpanded;
+		renderTodayHistory();
+	});
 	$('#clear-picks-button').addEventListener('click', () => {
 		if (runtime.wheelTeamId !== null) clearTeamPicks(runtime.wheelTeamId);
 	});
 	$('#open-history-button').addEventListener('click', () => {
 		renderHistoryDialog();
+		setHistoryTab(runtime.historyTab);
 		showDialog($('#history-dialog'), '.dialog-close');
+	});
+	$('#history-log-tab').addEventListener('click', () => setHistoryTab('log'));
+	$('#history-stats-tab').addEventListener('click', () => setHistoryTab('stats'));
+	$('#history-sort-button').addEventListener('click', () => {
+		const menu = $('#history-sort-menu');
+		menu.hidden = !menu.hidden;
+		$('#history-sort-button').setAttribute('aria-expanded', String(!menu.hidden));
+	});
+	$('#history-sort-menu').addEventListener('click', (event) => {
+		const button = event.target.closest('[data-history-sort]');
+		if (!button) return;
+		runtime.historySort = button.dataset.historySort;
+		$('#history-sort-menu').hidden = true;
+		$('#history-sort-button').setAttribute('aria-expanded', 'false');
+		renderHistoryOverview();
+	});
+	$('#history-search').addEventListener('input', (event) => {
+		runtime.historySearch = event.target.value;
+		renderHistoryOverview();
 	});
 	$('#today-history-list').addEventListener('click', (event) => {
 		const id = event.target.closest('[data-history-remove]')?.dataset.historyRemove;
@@ -1794,6 +2116,10 @@ export function mountTeamMaker(root) {
 	root.addEventListener('click', (event) => {
 		const closeButton = event.target.closest('[data-close-dialog]');
 		if (closeButton) closeDialog(closeButton.closest('dialog'));
+		if (!event.target.closest('.overview-sort-wrap')) {
+			$('#history-sort-menu').hidden = true;
+			$('#history-sort-button').setAttribute('aria-expanded', 'false');
+		}
 	});
 
 	$('#cancel-confirm-button').addEventListener('click', () => closeDialog($('#confirm-dialog')));
@@ -1806,7 +2132,14 @@ export function mountTeamMaker(root) {
 	$('#confirm-dialog').addEventListener('close', () => {
 		runtime.confirmAction = null;
 	});
+	$('#wheel-dialog').addEventListener('cancel', (event) => {
+		if (runtime.wheelSpinning) event.preventDefault();
+	});
 	$('#wheel-dialog').addEventListener('close', cancelWheelSpin);
+	for (const dialog of root.querySelectorAll('dialog')) {
+		dialog.addEventListener('close', syncPageScrollLock);
+		dialog.addEventListener('click', closeDialogFromBackdrop);
+	}
 
 	function copyWithTextarea(value) {
 		const textarea = document.createElement('textarea');
@@ -1841,13 +2174,13 @@ export function mountTeamMaker(root) {
 		if (!copied) copied = copyWithTextarea(value);
 
 		const button = $('#copy-result-button');
-		button.textContent = copied ? '복사함' : '복사 실패';
+		button.textContent = copied ? '복사 완료' : '복사 실패';
 		$('#result-live').textContent = copied
 			? '팀 결과를 복사했습니다.'
 			: '복사하지 못했습니다. 결과를 직접 선택해 복사해 주세요.';
 		clearTimeout(runtime.copyResetTimer);
 		runtime.copyResetTimer = setTimeout(() => {
-			button.textContent = '결과 복사';
+			button.textContent = '명단 복사';
 		}, 1600);
 	}
 
@@ -1857,10 +2190,11 @@ export function mountTeamMaker(root) {
 		showConfirm({
 			title: '오늘 기록을 화면에서 지울까요?',
 			description: `오늘 기록 ${today.length}경기가 이 화면에서만 사라집니다.`,
-			warning: '기록 보기에는 그대로 남습니다.',
+			warning: '전체 기록에는 그대로 남습니다.',
 			actionLabel: '지우기',
 			action: () => {
 				state.todayClearedAt = new Date().toISOString();
+				runtime.todayHistoryExpanded = false;
 				persist();
 				renderTodayHistory();
 				$('#result-live').textContent = '오늘 기록을 화면에서 지웠습니다.';
@@ -1882,13 +2216,38 @@ export function mountTeamMaker(root) {
 		const leaders = $('#player-stats-leaders');
 		leaders.replaceChildren();
 		const groups = [
-			{ label: '최다 승리', unit: '승', items: stats.topWins },
-			{ label: '최다 당첨', unit: '번', items: stats.topPicks },
-			{ label: '최다 패배', unit: '패', items: stats.topLosses }
+			{ label: '최다 승리', unit: '승', items: stats.topWins, tone: 'win', icon: 'stat-win.png' },
+			{
+				label: '최다 당첨',
+				unit: '번',
+				items: stats.topPicks,
+				tone: 'pick',
+				icon: 'stat-pick.png'
+			},
+			{
+				label: '최다 패배',
+				unit: '패',
+				items: stats.topLosses,
+				tone: 'lose',
+				icon: 'stat-lose.png'
+			}
 		];
 		for (const group of groups) {
 			const item = document.createElement('li');
 			item.className = 'stats-leader';
+			item.dataset.tone = group.tone;
+			if (group.tone === 'win') item.dataset.lead = 'true';
+			const top = document.createElement('span');
+			top.className = 'stats-leader-top';
+			const icon = document.createElement('span');
+			icon.className = 'stats-leader-icon';
+			icon.style.setProperty('--stats-leader-icon-image', `url("${assetUrl(group.icon)}")`);
+			const image = document.createElement('img');
+			image.src = assetUrl(group.icon);
+			image.alt = '';
+			icon.append(image);
+			const text = document.createElement('span');
+			text.className = 'stats-leader-text';
 			const label = document.createElement('span');
 			label.className = 'stats-leader-label';
 			label.textContent = group.label;
@@ -1908,35 +2267,94 @@ export function mountTeamMaker(root) {
 				name.textContent = '기록 없음';
 				count.textContent = '';
 			}
-			item.append(label, name, count);
+			text.append(label, name, count);
+			top.append(icon, text);
+			const bar = document.createElement('span');
+			bar.className = 'stats-leader-bar';
+			bar.setAttribute('aria-hidden', 'true');
+			const fill = document.createElement('span');
+			fill.className = 'stats-leader-bar-fill';
+			fill.style.width = best ? '100%' : '0%';
+			bar.append(fill);
+			item.append(top, bar);
 			leaders.append(item);
 		}
 
 		const pairs = $('#player-stats-pairs');
 		pairs.replaceChildren();
 		$('#player-stats-pairs-empty').hidden = stats.pairs.length > 0;
-		for (const pair of stats.pairs) {
+		for (const [index, pair] of stats.pairs.slice(0, 3).entries()) {
 			const item = document.createElement('li');
 			item.className = 'stats-pair';
+			item.setAttribute(
+				'aria-label',
+				`${pair.names.join('과 ')}: 같은 팀 ${pair.together}번 중 ${pair.wins}번 승리`
+			);
+			const rank = document.createElement('span');
+			rank.className = 'stats-pair-rank';
+			rank.setAttribute('aria-hidden', 'true');
+			rank.textContent = String(index + 1);
+			const faces = document.createElement('span');
+			faces.className = 'stats-pair-faces';
+			faces.setAttribute('aria-hidden', 'true');
+			for (const [faceIndex, pairName] of pair.names.entries()) {
+				const face = document.createElement('span');
+				face.className = 'stats-face';
+				face.dataset.tone = ['blue', 'green', 'orange'][faceIndex % 3];
+				face.textContent = pairName.slice(0, 1);
+				faces.append(face);
+			}
 			const names = document.createElement('strong');
+			names.className = 'stats-pair-names';
 			names.textContent = pair.names.join(' + ');
-			const detail = document.createElement('span');
-			detail.textContent = `같은 팀 ${pair.together}번 중 ${pair.wins}번 승리`;
-			item.append(names, detail);
+			const record = document.createElement('span');
+			record.className = 'stats-pair-record';
+			record.textContent = `${pair.wins}승 ${pair.losses}패`;
+			const rate = document.createElement('span');
+			rate.className = 'stats-pair-rate';
+			const rateText = document.createElement('strong');
+			rateText.textContent = formatPercent(pair.winRate);
+			const rateBar = document.createElement('span');
+			rateBar.className = 'stats-pair-bar';
+			rateBar.setAttribute('aria-hidden', 'true');
+			const rateFill = document.createElement('span');
+			rateFill.style.width = formatPercent(pair.winRate);
+			rateBar.append(rateFill);
+			rate.append(rateText, rateBar);
+			item.append(rank, faces, names, record, rate);
 			pairs.append(item);
 		}
 
 		const rows = $('#player-stats-rows');
 		rows.replaceChildren();
-		for (const player of stats.players) {
+		for (const [index, player] of stats.players.entries()) {
 			const row = document.createElement('tr');
+			const rank = document.createElement('td');
+			rank.className = 'col-rank';
+			if (index < 3) {
+				const image = document.createElement('img');
+				image.className = 'rank-laurel';
+				image.src = assetUrl(`laurel-${index + 1}.png`);
+				image.alt = `${index + 1}위`;
+				rank.append(image);
+			} else {
+				rank.textContent = String(index + 1);
+			}
 			const name = document.createElement('th');
 			name.scope = 'row';
 			name.textContent = player.name;
-			row.append(name);
-			for (const value of [player.matches, player.wins, player.losses, player.picks]) {
+			row.append(rank, name);
+			for (const [valueIndex, value] of [
+				player.matches,
+				player.wins,
+				player.losses,
+				player.picks
+			].entries()) {
 				const cell = document.createElement('td');
-				cell.textContent = String(value);
+				if (valueIndex === 1) cell.className = 'num-win';
+				if (valueIndex === 2) cell.className = 'num-lose';
+				if (valueIndex === 3 && value > 0) cell.className = 'num-pick';
+				cell.textContent = valueIndex === 3 ? `${value}회` : String(value);
 				row.append(cell);
 			}
 			rows.append(row);
@@ -1947,14 +2365,22 @@ export function mountTeamMaker(root) {
 	root.style.setProperty('--wheel-spin-easing', `cubic-bezier(${WHEEL_SPIN_EASING.join(', ')})`);
 	showStorageFailure();
 	render();
+	scheduleTodayHistoryReset();
 
 	return () => {
 		cancelWheelSpin();
+		releasePageScrollLock();
+		for (const dialog of root.querySelectorAll('dialog')) {
+			dialog.removeEventListener('close', syncPageScrollLock);
+			dialog.removeEventListener('click', closeDialogFromBackdrop);
+		}
 		participantLayoutQuery.removeEventListener('change', handleParticipantLayoutChange);
 		clearTimeout(runtime.celebrationTimer);
 		clearTimeout(runtime.participantRemovalTimer);
 		clearTimeout(runtime.participantMovementTimer);
+		clearTimeout(runtime.checkboxAnimationTimer);
 		clearTimeout(runtime.copyResetTimer);
+		clearTimeout(runtime.todayHistoryResetTimer);
 		try {
 			runtime.audioContext?.close?.();
 		} catch {

@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="data:," />
+		<title>DSN-009 · 개요</title>
+		<link rel="stylesheet" href="styles/screens.css" />
+		<link rel="stylesheet" href="styles/canvas.css" />
+		<style>
+			.doc-table td b {
+				color: rgba(0, 0, 0, 0.95);
+			}
+			.check {
+				display: inline-block;
+				width: auto;
+				height: auto;
+				padding: 0;
+				color: #005bab;
+				background: none;
+				border: 0;
+				font-weight: 600;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="doc">
+			<header class="doc-head">
+				<span class="kicker">DSN-009 · web · 화면 2개</span>
+				<h1>팀 메이커와 루트 홈</h1>
+				<p>
+					DSN-008의 시각 체계를 그대로 두고 이번 판에 더해진 화면 요소 7개만 반영했습니다. 결과 복사,
+					참가자 통계 dialog, 오늘 기록 지우기, 팀 격자 아래 당첨자 영역, 돌림판 옆 당첨자 목록,
+					기록 보기 위쪽 전체 통계, 3팀 이상 순위 색 단계입니다. 색·간격·글꼴·layout·component는
+					바꾸지 않았고 문서에 없는 화면·정책·상태는 만들지 않았습니다.
+				</p>
+				<nav class="doc-nav">
+					<a href="scr-web-002-home.html">SCR-WEB-002 루트 홈</a>
+					<a href="scr-web-001-team-maker.html">SCR-WEB-001 팀 메이커</a>
+				</nav>
+			</header>
+
+			<section class="doc-section">
+				<h2>화면과 파일</h2>
+				<p class="lede">
+					필수 화면은 <code>SCR-WEB-001</code>과 <code>SCR-WEB-002</code> 두 개입니다. 팀 메이커는 보여 줄
+					상태가 31개라 문서 6개로 나눠 담았습니다. 문서마다 위에 같은 차례가 있어 서로 오갈 수 있습니다.
+					새 상태 <code>T24</code>–<code>T31</code>은 해당 문서 끝에 이어 붙였습니다.
+				</p>
+				<table class="doc-table">
+					<thead>
+						<tr>
+							<th>화면</th>
+							<th>파일</th>
+							<th>담은 상태</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><b>SCR-WEB-002</b><br />루트 홈</td>
+							<td><a href="scr-web-002-home.html">scr-web-002-home.html</a></td>
+							<td>H1 밝은 테마 · H2 어두운 테마 · H3 고정 해제 · H4 drawer와 키보드 초점 · H5–H7 모바일</td>
+						</tr>
+						<tr>
+							<td><b>SCR-WEB-001</b><br />팀 메이커</td>
+							<td>
+								<a href="scr-web-001-team-maker.html">scr-web-001-team-maker.html</a><br />
+								<a href="scr-web-001-results.html">scr-web-001-results.html</a><br />
+								<a href="scr-web-001-errors.html">scr-web-001-errors.html</a><br />
+								<a href="scr-web-001-nav-dialogs.html">scr-web-001-nav-dialogs.html</a><br />
+								<a href="scr-web-001-draw-confirm.html">scr-web-001-draw-confirm.html</a><br />
+								<a href="scr-web-001-mobile.html">scr-web-001-mobile.html</a>
+							</td>
+							<td>
+								T1 처음 방문 · T2 참가자 8명과 규칙 2개 · T3 결과 생성 직후 · T4 승리 기록·당첨자 영역 ·
+								T5 어두운 테마 결과 · T6 저장 실패 alert · T7 규칙 충돌 · T8 배정 실패 · T9 고정 해제 ·
+								T10 drawer와 초점 · T11 일괄 추가 · T12 규칙 참가자 고르기 · T13 명단 저장·불러오기 ·
+								T14 돌림판과 당첨자 목록 · T15 승패 기록과 전체 통계 · T16–T18 세 가지 삭제 확인 ·
+								T19 모바일 처음 방문 · T20 모바일 어두운 테마 결과 · T21 모바일 drawer ·
+								T22 모바일 돌림판 · T23 모바일 삭제 확인 · <b>T24 순위 지정 중</b> ·
+								<b>T25 순위 확정과 색 단계</b> · <b>T26 참가자 통계</b> ·
+								<b>T27 참가자 통계 빈 상태</b> · <b>T28 기록 없는 기록 보기</b> ·
+								<b>T29 오늘 기록 지우기 확인</b> · <b>T30 모바일 당첨자 영역과 통계</b> · <b>T31 모바일 돌림판 당첨자 목록</b>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<section class="doc-section">
+				<h2>쓴 디자인 시스템</h2>
+				<p class="lede">
+					이 project에 직접 연결된 Draft 디자인 시스템인 <b>Notion</b>을 그대로 썼습니다. 조직 기본값은
+					쓰지 않았습니다. 모든 화면 CSS는
+					<code>_ds/notion-e5ec3c58-0bba-4770-8bb2-3cee184c0cb2/styles.css</code>를 불러와 토큰을 그대로 씁니다.
+				</p>
+				<table class="doc-table">
+					<thead>
+						<tr>
+							<th>역할</th>
+							<th>값</th>
+							<th>쓰는 곳</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>따뜻한 canvas</td>
+							<td><span class="swatch" style="background: #f6f5f4"></span><code>--canvas #f6f5f4</code></td>
+							<td>페이지 바탕. 임의의 흰색 바탕을 쓰지 않는다.</td>
+						</tr>
+						<tr>
+							<td>흰 surface</td>
+							<td><span class="swatch" style="background: #fff"></span><code>--surface #ffffff</code></td>
+							<td>카드, 입력 칸, 사이드바, drawer, dialog</td>
+						</tr>
+						<tr>
+							<td>hairline</td>
+							<td><span class="swatch" style="background: #e6e6e6"></span><code>--hairline #e6e6e6</code></td>
+							<td>면을 나누는 1px 선. 가로 구분선 대신 쓴다.</td>
+						</tr>
+						<tr>
+							<td>구조적 accent</td>
+							<td><span class="swatch" style="background: #0075de"></span><code>--primary #0075de</code></td>
+							<td>기본 버튼, 링크, 현재 메뉴, 초점 테두리, 1등 chip, 승률 막대. 이 밖에는 쓰지 않는다.</td>
+						</tr>
+						<tr>
+							<td>장식 sticker</td>
+							<td>
+								<span class="swatch" style="background: #62aef0"></span><span class="swatch" style="background: #2a9d99"></span><span class="swatch" style="background: #d6b6f6"></span><span class="swatch" style="background: #ff64c8"></span>
+							</td>
+							<td>팀 카드 위 띠, 루트 홈 아이콘 타일. 버튼과 구조에는 쓰지 않는다.</td>
+						</tr>
+						<tr>
+							<td>돌림판 조각</td>
+							<td>
+								<span class="swatch" style="background: #f39a8f"></span><span class="swatch" style="background: #f7bd76"></span><span class="swatch" style="background: #ecd772"></span><span class="swatch" style="background: #9ed48b"></span>
+							</td>
+							<td>돌림판 조각과 이름표에만 쓴다. 현재 구현의 8색을 그대로 옮겼다.</td>
+						</tr>
+						<tr>
+							<td>경고</td>
+							<td><span class="swatch" style="background: #793400"></span><code>--accent-orange-deep #793400</code></td>
+							<td>저장 실패, 배정 실패, 삭제 확인의 글자와 테두리</td>
+						</tr>
+						<tr>
+							<td>순위 색 단계</td>
+							<td>
+								<span class="swatch" style="background: #0075de"></span><code>#0075de</code>
+								<span class="swatch" style="background: #a83209"></span><code>#a83209</code>
+								<span class="swatch" style="background: #c2333c"></span><code>#c2333c</code>
+							</td>
+							<td>
+								1등 파랑, 마지막 등수 빨강, 중간 등수는 주황에서 빨강 쪽으로. 새 색을 만들지 않고 기존
+								primary·orange·danger 계열만 <code>color-mix</code>로 섞는다.
+							</td>
+						</tr>
+						<tr>
+							<td>당첨</td>
+							<td><span class="swatch" style="background: #00815c"></span><code>#00815c</code></td>
+							<td>당첨자 영역, 돌림판 옆 당첨자 알약, 기록 목록의 “당첨” 표시</td>
+						</tr>
+						<tr>
+							<td>글꼴</td>
+							<td><code>SUITE</code> 제목 · <code>SUIT</code> 본문</td>
+							<td>제목은 700, 본문은 400을 넘지 않는다.</td>
+						</tr>
+						<tr>
+							<td>모서리</td>
+							<td><code>4px</code> 입력 · <code>8px</code> 버튼 · <code>12px</code> 카드와 dialog</td>
+							<td>입력 칸은 알약 모양으로 만들지 않는다.</td>
+						</tr>
+						<tr>
+							<td>어두운 테마</td>
+							<td>
+								<span class="swatch" style="background: #1a1918"></span><code>#1a1918</code>
+								<span class="swatch" style="background: #262523"></span><code>#262523</code>
+								<span class="swatch" style="background: #403d3a"></span><code>#403d3a</code>
+							</td>
+							<td>
+								Notion에 없으므로 현재 구현의 검증된 값을 그대로 쓴다. 구조적 accent는 밝은 테마와 같은 Notion
+								<code>--primary #0075de</code>를 유지하고 새 색 체계를 만들지 않았다.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<section class="doc-section">
+				<h2>DSN-008에서 더한 것</h2>
+				<div class="callout">
+					<b>시각 체계는 그대로, 요소만 7개 늘었습니다</b>
+					색·간격·글꼴·layout·component·어두운 테마는 DSN-008 그대로입니다. 공용 <code>styles/screens.css</code>는
+					DSN-008과 한 바이트도 다르지 않고, 이번 판에서 더한 규칙은 모두 <code>styles/team-maker.css</code> 아래쪽
+					“DSN-009 · 이번 판에서 더한 요소” 묶음에 있습니다. 아래 7가지는 그 시각 언어를 그대로 따라 새로 붙인
+					요소이고, 승패 표기만 3팀 이상에서 등수 숫자로 바뀌었습니다.
+				</div>
+				<table class="doc-table">
+					<thead>
+						<tr>
+							<th>더한 것</th>
+							<th>자리</th>
+							<th>이렇게 보인다</th>
+							<th>프레임</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><b>결과 복사</b></td>
+							<td>“3. 결과” 머리, 다시 섞기 왼쪽</td>
+							<td>옅은 채움 utility 버튼. 누르면 문구가 잠시 “복사함”으로 바뀐다.</td>
+							<td>T3–T5 · T20 · T24–T25 · T30</td>
+						</tr>
+						<tr>
+							<td><b>참가자 통계</b></td>
+							<td>“4. 통계” 머리 · 새 dialog</td>
+							<td>최다 승리·당첨·패배 카드 3장, 같은 팀 궁합, 참가자별 표. 오늘 기록만 센다.</td>
+							<td>T4–T5 · T26–T27 · T30</td>
+						</tr>
+						<tr>
+							<td><b>오늘 기록 지우기</b></td>
+							<td>“4. 통계” 머리의 휴지통 버튼</td>
+							<td>36px 아이콘 버튼. 확인 뒤 화면 표시만 비우고 기록 보기에는 남긴다.</td>
+							<td>T4–T5 · T29 · T30</td>
+						</tr>
+						<tr>
+							<td><b>당첨자 영역</b></td>
+							<td>“3. 결과”의 팀 격자 아래</td>
+							<td>팀별로 모은 초록 묶음. 팀 카드 높이가 뽑을 때마다 흔들리지 않는다.</td>
+							<td>T4–T5 · T25 · T30</td>
+						</tr>
+						<tr>
+							<td><b>돌림판 옆 당첨자 목록</b></td>
+							<td>돌림판 dialog 안</td>
+							<td>넓은 화면은 판 우측 세로, 좁은 화면은 판 아래 가로. 판은 남은 사람만큼만 그린다.</td>
+							<td>T14 · T31</td>
+						</tr>
+						<tr>
+							<td><b>전체 통계</b></td>
+							<td>기록 보기 dialog 위쪽</td>
+							<td>경기·날·참가자 요약 3칸과 많이 이긴 순 승률 막대. 저장된 기록 전체를 센다.</td>
+							<td>T15 · T28</td>
+						</tr>
+						<tr>
+							<td><b>순위 색 단계</b></td>
+							<td>팀 카드 chip과 기록 라벨</td>
+							<td>1등 파랑, 마지막 빨강, 중간은 주황에서 빨강 쪽으로. 2팀은 “1팀승”·“2팀패” 그대로.</td>
+							<td>T24–T25</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<section class="doc-section">
+				<h2>색을 못 보아도 읽힐 수 있게</h2>
+				<p class="lede">
+					상태를 색으로만 알리지 않습니다. 모든 상태에 글자를 넣었고, 승패를 뺀 나머지에는 모양도
+					함께 넣었습니다. 승패는 “1팀승”·“2팀패”처럼 팀 이름과 결과를 붙여 적어 글자로 구분합니다.
+				</p>
+				<table class="doc-table">
+					<thead>
+						<tr>
+							<th>상태</th>
+							<th>글자</th>
+							<th>모양</th>
+							<th>색</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>승리</td>
+							<td>“1팀승”</td>
+							<td>살짝 떠오른 카드</td>
+							<td>파란 채움과 흰 글자</td>
+						</tr>
+						<tr>
+							<td>패배</td>
+							<td>“2팀패”</td>
+							<td>알약</td>
+							<td>붉은 글자와 옅은 붉은 채움</td>
+						</tr>
+						<tr>
+							<td>1등</td>
+							<td>“1등”</td>
+							<td>채운 chip + 두꺼운 위 테두리</td>
+							<td>파란 채움과 흰 글자</td>
+						</tr>
+						<tr>
+							<td>중간 등수</td>
+							<td>“2등”·“3등”·“4등”</td>
+							<td>알약</td>
+							<td>주황에서 빨강 쪽으로 단계</td>
+						</tr>
+						<tr>
+							<td>마지막 등수</td>
+							<td>“5등”</td>
+							<td>알약</td>
+							<td>붉은 글자와 옅은 붉은 채움</td>
+						</tr>
+						<tr>
+							<td>순위 미정</td>
+							<td>“순위 미정”</td>
+							<td>점선 테두리 알약</td>
+							<td>연한 글자색</td>
+						</tr>
+						<tr>
+							<td>당첨</td>
+							<td>“당첨자 · 이름” · 순번과 이름</td>
+							<td>체크 표시 · 초록 알약</td>
+							<td>초록 글자와 옅은 초록 채움</td>
+						</tr>
+						<tr>
+							<td>비활성화</td>
+							<td>버튼 아래 멈춘 이유 한 줄</td>
+							<td>점선 테두리 + 자물쇠</td>
+							<td>연한 바탕</td>
+						</tr>
+						<tr>
+							<td>오류</td>
+							<td>무엇이 안 됐는지 + 무엇을 고칠지</td>
+							<td>왼쪽 굵은 선 + 경고 모양</td>
+							<td>주황색 계열</td>
+						</tr>
+						<tr>
+							<td>같은 팀 · 다른 팀</td>
+							<td>“같은 팀” · “다른 팀”</td>
+							<td>안으로 모이는 화살표 + 실선 / 밖으로 벌어지는 화살표 + 점선</td>
+							<td>같은 글자색</td>
+						</tr>
+						<tr>
+							<td>현재 메뉴</td>
+							<td>“현재” 배지 + <code>aria-current="page"</code></td>
+							<td>왼쪽 막대 + 굵은 글씨</td>
+							<td>파란 바탕</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<section class="doc-section">
+				<h2>만들지 않은 것</h2>
+				<ul class="note-list">
+					<li>보류 화면인 프로젝트 상세 화면은 만들지 않았습니다.</li>
+					<li>블로그 목록, 글 본문, RSS, SvelteKit 템플릿 안내는 넣지 않았습니다.</li>
+					<li>능력치 모드, 주장 지정, 사용 방법, FAQ, 개인정보 안내 문구는 없습니다.</li>
+					<li>다국어, 후원, 공유 링크, 실제 광고, 로그인, server 저장, 기기 간 동기화는 넣지 않았습니다.</li>
+					<li>문서에 없는 로딩·권한 상태를 지어내지 않았습니다.</li>
+					<li><code>REQ-SEO-001</code>은 화면에 드러나는 요구사항이 아니므로 시각 결과와 연결하지 않았습니다.</li>
+					<li>참가자 정보를 밖으로 보내거나 server에 저장하는 표현은 넣지 않았습니다. 명단 dialog에도
+						“이 브라우저에만 보관하며 밖으로 보내지 않습니다”라고 적었습니다.</li>
+				</ul>
+			</section>
+		</div>
+	</body>
+</html>

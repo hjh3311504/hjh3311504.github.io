@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="data:," />
+		<meta name="design_doc_mode" content="canvas" />
+		<title>SCR-WEB-001 · 모바일 · DSN-010</title>
+		<link rel="stylesheet" href="styles/screens.css" />
+		<link rel="stylesheet" href="styles/team-maker.css" />
+		<link rel="stylesheet" href="styles/canvas.css" />
+		<style>
+			.label-strong {
+				color: var(--text-heading);
+				font-size: var(--fs-caption);
+				font-weight: var(--fw-semibold);
+			}
+			.split {
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="doc">
+			<header class="doc-head">
+				<span class="kicker">DSN-010 · SCR-WEB-001 · T19–T23 · T30–T32 · 6개 문서 중 6</span>
+				<h1>팀 메이커 · 모바일</h1>
+				<p>
+					390 × 844 모바일 상태를 담습니다. 팀 메이커는 루트 홈과 달리 상단 bar에 메뉴 버튼을 둡니다.
+					본문이 길어 떠 있는 버튼이 내용을 가리지 않도록 하기 위해서입니다.
+				</p>
+				<nav class="doc-nav">
+					<a href="index.html">개요로</a>
+					<a href="scr-web-001-team-maker.html">1 기본 흐름</a>
+					<a href="scr-web-001-results.html">2 결과와 어두운 테마</a>
+					<a href="scr-web-001-errors.html">3 안내와 오류</a>
+					<a href="scr-web-001-nav-dialogs.html">4 내비게이션과 dialog</a>
+					<a href="scr-web-001-draw-confirm.html">5 추첨과 삭제 확인</a>
+					<a href="scr-web-001-mobile.html">6 모바일</a>
+					<a href="scr-web-002-home.html">SCR-WEB-002 루트 홈</a>
+				</nav>
+			</header>
+
+			<section class="doc-section" id="s9">
+				<h2>모바일 상태</h2>
+				<p class="lede">
+					팀 메이커는 루트 홈과 달리 상단 bar에 메뉴 버튼을 둡니다. 본문이 길고 위로 올리면서 보는 일이
+					많아 떠 있는 버튼이 내용을 가리지 않도록 하기 위해서입니다.
+				</p>
+				<div class="frames">
+					<figure class="frame" id="t19">
+						<figcaption class="frame-label">
+							<span class="frame-id">T19</span>
+							<span class="frame-name">처음 방문 · 밝은 테마</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="light">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16">
+											<header class="page-head">
+												<h1>팀 메이커</h1>
+												<p>스포츠·게임·모임 참가자를 고르게 나누는 무료 팀짜기·조짜기 도구입니다.</p>
+											</header>
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>1. 참가자 입력</h2>
+													<button class="circle-btn btn-save" type="button" aria-label="명단 저장·불러오기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg></button>
+												</div>
+												<p class="count">(0명)</p>
+												<span class="field placeholder">예: 김지원</span>
+												<div class="row g8">
+													<button class="btn btn-secondary btn-add" type="submit" style="flex: 1">추가</button>
+													<button class="btn btn-secondary" type="button" style="flex: 1">일괄 추가</button>
+												</div>
+												<p class="empty-box">아직 추가한 참가자가 없습니다.<br>위 칸에 이름을 적어 주세요.</p>
+											</section>
+											<section class="card stack g12">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수</button>
+													<button type="button" role="radio" aria-checked="false">인원 수</button>
+												</div>
+												<div class="row wrap g12 split">
+													<div class="stack g4">
+														<span class="label-strong">팀 수</span>
+														<p class="help">2개부터 20개까지</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+											<div class="stack g8">
+												<button class="btn btn-block" type="button" aria-disabled="true" aria-describedby="t19-reason">
+													<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V7a5 5 0 0 1 10 0v4"></path><rect width="18" height="11" x="3" y="11" rx="2"></rect></svg>
+													팀 만들기
+												</button>
+												<p class="reason" id="t19-reason">참가자를 두 명 이상 선택해 주세요.</p>
+											</div>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							좋은 입력 칸과 버튼을 넣기 위해 “추가”와 “일괄 추가”는 입력 칸 아래 줄로 내려 반씩 나눕니다.
+							기본값은 데스크톱과 같은 팀 수 2개입니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t20">
+						<figcaption class="frame-label">
+							<span class="frame-id">T20</span>
+							<span class="frame-name">승리 기록 뒤 · 어두운 테마</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="dark">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16" style="--scroll: 120px">
+											<section class="card stack g12">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수</button>
+													<button type="button" role="radio" aria-checked="false">인원 수</button>
+												</div>
+												<div class="row wrap g12 split">
+													<div class="stack g4">
+														<span class="label-strong">팀 수</span>
+														<p class="help">8명을 2개 팀으로</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>3. 결과</h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">승리 취소</button>
+														<button class="btn btn-utility" type="button">명단 복사</button>
+														<button class="btn btn-utility btn-soft" type="button">다시 섞기</button>
+													</div>
+												</div>
+												<div class="team-grid">
+													<article class="team-card won">
+														<div class="band" style="--band: #62aef0"></div>
+														<div class="team-body">
+															<div class="team-head">
+																<h3>1팀</h3>
+																<div class="row g6">
+																	<span class="chip win">1팀승</span>
+																</div>
+															</div>
+															<ol class="members">
+																<li><span class="num">1</span>김지원</li>
+																<li><span class="num">2</span>박하은</li>
+																<li><span class="num">3</span>정예린</li>
+																<li><span class="num">4</span>이서준</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="1팀에서 한 번 더 뽑기">한 번 더 뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card">
+														<div class="band" style="--band: #2a9d99"></div>
+														<div class="team-body">
+															<div class="team-head">
+																<h3>2팀</h3>
+																<div class="row g6">
+																	<span class="chip lose">2팀패</span>
+																</div>
+															</div>
+															<ol class="members">
+																<li><span class="num">1</span>최민수</li>
+																<li><span class="num">2</span>강도윤</li>
+																<li><span class="num">3</span>윤서아</li>
+																<li><span class="num">4</span>임태호</li>
+															</ol>
+															<div class="team-foot">
+																<span class="help">한 명을 뽑을 수 있습니다.</span>
+																<button class="btn btn-utility" type="button" aria-label="2팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+												</div>
+											</section>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							결과 카드는 한 열로 쌓이고 이름이 길어도 줄바꿈으로 받아 가로로 넘치지 않습니다. 결과 머리의
+							버튼 세 개는 44px 높이를 지킵니다. 아래로 더 내린 모습은 T30에 있습니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t21">
+						<figcaption class="frame-label">
+							<span class="frame-id">T21</span>
+							<span class="frame-name">drawer 열림 · 키보드 초점</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="light">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="true">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16">
+											<header class="page-head"><h1>팀 메이커</h1></header>
+											<section class="card stack g12">
+												<div class="card-head"><h2>1. 참가자 입력</h2></div>
+											</section>
+										</main>
+									</div>
+								</div>
+								<div class="layer">
+									<div class="scrim"></div>
+									<div class="drawer" role="dialog" aria-modal="true" aria-label="사이트 내비게이션">
+										<div class="nav">
+											<div class="nav-head">
+												<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+												<button class="icon-btn" type="button" aria-label="테마 변경, 현재 자동">
+													<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path></svg>
+												</button>
+												<button class="icon-btn" type="button" aria-label="메뉴 닫기">
+													<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+												</button>
+											</div>
+											<nav class="nav-list" aria-label="사이트 메뉴">
+												<a class="nav-row is-focused" href="scr-web-002-home.html">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+													<span class="label">홈</span>
+												</a>
+												<div class="nav-group">프로젝트</div>
+												<div class="nav-sub">
+													<a class="nav-row" href="#t21" aria-current="page">
+														<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+														<span class="label">팀 메이커</span>
+														<span class="badge">현재</span>
+													</a>
+												</div>
+											</nav>
+											<div style="margin-top: auto; padding: 10px">
+												<span class="focus-note">초점은 첫 항목 “홈”</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							drawer 폭은 <code>min(300px, 86%)</code>라 오른쪽에 배경을 누를 자리가 남고, 열린 동안 본문
+							스크롤은 멈춥니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t22">
+						<figcaption class="frame-label">
+							<span class="frame-id">T22</span>
+							<span class="frame-name">돌림판 dialog</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="light">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16">
+											<header class="page-head"><h1>팀 메이커</h1></header>
+										</main>
+									</div>
+								</div>
+								<div class="layer">
+									<div class="scrim"></div>
+									<div class="modal-layer">
+										<div class="modal wheel-dialog" role="dialog" aria-modal="true" aria-labelledby="t22-title" aria-describedby="t22-desc">
+											<div class="modal-head">
+												<div>
+													<h2 id="t22-title">1팀 뽑기</h2>
+													<p id="t22-desc">이 팀 명단 중 한 명을 무작위로 뽑습니다.</p>
+												</div>
+												<button class="circle-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+											</div>
+											<div class="wheel-body">
+												<div class="wheel-wrap">
+													<span class="wheel-pointer" aria-hidden="true"></span>
+													<div class="wheel" aria-hidden="true"></div>
+													<span class="wheel-hub" aria-hidden="true"></span>
+													<span class="wheel-label" style="--label-angle: 45deg; --label-counter-angle: -45deg; color: #7a261e">김지원</span>
+													<span class="wheel-label" style="--label-angle: 135deg; --label-counter-angle: -135deg; color: #6b3d0a">박하은</span>
+													<span class="wheel-label" style="--label-angle: 225deg; --label-counter-angle: -225deg; color: #665b09">정예린</span>
+													<span class="wheel-label" style="--label-angle: 315deg; --label-counter-angle: -315deg; color: #285d22">이서준</span>
+												</div>
+											</div>
+											<p class="wheel-result" role="status">돌리기를 누르세요.</p>
+											<div class="modal-actions">
+												<button class="btn btn-secondary" type="button" style="flex: 1">닫기</button>
+												<button class="btn btn-primary" type="button" style="flex: 1">돌리기</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							돌림판은 모바일에서 298px로 줄어 dialog가 화면 밖으로 넘치지 않습니다. 아직 돌리기 전이라
+							결과 칸은 다음 할 일을 안내합니다. 도는 중의 모습은 <a href="#t32">T32</a>에 있습니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t32">
+						<figcaption class="frame-label">
+							<span class="frame-id">T32</span>
+							<span class="frame-name">돌림판 dialog · 도는 중</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="light">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16">
+											<header class="page-head"><h1>팀 메이커</h1></header>
+										</main>
+									</div>
+								</div>
+								<div class="layer">
+									<div class="scrim"></div>
+									<div class="modal-layer">
+										<div class="modal wheel-dialog" role="dialog" aria-modal="true" aria-labelledby="t32-title" aria-describedby="t32-desc">
+											<div class="modal-head">
+												<div>
+													<h2 id="t32-title">1팀 뽑기</h2>
+													<p id="t32-desc">이 팀 명단 중 한 명을 무작위로 뽑습니다.</p>
+												</div>
+												<button class="circle-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+											</div>
+											<div class="wheel-body">
+												<div class="wheel-wrap is-spinning">
+													<span class="wheel-pointer" aria-hidden="true"></span>
+													<div class="wheel" aria-hidden="true"></div>
+													<span class="wheel-hub" aria-hidden="true"></span>
+													<span class="wheel-label" style="--label-angle: 45deg; --label-counter-angle: -45deg; color: #7a261e">김지원</span>
+													<span class="wheel-label" style="--label-angle: 135deg; --label-counter-angle: -135deg; color: #6b3d0a">박하은</span>
+													<span class="wheel-label" style="--label-angle: 225deg; --label-counter-angle: -225deg; color: #665b09">정예린</span>
+													<span class="wheel-label" style="--label-angle: 315deg; --label-counter-angle: -315deg; color: #285d22">이서준</span>
+												</div>
+											</div>
+											<p class="wheel-result" role="status">돌리는 중…</p>
+											<div class="modal-actions">
+												<button class="btn btn-secondary" type="button" style="flex: 1" disabled>닫기</button>
+												<button class="btn btn-primary" type="button" style="flex: 1">바로 뽑기</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							도는 동안 “돌리기”는 “바로 뽑기”로 바뀝니다. 누르면 남은 회전을 건너뛰고 결과를 바로 보여
+							줍니다. 기다림을 강요하지 않되 결과 자체는 누른 시점에 이미 정해져 있어 바뀌지 않습니다.
+							도는 동안에는 닫기를 막아 결과 없이 dialog가 사라지지 않게 합니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t23">
+						<figcaption class="frame-label">
+							<span class="frame-id">T23</span>
+							<span class="frame-name">참가자 명단 삭제 확인</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="light">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16">
+											<header class="page-head"><h1>팀 메이커</h1></header>
+										</main>
+									</div>
+								</div>
+								<div class="layer">
+									<div class="scrim"></div>
+									<div class="modal-layer">
+										<div class="modal confirm" role="alertdialog" aria-modal="true" aria-labelledby="t23-title" aria-describedby="t23-desc t23-warn">
+											<div class="modal-head">
+												<div>
+													<h2 id="t23-title">참가자 명단을 삭제할까요?</h2>
+													<p id="t23-desc">명단에 있는 8명이 모두 지워집니다.<br />저장한 명단은 그대로 남습니다.</p>
+													<p id="t23-warn" class="confirm-warn">되돌릴 수 없습니다.</p>
+												</div>
+											</div>
+											<div class="modal-actions">
+												<button class="btn btn-secondary is-focused" type="button" style="flex: 1">취소</button>
+												<button class="btn btn-danger" type="button" style="flex: 1">삭제</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							좁은 화면에서는 두 버튼을 반씩 나누어 44px 높이를 확보하고, 지워지는 것·남는 것·되돌리기
+							세 줄은 데스크톱과 똑같이 유지합니다.
+						</p>
+					</figure>
+					<figure class="frame" id="t30">
+						<figcaption class="frame-label">
+							<span class="frame-id">T30</span>
+							<span class="frame-name">결과 아래쪽 · 당첨자 영역과 4. 오늘의 기록</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="light">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16">
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>3. 결과</h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">승리 취소</button>
+														<button class="btn btn-utility" type="button">명단 복사</button>
+													</div>
+												</div>
+												<section class="picked-section" aria-labelledby="t30-picked">
+													<h3 class="picked-section-title" id="t30-picked">당첨자</h3>
+													<div class="picked-groups">
+														<div class="picked-person" data-place="first">
+															<span class="picked-label">1팀</span>
+															<ol class="picked-list">
+																<li class="picked-row">
+																	<span class="picked-number tabular" aria-hidden="true">1</span>
+																	<strong class="picked-name">정예린</strong>
+																	<button class="circle-btn" type="button" aria-label="1팀 1번째 당첨자 정예린 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+																</li>
+																<li class="picked-row">
+																	<span class="picked-number tabular" aria-hidden="true">2</span>
+																	<strong class="picked-name">김지원</strong>
+																	<button class="circle-btn" type="button" aria-label="1팀 2번째 당첨자 김지원 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+																</li>
+															</ol>
+														</div>
+													</div>
+												</section>
+											</section>
+											<section class="card stack g12 statistics-card">
+												<div class="card-head">
+													<div class="statistics-heading">
+														<h2>4. 오늘의 기록</h2>
+														<span class="help">(1경기)</span>
+												<span class="won-legend">* 당첨자</span>
+													</div>
+													<div class="heading-actions">
+														<button class="btn btn-utility" type="button" title="오늘 기록 초기화">초기화</button>
+														<button class="btn btn-utility" type="button">참가자 통계</button>
+														<button class="btn btn-utility" type="button">전체 기록</button>
+													</div>
+												</div>
+												<ul class="history-list">
+													<li class="history-row">
+														<span class="time tabular">19:24</span>
+														<span class="who lines">
+															<span class="row g8"><span class="chip win">1팀승</span><span class="who-names"><span class="who-name won">정예린<span class="sr-only"> 당첨</span></span><span class="who-name won">김지원<span class="sr-only"> 당첨</span></span><span class="who-name">박하은</span><span class="who-name">이서준</span></span></span>
+															<span class="row g8"><span class="chip lose">2팀패</span><span class="who-names"><span class="who-name">최민수</span><span class="who-name">강도윤</span><span class="who-name">윤서아</span><span class="who-name">임태호</span></span></span>
+														</span>
+														<button class="circle-btn" type="button" aria-label="19시 24분 기록 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+												</ul>
+											</section>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							당첨자 영역은 좁은 화면에서 한 열로 쌓이고 취소 버튼은 44px를 지킵니다. “4. 오늘의 기록” 머리는 390px에서
+							한 줄에 다 들어가지 않으므로 버튼 줄이 제목 아래로 내려갑니다. 초기화도 같은 흰 utility 버튼으로
+							두어 세 버튼의 무게를 나란히 맞춥니다.
+						</p>
+					</figure>
+					<figure class="frame" id="t31">
+						<figcaption class="frame-label">
+							<span class="frame-id">T31</span>
+							<span class="frame-name">돌림판 dialog · 판 아래 당첨자 목록</span>
+							<span class="frame-meta">390 × 844</span>
+						</figcaption>
+						<div class="viewport phone">
+							<div class="ui screen mobile" data-theme="light">
+								<div class="main">
+									<header class="topbar">
+										<button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+										</button>
+									</header>
+									<div class="scrollport">
+										<main class="content page stack g16">
+											<header class="page-head"><h1>팀 메이커</h1></header>
+										</main>
+									</div>
+								</div>
+								<div class="layer">
+									<div class="scrim"></div>
+									<div class="modal-layer">
+										<div class="modal wheel-dialog picked-panel" role="dialog" aria-modal="true" aria-labelledby="t31-title" aria-describedby="t31-desc">
+											<div class="modal-head">
+												<div>
+													<h2 id="t31-title">1팀 뽑기</h2>
+													<p id="t31-desc">이미 당첨된 사람은 빼고<br>남은 사람 중에서 뽑습니다.</p>
+												</div>
+												<div class="row g6">
+													<button class="circle-btn" type="button" aria-pressed="true" aria-label="효과음 끄기"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path></svg></button>
+													<button class="circle-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+												</div>
+											</div>
+											<div class="wheel-wrap">
+												<span class="wheel-pointer" aria-hidden="true"></span>
+												<div class="wheel" aria-hidden="true" style="background: conic-gradient(#f39a8f 0% 50%, #f7bd76 50% 100%)"></div>
+												<span class="wheel-hub" aria-hidden="true"></span>
+												<span class="wheel-label" style="--label-angle: 90deg; --label-counter-angle: -90deg; color: #7a261e">박하은</span>
+												<span class="wheel-label" style="--label-angle: 270deg; --label-counter-angle: -270deg; color: #6b3d0a">이서준</span>
+											</div>
+											<p class="wheel-outcome" role="status">
+												<span class="wheel-outcome-eyebrow"><img class="wheel-outcome-icon" src="assets/confetti.png" alt="" width="19" height="20">2번째 당첨자</span>
+												<strong class="wheel-outcome-name">김지원</strong>
+											</p>
+											<section class="picked-card" aria-labelledby="t31-picked">
+												<div class="picked-card-head">
+													<h3 class="picked-card-title" id="t31-picked">누적 당첨자 2명</h3>
+													<button class="picked-clear" type="button">전체 삭제</button>
+												</div>
+												<ol class="picked-rows">
+													<li class="picked-row"><span class="picked-num">1</span><span class="picked-name">정예린</span></li>
+													<li class="picked-row" data-latest="true"><span class="picked-num">2</span><span class="picked-name">김지원</span><span class="picked-flag">최근 당첨자</span></li>
+												</ol>
+											</section>
+											<div class="modal-actions">
+												<button class="btn btn-secondary" type="button" style="flex: 1">닫기</button>
+												<button class="btn btn-primary" type="button" style="flex: 1">다음 당첨자 뽑기</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							좁은 화면에서는 당첨자를 우측으로 보내지 않고 판 아래에 쌓습니다. 결과는 알림 칸 대신 이름 자체를
+							크게 세우고, 누적 목록에서 방금 뽑힌 줄만 초록 면과 “최근 당첨자” 라벨로 표시합니다. 판은 298px를
+							지키고 조각은 남은 두 명만큼만 남았습니다.
+						</p>
+					</figure>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

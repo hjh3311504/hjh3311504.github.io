@@ -8,7 +8,7 @@ import datetime as dt
 import hashlib
 import re
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 try:
     import yaml
@@ -19,7 +19,22 @@ REQ_RE = re.compile(r"^REQ-[A-Z]+-\d{3}$")
 DSN_RE = re.compile(r"^DSN-\d{3}$")
 SCR_RE = re.compile(r"^SCR-[A-Z]+-\d{3}$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
+GIT_REV_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$", re.IGNORECASE)
+REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
+UUID_RE = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+    re.IGNORECASE,
+)
 DESIGN_STATUSES = {"pending", "approved", "deferred"}
+CLAUDE_DESIGN_TRANSPORTS = {"pending", "direct-mcp", "claude-cli", "manual"}
+DESIGN_SYSTEM_SOURCES = {"pending", "claude-design", "git", "none"}
+DESIGN_SYSTEM_CONNECTIONS = {
+    "pending",
+    "organization-default",
+    "project-attached",
+    "none",
+}
+DESIGN_SYSTEM_PUBLICATIONS = {"pending", "draft", "published", "not-applicable"}
 SCREEN_METADATA_FIELDS = {
     "화면 ID": "id",
     "화면 이름": "title",
@@ -131,6 +146,174 @@ def valid_timestamp(value) -> bool:
     except ValueError:
         return False
     return parsed.tzinfo is not None
+
+
+def valid_relative_path(value) -> bool:
+    if not isinstance(value, str) or not value or "\\" in value:
+        return False
+    path = PurePosixPath(value)
+    return (
+        bool(path.parts)
+        and not path.is_absolute()
+        and not re.match(r"^[A-Za-z]:", value)
+        and all(part not in {"", ".", ".."} for part in path.parts)
+    )
+
+
+def validate_design_system_metadata(
+    manifest: dict,
+    manifest_path: Path,
+    handoff_approved: bool,
+    errors: list[str],
+) -> None:
+    if manifest.get("schema_version") != 3:
+        return
+    metadata = manifest.get("design_system")
+    if not isinstance(metadata, dict):
+        errors.append(f"{manifest_path}: schema version 3에는 design_system object 필수")
+        return
+
+    source = metadata.get("source")
+    connection = metadata.get("connection")
+    publication = metadata.get("publication")
+    if source not in DESIGN_SYSTEM_SOURCES:
+        errors.append(f"{manifest_path}: design_system.source 값 오류 — {source}")
+    if connection not in DESIGN_SYSTEM_CONNECTIONS:
+        errors.append(f"{manifest_path}: design_system.connection 값 오류 — {connection}")
+    if publication not in DESIGN_SYSTEM_PUBLICATIONS:
+        errors.append(f"{manifest_path}: design_system.publication 값 오류 — {publication}")
+    if (
+        source not in DESIGN_SYSTEM_SOURCES
+        or connection not in DESIGN_SYSTEM_CONNECTIONS
+        or publication not in DESIGN_SYSTEM_PUBLICATIONS
+    ):
+        return
+
+    if handoff_approved and "pending" in {source, connection, publication}:
+        errors.append(f"{manifest_path}: 승인 handoff에는 Design System 상태 확정 필수")
+        return
+    if source == "pending":
+        return
+
+    name = metadata.get("name")
+    project_id = metadata.get("project_id")
+    source_repo = metadata.get("source_repo")
+    source_revision = metadata.get("source_revision")
+    source_paths = metadata.get("source_paths")
+    checked_at = metadata.get("checked_at")
+
+    if not isinstance(source_paths, list):
+        errors.append(f"{manifest_path}: design_system.source_paths는 리스트여야 함")
+        source_paths = []
+    elif any(not isinstance(path, str) for path in source_paths):
+        errors.append(f"{manifest_path}: design_system.source_paths 값은 문자열이어야 함")
+        source_paths = []
+    elif len(source_paths) != len(set(source_paths)):
+        errors.append(f"{manifest_path}: design_system.source_paths 중복")
+
+    if handoff_approved and not valid_timestamp(checked_at):
+        errors.append(
+            f"{manifest_path}: design_system.checked_at은 timezone 포함 ISO 8601이어야 함"
+        )
+    elif checked_at is not None and not valid_timestamp(checked_at):
+        errors.append(f"{manifest_path}: design_system.checked_at 형식 위반")
+
+    if source == "none":
+        if connection != "none" or publication != "not-applicable":
+            errors.append(
+                f"{manifest_path}: Design System 미사용은 connection none, publication not-applicable 필수"
+            )
+        if any(value is not None for value in (name, project_id, source_repo, source_revision)):
+            errors.append(f"{manifest_path}: Design System 미사용에는 이름·remote·Git 참조 금지")
+        if source_paths:
+            errors.append(f"{manifest_path}: Design System 미사용에는 source_paths 금지")
+        return
+
+    if connection not in {"organization-default", "project-attached"}:
+        errors.append(f"{manifest_path}: 사용 Design System에는 실제 연결 방식 필수")
+    if publication not in {"draft", "published"}:
+        errors.append(f"{manifest_path}: 사용 Design System에는 Draft 또는 Published 상태 필수")
+    if connection == "organization-default" and publication != "published":
+        errors.append(f"{manifest_path}: 조직 기본 Design System은 Published여야 함")
+    if publication == "draft" and connection != "project-attached":
+        errors.append(f"{manifest_path}: Draft Design System은 project에 직접 연결해야 함")
+    if not isinstance(name, str) or not name.strip():
+        errors.append(f"{manifest_path}: 사용 Design System에는 정확한 name 필수")
+    if project_id is not None and (
+        not isinstance(project_id, str) or not UUID_RE.fullmatch(project_id)
+    ):
+        errors.append(f"{manifest_path}: design_system.project_id UUID 형식 위반")
+
+    if source == "git":
+        if not isinstance(source_repo, str) or not REPO_RE.fullmatch(source_repo):
+            errors.append(f"{manifest_path}: Git Design System source_repo는 owner/repo 형식이어야 함")
+        if not isinstance(source_revision, str) or not GIT_REV_RE.fullmatch(source_revision):
+            errors.append(f"{manifest_path}: Git Design System source_revision은 commit hash여야 함")
+        if not source_paths:
+            errors.append(f"{manifest_path}: Git Design System source_paths 필수")
+        elif any(not valid_relative_path(path) for path in source_paths):
+            errors.append(f"{manifest_path}: Git Design System source_paths는 안전한 상대경로여야 함")
+    else:
+        if source_repo is not None or source_revision is not None or source_paths:
+            errors.append(f"{manifest_path}: Claude Design 관리 시스템에 Git source를 발명할 수 없음")
+
+
+def validate_claude_design_metadata(
+    manifest: dict,
+    manifest_path: Path,
+    handoff_approved: bool,
+    errors: list[str],
+) -> None:
+    if manifest.get("schema_version") not in {2, 3}:
+        return
+    metadata = manifest.get("claude_design")
+    if not isinstance(metadata, dict):
+        errors.append(f"{manifest_path}: schema version 2 이상에는 claude_design object 필수")
+        return
+
+    transport = metadata.get("transport")
+    if transport not in CLAUDE_DESIGN_TRANSPORTS:
+        errors.append(
+            f"{manifest_path}: claude_design.transport 값 오류 — {transport}"
+        )
+        return
+    if handoff_approved and transport == "pending":
+        errors.append(f"{manifest_path}: 승인 handoff에는 Claude Design 연결 방식 확정 필수")
+
+    project_id = metadata.get("project_id")
+    project_url = metadata.get("project_url")
+    last_synced_at = metadata.get("last_synced_at")
+    remote_transport = transport in {"direct-mcp", "claude-cli"}
+    has_remote_ref = project_id is not None or project_url is not None
+
+    if remote_transport or has_remote_ref:
+        if not isinstance(project_id, str) or not UUID_RE.fullmatch(project_id):
+            errors.append(f"{manifest_path}: claude_design.project_id UUID 형식 위반")
+        expected_prefix = (
+            f"https://claude.ai/design/p/{project_id}" if isinstance(project_id, str) else None
+        )
+        if (
+            not isinstance(project_url, str)
+            or expected_prefix is None
+            or not (
+                project_url == expected_prefix
+                or project_url.startswith(expected_prefix + "?")
+                or project_url.startswith(expected_prefix + "/")
+                or project_url.startswith(expected_prefix + "#")
+            )
+        ):
+            errors.append(
+                f"{manifest_path}: claude_design.project_url이 project_id와 일치하지 않음"
+            )
+
+    if remote_transport and not valid_timestamp(last_synced_at):
+        errors.append(
+            f"{manifest_path}: claude_design.last_synced_at은 timezone 포함 ISO 8601이어야 함"
+        )
+    elif last_synced_at is not None and not valid_timestamp(last_synced_at):
+        errors.append(
+            f"{manifest_path}: claude_design.last_synced_at 형식 위반"
+        )
 
 
 def markdown_table_cells(line: str) -> list[str] | None:
@@ -258,8 +441,8 @@ def validate_package(
     if not isinstance(manifest, dict):
         errors.append(f"{manifest_path}: manifest가 object가 아님")
         return
-    if manifest.get("schema_version") not in {1, 2}:
-        errors.append(f"{manifest_path}: 지원 schema_version은 1 또는 2")
+    if manifest.get("schema_version") not in {1, 2, 3}:
+        errors.append(f"{manifest_path}: 지원 schema_version은 1, 2 또는 3")
     if manifest.get("id") != expected_id or package_dir.name != expected_id:
         errors.append(f"{manifest_path}: id와 디렉터리명이 {expected_id}와 일치하지 않음")
 
@@ -390,6 +573,18 @@ def validate_package(
     if not isinstance(handoff, dict):
         errors.append(f"{manifest_path}: handoff object 누락")
         return
+    validate_claude_design_metadata(
+        manifest,
+        manifest_path,
+        handoff.get("status") == "approved",
+        errors,
+    )
+    validate_design_system_metadata(
+        manifest,
+        manifest_path,
+        handoff.get("status") == "approved",
+        errors,
+    )
     if handoff.get("status") != "approved":
         errors.append(f"{manifest_path}: 2차 handoff 승인이 완료되지 않음")
     if not valid_timestamp(handoff.get("approved_at")):

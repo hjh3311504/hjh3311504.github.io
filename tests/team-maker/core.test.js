@@ -483,6 +483,10 @@ test('2팀은 승패로, 3팀 이상은 등수 숫자로 표시하고 꼴등이�
 	assert.equal(formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 3 }), '1팀 1등');
 	assert.equal(formatTeamResultLabel({ teamName: '3팀', rank: 3, teamCount: 3 }), '3팀 3등');
 	assert.equal(formatTeamResultLabel({ teamName: '4팀', rank: null, teamCount: 4 }), '순위 미정');
+	assert.equal(
+		formatTeamResultLabel({ teamName: '4팀', rank: null, teamCount: 4, compact: true }),
+		'미정'
+	);
 
 	// 팀 이름을 이미 보여 주는 칩에서는 등수만 적는다. 2팀 표기는 그대로 둔다.
 	assert.equal(
@@ -513,7 +517,7 @@ test('2팀은 승패로, 3팀 이상은 등수 숫자로 표시하고 꼴등이�
 });
 
 test('오늘 기록은 날짜와 지우기 시각을 함께 본다', () => {
-	const now = new Date('2026-09-02T20:00:00.000Z');
+	const now = new Date(2026, 8, 2, 20, 0, 0, 0);
 	const todayKey = localDateKey(now);
 	const at = (hour) => {
 		const date = new Date(now);
@@ -536,6 +540,25 @@ test('오늘 기록은 날짜와 지우기 시각을 함께 본다', () => {
 	);
 	assert.deepEqual(selectTodayHistory(history, { now, clearedAt: at(13) }), []);
 	assert.equal(localDateKey(at(9)), todayKey);
+});
+
+test('오늘 기록은 오전 6시를 하루의 시작으로 본다', () => {
+	const at = (day, hour, minute = 0) => new Date(2026, 8, day, hour, minute, 0, 0).toISOString();
+	const history = [
+		{ id: 'before-start', occurredAt: at(1, 5, 59) },
+		{ id: 'day-start', occurredAt: at(1, 6) },
+		{ id: 'before-next-start', occurredAt: at(2, 5, 59) },
+		{ id: 'next-day-start', occurredAt: at(2, 6) }
+	];
+
+	assert.deepEqual(
+		selectTodayHistory(history, { now: new Date(at(2, 5, 59)) }).map((entry) => entry.id),
+		['day-start', 'before-next-start']
+	);
+	assert.deepEqual(
+		selectTodayHistory(history, { now: new Date(at(2, 6)) }).map((entry) => entry.id),
+		['next-day-start']
+	);
 });
 
 test('참가자별 승리·당첨·패배와 같은 팀 궁합을 센다', () => {
@@ -589,7 +612,7 @@ test('궁합은 같은 팀 횟수가 기준에 미치지 못하면 빼고 동점
 	);
 });
 
-test('한 팀에 같은 이름이 두 번 있어도 한 명으로 세고 순위가 미정이면 패로 세지 않는다', () => {
+test('한 팀에 같은 이름이 두 번 있어도 한 명으로 센다', () => {
 	const duplicated = [match(1, [1, 2], [{ members: ['가영', '가영'] }, { members: ['나연'] }])];
 	const 가영 = summarizeParticipantStats(duplicated).players.find((item) => item.name === '가영');
 	assert.equal(가영.matches, 1);
@@ -607,6 +630,119 @@ test('한 팀에 같은 이름이 두 번 있어도 한 명으로 세고 순위�
 			]
 		}
 	];
-	assert.deepEqual(summarizeParticipantStats(legacy).topLosses, []);
+	assert.deepEqual(
+		summarizeParticipantStats(legacy).topLosses.map((item) => item.name),
+		['나연', '다현']
+	);
 	assert.equal(summarizeParticipantStats(legacy).topWins[0].name, '가영');
+});
+
+test('4팀 경기에서는 1등만 이기고 2등부터 모두 진다', () => {
+	const history = [
+		match(
+			1,
+			[2, 4, 1, 3],
+			[{ members: ['가영'] }, { members: ['나연'] }, { members: ['다현'] }, { members: ['라희'] }]
+		)
+	];
+	const players = summarizeParticipantStats(history).players;
+	assert.deepEqual(
+		Object.fromEntries(players.map(({ name, wins, losses }) => [name, [wins, losses]])),
+		{ 가영: [0, 1], 나연: [1, 0], 다현: [0, 1], 라희: [0, 1] }
+	);
+});
+
+test('1등만 정해진 기록과 옛 기록도 나머지 팀을 패배로 센다', () => {
+	const teams = [
+		{ id: 1, name: '1팀', members: ['가영'] },
+		{ id: 2, name: '2팀', members: ['나연'] },
+		{ id: 3, name: '3팀', members: ['다현'] }
+	];
+	for (const entry of [
+		{ id: 'ranking', occurredAt: '2026-09-02T01:00:00.000Z', winnerTeamId: 2, ranking: [2], teams },
+		{ id: 'legacy', occurredAt: '2026-09-02T02:00:00.000Z', winnerTeamId: 2, teams }
+	]) {
+		const players = summarizeParticipantStats([entry]).players;
+		assert.deepEqual(
+			Object.fromEntries(players.map(({ name, wins, losses }) => [name, [wins, losses]])),
+			{ 가영: [0, 1], 나연: [1, 0], 다현: [0, 1] }
+		);
+	}
+});
+
+test('유효한 1등이 없으면 승패에 포함하지 않는다', () => {
+	const stats = summarizeParticipantStats(
+		[
+			{
+				id: 'invalid',
+				occurredAt: '2026-09-02T01:00:00.000Z',
+				winnerTeamId: 9,
+				ranking: [9],
+				teams: [
+					{ id: 1, name: '1팀', members: ['가영', '마루'] },
+					{ id: 2, name: '2팀', members: ['나연'] },
+					{ id: 3, name: '3팀', members: ['다현'] }
+				]
+			}
+		],
+		{ minimumTogether: 1 }
+	);
+	assert.ok(
+		stats.players.every(
+			(player) =>
+				player.matches === 0 && player.wins === 0 && player.losses === 0 && player.winRate === 0
+		)
+	);
+	assert.deepEqual(stats.topWins, []);
+	assert.deepEqual(stats.topLosses, []);
+	assert.deepEqual(stats.pairs, []);
+});
+
+test('1등 확률은 유효한 1등이 있는 참가 경기만 분모로 센다', () => {
+	const valid = match(1, [1, 2], [{ members: ['가영'] }, { members: ['나연'] }]);
+	const invalid = {
+		id: 'invalid',
+		occurredAt: '2026-09-02T02:00:00.000Z',
+		winnerTeamId: 9,
+		ranking: [9],
+		teams: [
+			{ id: 1, name: '1팀', members: ['가영'] },
+			{ id: 2, name: '2팀', members: ['다현'] }
+		]
+	};
+	const player = summarizeParticipantStats([valid, invalid]).players.find(
+		(entry) => entry.name === '가영'
+	);
+
+	assert.equal(player.matches, 1);
+	assert.equal(player.wins, 1);
+	assert.equal(player.winRate, 1);
+});
+
+test('1등 확률은 화면에 표시하는 승패 합계를 분모로 센다', () => {
+	const player = summarizeParticipantStats([
+		match(
+			1,
+			[1, 2, 3],
+			[
+				{ members: ['가영'] },
+				{ members: ['가영'] },
+				{ members: ['가영'] }
+			]
+		)
+	]).players.find((entry) => entry.name === '가영');
+
+	assert.equal(player.wins, 1);
+	assert.equal(player.losses, 2);
+	assert.equal(player.winRate, 1 / 3);
+});
+
+test('2팀 경기의 기존 승패 계산을 유지한다', () => {
+	const players = summarizeParticipantStats([
+		match(1, [2, 1], [{ members: ['가영'] }, { members: ['나연'] }])
+	]).players;
+	assert.deepEqual(
+		Object.fromEntries(players.map(({ name, wins, losses }) => [name, [wins, losses]])),
+		{ 가영: [0, 1], 나연: [1, 0] }
+	);
 });

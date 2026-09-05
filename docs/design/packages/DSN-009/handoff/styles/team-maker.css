@@ -1,0 +1,752 @@
+/* =====================================================================
+   DSN-009 · SCR-WEB-001 팀 메이커 전용 확장
+   screens.css 다음에 읽는다. Notion 토큰만 쓰고 새 색을 만들지 않는다.
+   ===================================================================== */
+
+/* 터치 대상은 데스크톱 36px, 모바일 44px 아래로 내려가지 않는다. */
+.btn-utility {
+	height: 36px;
+}
+
+/* 카드 머리의 아이콘 버튼은 옆의 utility 버튼과 같은 높이의 정사각형으로 세운다. */
+.card-head .circle-btn {
+	width: 36px;
+	height: 36px;
+}
+
+.person .circle-btn {
+	width: 40px;
+	height: 40px;
+}
+
+.screen.mobile .btn-utility {
+	height: 44px;
+}
+
+/* 모바일은 버튼과 입력칸도 44px 아래로 내려가지 않는다. */
+.screen.mobile {
+	--control-h: 44px;
+}
+
+.screen.mobile .circle-btn {
+	width: 44px;
+	height: 44px;
+}
+
+.screen.mobile .stepper .value {
+	min-width: 44px;
+}
+
+/* 같은 팀·다른 팀은 글자와 색으로 구분한다. */
+
+/* 결과 영역의 실패 상태. 색만이 아니라 왼쪽 굵은 선과 경고 모양을 함께 쓴다. */
+.result-error {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: center;
+	padding: 28px 24px;
+	text-align: center;
+	word-break: keep-all;
+	background: var(--surface);
+	border: 1px solid var(--hairline);
+	border-left: 3px solid var(--warn-mark);
+	border-radius: var(--radius-lg);
+}
+
+.result-error strong {
+	color: var(--text-heading);
+	font-family: var(--font-display);
+	font-size: var(--fs-title);
+	font-weight: var(--fw-bold);
+	letter-spacing: var(--ls-title);
+}
+
+.result-error p {
+	max-width: none;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+}
+
+/* 되돌릴 수 없는 확인. 빨간 제목, 빨간 마지막 줄, 빨간 테두리를 함께 쓴다. */
+.modal.confirm {
+	max-width: 460px;
+	border-color: var(--danger-line);
+}
+
+/* 되돌릴 수 없는 확인이므로 문구와 버튼 사이를 더 벌려 둔다. */
+.modal.confirm .modal-actions {
+	margin-top: 8px;
+}
+
+.modal.confirm .modal-head h2 {
+	color: var(--danger);
+}
+
+/* 삭제 확인의 마지막 줄. 지워지는 대상 다음에 되돌릴 수 없다는 점만 따로 알린다.
+   색에만 기대지 않도록 굵기도 함께 올린다. */
+.modal.confirm .modal-head .confirm-warn {
+	margin-top: 8px;
+	color: var(--danger);
+	font-weight: var(--fw-bold);
+}
+
+.confirm-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 14px 16px;
+	margin: 0;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+	list-style: none;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+}
+
+.confirm-list li {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.confirm-list b {
+	flex: none;
+	width: 76px;
+	color: var(--text-heading);
+	font-weight: var(--fw-semibold);
+}
+
+.confirm-list li.warn {
+	color: var(--warn-text);
+	font-weight: var(--fw-semibold);
+}
+
+.confirm-list li.warn b {
+	color: var(--warn-text);
+}
+
+/* 자리를 맞춰야 읽히는 숫자. */
+.tabular {
+	font-feature-settings: 'tnum';
+}
+
+/* 돌림판 이름표는 자기 조각 위에 그대로 얹고, 흰 그림자로 글자를 띄운다.
+   --label-angle 은 조각 가운데 방향, --label-counter-angle 은 글자를 다시 세우는 값이다.
+   조각 색과 짝이 되는 짙은 글자색은 frame markup에서 정한다. */
+.wheel-label {
+	position: absolute;
+	top: calc(18px + var(--wheel-size) / 2);
+	left: 50%;
+	width: 140px;
+	margin: -12px 0 0 -70px;
+	overflow: hidden;
+	font-size: 18px;
+	font-weight: var(--fw-bold);
+	line-height: 1.33;
+	text-align: center;
+	text-overflow: ellipsis;
+	text-shadow: 0 1px 0 rgb(255 255 255 / 45%);
+	white-space: nowrap;
+	transform: rotate(var(--label-angle)) translateY(calc(var(--wheel-size) * -0.345))
+		rotate(var(--label-counter-angle));
+}
+
+/* 좁은 화면은 돌림판이 작아지므로 이름표도 같이 줄인다. */
+.screen.mobile .wheel-label {
+	width: 132px;
+	margin-left: -66px;
+	font-size: 15px;
+}
+
+/* 오늘 기록 한 줄 안에서 승·패 두 줄을 쌓는다. */
+.who.lines {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+}
+
+.who.lines .row {
+	align-items: center;
+}
+
+/* =====================================================================
+   DSN-009 · 이번 판에서 더한 요소
+   DSN-008 의 시각 언어를 그대로 따른다. 새 색을 만들지 않고
+   primary / orange / danger / green 계열만 쓴다.
+   ===================================================================== */
+
+/* ---------- 순위 색 단계 ----------
+   1등 파랑, 마지막 등수 빨강, 중간 등수는 주황에서 빨강 쪽으로 단계를 준다.
+   색과 함께 등수 숫자를 글로 적으므로 색을 못 보아도 순위가 읽힌다. */
+.team-card[data-place='first'] {
+	background: var(--primary-soft);
+	border: 2px solid var(--primary);
+	border-top-width: 6px;
+	box-shadow: 0 8px 22px rgb(0 117 222 / 16%);
+}
+
+.team-card[data-place='first'] .team-head h3 {
+	color: var(--primary-dark);
+	font-weight: 800;
+}
+
+.team-card[data-place='middle'] {
+	background: var(--orange-soft);
+	border-top-color: var(--orange-line);
+}
+
+.team-card[data-place='last'] {
+	background: var(--danger-soft);
+	border-top-color: var(--danger-line);
+}
+
+.chip[data-place='first'] {
+	color: var(--on-primary);
+	background: var(--primary);
+	border-color: var(--primary);
+}
+
+.chip[data-place='middle'] {
+	color: var(--orange);
+	background: var(--orange-soft);
+	border-color: var(--orange-line);
+}
+
+.chip[data-place='last'] {
+	color: var(--danger);
+	background: var(--danger-soft);
+	border-color: var(--danger-line);
+}
+
+/* 아직 등수를 못 받은 팀. 점선 테두리로 색 없이도 미정임을 알린다. */
+.chip[data-place='none'] {
+	color: var(--text-caption);
+	background: var(--canvas);
+	border-style: dashed;
+	border-color: var(--border-input);
+}
+
+/* 중간 등수가 여럿이면 --rank-progress(0~1)로 주황에서 빨강 쪽까지 단계를 만든다. */
+@supports (color: color-mix(in oklab, red, blue)) {
+	.chip[data-place='middle'] {
+		color: color-mix(in oklab, var(--orange), var(--danger) calc(var(--rank-progress, 0) * 100%));
+		border-color: color-mix(
+			in oklab,
+			var(--orange-line),
+			var(--danger-line) calc(var(--rank-progress, 0) * 100%)
+		);
+	}
+}
+
+/* 기록 목록의 등수 라벨도 같은 단계를 쓴다. 여기서는 팀 이름을 함께 적는다. */
+.who .chip[data-place='first'] {
+	color: var(--primary-dark);
+	background: var(--primary-soft);
+	border-color: var(--primary-line);
+}
+
+/* ---------- 결과 격자 아래 당첨자 영역 ----------
+   당첨자를 팀 카드 안에 넣지 않고 한곳에 모아 팀 카드 높이를 흔들지 않는다. */
+.picked-section {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 14px;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: 12px;
+}
+
+.picked-section-title {
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: var(--fs-caption);
+	font-weight: var(--fw-bold);
+	letter-spacing: 0;
+}
+
+.picked-groups {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 10px;
+}
+
+.picked-person {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	align-items: stretch;
+	padding: 8px 10px;
+	background: var(--green-soft);
+	border: 1px solid var(--green-line);
+	border-radius: 8px;
+}
+
+/* 팀 이름 색만 순위를 따라간다. 당첨 자체는 늘 초록으로 둔다. */
+.picked-label {
+	color: var(--green);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-bold);
+}
+
+.picked-person[data-place='first'] .picked-label {
+	color: var(--primary-dark);
+}
+
+.picked-person[data-place='middle'] .picked-label {
+	color: var(--orange);
+}
+
+.picked-person[data-place='last'] .picked-label {
+	color: var(--danger);
+}
+
+.picked-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.picked-row {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	min-width: 0;
+}
+
+.picked-number {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	font-feature-settings: 'tnum';
+	background: var(--surface);
+	border-radius: var(--radius-full);
+}
+
+.picked-name {
+	flex: 1;
+	min-width: 0;
+	color: var(--text-heading);
+	font-size: var(--fs-body-sm);
+	font-weight: var(--fw-bold);
+	word-break: keep-all;
+}
+
+.picked-row .circle-btn {
+	width: 28px;
+	height: 28px;
+}
+
+.screen.mobile .picked-row .circle-btn {
+	width: 44px;
+	height: 44px;
+}
+
+/* ---------- 돌림판 옆 당첨자 목록 ----------
+   넓은 화면에서는 판 우측에 세로로 쌓고, 좁은 화면에서는 판 아래에 눕힌다. */
+.wheel-body {
+	display: grid;
+	gap: 14px;
+	justify-items: center;
+	width: 100%;
+}
+
+.wheel-side {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+}
+
+.wheel-side-title {
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: var(--fs-caption);
+	font-weight: var(--fw-bold);
+	letter-spacing: 0;
+	text-align: center;
+}
+
+.wheel-picked-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	justify-content: center;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.wheel-picked-item {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	padding: 0 9px;
+	color: var(--green);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-bold);
+	font-feature-settings: 'tnum';
+	background: var(--green-soft);
+	border: 1px solid var(--green-line);
+	border-radius: var(--radius-full);
+}
+
+/* 돌림판 dialog. 클래스 이름을 wheel-dialog 로 두어 원판 자체인 .wheel 과 겹치지 않게 한다. */
+.modal.wheel-dialog {
+	max-width: 440px;
+	align-items: stretch;
+}
+
+/* 당첨자가 한 명이라도 있을 때만 dialog를 넓히고 판을 조금 줄여 우측을 만든다. */
+.modal.wheel-dialog.has-picks {
+	max-width: 620px;
+}
+
+.modal.wheel-dialog.has-picks .wheel-body {
+	grid-template-columns: minmax(0, 1fr) minmax(150px, 186px);
+	align-items: start;
+	justify-items: stretch;
+}
+
+.modal.wheel-dialog.has-picks .wheel-wrap {
+	--wheel-size: 320px;
+}
+
+.modal.wheel-dialog.has-picks .wheel-side-title,
+.modal.wheel-dialog.has-picks .wheel-picked-list {
+	justify-content: flex-start;
+	text-align: left;
+}
+
+.modal.wheel-dialog.has-picks .wheel-picked-list {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.modal.wheel-dialog.has-picks .wheel-picked-item {
+	justify-content: center;
+	min-height: 30px;
+}
+
+/* 좁은 화면에서는 우측을 만들지 않고 판 아래로 되돌린다. */
+.screen.mobile .modal.wheel-dialog.has-picks {
+	max-width: none;
+}
+
+.screen.mobile .modal.wheel-dialog.has-picks .wheel-body {
+	grid-template-columns: minmax(0, 1fr);
+	justify-items: center;
+}
+
+.screen.mobile .modal.wheel-dialog.has-picks .wheel-wrap {
+	--wheel-size: 298px;
+}
+
+.screen.mobile .modal.wheel-dialog.has-picks .wheel-side-title,
+.screen.mobile .modal.wheel-dialog.has-picks .wheel-picked-list {
+	justify-content: center;
+	text-align: center;
+}
+
+.screen.mobile .modal.wheel-dialog.has-picks .wheel-picked-list {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+/* ---------- 기록 목록의 당첨자 ---------- */
+.history-team-picks {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	min-height: 22px;
+	padding: 0 8px;
+	color: var(--green);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-bold);
+	background: var(--green-soft);
+	border: 1px solid var(--green-line);
+	border-radius: var(--radius-full);
+}
+
+/* ---------- 기록 보기 위쪽 전체 통계 ---------- */
+.history-overview {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 14px;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: 12px;
+}
+
+.history-overview h3 {
+	font-size: var(--fs-body-sm);
+	font-weight: var(--fw-extrabold);
+	line-height: 1.4;
+	letter-spacing: -0.2px;
+}
+
+.overview-facts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+	gap: 8px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.overview-fact {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 8px 10px;
+	background: var(--surface);
+	border: 1px solid var(--hairline);
+	border-radius: 10px;
+}
+
+.overview-fact-label {
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+}
+
+.overview-fact-value {
+	color: var(--text-heading);
+	font-family: var(--font-body);
+	font-size: var(--fs-body-md);
+	font-weight: var(--fw-extrabold);
+	font-feature-settings: 'tnum';
+}
+
+.overview-ranking {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.overview-row {
+	display: grid;
+	grid-template-columns: 18px minmax(48px, 88px) minmax(0, 1fr) auto;
+	gap: 8px;
+	align-items: center;
+}
+
+.overview-place {
+	color: var(--text-caption);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-bold);
+	font-feature-settings: 'tnum';
+	text-align: right;
+}
+
+.overview-name {
+	color: var(--text-heading);
+	font-size: var(--fs-caption);
+	font-weight: var(--fw-bold);
+	word-break: keep-all;
+}
+
+/* 막대는 장식이라 보조 기술에서 숨기고, 옆의 숫자가 같은 값을 글로 말한다. */
+.overview-bar {
+	display: block;
+	height: 8px;
+	overflow: hidden;
+	background: var(--canvas);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-full);
+}
+
+.overview-bar-fill {
+	display: block;
+	height: 100%;
+	background: var(--primary);
+	border-radius: var(--radius-full);
+}
+
+.overview-detail {
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	font-feature-settings: 'tnum';
+	white-space: nowrap;
+}
+
+/* ---------- 참가자 통계 dialog ---------- */
+.modal.stats {
+	max-width: 520px;
+}
+
+.stats-leader-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	gap: 8px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.stats-leader {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 10px 12px;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: 10px;
+}
+
+.stats-leader-label {
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+}
+
+.stats-leader-name {
+	color: var(--text-heading);
+	font-family: var(--font-body);
+	font-size: var(--fs-body-md);
+	font-weight: var(--fw-bold);
+	word-break: keep-all;
+}
+
+.stats-leader-count {
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-feature-settings: 'tnum';
+}
+
+/* 세는 범위를 글로 밝힌다. 색만으로는 어디까지 센 값인지 알 수 없다. */
+.stats-note {
+	color: var(--text-caption);
+	font-size: var(--fs-eyebrow);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+}
+
+.stats-section {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.stats-section h3 {
+	font-size: var(--fs-body-sm);
+	font-weight: var(--fw-bold);
+	line-height: 1.4;
+	letter-spacing: -0.2px;
+}
+
+.stats-pair-list {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.stats-pair {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 10px;
+	align-items: baseline;
+	padding: 8px 12px;
+	color: var(--text-heading);
+	font-size: var(--fs-caption);
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: 10px;
+}
+
+.stats-pair strong {
+	font-weight: var(--fw-bold);
+}
+
+.stats-pair span {
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-feature-settings: 'tnum';
+}
+
+.stats-table {
+	width: 100%;
+	font-size: var(--fs-caption);
+	border-collapse: collapse;
+}
+
+.stats-table th,
+.stats-table td {
+	padding: 7px 8px;
+	border-bottom: 1px solid var(--hairline);
+}
+
+.stats-table thead th {
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	text-align: right;
+}
+
+.stats-table thead th:first-child,
+.stats-table tbody th {
+	text-align: left;
+}
+
+.stats-table tbody th {
+	color: var(--text-heading);
+	font-weight: var(--fw-semibold);
+	word-break: keep-all;
+}
+
+.stats-table td {
+	color: var(--text-body);
+	font-feature-settings: 'tnum';
+	text-align: right;
+}
+
+/* ---------- 통계 머리의 버튼 줄 ---------- */
+.heading-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+/* 390px 에서는 제목과 버튼 세 개가 한 줄에 들어가지 않으므로 버튼 줄을 아래로 내린다. */
+.screen.mobile .statistics-card .card-head {
+	flex-wrap: wrap;
+}
+
+/* 오늘 기록 지우기. 되돌릴 수 있는 표시 지우기라 채우지 않고 글자만 붉게 둔다. */
+.circle-btn.danger {
+	color: var(--danger);
+}
+
+/* 비어 있는 dialog 안내. 무엇이 없는지와 어디에 있는지를 함께 적는다. */
+.subtle-empty {
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+}
