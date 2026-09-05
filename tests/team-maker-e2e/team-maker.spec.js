@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const TEAM_MAKER_PATH = '/team-maker/';
+const TEAM_MAKER_PATH = '/team-maker';
 const browserErrors = new WeakMap();
 
 test.beforeEach(async ({ page }) => {
@@ -19,6 +19,7 @@ test.afterEach(async ({ page }) => {
 async function openTeamMaker(page) {
 	await page.goto(TEAM_MAKER_PATH);
 	await expect(page.getByRole('heading', { name: '팀 메이커', level: 1 })).toBeVisible();
+	expect(new URL(page.url()).pathname).toBe(TEAM_MAKER_PATH);
 }
 
 async function addParticipants(page, names) {

@@ -67,4 +67,4 @@ jobs:
           ROOT_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           curl --fail --silent --show-error --retry 5 --retry-delay 5 "$ROOT_URL" > /dev/null
-          curl --fail --silent --show-error --retry 5 --retry-delay 5 "${ROOT_URL%/}/team-maker/" > /dev/null
+          test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/team-maker")" = "200"

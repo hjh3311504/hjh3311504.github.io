@@ -3,7 +3,7 @@ import { siteBaseUrl } from '$lib/data/meta';
 export const prerender = true;
 
 export function GET() {
-	const pages = ['/', '/team-maker/'].map((pathname) => ({ pathname }));
+	const pages = ['/', '/team-maker'].map((pathname) => ({ pathname }));
 	const body = sitemap(pages);
 
 	return new Response(body, {

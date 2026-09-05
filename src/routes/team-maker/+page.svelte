@@ -9,9 +9,9 @@
 	const seoTitle = '팀짜기 · 조짜기 프로그램 | 팀 메이커';
 	const seoDescription =
 		'스포츠, 게임, 모임 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 도구입니다. 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.';
-	const teamMakerUrl = `${siteBaseUrl}/team-maker/`;
+	const teamMakerUrl = `${siteBaseUrl}/team-maker`;
 	const teamMakerImageUrl = `${siteBaseUrl}/images/team-maker-open-graph-1200x630.png`;
-	const teamMakerAssetsBase = '/team-maker/assets';
+	const teamMakerAssetsBase = '/images/team-maker';
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@graph': [
@@ -98,7 +98,7 @@
 		content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
 	/>
 	<link rel="canonical" href={teamMakerUrl} />
-	<link rel="icon" href={resolve('/team-maker/favicon.svg')} type="image/svg+xml" />
+	<link rel="icon" href={resolve('/images/team-maker/favicon.svg')} type="image/svg+xml" />
 
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="ko_KR" />

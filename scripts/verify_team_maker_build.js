@@ -4,8 +4,8 @@ import path from 'node:path';
 const root = process.cwd();
 const requiredFiles = [
 	'build/index.html',
-	'build/team-maker/index.html',
-	'build/team-maker/favicon.svg',
+	'build/team-maker.html',
+	'build/images/team-maker/favicon.svg',
 	'build/images/team-maker-open-graph-1200x630.png'
 ];
 
@@ -18,7 +18,7 @@ for (const file of requiredFiles) {
 	}
 }
 
-const removedOutputs = ['build/blog.html', 'build/blog', 'build/rss.xml'];
+const removedOutputs = ['build/blog.html', 'build/blog', 'build/rss.xml', 'build/team-maker'];
 for (const output of removedOutputs) {
 	try {
 		await access(path.join(root, output));
@@ -28,7 +28,7 @@ for (const output of removedOutputs) {
 	}
 }
 
-const html = await readFile(path.join(root, 'build/team-maker/index.html'), 'utf8');
+const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
 const core = await readFile(path.join(root, 'src/lib/team-maker/core.js'), 'utf8');
@@ -36,7 +36,7 @@ const css = await readFile(path.join(root, 'src/routes/team-maker/team-maker.css
 
 const requiredHtml = [
 	'<title>팀짜기 · 조짜기 프로그램 | 팀 메이커</title>',
-	'<link rel="canonical" href="https://hjh3311504.github.io/team-maker/"',
+	'<link rel="canonical" href="https://hjh3311504.github.io/team-maker"',
 	'<meta property="og:title" content="팀짜기 · 조짜기 프로그램 | 팀 메이커"',
 	'<meta property="og:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
 	'<meta property="og:image:width" content="1200"',
@@ -58,7 +58,7 @@ if (!structuredDataMatch) {
 }
 const structuredData = JSON.parse(structuredDataMatch[1]);
 const webApplication = structuredData['@graph']?.find((item) => item['@type'] === 'WebApplication');
-if (!webApplication || webApplication.url !== 'https://hjh3311504.github.io/team-maker/') {
+if (!webApplication || webApplication.url !== 'https://hjh3311504.github.io/team-maker') {
 	throw new Error('Team Maker WebApplication 구조화 데이터의 URL이 올바르지 않습니다.');
 }
 if (webApplication.offers?.price !== 0 || webApplication.offers?.priceCurrency !== 'KRW') {
@@ -70,9 +70,12 @@ const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
 	.filter((reference) => !/^(?:https?:|data:|#)/.test(reference));
 for (const reference of new Set(localReferences)) {
 	const cleanReference = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
-	const absolutePath = cleanReference.startsWith('/')
-		? path.join(root, 'build', cleanReference.slice(1))
-		: path.resolve(root, 'build/team-maker', cleanReference);
+	const isTeamMakerPage = /^(?:\.\/|\/)?team-maker$/.test(cleanReference);
+	const absolutePath = isTeamMakerPage
+		? path.join(root, 'build/team-maker.html')
+		: cleanReference.startsWith('/')
+			? path.join(root, 'build', cleanReference.slice(1))
+			: path.resolve(root, 'build', cleanReference);
 	if (!absolutePath.startsWith(path.join(root, 'build'))) {
 		throw new Error(`team-maker HTML의 자원 경로가 build 밖을 가리킵니다: ${reference}`);
 	}

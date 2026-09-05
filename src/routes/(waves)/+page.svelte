@@ -34,7 +34,7 @@
 				<h2 id="browse-title">둘러보기</h2>
 				<ul>
 					<li>
-						<a class="project-card" href={resolve('/team-maker/')}>
+						<a class="project-card" href={resolve('/team-maker')}>
 							<span class="project-icon" aria-hidden="true">
 								<svg
 									width="26"
