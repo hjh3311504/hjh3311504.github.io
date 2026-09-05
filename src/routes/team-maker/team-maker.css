@@ -1779,6 +1779,181 @@ html.team-maker-dialog-open body {
 		word-break: keep-all;
 	}
 
+	.seo-content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.seo-section {
+		padding: 22px;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		box-shadow: 0 2px 8px rgb(28 30 38 / 6%);
+	}
+
+	.seo-section h2 {
+		margin: 0;
+		font-size: 18px;
+		line-height: 1.4;
+		letter-spacing: -0.2px;
+	}
+
+	.seo-details summary {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 36px;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.seo-details summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.seo-details summary::after {
+		flex: none;
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+		content: '펼치기';
+	}
+
+	.seo-details[open] summary {
+		margin-bottom: 18px;
+	}
+
+	.seo-details[open] summary::after {
+		content: '접기';
+	}
+
+	.seo-details summary:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+
+	.guide-steps,
+	.use-case-grid,
+	.feature-list {
+		padding: 0;
+		margin: 0;
+	}
+
+	.guide-steps {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		padding-left: 24px;
+	}
+
+	.guide-steps li {
+		padding-left: 4px;
+	}
+
+	.guide-steps li::marker {
+		color: var(--primary-dark);
+		font-weight: 800;
+	}
+
+	.guide-steps h3,
+	.faq-item h3 {
+		margin: 0;
+		font-size: 16px;
+		line-height: 1.5;
+	}
+
+	.guide-steps p,
+	.faq-item p {
+		margin: 4px 0 0;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.65;
+		word-break: keep-all;
+	}
+
+	.use-case-grid,
+	.feature-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+		list-style: none;
+	}
+
+	.use-case-grid li,
+	.feature-list li {
+		min-width: 0;
+		padding: 14px;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.6;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+		word-break: keep-all;
+	}
+
+	.use-case-grid li {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.use-case-grid strong {
+		color: var(--ink);
+		font-size: 14px;
+	}
+
+	.feature-list li {
+		position: relative;
+		padding-left: 32px;
+	}
+
+	.feature-list li::before {
+		position: absolute;
+		top: 15px;
+		left: 14px;
+		color: var(--primary-dark);
+		font-weight: 800;
+		content: '✓';
+	}
+
+	.faq-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.faq-item {
+		padding: 16px 0;
+		border-top: 1px solid var(--line);
+	}
+
+	.faq-item:first-child {
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.faq-item:last-child {
+		padding-bottom: 0;
+	}
+
+	.trust-note {
+		margin: 0;
+		padding: 16px 18px;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.65;
+		text-align: center;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		word-break: keep-all;
+	}
+
 	.app-dialog {
 		position: fixed;
 		inset: 0;
@@ -3402,6 +3577,11 @@ html.team-maker-dialog-open body {
 	}
 
 	@media (max-width: 640px) {
+		.use-case-grid,
+		.feature-list {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
 		.result-heading {
 			flex-direction: column;
 			align-items: stretch;
