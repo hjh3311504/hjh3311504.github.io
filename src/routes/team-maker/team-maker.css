@@ -3402,6 +3402,11 @@ html.team-maker-dialog-open body {
 	}
 
 	@media (max-width: 640px) {
+		.result-heading {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
 		#bulk-description span {
 			display: block;
 		}
