@@ -11,6 +11,7 @@
 		'스포츠, 게임, 모임 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 도구입니다. 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.';
 	const teamMakerUrl = `${siteBaseUrl}/team-maker/`;
 	const teamMakerImageUrl = `${siteBaseUrl}/images/team-maker-open-graph-1200x630.png`;
+	const teamMakerAssetsBase = '/team-maker/assets';
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@graph': [
@@ -123,11 +124,7 @@
 </svelte:head>
 
 <SiteShell active="team-maker" variant="team-maker">
-	<div
-		class="team-maker-page"
-		data-assets-base={resolve('/team-maker/assets')}
-		bind:this={pageRoot}
-	>
+	<div class="team-maker-page" data-assets-base={teamMakerAssetsBase} bind:this={pageRoot}>
 		<main class="app-shell">
 			<header class="page-header">
 				<h1>팀 메이커</h1>
@@ -300,7 +297,7 @@
 				<div id="result-empty" class="result-empty" role="status">
 					<span
 						class="result-empty-mark"
-						style={`--result-empty-mark-image: url('${resolve('/team-maker/assets/stat-people.png')}')`}
+						style={`--result-empty-mark-image: url('${teamMakerAssetsBase}/stat-people.png')`}
 						aria-hidden="true"
 					></span>
 					<strong>아직 만든 팀이 없습니다</strong>
