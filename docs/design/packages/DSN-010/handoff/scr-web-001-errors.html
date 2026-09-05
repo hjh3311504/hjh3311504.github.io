@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="data:," />
+		<meta name="design_doc_mode" content="canvas" />
+		<title>SCR-WEB-001 · 안내와 오류 · DSN-010</title>
+		<link rel="stylesheet" href="styles/screens.css" />
+		<link rel="stylesheet" href="styles/team-maker.css" />
+		<link rel="stylesheet" href="styles/canvas.css" />
+		<style>
+			.label-strong {
+				color: var(--text-heading);
+				font-size: var(--fs-caption);
+				font-weight: var(--fw-semibold);
+			}
+			.split {
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="doc">
+			<header class="doc-head">
+				<span class="kicker">DSN-010 · SCR-WEB-001 · T6–T8 · 6개 문서 중 3</span>
+				<h1>팀 메이커 · 안내와 오류</h1>
+				<p>
+					브라우저 저장 실패 안내, 규칙 충돌, 배정 실패를 담습니다. 모두 색만이 아니라 왼쪽 굵은 선과
+					경고 모양, 그리고 글로 상태를 전합니다.
+				</p>
+				<nav class="doc-nav">
+					<a href="index.html">개요로</a>
+					<a href="scr-web-001-team-maker.html">1 기본 흐름</a>
+					<a href="scr-web-001-results.html">2 결과와 어두운 테마</a>
+					<a href="scr-web-001-errors.html">3 안내와 오류</a>
+					<a href="scr-web-001-nav-dialogs.html">4 내비게이션과 dialog</a>
+					<a href="scr-web-001-draw-confirm.html">5 추첨과 삭제 확인</a>
+					<a href="scr-web-001-mobile.html">6 모바일</a>
+					<a href="scr-web-002-home.html">SCR-WEB-002 루트 홈</a>
+				</nav>
+			</header>
+
+			<section class="doc-section" id="s4">
+				<h2>안내와 오류</h2>
+				<p class="lede">
+					저장 실패는 화면 맨 위에 alert로 한 번만 알리고 작업은 그대로 이어갑니다. 배정에 실패하면
+					이전 결과를 지우고 결과 자리에 실패 이유를 넣습니다. 둘 다 sticker 색으로 면을 채우지 않고
+					왼쪽 굵은 선과 경고 모양, 그리고 글로 상태를 전합니다.
+				</p>
+				<div class="frames">
+					<figure class="frame" id="t6">
+						<figcaption class="frame-label">
+							<span class="frame-id">T6</span>
+							<span class="frame-name">브라우저 저장 실패 안내</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="light">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 자동">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t6" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20">
+											<header class="page-head">
+												<h1>팀 메이커</h1>
+												<p>스포츠·게임·모임 참가자를 고르게 나누는 무료 팀짜기·조짜기 도구입니다.</p>
+											</header>
+
+											<div class="result-error" role="alert">
+												<span class="mark" aria-hidden="true">
+													<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+												</span>
+												<strong>저장하지 못했습니다</strong>
+												<p>
+													이 브라우저에 참가자 명단을 저장할 수 없습니다.
+												</p>
+											</div>
+
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>1. 참가자 입력 <span class="count">(4명)</span></h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">전체 해제</button>
+														<button class="circle-btn btn-save" type="button" aria-label="명단 저장·불러오기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg></button>
+														<button class="circle-btn btn-clear" type="button" aria-label="명단 삭제"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></button>
+													</div>
+												</div>
+												<p class="help">이름을 적고 엔터를 누르면 아래 명단에 추가됩니다. 쉼표로 여러 명도 가능합니다.</p>
+												<form class="row g8">
+													<span class="field placeholder" style="flex: 1 1 auto">예: 김지원</span>
+													<button class="btn btn-secondary btn-add" type="submit">추가</button>
+													<button class="btn btn-secondary" type="button">일괄 추가</button>
+												</form>
+												<ul class="people">
+													<li class="person"><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span><span class="num">1</span><span class="name">김지원</span><button class="circle-btn" type="button" aria-label="김지원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></li>
+													<li class="person"><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span><span class="num">2</span><span class="name">이서준</span><button class="circle-btn" type="button" aria-label="이서준 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></li>
+													<li class="person"><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span><span class="num">3</span><span class="name">박하은</span><button class="circle-btn" type="button" aria-label="박하은 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></li>
+													<li class="person"><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span><span class="num">4</span><span class="name">최민수</span><button class="circle-btn" type="button" aria-label="최민수 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></li>
+												</ul>
+												<div class="stack g12" style="padding-top: 14px; border-top: 1px solid var(--hairline)">
+													<div class="card-head">
+														<div class="row g8">
+															<h3 class="sub">규칙</h3>
+															<p class="help">같은 팀 1개 · 다른 팀 1개</p>
+														</div>
+														<div class="row g8">
+															<button class="btn btn-utility btn-same" type="button">같은 팀 지정</button>
+															<button class="btn btn-utility btn-apart" type="button">다른 팀 지정</button>
+														</div>
+													</div>
+													<ul class="rules">
+														<li class="rule">
+															<span class="rule-chip">같은 팀</span>
+															<span class="rule-names">김지원<span class="sep">+</span>박하은</span>
+															<button class="circle-btn" type="button" aria-label="같은 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+														</li>
+														<li class="rule">
+															<span class="rule-chip apart">다른 팀</span>
+															<span class="rule-names">이서준<span class="sep">↔</span>최민수</span>
+															<button class="circle-btn" type="button" aria-label="다른 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+														</li>
+													</ul>
+												</div>
+											</section>
+
+											<section class="card stack g16">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수로 나누기</button>
+													<button type="button" role="radio" aria-checked="false">인원 수로 나누기</button>
+												</div>
+												<div class="row wrap g16 split">
+													<div class="stack g4" style="min-width: 200px">
+														<span class="label-strong">팀 수</span>
+														<p class="help">4명을 2개 팀으로 나눕니다.</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+
+											<button class="btn btn-primary btn-block" type="button">팀 만들기</button>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							alert는 <code>role="alert"</code>로 보조 기술이 바로 읽어 줍니다. 저장이 안 될 뿐 입력과 팀 만들기는
+							그대로 동작합니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t7">
+						<figcaption class="frame-label">
+							<span class="frame-id">T7</span>
+							<span class="frame-name">규칙 충돌 오류</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="light">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 자동">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t7" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20" style="--scroll: 96px">
+											<section class="card stack g12">
+												<div class="card-head">
+													<div class="row g8">
+														<h3 class="sub">규칙</h3>
+														<p class="help">같은 팀 1개 · 다른 팀 1개</p>
+													</div>
+													<div class="row g8">
+														<button class="btn btn-utility btn-same" type="button">같은 팀 지정</button>
+														<button class="btn btn-utility btn-apart" type="button">다른 팀 지정</button>
+													</div>
+												</div>
+												<ul class="rules">
+													<li class="rule">
+														<span class="rule-chip">같은 팀</span>
+														<span class="rule-names">김지원<span class="sep">+</span>박하은</span>
+														<button class="circle-btn" type="button" aria-label="같은 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+													<li class="rule">
+														<span class="rule-chip apart">다른 팀</span>
+														<span class="rule-names">김지원<span class="sep">↔</span>박하은</span>
+														<button class="circle-btn" type="button" aria-label="다른 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+												</ul>
+											</section>
+
+											<section class="card stack g16">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수로 나누기</button>
+													<button type="button" role="radio" aria-checked="false">인원 수로 나누기</button>
+												</div>
+												<div class="row wrap g16 split">
+													<div class="stack g4" style="min-width: 200px">
+														<span class="label-strong">팀 수</span>
+														<p class="help">8명을 2개 팀으로 나눕니다.</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+
+											<div class="result-error" role="status">
+												<span class="mark" aria-hidden="true">
+													<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+												</span>
+												<strong>팀을 만들지 못했습니다</strong>
+												<p>같은 팀 규칙과 다른 팀 규칙이 서로 충돌합니다. 규칙을 확인해 주세요.</p>
+											</div>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							김지원·박하은을 같은 팀과 다른 팀으로 동시에 지정한 경우입니다. 이전 결과는 지우고 결과 자리에
+							실패 이유만 남깁니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t8">
+						<figcaption class="frame-label">
+							<span class="frame-id">T8</span>
+							<span class="frame-name">배정 실패 오류 · 어두운 테마</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="dark">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 어둡게">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t8" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20" style="--scroll: 96px">
+											<section class="card stack g12">
+												<div class="card-head">
+													<div class="row g8">
+														<h3 class="sub">규칙</h3>
+														<p class="help">같은 팀 1개 · 다른 팀 2개</p>
+													</div>
+													<div class="row g8">
+														<button class="btn btn-utility btn-same" type="button">같은 팀 지정</button>
+														<button class="btn btn-utility btn-apart" type="button">다른 팀 지정</button>
+													</div>
+												</div>
+												<ul class="rules">
+													<li class="rule">
+														<span class="rule-chip">같은 팀</span>
+														<span class="rule-names">김지원<span class="sep">+</span>박하은<span class="sep">+</span>정예린</span>
+														<button class="circle-btn" type="button" aria-label="같은 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+													<li class="rule">
+														<span class="rule-chip apart">다른 팀</span>
+														<span class="rule-names">김지원<span class="sep">↔</span>최민수</span>
+														<button class="circle-btn" type="button" aria-label="다른 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+													<li class="rule">
+														<span class="rule-chip apart">다른 팀</span>
+														<span class="rule-names">박하은<span class="sep">↔</span>강도윤</span>
+														<button class="circle-btn" type="button" aria-label="다른 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+												</ul>
+											</section>
+
+											<section class="card stack g16">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수로 나누기</button>
+													<button type="button" role="radio" aria-checked="false">인원 수로 나누기</button>
+												</div>
+												<div class="row wrap g16 split">
+													<div class="stack g4" style="min-width: 200px">
+														<span class="label-strong">팀 수</span>
+														<p class="help">8명을 2개 팀으로 나눕니다.</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+
+											<div class="result-error" role="status">
+												<span class="mark" aria-hidden="true">
+													<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+												</span>
+												<strong>팀을 만들지 못했습니다</strong>
+												<p>현재 규칙으로 고르게 나눌 수 없습니다. 규칙이나 팀 수를 고쳐 주세요.</p>
+											</div>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							규칙끼리 직접 부딪치지는 않지만 정원과 조합 때문에 배정을 찾지 못한 경우입니다. 같은 팀으로 묶은
+							인원이 한 팀 정원보다 많을 때는 정원 수를 넣은 다른 문장을 같은 자리에 보여 줍니다.
+						</p>
+					</figure>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

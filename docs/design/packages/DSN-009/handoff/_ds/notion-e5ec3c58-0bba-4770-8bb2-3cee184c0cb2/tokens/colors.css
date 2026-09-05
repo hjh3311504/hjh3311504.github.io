@@ -1,0 +1,15 @@
+:root{
+/* brand — the single structural accent */
+--blue-500:#0075de;--blue-600:#005bab;--indigo-900:#213183;
+--primary:var(--blue-500);--primary-active:var(--blue-600);--on-primary:#ffffff;--secondary:var(--indigo-900);--on-secondary:#ffffff;
+/* decorative sticker palette — illustration only, never CTAs */
+--accent-sky:#62aef0;--accent-purple:#d6b6f6;--accent-purple-deep:#391c57;--accent-pink:#ff64c8;--accent-orange:#dd5b00;--accent-orange-deep:#793400;--accent-teal:#2a9d99;--accent-green:#1aae39;--accent-brown:#523410;
+/* surface */
+--white:#ffffff;--paper:#f6f5f4;--hairline-solid:#e6e6e6;
+--canvas:var(--paper);--surface:var(--white);--surface-soft:var(--paper);--hairline:var(--hairline-solid);--overlay:rgba(0,0,0,.4);--translucent-dark:rgba(0,0,0,.05);
+/* text */
+--ink:rgba(0,0,0,.95);--ink-pure:#000000;--ink-secondary:#31302e;--ink-muted:#615d59;--ink-faint:#a39e98;--ink-inverse:#ffffff;
+--text-heading:var(--ink);--text-body:var(--ink-secondary);--text-muted:var(--ink-muted);--text-caption:var(--ink-faint);--text-link:var(--primary);
+/* borders */
+--border-input:#dddddd;--border-card:var(--hairline);--focus-ring:var(--primary);
+}

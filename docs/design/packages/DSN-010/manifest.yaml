@@ -1,0 +1,58 @@
+schema_version: 3
+id: DSN-010
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-007
+  - REQ-WEB-009
+  - REQ-WEB-011
+  - REQ-WEB-012
+  - REQ-WEB-013
+  - REQ-WEB-014
+  - REQ-WEB-015
+  - REQ-WEB-016
+  - REQ-WEB-017
+  - REQ-WEB-018
+  - REQ-WEB-019
+  - REQ-WEB-020
+  - REQ-WEB-021
+  - REQ-WEB-022
+  - REQ-WEB-023
+  - REQ-WEB-024
+  - REQ-WEB-025
+screens:
+  - SCR-WEB-001
+  - SCR-WEB-002
+spec:
+  status: approved
+  approved_at: "2026-09-04T17:45:28+09:00"
+  ia_sha256: "7a1bbb99dc9d032d1bfd004682655e994c5cdcd96802fa3f9d9869f3691cf836"
+  screen_sha256:
+    SCR-WEB-001: "d3bf5287614f0b0c22ec3eb4048ba0d69230345f5c8fc1ff526f926520ac4fb5"
+    SCR-WEB-002: "8feb2bb898a1b2df05462e3574cd9babe44db7e34ec15a447be832528bfffe8a"
+design_system:
+  source: claude-design
+  connection: project-attached
+  publication: draft
+  name: Notion
+  project_id: e5ec3c58-0bba-4770-8bb2-3cee184c0cb2
+  source_repo:
+  source_revision:
+  source_paths: []
+  checked_at: "2026-09-04T17:45:28+09:00"
+claude_design:
+  transport: manual
+  project_id: 02f8142c-f18a-4f7c-9106-d62f7551d9c5
+  project_url: "https://claude.ai/design/p/02f8142c-f18a-4f7c-9106-d62f7551d9c5"
+  last_synced_at: "2026-09-04T17:29:05+09:00"
+handoff:
+  status: approved
+  approved_at: "2026-09-04T18:02:33+09:00"
+  tree_sha256: "b4f034bcf875d5c2cd69c35cd94adf5452ec866924a81b382819cc7b17d2ee8d"
+review:
+  type: expert
+  summary: 사용자가 전달한 Claude Design DSN-009 최종 작업물을 DSN-010의 시각 기준으로 삼았다. 기존 정책과 충돌하던 3팀 이상 패배 기준을 2등부터 전체 패배로 고치고 승률 표현을 1등 확률로 바꿨다. 첨부본이 추가한 명단 복사, 4. 오늘의 기록, 전체 기록 탭·정렬·검색, 누적 당첨자 카드, 추첨 중 바로 뽑기와 닫기 제한을 승인 문서에 명시했다. 빈 기록, 이전 형식 기록, 유효한 1등이 없는 기록, 키보드 닫기 제한과 정렬 동률 기준을 함께 검토했다.

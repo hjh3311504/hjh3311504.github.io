@@ -1,5 +1,6 @@
 export const TEAM_MODE = 'teams';
 export const SIZE_MODE = 'size';
+export const HISTORY_DAY_START_HOUR = 6;
 
 export const PARTICIPANT_REMOVAL_PATTERN = Object.freeze({
 	EXIT_ONLY: 'exit-only',
@@ -386,3 +387,202 @@ export function makeTeams({ participants, rules = [], teamCount, random = Math.r
 		'현재 규칙으로 고르게 나눌 수 없습니다. 규칙이나 팀 수를 고쳐 주세요.'
 	);
 }
+
+export function formatTeamsText(teams) {
+	const lines = [];
+	for (const team of Array.isArray(teams) ? teams : []) {
+		lines.push(String(team?.name ?? ''));
+		for (const member of Array.isArray(team?.members) ? team.members : []) {
+			lines.push(typeof member === 'string' ? member : String(member?.name ?? ''));
+		}
+	}
+	return lines.join('\n');
+}
+
+export function rankOfTeam(ranking, teamId) {
+	const index = (Array.isArray(ranking) ? ranking : []).indexOf(teamId);
+	return index === -1 ? null : index + 1;
+}
+
+function normalizeRanking(ranking, teamIds) {
+	const available = new Set(teamIds);
+	const seen = new Set();
+	const result = [];
+	for (const id of Array.isArray(ranking) ? ranking : []) {
+		if (!available.has(id) || seen.has(id)) continue;
+		seen.add(id);
+		result.push(id);
+	}
+	return result;
+}
+
+function completeRanking(ranking, teamIds) {
+	if (ranking.length !== teamIds.length - 1) return ranking;
+	const assigned = new Set(ranking);
+	const last = teamIds.find((id) => !assigned.has(id));
+	return last === undefined ? ranking : [...ranking, last];
+}
+
+export function appendTeamRank(ranking, teamId, teamIds) {
+	const current = normalizeRanking(ranking, teamIds);
+	if (!teamIds.includes(teamId) || current.includes(teamId)) return ranking;
+	return completeRanking([...current, teamId], teamIds);
+}
+
+export function removeLastTeamRank(ranking, teamIds) {
+	const current = normalizeRanking(ranking, teamIds);
+	if (current.length === 0) return current;
+	const removeCount = current.length === teamIds.length && current.length >= 2 ? 2 : 1;
+	return current.slice(0, current.length - removeCount);
+}
+
+export function resolveTeamRanking(entry) {
+	const teams = Array.isArray(entry?.teams) ? entry.teams : [];
+	const teamIds = teams.map((team) => team?.id);
+	let ranking = normalizeRanking(entry?.ranking, teamIds);
+	if (!Array.isArray(entry?.ranking) && teamIds.includes(entry?.winnerTeamId)) {
+		ranking = [entry.winnerTeamId];
+	}
+	ranking = completeRanking(ranking, teamIds);
+	return { ranking, complete: teamIds.length > 0 && ranking.length === teamIds.length };
+}
+
+export function formatTeamResultLabel({ teamName, rank, teamCount, compact = false }) {
+	if (rank === null || rank === undefined) return compact ? '미정' : '순위 미정';
+	if (teamCount === 2) return `${teamName}${rank === 1 ? '승' : '패'}`;
+	// 팀 이름을 이미 보여 주는 자리에서는 등수만 적는다.
+	return compact ? `${rank}등` : `${teamName} ${rank}등`;
+}
+
+export function localDateKey(value) {
+	const date = new Date(value);
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const day = String(date.getDate()).padStart(2, '0');
+	return `${year}-${month}-${day}`;
+}
+
+function historyDayKey(value, startHour = HISTORY_DAY_START_HOUR) {
+	const date = new Date(value);
+	date.setHours(date.getHours() - startHour);
+	return localDateKey(date);
+}
+
+export function selectTodayHistory(
+	history,
+	{ now = new Date(), clearedAt = null, startHour = HISTORY_DAY_START_HOUR } = {}
+) {
+	const todayKey = historyDayKey(now, startHour);
+	return (Array.isArray(history) ? history : []).filter((entry) => {
+		if (historyDayKey(entry?.occurredAt, startHour) !== todayKey) return false;
+		return !clearedAt || entry.occurredAt > clearedAt;
+	});
+}
+
+function compareNames(first, second) {
+	if (first === second) return 0;
+	return first < second ? -1 : 1;
+}
+
+export function summarizeParticipantStats(history, { minimumTogether = 2, limit = 3 } = {}) {
+	const entries = Array.isArray(history) ? history : [];
+	const players = new Map();
+	const pairs = new Map();
+
+	const playerOf = (name) => {
+		if (!players.has(name)) {
+			players.set(name, { name, matches: 0, wins: 0, losses: 0, picks: 0 });
+		}
+		return players.get(name);
+	};
+
+	for (const entry of entries) {
+		const { ranking } = resolveTeamRanking(entry);
+		const firstTeamId = ranking[0];
+		const teams = Array.isArray(entry?.teams) ? entry.teams : [];
+		const hasValidFirst = teams.some((team) => team?.id === firstTeamId);
+		const countedNames = new Set();
+
+		for (const team of teams) {
+			const names = [...new Set(Array.isArray(team?.members) ? team.members : [])];
+			const won = hasValidFirst && team?.id === firstTeamId;
+			const lost = hasValidFirst && !won;
+
+			for (const name of names) {
+				const player = playerOf(name);
+				if (!countedNames.has(name)) {
+					if (hasValidFirst) player.matches += 1;
+					countedNames.add(name);
+				}
+				if (won) player.wins += 1;
+				if (lost) player.losses += 1;
+			}
+
+			for (const name of Array.isArray(team?.picks) ? team.picks : []) {
+				playerOf(name).picks += 1;
+			}
+
+			for (let first = 0; first < names.length; first += 1) {
+				for (let second = first + 1; second < names.length; second += 1) {
+					const ordered =
+						compareNames(names[first], names[second]) <= 0
+							? [names[first], names[second]]
+							: [names[second], names[first]];
+					const key = `${ordered[0]}${ordered[1]}`;
+					if (!pairs.has(key)) {
+						pairs.set(key, { names: ordered, together: 0, wins: 0, losses: 0 });
+					}
+					const pair = pairs.get(key);
+					if (hasValidFirst) {
+						pair.together += 1;
+						if (won) pair.wins += 1;
+						if (lost) pair.losses += 1;
+					}
+				}
+			}
+		}
+	}
+
+	const topOf = (field) =>
+		[...players.values()]
+			.filter((player) => player[field] > 0)
+			.map((player) => ({ name: player.name, count: player[field] }))
+			.sort((first, second) => second.count - first.count || compareNames(first.name, second.name))
+			.slice(0, limit);
+
+	return {
+		matchCount: entries.length,
+		players: [...players.values()]
+			.map((player) => {
+				const decidedMatches = player.wins + player.losses;
+				return {
+					...player,
+					winRate: decidedMatches > 0 ? player.wins / decidedMatches : 0
+				};
+			})
+			.sort(
+				(first, second) =>
+					second.wins - first.wins ||
+					second.matches - first.matches ||
+					compareNames(first.name, second.name)
+			),
+		topWins: topOf('wins'),
+		topPicks: topOf('picks'),
+		topLosses: topOf('losses'),
+		pairs: [...pairs.values()]
+			.filter((pair) => pair.together >= minimumTogether)
+			.map((pair) => ({ ...pair, winRate: pair.wins / pair.together }))
+			.sort(
+				(first, second) =>
+					second.winRate - first.winRate ||
+					second.together - first.together ||
+					compareNames(first.names[0], second.names[0]) ||
+					compareNames(first.names[1], second.names[1])
+			)
+			.slice(0, limit)
+	};
+}
+
+export const WHEEL_SPIN_DURATION = 6500;
+export const WHEEL_SPIN_SETTLE = 100;
+export const WHEEL_SPIN_EASING = Object.freeze([0.1, 0.72, 0.06, 1]);

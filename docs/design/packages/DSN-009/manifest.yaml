@@ -1,0 +1,58 @@
+schema_version: 3
+id: DSN-009
+surface: web
+requirements:
+  - REQ-WEB-001
+  - REQ-WEB-002
+  - REQ-WEB-003
+  - REQ-WEB-005
+  - REQ-WEB-006
+  - REQ-WEB-007
+  - REQ-WEB-009
+  - REQ-WEB-011
+  - REQ-WEB-012
+  - REQ-WEB-013
+  - REQ-WEB-014
+  - REQ-WEB-015
+  - REQ-WEB-016
+  - REQ-WEB-017
+  - REQ-WEB-018
+  - REQ-WEB-019
+  - REQ-WEB-020
+  - REQ-WEB-021
+  - REQ-WEB-022
+  - REQ-WEB-023
+  - REQ-WEB-024
+  - REQ-WEB-025
+screens:
+  - SCR-WEB-001
+  - SCR-WEB-002
+spec:
+  status: approved
+  approved_at: "2026-09-03T12:02:10+09:00"
+  ia_sha256: "7a1bbb99dc9d032d1bfd004682655e994c5cdcd96802fa3f9d9869f3691cf836"
+  screen_sha256:
+    SCR-WEB-001: "2df602f003a9643d07b2c113cdceef2ac41814c6c3d74b7ed4ed54111978e522"
+    SCR-WEB-002: "8feb2bb898a1b2df05462e3574cd9babe44db7e34ec15a447be832528bfffe8a"
+design_system:
+  source: claude-design
+  connection: project-attached
+  publication: draft
+  name: Notion
+  project_id: e5ec3c58-0bba-4770-8bb2-3cee184c0cb2
+  source_repo:
+  source_revision:
+  source_paths: []
+  checked_at: "2026-09-03T12:04:47+09:00"
+claude_design:
+  transport: direct-mcp
+  project_id: 02f8142c-f18a-4f7c-9106-d62f7551d9c5
+  project_url: "https://claude.ai/design/p/02f8142c-f18a-4f7c-9106-d62f7551d9c5"
+  last_synced_at: "2026-09-03T13:26:40+09:00"
+handoff:
+  status: pending
+  approved_at:
+  tree_sha256: "f8bc336d64296b897df415ffc80bd4d0083e2d8bcc19ef9bb8290e7a655062f3"
+review:
+  type: expert
+  summary: 결과 복사, 참가자 통계 dialog, 오늘 기록 지우기, 당첨자 영역 분리, 돌림판 우측 당첨자 목록, 기록 보기 전체 통계, 순위 색 단계를 반영했다. 적대적 리뷰로 찾은 누락 8건(오늘 기록 지우기 확인 문구의 되돌림 가능성, 복사 실패 대체 수단, 두 통계의 빈 상태, 오늘 기록 지운 시각 저장값, 옛 기록 순위 복구, 당첨자 목록 표시 조건, 회전 중 dialog 닫기)을 문서에 보완했다. 관리자 도구가 아닌 1인용 소비자 도구라 업무 queue 항목은 해당하지 않는다.

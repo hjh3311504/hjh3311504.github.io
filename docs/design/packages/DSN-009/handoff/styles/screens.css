@@ -1,0 +1,1736 @@
+@import url('../_ds/notion-e5ec3c58-0bba-4770-8bb2-3cee184c0cb2/styles.css');
+
+/* =====================================================================
+   DSN-008 · SCR-WEB-001 팀 메이커 / SCR-WEB-002 루트 홈
+   Notion(Daylight) 디자인 시스템 토큰 위에 얹은 화면 전용 layer.
+   구조적 accent는 Notion --primary(#0075de) 하나만 쓴다.
+   sticker 색은 장식(팀 밴드, 아이콘 타일, 돌림판)에만 쓴다.
+   어두운 테마는 Notion에 없으므로 현재 구현의 검증된 dark 값을 그대로 쓴다.
+   ===================================================================== */
+
+/* ---------- 1. 테마 bridge ---------- */
+.ui {
+	/* Notion 토큰에는 control 높이가 없다. 버튼과 input이 한 줄에 설 때 어긋나지 않도록
+	   이 layer에서 하나만 정하고 .btn / .field가 같이 쓴다.
+	   데스크톱 36px, 모바일은 team-maker.css 에서 44px 로 올린다. */
+	--control-h: 36px;
+	--focus: var(--primary);
+	--nav-wash: rgba(0, 117, 222, 0.08);
+	--row-hover: rgba(0, 0, 0, 0.04);
+	--warn-text: var(--accent-orange-deep);
+	--warn-mark: var(--accent-orange);
+	--warn-wash: rgba(221, 91, 0, 0.1);
+	--win-mark: var(--accent-green);
+	--win-wash: rgba(26, 174, 57, 0.16);
+	--elev-lift: var(--shadow-1);
+	--elev-modal: var(--shadow-2);
+	color-scheme: light;
+	background: var(--canvas);
+	color: var(--text-body);
+	font-family: var(--font-body);
+	font-size: var(--fs-body-md);
+	line-height: var(--lh-body-md);
+	font-feature-settings: 'lnum' 1, 'locl' 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+.ui[data-theme='dark'] {
+	color-scheme: dark;
+	--canvas: #1a1918;
+	--surface: #262523;
+	--surface-soft: #2f2e2b;
+	--hairline: #403d3a;
+	--border-input: #514d49;
+	--ink: #ffffff;
+	--ink-secondary: #f2f0ed;
+	--ink-muted: #c3bdb6;
+	--ink-faint: #a7a099;
+	--primary: var(--blue-500);
+	--primary-active: var(--blue-600);
+	--on-primary: #ffffff;
+	--overlay: rgba(0, 0, 0, 0.62);
+	--nav-wash: rgba(0, 117, 222, 0.16);
+	--row-hover: rgba(255, 255, 255, 0.07);
+	--warn-text: #ffa367;
+	--warn-mark: #ffa367;
+	--warn-wash: rgba(255, 163, 103, 0.14);
+	--win-mark: #54d6a8;
+	--win-wash: rgba(84, 214, 168, 0.2);
+	--elev-lift: none;
+	--elev-modal: rgba(0, 0, 0, 0.45) 0 23px 52px;
+}
+
+/* ---------- 2. 화면 shell ---------- */
+.screen {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: var(--canvas);
+}
+
+.sidebar {
+	flex: none;
+	width: 300px;
+	height: 100%;
+	overflow: hidden;
+	background: var(--surface);
+	border-right: 1px solid var(--hairline);
+}
+
+.main {
+	position: relative;
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	min-width: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+.scrollport {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: hidden;
+}
+
+/* 프레임 안에서 스크롤 위치를 흉내 낸다. 사이드바는 그대로 둔다. */
+.content {
+	transform: translateY(calc(-1 * var(--scroll, 0px)));
+}
+
+.floating-menu {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	z-index: 30;
+}
+
+.topbar {
+	position: relative;
+	z-index: 30;
+	display: flex;
+	flex: none;
+	align-items: center;
+	height: 56px;
+	padding-left: 8px;
+}
+
+.menu-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	color: var(--text-heading);
+	background: var(--surface);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+	cursor: pointer;
+}
+
+/* ---------- 3. 내비게이션 ---------- */
+.nav {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 18px 14px 14px;
+	color: var(--text-body);
+}
+
+.nav-head {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	min-height: 36px;
+	padding: 0 2px 0 10px;
+}
+
+.wordmark {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	min-width: 0;
+	height: 36px;
+	overflow: hidden;
+	color: var(--text-heading);
+	font-family: var(--font-display);
+	font-size: 18px;
+	font-weight: var(--fw-bold);
+	letter-spacing: -0.3px;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.icon-btn {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	color: var(--text-muted);
+	background: transparent;
+	border: 0;
+	border-radius: var(--radius-md);
+	cursor: pointer;
+}
+
+.nav-list {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin-top: 18px;
+}
+
+.nav-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 40px;
+	padding: 0 10px 0 7px;
+	color: var(--text-body);
+	font-size: var(--fs-body-sm);
+	font-weight: var(--fw-medium);
+	text-decoration: none;
+	border-left: 3px solid transparent;
+	border-radius: var(--radius-sm);
+}
+
+.nav-row .label {
+	flex: 1;
+}
+
+.nav-row[aria-current='page'] {
+	color: var(--primary);
+	font-weight: var(--fw-bold);
+	background: var(--nav-wash);
+	border-left-color: var(--primary);
+}
+
+.nav-group {
+	padding: 18px 10px 6px;
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	letter-spacing: var(--ls-eyebrow);
+}
+
+.nav-sub {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding-left: 13px;
+	margin-left: 10px;
+	border-left: 1px solid var(--hairline);
+}
+
+.badge {
+	flex: none;
+	padding: 3px 7px;
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	line-height: 1;
+	letter-spacing: var(--ls-eyebrow);
+	border: 1px solid currentColor;
+	border-radius: var(--radius-full);
+}
+
+/* 정적 프레임에서 키보드 초점을 그대로 보여 준다. */
+.is-focused {
+	outline: 2px solid var(--focus);
+	outline-offset: 2px;
+}
+
+.focus-note {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 10px;
+	color: var(--primary);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	background: var(--nav-wash);
+	border-radius: var(--radius-full);
+}
+
+/* ---------- 4. 버튼 ---------- */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	height: var(--control-h);
+	padding: 0 16px;
+	font-family: var(--font-body);
+	font-size: var(--fs-body-sm);
+	font-weight: var(--fw-semibold);
+	font-feature-settings: 'tnum';
+	line-height: 1;
+	color: var(--text-body);
+	text-decoration: none;
+	white-space: nowrap;
+	background: var(--surface);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+	cursor: pointer;
+}
+
+.btn-primary {
+	color: var(--on-primary);
+	background: var(--primary);
+	border-color: var(--primary);
+}
+
+.btn-secondary {
+	border-color: var(--border-input);
+}
+
+.btn-utility {
+	height: 32px;
+	padding: var(--pad-button-utility);
+	font-size: var(--fs-caption);
+	background: var(--surface);
+}
+
+/* 되돌릴 수 없는 동작. 빨간 채움으로 무게를 가장 크게 준다. */
+.btn-danger {
+	color: var(--on-danger);
+	background: var(--danger-fill);
+	border-color: var(--danger-fill);
+}
+
+.btn-block {
+	width: 100%;
+	height: 52px;
+	font-size: var(--fs-button);
+}
+
+/* 비활성화는 색뿐 아니라 점선 테두리와 자물쇠 모양으로도 구분한다. */
+.btn[aria-disabled='true'] {
+	color: var(--text-muted);
+	background: var(--surface-soft);
+	border: 1px dashed var(--border-input);
+	cursor: not-allowed;
+}
+
+.circle-btn {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	color: var(--text-muted);
+	background: transparent;
+	border: 0;
+	border-radius: var(--radius-full);
+	cursor: pointer;
+}
+
+/* ---------- 5. 카드와 본문 ---------- */
+.page {
+	width: 100%;
+	max-width: 720px;
+	margin: 0 auto;
+	padding: 40px var(--gutter) 64px;
+}
+
+.page-head h1 {
+	font-size: var(--fs-heading-1);
+	line-height: var(--lh-heading-1);
+	letter-spacing: var(--ls-heading-1);
+}
+
+.page-head p {
+	margin-top: 10px;
+	color: var(--text-muted);
+	font-size: var(--fs-body-md);
+	word-break: keep-all;
+}
+
+.eyebrow {
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	line-height: var(--lh-eyebrow);
+	letter-spacing: var(--ls-eyebrow);
+}
+
+.card {
+	padding: var(--pad-card);
+	background: var(--surface);
+	border: 1px solid var(--border-card);
+	border-radius: var(--radius-lg);
+}
+
+.card-head {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.card-head h2 {
+	display: flex;
+	gap: 5px;
+	align-items: baseline;
+	font-size: var(--fs-heading-3);
+	line-height: var(--lh-heading-3);
+	letter-spacing: var(--ls-heading-3);
+}
+
+.count {
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: var(--fs-caption);
+	font-weight: var(--fw-regular);
+	letter-spacing: 0;
+}
+
+h3.sub {
+	font-size: var(--fs-title);
+	line-height: var(--lh-title);
+	letter-spacing: var(--ls-title);
+}
+
+.help {
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+}
+
+.stack {
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	display: flex;
+	align-items: center;
+}
+
+.wrap {
+	flex-wrap: wrap;
+}
+
+.g4 {
+	gap: 4px;
+}
+.g6 {
+	gap: 6px;
+}
+.g8 {
+	gap: 8px;
+}
+.g12 {
+	gap: 12px;
+}
+.g16 {
+	gap: 16px;
+}
+.g20 {
+	gap: 20px;
+}
+.g24 {
+	gap: 24px;
+}
+.g32 {
+	gap: 32px;
+}
+.push {
+	margin-left: auto;
+}
+
+/* ---------- 6. form ---------- */
+.field {
+	width: 100%;
+	height: var(--control-h);
+	padding: var(--pad-field) 12px;
+	color: var(--text-body);
+	font-family: var(--font-body);
+	font-size: var(--fs-body-sm);
+	background: var(--surface);
+	border: 1px solid var(--border-input);
+	border-radius: var(--radius-xs);
+}
+
+.field.placeholder {
+	display: flex;
+	align-items: center;
+	color: var(--text-caption);
+}
+
+.field-focus {
+	outline: 2px solid var(--focus);
+	outline-offset: 2px;
+	box-shadow: var(--elev-lift);
+}
+
+.field.area {
+	height: auto;
+	min-height: 150px;
+	padding: 10px 12px;
+	line-height: 1.7;
+	align-items: flex-start;
+	display: block;
+}
+
+/* ---------- 7. 참가자 목록 ---------- */
+.people {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2px 12px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.person {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	height: 44px;
+	padding: 0 6px 0 8px;
+	border-radius: var(--radius-sm);
+}
+
+.person .name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	font-size: var(--fs-body-sm);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.person.out .name {
+	color: var(--text-muted);
+	text-decoration: line-through;
+}
+
+.check {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	color: var(--on-primary);
+	background: var(--primary);
+	border: 1px solid var(--primary);
+	border-radius: var(--radius-xs);
+}
+
+.check.off {
+	color: transparent;
+	background: var(--surface);
+	border-color: var(--border-input);
+}
+
+.empty-box {
+	padding: 20px;
+	color: var(--text-muted);
+	font-size: var(--fs-body-sm);
+	text-align: center;
+	word-break: keep-all;
+	background: var(--surface-soft);
+	border: 1px dashed var(--border-input);
+	border-radius: var(--radius-md);
+}
+
+/* ---------- 8. 규칙 ---------- */
+.rules {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.rule {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 6px 0 10px;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+}
+
+.rule-chip {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	height: 22px;
+	padding: 0 9px;
+	color: var(--text-heading);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	line-height: 1.4;
+	background: var(--surface);
+	border: 1px solid var(--border-input);
+	border-radius: var(--radius-full);
+}
+
+.rule-names {
+	flex: 1;
+	font-size: var(--fs-body-sm);
+}
+
+/* + 와 ↔ 의 글자폭이 달라도 이름이 같은 위치에서 시작하도록 폭을 고정한다. */
+.sep {
+	display: inline-block;
+	width: 28px;
+	padding: 0;
+	color: var(--text-muted);
+	text-align: center;
+}
+
+/* ---------- 9. 나누는 방식 ---------- */
+.segmented {
+	display: flex;
+	gap: 4px;
+	padding: 4px;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+}
+
+.segmented button {
+	flex: 1;
+	height: 40px;
+	color: var(--text-muted);
+	font-family: var(--font-body);
+	font-size: var(--fs-body-sm);
+	font-weight: var(--fw-medium);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+}
+
+.segmented button[aria-checked='true'] {
+	color: var(--primary);
+	font-weight: var(--fw-bold);
+	background: var(--surface);
+	border-color: var(--primary);
+}
+
+.stepper {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: 2px;
+	padding: 4px;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+}
+
+.stepper button {
+	width: 44px;
+	height: 44px;
+	color: var(--text-heading);
+	font-size: 20px;
+	background: var(--surface);
+	border: 1px solid var(--border-input);
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+}
+
+.stepper .value {
+	min-width: 56px;
+	color: var(--text-heading);
+	font-family: var(--font-display);
+	font-size: var(--fs-heading-3);
+	font-weight: var(--fw-bold);
+	letter-spacing: var(--ls-heading-3);
+	text-align: center;
+}
+
+/* ---------- 10. 안내 · 오류 ---------- */
+.notice {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	padding: 16px;
+	background: var(--surface);
+	border: 1px solid var(--hairline);
+	border-left: 3px solid var(--warn-mark);
+	border-radius: var(--radius-lg);
+}
+
+.notice strong {
+	display: block;
+	color: var(--text-heading);
+	font-family: var(--font-display);
+	font-size: var(--fs-title);
+	font-weight: var(--fw-bold);
+	letter-spacing: var(--ls-title);
+}
+
+.notice p {
+	margin-top: 4px;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+}
+
+.mark {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	color: var(--warn-text);
+	background: var(--warn-wash);
+	border-radius: var(--radius-md);
+}
+
+/* 결과 패널의 경고 모양은 아이콘만 남긴다. */
+.result-error .mark {
+	width: auto;
+	height: auto;
+	background: none;
+}
+
+.error-text {
+	color: var(--warn-text);
+	font-size: var(--fs-caption);
+	font-weight: var(--fw-semibold);
+}
+
+.reason {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+}
+
+/* ---------- 11. 결과 ---------- */
+.result-empty {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	align-items: center;
+	padding: 40px 24px;
+	text-align: center;
+	background: var(--surface);
+	border: 1px dashed var(--border-input);
+	border-radius: var(--radius-lg);
+}
+
+.result-empty strong {
+	color: var(--text-heading);
+	font-family: var(--font-display);
+	font-size: var(--fs-title);
+	font-weight: var(--fw-bold);
+	letter-spacing: var(--ls-title);
+}
+
+.result-empty span {
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+}
+
+.empty-tile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	margin-bottom: 6px;
+	color: var(--text-muted);
+	background: var(--surface-soft);
+	border-radius: var(--radius-lg);
+}
+
+.team-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.team-card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background: var(--surface);
+	border: 1px solid var(--border-card);
+	border-radius: var(--radius-lg);
+}
+
+.team-card.won {
+	border-color: var(--border-input);
+	box-shadow: var(--elev-lift);
+}
+
+.band {
+	height: 6px;
+	background: var(--band, #62aef0);
+}
+
+/* 내용 길이가 달라도 버튼 줄은 카드 밑에 붙어 서로 맞춰 진다. */
+.team-body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	padding: 16px;
+}
+
+.team-head {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.team-head h3 {
+	font-size: var(--fs-title);
+	line-height: var(--lh-title);
+	letter-spacing: var(--ls-title);
+	font-feature-settings: 'tnum';
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-feature-settings: 'tnum';
+	height: 22px;
+	padding: 0 10px;
+	color: var(--text-heading);
+	font-size: var(--fs-caption);
+	font-weight: var(--fw-semibold);
+	line-height: 1.2;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-full);
+}
+
+/* 승패는 글(1팀승/2팀패)과 색으로 구분한다. */
+.members {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 0;
+	margin: 12px 0 0;
+	list-style: none;
+}
+
+.members li {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	height: 32px;
+	font-size: var(--fs-body-sm);
+}
+
+.num {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	color: var(--text-muted);
+	font-size: var(--fs-eyebrow);
+	font-weight: var(--fw-semibold);
+	background: var(--surface-soft);
+	border-radius: var(--radius-full);
+}
+
+.team-foot {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 12px;
+	margin-top: auto;
+}
+
+.picked {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+}
+
+.picked strong {
+	color: var(--text-heading);
+	font-family: var(--font-body);
+	font-weight: var(--fw-bold);
+}
+
+/* ---------- 12. 오늘 기록 ---------- */
+.history-list {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.history-row {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	min-height: 48px;
+	padding: 0 6px 0 10px;
+	border-radius: var(--radius-sm);
+}
+
+.history-row + .history-row {
+	border-top: 1px solid var(--hairline);
+}
+
+.time {
+	flex: none;
+	width: 52px;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	font-feature-settings: 'tnum';
+}
+
+.who {
+	flex: 1;
+	min-width: 0;
+	font-size: var(--fs-body-sm);
+}
+
+/* ---------- 13. drawer ---------- */
+.layer {
+	position: absolute;
+	inset: 0;
+	z-index: 60;
+}
+
+.scrim {
+	position: absolute;
+	inset: 0;
+	background: var(--overlay);
+}
+
+.drawer {
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: min(300px, 86%);
+	overflow: hidden;
+	background: var(--surface);
+	border-right: 1px solid var(--hairline);
+	box-shadow: var(--elev-modal);
+}
+
+/* ---------- 14. dialog ---------- */
+.modal-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 70;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+}
+
+.modal {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+	max-width: 520px;
+	max-height: 100%;
+	overflow: hidden;
+	padding: var(--pad-card);
+	background: var(--surface);
+	border: 1px solid var(--border-card);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--elev-modal);
+}
+
+.modal-head {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.modal-head h2 {
+	font-size: var(--fs-heading-3);
+	line-height: var(--lh-heading-3);
+	letter-spacing: var(--ls-heading-3);
+}
+
+.modal-head p {
+	margin-top: 4px;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	line-height: var(--lh-caption);
+	word-break: keep-all;
+}
+
+.modal-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+}
+
+.picker {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2px 12px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.saved-list {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.saved-row {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	min-height: 56px;
+	padding: 0 6px 0 10px;
+	border-radius: var(--radius-sm);
+}
+
+.saved-row + .saved-row {
+	border-top: 1px solid var(--hairline);
+}
+
+/* 이름과 생김을 한 줄에 가로로 둔다. */
+.saved-row .who {
+	display: flex;
+	gap: 5px;
+	align-items: baseline;
+	flex: 1;
+	min-width: 0;
+}
+
+.saved-row .who b {
+	color: var(--text-heading);
+	font-size: var(--fs-body-sm);
+	font-weight: var(--fw-semibold);
+}
+
+.saved-row .who span {
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+}
+
+/* 돌림판은 현재 구현을 그대로 쓴다. 참가자 수만큼 파스텔 조각을 두르고,
+   흰 테와 그림자로 카드 위에 띄운다. 조각 색은 primary 계열과 상관없는 장식이다. */
+.wheel-wrap {
+	--wheel-size: 360px;
+	position: relative;
+	width: var(--wheel-size);
+	height: calc(var(--wheel-size) + 18px);
+	margin: 0 auto;
+}
+
+.wheel {
+	position: absolute;
+	top: 18px;
+	left: 0;
+	width: var(--wheel-size);
+	height: var(--wheel-size);
+	overflow: hidden;
+	background: conic-gradient(#f39a8f 0% 25%, #f7bd76 25% 50%, #ecd772 50% 75%, #9ed48b 75% 100%);
+	border: 6px solid #ffffff;
+	border-radius: var(--radius-full);
+	box-shadow:
+		0 0 0 1px var(--border-input),
+		0 8px 20px rgb(28 30 38 / 14%);
+}
+
+/* 조각이 만나는 가운데 점만 가리는 작은 원. 이름표는 바깥쪽에 있어 겹치지 않는다. */
+.wheel-hub {
+	position: absolute;
+	top: calc(18px + var(--wheel-size) / 2);
+	left: 50%;
+	width: 24px;
+	height: 24px;
+	background: var(--surface);
+	border-radius: var(--radius-full);
+	box-shadow: 0 0 0 1px var(--border-input);
+	transform: translate(-50%, -50%);
+}
+
+.wheel-pointer {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	z-index: 2;
+	width: 22px;
+	height: 22px;
+	background: var(--ink);
+	clip-path: polygon(50% 100%, 0 0, 100% 0);
+	transform: translateX(-50%);
+}
+
+.wheel-result {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: center;
+	padding: 12px;
+	color: var(--text-heading);
+	font-size: var(--fs-body-md);
+	font-weight: var(--fw-semibold);
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: var(--radius-md);
+}
+
+/* ---------- 15. 루트 홈 ---------- */
+.home-intro h1 {
+	font-size: var(--fs-heading-1);
+	line-height: var(--lh-heading-1);
+	letter-spacing: var(--ls-heading-1);
+}
+
+.home-intro p {
+	max-width: 46ch;
+	color: var(--text-muted);
+	font-size: var(--fs-body-md);
+	line-height: 1.65;
+	word-break: keep-all;
+}
+
+.browse-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.project-card {
+	display: flex;
+	gap: 18px;
+	align-items: center;
+	padding: var(--pad-card);
+	color: var(--text-body);
+	text-decoration: none;
+	background: var(--surface);
+	border: 1px solid var(--border-card);
+	border-radius: var(--radius-lg);
+}
+
+.tile {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	color: #fff;
+	background: var(--accent-teal);
+	border-radius: var(--radius-lg);
+}
+
+.project-copy {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.project-title {
+	color: var(--text-heading);
+	font-family: var(--font-display);
+	font-size: var(--fs-heading-3);
+	font-weight: var(--fw-bold);
+	line-height: var(--lh-heading-3);
+	letter-spacing: var(--ls-heading-3);
+}
+
+.project-desc {
+	color: var(--text-muted);
+	font-size: var(--fs-body-sm);
+	line-height: 1.6;
+	word-break: keep-all;
+}
+
+.site-footer {
+	padding-top: 20px;
+	color: var(--text-muted);
+	font-size: var(--fs-caption);
+	text-align: right;
+	border-top: 1px solid var(--hairline);
+}
+
+/* ---------- 16. 모바일 ---------- */
+.screen.mobile .page {
+	padding: 8px 16px 40px;
+}
+
+.screen.mobile .page-head h1,
+.screen.mobile .home-intro h1 {
+	font-size: var(--fs-heading-2);
+	line-height: var(--lh-heading-2);
+	letter-spacing: var(--ls-heading-2);
+}
+
+.screen.mobile .people,
+.screen.mobile .picker,
+.screen.mobile .team-grid {
+	grid-template-columns: 1fr;
+}
+
+.screen.mobile .card {
+	padding: 16px;
+}
+
+.screen.mobile .project-card {
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.screen.mobile .modal-layer {
+	padding: 12px;
+}
+
+.screen.mobile .modal {
+	max-width: none;
+}
+
+.screen.mobile .wheel-wrap {
+	--wheel-size: 298px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* =====================================================================
+   DSN-008 · 현재 SvelteKit 구현 일치 layer
+
+   기존 팀 메이커의 layout과 상태 표현을 그대로 유지한다. 유일한 색 변경은
+   보라색 primary 계열을 Notion 파란색 계열로 바꾼 것이다.
+   ===================================================================== */
+.ui {
+	--canvas: #f6f5f4;
+	--surface: #ffffff;
+	--surface-soft: #f9fbfd;
+	--surface-alt: #eef2f7;
+	--ink: #1c1e26;
+	--ink-secondary: #1c1e26;
+	--ink-muted: #5b5f6b;
+	--ink-faint: #8a90a0;
+	--text-heading: var(--ink);
+	--text-body: var(--ink-secondary);
+	--text-muted: var(--ink-muted);
+	--text-caption: var(--ink-faint);
+	--hairline: #e7ecf2;
+	--border-card: #e7ecf2;
+	--border-input: #d7dee7;
+	--primary: #0075de;
+	--primary-active: #005bab;
+	--primary-dark: #005bab;
+	--on-primary: #ffffff;
+	--primary-soft: rgb(0 117 222 / 10%);
+	--primary-line: rgb(0 117 222 / 30%);
+	--focus: #0075de;
+	--focus-ring: #0075de;
+	--nav-wash: rgb(0 117 222 / 9%);
+	--danger: #c2333c;
+	--danger-fill: #f95256;
+	--danger-soft: #fff5f5;
+	--danger-line: #ffd6d8;
+	/* --primary-line 과 같은 방식(강조색의 30% alpha)으로 만든 테두리 색.
+	   --danger-line 은 불투명한 연분홍이라 버튼 테두리로는 보이지 않는다. */
+	--danger-line-strong: rgb(194 51 60 / 30%);
+	--on-danger: #ffffff;
+	--orange: #a83209;
+	--orange-soft: #fff7f2;
+	--orange-line: #ffd9c2;
+	--green: #00815c;
+	--green-soft: #eefaf5;
+	--green-line: #c7ecdf;
+	--warn-text: var(--danger);
+	--warn-mark: var(--danger-fill);
+	--warn-wash: var(--danger-soft);
+	--win-mark: var(--green);
+	--win-wash: var(--green-soft);
+	--overlay: rgb(28 30 38 / 45%);
+	background-color: var(--canvas);
+	background-image: linear-gradient(
+		180deg,
+		rgb(0 117 222 / 10%) 0%,
+		rgb(0 117 222 / 5%) 42%,
+		rgb(0 117 222 / 0%) 100%
+	);
+	background-repeat: no-repeat;
+	background-size: 100% 1000px;
+}
+
+.ui[data-theme='dark'] {
+	--canvas: #1a1918;
+	--surface: #262523;
+	--surface-soft: #2f2e2b;
+	--surface-alt: #373531;
+	--ink: #f2f0ed;
+	--ink-secondary: #f2f0ed;
+	--ink-muted: #c3bdb6;
+	--ink-faint: #a7a099;
+	--text-heading: var(--ink);
+	--text-body: var(--ink-secondary);
+	--text-muted: var(--ink-muted);
+	--text-caption: var(--ink-faint);
+	--hairline: #403d3a;
+	--border-card: #403d3a;
+	--border-input: #514d49;
+	--primary: #0075de;
+	--primary-active: #005bab;
+	--primary-dark: #62aef0;
+	--on-primary: #ffffff;
+	--primary-soft: rgb(0 117 222 / 16%);
+	--primary-line: rgb(0 117 222 / 42%);
+	--focus: #62aef0;
+	--focus-ring: #62aef0;
+	--nav-wash: rgb(0 117 222 / 16%);
+	--danger: #ff9096;
+	--danger-fill: #ff6f75;
+	--danger-soft: rgb(255 111 117 / 12%);
+	--danger-line: rgb(255 111 117 / 45%);
+	--danger-line-strong: var(--danger-line);
+	--on-danger: #180b33;
+	--orange: #ffa367;
+	--orange-soft: rgb(255 163 103 / 12%);
+	--orange-line: rgb(255 163 103 / 42%);
+	--green: #54d6a8;
+	--green-soft: rgb(84 214 168 / 12%);
+	--green-line: rgb(84 214 168 / 40%);
+	--warn-text: var(--danger);
+	--warn-mark: var(--danger-fill);
+	--warn-wash: var(--danger-soft);
+	--win-mark: var(--green);
+	--win-wash: var(--green-soft);
+	--overlay: rgb(0 0 0 / 62%);
+	background-image: linear-gradient(
+		180deg,
+		rgb(0 117 222 / 16%) 0%,
+		rgb(0 117 222 / 7%) 42%,
+		rgb(0 117 222 / 0%) 100%
+	);
+}
+
+.sidebar,
+.drawer {
+	background: var(--surface);
+	border-color: var(--hairline);
+}
+
+.menu-btn,
+.icon-btn,
+.btn,
+.circle-btn,
+.stepper button {
+	border-radius: 8px;
+}
+
+.nav-row {
+	min-height: 38px;
+	font-size: 15px;
+	border-radius: 5px;
+}
+
+.content.page:has(.page-head) {
+	max-width: 688px;
+	padding-top: 40px;
+	padding-bottom: 72px;
+}
+
+.page-head {
+	padding: 0 4px;
+}
+
+.page-head h1 {
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 1.25;
+	letter-spacing: -0.5px;
+}
+
+.page-head p {
+	margin-top: 8px;
+	font-size: 14px;
+	line-height: 1.65;
+}
+
+.card,
+.result-empty,
+.result-error {
+	border-color: var(--hairline);
+	border-radius: 14px;
+	box-shadow: 0 2px 8px rgb(28 30 38 / 6%);
+}
+
+.card {
+	padding: 22px;
+}
+
+.card-head h2,
+h3.sub {
+	font-size: 17px;
+	line-height: 1.4;
+	letter-spacing: -0.2px;
+}
+
+.btn {
+	border-color: var(--border-input);
+	font-size: 13px;
+	font-weight: 650;
+}
+
+.btn-primary {
+	color: var(--on-primary);
+	background: var(--primary);
+	border-color: var(--primary);
+}
+
+.btn-primary:hover {
+	background: var(--primary-active);
+	border-color: var(--primary-active);
+}
+
+/* 참가자 추가처럼 카드 안에서 가장 자주 누르는 보조 동작.
+   선택된 segmented 버튼과 같은 색으로 맞춘다. */
+.btn-add {
+	color: var(--primary-dark);
+	background: var(--surface);
+	border-color: var(--primary-line);
+}
+
+/* 규칙 지정 한 쌍. 같은 팀은 파랑, 다른 팀은 빨강으로 서로를 구분한다.
+   추가 버튼과 같은 방식으로 글자와 테두리에만 색을 쓴다. */
+.btn-same {
+	color: var(--primary-dark);
+	border-color: var(--primary-line);
+}
+
+.btn-apart {
+	color: var(--danger);
+	border-color: var(--danger-line-strong);
+}
+
+/* 카드 머리의 아이콘 버튼은 옆의 utility 버튼과 한 줄에 서므로
+   같은 배경과 테두리를 줘서 한 묶음으로 보이게 한다. */
+.card-head .circle-btn {
+	background: var(--surface);
+	border: 1px solid var(--border-input);
+}
+
+/* 명단 저장·불러오기는 파랑, 명단 비우기는 되돌릴 수 없으므로 빨강.
+   테두리도 같은 계열로 맞춘다. 위의 .card-head .circle-btn 이 border 단축
+   속성으로 색까지 정하므로 같은 무게의 선택자로 덮어쓴다. */
+.card-head .btn-save {
+	color: var(--primary-dark);
+	border-color: var(--primary-line);
+}
+
+.card-head .btn-clear {
+	color: var(--danger);
+	border-color: var(--danger-line-strong);
+}
+
+.btn-block {
+	height: 54px;
+	font-size: 16px;
+	font-weight: 750;
+	border-radius: 12px;
+}
+
+/* 파란 채움일 때만 들뜬 그림자를 준다. 흰 배경 버튼에서는 번짐으로 보인다. */
+.btn-primary.btn-block {
+	box-shadow: 0 4px 14px rgb(0 117 222 / 24%);
+}
+
+.btn[aria-disabled='true'] {
+	color: var(--text-caption);
+	background: var(--surface-alt);
+	border: 1px dashed var(--border-input);
+	box-shadow: none;
+}
+
+.field {
+	height: var(--control-h);
+	padding: 0 14px;
+	font-size: 15px;
+	background: var(--surface);
+	border-color: var(--border-input);
+	border-radius: 10px;
+}
+
+.field.area {
+	padding: 12px 14px;
+}
+
+.people {
+	gap: 6px;
+}
+
+.person {
+	gap: 10px;
+	height: 50px;
+	padding: 3px 6px 3px 10px;
+	background: var(--surface);
+	border: 1px solid var(--hairline);
+	border-radius: 10px;
+}
+
+.person.out {
+	background: var(--canvas);
+}
+
+.rules {
+	gap: 6px;
+}
+
+.rule {
+	min-height: 44px;
+	padding: 6px 8px 6px 12px;
+	background: var(--surface);
+	border-color: var(--hairline);
+	border-radius: 10px;
+}
+
+.rule-chip {
+	color: var(--primary-dark);
+	background: var(--primary-soft);
+	border: 1px solid var(--primary-line);
+}
+
+.rule-chip.apart {
+	color: var(--orange);
+	background: var(--orange-soft);
+	border: 1px solid var(--orange-line);
+}
+
+.segmented {
+	gap: 6px;
+	background: var(--canvas);
+	border-color: var(--hairline);
+	border-radius: 10px;
+}
+
+.segmented button {
+	font-size: 14px;
+	font-weight: 650;
+	border-radius: 8px;
+}
+
+.segmented button[aria-checked='true'] {
+	color: var(--primary-dark);
+	background: var(--surface);
+	border-color: var(--primary-line);
+	box-shadow: 0 1px 2px rgb(28 30 38 / 10%);
+}
+
+.stepper {
+	gap: 10px;
+	padding: 0;
+	background: transparent;
+	border: 0;
+}
+
+.stepper button {
+	border-color: var(--border-input);
+	border-radius: 10px;
+}
+
+.team-grid {
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.team-card {
+	position: relative;
+	border-color: var(--hairline);
+	border-top: 3px solid var(--primary);
+	border-radius: 14px;
+	box-shadow: 0 2px 8px rgb(28 30 38 / 5%);
+}
+
+.team-card .band {
+	display: none;
+}
+
+.team-card.won {
+	background: var(--primary-soft);
+	border: 2px solid var(--primary);
+	border-top-width: 6px;
+	box-shadow: 0 8px 22px rgb(0 117 222 / 16%);
+}
+
+.team-card.won .team-head h3 {
+	color: var(--primary-dark);
+	font-weight: 800;
+}
+
+.team-body {
+	padding: 16px 18px;
+}
+
+.members li {
+	height: auto;
+	min-height: 32px;
+	padding: 3px 0;
+	font-size: 15px;
+	line-height: 1.7;
+	border-bottom: 1px solid var(--hairline);
+}
+
+.chip,
+.num {
+	background: var(--canvas);
+	border-color: var(--hairline);
+}
+
+/* 승패 라벨. 승리는 채운 파랑, 패배는 옅은 빨강.
+   --primary 는 두 테마에서 같은 값이라 글자는 흰색 하나로 둔다. */
+.chip.win {
+	color: #ffffff;
+	background: var(--primary);
+	border-color: var(--primary);
+}
+
+.chip.lose {
+	color: var(--danger);
+	background: var(--danger-soft);
+	border-color: var(--danger-line);
+}
+
+/* 통계 기록 줄에서는 승패 라벨을 같은 팀·다른 팀 라벨과 같은 조판으로 둔다. */
+.who .chip {
+	padding: 0 9px;
+	font-size: var(--fs-eyebrow);
+	line-height: 1.4;
+}
+
+.who .chip.win {
+	color: var(--primary-dark);
+	background: var(--primary-soft);
+	border-color: var(--primary-line);
+}
+
+/* 결과 패널의 라벨은 통계보다 한 단계 큰 27px 높이를 쓴다. */
+.team-head .chip {
+	min-width: 52px;
+	height: 27px;
+	justify-content: center;
+}
+
+.team-foot {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.team-foot .btn {
+	width: 100%;
+	font-feature-settings: 'tnum';
+}
+
+/* 파란 옅은 채움. 채움 버튼 옆에서 한 단계 낮은 무게로 서는 동작에 쓴다. */
+.btn-soft,
+.team-foot .btn:not(.btn-primary) {
+	color: var(--primary-dark);
+	background: var(--primary-soft);
+	border-color: var(--primary-line);
+}
+
+.team-foot .picked {
+	padding: 8px 10px;
+	color: var(--green);
+	background: var(--green-soft);
+	border: 1px solid var(--green-line);
+	border-radius: 8px;
+}
+
+.statistics-card {
+	margin-top: 0;
+}
+
+.statistics-card .statistics-heading {
+	display: flex;
+	gap: 8px;
+	align-items: baseline;
+}
+
+.statistics-card .statistics-heading h2 {
+	font-size: 17px;
+	line-height: 1.4;
+	letter-spacing: -0.2px;
+}
+
+.history-row {
+	padding: 8px 8px 8px 12px;
+	background: var(--surface-soft);
+	border: 1px solid var(--hairline);
+	border-radius: 10px;
+}
+
+.notice,
+.modal,
+.result-error {
+	border-radius: 14px;
+}
+
+.modal {
+	padding: 22px;
+	border-color: var(--hairline);
+	box-shadow: 0 24px 56px rgb(28 30 38 / 22%);
+}
+
+.content.page:has(.home-intro) {
+	display: flex;
+	min-height: 100%;
+	flex-direction: column;
+}
+
+.content.page:has(.home-intro) .site-footer {
+	margin-top: auto;
+}
+
+@media (max-width: 720px) {
+	.content.page:has(.page-head) {
+		max-width: 100%;
+	}
+}
+
+.screen.mobile .content.page:has(.page-head) {
+	padding: 24px 16px 40px;
+}
+
+.screen.mobile .card {
+	padding: 16px;
+}

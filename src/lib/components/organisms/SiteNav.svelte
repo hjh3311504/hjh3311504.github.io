@@ -282,7 +282,7 @@
 		height: 38px;
 		padding: 0 10px 0 7px;
 		color: var(--shell-text-body);
-		font-size: 15px;
+		font-size: 16px;
 		font-weight: 500;
 		text-decoration: none;
 		background: transparent;
@@ -308,7 +308,7 @@
 	.current-badge {
 		flex: none;
 		padding: 3px 7px;
-		font-size: 11px;
+		font-size: 12px;
 		font-weight: 600;
 		line-height: 1;
 		border: 1px solid currentColor;

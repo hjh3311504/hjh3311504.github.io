@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="data:," />
+		<meta name="design_doc_mode" content="canvas" />
+		<title>SCR-WEB-001 · 결과와 어두운 테마 · DSN-009</title>
+		<link rel="stylesheet" href="styles/screens.css" />
+		<link rel="stylesheet" href="styles/team-maker.css" />
+		<link rel="stylesheet" href="styles/canvas.css" />
+		<style>
+			.label-strong {
+				color: var(--text-heading);
+				font-size: var(--fs-caption);
+				font-weight: var(--fw-semibold);
+			}
+			.split {
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="doc">
+			<header class="doc-head">
+				<span class="kicker">DSN-009 · SCR-WEB-001 · T3–T5 · T24–T25 · 6개 문서 중 2</span>
+				<h1>팀 메이커 · 결과와 어두운 테마</h1>
+				<p>
+					팀을 만든 뒤의 결과 카드, 순위 기록, 결과 복사, 팀 격자 아래 당첨자 영역, 별도 “4. 통계”와
+					어두운 테마를 담습니다. 어두운 테마는 현재 구현의 검증된 값을 그대로 쓰고 구조적 accent만
+					Notion 파란색을 유지합니다.
+				</p>
+				<nav class="doc-nav">
+					<a href="index.html">개요로</a>
+					<a href="scr-web-001-team-maker.html">1 기본 흐름</a>
+					<a href="scr-web-001-results.html">2 결과와 어두운 테마</a>
+					<a href="scr-web-001-errors.html">3 안내와 오류</a>
+					<a href="scr-web-001-nav-dialogs.html">4 내비게이션과 dialog</a>
+					<a href="scr-web-001-draw-confirm.html">5 추첨과 삭제 확인</a>
+					<a href="scr-web-001-mobile.html">6 모바일</a>
+					<a href="scr-web-002-home.html">SCR-WEB-002 루트 홈</a>
+				</nav>
+			</header>
+
+			<section class="doc-section" id="s2">
+				<h2>결과 생성과 승리 기록</h2>
+				<p class="lede">
+					팀 카드는 <code>1팀</code>부터 순서대로 놓고, 카드 위의 장식 띠에는 sticker 색을 쓰지만 구조를
+					바꾸지 않습니다. 팀이 2개면 팀 이름 옆 배지가 팀 이름과 승패를 붙여 <code>1팀승</code>,
+					<code>2팀패</code>처럼 적습니다. 팀이 3개 이상이면 <code>1등</code>처럼 등수 숫자를 적습니다.
+					팀별 추첨은 순위를 받은 뒤에만 나타나며, 뽑은 사람은 팀 카드 안이 아니라 격자 아래 “당첨자”
+					영역에 팀별로 모입니다. 방금 준 순위는 “승리 취소”로 한 단계 되돌릴 수 있습니다.
+				</p>
+				<div class="frames">
+					<figure class="frame" id="t3">
+						<figcaption class="frame-label">
+							<span class="frame-id">T3</span>
+							<span class="frame-name">결과 생성 직후 · 밝은 테마</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="light">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 자동">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t3" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20" style="--scroll: 96px">
+											<section class="card stack g12">
+												<div class="card-head">
+													<div class="stack g4">
+														<h3 class="sub">규칙</h3>
+														<p class="help">같은 팀 1개 · 다른 팀 1개</p>
+													</div>
+													<div class="row g8">
+														<button class="btn btn-utility btn-same" type="button">같은 팀 지정</button>
+														<button class="btn btn-utility btn-apart" type="button">다른 팀 지정</button>
+													</div>
+												</div>
+												<ul class="rules">
+													<li class="rule">
+														<span class="rule-chip">같은 팀</span>
+														<span class="rule-names">김지원<span class="sep">+</span>박하은</span>
+														<button class="circle-btn" type="button" aria-label="같은 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+													<li class="rule">
+														<span class="rule-chip apart">다른 팀</span>
+														<span class="rule-names">이서준<span class="sep">↔</span>최민수</span>
+														<button class="circle-btn" type="button" aria-label="다른 팀 규칙 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+													</li>
+												</ul>
+											</section>
+
+											<section class="card stack g16">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수로 나누기</button>
+													<button type="button" role="radio" aria-checked="false">인원 수로 나누기</button>
+												</div>
+												<div class="row wrap g16 split">
+													<div class="stack g4" style="min-width: 200px">
+														<span class="label-strong">팀 수</span>
+														<p class="help">8명을 2개 팀으로 나눕니다.</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>3. 결과</h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">결과 복사</button>
+														<button class="btn btn-utility btn-soft" type="button">다시 섞기</button>
+													</div>
+												</div>
+												<div class="team-grid">
+													<article class="team-card">
+														<div class="band" style="--band: #62aef0"></div>
+														<div class="team-body">
+															<div class="team-head"><h3>1팀</h3><span class="chip">4명</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>김지원</li>
+																<li><span class="num">2</span>박하은</li>
+																<li><span class="num">3</span>정예린</li>
+																<li><span class="num">4</span>이서준</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-primary" type="button">1팀 승리</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card">
+														<div class="band" style="--band: #2a9d99"></div>
+														<div class="team-body">
+															<div class="team-head"><h3>2팀</h3><span class="chip">4명</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>최민수</li>
+																<li><span class="num">2</span>강도윤</li>
+																<li><span class="num">3</span>윤서아</li>
+																<li><span class="num">4</span>임태호</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-primary" type="button">2팀 승리</button>
+															</div>
+														</div>
+													</article>
+												</div>
+											</section>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							결과가 생기면 파란 채움은 “팀 만들기”에서 팀 카드의 “n팀 승리”로 넘어갑니다. 결과 머리의 “결과
+							복사”와 “다시 섞기”는 한 단계 낮은 무게로 둡니다. “결과 복사”는 팀 이름과 참가자 이름만 줄바꿈으로
+							이어 붙여 클립보드에 넣고 버튼 문구를 잠시 “복사함”으로 바꿉니다. 다시 섞으면 순위와 당첨자는
+							모두 지워집니다.
+						</p>
+					</figure>
+
+					<figure class="frame" id="t4">
+						<figcaption class="frame-label">
+							<span class="frame-id">T4</span>
+							<span class="frame-name">승리 기록과 팀별 추첨 · 밝은 테마</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="light">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 자동">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t4" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20" style="--scroll: 210px">
+											<section class="card stack g16">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수로 나누기</button>
+													<button type="button" role="radio" aria-checked="false">인원 수로 나누기</button>
+												</div>
+												<div class="row wrap g16 split">
+													<div class="stack g4" style="min-width: 200px">
+														<span class="label-strong">팀 수</span>
+														<p class="help">8명을 2개 팀으로 나눕니다.</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>3. 결과</h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">승리 취소</button>
+														<button class="btn btn-utility" type="button">결과 복사</button>
+														<button class="btn btn-utility btn-soft" type="button">다시 섞기</button>
+													</div>
+												</div>
+												<div class="team-grid">
+													<article class="team-card won">
+														<div class="band" style="--band: #62aef0"></div>
+														<div class="team-body">
+															<div class="team-head">
+																<h3>1팀</h3>
+																<div class="row g6">
+																	<span class="chip win">1팀승</span>
+																</div>
+															</div>
+															<ol class="members">
+																<li><span class="num">1</span>김지원</li>
+																<li><span class="num">2</span>박하은</li>
+																<li><span class="num">3</span>정예린</li>
+																<li><span class="num">4</span>이서준</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="1팀에서 한 번 더 뽑기">한 번 더 뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card">
+														<div class="band" style="--band: #2a9d99"></div>
+														<div class="team-body">
+															<div class="team-head">
+																<h3>2팀</h3>
+																<div class="row g6">
+																	<span class="chip lose">2팀패</span>
+																</div>
+															</div>
+															<ol class="members">
+																<li><span class="num">1</span>최민수</li>
+																<li><span class="num">2</span>강도윤</li>
+																<li><span class="num">3</span>윤서아</li>
+																<li><span class="num">4</span>임태호</li>
+															</ol>
+															<div class="team-foot">
+																		<button class="btn btn-utility" type="button" aria-label="2팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+												</div>
+
+												<section class="picked-section" aria-labelledby="t4-picked">
+													<h3 class="picked-section-title" id="t4-picked">당첨자</h3>
+													<div class="picked-groups">
+														<div class="picked-person" data-place="first">
+															<span class="picked-label">1팀</span>
+															<ol class="picked-list">
+																<li class="picked-row">
+																	<span class="picked-number tabular" aria-hidden="true">1</span>
+																	<strong class="picked-name">정예린</strong>
+																	<button class="circle-btn" type="button" aria-label="1팀 1번째 당첨자 정예린 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+																</li>
+																<li class="picked-row">
+																	<span class="picked-number tabular" aria-hidden="true">2</span>
+																	<strong class="picked-name">김지원</strong>
+																	<button class="circle-btn" type="button" aria-label="1팀 2번째 당첨자 김지원 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+																</li>
+															</ol>
+														</div>
+													</div>
+												</section>
+											</section>
+
+											<section class="card stack g12 statistics-card">
+												<div class="card-head">
+													<div class="statistics-heading">
+														<h2>4. 통계</h2>
+														<span class="help">오늘 기록 · 1경기</span>
+													</div>
+													<div class="heading-actions">
+														<button class="btn btn-utility" type="button">참가자 통계</button>
+														<button class="btn btn-utility" type="button">기록 보기</button>
+														<button class="circle-btn danger" type="button" aria-label="오늘 기록 지우기" title="오늘 기록 지우기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></button>
+													</div>
+												</div>
+													<ul class="history-list">
+														<li class="history-row">
+															<span class="time tabular">19:24</span>
+															<span class="who lines">
+																<span class="row g8"><span class="chip win">1팀승</span><span>김지원, 박하은, 정예린, 이서준</span><span class="history-team-picks">당첨 정예린, 김지원</span></span>
+																<span class="row g8"><span class="chip lose">2팀패</span><span>최민수, 강도윤, 윤서아, 임태호</span></span>
+															</span>
+															<button class="circle-btn" type="button" aria-label="19시 24분 기록 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+														</li>
+													</ul>
+											</section>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							팀이 2개면 승리를 한 번 기록해 순위가 끝나고, 방금 기록한 승리만 “승리 취소”로 되돌립니다.
+							당첨자는 팀 카드 안이 아니라 격자 아래 “당첨자” 영역에 팀별로 모입니다. 팀 카드 높이가 뽑을
+							때마다 흔들리지 않게 하려는 것입니다. “4. 통계” 머리에는 “참가자 통계”, “기록 보기”와 오늘
+							기록을 화면에서만 지우는 휴지통 버튼이 섭니다. 참가자와 기록은 이 브라우저에만 남고 밖으로
+							보내지 않습니다.
+						</p>
+					</figure>
+				</div>
+			</section>
+
+			<section class="doc-section" id="s3">
+				<h2>어두운 테마</h2>
+				<p class="lede">
+					canvas <code>#1a1918</code>, surface <code>#262523</code>, hairline <code>#403d3a</code>는 현재 구현의
+					값입니다. 구조적 accent는 밝은 테마와 같은 Notion 토큰 <code>--primary #0075de</code>를 유지합니다.
+					새 색 체계를 만들지 않았습니다.
+				</p>
+				<div class="frames">
+					<figure class="frame" id="t5">
+						<figcaption class="frame-label">
+							<span class="frame-id">T5</span>
+							<span class="frame-name">승리 기록과 팀별 추첨 · 어두운 테마</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="dark">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 어둡게">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t5" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20" style="--scroll: 210px">
+											<section class="card stack g16">
+												<div class="card-head"><h2>2. 나누는 방식</h2></div>
+												<div class="segmented" role="radiogroup" aria-label="나누는 방식">
+													<button type="button" role="radio" aria-checked="true">팀 수로 나누기</button>
+													<button type="button" role="radio" aria-checked="false">인원 수로 나누기</button>
+												</div>
+												<div class="row wrap g16 split">
+													<div class="stack g4" style="min-width: 200px">
+														<span class="label-strong">팀 수</span>
+														<p class="help">8명을 2개 팀으로 나눕니다.</p>
+													</div>
+													<div class="stepper">
+														<button type="button" aria-label="팀 수 줄이기">−</button>
+														<span class="value tabular">2</span>
+														<button type="button" aria-label="팀 수 늘리기">+</button>
+													</div>
+												</div>
+											</section>
+
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>3. 결과</h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">승리 취소</button>
+														<button class="btn btn-utility" type="button">결과 복사</button>
+														<button class="btn btn-utility btn-soft" type="button">다시 섞기</button>
+													</div>
+												</div>
+												<div class="team-grid">
+													<article class="team-card won">
+														<div class="band" style="--band: #62aef0"></div>
+														<div class="team-body">
+															<div class="team-head">
+																<h3>1팀</h3>
+																<div class="row g6">
+																	<span class="chip win">1팀승</span>
+																</div>
+															</div>
+															<ol class="members">
+																<li><span class="num">1</span>김지원</li>
+																<li><span class="num">2</span>박하은</li>
+																<li><span class="num">3</span>정예린</li>
+																<li><span class="num">4</span>이서준</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="1팀에서 한 번 더 뽑기">한 번 더 뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card">
+														<div class="band" style="--band: #2a9d99"></div>
+														<div class="team-body">
+															<div class="team-head">
+																<h3>2팀</h3>
+																<div class="row g6">
+																	<span class="chip lose">2팀패</span>
+																</div>
+															</div>
+															<ol class="members">
+																<li><span class="num">1</span>최민수</li>
+																<li><span class="num">2</span>강도윤</li>
+																<li><span class="num">3</span>윤서아</li>
+																<li><span class="num">4</span>임태호</li>
+															</ol>
+															<div class="team-foot">
+																		<button class="btn btn-utility" type="button" aria-label="2팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+												</div>
+
+												<section class="picked-section" aria-labelledby="t5-picked">
+													<h3 class="picked-section-title" id="t5-picked">당첨자</h3>
+													<div class="picked-groups">
+														<div class="picked-person" data-place="first">
+															<span class="picked-label">1팀</span>
+															<ol class="picked-list">
+																<li class="picked-row">
+																	<span class="picked-number tabular" aria-hidden="true">1</span>
+																	<strong class="picked-name">정예린</strong>
+																	<button class="circle-btn" type="button" aria-label="1팀 1번째 당첨자 정예린 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+																</li>
+																<li class="picked-row">
+																	<span class="picked-number tabular" aria-hidden="true">2</span>
+																	<strong class="picked-name">김지원</strong>
+																	<button class="circle-btn" type="button" aria-label="1팀 2번째 당첨자 김지원 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+																</li>
+															</ol>
+														</div>
+													</div>
+												</section>
+											</section>
+
+											<section class="card stack g12 statistics-card">
+												<div class="card-head">
+													<div class="statistics-heading">
+														<h2>4. 통계</h2>
+														<span class="help">오늘 기록 · 1경기</span>
+													</div>
+													<div class="heading-actions">
+														<button class="btn btn-utility" type="button">참가자 통계</button>
+														<button class="btn btn-utility" type="button">기록 보기</button>
+														<button class="circle-btn danger" type="button" aria-label="오늘 기록 지우기" title="오늘 기록 지우기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></button>
+													</div>
+												</div>
+													<ul class="history-list">
+														<li class="history-row">
+															<span class="time tabular">19:24</span>
+															<span class="who lines">
+																<span class="row g8"><span class="chip win">1팀승</span><span>김지원, 박하은, 정예린, 이서준</span><span class="history-team-picks">당첨 정예린, 김지원</span></span>
+																<span class="row g8"><span class="chip lose">2팀패</span><span>최민수, 강도윤, 윤서아, 임태호</span></span>
+															</span>
+															<button class="circle-btn" type="button" aria-label="19시 24분 기록 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+														</li>
+													</ul>
+											</section>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							승팀은 색이 아니라 <code>1팀승</code> 글자와 살짝 떠오른 카드로 알립니다. 패팀은 <code>2팀패</code>
+							글자와 옅은 빨간 알약으로 알립니다. 당첨자 알약과 오늘 기록의 “당첨” 표시는 어두운 테마에서도
+							같은 초록 계열을 씁니다.
+						</p>
+					</figure>
+				</div>
+			</section>
+			<section class="doc-section" id="s10">
+				<h2>3팀 이상 순위와 색 단계</h2>
+				<p class="lede">
+					팀이 3개 이상이면 승·패 두 가지 대신 1등부터 순차로 등수를 지정합니다. 남은 팀이 하나가 되면
+					그 팀은 자동으로 마지막 등수가 됩니다. 색은 새로 만들지 않고 primary·orange·danger 계열만 씁니다.
+					팀 이름이 바로 옆에 보이는 결과 카드 칩에서는 <code>1등</code>처럼 등수만 적고, 팀 이름이 없는
+					기록 목록에서는 <code>1팀 1등</code>처럼 팀 이름과 함께 적습니다.
+				</p>
+				<div class="frames">
+					<figure class="frame" id="t24">
+						<figcaption class="frame-label">
+							<span class="frame-id">T24</span>
+							<span class="frame-name">5팀 · 순위 지정 중</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="light">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 자동">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t24" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20" style="--scroll: 96px">
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>3. 결과</h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">순위 취소</button>
+														<button class="btn btn-utility" type="button">결과 복사</button>
+														<button class="btn btn-utility btn-soft" type="button">다시 섞기</button>
+													</div>
+												</div>
+												<div class="team-grid">
+													<article class="team-card" data-place="first">
+														<div class="team-body">
+															<div class="team-head"><h3>1팀</h3><span class="chip" data-place="first">1등</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>김지원</li>
+																<li><span class="num">2</span>박하은</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="1팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="middle" style="--rank-progress: 0">
+														<div class="team-body">
+															<div class="team-head"><h3>2팀</h3><span class="chip" data-place="middle">2등</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>정예린</li>
+																<li><span class="num">2</span>이서준</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="2팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="none">
+														<div class="team-body">
+															<div class="team-head"><h3>3팀</h3><span class="chip" data-place="none">순위 미정</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>최민수</li>
+																<li><span class="num">2</span>강도윤</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-primary" type="button" aria-label="3팀 3등 기록">3등</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="none">
+														<div class="team-body">
+															<div class="team-head"><h3>4팀</h3><span class="chip" data-place="none">순위 미정</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>윤서아</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-primary" type="button" aria-label="4팀 3등 기록">3등</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="none">
+														<div class="team-body">
+															<div class="team-head"><h3>5팀</h3><span class="chip" data-place="none">순위 미정</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>임태호</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-primary" type="button" aria-label="5팀 3등 기록">3등</button>
+															</div>
+														</div>
+													</article>
+												</div>
+											</section>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							8명을 5개 팀으로 나눈 결과입니다. 1등과 2등을 준 뒤라 남은 팀 버튼이 모두 “3등”으로 바뀌었습니다.
+							아직 등수를 못 받은 팀은 점선 테두리와 “순위 미정” 글로 알려 색을 못 보아도 읽힙니다. 등수를
+							받은 팀에만 “뽑기”가 생깁니다.
+						</p>
+					</figure>
+					<figure class="frame" id="t25">
+						<figcaption class="frame-label">
+							<span class="frame-id">T25</span>
+							<span class="frame-name">5팀 · 순위 확정과 색 단계</span>
+							<span class="frame-meta">1440 × 1000</span>
+						</figcaption>
+						<div class="viewport desktop">
+							<div class="ui screen" data-theme="light">
+								<aside class="sidebar">
+									<div class="nav">
+										<div class="nav-head">
+											<a class="wordmark" href="scr-web-002-home.html">Lake's develog</a>
+											<button class="icon-btn" type="button" aria-label="테마 변경, 현재 자동">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path></svg>
+											</button>
+											<button class="icon-btn" type="button" aria-pressed="true" aria-label="사이드바 고정 해제">
+												<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18M16 15l-3-3 3-3"></path></svg>
+											</button>
+										</div>
+										<nav class="nav-list" aria-label="사이트 메뉴">
+											<a class="nav-row" href="scr-web-002-home.html">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
+												<span class="label">홈</span>
+											</a>
+											<div class="nav-group">프로젝트</div>
+											<div class="nav-sub">
+												<a class="nav-row" href="#t25" aria-current="page">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+													<span class="label">팀 메이커</span>
+													<span class="badge">현재</span>
+												</a>
+											</div>
+										</nav>
+									</div>
+								</aside>
+								<div class="main">
+									<div class="scrollport">
+										<main class="content page stack g20" style="--scroll: 96px">
+											<button class="btn btn-secondary btn-block btn-add" type="button">팀 만들기</button>
+
+											<section class="card stack g12">
+												<div class="card-head">
+													<h2>3. 결과</h2>
+													<div class="row g8">
+														<button class="btn btn-utility" type="button">순위 취소</button>
+														<button class="btn btn-utility" type="button">결과 복사</button>
+														<button class="btn btn-utility btn-soft" type="button">다시 섞기</button>
+													</div>
+												</div>
+												<div class="team-grid">
+													<article class="team-card" data-place="first">
+														<div class="team-body">
+															<div class="team-head"><h3>1팀</h3><span class="chip" data-place="first">1등</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>김지원</li>
+																<li><span class="num">2</span>박하은</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="1팀에서 한 번 더 뽑기">한 번 더 뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="middle" style="--rank-progress: 0">
+														<div class="team-body">
+															<div class="team-head"><h3>2팀</h3><span class="chip" data-place="middle">2등</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>정예린</li>
+																<li><span class="num">2</span>이서준</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="2팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="middle" style="--rank-progress: 0.5">
+														<div class="team-body">
+															<div class="team-head"><h3>3팀</h3><span class="chip" data-place="middle">3등</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>최민수</li>
+																<li><span class="num">2</span>강도윤</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="3팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="middle" style="--rank-progress: 1">
+														<div class="team-body">
+															<div class="team-head"><h3>4팀</h3><span class="chip" data-place="middle">4등</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>윤서아</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="4팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+													<article class="team-card" data-place="last">
+														<div class="team-body">
+															<div class="team-head"><h3>5팀</h3><span class="chip" data-place="last">5등</span></div>
+															<ol class="members">
+																<li><span class="num">1</span>임태호</li>
+															</ol>
+															<div class="team-foot">
+																<button class="btn btn-utility" type="button" aria-label="5팀에서 한 명 뽑기">뽑기</button>
+															</div>
+														</div>
+													</article>
+												</div>
+												<section class="picked-section" aria-labelledby="t25-picked">
+													<h3 class="picked-section-title" id="t25-picked">당첨자</h3>
+													<div class="picked-groups">
+														<div class="picked-person" data-place="first">
+															<span class="picked-label">1팀</span>
+															<ol class="picked-list">
+																<li class="picked-row">
+																	<span class="picked-number tabular" aria-hidden="true">1</span>
+																	<strong class="picked-name">박하은</strong>
+																	<button class="circle-btn" type="button" aria-label="1팀 1번째 당첨자 박하은 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+																</li>
+															</ol>
+														</div>
+													</div>
+												</section>
+											</section>
+										</main>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="frame-note">
+							남은 팀이 하나가 되면 마지막 등수는 저절로 확정됩니다. 1등은 파랑, 마지막 등수는 빨강, 중간
+							등수 2·3·4등은 <code>--rank-progress</code> 0 · 0.5 · 1 로 주황에서 빨강 쪽까지 단계를 줍니다.
+							이웃한 등수끼리는 색 차이가 작으므로 <code>1등</code>·<code>5등</code>처럼 등수 숫자를 늘 글로
+							함께 적습니다. <code>꼴등</code> 같은 말은 쓰지 않습니다.
+						</p>
+					</figure>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>
