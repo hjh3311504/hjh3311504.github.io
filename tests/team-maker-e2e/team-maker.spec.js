@@ -239,6 +239,19 @@ test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오�
 	expect(svelteAssets.length).toBeGreaterThan(0);
 	const externalRequests = requests.filter((url) => url.origin !== 'http://127.0.0.1:4174');
 	expect(externalRequests.map((url) => url.href)).toEqual([]);
+
+	const initialFontRequests = requests
+		.map((url) => url.pathname)
+		.filter((pathname) => pathname.includes('SUIT'));
+	expect(initialFontRequests.some((pathname) => pathname.includes('SUIT-Team-Maker'))).toBe(true);
+	expect(initialFontRequests.some((pathname) => pathname.includes('SUITE-Team-Maker'))).toBe(true);
+	expect(initialFontRequests.some((pathname) => pathname.includes('SUIT-Variable'))).toBe(false);
+	expect(initialFontRequests.some((pathname) => pathname.includes('SUITE-Variable'))).toBe(false);
+
+	await page.getByRole('textbox', { name: '참가자 이름' }).fill('힣테스트');
+	await expect
+		.poll(() => requests.some((url) => url.pathname.includes('SUIT-Variable')))
+		.toBe(true);
 });
 
 test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배치를 유지한다', async ({ page }) => {

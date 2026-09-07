@@ -10,6 +10,7 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
+		inlineStyleThreshold: 60_000,
 		prerender: {
 			crawl: false,
 			entries: ['*']
