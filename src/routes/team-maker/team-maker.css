@@ -151,6 +151,22 @@ html.team-maker-dialog-open body {
 	--rank-green-fill: #178c6c;
 	--rank-danger-fill: #c2333c;
 	--scrim: rgb(28 30 38 / 45%);
+	--ui-canvas: var(--canvas);
+	--ui-surface: var(--surface);
+	--ui-surface-soft: var(--surface-soft);
+	--ui-text: var(--ink);
+	--ui-text-muted: var(--muted);
+	--ui-border: var(--line);
+	--ui-border-strong: var(--line-strong);
+	--ui-primary: var(--primary);
+	--ui-primary-hover: var(--primary-active);
+	--ui-on-primary: var(--on-primary);
+	--ui-focus: var(--focus);
+	--ui-danger: var(--danger);
+	--ui-danger-fill: var(--danger-fill);
+	--ui-on-danger: var(--on-danger);
+	--ui-danger-soft: var(--danger-soft);
+	--ui-danger-border: var(--danger-line);
 }
 
 .team-maker-page.team-maker-font-expanded {
@@ -1013,7 +1029,9 @@ html.team-maker-dialog-open body {
 	.history-summary-row .remove-row-button,
 	.history-match .remove-row-button {
 		width: 32px;
+		min-width: 32px;
 		height: 32px;
+		min-height: 32px;
 		font-size: 16px;
 	}
 
@@ -2995,6 +3013,7 @@ html.team-maker-dialog-open body {
 	}
 
 	.picked-clear {
+		min-height: 0;
 		padding: 2px 4px;
 		color: var(--danger);
 		font: inherit;

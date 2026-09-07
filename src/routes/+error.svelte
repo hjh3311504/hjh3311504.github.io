@@ -2,7 +2,7 @@
 	import Header from '$lib/components/organisms/Header.svelte';
 	import Footer from '$lib/components/organisms/Footer.svelte';
 
-	import Button from '$lib/components/atoms/Button.svelte';
+	import { Button } from '$lib/components/ui';
 	import Error from '$lib/icons/error.svelte';
 </script>
 
@@ -17,7 +17,7 @@
 			</div>
 			<p>오류가 발생했습니다.</p>
 			<br />
-			<Button href="/">메인 페이지로 이동</Button>
+			<Button class="error-button" href="/" variant="primary">메인 페이지로 이동</Button>
 		</div>
 	</div>
 </main>

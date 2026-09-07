@@ -342,10 +342,21 @@ export function mountTeamMaker(root) {
 		render();
 	}
 
+	function applyUiButton(button, { variant = 'outline', size = 'md' } = {}) {
+		button.classList.add('ui-button');
+		button.dataset.uiButton = '';
+		button.dataset.variant = variant;
+		button.dataset.size = size;
+		return button;
+	}
+
 	function createRemoveButton(label, dataset = {}) {
-		const button = document.createElement('button');
+		const button = applyUiButton(document.createElement('button'), {
+			variant: 'ghost',
+			size: 'icon'
+		});
 		button.type = 'button';
-		button.className = 'remove-row-button';
+		button.classList.add('remove-row-button');
 		button.setAttribute('aria-label', label);
 		Object.assign(button.dataset, dataset);
 
@@ -646,9 +657,10 @@ export function mountTeamMaker(root) {
 			footer.className = 'team-card-footer';
 			if (rank === null) {
 				const nextRank = runtime.ranking.length + 1;
-				const rankButton = document.createElement('button');
+				const rankButton = applyUiButton(document.createElement('button'), { variant: 'primary' });
 				rankButton.type = 'button';
-				rankButton.className = nextRank === 1 ? 'win-button' : 'win-button rank-button';
+				rankButton.classList.add('win-button');
+				if (nextRank !== 1) rankButton.classList.add('rank-button');
 				rankButton.dataset.rankTeam = String(team.id);
 				if (runtime.teams.length === 2) {
 					rankButton.textContent = '승리';
@@ -661,9 +673,9 @@ export function mountTeamMaker(root) {
 			} else {
 				const picks = runtime.picks[team.id] ?? [];
 				const remaining = remainingMembers(team);
-				const draw = document.createElement('button');
+				const draw = applyUiButton(document.createElement('button'), { variant: 'soft' });
 				draw.type = 'button';
-				draw.className = 'draw-button';
+				draw.classList.add('draw-button');
 				draw.dataset.drawTeam = String(team.id);
 				if (remaining.length === 0) {
 					draw.disabled = true;
@@ -1074,9 +1086,9 @@ export function mountTeamMaker(root) {
 			const meta = document.createElement('span');
 			meta.textContent = `전체 ${roster.participants.length}명 · 참가 ${roster.participants.filter((person) => person.included).length}명`;
 			info.append(name, meta);
-			const loadButton = document.createElement('button');
+			const loadButton = applyUiButton(document.createElement('button'), { variant: 'soft' });
 			loadButton.type = 'button';
-			loadButton.className = 'roster-load-button';
+			loadButton.classList.add('roster-load-button');
 			loadButton.dataset.rosterLoad = roster.id;
 			loadButton.textContent = '불러오기';
 			row.append(

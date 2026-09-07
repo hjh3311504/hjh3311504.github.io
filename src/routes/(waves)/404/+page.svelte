@@ -1,5 +1,5 @@
 <script>
-	import Button from '$lib/components/atoms/Button.svelte';
+	import { Button } from '$lib/components/ui';
 	import Error from '$lib/icons/error.svelte';
 </script>
 
@@ -11,7 +11,7 @@
 		</div>
 		<p>It seems like coffee was spilled all over this page, and now it can't be displayed.</p>
 		<br />
-		<Button href="/">Start over</Button>
+		<Button class="error-button" href="/" variant="primary">Start over</Button>
 	</div>
 </div>
 

@@ -1,24 +1,25 @@
 <script>
 	import { resolve } from '$app/paths';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
+	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
 </script>
 
 <SiteShell active="home" variant="home">
 	<div class="home-stage">
-		<main class="home-card">
-			<section class="home-intro" aria-labelledby="home-intro-title">
+		<Surface as="main" variant="raised" class="home-card">
+			<Section class="home-intro" aria-labelledby="home-intro-title">
 				<div class="eyebrow">개발 기록</div>
-				<h1 id="home-intro-title">Lake's develog</h1>
+				<SectionHeader title="Lake's develog" titleId="home-intro-title" level={1} />
 				<p>
 					개발하며 만든 도구와 프로젝트를 여기에 모아 둡니다.<br />직접 쓰려고 만든 결과물을
 					아래에서 살펴볼 수 있습니다.
 				</p>
 				<div class="intro-links">
-					<a
+					<Button
 						class="github-link"
 						href="https://github.com/hjh3311504/hjh3311504.github.io"
-						target="_blank"
-						rel="noopener noreferrer"
+						variant="outline"
+						size="sm"
 					>
 						<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 							<path
@@ -26,15 +27,15 @@
 							></path>
 						</svg>
 						GitHub
-					</a>
+					</Button>
 				</div>
-			</section>
+			</Section>
 
-			<section class="browse" aria-labelledby="browse-title">
-				<h2 id="browse-title">둘러보기</h2>
+			<Section class="browse" aria-labelledby="browse-title">
+				<SectionHeader title="둘러보기" titleId="browse-title" />
 				<ul>
 					<li>
-						<a class="project-card" href={resolve('/team-maker')}>
+						<Surface class="project-card" href={resolve('/team-maker')} variant="interactive">
 							<span class="project-icon" aria-hidden="true">
 								<svg
 									width="26"
@@ -73,13 +74,13 @@
 									<path d="M5 12h14M12 5l7 7-7 7"></path>
 								</svg>
 							</span>
-						</a>
+						</Surface>
 					</li>
 				</ul>
-			</section>
+			</Section>
 
 			<footer><span>© 2026 Lake's develog</span></footer>
-		</main>
+		</Surface>
 	</div>
 </SiteShell>
 
@@ -103,7 +104,7 @@
 		line-height: 1.5;
 	}
 
-	.home-card {
+	:global(.home-card) {
 		display: flex;
 		flex-direction: column;
 		gap: 28px;
@@ -121,7 +122,7 @@
 			0 14px 32px -12px rgb(28 30 38 / 20%);
 	}
 
-	.home-intro {
+	:global(.home-intro) {
 		display: flex;
 		flex-direction: column;
 		gap: 12px;
@@ -136,14 +137,14 @@
 		letter-spacing: 0.125px;
 	}
 
-	h1,
-	h2,
+	:global(h1),
+	:global(h2),
 	.project-title {
 		color: var(--shell-text-heading);
 		font-family: 'SUITE', 'SUIT', sans-serif;
 	}
 
-	h1 {
+	:global(h1) {
 		margin: 0;
 		font-size: clamp(30px, 5vw, 36px);
 		font-weight: 700;
@@ -151,7 +152,7 @@
 		letter-spacing: -0.75px;
 	}
 
-	.home-intro p {
+	:global(.home-intro) p {
 		max-width: 46ch;
 		margin: 0;
 		color: var(--shell-text-muted);
@@ -167,7 +168,7 @@
 		margin-top: 8px;
 	}
 
-	.github-link {
+	:global(.github-link) {
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
@@ -185,7 +186,7 @@
 			0 4px 12px -4px rgb(28 30 38 / 12%);
 	}
 
-	.github-link:hover {
+	:global(.github-link:hover) {
 		color: var(--shell-text-heading);
 		background: var(--shell-surface-soft);
 		box-shadow:
@@ -193,13 +194,13 @@
 			0 16px 34px -12px rgb(28 30 38 / 26%);
 	}
 
-	.github-link:focus-visible,
-	.project-card:focus-visible {
+	:global(.github-link:focus-visible),
+	:global(.project-card:focus-visible) {
 		outline: 2px solid var(--shell-focus);
 		outline-offset: 2px;
 	}
 
-	.browse {
+	:global(.browse) {
 		display: flex;
 		flex-direction: column;
 		gap: 14px;
@@ -207,7 +208,7 @@
 		border-top: 1px solid var(--shell-hairline);
 	}
 
-	.browse h2 {
+	:global(.browse) :global(h2) {
 		padding-top: 20px;
 		margin: 0;
 		font-size: 18px;
@@ -216,7 +217,7 @@
 		letter-spacing: -0.2px;
 	}
 
-	.browse ul {
+	:global(.browse) ul {
 		display: flex;
 		flex-direction: column;
 		gap: 12px;
@@ -225,7 +226,7 @@
 		list-style: none;
 	}
 
-	.project-card {
+	:global(.project-card) {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 18px;
@@ -244,7 +245,7 @@
 			box-shadow 260ms cubic-bezier(0.2, 0, 0.2, 1);
 	}
 
-	.project-card:hover {
+	:global(.project-card:hover) {
 		text-decoration: none;
 		border-color: var(--shell-nav-accent);
 		box-shadow:
@@ -329,7 +330,7 @@
 	}
 
 	@media (max-width: 460px) {
-		.project-card {
+		:global(.project-card) {
 			align-items: flex-start;
 		}
 

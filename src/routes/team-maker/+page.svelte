@@ -2,6 +2,15 @@
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
+	import {
+		Button,
+		Dialog,
+		DisclosureSection,
+		EmptyState,
+		IconButton,
+		Section,
+		SectionHeader
+	} from '$lib/components/ui';
 	import { siteBaseUrl } from '$lib/data/meta.js';
 	import { mountTeamMaker } from '$lib/team-maker/app.js';
 	import './team-maker.css';
@@ -145,21 +154,31 @@
 				</div>
 			</div>
 
-			<section class="card participant-card" aria-labelledby="participant-title">
-				<div class="section-heading">
-					<h2 id="participant-title">
-						1. 참가자 입력 <span id="participant-count" class="count-label">(0명)</span>
-					</h2>
-					<div class="heading-actions">
-						<button id="toggle-all-button" class="utility-button" type="button" hidden
-							>전체 선택</button
+			<Section variant="raised" class="card participant-card" aria-labelledby="participant-title">
+				<SectionHeader
+					title="1. 참가자 입력"
+					titleId="participant-title"
+					class="section-heading"
+					actionsClass="heading-actions"
+				>
+					{#snippet titleSuffix()}
+						<span id="participant-count" class="count-label">(0명)</span>
+					{/snippet}
+					{#snippet actions()}
+						<Button
+							id="toggle-all-button"
+							class="utility-button"
+							variant="outline"
+							size="sm"
+							hidden
 						>
-						<button
+							전체 선택
+						</Button>
+						<IconButton
 							id="open-rosters-button"
 							class="icon-button roster-button"
-							type="button"
-							aria-label="명단 저장·불러오기"
-							title="명단 저장·불러오기"
+							variant="outline"
+							label="명단 저장·불러오기"
 						>
 							<svg
 								width="17"
@@ -176,13 +195,12 @@
 								<path d="M17 21v-8H7v8"></path>
 								<path d="M7 3v5h8"></path>
 							</svg>
-						</button>
-						<button
+						</IconButton>
+						<IconButton
 							id="clear-list-button"
 							class="icon-button danger-button"
-							type="button"
-							aria-label="명단 삭제"
-							title="명단 삭제"
+							variant="outline"
+							label="명단 삭제"
 						>
 							<svg
 								width="16"
@@ -201,9 +219,9 @@
 								<path d="M10 11v6"></path>
 								<path d="M14 11v6"></path>
 							</svg>
-						</button>
-					</div>
-				</div>
+						</IconButton>
+					{/snippet}
+				</SectionHeader>
 				<p id="participant-help" class="participant-help" role="status">
 					이름을 적고 엔터를 누르면 아래 명단에 추가됩니다. 쉼표로 여러 명도 가능합니다.
 				</p>
@@ -217,13 +235,15 @@
 						placeholder="예: 김지원"
 						autocomplete="off"
 					/>
-					<button class="soft-primary-button" type="submit">추가</button>
-					<button id="open-bulk-button" class="utility-button" type="button">일괄 추가</button>
+					<Button class="soft-primary-button" type="submit" variant="soft" size="sm">추가</Button>
+					<Button id="open-bulk-button" class="utility-button" variant="outline" size="sm">
+						일괄 추가
+					</Button>
 				</form>
 
-				<p id="participant-empty" class="empty-box">
+				<EmptyState as="p" id="participant-empty" class="empty-box">
 					아직 추가한 참가자가 없습니다. 위 칸에 이름을 적고 엔터를 눌러 주세요.
-				</p>
+				</EmptyState>
 				<ul id="participant-list" class="participant-list" aria-label="참가자 목록"></ul>
 
 				<div id="rules-area" class="rules-area" hidden>
@@ -235,27 +255,30 @@
 							</p>
 						</div>
 						<div class="rule-actions">
-							<button id="add-together-rule" class="rule-button together" type="button"
-								>같은 팀 지정</button
+							<Button
+								id="add-together-rule"
+								class="rule-button together"
+								variant="outline"
+								size="sm">같은 팀 지정</Button
 							>
-							<button id="add-apart-rule" class="rule-button apart" type="button"
-								>다른 팀 지정</button
+							<Button id="add-apart-rule" class="rule-button apart" variant="outline" size="sm"
+								>다른 팀 지정</Button
 							>
 						</div>
 					</div>
-					<p id="rules-empty" class="subtle-empty" hidden></p>
+					<EmptyState as="p" id="rules-empty" class="subtle-empty" hidden></EmptyState>
 					<ul id="rules-list" class="rules-list" aria-label="배정 규칙 목록"></ul>
 				</div>
-			</section>
+			</Section>
 
-			<section class="card settings-card" aria-labelledby="settings-title">
-				<h2 id="settings-title">2. 나누는 방식</h2>
+			<Section variant="raised" class="card settings-card" aria-labelledby="settings-title">
+				<SectionHeader title="2. 나누는 방식" titleId="settings-title" />
 				<div class="mode-switch" role="radiogroup" aria-label="나누는 방식">
-					<button id="team-mode-button" type="button" role="radio" aria-checked="true"
-						>팀 수로 나누기</button
+					<Button id="team-mode-button" variant="ghost" role="radio" aria-checked="true"
+						>팀 수로 나누기</Button
 					>
-					<button id="size-mode-button" type="button" role="radio" aria-checked="false"
-						>인원 수로 나누기</button
+					<Button id="size-mode-button" variant="ghost" role="radio" aria-checked="false"
+						>인원 수로 나누기</Button
 					>
 				</div>
 
@@ -265,38 +288,49 @@
 						<p id="setup-hint" role="status">2개부터 20개까지 정할 수 있습니다.</p>
 					</div>
 					<div class="stepper">
-						<button id="decrease-value" type="button" aria-label="값 줄이기">−</button>
+						<IconButton id="decrease-value" variant="outline" label="값 줄이기">−</IconButton>
 						<output id="split-value" aria-labelledby="split-value-label">2</output>
-						<button id="increase-value" type="button" aria-label="값 늘리기">+</button>
+						<IconButton id="increase-value" variant="outline" label="값 늘리기">+</IconButton>
 					</div>
 				</div>
-			</section>
+			</Section>
 
-			<button
+			<Button
 				id="make-teams-button"
 				class="primary-button make-button"
-				type="button"
+				variant="primary"
+				size="lg"
+				fullWidth
 				disabled
 				aria-describedby="setup-hint"
 			>
 				팀 만들기
-			</button>
+			</Button>
 
-			<section class="results-section" aria-labelledby="results-title">
-				<div class="result-heading">
-					<h2 id="results-title">3. 결과</h2>
-					<div class="result-actions" hidden>
-						<button id="undo-win-button" class="utility-button" type="button" hidden
-							>승리 취소</button
+			<Section variant="raised" class="results-section" aria-labelledby="results-title">
+				<SectionHeader
+					title="3. 결과"
+					titleId="results-title"
+					class="result-heading"
+					actionsClass="result-actions"
+				>
+					{#snippet actions()}
+						<Button id="undo-win-button" class="utility-button" variant="outline" size="sm" hidden
+							>승리 취소</Button
 						>
-						<button id="copy-result-button" class="utility-button" type="button">명단 복사</button>
-						<button id="reshuffle-button" class="utility-button reshuffle-button" type="button"
-							>다시 섞기</button
+						<Button id="copy-result-button" class="utility-button" variant="outline" size="sm"
+							>명단 복사</Button
 						>
-					</div>
-				</div>
+						<Button
+							id="reshuffle-button"
+							class="utility-button reshuffle-button"
+							variant="primary"
+							size="sm">다시 섞기</Button
+						>
+					{/snippet}
+				</SectionHeader>
 				<p id="result-live" class="sr-only" role="status" aria-live="polite"></p>
-				<div id="result-empty" class="result-empty" role="status">
+				<EmptyState id="result-empty" class="result-empty" role="status">
 					<span
 						class="result-empty-mark"
 						style={`--result-empty-mark-image: url('${teamMakerAssetsBase}/stat-people.png')`}
@@ -304,7 +338,7 @@
 					></span>
 					<strong>아직 만든 팀이 없습니다</strong>
 					<span class="result-empty-description">팀 만들기를 누르면 팀별 명단이 나타납니다.</span>
-				</div>
+				</EmptyState>
 				<div id="team-grid" class="team-grid"></div>
 				<section
 					id="picked-section"
@@ -315,157 +349,178 @@
 					<h3 id="picked-section-title" class="picked-section-title">당첨자</h3>
 					<div id="picked-groups" class="picked-groups"></div>
 				</section>
-			</section>
+			</Section>
 
-			<section id="history-card" class="history-card" aria-labelledby="statistics-title" hidden>
-				<div class="section-heading">
-					<div class="today-heading">
-						<h2 id="statistics-title">4. 오늘의 기록</h2>
-						<p id="today-history-count">(0경기)</p>
-						<p class="won-legend">* 당첨자</p>
-					</div>
-					<div class="heading-actions">
-						<button id="clear-today-button" class="utility-button" type="button" hidden
-							>초기화</button
+			<Section
+				id="history-card"
+				variant="raised"
+				class="history-card"
+				aria-labelledby="statistics-title"
+				hidden
+			>
+				<SectionHeader class="section-heading" actionsClass="heading-actions">
+					{#snippet heading()}
+						<div class="today-heading">
+							<h2 id="statistics-title">4. 오늘의 기록</h2>
+							<p id="today-history-count">(0경기)</p>
+							<p class="won-legend">* 당첨자</p>
+						</div>
+					{/snippet}
+					{#snippet actions()}
+						<Button
+							id="clear-today-button"
+							class="utility-button"
+							variant="outline"
+							size="sm"
+							hidden>초기화</Button
 						>
-						<button id="open-player-stats-button" class="utility-button" type="button"
-							>참가자 통계</button
+						<Button id="open-player-stats-button" class="utility-button" variant="outline" size="sm"
+							>참가자 통계</Button
 						>
-						<button id="open-history-button" class="utility-button roster-button" type="button"
-							>전체 기록</button
+						<Button
+							id="open-history-button"
+							class="utility-button roster-button"
+							variant="outline"
+							size="sm">전체 기록</Button
 						>
-					</div>
-				</div>
+					{/snippet}
+				</SectionHeader>
 				<div class="statistics-content">
-					<p id="today-history-empty" class="subtle-empty">오늘 기록한 경기가 없습니다.</p>
+					<EmptyState as="p" id="today-history-empty" class="subtle-empty">
+						오늘 기록한 경기가 없습니다.
+					</EmptyState>
 					<ul id="today-history-list" class="today-history-list"></ul>
-					<button
+					<Button
 						id="today-history-toggle"
 						class="utility-button today-history-toggle"
-						type="button"
+						variant="outline"
+						size="sm"
 						aria-controls="today-history-list"
 						aria-expanded="false"
 						hidden
 					>
 						펼치기
-					</button>
+					</Button>
 				</div>
-			</section>
+			</Section>
 
 			<div class="seo-content" data-testid="team-maker-guide">
-				<section class="seo-section" aria-labelledby="how-to-title">
-					<details class="seo-details" open>
-						<summary><h2 id="how-to-title">3단계로 팀 나누기</h2></summary>
-						<ol class="guide-steps">
-							<li>
-								<h3>참가자 이름 입력</h3>
-								<p>이름을 한 명씩 추가하거나 여러 명을 줄바꿈 또는 쉼표로 붙여넣으세요.</p>
-							</li>
-							<li>
-								<h3>나누는 방식 선택</h3>
-								<p>
-									팀 수나 팀당 인원을 정하세요. 꼭 같은 팀 또는 다른 팀이어야 하는 사람이 있으면
-									규칙을 추가하세요.
-								</p>
-							</li>
-							<li>
-								<h3>결과 확인</h3>
-								<p>
-									팀 만들기를 누른 뒤 명단을 복사하세요. 필요하면 다시 섞고 승패·순위와 팀별 추첨을
-									기록할 수 있습니다.
-								</p>
-							</li>
-						</ol>
-					</details>
-				</section>
+				<DisclosureSection
+					title="3단계로 팀 나누기"
+					titleId="how-to-title"
+					class="seo-section"
+					detailsClass="seo-details"
+				>
+					<ol class="guide-steps">
+						<li>
+							<h3>참가자 이름 입력</h3>
+							<p>이름을 한 명씩 추가하거나 여러 명을 줄바꿈 또는 쉼표로 붙여넣으세요.</p>
+						</li>
+						<li>
+							<h3>나누는 방식 선택</h3>
+							<p>
+								팀 수나 팀당 인원을 정하세요. 꼭 같은 팀 또는 다른 팀이어야 하는 사람이 있으면
+								규칙을 추가하세요.
+							</p>
+						</li>
+						<li>
+							<h3>결과 확인</h3>
+							<p>
+								팀 만들기를 누른 뒤 명단을 복사하세요. 필요하면 다시 섞고 승패·순위와 팀별 추첨을
+								기록할 수 있습니다.
+							</p>
+						</li>
+					</ol>
+				</DisclosureSection>
 
-				<section class="seo-section" aria-labelledby="use-cases-title">
-					<details class="seo-details" open>
-						<summary><h2 id="use-cases-title">이럴 때 사용하세요</h2></summary>
-						<ul class="use-case-grid">
-							<li>
-								<strong>스포츠</strong><span>축구·풋살·농구처럼 비슷한 인원으로 팀을 나눌 때</span>
-							</li>
-							<li>
-								<strong>게임</strong><span>보드게임·온라인 게임 참가자를 무작위 팀으로 나눌 때</span
-								>
-							</li>
-							<li>
-								<strong>학교·스터디</strong><span
-									>발표·수업·스터디 인원을 조나 모둠으로 나눌 때</span
-								>
-							</li>
-							<li>
-								<strong>모임·워크숍</strong><span
-									>동아리·친목 모임과 워크숍의 활동 팀을 정할 때</span
-								>
-							</li>
-						</ul>
-					</details>
-				</section>
+				<DisclosureSection
+					title="이럴 때 사용하세요"
+					titleId="use-cases-title"
+					class="seo-section"
+					detailsClass="seo-details"
+				>
+					<ul class="use-case-grid">
+						<li>
+							<strong>스포츠</strong><span>축구·풋살·농구처럼 비슷한 인원으로 팀을 나눌 때</span>
+						</li>
+						<li>
+							<strong>게임</strong><span>보드게임·온라인 게임 참가자를 무작위 팀으로 나눌 때</span>
+						</li>
+						<li>
+							<strong>학교·스터디</strong><span>발표·수업·스터디 인원을 조나 모둠으로 나눌 때</span>
+						</li>
+						<li>
+							<strong>모임·워크숍</strong><span>동아리·친목 모임과 워크숍의 활동 팀을 정할 때</span>
+						</li>
+					</ul>
+				</DisclosureSection>
 
-				<section class="seo-section" aria-labelledby="features-title">
-					<details class="seo-details" open>
-						<summary><h2 id="features-title">팀 메이커의 주요 기능</h2></summary>
-						<ul class="feature-list">
-							<li>참가자를 무작위로 섞고 팀별 인원 차이를 최대 1명으로 유지</li>
-							<li>꼭 함께하거나 떨어져야 하는 참가자의 같은 팀·다른 팀 규칙</li>
-							<li>현재 브라우저에서 다시 불러오는 참가자 명단 저장</li>
-							<li>승패·순위 기록과 참가자별 통계</li>
-							<li>순위를 정한 팀에서 한 명씩 뽑는 무작위 추첨</li>
-						</ul>
-					</details>
-				</section>
+				<DisclosureSection
+					title="팀 메이커의 주요 기능"
+					titleId="features-title"
+					class="seo-section"
+					detailsClass="seo-details"
+				>
+					<ul class="feature-list">
+						<li>참가자를 무작위로 섞고 팀별 인원 차이를 최대 1명으로 유지</li>
+						<li>꼭 함께하거나 떨어져야 하는 참가자의 같은 팀·다른 팀 규칙</li>
+						<li>현재 브라우저에서 다시 불러오는 참가자 명단 저장</li>
+						<li>승패·순위 기록과 참가자별 통계</li>
+						<li>순위를 정한 팀에서 한 명씩 뽑는 무작위 추첨</li>
+					</ul>
+				</DisclosureSection>
 
-				<section class="seo-section faq-section" aria-labelledby="faq-title">
-					<details class="seo-details" open>
-						<summary><h2 id="faq-title">자주 묻는 질문</h2></summary>
-						<div class="faq-list">
-							<article class="faq-item">
-								<h3>팀은 어떻게 나뉘나요?</h3>
-								<p>
-									참가자 순서를 무작위로 섞은 뒤 팀별 인원 차이가 최대 1명이 되도록 배정합니다. 같은
-									팀·다른 팀 규칙이 있으면 함께 적용합니다.
-								</p>
-							</article>
-							<article class="faq-item">
-								<h3>인원이 팀 수로 나누어떨어지지 않으면 어떻게 되나요?</h3>
-								<p>
-									일부 팀에 한 명이 더 들어갑니다. 예를 들어 10명을 3팀으로 나누면 4명, 3명, 3명으로
-									배정합니다.
-								</p>
-							</article>
-							<article class="faq-item">
-								<h3>같은 팀이나 다른 팀을 미리 정할 수 있나요?</h3>
-								<p>
-									네. 참가자 2명 이상을 골라 같은 팀 또는 다른 팀 규칙을 추가할 수 있습니다. 모든
-									규칙을 만족할 수 없으면 이유를 알려 줍니다.
-								</p>
-							</article>
-							<article class="faq-item">
-								<h3>참가자 명단을 다음에도 사용할 수 있나요?</h3>
-								<p>
-									네. 이름을 붙여 현재 명단과 참가 여부, 배정 규칙을 저장하고 같은 브라우저에서 다시
-									불러올 수 있습니다.
-								</p>
-							</article>
-							<article class="faq-item">
-								<h3>입력한 이름이 서버로 전송되나요?</h3>
-								<p>
-									아니요. 참가자와 기록은 브라우저 저장 공간인 localStorage에만 저장됩니다. 브라우저
-									데이터를 지우거나 다른 기기로 바꾸면 불러올 수 없습니다.
-								</p>
-							</article>
-							<article class="faq-item">
-								<h3>팀을 만든 뒤에는 무엇을 할 수 있나요?</h3>
-								<p>
-									명단 복사, 다시 섞기, 승패·순위 기록, 팀별 무작위 추첨과 참가자 통계를 사용할 수
-									있습니다.
-								</p>
-							</article>
-						</div>
-					</details>
-				</section>
+				<DisclosureSection
+					title="자주 묻는 질문"
+					titleId="faq-title"
+					class="seo-section faq-section"
+					detailsClass="seo-details"
+				>
+					<div class="faq-list">
+						<article class="faq-item">
+							<h3>팀은 어떻게 나뉘나요?</h3>
+							<p>
+								참가자 순서를 무작위로 섞은 뒤 팀별 인원 차이가 최대 1명이 되도록 배정합니다. 같은
+								팀·다른 팀 규칙이 있으면 함께 적용합니다.
+							</p>
+						</article>
+						<article class="faq-item">
+							<h3>인원이 팀 수로 나누어떨어지지 않으면 어떻게 되나요?</h3>
+							<p>
+								일부 팀에 한 명이 더 들어갑니다. 예를 들어 10명을 3팀으로 나누면 4명, 3명, 3명으로
+								배정합니다.
+							</p>
+						</article>
+						<article class="faq-item">
+							<h3>같은 팀이나 다른 팀을 미리 정할 수 있나요?</h3>
+							<p>
+								네. 참가자 2명 이상을 골라 같은 팀 또는 다른 팀 규칙을 추가할 수 있습니다. 모든
+								규칙을 만족할 수 없으면 이유를 알려 줍니다.
+							</p>
+						</article>
+						<article class="faq-item">
+							<h3>참가자 명단을 다음에도 사용할 수 있나요?</h3>
+							<p>
+								네. 이름을 붙여 현재 명단과 참가 여부, 배정 규칙을 저장하고 같은 브라우저에서 다시
+								불러올 수 있습니다.
+							</p>
+						</article>
+						<article class="faq-item">
+							<h3>입력한 이름이 서버로 전송되나요?</h3>
+							<p>
+								아니요. 참가자와 기록은 브라우저 저장 공간인 localStorage에만 저장됩니다. 브라우저
+								데이터를 지우거나 다른 기기로 바꾸면 불러올 수 없습니다.
+							</p>
+						</article>
+						<article class="faq-item">
+							<h3>팀을 만든 뒤에는 무엇을 할 수 있나요?</h3>
+							<p>
+								명단 복사, 다시 섞기, 승패·순위 기록, 팀별 무작위 추첨과 참가자 통계를 사용할 수
+								있습니다.
+							</p>
+						</article>
+					</div>
+				</DisclosureSection>
 
 				<p class="trust-note">
 					Lake가 만들고 직접 관리합니다. 참가자 이름은 현재 브라우저에만 저장되며 서버로 전송되지
@@ -473,180 +528,111 @@
 				</p>
 			</div>
 		</main>
-		<dialog
+		<Dialog
 			id="bulk-dialog"
 			class="app-dialog"
-			aria-labelledby="bulk-title"
-			aria-describedby="bulk-description"
+			title="참가자 일괄 추가"
+			titleId="bulk-title"
+			descriptionId="bulk-description"
+			describedBy="bulk-description"
 		>
-			<div class="dialog-heading">
-				<div>
-					<h2 id="bulk-title">참가자 일괄 추가</h2>
-					<p id="bulk-description">
-						<span>한 줄에 한 명씩 붙여넣으세요.</span>
-						<span>쉼표로 구분해도 됩니다.</span>
-					</p>
-				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
-					<svg
-						width="15"
-						height="15"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
-					>
-						<path d="M18 6 6 18"></path>
-						<path d="m6 6 12 12"></path>
-					</svg>
-				</button>
-			</div>
+			{#snippet descriptionContent()}
+				<span>한 줄에 한 명씩 붙여넣으세요.</span>
+				<span>쉼표로 구분해도 됩니다.</span>
+			{/snippet}
 			<label class="sr-only" for="bulk-names">추가할 참가자 이름</label>
 			<textarea id="bulk-names" rows="7" placeholder="김지원&#10;이서준&#10;박하은"></textarea>
-			<div class="dialog-actions">
-				<button class="utility-button" type="button" data-close-dialog>취소</button>
-				<button id="bulk-add-button" class="primary-small-button" type="button" disabled
-					>명단에 추가</button
-				>
-			</div>
-		</dialog>
+			{#snippet actions()}
+				<Button class="utility-button" variant="outline" data-close-dialog>취소</Button>
+				<Button id="bulk-add-button" class="primary-small-button" variant="primary" disabled>
+					명단에 추가
+				</Button>
+			{/snippet}
+		</Dialog>
 
-		<dialog
+		<Dialog
 			id="rule-dialog"
 			class="app-dialog"
-			aria-labelledby="rule-dialog-title"
-			aria-describedby="rule-dialog-description"
+			title="같은 팀으로 지정"
+			titleId="rule-dialog-title"
+			description="고른 사람들은 항상 같은 팀에 배정됩니다."
+			descriptionId="rule-dialog-description"
+			describedBy="rule-dialog-description"
 		>
-			<div class="dialog-heading">
-				<div>
-					<h2 id="rule-dialog-title">같은 팀으로 지정</h2>
-					<p id="rule-dialog-description">고른 사람들은 항상 같은 팀에 배정됩니다.</p>
-				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
-					<svg
-						width="15"
-						height="15"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
-					>
-						<path d="M18 6 6 18"></path>
-						<path d="m6 6 12 12"></path>
-					</svg>
-				</button>
-			</div>
 			<ul id="rule-picker-list" class="picker-list"></ul>
 			<p id="rule-picker-note" class="dialog-note error-text">두 명 이상 골라 주세요.</p>
-			<div class="dialog-actions">
-				<button class="utility-button" type="button" data-close-dialog>취소</button>
-				<button id="save-rule-button" class="primary-small-button" type="button" disabled
-					>규칙 추가</button
-				>
-			</div>
-		</dialog>
+			{#snippet actions()}
+				<Button class="utility-button" variant="outline" data-close-dialog>취소</Button>
+				<Button id="save-rule-button" class="primary-small-button" variant="primary" disabled>
+					규칙 추가
+				</Button>
+			{/snippet}
+		</Dialog>
 
-		<dialog
+		<Dialog
 			id="roster-dialog"
 			class="app-dialog roster-dialog"
-			aria-labelledby="roster-title"
-			aria-describedby="roster-description"
+			title="명단 저장·불러오기"
+			titleId="roster-title"
+			description="저장할 이름을 적어 주세요. 이 브라우저에만 보관됩니다."
+			descriptionId="roster-description"
+			describedBy="roster-description"
 		>
-			<div class="dialog-heading">
-				<div>
-					<h2 id="roster-title">명단 저장·불러오기</h2>
-					<p id="roster-description">저장할 이름을 적어 주세요. 이 브라우저에만 보관됩니다.</p>
-				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
-					<svg
-						width="15"
-						height="15"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
-					>
-						<path d="M18 6 6 18"></path>
-						<path d="m6 6 12 12"></path>
-					</svg>
-				</button>
-			</div>
 			<form id="save-roster-form" class="roster-save-row">
 				<label class="sr-only" for="roster-name">명단 이름</label>
 				<input id="roster-name" type="text" placeholder="예: 수요일 풋살" autocomplete="off" />
-				<button id="save-roster-button" class="primary-small-button" type="submit" disabled
-					>저장</button
+				<Button
+					id="save-roster-button"
+					class="primary-small-button"
+					type="submit"
+					variant="primary"
+					disabled>저장</Button
 				>
 			</form>
-			<p id="rosters-empty" class="subtle-empty">
+			<EmptyState as="p" id="rosters-empty" class="subtle-empty">
 				저장한 명단이 없습니다. 이름을 적고 저장을 누르면 여기에 쌓입니다.
-			</p>
+			</EmptyState>
 			<ul id="rosters-list" class="rosters-list"></ul>
-		</dialog>
+		</Dialog>
 
-		<dialog
+		<Dialog
 			id="wheel-dialog"
 			class="app-dialog wheel-dialog"
-			aria-labelledby="wheel-title"
-			aria-describedby="wheel-description"
+			title="1팀 뽑기"
+			titleId="wheel-title"
+			description="이 팀 명단 중 한 명을 무작위로 뽑습니다."
+			descriptionId="wheel-description"
+			describedBy="wheel-description"
+			actionsClass="split-actions"
 		>
-			<div id="celebration-layer" class="celebration-layer" aria-hidden="true" hidden></div>
-			<div class="dialog-heading">
-				<div>
-					<h2 id="wheel-title">1팀 뽑기</h2>
-					<p id="wheel-description">이 팀 명단 중 한 명을 무작위로 뽑습니다.</p>
-				</div>
-				<div class="dialog-heading-actions">
-					<button
-						id="sound-toggle-button"
-						class="dialog-close sound-toggle"
-						type="button"
-						aria-pressed="true"
-						aria-label="효과음 끄기"
-						title="효과음 끄기"
+			{#snippet beforeHeader()}
+				<div id="celebration-layer" class="celebration-layer" aria-hidden="true" hidden></div>
+			{/snippet}
+			{#snippet headerActions()}
+				<IconButton
+					id="sound-toggle-button"
+					class="dialog-close sound-toggle"
+					variant="ghost"
+					aria-pressed="true"
+					label="효과음 끄기"
+					title="효과음 끄기"
+				>
+					<svg
+						width="17"
+						height="17"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
 					>
-						<svg
-							width="17"
-							height="17"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							aria-hidden="true"
-						>
-							<path d="M11 5 6 9H3v6h3l5 4V5z"></path>
-							<path id="sound-wave-path" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-						</svg>
-					</button>
-					<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
-						<svg
-							width="15"
-							height="15"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							aria-hidden="true"
-						>
-							<path d="M18 6 6 18"></path>
-							<path d="m6 6 12 12"></path>
-						</svg>
-					</button>
-				</div>
-			</div>
+						<path d="M11 5 6 9H3v6h3l5 4V5z"></path>
+						<path id="sound-wave-path" d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+					</svg>
+				</IconButton>
+			{/snippet}
 			<div class="wheel-body">
 				<div id="wheel-wrap" class="wheel-wrap">
 					<span class="wheel-pointer" aria-hidden="true"></span>
@@ -660,7 +646,7 @@
 				>
 					<div class="wheel-side-head">
 						<h3 id="wheel-side-title" class="wheel-side-title">당첨자</h3>
-						<button id="clear-picks-button" class="picked-clear" type="button">명단 삭제</button>
+						<Button id="clear-picks-button" class="picked-clear" variant="ghost">명단 삭제</Button>
 					</div>
 					<ol
 						id="wheel-picked-list"
@@ -670,61 +656,43 @@
 				</div>
 			</div>
 			<div id="wheel-result" class="wheel-result" role="status">돌리기를 누르세요.</div>
-			<div class="dialog-actions split-actions">
-				<button id="wheel-close-button" class="utility-button" type="button" data-close-dialog
-					>닫기</button
+			{#snippet actions()}
+				<Button id="wheel-close-button" class="utility-button" variant="outline" data-close-dialog>
+					닫기
+				</Button>
+				<Button id="spin-wheel-button" class="primary-small-button" variant="primary">돌리기</Button
 				>
-				<button id="spin-wheel-button" class="primary-small-button" type="button">돌리기</button>
-			</div>
-		</dialog>
+			{/snippet}
+		</Dialog>
 
-		<dialog
+		<Dialog
 			id="history-dialog"
 			class="app-dialog history-dialog"
-			aria-labelledby="history-title"
-			aria-describedby="history-description"
+			title="전체 기록"
+			titleId="history-title"
+			descriptionId="history-description"
+			describedBy="history-description"
 		>
-			<div class="dialog-heading">
-				<div>
-					<h2 id="history-title">전체 기록</h2>
-					<p id="history-description">
-						<span id="history-description-count">기록이 없습니다.</span>
-						<span id="history-description-legend" hidden>* 당첨자</span>
-					</p>
-				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
-					<svg
-						width="15"
-						height="15"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
-					>
-						<path d="M18 6 6 18"></path>
-						<path d="m6 6 12 12"></path>
-					</svg>
-				</button>
-			</div>
+			{#snippet descriptionContent()}
+				<span id="history-description-count">기록이 없습니다.</span>
+				<span id="history-description-legend" hidden>* 당첨자</span>
+			{/snippet}
 			<div class="modal-tabs" role="tablist" aria-label="전체 기록 보기">
-				<button
+				<Button
 					id="history-log-tab"
 					class="modal-tab"
-					type="button"
+					variant="ghost"
 					role="tab"
 					aria-selected="true"
-					aria-controls="history-log-panel">경기 기록</button
+					aria-controls="history-log-panel">경기 기록</Button
 				>
-				<button
+				<Button
 					id="history-stats-tab"
 					class="modal-tab"
-					type="button"
+					variant="ghost"
 					role="tab"
 					aria-selected="false"
-					aria-controls="history-stats-panel">전체 통계</button
+					aria-controls="history-stats-panel">전체 통계</Button
 				>
 			</div>
 			<div
@@ -733,9 +701,9 @@
 				role="tabpanel"
 				aria-labelledby="history-log-tab"
 			>
-				<p id="history-empty" class="subtle-empty">
+				<EmptyState as="p" id="history-empty" class="subtle-empty">
 					아직 기록이 없습니다. 결과 카드의 승리 버튼을 눌러 기록해 보세요.
-				</p>
+				</EmptyState>
 				<div id="history-groups" class="history-groups"></div>
 			</div>
 			<div
@@ -751,13 +719,13 @@
 						<div class="overview-block-head">
 							<h3 id="history-overview-title" class="overview-block-title">승리 순위</h3>
 							<div class="overview-sort-wrap">
-								<button
+								<Button
 									id="history-sort-button"
 									class="utility-button overview-sort"
-									type="button"
+									variant="outline"
 									aria-haspopup="true"
 									aria-expanded="false"
-									aria-controls="history-sort-menu">승리순</button
+									aria-controls="history-sort-menu">승리순</Button
 								>
 								<ul
 									id="history-sort-menu"
@@ -767,39 +735,39 @@
 									hidden
 								>
 									<li role="none">
-										<button
+										<Button
 											class="sort-item"
-											type="button"
+											variant="ghost"
 											role="menuitemradio"
 											data-history-sort="wins"
 											aria-checked="true"
 											><span class="sort-item-label">승리순</span><span class="sort-item-desc"
 												>승리 수가 많은 참가자부터</span
-											></button
+											></Button
 										>
 									</li>
 									<li role="none">
-										<button
+										<Button
 											class="sort-item"
-											type="button"
+											variant="ghost"
 											role="menuitemradio"
 											data-history-sort="rate"
 											aria-checked="false"
 											><span class="sort-item-label">1등 확률순</span><span class="sort-item-desc"
 												>1등 확률이 높은 참가자부터</span
-											></button
+											></Button
 										>
 									</li>
 									<li role="none">
-										<button
+										<Button
 											class="sort-item"
-											type="button"
+											variant="ghost"
 											role="menuitemradio"
 											data-history-sort="picks"
 											aria-checked="false"
 											><span class="sort-item-label">당첨순</span><span class="sort-item-desc"
 												>누적 당첨 횟수가 많은 참가자부터</span
-											></button
+											></Button
 										>
 									</li>
 								</ul>
@@ -841,40 +809,21 @@
 					</p>
 				</div>
 			</div>
-		</dialog>
+		</Dialog>
 
-		<dialog
+		<Dialog
 			id="player-stats-dialog"
 			class="app-dialog stats-dialog"
-			aria-labelledby="player-stats-title"
-			aria-describedby="player-stats-description"
+			title="참가자 통계"
+			titleId="player-stats-title"
+			description="기록이 없습니다."
+			descriptionId="player-stats-description"
+			describedBy="player-stats-description"
 		>
-			<div class="dialog-heading">
-				<div>
-					<h2 id="player-stats-title">참가자 통계</h2>
-					<p id="player-stats-description">기록이 없습니다.</p>
-				</div>
-				<button class="dialog-close" type="button" data-close-dialog aria-label="닫기">
-					<svg
-						width="15"
-						height="15"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
-					>
-						<path d="M18 6 6 18"></path>
-						<path d="m6 6 12 12"></path>
-					</svg>
-				</button>
-			</div>
-			<p id="player-stats-empty" class="subtle-empty">
+			<EmptyState as="p" id="player-stats-empty" class="subtle-empty">
 				오늘 기록이 없습니다. 결과 카드에서 승리를 기록하면 여기에 쌓입니다. 지난 기록은 전체 기록의
 				전체 통계에서 볼 수 있습니다.
-			</p>
+			</EmptyState>
 			<div id="player-stats-body" class="stats-body" hidden>
 				<ul id="player-stats-leaders" class="stats-leader-list"></ul>
 				<p class="stats-note">
@@ -882,9 +831,9 @@
 				</p>
 				<div class="stats-section">
 					<h3 id="player-stats-pairs-title">베스트 팀 조합</h3>
-					<p id="player-stats-pairs-empty" class="subtle-empty" hidden>
+					<EmptyState as="p" id="player-stats-pairs-empty" class="subtle-empty" hidden>
 						두 경기 이상 같은 팀이었던 조합이 없습니다.
-					</p>
+					</EmptyState>
 					<ul
 						id="player-stats-pairs"
 						class="stats-pair-list"
@@ -910,21 +859,26 @@
 					</div>
 				</div>
 			</div>
-		</dialog>
+		</Dialog>
 
-		<dialog
+		<Dialog
 			id="confirm-dialog"
 			class="app-dialog confirm-dialog"
-			aria-labelledby="confirm-title"
-			aria-describedby="confirm-description confirm-warning"
+			titleId="confirm-title"
+			describedBy="confirm-description confirm-warning"
+			showClose={false}
 		>
-			<h2 id="confirm-title">참가자 명단을 삭제할까요?</h2>
-			<p id="confirm-description">삭제할 내용을 확인해 주세요.</p>
+			{#snippet header()}
+				<h2 id="confirm-title">참가자 명단을 삭제할까요?</h2>
+				<p id="confirm-description">삭제할 내용을 확인해 주세요.</p>
+			{/snippet}
 			<p id="confirm-warning" class="confirm-warning">되돌릴 수 없습니다.</p>
-			<div class="dialog-actions">
-				<button id="cancel-confirm-button" class="utility-button" type="button">취소</button>
-				<button id="confirm-action-button" class="danger-filled-button" type="button">삭제</button>
-			</div>
-		</dialog>
+			{#snippet actions()}
+				<Button id="cancel-confirm-button" class="utility-button" variant="outline">취소</Button>
+				<Button id="confirm-action-button" class="danger-filled-button" variant="danger"
+					>삭제</Button
+				>
+			{/snippet}
+		</Dialog>
 	</div>
 </SiteShell>

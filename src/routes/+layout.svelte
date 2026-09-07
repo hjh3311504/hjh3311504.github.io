@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import '$lib/components/ui/ui.css';
 	import '$lib/scss/global.scss';
 
 	$: isHome = $page.url.pathname === '/';

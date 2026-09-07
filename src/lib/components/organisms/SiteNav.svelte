@@ -1,5 +1,6 @@
 <script>
 	import { resolve } from '$app/paths';
+	import { Button, IconButton } from '$lib/components/ui';
 
 	export let active = 'home';
 	export let themeMode = 'auto';
@@ -19,16 +20,10 @@
 
 <div class="site-nav">
 	<div class="site-nav-heading">
-		<a class="site-name" href={resolve('/')}>Lake's develog</a>
+		<Button class="site-name" href={resolve('/')} variant="ghost">Lake's develog</Button>
 
 		{#if showTheme}
-			<button
-				class="nav-icon-button"
-				type="button"
-				on:click={onTheme}
-				aria-label={`테마 변경, 현재 ${themeLabel}`}
-				title={`테마 변경, 현재 ${themeLabel}`}
-			>
+			<IconButton class="nav-icon-button" onclick={onTheme} label={`테마 변경, 현재 ${themeLabel}`}>
 				{#if themeMode === 'light'}
 					<svg
 						width="17"
@@ -76,18 +71,11 @@
 						<path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path>
 					</svg>
 				{/if}
-			</button>
+			</IconButton>
 		{/if}
 
 		{#if showPin}
-			<button
-				class="nav-icon-button"
-				type="button"
-				on:click={onPin}
-				aria-pressed={pinned}
-				aria-label={pinLabel}
-				title={pinLabel}
-			>
+			<IconButton class="nav-icon-button" onclick={onPin} aria-pressed={pinned} label={pinLabel}>
 				{#if pinned}
 					<svg
 						width="17"
@@ -119,17 +107,11 @@
 						<path d="M9 3v18M14 9l3 3-3 3"></path>
 					</svg>
 				{/if}
-			</button>
+			</IconButton>
 		{/if}
 
 		{#if showClose}
-			<button
-				class="nav-icon-button"
-				type="button"
-				on:click={onClose}
-				aria-label="메뉴 닫기"
-				title="메뉴 닫기"
-			>
+			<IconButton class="nav-icon-button" onclick={onClose} label="메뉴 닫기">
 				<svg
 					width="18"
 					height="18"
@@ -143,14 +125,15 @@
 				>
 					<path d="M18 6 6 18M6 6l12 12"></path>
 				</svg>
-			</button>
+			</IconButton>
 		{/if}
 	</div>
 
 	<nav aria-label="사이트 메뉴">
-		<a
-			class:active={active === 'home'}
+		<Button
+			class={active === 'home' ? 'active' : ''}
 			href={resolve('/')}
+			variant="ghost"
 			aria-current={active === 'home' ? 'page' : undefined}
 		>
 			<svg
@@ -169,13 +152,14 @@
 			</svg>
 			<span>홈</span>
 			{#if active === 'home'}<span class="current-badge">현재</span>{/if}
-		</a>
+		</Button>
 
 		<div class="nav-group-label">프로젝트</div>
 		<div class="project-links">
-			<a
-				class:active={active === 'team-maker'}
+			<Button
+				class={active === 'team-maker' ? 'active' : ''}
 				href={resolve('/team-maker')}
+				variant="ghost"
 				aria-current={active === 'team-maker' ? 'page' : undefined}
 			>
 				<svg
@@ -193,7 +177,7 @@
 				</svg>
 				<span>팀 메이커</span>
 				{#if active === 'team-maker'}<span class="current-badge">현재</span>{/if}
-			</a>
+			</Button>
 		</div>
 	</nav>
 </div>
@@ -223,12 +207,14 @@
 		padding: 0 2px 0 10px;
 	}
 
-	.site-name {
+	:global(.site-name) {
 		flex: 1 1 auto;
 		min-width: 0;
 		height: 36px;
 		display: flex;
 		align-items: center;
+		justify-content: flex-start;
+		padding: 0;
 		overflow: hidden;
 		color: var(--shell-text-heading);
 		font-family: 'SUITE', 'SUIT', sans-serif;
@@ -239,9 +225,11 @@
 		text-decoration: none;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		background: transparent;
+		border: 0;
 	}
 
-	.nav-icon-button {
+	:global(.nav-icon-button) {
 		display: flex;
 		flex: none;
 		align-items: center;
@@ -256,14 +244,14 @@
 		border-radius: 8px;
 	}
 
-	.nav-icon-button:hover {
+	:global(.nav-icon-button:hover) {
 		color: var(--shell-text-heading);
 		background: var(--shell-row-hover);
 	}
 
-	.nav-icon-button:focus-visible,
-	.site-name:focus-visible,
-	nav a:focus-visible {
+	:global(.nav-icon-button:focus-visible),
+	:global(.site-name:focus-visible),
+	nav :global(a:focus-visible) {
 		outline: 2px solid var(--shell-focus);
 		outline-offset: 2px;
 	}
@@ -275,9 +263,10 @@
 		margin-top: 18px;
 	}
 
-	nav a {
+	nav :global(a) {
 		display: flex;
 		align-items: center;
+		justify-content: flex-start;
 		gap: 10px;
 		height: 38px;
 		padding: 0 10px 0 7px;
@@ -286,22 +275,23 @@
 		font-weight: 500;
 		text-decoration: none;
 		background: transparent;
+		border: 0;
 		border-left: 3px solid transparent;
 		border-radius: 5px;
 	}
 
-	nav a:hover {
+	nav :global(a:hover) {
 		background: var(--shell-row-hover);
 	}
 
-	nav a.active {
+	nav :global(a.active) {
 		color: var(--shell-nav-accent);
 		font-weight: 700;
 		background: var(--shell-nav-wash);
 		border-left-color: var(--shell-nav-accent);
 	}
 
-	nav a span:not(.current-badge) {
+	nav :global(a span:not(.current-badge)) {
 		flex: 1;
 	}
 
