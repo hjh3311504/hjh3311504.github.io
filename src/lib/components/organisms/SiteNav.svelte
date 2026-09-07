@@ -1,5 +1,6 @@
 <script>
 	import { resolve } from '$app/paths';
+	import { IconButton } from '$lib/components/ui';
 
 	export let active = 'home';
 	export let themeMode = 'auto';
@@ -22,13 +23,7 @@
 		<a class="site-name" href={resolve('/')}>Lake's develog</a>
 
 		{#if showTheme}
-			<button
-				class="nav-icon-button"
-				type="button"
-				on:click={onTheme}
-				aria-label={`테마 변경, 현재 ${themeLabel}`}
-				title={`테마 변경, 현재 ${themeLabel}`}
-			>
+			<IconButton class="nav-icon-button" onclick={onTheme} label={`테마 변경, 현재 ${themeLabel}`}>
 				{#if themeMode === 'light'}
 					<svg
 						width="17"
@@ -76,18 +71,11 @@
 						<path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path>
 					</svg>
 				{/if}
-			</button>
+			</IconButton>
 		{/if}
 
 		{#if showPin}
-			<button
-				class="nav-icon-button"
-				type="button"
-				on:click={onPin}
-				aria-pressed={pinned}
-				aria-label={pinLabel}
-				title={pinLabel}
-			>
+			<IconButton class="nav-icon-button" onclick={onPin} aria-pressed={pinned} label={pinLabel}>
 				{#if pinned}
 					<svg
 						width="17"
@@ -119,17 +107,11 @@
 						<path d="M9 3v18M14 9l3 3-3 3"></path>
 					</svg>
 				{/if}
-			</button>
+			</IconButton>
 		{/if}
 
 		{#if showClose}
-			<button
-				class="nav-icon-button"
-				type="button"
-				on:click={onClose}
-				aria-label="메뉴 닫기"
-				title="메뉴 닫기"
-			>
+			<IconButton class="nav-icon-button" onclick={onClose} label="메뉴 닫기">
 				<svg
 					width="18"
 					height="18"
@@ -143,7 +125,7 @@
 				>
 					<path d="M18 6 6 18M6 6l12 12"></path>
 				</svg>
-			</button>
+			</IconButton>
 		{/if}
 	</div>
 
@@ -241,7 +223,7 @@
 		white-space: nowrap;
 	}
 
-	.nav-icon-button {
+	:global(.nav-icon-button) {
 		display: flex;
 		flex: none;
 		align-items: center;
@@ -256,12 +238,12 @@
 		border-radius: 8px;
 	}
 
-	.nav-icon-button:hover {
+	:global(.nav-icon-button:hover) {
 		color: var(--shell-text-heading);
 		background: var(--shell-row-hover);
 	}
 
-	.nav-icon-button:focus-visible,
+	:global(.nav-icon-button:focus-visible),
 	.site-name:focus-visible,
 	nav a:focus-visible {
 		outline: 2px solid var(--shell-focus);

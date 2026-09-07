@@ -29,10 +29,30 @@ for (const output of removedOutputs) {
 }
 
 const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
+const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
+const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
 const core = await readFile(path.join(root, 'src/lib/team-maker/core.js'), 'utf8');
 const css = await readFile(path.join(root, 'src/routes/team-maker/team-maker.css'), 'utf8');
+const uiCss = await readFile(path.join(root, 'src/lib/components/ui/ui.css'), 'utf8');
+const uiIndex = await readFile(path.join(root, 'src/lib/components/ui/index.js'), 'utf8');
+const uiComponentNames = [
+	'Surface',
+	'Section',
+	'SectionHeader',
+	'Button',
+	'IconButton',
+	'Dialog',
+	'EmptyState',
+	'DisclosureSection'
+];
+const uiComponents = await Promise.all(
+	uiComponentNames.map(async (name) => [
+		name,
+		await readFile(path.join(root, `src/lib/components/ui/${name}.svelte`), 'utf8')
+	])
+);
 const seoTitle = '무료 팀짜기·조짜기 프로그램 | 팀 메이커';
 const seoDescription =
 	'이름을 입력하면 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 프로그램입니다. 같은 팀·다른 팀 규칙, 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.';
@@ -58,11 +78,41 @@ const requiredHtml = [
 	'<h2 id="faq-title">자주 묻는 질문</h2>',
 	'id="participant-list"',
 	'id="team-grid"',
+	'data-ui-section',
+	'data-ui-dialog',
+	'data-ui-button',
+	'data-ui-empty-state',
+	'data-ui-disclosure',
 	'_app/immutable/'
 ];
 for (const marker of requiredHtml) {
 	if (!html.includes(marker))
 		throw new Error(`team-maker HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+
+for (const marker of ['data-ui-surface', 'data-ui-section', 'data-ui-button']) {
+	if (!homeHtml.includes(marker)) {
+		throw new Error(`홈 HTML에서 ${marker} 공통 UI 표시를 찾지 못했습니다.`);
+	}
+}
+if (!notFoundHtml.includes('data-ui-button')) {
+	throw new Error('404 HTML에서 공통 UI Button 표시를 찾지 못했습니다.');
+}
+
+const uiDialogTags = [...html.matchAll(/<dialog\b[^>]*\bdata-ui-dialog\b[^>]*>/g)].map(
+	(match) => match[0]
+);
+if (uiDialogTags.length !== 7) {
+	throw new Error(
+		`Team Maker의 공통 Dialog는 7개여야 합니다. 현재 ${uiDialogTags.length}개입니다.`
+	);
+}
+if (
+	uiDialogTags.some(
+		(tag) => !/\baria-labelledby="[^"]+"/.test(tag) || !/\baria-describedby="[^"]+"/.test(tag)
+	)
+) {
+	throw new Error('Team Maker Dialog의 제목 또는 설명 ARIA 연결이 빠졌습니다.');
 }
 
 const h1Count = html.match(/<h1\b/g)?.length ?? 0;
@@ -75,8 +125,14 @@ if (faqCount !== 6) {
 	throw new Error(`team-maker HTML의 FAQ는 6개여야 합니다. 현재 ${faqCount}개입니다.`);
 }
 
-const collapsibleSectionCount =
-	html.match(/<details class="seo-details" open(?:="")?>/g)?.length ?? 0;
+const collapsibleSectionCount = [...html.matchAll(/<details\b[^>]*>/g)]
+	.map((match) => match[0])
+	.filter(
+		(tag) =>
+			/\bclass="[^"]*\bseo-details\b[^"]*"/.test(tag) &&
+			/(?:^|\s)open(?:=""|(?=\s|>))/.test(tag) &&
+			/\bdata-ui-disclosure\b/.test(tag)
+	).length;
 if (collapsibleSectionCount !== 4) {
 	throw new Error(
 		`team-maker HTML의 기본 펼침 안내 섹션은 4개여야 합니다. 현재 ${collapsibleSectionCount}개입니다.`
@@ -138,7 +194,8 @@ for (const reference of new Set(localReferences)) {
 	await access(absolutePath);
 }
 
-const combined = `${page}\n${app}\n${core}\n${css}`;
+const uiSource = uiComponents.map(([, source]) => source).join('\n');
+const combined = `${page}\n${app}\n${core}\n${css}\n${uiCss}\n${uiIndex}\n${uiSource}`;
 const runtimeCode = `${app}\n${core}\n${css}`;
 if (/\b(?:src|href)=["']\/(?!\/)/.test(combined) || /url\(\s*["']?\//.test(combined)) {
 	throw new Error('team-maker 자원에 사이트 루트 기준 경로가 있습니다.');
@@ -151,6 +208,31 @@ if (!app.includes("from './core.js'")) {
 }
 if (!page.includes("from '$lib/team-maker/app.js'")) {
 	throw new Error('SvelteKit route가 Team Maker 화면 module을 불러오지 않습니다.');
+}
+if (!page.includes("from '$lib/components/ui'")) {
+	throw new Error('Team Maker route가 공통 UI component를 불러오지 않습니다.');
+}
+for (const [name, source] of uiComponents) {
+	if (!source.includes('$props()') || !source.includes('{@render')) {
+		throw new Error(`${name} component가 Svelte 5 props와 snippet 조합 방식을 사용하지 않습니다.`);
+	}
+	if (!uiIndex.includes(`export { default as ${name} } from './${name}.svelte';`)) {
+		throw new Error(`공통 UI index에서 ${name} component를 export하지 않습니다.`);
+	}
+}
+for (const token of [
+	'--ui-surface',
+	'--ui-text',
+	'--ui-border',
+	'--ui-focus',
+	'--ui-danger-fill'
+]) {
+	if (!uiCss.includes(token)) {
+		throw new Error(`공통 UI stylesheet에서 ${token} token을 찾지 못했습니다.`);
+	}
+}
+if (!app.includes('function applyUiButton') || !app.includes("button.dataset.uiButton = ''")) {
+	throw new Error('동적으로 만드는 Team Maker 버튼이 공통 UI button 규칙을 사용하지 않습니다.');
 }
 if (html.includes('src="./app.js"') || html.includes('href="./styles.css"')) {
 	throw new Error('team-maker build가 이전 정적 entrypoint를 사용하고 있습니다.');

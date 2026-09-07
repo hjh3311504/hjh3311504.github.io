@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui';
 	import { theme } from '$stores/theme';
 
 	function toggleTheme() {
@@ -21,11 +22,13 @@
 	</style>
 </noscript>
 
-<button
+<Button
 	class="theme-toggle"
+	variant="ghost"
+	size="sm"
 	title="Toggle between light and dark theme"
 	data-theme={$theme}
-	on:click={toggleTheme}
+	onclick={toggleTheme}
 >
 	<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
 		<mask id="moon">
@@ -46,11 +49,12 @@
 	</svg>
 
 	<span class="label">Auto</span>
-</button>
+</Button>
 
 <style lang="scss">
-	.theme-toggle {
+	:global(.theme-toggle) {
 		height: 24px;
+		min-height: 24px;
 		padding: 0;
 		appearance: none;
 		border: none;
@@ -141,11 +145,11 @@
 		}
 	}
 
-	.theme-toggle:not([data-theme]) {
+	:global(.theme-toggle:not([data-theme])) {
 		@include light-icon;
 	}
 
-	[data-theme='auto'] {
+	:global(.theme-toggle[data-theme='auto']) {
 		.label {
 			opacity: 1;
 			transform: scaleX(1);
@@ -161,11 +165,11 @@
 		}
 	}
 
-	[data-theme='light'] {
+	:global(.theme-toggle[data-theme='light']) {
 		@include light-icon;
 	}
 
-	[data-theme='dark'] {
+	:global(.theme-toggle[data-theme='dark']) {
 		@include dark-icon;
 	}
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Card from '$lib/components/atoms/Card.svelte';
 	import Tag from '$lib/components/atoms/Tag.svelte';
+	import { Surface } from '$lib/components/ui';
 	import type { TagType } from '$lib/utils/types';
 	import Image from '../atoms/Image.svelte';
 
@@ -10,28 +10,71 @@
 	export let tags: TagType[] | undefined;
 </script>
 
-<Card additionalClass="feature-card">
-	<div class="image" slot="image">
+<Surface as="article" variant="card" class="card feature-card">
+	<div class="image">
 		<Image src={image} alt="Picture describing the {name} feature" />
 	</div>
-	<div class="content" slot="content">
-		<div class="title">
-			<span>{name}</span>
-		</div>
-		<p>{description}</p>
-	</div>
-	<div class="footer" slot="footer">
-		{#if tags && tags.length > 0}
-			<div class="tags">
-				{#each tags as tag (tag.label)}
-					<Tag color={tag.color}>{tag.label}</Tag>
-				{/each}
+	<div class="body">
+		<div class="content">
+			<div class="title">
+				<span>{name}</span>
 			</div>
-		{/if}
+			<p>{description}</p>
+		</div>
+		<div class="footer">
+			{#if tags && tags.length > 0}
+				<div class="tags">
+					{#each tags as tag (tag.label)}
+						<Tag color={tag.color}>{tag.label}</Tag>
+					{/each}
+				</div>
+			{/if}
+		</div>
 	</div>
-</Card>
+</Surface>
 
 <style lang="scss">
+	:global(.feature-card) {
+		position: relative;
+		display: flex;
+		flex-flow: row wrap;
+		width: 100%;
+		overflow: hidden;
+		color: var(--color--text);
+		background: var(--color--card-background);
+		border: 0;
+		border-radius: 10px;
+		box-shadow: var(--card-shadow);
+		transition: all 0.4s ease;
+	}
+
+	:global(.feature-card[href]),
+	:global(.feature-card[onclick]) {
+		cursor: pointer;
+	}
+
+	:global(.feature-card[href]:hover),
+	:global(.feature-card[onclick]:hover) {
+		box-shadow: var(--card-shadow-hover);
+		transform: scale(1.01);
+	}
+
+	.body {
+		display: flex;
+		flex: 1 0 50%;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 20px;
+	}
+
+	.image {
+		position: relative;
+		flex: 1 0 max(50%, 330px);
+		min-height: 280px;
+		max-height: 350px;
+	}
+
 	.content {
 		display: flex;
 		flex-direction: column;
@@ -62,6 +105,9 @@
 	}
 
 	:global(.feature-card .image img) {
+		position: absolute;
+		width: 100%;
+		height: 100%;
 		object-fit: cover;
 	}
 </style>

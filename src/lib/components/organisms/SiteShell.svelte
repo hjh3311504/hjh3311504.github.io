@@ -1,6 +1,7 @@
 <script>
 	import { browser } from '$app/environment';
 	import { onDestroy, onMount, tick } from 'svelte';
+	import { Button, IconButton } from '$lib/components/ui';
 	import { theme } from '$lib/stores/theme.js';
 	import SiteNav from './SiteNav.svelte';
 
@@ -150,11 +151,10 @@
 
 	{#if floatingMenu}
 		<div class="floating-menu">
-			<button
-				bind:this={floatingMenuButton}
-				type="button"
-				on:click={openDrawer}
-				aria-label="메뉴 열기"
+			<IconButton
+				bind:element={floatingMenuButton}
+				onclick={openDrawer}
+				label="메뉴 열기"
 				aria-expanded={drawerOpen}
 				aria-controls="site-drawer"
 			>
@@ -171,18 +171,17 @@
 				>
 					<path d="M4 6h16M4 12h16M4 18h16"></path>
 				</svg>
-			</button>
+			</IconButton>
 		</div>
 	{/if}
 
 	<div class="shell-content">
 		{#if variant === 'team-maker'}
 			<header class="mobile-team-bar">
-				<button
-					bind:this={mobileMenuButton}
-					type="button"
-					on:click={openDrawer}
-					aria-label="메뉴 열기"
+				<IconButton
+					bind:element={mobileMenuButton}
+					onclick={openDrawer}
+					label="메뉴 열기"
 					aria-expanded={drawerOpen}
 					aria-controls="site-drawer"
 				>
@@ -199,7 +198,7 @@
 					>
 						<path d="M4 6h16M4 12h16M4 18h16"></path>
 					</svg>
-				</button>
+				</IconButton>
 			</header>
 		{/if}
 
@@ -208,12 +207,12 @@
 
 	{#if drawerOpen}
 		<div class="drawer-layer">
-			<button
+			<Button
 				class="drawer-backdrop"
-				type="button"
-				on:click={() => closeDrawer()}
+				variant="ghost"
+				onclick={() => closeDrawer()}
 				aria-label="메뉴 닫기"
-			></button>
+			></Button>
 			<div
 				id="site-drawer"
 				class="site-drawer"
@@ -262,6 +261,17 @@
 		--shell-row-hover: rgb(0 0 0 / 4%);
 		--shell-overlay: rgb(0 0 0 / 40%);
 		--shell-menu-shadow: rgb(0 0 0 / 5%) 0 23px 52px;
+		--ui-canvas: var(--shell-canvas);
+		--ui-surface: var(--shell-surface);
+		--ui-surface-soft: var(--shell-surface-soft);
+		--ui-text: var(--shell-text-body);
+		--ui-text-muted: var(--shell-text-muted);
+		--ui-border: var(--shell-hairline);
+		--ui-border-strong: color-mix(in srgb, var(--shell-text-muted), transparent 65%);
+		--ui-primary: var(--shell-nav-accent);
+		--ui-primary-hover: color-mix(in srgb, var(--shell-nav-accent), #000 18%);
+		--ui-on-primary: #fff;
+		--ui-focus: var(--shell-focus);
 		--shell-page-background: linear-gradient(
 			180deg,
 			rgb(0 117 222 / 10%) 0%,
@@ -366,8 +376,8 @@
 		z-index: 30;
 	}
 
-	.floating-menu button,
-	.mobile-team-bar button {
+	.floating-menu :global(button),
+	.mobile-team-bar :global(button) {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -382,13 +392,13 @@
 		box-shadow: var(--shell-menu-shadow);
 	}
 
-	.floating-menu button:hover,
-	.mobile-team-bar button:hover {
+	.floating-menu :global(button:hover),
+	.mobile-team-bar :global(button:hover) {
 		background: var(--shell-surface-soft);
 	}
 
-	.floating-menu button:focus-visible,
-	.mobile-team-bar button:focus-visible {
+	.floating-menu :global(button:focus-visible),
+	.mobile-team-bar :global(button:focus-visible) {
 		outline: 2px solid var(--shell-focus);
 		outline-offset: 2px;
 	}
@@ -406,7 +416,7 @@
 		background: transparent;
 	}
 
-	.mobile-team-bar button {
+	.mobile-team-bar :global(button) {
 		pointer-events: auto;
 		box-shadow: none;
 	}

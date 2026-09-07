@@ -1,32 +1,81 @@
 <script lang="ts">
 	import type { Feature } from '$lib/utils/types';
 	import FeatureCard from '$lib/components/molecules/FeatureCard.svelte';
-	import ContentSection from '$lib/components/organisms/ContentSection.svelte';
+	import { Section, SectionHeader } from '$lib/components/ui';
 
 	export let features: Feature[];
 </script>
 
-<ContentSection
-	id="features"
-	title="Features"
-	description="Here are some of the features of this template"
->
-	<div class="features-container">
-		<div class="three-group-grid">
-			{#each features as feature (feature.name)}
-				<FeatureCard
-					name={feature.name}
-					description={feature.description}
-					image={feature.image}
-					tags={feature.tags}
-				/>
-			{/each}
+<Section id="features" class="content-section top">
+	<div class="title-area">
+		<SectionHeader title="Features" description="Here are some of the features of this template" />
+	</div>
+	<div class="content-area">
+		<div class="features-container">
+			<div class="three-group-grid">
+				{#each features as feature (feature.name)}
+					<FeatureCard
+						name={feature.name}
+						description={feature.description}
+						image={feature.image}
+						tags={feature.tags}
+					/>
+				{/each}
+			</div>
 		</div>
 	</div>
-</ContentSection>
+</Section>
 
 <style lang="scss">
 	@use '$lib/scss/breakpoints' as *;
+
+	:global(.content-section) {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 40px;
+		padding: 50px 0;
+
+		.title-area {
+			flex: 2;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 15px;
+			text-align: center;
+		}
+
+		:global(.ui-section-header) {
+			flex-direction: column;
+			align-items: center;
+			gap: 5px;
+		}
+
+		.content-area {
+			display: grid;
+			flex: 5;
+			place-items: center;
+		}
+
+		@include for-tablet-landscape-up {
+			flex-direction: column;
+
+			.title-area {
+				order: 1;
+				max-width: 600px;
+			}
+
+			.content-area {
+				order: 2;
+				width: 100%;
+			}
+		}
+
+		@include for-tablet-portrait-down {
+			flex-direction: column;
+		}
+	}
 
 	.features-container {
 		width: 100%;

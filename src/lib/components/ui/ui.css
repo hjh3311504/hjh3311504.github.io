@@ -1,0 +1,235 @@
+:root {
+	--ui-canvas: var(--color--page-background, #f6f5f4);
+	--ui-surface: var(--color--card-background, #fff);
+	--ui-surface-soft: var(--color--primary-tint, #f6f5f4);
+	--ui-text: var(--color--text, #31302e);
+	--ui-text-muted: var(--color--text-shade, #615d59);
+	--ui-border: rgb(0 0 0 / 12%);
+	--ui-border-strong: rgb(0 0 0 / 20%);
+	--ui-primary: var(--color--primary, #0075de);
+	--ui-primary-hover: var(--color--primary-shade, #005bab);
+	--ui-on-primary: var(--color--primary-contrast, #fff);
+	--ui-focus: var(--ui-primary);
+	--ui-danger: #c2333c;
+	--ui-danger-fill: #f95256;
+	--ui-danger-soft: #fff5f5;
+	--ui-danger-border: #ffd6d8;
+	--ui-radius-sm: 8px;
+	--ui-radius-md: 10px;
+	--ui-radius-lg: 14px;
+	--ui-shadow: 0 2px 8px rgb(28 30 38 / 6%);
+}
+
+.ui-surface {
+	box-sizing: border-box;
+}
+
+.ui-surface:where([data-variant='card']),
+.ui-surface:where([data-variant='raised']) {
+	color: var(--ui-text);
+	background: var(--ui-surface);
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-lg);
+}
+
+.ui-surface:where([data-variant='raised']) {
+	box-shadow: var(--ui-shadow);
+}
+
+.ui-surface:where([data-variant='interactive']) {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.ui-section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+}
+
+.ui-section-heading-copy {
+	min-width: 0;
+}
+
+.ui-section-heading-copy > :is(h1, h2, h3, h4, h5, h6),
+.ui-section-heading-copy > p {
+	margin: 0;
+}
+
+.ui-section-heading-copy > p {
+	color: var(--ui-text-muted);
+}
+
+.ui-section-actions,
+.ui-dialog-header-actions,
+.ui-dialog-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.ui-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 36px;
+	padding: 0 13px;
+	cursor: pointer;
+	color: var(--ui-text-muted);
+	font: inherit;
+	font-weight: 650;
+	text-decoration: none;
+	background: var(--ui-surface);
+	border: 1px solid var(--ui-border-strong);
+	border-radius: var(--ui-radius-sm);
+	transition:
+		background 160ms ease,
+		border-color 160ms ease,
+		color 160ms ease,
+		transform 120ms ease;
+}
+
+.ui-button:where([data-size='sm']) {
+	min-height: 36px;
+	font-size: 14px;
+}
+
+.ui-button:where([data-size='lg']) {
+	min-height: 48px;
+	padding: 0 20px;
+}
+
+.ui-button:where([data-size='icon']) {
+	width: 36px;
+	min-width: 36px;
+	padding: 0;
+}
+
+.ui-button:where([data-full-width='true']) {
+	width: 100%;
+}
+
+.ui-button:where([data-variant='primary']) {
+	color: var(--ui-on-primary);
+	background: var(--ui-primary);
+	border-color: var(--ui-primary);
+}
+
+.ui-button:where([data-variant='primary']):not(:disabled):hover {
+	background: var(--ui-primary-hover);
+	border-color: var(--ui-primary-hover);
+}
+
+.ui-button:where([data-variant='soft']) {
+	color: var(--ui-primary);
+	background: var(--ui-surface);
+	border-color: color-mix(in srgb, var(--ui-primary), transparent 70%);
+}
+
+.ui-button:where([data-variant='soft']):not(:disabled):hover {
+	background: color-mix(in srgb, var(--ui-primary), transparent 90%);
+	border-color: var(--ui-primary);
+}
+
+.ui-button:where([data-variant='outline']):not(:disabled):hover {
+	color: var(--ui-text);
+	background: var(--ui-canvas);
+}
+
+.ui-button:where([data-variant='ghost']) {
+	background: transparent;
+	border-color: transparent;
+}
+
+.ui-button:where([data-variant='danger']) {
+	color: var(--ui-on-danger, #fff);
+	background: var(--ui-danger-fill);
+	border-color: var(--ui-danger-fill);
+}
+
+.ui-button:where([data-variant='danger']):not(:disabled):hover {
+	background: color-mix(in srgb, var(--ui-danger-fill), #000 14%);
+	border-color: color-mix(in srgb, var(--ui-danger-fill), #000 14%);
+}
+
+.ui-button:focus-visible {
+	outline: 2px solid var(--ui-focus);
+	outline-offset: 2px;
+}
+
+.ui-button:disabled,
+.ui-button[aria-disabled='true'] {
+	cursor: not-allowed;
+}
+
+.ui-button.error-button {
+	min-height: 0;
+	padding: 10px 20px;
+	font-size: 1rem;
+	border: 0;
+	border-radius: 20px;
+}
+
+.ui-button.error-button:hover {
+	box-shadow: 0 0 1px 7px rgba(var(--color--primary-rgb), 0.3);
+}
+
+.ui-dialog {
+	box-sizing: border-box;
+	color: var(--ui-text);
+	background: var(--ui-surface);
+	border: 1px solid var(--ui-border);
+	border-radius: 16px;
+	box-shadow: 0 24px 56px rgb(28 30 38 / 22%);
+}
+
+.ui-dialog-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 14px;
+}
+
+.ui-dialog-heading-copy {
+	min-width: 0;
+}
+
+.ui-dialog-heading-copy > :is(h1, h2, h3, p) {
+	margin: 0;
+}
+
+.ui-dialog-actions {
+	justify-content: flex-end;
+}
+
+.ui-empty-state {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 18px;
+	color: var(--ui-text-muted);
+	text-align: center;
+	background: var(--ui-surface-soft);
+	border: 1px dashed var(--ui-border-strong);
+	border-radius: var(--ui-radius-md);
+}
+
+.ui-empty-state:where([data-tone='danger']) {
+	color: var(--ui-danger);
+	background: var(--ui-danger-soft);
+	border-color: var(--ui-danger-border);
+}
+
+.ui-empty-state > strong {
+	color: var(--ui-text);
+}
+
+.ui-empty-state-icon,
+.ui-empty-state-description {
+	display: block;
+}
+
+.ui-disclosure > summary {
+	cursor: pointer;
+}
