@@ -54,6 +54,7 @@ PageSpeed Insights의 모바일 결과를 월별로 확인한다. 실제 방문 
 | 2026-09-06 | 미측정 | 0.021 | 미제공 | production build 모바일 Playwright | 사이드바 초기 렌더링 수정 뒤 목표 0.1 이하 통과. 배포 후 재측정 필요 |
 | 2026-09-07 |  7.2초 | 0.022 | 미제공 | PageSpeed Insights 모바일 실험실   | 성능 59점. 초기 CSS와 약1.1MB 글꼴 전송이 첫 화면 표시를 늦춤        |
 | 2026-09-07 |  4.1초 | 0.021 | 미제공 | production build 모바일 Lighthouse | CSS를 HTML에 포함하고 두 글꼴을 나눠 받아 성능 78점. 배포 후 재측정  |
+| 2026-09-07 |  0.9초 | 0.023 | 미제공 | PageSpeed Insights 모바일 실험실   | 최적화 배포 후 성능 100점. LCP와 CLS 목표 통과                       |
 
 - LCP 목표: 2.5초 이하
 - CLS 목표: 0.1 이하
