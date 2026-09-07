@@ -1,6 +1,6 @@
 <script>
 	import { resolve } from '$app/paths';
-	import { IconButton } from '$lib/components/ui';
+	import { Button, IconButton } from '$lib/components/ui';
 
 	export let active = 'home';
 	export let themeMode = 'auto';
@@ -20,7 +20,7 @@
 
 <div class="site-nav">
 	<div class="site-nav-heading">
-		<a class="site-name" href={resolve('/')}>Lake's develog</a>
+		<Button class="site-name" href={resolve('/')} variant="ghost">Lake's develog</Button>
 
 		{#if showTheme}
 			<IconButton class="nav-icon-button" onclick={onTheme} label={`테마 변경, 현재 ${themeLabel}`}>
@@ -130,9 +130,10 @@
 	</div>
 
 	<nav aria-label="사이트 메뉴">
-		<a
-			class:active={active === 'home'}
+		<Button
+			class={active === 'home' ? 'active' : ''}
 			href={resolve('/')}
+			variant="ghost"
 			aria-current={active === 'home' ? 'page' : undefined}
 		>
 			<svg
@@ -151,13 +152,14 @@
 			</svg>
 			<span>홈</span>
 			{#if active === 'home'}<span class="current-badge">현재</span>{/if}
-		</a>
+		</Button>
 
 		<div class="nav-group-label">프로젝트</div>
 		<div class="project-links">
-			<a
-				class:active={active === 'team-maker'}
+			<Button
+				class={active === 'team-maker' ? 'active' : ''}
 				href={resolve('/team-maker')}
+				variant="ghost"
 				aria-current={active === 'team-maker' ? 'page' : undefined}
 			>
 				<svg
@@ -175,7 +177,7 @@
 				</svg>
 				<span>팀 메이커</span>
 				{#if active === 'team-maker'}<span class="current-badge">현재</span>{/if}
-			</a>
+			</Button>
 		</div>
 	</nav>
 </div>
@@ -205,12 +207,14 @@
 		padding: 0 2px 0 10px;
 	}
 
-	.site-name {
+	:global(.site-name) {
 		flex: 1 1 auto;
 		min-width: 0;
 		height: 36px;
 		display: flex;
 		align-items: center;
+		justify-content: flex-start;
+		padding: 0;
 		overflow: hidden;
 		color: var(--shell-text-heading);
 		font-family: 'SUITE', 'SUIT', sans-serif;
@@ -221,6 +225,8 @@
 		text-decoration: none;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		background: transparent;
+		border: 0;
 	}
 
 	:global(.nav-icon-button) {
@@ -244,8 +250,8 @@
 	}
 
 	:global(.nav-icon-button:focus-visible),
-	.site-name:focus-visible,
-	nav a:focus-visible {
+	:global(.site-name:focus-visible),
+	nav :global(a:focus-visible) {
 		outline: 2px solid var(--shell-focus);
 		outline-offset: 2px;
 	}
@@ -257,9 +263,10 @@
 		margin-top: 18px;
 	}
 
-	nav a {
+	nav :global(a) {
 		display: flex;
 		align-items: center;
+		justify-content: flex-start;
 		gap: 10px;
 		height: 38px;
 		padding: 0 10px 0 7px;
@@ -268,22 +275,23 @@
 		font-weight: 500;
 		text-decoration: none;
 		background: transparent;
+		border: 0;
 		border-left: 3px solid transparent;
 		border-radius: 5px;
 	}
 
-	nav a:hover {
+	nav :global(a:hover) {
 		background: var(--shell-row-hover);
 	}
 
-	nav a.active {
+	nav :global(a.active) {
 		color: var(--shell-nav-accent);
 		font-weight: 700;
 		background: var(--shell-nav-wash);
 		border-left-color: var(--shell-nav-accent);
 	}
 
-	nav a span:not(.current-badge) {
+	nav :global(a span:not(.current-badge)) {
 		flex: 1;
 	}
 
