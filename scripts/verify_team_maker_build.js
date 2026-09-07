@@ -106,6 +106,21 @@ if (structuredData['@graph']?.some((item) => item['@type'] === 'FAQPage')) {
 	throw new Error('일반 사이트에 사용하지 않는 FAQPage 구조화 데이터가 포함됐습니다.');
 }
 
+const localStyleLinks = [...html.matchAll(/<link\b[^>]*\brel="stylesheet"[^>]*>/g)].map(
+	(match) => match[0]
+);
+const activeLocalStyleLinks = localStyleLinks.filter(
+	(tag) => tag.includes('_app/immutable/assets/') && !/\bdisabled\b/.test(tag)
+);
+if (activeLocalStyleLinks.length > 0) {
+	throw new Error('team-maker의 첫 화면 CSS가 HTML에 포함되지 않았습니다.');
+}
+for (const fontMarker of ['SUIT-Team-Maker', 'SUITE-Team-Maker', 'SUIT Full', 'SUITE Full']) {
+	if (!html.includes(fontMarker)) {
+		throw new Error(`team-maker HTML에서 ${fontMarker} 글꼴 설정을 찾지 못했습니다.`);
+	}
+}
+
 const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
 	.map((match) => match[1])
 	.filter((reference) => !/^(?:https?:|data:|#)/.test(reference));

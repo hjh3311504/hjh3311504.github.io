@@ -205,6 +205,10 @@ export function mountTeamMaker(root) {
 	}
 
 	let state = loadState();
+	const useFullParticipantFont = () => root.classList.add('team-maker-font-expanded');
+	if (state.participants.length || state.rosters.length || state.history.length) {
+		useFullParticipantFont();
+	}
 	const runtime = {
 		teams: [],
 		resultError: '',
@@ -1828,6 +1832,8 @@ export function mountTeamMaker(root) {
 		}, 1000);
 	}
 
+	$('#person-name').addEventListener('input', useFullParticipantFont, { once: true });
+	$('#bulk-names').addEventListener('input', useFullParticipantFont, { once: true });
 	$('#add-person-form').addEventListener('submit', (event) => {
 		event.preventDefault();
 		const input = $('#person-name');

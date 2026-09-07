@@ -1,5 +1,8 @@
 <script>
 	import { page } from '$app/stores';
+	import '@fontsource/inter';
+	import '@fontsource/inter/600.css';
+	import '@fontsource/inter/700.css';
 	import Waves from '$lib/components/organisms/Waves.svelte';
 	import Header from '$lib/components/organisms/Header.svelte';
 	import Footer from '$lib/components/organisms/Footer.svelte';
