@@ -28,7 +28,7 @@
 		font-size: 14px;
 	}
 
-	.danger-filled-button:hover {
+	.danger-filled-button:not(:disabled):hover {
 		background: #d93d43;
 		border-color: #d93d43;
 	}

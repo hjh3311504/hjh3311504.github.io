@@ -18,9 +18,9 @@
 		border-color: var(--primary-active);
 	}
 
-	.primary-button:active,
-	.primary-small-button:active,
-	.danger-filled-button:active {
+	.primary-button:not(:disabled):active,
+	.primary-small-button:not(:disabled):active,
+	.danger-filled-button:not(:disabled):active {
 		transform: scale(0.98);
 	}
 }

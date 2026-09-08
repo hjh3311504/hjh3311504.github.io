@@ -97,7 +97,7 @@ npm run build
 npm run verify:team-maker
 ```
 
-`npm test`는 CSS 진입점·중첩 폴더의 홀수 px 글자 크기 검사와 팀 분배·배정 규칙, 저장 데이터 복원과 실패 처리, 이벤트·예약 작업 해제를 검사합니다. `npm run test:e2e:team-maker`는 production build를 만든 뒤 Chromium에서 참가자 편집, 명단 저장, 승패 기록, 추첨, 새로고침, route 재진입, 예약 삭제 취소, 모바일과 키보드 흐름을 검사합니다. 처음 실행할 때 Chromium이 없다면 `npx playwright install chromium`을 먼저 실행하세요. `npm run verify:team-maker`는 root 페이지, SvelteKit이 생성한 Team Maker route와 bundle, 상대 자원 경로, 제품 코드의 외부 HTTP 자원 사용 여부를 검사합니다. 홀수 px 글자 크기는 CSS 진입점과 `src/lib/team-maker/styles/` 하위의 모든 CSS에서 검사하며, 위반한 파일 경로와 값을 표시합니다.
+`npm test`는 CSS 진입점·중첩 폴더의 홀수 px 글자 크기 검사와 팀 분배·배정 규칙, 저장 데이터 복원과 실패 처리, 이벤트·예약 작업 해제를 검사합니다. `npm run test:e2e:team-maker`는 production build를 만든 뒤 Chromium에서 참가자 편집, 명단 저장, 승패 기록, 추첨, 새로고침, route 재진입, 예약 삭제 취소, 밝은·어두운 테마의 버튼 hover와 비활성 상태, 모바일과 키보드 흐름을 검사합니다. 처음 실행할 때 Chromium이 없다면 `npx playwright install chromium`을 먼저 실행하세요. `npm run verify:team-maker`는 root 페이지, SvelteKit이 생성한 Team Maker route와 bundle, 상대 자원 경로, 제품 코드의 외부 HTTP 자원 사용 여부를 검사합니다. 홀수 px 글자 크기는 CSS 진입점과 `src/lib/team-maker/styles/` 하위의 모든 CSS에서 검사하며, 위반한 파일 경로와 값을 표시합니다.
 
 ## 통계 이미지 처리
 
