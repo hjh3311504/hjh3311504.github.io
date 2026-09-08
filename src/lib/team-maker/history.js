@@ -30,6 +30,7 @@ export function createHistory({
 	root,
 	showDialog
 }) {
+	const statsImageFallbacks = new WeakMap();
 	let historySort = 'wins';
 	let historySearch = '';
 	const enteringHistory = new Set();
@@ -564,9 +565,13 @@ export function createHistory({
 			top.className = 'stats-leader-top';
 			const icon = document.createElement('span');
 			icon.className = 'stats-leader-icon';
-			icon.style.setProperty('--stats-leader-icon-image', `url("${assetUrl(group.icon)}")`);
 			const image = document.createElement('img');
-			image.src = assetUrl(group.icon);
+			const imageUrl = assetUrl(
+				import.meta.env.DEV ? group.icon : group.icon.replace(/\.png$/, '.webp')
+			);
+			if (!import.meta.env.DEV) statsImageFallbacks.set(image, assetUrl(group.icon));
+			icon.style.setProperty('--stats-leader-icon-image', `url("${imageUrl}")`);
+			image.src = imageUrl;
 			image.alt = '';
 			icon.append(image);
 			const text = document.createElement('span');
@@ -684,6 +689,21 @@ export function createHistory({
 		}
 	}
 	function connect() {
+		// error는 버블링하지 않으므로 캡처 단계에서 처리합니다.
+		on(
+			root,
+			'error',
+			(event) => {
+				const image = event.target;
+				const fallbackUrl = statsImageFallbacks.get(image);
+				if (!fallbackUrl) return;
+				statsImageFallbacks.delete(image);
+				image.parentElement.style.setProperty('--stats-leader-icon-image', `url("${fallbackUrl}")`);
+				image.src = fallbackUrl;
+			},
+			true
+		);
+
 		on($('#open-player-stats-button'), 'click', () => {
 			renderPlayerStats();
 			showDialog($('#player-stats-dialog'), '.dialog-close');
