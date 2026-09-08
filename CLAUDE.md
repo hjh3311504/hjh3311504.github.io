@@ -54,6 +54,10 @@ SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
 
 ## Team Maker 기능 구조
 
+- 기능별 화면은 `src/lib/team-maker/components/`에 둔다. route는 검색 정보, 전체 배치와 `mountTeamMaker(pageRoot)` 연결을 담당한다.
+- 화면 component를 분리할 때 기존 HTML 계층, ID, class, data·접근성 속성을 보존하고 불필요한 wrapper를 추가하지 않는다. 모든 화면과 dialog는 `pageRoot` 안에 처음부터 렌더링한다.
+- JavaScript가 직접 내용을 채우는 컨테이너는 기존 방식으로 유지한다. 화면 component는 마크업을 담당하며 상태와 이벤트 처리는 기존 기능 JavaScript에 둔다.
+
 - `src/lib/team-maker/app.js`에서 기능을 만들고 연결한다. 기능 파일끼리 직접 import하지 않는다. 공통 계산과 도우미 파일은 import할 수 있다.
 - 저장 상태는 `getState()`로 접근하며 같은 객체를 유지한다. 저장은 전달받은 함수로 요청한다. 기능 하나만 쓰는 임시 상태는 해당 기능 안에 둔다.
 - 기능의 이벤트와 예약 작업은 `createLifetime()`으로 등록한다. 화면 종료 시 `destroy()`에서 예약 작업, dialog와 효과음을 정리한다.

@@ -33,14 +33,14 @@ const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
-// 기능 파일과 보완 CSS도 빠짐없이 검사합니다.
+// 기능 파일, 화면 component와 보완 CSS도 빠짐없이 검사합니다.
 async function readProductSources(directory) {
 	const entries = await readdir(directory, { withFileTypes: true });
 	const sources = await Promise.all(
 		entries.map(async (entry) => {
 			const file = path.join(directory, entry.name);
 			if (entry.isDirectory()) return readProductSources(file);
-			if (!/\.(?:js|css)$/.test(entry.name)) return '';
+			if (!/\.(?:js|css|svelte)$/.test(entry.name)) return '';
 			return readFile(file, 'utf8');
 		})
 	);
@@ -226,8 +226,8 @@ if (
 ) {
 	throw new Error('SvelteKit route가 Team Maker 화면 module을 불러오지 않습니다.');
 }
-if (!page.includes("from '$lib/components/ui'")) {
-	throw new Error('Team Maker route가 공통 UI component를 불러오지 않습니다.');
+if (!`${page}\n${productSource}`.includes("from '$lib/components/ui'")) {
+	throw new Error('Team Maker 화면이 공통 UI component를 불러오지 않습니다.');
 }
 for (const [name, source] of uiComponents) {
 	if (!source.includes('$props()') || !source.includes('{@render')) {
