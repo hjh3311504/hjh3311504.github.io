@@ -1,0 +1,31 @@
+@scope (.team-maker-page) {
+	.make-button {
+		width: 100%;
+		margin: 0;
+		padding: 16px 20px;
+		font-size: 16px;
+		border-radius: 12px;
+		box-shadow: 0 4px 14px rgb(0 117 222 / 24%);
+	}
+
+	.make-button:disabled {
+		color: var(--faint);
+		background: var(--surface-alt);
+		border: 1px dashed var(--line-strong);
+		box-shadow: none;
+	}
+
+	.make-button[data-has-result='true']:not(:disabled) {
+		color: var(--primary-dark);
+		background: var(--surface);
+		border-color: var(--primary-line);
+		box-shadow: none;
+	}
+
+	.make-button[data-has-result='true']:not(:disabled):hover,
+	.make-button[data-has-result='true']:not(:disabled):active {
+		color: var(--primary-dark);
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
+	}
+}

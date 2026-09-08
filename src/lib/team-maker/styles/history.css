@@ -1,0 +1,87 @@
+@scope (.team-maker-page) {
+	.history-card {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		margin: 0;
+		padding: 22px;
+	}
+
+	.statistics-content {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.history-card .section-heading {
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.history-card .section-heading > .today-heading {
+		display: flex;
+		gap: 4px;
+		align-items: baseline;
+	}
+
+	.history-card h3 {
+		margin: 0;
+		font-size: 14px;
+	}
+
+	.history-card .section-heading p {
+		margin: 2px 0 0;
+		color: var(--muted);
+		font-size: 12px;
+	}
+
+	#today-history-count {
+		font-size: 14px;
+	}
+
+	.history-summary-row {
+		min-width: 0;
+		font-size: 14px;
+	}
+
+	.history-time {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		color: var(--muted);
+		font-size: 12px;
+		font-feature-settings: 'tnum';
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
+	}
+
+	.history-summary-row .history-time {
+		height: 22px;
+	}
+
+	.history-winner-chip {
+		color: var(--primary-dark);
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
+	}
+
+	.history-summary {
+		display: block;
+		flex: 1;
+		min-width: 0;
+		max-width: 100%;
+		overflow: visible;
+		color: var(--muted);
+		line-height: 1.55;
+		overflow-wrap: anywhere;
+		text-overflow: clip;
+		white-space: normal;
+		word-break: keep-all;
+	}
+
+	.seo-content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+}

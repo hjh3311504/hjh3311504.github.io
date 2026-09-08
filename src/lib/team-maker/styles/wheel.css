@@ -1,0 +1,226 @@
+@scope (.team-maker-page) {
+	.wheel-dialog {
+		width: min(calc(100% - 32px), 440px);
+		align-items: center;
+	}
+
+	.wheel-dialog .dialog-heading,
+	.wheel-dialog .dialog-actions,
+	.wheel-dialog .wheel-result {
+		width: 100%;
+	}
+
+	.wheel-dialog .dialog-heading h2 {
+		font-size: 20px;
+		font-weight: 800;
+		letter-spacing: -0.3px;
+	}
+
+	.sound-toggle[aria-pressed='true'] {
+		color: var(--primary-dark);
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
+	}
+
+	.sound-toggle:hover {
+		color: var(--primary-dark);
+		background: #e9ddff;
+		border-color: var(--primary);
+	}
+
+	.wheel-body {
+		display: grid;
+		gap: 14px;
+		justify-items: center;
+		width: 100%;
+	}
+
+	.wheel-side {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		width: 100%;
+	}
+
+	.wheel-side-title {
+		margin: 0;
+		color: var(--muted);
+		font-size: 14px;
+		font-weight: 750;
+		text-align: center;
+	}
+
+	/* 좁은 화면에서는 지금처럼 판 아래에 쌓이고, 넓을 때만 우측으로 간다. */
+
+	@media (min-width: 640px) {
+		.wheel-dialog.has-picks {
+			width: min(calc(100% - 32px), 620px);
+		}
+
+		.wheel-dialog.has-picks .wheel-body {
+			grid-template-columns: minmax(0, 1fr) minmax(210px, 240px);
+			align-items: start;
+			justify-items: stretch;
+		}
+
+		.wheel-dialog.has-picks .wheel-wrap {
+			--wheel-size: 320px;
+		}
+
+		.wheel-dialog.has-picks .wheel-side-title,
+		.wheel-dialog.has-picks .wheel-picked-list {
+			text-align: left;
+			justify-content: flex-start;
+		}
+
+		.wheel-dialog.has-picks .wheel-picked-list {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.wheel-dialog.has-picks .wheel-picked-item {
+			justify-content: flex-start;
+			min-height: 44px;
+		}
+	}
+
+	.wheel-wrap {
+		--wheel-size: min(360px, calc(100vw - 92px));
+		position: relative;
+		width: var(--wheel-size);
+		height: calc(var(--wheel-size) + 18px);
+		margin: 0 auto;
+	}
+
+	.wheel {
+		position: absolute;
+		top: 18px;
+		left: 0;
+		width: var(--wheel-size);
+		height: var(--wheel-size);
+		overflow: hidden;
+		background: var(--wheel-gradient, #84b5ec);
+		border: 6px solid #fff;
+		border-radius: 50%;
+		box-shadow:
+			0 0 0 1px var(--line-strong),
+			0 8px 20px rgb(28 30 38 / 14%);
+		transition: transform var(--wheel-spin-duration, 6500ms)
+			var(--wheel-spin-easing, cubic-bezier(0.1, 0.72, 0.06, 1));
+	}
+
+	/* 조각이 만나는 가운데 점만 가리는 작은 원. 이름표는 바깥쪽에 있어 겹치지 않는다. */
+
+	.wheel::after {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 24px;
+		height: 24px;
+		content: '';
+		background: var(--surface);
+		border-radius: 50%;
+		box-shadow: 0 0 0 1px var(--line-strong);
+		transform: translate(-50%, -50%);
+	}
+
+	.wheel-pointer {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		z-index: 2;
+		width: 22px;
+		height: 22px;
+		background: var(--ink);
+		clip-path: polygon(50% 100%, 0 0, 100% 0);
+		transform: translateX(-50%);
+	}
+
+	.wheel-label {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: min(140px, 34vw);
+		margin: -12px 0 0 calc(min(140px, 34vw) / -2);
+		overflow: hidden;
+		font-size: clamp(14px, 3.9vw, 18px);
+		font-weight: 800;
+		text-align: center;
+		text-shadow: 0 1px 0 rgb(255 255 255 / 45%);
+		text-overflow: ellipsis;
+		transform: rotate(var(--label-angle)) translateY(calc(var(--wheel-size) * -0.345))
+			rotate(var(--label-counter-angle));
+		transition: transform var(--wheel-spin-duration, 6500ms)
+			var(--wheel-spin-easing, cubic-bezier(0.1, 0.72, 0.06, 1));
+		white-space: nowrap;
+	}
+
+	.wheel-result {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 86px;
+		min-height: 86px;
+		padding: 12px;
+		margin: 0;
+		color: var(--muted);
+		font-size: 16px;
+		font-weight: 800;
+		line-height: 1.5;
+		text-align: center;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.wheel-result[data-picked='true'] {
+		color: var(--green);
+		font-weight: 750;
+		background: var(--green-soft);
+		border-color: var(--green-line);
+	}
+
+	.wheel-result.animate-pop {
+		animation: tm-pop 260ms cubic-bezier(0.2, 0, 0.2, 1);
+	}
+
+	.celebration-layer {
+		position: fixed;
+		inset: 0;
+		z-index: 80;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.celebration-particle {
+		position: absolute;
+		top: 45%;
+		left: 50%;
+		animation: tm-burst var(--duration) cubic-bezier(0.16, 0.7, 0.3, 1) forwards;
+		animation-delay: var(--delay);
+	}
+
+	.split-actions > button {
+		flex: 1;
+	}
+
+	/* 좁은 화면에서 버튼 셋을 한 줄에 밀어 넣으면 글자가 잘려 두 줄이 된다. */
+
+	@media (max-width: 480px) {
+		.wheel-dialog .split-actions {
+			flex-wrap: wrap;
+		}
+
+		.wheel-dialog .split-actions > button {
+			flex: 1 1 100%;
+		}
+
+		.wheel-dialog #spin-wheel-button {
+			order: 1;
+		}
+
+		.wheel-dialog #wheel-close-button {
+			order: 2;
+		}
+	}
+}

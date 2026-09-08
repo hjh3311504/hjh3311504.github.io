@@ -1,0 +1,26 @@
+@scope (.team-maker-page) {
+	.primary-button,
+	.primary-small-button {
+		cursor: pointer;
+		color: var(--on-primary);
+		font-weight: 750;
+		background: var(--primary);
+		border: 1px solid var(--primary);
+	}
+
+	.primary-small-button {
+		font-size: 14px;
+	}
+
+	.primary-button:hover,
+	.primary-small-button:hover {
+		background: var(--primary-active);
+		border-color: var(--primary-active);
+	}
+
+	.primary-button:active,
+	.primary-small-button:active,
+	.danger-filled-button:active {
+		transform: scale(0.98);
+	}
+}

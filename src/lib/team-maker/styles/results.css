@@ -1,0 +1,285 @@
+@scope (.team-maker-page) {
+	.results-section {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		margin: 0;
+		padding: 22px;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		box-shadow: 0 2px 8px rgb(28 30 38 / 6%);
+		transition:
+			border-color 320ms cubic-bezier(0.2, 0, 0.2, 1),
+			box-shadow 320ms cubic-bezier(0.2, 0, 0.2, 1);
+	}
+
+	.results-section[data-has-result='true'] {
+		border-color: var(--primary);
+		box-shadow:
+			0 0 0 1px rgb(0 117 222 / 26%),
+			0 0 0 4px rgb(0 117 222 / 8%),
+			0 12px 26px -10px rgb(0 117 222 / 22%);
+	}
+
+	.result-heading {
+		align-items: center;
+		padding: 0;
+		margin: 0;
+	}
+
+	.reshuffle-button {
+		color: var(--on-primary);
+		font-weight: 700;
+		background: var(--primary);
+		border-color: var(--primary);
+	}
+
+	.reshuffle-button:hover {
+		color: var(--on-primary);
+		background: var(--primary-active);
+		border-color: var(--primary-active);
+	}
+
+	.result-empty {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		align-items: center;
+		padding: 32px 24px;
+		text-align: center;
+		background: var(--surface);
+		border: 1px dashed var(--line-strong);
+		border-radius: 14px;
+	}
+
+	.result-empty[data-tone='error'] {
+		background: var(--danger-soft);
+		border-color: var(--danger-line);
+	}
+
+	.result-empty strong {
+		font-size: 16px;
+	}
+
+	.result-empty[data-tone='error'] strong {
+		color: var(--danger);
+	}
+
+	.result-empty span {
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.6;
+	}
+
+	.result-empty-description {
+		white-space: nowrap;
+	}
+
+	.result-empty-mark {
+		display: block;
+		width: 48px;
+		aspect-ratio: 96 / 73;
+		background: var(--primary);
+		-webkit-mask: var(--result-empty-mark-image) center / contain no-repeat;
+		mask: var(--result-empty-mark-image) center / contain no-repeat;
+	}
+
+	.team-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 12px;
+	}
+
+	.team-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		min-width: 0;
+		padding: 16px 18px;
+		overflow: hidden;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-top: 3px solid var(--primary);
+		border-radius: 14px;
+		box-shadow: 0 2px 8px rgb(28 30 38 / 5%);
+		transition:
+			background 320ms cubic-bezier(0.2, 0, 0.2, 1),
+			border-color 320ms cubic-bezier(0.2, 0, 0.2, 1),
+			box-shadow 320ms cubic-bezier(0.2, 0, 0.2, 1);
+	}
+
+	.team-card.animate-team {
+		animation: tm-team-in 420ms cubic-bezier(0.2, 0, 0.2, 1) var(--team-delay, 0ms) both;
+	}
+
+	.team-card.animate-win {
+		animation: tm-win-pulse 760ms cubic-bezier(0.2, 0, 0.2, 1) forwards;
+	}
+
+	.team-card.animate-lose {
+		animation: tm-lose-fade 520ms cubic-bezier(0.2, 0, 0.2, 1) forwards;
+	}
+
+	.team-card.animate-win::before {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 45%;
+		pointer-events: none;
+		content: '';
+		background: linear-gradient(
+			90deg,
+			rgb(0 117 222 / 0%) 0%,
+			rgb(0 117 222 / 14%) 50%,
+			rgb(0 117 222 / 0%) 100%
+		);
+		opacity: 0;
+		transform: translateX(-120%);
+		animation: tm-sweep 720ms cubic-bezier(0.2, 0, 0.2, 1) 60ms;
+	}
+
+	.team-card[data-place='first'] {
+		background: var(--primary-soft);
+		border: 2px solid var(--primary);
+		border-top-width: 6px;
+	}
+
+	.team-card[data-place='first'] h3 {
+		color: var(--primary-dark);
+		font-weight: 800;
+	}
+
+	.team-card.animate-win h3 {
+		animation: tm-name-lift 520ms cubic-bezier(0.2, 0, 0.2, 1) 80ms;
+	}
+
+	.team-card[data-place='middle'] {
+		background: var(--green-soft);
+		border-top-color: var(--green-line);
+	}
+
+	.team-card[data-place='last'] {
+		background: var(--danger-soft);
+		border-top-color: var(--danger-line);
+	}
+
+	.team-card-heading {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.team-card-heading h3 {
+		margin: 0;
+		font-size: 20px;
+	}
+
+	.team-count-chip {
+		height: 28px;
+		min-height: 28px;
+		padding-right: 16px;
+		padding-left: 16px;
+		color: var(--muted);
+		font-size: 14px;
+		font-feature-settings: 'tnum';
+		font-variant-numeric: tabular-nums;
+		background: var(--canvas);
+		border-color: var(--line);
+	}
+
+	.team-count-chip[data-place='first'] {
+		color: var(--on-primary);
+		background: var(--primary);
+		border-color: var(--primary);
+	}
+
+	.team-count-chip[data-place='middle'] {
+		color: var(--on-primary);
+		background: var(--rank-green-fill);
+		border-color: var(--rank-green-fill);
+	}
+
+	.team-count-chip[data-place='last'] {
+		color: var(--on-primary);
+		background: var(--rank-danger-fill);
+		border-color: var(--rank-danger-fill);
+	}
+
+	.team-count-chip[data-place='none'] {
+		color: var(--faint);
+		background: var(--canvas);
+		border-style: dashed;
+		border-color: var(--line-strong);
+	}
+
+	.team-count-chip.animate-result-chip {
+		animation: tm-chip-pop 480ms cubic-bezier(0.2, 0, 0.2, 1) var(--chip-delay, 120ms) both;
+	}
+
+	.team-members {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 0 0 4px;
+		margin: 0;
+		list-style: none;
+	}
+
+	.team-members li {
+		display: flex;
+		gap: 10px;
+		align-items: baseline;
+		padding: 3px 0;
+		font-size: 16px;
+		line-height: 1.7;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.team-members li:last-child {
+		border-bottom: 1px solid var(--line);
+	}
+
+	.member-number {
+		flex: none;
+		width: 18px;
+		color: var(--muted);
+		font-size: 12px;
+		font-feature-settings: 'tnum';
+		font-weight: 650;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.member-name {
+		display: block;
+		flex: 1;
+		min-width: 0;
+		overflow-wrap: anywhere;
+		white-space: normal;
+		word-break: break-word;
+	}
+
+	.team-card-footer {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-top: auto;
+	}
+
+	.win-button,
+	.draw-button {
+		width: 100%;
+		height: 40px;
+		cursor: pointer;
+		font-size: 14px;
+		font-weight: 750;
+		border-radius: 8px;
+		transition:
+			background 160ms ease,
+			border-color 160ms ease,
+			color 160ms ease;
+	}
+}

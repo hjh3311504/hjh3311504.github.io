@@ -1,0 +1,46 @@
+@scope (.team-maker-page) {
+	.remove-row-button {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 36px;
+		height: 36px;
+		padding: 0;
+		cursor: pointer;
+		color: var(--faint);
+		font-size: 18px;
+		background: transparent;
+		border: 1px solid transparent;
+		border-radius: 8px;
+	}
+
+	.remove-row-button svg {
+		display: block;
+		pointer-events: none;
+	}
+
+	.remove-row-button:hover {
+		color: var(--danger);
+		background: var(--danger-soft);
+		border-color: var(--danger-line);
+	}
+
+	.rule-row .remove-row-button,
+	.history-summary-row .remove-row-button,
+	.history-match .remove-row-button {
+		width: 32px;
+		min-width: 32px;
+		height: 32px;
+		min-height: 32px;
+		font-size: 16px;
+	}
+
+	.rule-row .remove-row-button svg {
+		transform: translateY(-1px);
+	}
+
+	.history-summary-row > .remove-row-button,
+	.history-match > .remove-row-button {
+		transform: translateY(-5px);
+	}
+}

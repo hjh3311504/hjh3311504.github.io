@@ -1,0 +1,58 @@
+@scope (.team-maker-page) {
+	.rules-area {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding-top: 14px;
+		border-top: 1px solid #eef2f7;
+	}
+
+	.rules-heading h3 {
+		flex: none;
+		margin: 0;
+		font-size: 14px;
+	}
+
+	.rules-heading p {
+		margin: 0;
+		color: var(--muted);
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+	.rules-heading {
+		flex-wrap: wrap;
+		gap: 10px 12px;
+	}
+
+	.rules-copy {
+		display: flex;
+		gap: 8px;
+		align-items: baseline;
+		min-width: 0;
+	}
+
+	.rule-button {
+		padding: 0 14px;
+	}
+
+	.rule-button.together {
+		color: var(--primary-dark);
+		border-color: var(--primary-line);
+	}
+
+	.rule-button.apart {
+		color: var(--orange);
+		border-color: var(--orange-line);
+	}
+
+	.rule-button.together:hover {
+		background: var(--primary-soft);
+		border-color: var(--primary);
+	}
+
+	.rule-button.apart:hover {
+		background: var(--orange-soft);
+		border-color: var(--orange);
+	}
+}

@@ -1,0 +1,35 @@
+@scope (.team-maker-page) {
+	.confirm-dialog {
+		width: max-content;
+		max-width: calc(100% - 32px);
+		border-color: var(--danger-line);
+	}
+
+	#confirm-description {
+		max-width: none;
+		overflow-x: auto;
+		overflow-wrap: normal;
+		white-space: nowrap;
+	}
+
+	.confirm-dialog h2 {
+		color: var(--danger);
+	}
+
+	.danger-filled-button {
+		color: var(--on-danger);
+		font-weight: 750;
+		background: var(--danger-fill);
+		border-color: var(--danger-fill);
+		border-radius: 10px;
+	}
+
+	#confirm-action-button {
+		font-size: 14px;
+	}
+
+	.danger-filled-button:hover {
+		background: #d93d43;
+		border-color: #d93d43;
+	}
+}

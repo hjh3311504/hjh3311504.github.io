@@ -1,0 +1,240 @@
+@scope (.team-maker-page) {
+	.history-dialog {
+		width: min(calc(100% - 32px), 520px);
+	}
+
+	.history-overview {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 14px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+	}
+
+	.history-overview h3 {
+		margin: 0;
+		font-size: 14px;
+		font-weight: 800;
+	}
+
+	.overview-facts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+		gap: 8px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.overview-fact {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 8px 10px;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.overview-fact-label {
+		color: var(--muted);
+		font-size: 14px;
+		font-weight: 650;
+	}
+
+	.overview-fact-value {
+		font-size: 22px;
+		font-weight: 800;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.overview-ranking {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.overview-row {
+		display: grid;
+		grid-template-columns: 18px minmax(48px, 88px) minmax(0, 1fr) auto;
+		gap: 8px;
+		align-items: center;
+	}
+
+	.overview-place {
+		color: var(--faint);
+		font-size: 12px;
+		font-weight: 750;
+		font-variant-numeric: tabular-nums;
+		text-align: right;
+	}
+
+	.overview-name {
+		font-size: 14px;
+		font-weight: 700;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+	}
+
+	.overview-bar {
+		display: block;
+		height: 8px;
+		overflow: hidden;
+		background: var(--canvas);
+		border: 1px solid var(--line);
+		border-radius: 999px;
+	}
+
+	.overview-bar-fill {
+		display: block;
+		height: 100%;
+		background: var(--primary);
+		border-radius: 999px;
+	}
+
+	.overview-detail {
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.history-groups {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.history-date-heading {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-bottom: 7px;
+		margin: 0 0 8px;
+		border-bottom: 1px solid #eef2f7;
+	}
+
+	.history-date-heading h3 {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	.history-date-heading span {
+		margin-right: 8px;
+		color: var(--muted);
+		font-size: 12px;
+	}
+
+	.history-match-list {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.history-match,
+	.history-summary-row {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: 10px;
+		align-items: start;
+		padding: 11px 8px 11px 12px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.history-match > .history-time {
+		height: 22px;
+	}
+
+	.history-teams {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		min-width: 0;
+	}
+
+	.history-team-line {
+		display: flex;
+		gap: 8px;
+		align-items: flex-start;
+		min-height: 22px;
+		min-width: 0;
+		font-size: 14px;
+		line-height: 1.55;
+	}
+
+	.history-team-line[data-place='first'] .history-team-label {
+		color: var(--primary-dark);
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
+	}
+
+	.history-team-line[data-place='middle'] .history-team-label {
+		color: var(--green);
+		background: var(--green-soft);
+		border-color: var(--green-line);
+	}
+
+	.history-team-line[data-place='none'] .history-team-label {
+		color: var(--muted);
+		background: var(--surface-alt);
+		border-color: var(--line-strong);
+		border-style: solid;
+	}
+
+	.history-team-picks {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		min-height: 22px;
+		padding: 0 8px;
+		color: var(--green);
+		font-size: 12px;
+		font-weight: 750;
+		background: var(--green-soft);
+		border: 1px solid var(--green-line);
+		border-radius: 999px;
+	}
+
+	.history-team-names {
+		display: block;
+		flex: 1;
+		min-width: 0;
+		max-width: 100%;
+		overflow: visible;
+		overflow-wrap: anywhere;
+		text-overflow: clip;
+		white-space: normal;
+		word-break: keep-all;
+		transform: translateY(1px);
+	}
+
+	.history-team-label {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		height: 22px;
+		padding: 0 6px;
+		color: var(--danger);
+		font-size: 12px;
+		font-weight: 750;
+		font-feature-settings: 'tnum';
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
+		background: var(--danger-soft);
+		border: 1px solid var(--danger-line);
+		border-radius: 999px;
+	}
+}
