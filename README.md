@@ -97,7 +97,13 @@ npm run build
 npm run verify:team-maker
 ```
 
-`npm test`는 팀 분배·배정 규칙, 저장 데이터 복원과 실패 처리, 이벤트·예약 작업 해제를 검사합니다. `npm run test:e2e:team-maker`는 production build를 만든 뒤 Chromium에서 참가자 편집, 명단 저장, 승패 기록, 추첨, 새로고침, route 재진입, 예약 삭제 취소, 모바일과 키보드 흐름을 검사합니다. 처음 실행할 때 Chromium이 없다면 `npx playwright install chromium`을 먼저 실행하세요. `npm run verify:team-maker`는 root 페이지, SvelteKit이 생성한 Team Maker route와 bundle, 상대 자원 경로, 제품 코드의 외부 HTTP 자원 사용 여부를 검사합니다.
+`npm test`는 CSS 진입점·중첩 폴더의 홀수 px 글자 크기 검사와 팀 분배·배정 규칙, 저장 데이터 복원과 실패 처리, 이벤트·예약 작업 해제를 검사합니다. `npm run test:e2e:team-maker`는 production build를 만든 뒤 Chromium에서 참가자 편집, 명단 저장, 승패 기록, 추첨, 새로고침, route 재진입, 예약 삭제 취소, 모바일과 키보드 흐름을 검사합니다. 처음 실행할 때 Chromium이 없다면 `npx playwright install chromium`을 먼저 실행하세요. `npm run verify:team-maker`는 root 페이지, SvelteKit이 생성한 Team Maker route와 bundle, 상대 자원 경로, 제품 코드의 외부 HTTP 자원 사용 여부를 검사합니다. 홀수 px 글자 크기는 CSS 진입점과 `src/lib/team-maker/styles/` 하위의 모든 CSS에서 검사하며, 위반한 파일 경로와 값을 표시합니다.
+
+## 통계 이미지 처리
+
+build 후 `scripts/optimize_images.js`가 PNG·JPEG 원본에서 WebP와 AVIF를 생성합니다. 참가자 통계의 `stat-win`, `stat-pick`, `stat-lose` 3개 아이콘은 production에서 생성된 WebP를 사용합니다. 개발 서버는 원본 PNG를 사용합니다.
+
+최소 지원 브라우저 버전이 정해져 있지 않으므로 WebP 로드·해독 실패 시 PNG로 한 번만 대체합니다. 이미지와 당첨 아이콘의 CSS 마스크를 함께 전환하며 경로는 `assetUrl()`로 만듭니다. 원본 PNG와 기존 변환 품질 설정은 유지합니다. E2E 테스트는 WebP 요청, PNG 대체와 마스크 경로를 확인합니다.
 
 ## 배포
 

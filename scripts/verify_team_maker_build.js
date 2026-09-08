@@ -1,5 +1,6 @@
 import { access, readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { verifyTeamMakerCss } from './verify_team_maker_css.js';
 
 const root = process.cwd();
 const requiredFiles = [
@@ -258,12 +259,7 @@ if (html.includes('src="./app.js"') || html.includes('href="./styles.css"')) {
 	throw new Error('team-maker build가 이전 정적 entrypoint를 사용하고 있습니다.');
 }
 
-const oddFontSizes = [...css.matchAll(/font-size:\s*(\d+)px/g)]
-	.map((match) => Number(match[1]))
-	.filter((size) => size % 2 !== 0);
-if (oddFontSizes.length > 0) {
-	throw new Error(`team-maker CSS에 홀수 글자 크기가 있습니다: ${oddFontSizes.join(', ')}px`);
-}
+await verifyTeamMakerCss(root);
 
 console.log(
 	`Team Maker SvelteKit build 검증 통과: 필수 파일 ${requiredFiles.length}개, local 자원 ${new Set(localReferences).size}개`

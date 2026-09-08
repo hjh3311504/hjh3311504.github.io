@@ -1015,3 +1015,46 @@ test('1등 확률순은 유효한 1등이 있는 참가 경기만 계산해 정�
 	await expect(overview.locator('.podium-card').first()).toContainText('가영');
 	await expect(overview.locator('.podium-card').first()).toContainText('1승 0패 · 100%');
 });
+
+for (const theme of ['light', 'dark']) {
+	test(`승리·순위 버튼은 ${theme === 'light' ? '밝은' : '어두운'} 테마에서 hover해도 글자와 배경색을 유지한다`, async ({
+		page
+	}) => {
+		await page.addInitScript((theme) => localStorage.setItem('juno.develog.theme', theme), theme);
+		await openTeamMaker(page);
+		await addParticipants(page, ['가영', '나연', '다현', '라희']);
+
+		async function expectHoverColors(button) {
+			await page.mouse.move(0, 0);
+			await button.evaluate((element) =>
+				Promise.all(element.getAnimations().map((animation) => animation.finished))
+			);
+			const colors = await button.evaluate((element) => {
+				const style = getComputedStyle(element);
+				return { color: style.color, backgroundColor: style.backgroundColor };
+			});
+			await button.hover();
+			await button.evaluate((element) =>
+				Promise.all(element.getAnimations().map((animation) => animation.finished))
+			);
+			await expect(button).toHaveCSS('color', colors.color);
+			await expect(button).toHaveCSS('background-color', colors.backgroundColor);
+		}
+
+		await page.getByRole('button', { name: '팀 만들기', exact: true }).click();
+		const win = page.getByRole('button', { name: /승리 기록$/ }).first();
+		await expectHoverColors(win);
+		await win.click();
+		await expect(page.locator('#team-grid .team-card[data-place="first"]')).toHaveCount(1);
+
+		await page.getByRole('button', { name: '값 늘리기' }).click();
+		await page.getByRole('button', { name: '팀 만들기', exact: true }).click();
+		const first = page.getByRole('button', { name: /1등 기록$/ }).first();
+		await expectHoverColors(first);
+		await first.click();
+		const second = page.getByRole('button', { name: /2등 기록$/ }).first();
+		await expectHoverColors(second);
+		await second.click();
+		await expect(page.getByRole('button', { name: /2등 기록$/ })).toHaveCount(0);
+	});
+}
