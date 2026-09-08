@@ -160,7 +160,7 @@
 			color 160ms ease;
 	}
 
-	.roster-load-button:hover {
+	.roster-load-button:not(:disabled):hover {
 		background: var(--primary-soft);
 		border-color: var(--primary-line);
 	}

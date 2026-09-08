@@ -230,7 +230,8 @@
 		font-weight: 650;
 	}
 
-	.utility-button:hover,
+	/* 다시 섞기 등 기능별 hover의 우선순위를 유지하며 비활성 버튼만 제외합니다. */
+	.utility-button:where(:not(:disabled)):hover,
 	.icon-text-button:hover {
 		background: var(--canvas);
 		border-color: #cbd3dd;
@@ -283,7 +284,7 @@
 		border: 1px solid transparent;
 	}
 
-	.dialog-close[data-close-dialog]:hover {
+	.dialog-close[data-close-dialog]:not(:disabled):hover {
 		color: var(--danger);
 		background: var(--danger-soft);
 		border-color: var(--danger-line);
@@ -303,7 +304,7 @@
 		border-color: var(--danger-line);
 	}
 
-	.danger-button:hover {
+	.danger-button:not(:disabled):hover {
 		color: var(--danger);
 		background: var(--danger-soft);
 		border-color: var(--danger-line);
