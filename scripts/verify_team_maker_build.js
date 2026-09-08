@@ -1,4 +1,4 @@
-import { access, readFile, stat } from 'node:fs/promises';
+import { access, readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
@@ -33,7 +33,21 @@ const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
-const core = await readFile(path.join(root, 'src/lib/team-maker/core.js'), 'utf8');
+// 기능 파일과 보완 CSS도 빠짐없이 검사합니다.
+async function readProductSources(directory) {
+	const entries = await readdir(directory, { withFileTypes: true });
+	const sources = await Promise.all(
+		entries.map(async (entry) => {
+			const file = path.join(directory, entry.name);
+			if (entry.isDirectory()) return readProductSources(file);
+			if (!/\.(?:js|css)$/.test(entry.name)) return '';
+			return readFile(file, 'utf8');
+		})
+	);
+	return sources.join('\n');
+}
+const productSource = await readProductSources(path.join(root, 'src/lib/team-maker'));
+const dynamicUi = await readFile(path.join(root, 'src/lib/team-maker/ui.js'), 'utf8');
 const css = await readFile(path.join(root, 'src/routes/team-maker/team-maker.css'), 'utf8');
 const uiCss = await readFile(path.join(root, 'src/lib/components/ui/ui.css'), 'utf8');
 const uiIndex = await readFile(path.join(root, 'src/lib/components/ui/index.js'), 'utf8');
@@ -195,18 +209,21 @@ for (const reference of new Set(localReferences)) {
 }
 
 const uiSource = uiComponents.map(([, source]) => source).join('\n');
-const combined = `${page}\n${app}\n${core}\n${css}\n${uiCss}\n${uiIndex}\n${uiSource}`;
-const runtimeCode = `${app}\n${core}\n${css}`;
+const combined = `${page}\n${productSource}\n${css}\n${uiCss}\n${uiIndex}\n${uiSource}`;
+const runtimeCode = `${productSource}\n${css}`;
 if (/\b(?:src|href)=["']\/(?!\/)/.test(combined) || /url\(\s*["']?\//.test(combined)) {
 	throw new Error('team-maker 자원에 사이트 루트 기준 경로가 있습니다.');
 }
 if (/https?:\/\//.test(runtimeCode)) {
 	throw new Error('team-maker 제품 코드에서 외부 HTTP 자원을 찾았습니다.');
 }
-if (!app.includes("from './core.js'")) {
+if (!productSource.includes("from './core.js'")) {
 	throw new Error('화면 코드가 분리된 팀 배정 로직을 불러오지 않습니다.');
 }
-if (!page.includes("from '$lib/team-maker/app.js'")) {
+if (
+	!app.includes('export function mountTeamMaker(root)') ||
+	!page.includes("from '$lib/team-maker/app.js'")
+) {
 	throw new Error('SvelteKit route가 Team Maker 화면 module을 불러오지 않습니다.');
 }
 if (!page.includes("from '$lib/components/ui'")) {
@@ -231,7 +248,10 @@ for (const token of [
 		throw new Error(`공통 UI stylesheet에서 ${token} token을 찾지 못했습니다.`);
 	}
 }
-if (!app.includes('function applyUiButton') || !app.includes("button.dataset.uiButton = ''")) {
+if (
+	!dynamicUi.includes('function applyUiButton') ||
+	!dynamicUi.includes("button.dataset.uiButton = ''")
+) {
 	throw new Error('동적으로 만드는 Team Maker 버튼이 공통 UI button 규칙을 사용하지 않습니다.');
 }
 if (html.includes('src="./app.js"') || html.includes('href="./styles.css"')) {

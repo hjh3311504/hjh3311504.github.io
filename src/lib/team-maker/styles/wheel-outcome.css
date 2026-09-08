@@ -1,0 +1,73 @@
+@scope (.team-maker-page) {
+	.wheel-side-head {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.picked-card {
+		padding: 12px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+	}
+
+	.picked-clear {
+		min-height: 0;
+		padding: 2px 4px;
+		color: var(--danger);
+		font: inherit;
+		font-size: 12px;
+		font-weight: 650;
+		background: transparent;
+		border: 0;
+		cursor: pointer;
+	}
+
+	.wheel-wrap.is-quick-finish .wheel,
+	.wheel-wrap.is-quick-finish .wheel-label {
+		transition: none;
+	}
+
+	.wheel-result[data-picked='true'] {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		align-items: center;
+		background: transparent;
+		border-color: transparent;
+	}
+
+	.wheel-outcome-eyebrow {
+		display: inline-flex;
+		gap: 6px;
+		align-items: center;
+		color: var(--green);
+		font-size: 14px;
+		font-feature-settings: 'tnum';
+		font-weight: 750;
+	}
+
+	.wheel-outcome-icon {
+		flex: none;
+		width: 19px;
+		height: auto;
+	}
+
+	.wheel-outcome-name {
+		color: var(--ink);
+		font-family: 'SUITE', 'SUIT', sans-serif;
+		font-size: 24px;
+		font-weight: 850;
+	}
+
+	&.team-maker-font-expanded .wheel-outcome-name {
+		font-family: 'SUITE Full', 'SUIT Full', sans-serif;
+	}
+
+	.wheel-picked-item[data-latest='true'] {
+		background: var(--green-soft);
+		border-top-color: var(--green-line);
+	}
+}

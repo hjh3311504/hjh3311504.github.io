@@ -1,0 +1,32 @@
+@scope (.team-maker-page) {
+	.participant-number {
+		flex: none;
+		width: 20px;
+		color: var(--muted);
+		font-size: 12px;
+		font-feature-settings: 'tnum';
+		font-weight: 650;
+		font-variant-numeric: tabular-nums;
+		text-align: right;
+	}
+
+	.participant-row .participant-name {
+		height: 36px;
+		padding: 0 10px;
+		line-height: 34px;
+		background: transparent;
+		border-color: transparent;
+		border-radius: 8px;
+	}
+
+	.participant-row[data-included='false'] .participant-name {
+		color: var(--faint);
+		text-decoration: line-through;
+	}
+
+	.participant-row .participant-name:hover,
+	.participant-row .participant-name:focus {
+		background: var(--surface);
+		border-color: var(--line);
+	}
+}

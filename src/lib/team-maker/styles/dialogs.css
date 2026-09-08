@@ -1,0 +1,167 @@
+@scope (.team-maker-page) {
+	.app-dialog {
+		position: fixed;
+		inset: 0;
+		width: min(calc(100% - 32px), 460px);
+		max-height: min(86vh, 760px);
+		padding: 16px;
+		margin: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
+		color: var(--ink);
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		box-shadow: 0 24px 56px rgb(28 30 38 / 22%);
+	}
+
+	.app-dialog::backdrop {
+		background: var(--scrim);
+	}
+
+	.app-dialog[open] {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.dialog-heading h2,
+	.confirm-dialog h2 {
+		margin: 0;
+		font-size: 22px;
+		letter-spacing: -0.2px;
+	}
+
+	.dialog-heading p,
+	.confirm-dialog p {
+		margin: 3px 0 0;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.55;
+	}
+
+	#history-description {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	#history-description-legend {
+		color: var(--green);
+		font-weight: 650;
+	}
+
+	.dialog-note {
+		margin: 0;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.55;
+	}
+
+	#rule-dialog-description {
+		word-break: keep-all;
+	}
+
+	/* 삭제 확인의 마지막 줄. 지워지는 대상 다음에 되돌릴 수 없다는 점을 따로 알린다. */
+
+	.confirm-dialog .confirm-warning {
+		margin: 8px 0 0;
+		color: var(--danger);
+		font-weight: 700;
+	}
+
+	.error-text {
+		color: var(--danger);
+	}
+
+	.dialog-actions {
+		display: flex;
+		gap: 8px;
+		justify-content: flex-end;
+		margin-top: 2px;
+	}
+
+	.dialog-actions > button {
+		min-height: 42px;
+		padding: 0 16px;
+	}
+
+	.primary-small-button {
+		border-radius: 10px;
+	}
+
+	.picker-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+		gap: 6px;
+		max-height: 360px;
+		overflow: auto;
+	}
+
+	.picker-row {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		padding: 9px 10px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.picker-row:has(input:checked) {
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
+	}
+
+	.picker-row label {
+		flex: 1;
+		cursor: pointer;
+		font-size: 14px;
+	}
+
+	.roster-dialog {
+		width: min(calc(100% - 32px), 480px);
+	}
+
+	.roster-row > div {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.roster-row strong,
+	.roster-row span {
+		display: block;
+	}
+
+	.roster-row strong {
+		font-size: 14px;
+		line-height: 1.4;
+	}
+
+	.roster-row span {
+		margin-top: 2px;
+		color: var(--muted);
+		font-size: 12px;
+	}
+
+	.roster-load-button {
+		flex: none;
+		padding: 8px 12px;
+		cursor: pointer;
+		color: var(--primary-dark);
+		font-size: 14px;
+		font-weight: 700;
+		background: var(--surface);
+		border: 1px solid var(--line-strong);
+		border-radius: 8px;
+		transition:
+			background 160ms ease,
+			border-color 160ms ease,
+			color 160ms ease;
+	}
+
+	.roster-load-button:hover {
+		background: var(--primary-soft);
+		border-color: var(--primary-line);
+	}
+}

@@ -1,0 +1,73 @@
+@scope (.team-maker-page) {
+	.participant-row.is-entering,
+	.rule-row.is-entering,
+	.history-summary-row.is-entering {
+		animation: tm-recv 260ms cubic-bezier(0.2, 0, 0.2, 1);
+	}
+
+	.participant-row.is-leaving,
+	.rule-row.is-leaving,
+	.history-summary-row.is-leaving,
+	.history-match.is-leaving {
+		pointer-events: none;
+		animation: tm-send 220ms cubic-bezier(0.2, 0, 0.2, 1) forwards;
+	}
+
+	.participant-row[data-removal-movement] {
+		will-change: transform;
+	}
+
+	.participant-row[data-removal-movement='cross'] {
+		position: relative;
+		z-index: 2;
+	}
+
+	.participant-row[data-included='false'] {
+		background: var(--canvas);
+	}
+
+	.team-maker-checkbox {
+		position: relative;
+		display: grid;
+		flex: none;
+		place-content: center;
+		width: 20px;
+		height: 20px;
+		margin: 0;
+		color: var(--on-primary);
+		-webkit-appearance: none;
+		appearance: none;
+		background: var(--surface);
+		border: 1px solid var(--line-strong);
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	.team-maker-checkbox::before {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 6px;
+		height: 11px;
+		content: '';
+		border-color: currentcolor;
+		border-style: solid;
+		border-width: 0 2px 2px 0;
+		opacity: 0;
+		transform: translate(-50%, -60%) rotate(45deg);
+		transition: opacity 120ms ease;
+	}
+
+	.team-maker-checkbox:checked {
+		background: var(--primary);
+		border-color: var(--primary);
+	}
+
+	.team-maker-checkbox:checked::before {
+		opacity: 1;
+	}
+
+	.team-maker-checkbox.is-animating {
+		animation: tm-checkbox-pop 200ms cubic-bezier(0.2, 0, 0.2, 1);
+	}
+}

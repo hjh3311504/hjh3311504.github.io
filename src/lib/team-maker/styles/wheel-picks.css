@@ -1,0 +1,65 @@
+@scope (.team-maker-page) {
+	.wheel-picked-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		align-items: stretch;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.wheel-picked-item {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		width: 100%;
+		min-height: 44px;
+		padding: 0 10px;
+		margin: 0;
+		color: var(--ink);
+		font-size: 14px;
+		background: transparent;
+		border: 0;
+		border-radius: 8px;
+	}
+
+	.wheel-picked-item + .wheel-picked-item {
+		border-top: 1px solid var(--line);
+	}
+
+	.wheel-picked-number {
+		display: grid;
+		flex: 0 0 28px;
+		place-items: center;
+		width: 28px;
+		height: 28px;
+		color: var(--green);
+		font-feature-settings: 'tnum';
+		font-weight: 750;
+		font-variant-numeric: tabular-nums;
+		background: var(--green-soft);
+		border-radius: 50%;
+	}
+
+	.wheel-picked-name {
+		flex: 1 1 auto;
+		min-width: 0;
+		font-weight: 750;
+		word-break: keep-all;
+	}
+
+	.wheel-picked-flag {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		height: 26px;
+		padding: 0 10px;
+		color: var(--green);
+		font-size: 12px;
+		font-weight: 650;
+		background: var(--surface);
+		border: 1px solid var(--green-line);
+		border-radius: 999px;
+	}
+}

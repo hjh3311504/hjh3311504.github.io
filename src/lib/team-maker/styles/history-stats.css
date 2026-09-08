@@ -1,0 +1,215 @@
+@scope (.team-maker-page) {
+	.stats-dialog {
+		width: min(calc(100% - 32px), 600px);
+	}
+
+	#player-stats-dialog .stats-body {
+		flex: 1;
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	#player-stats-dialog .stats-leader-list,
+	#player-stats-dialog .stats-note {
+		flex: none;
+	}
+
+	#player-stats-dialog .stats-section {
+		min-height: 0;
+	}
+
+	.stats-body {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.stats-leader-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 8px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.stats-leader {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 10px 12px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.stats-leader-label {
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+	}
+
+	.stats-leader[data-tone='win'] .stats-leader-label,
+	.stats-leader[data-tone='win'] .stats-leader-count {
+		color: var(--primary-dark);
+	}
+
+	.stats-leader[data-tone='lose'] .stats-leader-label,
+	.stats-leader[data-tone='lose'] .stats-leader-count {
+		color: var(--danger);
+	}
+
+	.stats-leader[data-tone='pick'] .stats-leader-label,
+	.stats-leader[data-tone='pick'] .stats-leader-count {
+		color: var(--green);
+	}
+
+	.stats-leader-name {
+		font-size: 18px;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+	}
+
+	.stats-leader-count {
+		color: var(--muted);
+		font-size: 14px;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.stats-note {
+		margin: -8px 0 0;
+		color: var(--faint);
+		font-size: 12px;
+	}
+
+	.stats-section {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		max-height: 320px;
+		padding-right: 4px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	.player-records-section {
+		max-height: 240px;
+		overflow: hidden;
+	}
+
+	.player-records-section .stats-table-wrap {
+		flex: 1;
+		min-height: 0;
+		overflow: auto;
+	}
+
+	.stats-section h3 {
+		margin: 0;
+		font-size: 14px;
+	}
+
+	.stats-pair-list {
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.stats-pair {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px 10px;
+		align-items: baseline;
+		padding: 8px 12px;
+		font-size: 14px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+	}
+
+	.stats-pair span {
+		color: var(--muted);
+		font-size: 12px;
+	}
+
+	.stats-table {
+		width: 100%;
+		font-size: 14px;
+		border-collapse: collapse;
+	}
+
+	.stats-table th,
+	.stats-table td {
+		height: 44px;
+		padding: 7px 8px;
+		text-align: center;
+		vertical-align: middle;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.stats-table thead th {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+		background: var(--surface);
+		border-bottom: 0;
+		box-shadow: inset 0 -1px 0 var(--line);
+	}
+
+	.stats-table thead th:nth-child(2),
+	.stats-table tbody th {
+		text-align: left;
+	}
+
+	.stats-table tbody th {
+		font-weight: 650;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+	}
+
+	.stats-table td {
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* DSN-010: 오늘 기록, 누적 당첨자, 전체 통계와 참가자 통계 */
+
+	.today-heading {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		align-items: baseline;
+	}
+
+	.history-card .section-heading .won-legend,
+	.today-heading .won-legend,
+	.won-legend {
+		color: var(--green);
+		font-size: 14px;
+		font-weight: 650;
+	}
+
+	.history-person-name {
+		font-size: 14px;
+		overflow-wrap: anywhere;
+		white-space: normal;
+	}
+
+	.history-person-name:not(:last-child)::after {
+		margin-right: 4px;
+		color: var(--muted);
+		font-weight: 400;
+		content: ',';
+	}
+
+	.history-person-name.is-picked {
+		color: var(--green);
+		font-weight: 750;
+	}
+}

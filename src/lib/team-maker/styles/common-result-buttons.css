@@ -1,0 +1,36 @@
+@scope (.team-maker-page) {
+	.win-button {
+		color: var(--primary-dark);
+		background: var(--primary-soft);
+		border: 1px solid var(--primary-line);
+	}
+
+	.draw-button {
+		color: var(--green);
+		background: var(--surface);
+		border: 1px solid var(--green-line);
+	}
+
+	.win-button:hover {
+		background: var(--primary-soft);
+		border-color: var(--primary);
+	}
+
+	.draw-button:hover {
+		background: var(--green-soft);
+		border-color: var(--green);
+	}
+
+	.draw-button:disabled,
+	.primary-small-button:disabled {
+		color: var(--faint);
+		background: var(--surface-soft);
+		border-color: var(--line);
+		cursor: not-allowed;
+	}
+
+	.primary-small-button:disabled:hover {
+		background: var(--surface-soft);
+		border-color: var(--line);
+	}
+}

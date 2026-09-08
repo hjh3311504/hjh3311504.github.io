@@ -52,6 +52,14 @@ SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
 8. `build/`, `.svelte-kit/`, `node_modules/`, `output/`은 생성 결과다. source처럼 직접 관리하지 않는다.
 9. `AGENTS.md`와 `CLAUDE.md`는 같은 내용을 유지한다. 한 파일을 바꾸면 다른 파일도 함께 바꾼다.
 
+## Team Maker 기능 구조
+
+- `src/lib/team-maker/app.js`에서 기능을 만들고 연결한다. 기능 파일끼리 직접 import하지 않는다. 공통 계산과 도우미 파일은 import할 수 있다.
+- 저장 상태는 `getState()`로 접근하며 같은 객체를 유지한다. 저장은 전달받은 함수로 요청한다. 기능 하나만 쓰는 임시 상태는 해당 기능 안에 둔다.
+- 기능의 이벤트와 예약 작업은 `createLifetime()`으로 등록한다. 화면 종료 시 `destroy()`에서 예약 작업, dialog와 효과음을 정리한다.
+- Team Maker CSS 진입점의 import 순서는 기존 적용 순서를 보존한다. 여러 기능에 걸친 규칙은 `styles/common*.css`에 둔다.
+- 기능별 수정 위치와 연결 방법은 README의 Team Maker 수정 위치를 따른다.
+
 ## 작업 규율
 
 - 지시는 메모리가 아닌 문서에 남긴다. 반복해서 지켜야 할 규칙은 AGENTS.md, README, REQ, ADR 중 알맞은 곳에 기록한다.

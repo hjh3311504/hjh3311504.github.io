@@ -1,0 +1,113 @@
+@scope (.team-maker-page) {
+	.win-button.rank-button {
+		color: var(--orange);
+		background: var(--orange-soft);
+		border-color: var(--orange-line);
+	}
+
+	.win-button.rank-button:hover {
+		background: var(--orange-soft);
+		border-color: var(--orange);
+	}
+
+	.picked-section {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 14px;
+		background: var(--surface-soft);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+	}
+
+	.picked-section-title {
+		margin: 0;
+		color: var(--muted);
+		font-size: 14px;
+		font-weight: 750;
+	}
+
+	.picked-groups {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+	}
+
+	.picked-person {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		align-items: stretch;
+		padding: 8px 10px;
+		background: var(--green-soft);
+		border: 1px solid var(--green-line);
+		border-radius: 8px;
+	}
+
+	.picked-label {
+		color: var(--green);
+		font-size: 12px;
+		font-weight: 750;
+	}
+
+	/* 결과 카드와 같은 순위 색을 팀 이름에만 얹어 어느 팀 당첨자인지 빨리 읽히게 한다. */
+
+	.picked-person[data-place='first'] .picked-label {
+		color: var(--primary-dark);
+	}
+
+	.picked-person[data-place='middle'] .picked-label {
+		color: var(--orange);
+	}
+
+	.picked-person[data-place='last'] .picked-label {
+		color: var(--danger);
+	}
+
+	.picked-list {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.picked-row {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		min-height: 36px;
+		min-width: 0;
+		margin: 0;
+	}
+
+	.picked-number {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 20px;
+		height: 36px;
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 650;
+		line-height: 1;
+	}
+
+	.picked-name {
+		display: flex;
+		flex: 1;
+		align-items: center;
+		min-width: 0;
+		min-height: 36px;
+		font-size: 14px;
+		line-height: 1.4;
+		transform: translateY(1px);
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+	}
+
+	.picked-row .remove-row-button {
+		align-self: center;
+	}
+}
