@@ -11,7 +11,8 @@
 		border: 1px solid var(--green-line);
 	}
 
-	.win-button:hover {
+	/* 공통 primary 버튼의 hover보다 이 화면의 배경색을 우선합니다. */
+	.win-button:not(:disabled):hover {
 		background: var(--primary-soft);
 		border-color: var(--primary);
 	}
