@@ -16,9 +16,33 @@ npm run dev
 - root 사이트: `http://localhost:5173/`
 - Team Maker: `http://localhost:5173/team-maker`
 
-Team Maker 화면은 `src/routes/team-maker/+page.svelte`에 있습니다. 화면 동작은 `src/lib/team-maker/`에서 기능별로 관리하며 SvelteKit이 함께 build합니다.
+Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니다. 기능별 화면은 `src/lib/team-maker/components/`, 화면 동작은 `src/lib/team-maker/`에서 관리하며 SvelteKit이 함께 build합니다.
 
 ## Team Maker 수정 위치
+
+### 화면 수정 위치
+
+`src/routes/team-maker/+page.svelte`는 검색 메타 정보, 구조화 데이터, 안내·FAQ, 전체 배치, 저장 실패 안내와 `mountTeamMaker(pageRoot)` 연결을 담당합니다.
+
+아래 Svelte component는 모두 `src/lib/team-maker/components/` 안에 있습니다. 동작 파일은 `src/lib/team-maker/`를 기준으로 적었습니다.
+
+| 수정할 화면                          | Component                     | 동작 파일                       |
+| ------------------------------------ | ----------------------------- | ------------------------------- |
+| 참가자 입력·명단·배정 규칙 목록      | `ParticipantsSection.svelte`  | `participants.js`               |
+| 나누는 방식·인원 설정·팀 만들기 버튼 | `TeamSettingsSection.svelte`  | `participants.js`, `results.js` |
+| 팀 결과·결과 작업 버튼·누적 당첨자   | `TeamResultsSection.svelte`   | `results.js`                    |
+| 오늘 기록·기록 관련 버튼             | `TodayHistorySection.svelte`  | `history.js`                    |
+| 참가자 일괄 추가                     | `BulkAddDialog.svelte`        | `participants.js`               |
+| 같은 팀·다른 팀 규칙 지정            | `AssignmentRuleDialog.svelte` | `participants.js`               |
+| 명단 저장·불러오기                   | `RostersDialog.svelte`        | `rosters.js`                    |
+| 추첨·효과음 버튼·당첨자              | `WheelDialog.svelte`          | `wheel.js`, `audio.js`          |
+| 전체 기록·전체 통계                  | `HistoryDialog.svelte`        | `history.js`                    |
+| 참가자 통계                          | `PlayerStatsDialog.svelte`    | `history.js`                    |
+| 삭제 등 확인창                       | `ConfirmDialog.svelte`        | `dialogs.js`                    |
+
+화면 component는 기존 HTML 계층, ID, class, data·접근성 속성을 유지합니다. 추가 wrapper 없이 같은 위치에 렌더링하며, JavaScript가 내용을 채우는 목록·표·팀 카드·돌림판 컨테이너는 비워 둡니다. 상태와 이벤트는 기존 JavaScript에서 처리합니다. `TeamResultsSection`의 `assetsBase` prop은 결과 안내 이미지의 경로만 전달합니다.
+
+### 동작 수정 위치
 
 아래 JavaScript 파일은 모두 `src/lib/team-maker/` 안에 있습니다.
 
@@ -61,7 +85,7 @@ Team Maker 화면은 `src/routes/team-maker/+page.svelte`에 있습니다. 화�
 | `wheel*.css`              | 돌림판·축하 효과                |
 | `content.css`             | 검색 안내와 FAQ                 |
 
-기존 적용 순서를 보존하기 위해 일부 기능은 보완 파일로 나누었습니다. 진입점의 import 순서를 임의로 바꾸지 마세요. 여러 기능에 걸친 공통 규칙은 `common*.css`에서 관리합니다. build 검증은 이 폴더의 JavaScript와 CSS를 모두 검사합니다.
+기존 적용 순서를 보존하기 위해 일부 기능은 보완 파일로 나누었습니다. 진입점의 import 순서를 임의로 바꾸지 마세요. 여러 기능에 걸친 공통 규칙은 `common*.css`에서 관리합니다. build 검증은 `src/lib/team-maker/` 아래의 JavaScript, Svelte와 CSS를 하위 폴더까지 모두 검사합니다.
 
 ## 검사와 build
 
