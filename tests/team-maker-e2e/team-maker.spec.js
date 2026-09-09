@@ -74,6 +74,147 @@ async function toggleParticipant(page, name, included) {
 	});
 }
 
+test('팀 이름을 바로 수정하고 현재 경기의 오늘·전체 기록에 반영한다', async ({ page }) => {
+	await openTeamMaker(page);
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+
+	await page.getByRole('button', { name: '1팀 이름 수정' }).click();
+	const firstNameInput = page.getByRole('textbox', { name: '1팀 새 이름' });
+	await expect(firstNameInput).toHaveAttribute('maxlength', '16');
+	await firstNameInput.fill('파랑팀');
+	await firstNameInput.press('Enter');
+	await expect(page.getByRole('button', { name: '파랑팀 이름 수정' })).toBeVisible();
+
+	await page.getByRole('button', { name: '2팀 이름 수정' }).click();
+	const secondNameInput = page.getByRole('textbox', { name: '2팀 새 이름' });
+	await secondNameInput.fill('파랑팀');
+	await secondNameInput.press('Enter');
+	await expect(page.getByRole('alert')).toContainText('같은 이름은 사용할 수 없습니다.');
+	await secondNameInput.press('Escape');
+
+	await page.getByRole('button', { name: '파랑팀 승리 기록' }).click();
+	await page.getByRole('button', { name: '파랑팀 이름 수정' }).click();
+	const recordedNameInput = page.getByRole('textbox', { name: '파랑팀 새 이름' });
+	await recordedNameInput.fill('청팀');
+	await recordedNameInput.press('Enter');
+	await expect(page.locator('#today-history-list .history-team-label').first()).toHaveText('청팀');
+	await expect(page.locator('#today-history-list .history-team-rank-label').first()).toHaveText(
+		'승리'
+	);
+
+	await page.getByRole('button', { name: '전체 기록' }).click();
+	await expect(
+		page.getByRole('dialog', { name: '전체 기록' }).locator('.history-team-label').first()
+	).toHaveText('청팀');
+	await expect(
+		page.getByRole('dialog', { name: '전체 기록' }).locator('.history-team-rank-label').first()
+	).toHaveText('승리');
+	await page.keyboard.press('Escape');
+
+	await page.getByRole('button', { name: '다시 섞기' }).click();
+	await expect(page.getByRole('button', { name: '1팀 이름 수정' })).toBeVisible();
+});
+
+test('긴 팀 이름도 결과 제목과 승패 뱃지가 카드 너비를 넘지 않는다', async ({ page }) => {
+	await openTeamMaker(page);
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+
+	await page.getByRole('button', { name: '1팀 이름 수정' }).click();
+	const input = page.getByRole('textbox', { name: '1팀 새 이름' });
+	const longName = '긴팀이름'.repeat(5);
+	await input.fill(longName);
+	await input.press('Enter');
+	await page.getByRole('button', { name: `${longName} 승리 기록` }).click();
+
+	const card = page.locator('.team-card').first();
+	const layout = await card.locator('.team-card-heading').evaluate((heading) => {
+		const title = heading.querySelector('.team-name-button span:first-child');
+		const badge = heading.querySelector('.team-count-chip');
+		return {
+			headingWidth: heading.clientWidth,
+			headingScrollWidth: heading.scrollWidth,
+			titleWidth: title.clientWidth,
+			titleScrollWidth: title.scrollWidth,
+			badgeRight: badge.getBoundingClientRect().right,
+			headingRight: heading.getBoundingClientRect().right
+		};
+	});
+	expect(layout.headingScrollWidth).toBeLessThanOrEqual(layout.headingWidth + 1);
+	expect(layout.titleScrollWidth).toBeGreaterThan(layout.titleWidth);
+	expect(layout.badgeRight).toBeLessThanOrEqual(layout.headingRight + 1);
+	await expect(card.locator('.team-count-chip')).toHaveText('승');
+});
+
+test('긴 팀 이름은 기록 카드에 모두 표시하고 팀명과 등수 뱃지를 정렬한다', async ({ page }) => {
+	await openTeamMaker(page);
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+
+	const longName = '긴기록팀이름'.repeat(3);
+	await page.getByRole('button', { name: '1팀 이름 수정' }).click();
+	const input = page.getByRole('textbox', { name: '1팀 새 이름' });
+	await input.fill(longName);
+	await input.press('Enter');
+	await page.getByRole('button', { name: `${longName} 승리 기록` }).click();
+
+	const labels = page.locator('#today-history-list .history-team-label');
+	await expect(labels).toHaveCount(2);
+	const layouts = await labels.evaluateAll((elements) =>
+		elements.map((element) => {
+			return {
+				width: element.getBoundingClientRect().width,
+				scrollWidth: element.scrollWidth,
+				clientWidth: element.clientWidth
+			};
+		})
+	);
+	const historyLayout = await page
+		.locator('#today-history-list .history-teams')
+		.evaluate((teams) => ({
+			lines: [...teams.querySelectorAll('.history-team-line')].map((line) => ({
+				headingBottom: line.querySelector('.history-team-heading').getBoundingClientRect().bottom,
+				personTop: line.querySelector('.history-person-name').getBoundingClientRect().top
+			})),
+			ranks: [...teams.querySelectorAll('.history-team-rank-label')].map((rank) => ({
+				minWidth: getComputedStyle(rank).minWidth,
+				fontFeatureSettings: getComputedStyle(rank).fontFeatureSettings
+			}))
+		}));
+	const rowAlignment = await page
+		.locator('#today-history-list .history-summary-row')
+		.first()
+		.evaluate((row) => {
+			const heading = row.querySelector('.history-team-heading').getBoundingClientRect();
+			const time = row.querySelector('.history-time').getBoundingClientRect();
+			const remove = row.querySelector('.remove-row-button').getBoundingClientRect();
+			return {
+				headingCenter: (heading.top + heading.bottom) / 2,
+				timeCenter: (time.top + time.bottom) / 2,
+				removeCenter: (remove.top + remove.bottom) / 2
+			};
+		});
+	await expectNoHorizontalOverflow(page);
+	expect(layouts[0].scrollWidth).toBeLessThanOrEqual(layouts[0].clientWidth);
+	expect(historyLayout.lines.every((line) => line.personTop >= line.headingBottom)).toBe(true);
+	expect(historyLayout.ranks.every((rank) => rank.minWidth === '40px')).toBe(true);
+	expect(historyLayout.ranks.every((rank) => rank.fontFeatureSettings.includes('tnum'))).toBe(true);
+	expect(Math.abs(rowAlignment.timeCenter - rowAlignment.headingCenter)).toBeLessThanOrEqual(1);
+	expect(Math.abs(rowAlignment.removeCenter - rowAlignment.headingCenter)).toBeLessThanOrEqual(1);
+	const lineOrder = await page
+		.locator('#today-history-list .history-team-line')
+		.first()
+		.evaluate((line) =>
+			[...line.children].map((child) => child.classList.contains('history-team-heading'))
+		);
+	expect(lineOrder).toEqual([true, false]);
+	await expect(page.locator('#today-history-list .history-team-rank-label').first()).toHaveText(
+		'승리'
+	);
+	await expect(labels.first()).toHaveText(longName);
+});
+
 test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색을 지원한다', async ({ page }) => {
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
@@ -82,6 +223,10 @@ test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색
 	await expect(page.getByRole('complementary')).toBeVisible();
 	await expect(page.getByRole('link', { name: '홈' })).toHaveAttribute('aria-current', 'page');
 	await expect(page.getByRole('link', { name: /팀 메이커 도구/ })).toBeVisible();
+	await expect(page.getByRole('link', { name: '개선·버그 제보' })).toHaveAttribute(
+		'href',
+		'https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml'
+	);
 	await expect(page.getByRole('link', { name: 'Blog', exact: true })).toHaveCount(0);
 	await page.getByRole('button', { name: '테마 변경, 현재 자동' }).click();
 	await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'light');
@@ -521,11 +666,14 @@ test('승리·취소·기록 삭제와 돌림판 당첨자 및 효과음을 처�
 	const firstTeamMembers = (await readTeams(page))[0].members;
 	await page.getByRole('button', { name: '1팀 승리 기록' }).click();
 
-	await expect(page.getByText('1팀승', { exact: true }).first()).toBeVisible();
-	await expect(page.getByText('2팀패', { exact: true }).first()).toBeVisible();
+	await expect(page.locator('#today-history-list .history-team-rank-label')).toHaveText([
+		'승리',
+		'패배'
+	]);
 	await page.getByRole('button', { name: '전체 기록' }).click();
 	const historyDialog = page.getByRole('dialog', { name: '전체 기록' });
-	await expect(historyDialog.locator('.history-team-label')).toHaveText(['1팀승', '2팀패']);
+	await expect(historyDialog.locator('.history-team-label')).toHaveText(['1팀', '2팀']);
+	await expect(historyDialog.locator('.history-team-rank-label')).toHaveText(['승리', '패배']);
 	await page.keyboard.press('Escape');
 	await expect(historyDialog).not.toBeVisible();
 
@@ -709,9 +857,14 @@ test('3팀 이상이면 1등부터 순차로 지정하고 남은 팀이 자동�
 	await expect(page.locator('.team-card').nth(1)).toHaveAttribute('data-place', 'first');
 	await expect(page.locator('.team-card').nth(2)).toHaveAttribute('data-place', 'middle');
 	await expect(page.locator('#today-history-list .history-team-label')).toHaveText([
-		'1팀 3등',
-		'2팀 1등',
-		'3팀 2등'
+		'1팀',
+		'2팀',
+		'3팀'
+	]);
+	await expect(page.locator('#today-history-list .history-team-rank-label')).toHaveText([
+		'3등',
+		'1등',
+		'2등'
 	]);
 
 	const undo = page.getByRole('button', { name: '순위 취소' });
@@ -825,9 +978,10 @@ test('오늘 기록을 화면에서만 지우고 전체 기록에는 남긴다',
 	await addParticipants(page, ['가영', '나연', '다현', '라희']);
 	await page.getByRole('button', { name: '팀 만들기' }).click();
 	await page.getByRole('button', { name: '1팀 승리 기록' }).click();
-	await expect(page.locator('#today-history-list .history-team-label')).toHaveText([
-		'1팀승',
-		'2팀패'
+	await expect(page.locator('#today-history-list .history-team-label')).toHaveText(['1팀', '2팀']);
+	await expect(page.locator('#today-history-list .history-team-rank-label')).toHaveText([
+		'승리',
+		'패배'
 	]);
 	await expect(page.locator('#today-history-count')).toHaveText('(1경기)');
 
@@ -940,6 +1094,8 @@ test('참가자 통계는 오늘만 세고 전체 기록은 1등 확률을 최�
 		/같은 팀 2번 중 2번 승리/
 	);
 	await expect(dialog.locator('#player-stats-rows tr')).toHaveCount(4);
+	await expect(dialog.getByAltText('공동 1위')).toHaveCount(2);
+	await expect(dialog.getByAltText('공동 3위')).toHaveCount(2);
 	await page.keyboard.press('Escape');
 	await expect(dialog).not.toBeVisible();
 
@@ -951,11 +1107,12 @@ test('참가자 통계는 오늘만 세고 전체 기록은 1등 확률을 최�
 	await expect(overview.locator('.overview-fact').nth(0)).toContainText('3경기');
 	await expect(overview.locator('.overview-fact').nth(1)).toContainText('2일');
 	await expect(overview.locator('.overview-fact').nth(2)).toContainText('4명');
-	await expect(overview.locator('.podium-card')).toHaveCount(3);
+	await expect(overview.locator('.podium-card')).toHaveCount(2);
 	await expect(overview.locator('#history-overview-ranking tr')).toHaveCount(1);
-	await expect(overview.locator('.podium-card').first()).toContainText('가영');
+	await expect(overview.locator('.podium-card').first()).toContainText('가영 외 1명');
 	await expect(overview.locator('.podium-card').first()).toContainText('3승 0패 · 100%');
-	await expect(overview.locator('#history-overview-ranking tr')).toContainText('0승 3패');
+	await overview.getByText('가영 외 1명').click();
+	await expect(overview.locator('.podium-tie-list').first()).toContainText('나연');
 	await expect(overview).toContainText(
 		'막대와 백분율은 1등 확률입니다. 3팀 이상 경기에서는 2등부터 모두 패로 셉니다.'
 	);

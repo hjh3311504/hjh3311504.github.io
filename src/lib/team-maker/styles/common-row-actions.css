@@ -41,6 +41,6 @@
 
 	.history-summary-row > .remove-row-button,
 	.history-match > .remove-row-button {
-		transform: translateY(-5px);
+		transform: translateY(5px);
 	}
 }

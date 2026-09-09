@@ -9,6 +9,7 @@ import {
 	calculateTeamCount,
 	calculateWheelTargetRotation,
 	cleanRulesAfterParticipantRemoval,
+	assignSharedPlaces,
 	appendTeamRank,
 	formatTeamResultLabel,
 	formatTeamsText,
@@ -28,6 +29,28 @@ import {
 
 const people = (...names) => names.map((name, index) => ({ id: `p${index + 1}`, name }));
 const steadyRandom = () => 0.37;
+
+test('같은 통계값은 공동 순위로 묶고 다음 순위는 인원 수만큼 건너뛴다', () => {
+	const ranked = assignSharedPlaces(
+		[
+			{ name: '가영', wins: 3, losses: 1, picks: 0 },
+			{ name: '나연', wins: 3, losses: 1, picks: 0 },
+			{ name: '다현', wins: 2, losses: 2, picks: 1 },
+			{ name: '라희', wins: 2, losses: 2, picks: 1 }
+		],
+		(player) => `${player.wins}:${player.losses}`
+	);
+
+	assert.deepEqual(
+		ranked.map(({ name, place }) => [name, place]),
+		[
+			['가영', 1],
+			['나연', 1],
+			['다현', 3],
+			['라희', 3]
+		]
+	);
+});
 
 test('공백·줄바꿈·쉼표를 정리하고 중복 이름은 유지한다', () => {
 	assert.deepEqual(parseParticipantNames(' 민수 \n\n 영희, 민수 '), ['민수', '영희', '민수']);
@@ -480,6 +503,14 @@ test('저장된 기록의 순위를 정리하고 옛 기록도 되살린다', ()
 test('2팀은 승패로, 3팀 이상은 등수 숫자로 표시하고 꼴등이라는 말은 쓰지 않는다', () => {
 	assert.equal(formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 2 }), '1팀승');
 	assert.equal(formatTeamResultLabel({ teamName: '2팀', rank: 2, teamCount: 2 }), '2팀패');
+	assert.equal(
+		formatTeamResultLabel({ teamName: '아주 긴 팀 이름', rank: 1, teamCount: 2, compact: true }),
+		'승'
+	);
+	assert.equal(
+		formatTeamResultLabel({ teamName: '아주 긴 팀 이름', rank: 2, teamCount: 2, compact: true }),
+		'패'
+	);
 	assert.equal(formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 3 }), '1팀 1등');
 	assert.equal(formatTeamResultLabel({ teamName: '3팀', rank: 3, teamCount: 3 }), '3팀 3등');
 	assert.equal(formatTeamResultLabel({ teamName: '4팀', rank: null, teamCount: 4 }), '순위 미정');
@@ -488,7 +519,7 @@ test('2팀은 승패로, 3팀 이상은 등수 숫자로 표시하고 꼴등이�
 		'미정'
 	);
 
-	// 팀 이름을 이미 보여 주는 칩에서는 등수만 적는다. 2팀 표기는 그대로 둔다.
+	// 팀 이름을 이미 보여 주는 칩에서는 결과만 적는다.
 	assert.equal(
 		formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 3, compact: true }),
 		'1등'
@@ -499,11 +530,11 @@ test('2팀은 승패로, 3팀 이상은 등수 숫자로 표시하고 꼴등이�
 	);
 	assert.equal(
 		formatTeamResultLabel({ teamName: '1팀', rank: 1, teamCount: 2, compact: true }),
-		'1팀승'
+		'승'
 	);
 	assert.equal(
 		formatTeamResultLabel({ teamName: '2팀', rank: 2, teamCount: 2, compact: true }),
-		'2팀패'
+		'패'
 	);
 
 	for (let teamCount = 2; teamCount <= 6; teamCount += 1) {

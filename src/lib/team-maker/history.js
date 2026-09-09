@@ -1,6 +1,7 @@
 import { createLifetime } from './lifecycle.js';
 import {
 	HISTORY_DAY_START_HOUR,
+	assignSharedPlaces,
 	appendTeamRank,
 	formatTeamResultLabel,
 	localDateKey,
@@ -79,16 +80,29 @@ export function createHistory({
 							? 'last'
 							: 'middle';
 
+			const rankLabel =
+				rank === null
+					? null
+					: entry.teams.length === 2
+						? rank === 1
+							? '승리'
+							: '패배'
+						: `${rank}등`;
 			const label = document.createElement('span');
 			label.className = 'history-team-label';
-			label.textContent =
-				rank === null
-					? team.name
-					: formatTeamResultLabel({
-							teamName: team.name,
-							rank,
-							teamCount: entry.teams.length
-						});
+			const name = document.createElement('span');
+			name.className = 'history-team-label-name';
+			name.textContent = team.name;
+			label.append(name);
+			const heading = document.createElement('div');
+			heading.className = 'history-team-heading';
+			heading.append(label);
+			if (rankLabel !== null) {
+				const result = document.createElement('span');
+				result.className = 'history-team-rank-label';
+				result.textContent = rankLabel;
+				heading.append(result);
+			}
 
 			const names = document.createElement('span');
 			names.className = compact ? 'history-team-names history-summary' : 'history-team-names';
@@ -110,7 +124,7 @@ export function createHistory({
 				}
 				names.append(item);
 			}
-			line.append(label, names);
+			line.append(heading, names);
 
 			teams.append(line);
 		}
@@ -261,6 +275,16 @@ export function createHistory({
 		renderHistoryDialog();
 	}
 
+	function renameTeam(teamId, name) {
+		const entry = currentEntry();
+		const team = entry?.teams.find((item) => item.id === teamId);
+		if (!team) return;
+		team.name = name;
+		persist();
+		renderTodayHistory();
+		if ($('#history-dialog').open) renderHistoryDialog();
+	}
+
 	function deleteHistory(id) {
 		const entry = state.history.find((item) => item.id === id);
 		if (!entry) return;
@@ -378,6 +402,14 @@ export function createHistory({
 		);
 	}
 
+	function sharedStatKey(player, sort = 'wins') {
+		return sort === 'picks' ? String(player.picks) : `${player.wins}:${player.losses}`;
+	}
+
+	function rankedPlayers(players, sort = 'wins') {
+		return assignSharedPlaces(players, (player) => sharedStatKey(player, sort));
+	}
+
 	function renderHistoryOverview() {
 		const overview = $('#history-overview');
 		const stats = summarizeParticipantStats(state.history, { limit: 1 });
@@ -428,27 +460,70 @@ export function createHistory({
 			button.setAttribute('aria-checked', String(button.dataset.historySort === historySort));
 		}
 
-		const allPlayers = sortedHistoryPlayers(stats.players);
+		const allPlayers = rankedPlayers(sortedHistoryPlayers(stats.players), historySort);
+		const placeCounts = new Map();
+		for (const player of allPlayers) {
+			placeCounts.set(player.place, (placeCounts.get(player.place) ?? 0) + 1);
+		}
+		const podiumGroups = [];
+		for (const player of allPlayers.filter((item) => item.place <= 3)) {
+			const previous = podiumGroups.at(-1);
+			if (previous?.place === player.place) previous.players.push(player);
+			else podiumGroups.push({ place: player.place, players: [player] });
+		}
 		const podium = $('#history-overview-podium');
 		podium.replaceChildren();
-		for (const [index, player] of allPlayers.slice(0, 3).entries()) {
+		for (const group of podiumGroups) {
+			const player = group.players[0];
+			const sameRecord = group.players.every(
+				(entry) => entry.wins === player.wins && entry.losses === player.losses
+			);
+			const pickCounts = group.players.map((entry) => entry.picks);
+			const minimumPicks = Math.min(...pickCounts);
+			const maximumPicks = Math.max(...pickCounts);
 			const item = document.createElement('li');
 			item.className = 'podium-card';
-			item.dataset.rank = String(index + 1);
+			item.dataset.rank = String(group.place);
 			const laurel = document.createElement('img');
 			laurel.className = 'podium-laurel';
-			laurel.src = assetUrl(`laurel-${index + 1}.png`);
-			laurel.alt = `${index + 1}위`;
-			const name = document.createElement('strong');
-			name.className = 'podium-name';
-			name.textContent = player.name;
+			laurel.src = assetUrl(`laurel-${group.place}.png`);
+			laurel.alt = group.players.length > 1 ? `공동 ${group.place}위` : `${group.place}위`;
+			let name;
+			if (group.players.length === 1) {
+				name = document.createElement('strong');
+				name.className = 'podium-name';
+				name.textContent = player.name;
+			} else {
+				name = document.createElement('details');
+				name.className = 'podium-ties';
+				const summary = document.createElement('summary');
+				summary.className = 'podium-name podium-ties-summary';
+				summary.textContent = `${player.name} 외 ${group.players.length - 1}명`;
+				summary.setAttribute(
+					'aria-label',
+					`공동 ${group.place}위: ${group.players.map((entry) => entry.name).join(', ')}`
+				);
+				const list = document.createElement('ul');
+				list.className = 'podium-tie-list';
+				for (const entry of group.players) {
+					const listItem = document.createElement('li');
+					listItem.textContent = `${entry.name} (${entry.wins}승 ${entry.losses}패, 당첨 ${entry.picks}회)`;
+					list.append(listItem);
+				}
+				name.append(summary, list);
+			}
 			const detail = document.createElement('span');
 			detail.className = 'podium-detail';
-			detail.textContent = `${player.wins}승 ${player.losses}패 · ${formatPercent(player.winRate)}`;
+			detail.textContent = sameRecord
+				? `${player.wins}승 ${player.losses}패 · ${formatPercent(player.winRate)}`
+				: '이름별 전적 보기';
 			const picks = document.createElement('span');
 			picks.className = 'pick-chip';
-			picks.dataset.zero = String(player.picks === 0);
-			picks.textContent = `당첨 ${player.picks}회`;
+			picks.dataset.zero = String(maximumPicks === 0);
+			picks.textContent =
+				minimumPicks === maximumPicks
+					? `당첨 ${minimumPicks}회`
+					: `당첨 ${minimumPicks}~${maximumPicks}회`;
 			const bar = document.createElement('span');
 			bar.className = 'podium-bar';
 			bar.setAttribute('aria-hidden', 'true');
@@ -462,7 +537,6 @@ export function createHistory({
 
 		const query = historySearch.trim().toLocaleLowerCase('ko');
 		const visiblePlayers = allPlayers
-			.map((player, index) => ({ ...player, place: index + 1 }))
 			.filter((player) => !query || player.name.toLocaleLowerCase('ko').includes(query))
 			.filter((player) => query || player.place > 3);
 		const ranking = $('#history-overview-ranking');
@@ -470,7 +544,8 @@ export function createHistory({
 		for (const player of visiblePlayers) {
 			const row = document.createElement('tr');
 			const place = document.createElement('td');
-			place.textContent = String(player.place);
+			place.textContent =
+				(placeCounts.get(player.place) ?? 0) > 1 ? `공동 ${player.place}위` : `${player.place}위`;
 			const name = document.createElement('th');
 			name.scope = 'row';
 			name.textContent = player.name;
@@ -502,7 +577,7 @@ export function createHistory({
 			const empty = document.createElement('td');
 			empty.colSpan = 5;
 			empty.className = 'rank-table-empty';
-			empty.textContent = query ? '검색 결과가 없습니다.' : '4위 이하 참가자가 없습니다.';
+			empty.textContent = query ? '검색 결과가 없습니다.' : '순위표에 표시할 참가자가 없습니다.';
 			row.append(empty);
 			ranking.append(row);
 		}
@@ -655,18 +730,24 @@ export function createHistory({
 
 		const rows = $('#player-stats-rows');
 		rows.replaceChildren();
-		for (const [index, player] of stats.players.entries()) {
+		const players = rankedPlayers(stats.players);
+		const placeCounts = new Map();
+		for (const player of players) {
+			placeCounts.set(player.place, (placeCounts.get(player.place) ?? 0) + 1);
+		}
+		for (const player of players) {
 			const row = document.createElement('tr');
 			const rank = document.createElement('td');
 			rank.className = 'col-rank';
-			if (index < 3) {
+			const shared = (placeCounts.get(player.place) ?? 0) > 1;
+			if (player.place <= 3) {
 				const image = document.createElement('img');
 				image.className = 'rank-laurel';
-				image.src = assetUrl(`laurel-${index + 1}.png`);
-				image.alt = `${index + 1}위`;
+				image.src = assetUrl(`laurel-${player.place}.png`);
+				image.alt = shared ? `공동 ${player.place}위` : `${player.place}위`;
 				rank.append(image);
 			} else {
-				rank.textContent = String(index + 1);
+				rank.textContent = shared ? `공동 ${player.place}위` : `${player.place}위`;
 			}
 			const name = document.createElement('th');
 			name.scope = 'row';
@@ -755,6 +836,7 @@ export function createHistory({
 			const id = event.target.closest('[data-history-remove]')?.dataset.historyRemove;
 			if (id) deleteHistory(id);
 		});
+
 		scheduleTodayHistoryReset();
 		on(root, 'click', (event) => {
 			if (!event.target.closest('.overview-sort-wrap')) {
@@ -773,6 +855,7 @@ export function createHistory({
 		renderHistoryDialog,
 		recordRank,
 		undoRank,
+		renameTeam,
 		syncPicksToHistory
 	};
 }

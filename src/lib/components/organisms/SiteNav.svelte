@@ -13,6 +13,8 @@
 	export let onClose = () => {};
 
 	const themeLabels = { auto: '자동', light: '밝게', dark: '어둡게' };
+	const feedbackUrl =
+		'https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml';
 
 	$: themeLabel = themeLabels[themeMode] ?? themeLabels.auto;
 	$: pinLabel = pinned ? '사이드바 고정 해제' : '사이드바 고정';
@@ -180,6 +182,27 @@
 			</Button>
 		</div>
 	</nav>
+
+	<div class="nav-feedback">
+		<Button class="feedback-link" href={feedbackUrl} variant="ghost">
+			<svg
+				width="17"
+				height="17"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+			>
+				<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+				<path d="M8 9h8M8 13h5"></path>
+			</svg>
+			<span class="feedback-copy"><strong>개선·버그 제보</strong></span>
+			<span class="feedback-external" aria-hidden="true">↗</span>
+		</Button>
+	</div>
 </div>
 
 <style>
@@ -320,5 +343,51 @@
 		padding-left: 13px;
 		margin-left: 10px;
 		border-left: 1px solid var(--shell-hairline);
+	}
+
+	.nav-feedback {
+		padding-top: 14px;
+		margin-top: auto;
+		border-top: 1px solid var(--shell-hairline);
+	}
+
+	:global(.feedback-link) {
+		display: flex;
+		gap: 9px;
+		align-items: center;
+		width: 100%;
+		height: auto;
+		min-height: 48px;
+		padding: 7px 9px;
+		color: var(--shell-text-body);
+		text-decoration: none;
+		border-radius: 7px;
+	}
+
+	:global(.feedback-link:hover) {
+		background: var(--shell-row-hover);
+	}
+
+	:global(.feedback-link:focus-visible) {
+		outline: 2px solid var(--shell-focus);
+		outline-offset: 2px;
+	}
+
+	.feedback-copy {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 2px;
+		align-items: flex-start;
+		min-width: 0;
+	}
+
+	.feedback-copy strong {
+		font-size: 14px;
+	}
+
+	.feedback-external {
+		color: var(--shell-text-muted);
+		font-size: 14px;
 	}
 </style>

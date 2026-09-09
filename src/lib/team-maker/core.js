@@ -449,7 +449,9 @@ export function resolveTeamRanking(entry) {
 
 export function formatTeamResultLabel({ teamName, rank, teamCount, compact = false }) {
 	if (rank === null || rank === undefined) return compact ? '미정' : '순위 미정';
-	if (teamCount === 2) return `${teamName}${rank === 1 ? '승' : '패'}`;
+	if (teamCount === 2) {
+		return compact ? (rank === 1 ? '승' : '패') : `${teamName}${rank === 1 ? '승' : '패'}`;
+	}
 	// 팀 이름을 이미 보여 주는 자리에서는 등수만 적는다.
 	return compact ? `${rank}등` : `${teamName} ${rank}등`;
 }
@@ -482,6 +484,18 @@ export function selectTodayHistory(
 function compareNames(first, second) {
 	if (first === second) return 0;
 	return first < second ? -1 : 1;
+}
+
+export function assignSharedPlaces(items, keyOf) {
+	let previousKey;
+	let previousPlace = 0;
+	return (Array.isArray(items) ? items : []).map((item, index) => {
+		const key = keyOf(item);
+		const place = index > 0 && key === previousKey ? previousPlace : index + 1;
+		previousKey = key;
+		previousPlace = place;
+		return { ...item, place };
+	});
 }
 
 export function summarizeParticipantStats(history, { minimumTogether = 2, limit = 3 } = {}) {

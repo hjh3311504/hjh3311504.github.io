@@ -10,7 +10,8 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
-		inlineStyleThreshold: 60_000,
+		// Team Maker의 첫 화면 CSS를 HTML에 포함해 스타일 적용 전 깜빡임을 막습니다.
+		inlineStyleThreshold: 70_000,
 		prerender: {
 			crawl: false,
 			entries: ['*']

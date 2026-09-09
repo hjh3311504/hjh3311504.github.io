@@ -30,7 +30,7 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 | ------------------------------------ | ----------------------------- | ------------------------------- |
 | 참가자 입력·명단·배정 규칙 목록      | `ParticipantsSection.svelte`  | `participants.js`               |
 | 나누는 방식·인원 설정·팀 만들기 버튼 | `TeamSettingsSection.svelte`  | `participants.js`, `results.js` |
-| 팀 결과·결과 작업 버튼·누적 당첨자   | `TeamResultsSection.svelte`   | `results.js`                    |
+| 팀 결과·팀 이름 수정·누적 당첨자     | `TeamResultsSection.svelte`   | `results.js`, `history.js`      |
 | 오늘 기록·기록 관련 버튼             | `TodayHistorySection.svelte`  | `history.js`                    |
 | 참가자 일괄 추가                     | `BulkAddDialog.svelte`        | `participants.js`               |
 | 같은 팀·다른 팀 규칙 지정            | `AssignmentRuleDialog.svelte` | `participants.js`               |
@@ -46,21 +46,21 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 
 아래 JavaScript 파일은 모두 `src/lib/team-maker/` 안에 있습니다.
 
-| 수정할 내용                                            | 파일              |
-| ------------------------------------------------------ | ----------------- |
-| 초기 상태, 기능 연결, 저장 후 전체 갱신, 화면 종료     | `app.js`          |
-| 저장 데이터 정리, 복원과 저장 오류                     | `storage.js`      |
-| 참가자 입력·삭제, 배정 규칙, 팀 수 설정                | `participants.js` |
-| 팀 생성·결과 표시, 결과 복사                           | `results.js`      |
-| 명단 저장·불러오기·삭제                                | `rosters.js`      |
-| 순위 기록·취소, 기록 삭제, 당첨 기록 반영, 참가자 통계 | `history.js`      |
-| 돌림판, 당첨자 추가·삭제, 축하 효과                    | `wheel.js`        |
-| 효과음 생성·중지, 소리 설정                            | `audio.js`        |
-| dialog 열기·닫기, 확인창, 스크롤 잠금                  | `dialogs.js`      |
-| 화면 없이 실행하는 팀 배정·순위·통계 계산              | `core.js`         |
-| 동적 버튼과 화면 이동 효과                             | `ui.js`           |
-| 이벤트·타이머·화면 갱신 예약 해제                      | `lifecycle.js`    |
-| ID 생성과 작은 값 변환 함수                            | `utils.js`        |
+| 수정할 내용                                         | 파일              |
+| --------------------------------------------------- | ----------------- |
+| 초기 상태, 기능 연결, 저장 후 전체 갱신, 화면 종료  | `app.js`          |
+| 저장 데이터 정리, 복원과 저장 오류                  | `storage.js`      |
+| 참가자 입력·삭제, 배정 규칙, 팀 수 설정             | `participants.js` |
+| 팀 생성·결과 표시, 팀 이름 수정, 결과 복사          | `results.js`      |
+| 명단 저장·불러오기·삭제                             | `rosters.js`      |
+| 순위 기록·취소, 팀 이름·당첨 기록 반영, 참가자 통계 | `history.js`      |
+| 돌림판, 당첨자 추가·삭제, 축하 효과                 | `wheel.js`        |
+| 효과음 생성·중지, 소리 설정                         | `audio.js`        |
+| dialog 열기·닫기, 확인창, 스크롤 잠금               | `dialogs.js`      |
+| 화면 없이 실행하는 팀 배정·순위·통계 계산           | `core.js`         |
+| 동적 버튼과 화면 이동 효과                          | `ui.js`           |
+| 이벤트·타이머·화면 갱신 예약 해제                   | `lifecycle.js`    |
+| ID 생성과 작은 값 변환 함수                         | `utils.js`        |
 
 ### 기능 연결 규칙
 

@@ -57,6 +57,7 @@
 
 	.history-summary-row .history-time {
 		height: 22px;
+		margin-top: 10px;
 	}
 
 	.history-winner-chip {
