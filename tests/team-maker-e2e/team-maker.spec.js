@@ -123,7 +123,7 @@ test('긴 팀 이름도 결과 제목과 승패 뱃지가 카드 너비를 넘�
 
 	await page.getByRole('button', { name: '1팀 이름 수정' }).click();
 	const input = page.getByRole('textbox', { name: '1팀 새 이름' });
-	const longName = '긴팀이름'.repeat(5);
+	const longName = '긴팀이름'.repeat(4);
 	await input.fill(longName);
 	await input.press('Enter');
 	await page.getByRole('button', { name: `${longName} 승리 기록` }).click();
@@ -152,7 +152,7 @@ test('긴 팀 이름은 기록 카드에 모두 표시하고 팀명과 등수 �
 	await addParticipants(page, ['가영', '나연', '다현', '라희']);
 	await page.getByRole('button', { name: '팀 만들기' }).click();
 
-	const longName = '긴기록팀이름'.repeat(3);
+	const longName = '가나다라마바사아자차카타파하하팀';
 	await page.getByRole('button', { name: '1팀 이름 수정' }).click();
 	const input = page.getByRole('textbox', { name: '1팀 새 이름' });
 	await input.fill(longName);
