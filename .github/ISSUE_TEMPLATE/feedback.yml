@@ -1,0 +1,54 @@
+name: 개선점·버그 제보
+description: 팀 메이커의 불편한 점이나 개선 아이디어를 알려 주세요.
+title: '[제보] '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        제보해 주셔서 감사합니다. 참가자 이름과 연락처 같은 개인정보는 적지 마세요.
+  - type: dropdown
+    id: type
+    attributes:
+      label: 제보 종류
+      options:
+        - 버그
+        - 개선 제안
+        - 기타
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: 발생한 페이지
+      description: 문제가 발생한 URL 또는 화면 이름을 적어 주세요.
+      placeholder: 예) 팀 만들기 결과, 전체 기록, https://hjh3311504.github.io/team-maker
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: 내용
+      description: 어떤 점이 불편했거나 무엇이 달라지면 좋을지 적어 주세요.
+      placeholder: 문제나 아이디어를 구체적으로 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 방법
+      description: 버그라면 문제가 생기기 전까지 한 일을 순서대로 적어 주세요.
+      placeholder: |
+        1. 참가자를 추가했습니다.
+        2. 팀 만들기를 눌렀습니다.
+        3. ...
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대한 결과
+      description: 실제 결과 대신 어떻게 동작하기를 기대했는지 적어 주세요.
+  - type: input
+    id: environment
+    attributes:
+      label: 사용 환경
+      description: 사용한 기기와 브라우저를 적어 주세요.
+      placeholder: 예) iPhone 15, Safari

@@ -81,6 +81,7 @@ export function mountTeamMaker(root) {
 		root,
 		undoRank: (...args) => history.undoRank(...args),
 		recordRank: (...args) => history.recordRank(...args),
+		renameTeam: (...args) => history.renameTeam(...args),
 		openWheel: (...args) => wheel.openWheel(...args)
 	});
 	const dialogs = createDialogs({

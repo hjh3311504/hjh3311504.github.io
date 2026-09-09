@@ -154,32 +154,41 @@
 
 	.history-match > .history-time {
 		height: 22px;
+		margin-top: 10px;
 	}
 
 	.history-teams {
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		gap: 10px;
 		min-width: 0;
 	}
 
 	.history-team-line {
 		display: flex;
-		gap: 8px;
-		align-items: flex-start;
-		min-height: 22px;
+		flex-direction: column;
+		gap: 3px;
 		min-width: 0;
-		font-size: 14px;
-		line-height: 1.55;
+		padding: 8px 10px;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 10px;
 	}
 
-	.history-team-line[data-place='first'] .history-team-label {
+	.history-team-heading {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		min-width: 0;
+	}
+
+	.history-team-line[data-place='first'] .history-team-rank-label {
 		color: var(--primary-dark);
 		background: var(--primary-soft);
 		border-color: var(--primary-line);
 	}
 
-	.history-team-line[data-place='middle'] .history-team-label {
+	.history-team-line[data-place='middle'] .history-team-rank-label {
 		color: var(--green);
 		background: var(--green-soft);
 		border-color: var(--green-line);
@@ -187,9 +196,6 @@
 
 	.history-team-line[data-place='none'] .history-team-label {
 		color: var(--muted);
-		background: var(--surface-alt);
-		border-color: var(--line-strong);
-		border-style: solid;
 	}
 
 	.history-team-picks {
@@ -208,7 +214,6 @@
 
 	.history-team-names {
 		display: block;
-		flex: 1;
 		min-width: 0;
 		max-width: 100%;
 		overflow: visible;
@@ -216,17 +221,44 @@
 		text-overflow: clip;
 		white-space: normal;
 		word-break: keep-all;
-		transform: translateY(1px);
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.5;
 	}
 
 	.history-team-label {
 		display: inline-flex;
+		flex: 0 1 auto;
+		align-items: center;
+		min-width: 0;
+		min-height: 24px;
+		padding: 0;
+		color: var(--muted);
+		font-size: 16px;
+		font-weight: 800;
+		line-height: 1;
+		background: transparent;
+		border: 0;
+	}
+
+	.history-team-label-name {
+		display: block;
+		flex: 0 1 auto;
+		min-width: 0;
+		overflow-wrap: anywhere;
+		white-space: normal;
+		word-break: keep-all;
+	}
+
+	.history-team-rank-label {
+		display: inline-flex;
 		flex: none;
 		align-items: center;
 		justify-content: center;
-		width: 60px;
+		width: 40px;
+		min-width: 40px;
 		height: 22px;
-		padding: 0 6px;
+		padding: 0 4px;
 		color: var(--danger);
 		font-size: 12px;
 		font-weight: 750;

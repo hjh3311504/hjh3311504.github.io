@@ -11,6 +11,7 @@ export function createResults({
 	root,
 	undoRank,
 	recordRank,
+	renameTeam,
 	openWheel
 }) {
 	let resultError = '';
@@ -19,6 +20,7 @@ export function createResults({
 	const state = getState();
 	let copyResetTimer = null;
 	const currentTeamIds = () => runtime.teams.map((team) => team.id);
+	const TEAM_NAME_MAX_LENGTH = 16;
 
 	const rankOf = (teamId) => rankOfTeam(runtime.ranking, teamId);
 
@@ -95,7 +97,19 @@ export function createResults({
 			const heading = document.createElement('div');
 			heading.className = 'team-card-heading';
 			const name = document.createElement('h3');
-			name.textContent = team.name;
+			name.className = 'team-name-heading';
+			const nameButton = document.createElement('button');
+			nameButton.type = 'button';
+			nameButton.className = 'team-name-button';
+			nameButton.dataset.editTeamName = String(team.id);
+			nameButton.setAttribute('aria-label', `${team.name} 이름 수정`);
+			const nameText = document.createElement('span');
+			nameText.textContent = team.name;
+			const editMark = document.createElement('span');
+			editMark.className = 'team-name-edit-mark';
+			editMark.setAttribute('aria-hidden', 'true');
+			nameButton.append(nameText, editMark);
+			name.append(nameButton);
 			const count = document.createElement('span');
 			count.className = 'team-count-chip';
 			if (runtime.ranking.length === 0) count.textContent = `${team.members.length}명`;
@@ -172,6 +186,61 @@ export function createResults({
 
 		renderPickedSection();
 		$('#result-live').textContent = runtime.resultMessage;
+	}
+
+	function beginTeamNameEdit(teamId) {
+		const team = runtime.teams.find((item) => item.id === teamId);
+		const button = root.querySelector(`[data-edit-team-name="${teamId}"]`);
+		if (!team || !button) return;
+		const heading = button.closest('.team-name-heading');
+		const editor = document.createElement('span');
+		editor.className = 'team-name-editor';
+		const input = document.createElement('input');
+		input.className = 'team-name-input';
+		input.value = team.name;
+		input.maxLength = TEAM_NAME_MAX_LENGTH;
+		input.dataset.teamNameInput = String(teamId);
+		input.setAttribute('aria-label', `${team.name} 새 이름`);
+		const error = document.createElement('span');
+		error.id = `team-name-error-${teamId}`;
+		error.className = 'team-name-error';
+		error.setAttribute('role', 'alert');
+		error.hidden = true;
+		input.setAttribute('aria-describedby', error.id);
+		editor.append(input, error);
+		heading.replaceChildren(editor);
+		input.focus();
+		input.select();
+	}
+
+	function saveTeamName(input) {
+		const teamId = Number(input.dataset.teamNameInput);
+		const team = runtime.teams.find((item) => item.id === teamId);
+		if (!team) return false;
+		const nextName = input.value.trim();
+		const error = input.parentElement.querySelector('.team-name-error');
+		let message = '';
+		if (!nextName) message = '팀 이름을 입력해 주세요.';
+		else if (nextName.length > TEAM_NAME_MAX_LENGTH)
+			message = `팀 이름은 ${TEAM_NAME_MAX_LENGTH}자까지 입력할 수 있습니다.`;
+		else if (runtime.teams.some((item) => item.id !== teamId && item.name === nextName))
+			message = '다른 팀과 같은 이름은 사용할 수 없습니다.';
+
+		if (message) {
+			error.textContent = message;
+			error.hidden = false;
+			input.setAttribute('aria-invalid', 'true');
+			input.focus();
+			return false;
+		}
+
+		if (nextName !== team.name) {
+			team.name = nextName;
+			renameTeam(teamId, nextName);
+			runtime.resultMessage = `팀 이름을 ${nextName}(으)로 바꿨습니다.`;
+		}
+		renderResults();
+		return true;
 	}
 
 	function renderPickedSection() {
@@ -305,10 +374,29 @@ export function createResults({
 		on($('#copy-result-button'), 'click', copyResultText);
 
 		on($('#team-grid'), 'click', (event) => {
+			const nameButton = event.target.closest('[data-edit-team-name]');
 			const rankButton = event.target.closest('[data-rank-team]');
 			const drawButton = event.target.closest('[data-draw-team]');
+			if (nameButton) beginTeamNameEdit(Number(nameButton.dataset.editTeamName));
 			if (rankButton) recordRank(Number(rankButton.dataset.rankTeam));
 			if (drawButton && !drawButton.disabled) openWheel(Number(drawButton.dataset.drawTeam));
+		});
+
+		on($('#team-grid'), 'keydown', (event) => {
+			const input = event.target.closest('[data-team-name-input]');
+			if (!input) return;
+			if (event.key === 'Enter') {
+				event.preventDefault();
+				saveTeamName(input);
+			} else if (event.key === 'Escape') {
+				event.preventDefault();
+				renderResults();
+			}
+		});
+
+		on($('#team-grid'), 'focusout', (event) => {
+			const input = event.target.closest('[data-team-name-input]');
+			if (input && root.contains(input)) saveTeamName(input);
 		});
 	}
 	function destroy() {

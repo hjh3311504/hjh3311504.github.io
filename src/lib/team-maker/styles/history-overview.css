@@ -1,7 +1,7 @@
 @scope (.team-maker-page) {
 	.modal-tabs {
 		display: flex;
-		gap: 4px;
+		gap: 0;
 		border-bottom: 1px solid var(--line);
 	}
 
@@ -16,6 +16,7 @@
 		font-weight: 700;
 		background: transparent;
 		border: 0;
+		border-radius: 0;
 		border-bottom: 2px solid transparent;
 		cursor: pointer;
 	}
@@ -190,7 +191,7 @@
 
 	.podium {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 		gap: 10px;
 		padding: 0;
 		margin: 0;
@@ -231,6 +232,69 @@
 	.podium-name {
 		font-size: 16px;
 		font-weight: 800;
+	}
+
+	.podium-ties {
+		position: relative;
+		max-width: 100%;
+	}
+
+	.podium-ties-summary {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		cursor: pointer;
+	}
+
+	.podium-ties-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.podium-ties-summary::after {
+		margin-left: 4px;
+		color: var(--muted);
+		font-size: 12px;
+		content: '▼';
+	}
+
+	.podium-ties-summary:focus-visible {
+		outline: 2px solid var(--primary);
+		outline-offset: 3px;
+		border-radius: 4px;
+	}
+
+	.podium-tie-list {
+		position: absolute;
+		top: calc(100% + 7px);
+		left: 50%;
+		z-index: 5;
+		display: none;
+		width: max-content;
+		max-width: min(260px, 75vw);
+		padding: 8px 10px;
+		margin: 0;
+		color: var(--ink);
+		font-size: 12px;
+		font-weight: 650;
+		line-height: 1.5;
+		white-space: normal;
+		background: var(--surface);
+		border: 1px solid var(--line-strong);
+		border-radius: 8px;
+		box-shadow: 0 10px 24px rgb(28 30 38 / 16%);
+		list-style: none;
+		transform: translateX(-50%);
+	}
+
+	.podium-tie-list li + li {
+		margin-top: 4px;
+	}
+
+	.podium-ties[open] .podium-tie-list,
+	.podium-ties:hover .podium-tie-list,
+	.podium-ties:focus-within .podium-tie-list {
+		display: block;
 	}
 
 	.podium-detail,
