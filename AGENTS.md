@@ -34,7 +34,7 @@
 | `tests/`              | 단위 테스트와 Playwright E2E 테스트 |
 | `docs/requirements/`  | 요구사항 SSOT                       |
 | `docs/adr/`           | 주요 기술·제품 결정 기록            |
-| `docs/design/`        | 현재 UI 설계 문서와 동결 자료       |
+| `docs/design/`        | 현재 UI 설계 문서와 최신 시안       |
 | `scripts/`            | build 결과와 문서를 검증하는 script |
 | `.github/workflows/`  | 검사와 GitHub Pages 배포 workflow   |
 
@@ -46,8 +46,8 @@ SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
 2. Team Maker 정적 build 결과는 `build/team-maker.html`이다.
 3. Team Maker 정적 자산은 `/images/team-maker/` 경로를 사용한다.
 4. route와 build 형태를 바꾸면 관련 REQ, ADR, README와 검증 script를 함께 갱신한다.
-5. `docs/design/packages/**`의 승인 snapshot과 handoff는 새 승인 없이 수정하지 않는다.
-6. 과거 ADR과 Claude Design 요청문은 역사 자료다. 현재 값으로 조용히 고치지 않는다.
+5. `docs/design/`에는 현재 `ia.md`, `screens/`, 최신 `handoff/`와 마지막 요청문 `claude-design-DSN.md`만 관리한다. 번호별 package·snapshot·manifest는 만들지 않는다. handoff는 새 전달본 전체로 교체하며 코드 수정마다 재생성하지 않는다.
+6. 과거 설계와 요청문은 Git의 이전 commit에서 확인한다. 과거 ADR 본문은 보존하고 변경 결정은 새 ADR에 남긴다. 마지막 Claude Design 요청문은 현재 설계와 구분하며 다음 실제 요청 때 같은 파일을 갱신한다.
 7. 참가자 데이터는 브라우저 `localStorage`에만 저장한다. 서버, 로그인, 비밀 키를 추가하지 않는다.
 8. `build/`, `.svelte-kit/`, `node_modules/`, `output/`은 생성 결과다. source처럼 직접 관리하지 않는다.
 9. `AGENTS.md`와 `CLAUDE.md`는 같은 내용을 유지한다. 한 파일을 바꾸면 다른 파일도 함께 바꾼다.
@@ -66,6 +66,8 @@ SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
 
 ## 작업 규율
 
+- UI 요구사항의 `design_ref`는 `docs/design/` 기준 화면 경로 목록으로 적는다. 화면 문서의 `연결 REQ`와 양방향으로 일치시킨다. 공통 요구사항은 관련 화면을 모두 연결한다.
+- 설계 승인 사실은 관련 commit이나 PR 설명에 명시한다. commit 자체를 승인으로 간주하지 않는다.
 - 지시는 메모리가 아닌 문서에 남긴다. 반복해서 지켜야 할 규칙은 AGENTS.md, README, REQ, ADR 중 알맞은 곳에 기록한다.
 - 구현 전에 가정을 밝힌다. 해석에 따라 결과가 크게 달라지면 사용자에게 묻는다.
 - 여러 단계 작업은 먼저 짧은 계획과 검증 방법을 정리한다.
@@ -94,7 +96,7 @@ npm run verify:team-maker
 npm run test:e2e:team-maker
 ```
 
-문서만 바꿔도 `git diff --check`를 실행한다. 요구사항을 바꾸면 해당 REQ validator도 실행한다.
+문서만 바꿔도 `git diff --check`를 실행한다. 요구사항을 바꾸면 해당 REQ validator도 실행한다. UI 요구사항이나 화면 문서의 연결을 바꾸면 `python3 scripts/verify_ui_design.py docs/requirements docs/design --all`을 실행한다. 해당 validator를 수정하면 `python3 -m unittest discover -s tests/design -p 'test_*.py'`도 실행한다.
 
 ## Git과 PR
 
