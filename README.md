@@ -87,6 +87,49 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 
 기존 적용 순서를 보존하기 위해 일부 기능은 보완 파일로 나누었습니다. 진입점의 import 순서를 임의로 바꾸지 마세요. 여러 기능에 걸친 공통 규칙은 `common*.css`에서 관리합니다. build 검증은 `src/lib/team-maker/` 아래의 JavaScript, Svelte와 CSS를 하위 폴더까지 모두 검사합니다.
 
+## 설계 문서 관리
+
+`docs/design/`에는 자료별 최신본만 둡니다. 번호별 package, snapshot과 manifest는 만들지 않습니다.
+
+| 자료                   | 역할                             |
+| ---------------------- | -------------------------------- |
+| `ia.md`                | 현재 화면 구성과 이동 흐름       |
+| `screens/`             | 현재 화면별 동작과 연결 요구사항 |
+| `handoff/`             | 마지막으로 전달받은 시안과 자산  |
+| `claude-design-DSN.md` | 마지막 Claude Design 요청 기록   |
+
+현재 설계는 IA와 화면 문서에서 확인하고, 실제 동작은 코드와 브라우저에서 확인합니다. handoff와 마지막 요청문에는 과거 조건이 포함될 수 있습니다. 새 handoff를 받으면 기존 폴더 전체를 교체하세요. 파일을 덧붙여 이전 전달본의 파일을 남기지 마세요. 구현을 수정할 때마다 handoff를 다시 생성하지는 않습니다. 다음 Claude Design 요청은 같은 요청문 파일의 본문과 참조 경로를 검토해 갱신하세요.
+
+UI 요구사항의 `design_ref`는 `docs/design/` 기준 화면 경로 목록입니다. 화면이 1개여도 `[screens/SCR-WEB-001.md]`처럼 적습니다. 공통 요구사항은 관련 화면을 모두 연결하고, 각 화면 문서의 `연결 REQ`에도 같은 요구사항을 적습니다. `design_status`는 기존처럼 `pending`, `approved`, `deferred`를 사용합니다. 승인 사실은 관련 commit이나 PR 설명에 명시하세요. commit 자체가 승인을 뜻하지는 않습니다.
+
+설계 검사는 Python 3와 PyYAML이 필요합니다. PyYAML이 없다면 별도 Python 가상환경에 `python3 -m pip install pyyaml`로 설치하세요.
+
+```shell
+python3 scripts/verify_ui_design.py docs/requirements docs/design --all
+python3 scripts/verify_ui_design.py docs/requirements docs/design --mode inventory
+python3 scripts/verify_ui_design.py docs/requirements docs/design --requirement REQ-WEB-020
+python3 -m unittest discover -s tests/design -p 'test_*.py'
+```
+
+전체 검사는 모든 UI 요구사항의 승인 상태와 문서 연결을 확인합니다. 목록 검사는 모든 UI 요구사항의 상태를 확인하고, 화면 검사는 승인된 항목의 연결 범위로 제한합니다. 승인된 항목과 무관한 작성 중 화면은 검사하지 않습니다. 승인된 항목이 없으면 설계 폴더가 없어도 목록 검사를 실행할 수 있습니다. 요구사항별 검사는 지정한 항목과 관련 화면의 연결을 확인합니다. 관계없는 항목의 미승인 상태는 실패 사유가 아닙니다. `--requirement`를 여러 번 지정할 수 있습니다. handoff와 manifest는 검사에 필요하지 않습니다.
+
+과거 설계와 요청문은 Git 이력에서 확인하세요.
+
+```shell
+git log --oneline -- docs/design
+git log --follow -- docs/design/claude-design-DSN.md
+```
+
+아래 명령의 `<commit>`을 확인할 commit hash로 바꾸세요. 삭제 전 자료는 정리 이전 commit과 당시 파일 경로를 사용합니다.
+
+```shell
+git show '<commit>:docs/design/screens/SCR-WEB-001.md'
+git show '<commit>:docs/design/claude-design-DSN-009.md'
+git show '<commit>:docs/design/packages/DSN-010/manifest.yaml'
+```
+
+이전 DSN 형식의 검증이 필요하면 해당 commit의 자료와 script를 함께 사용하세요. 최신 script의 package 지정 옵션은 제거했습니다. 과거 commit 자체는 삭제하지 않으므로 이번 정리는 현재 파일 목록을 줄이며 Git 전체 이력의 용량까지 줄이지는 않습니다.
+
 ## 검사와 build
 
 ```shell

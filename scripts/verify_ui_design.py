@@ -1,43 +1,21 @@
 #!/usr/bin/env python3
-"""UI 요구사항 인벤토리와 동결 디자인 패키지를 범위별로 검증한다."""
+"""현재 UI 요구사항과 화면 설계 문서의 연결을 범위별로 검증한다."""
 
 from __future__ import annotations
 
 import argparse
-import datetime as dt
-import hashlib
 import re
 import sys
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 
 try:
     import yaml
 except ImportError:
-    sys.exit("pyyaml이 필요합니다: pip install pyyaml")
+    sys.exit("pyyaml이 필요합니다: python3 -m pip install pyyaml")
 
 REQ_RE = re.compile(r"^REQ-[A-Z]+-\d{3}$")
-DSN_RE = re.compile(r"^DSN-\d{3}$")
 SCR_RE = re.compile(r"^SCR-[A-Z]+-\d{3}$")
-SHA_RE = re.compile(r"^[0-9a-f]{64}$")
-GIT_REV_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$", re.IGNORECASE)
-REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
-UUID_RE = re.compile(
-    r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-    re.IGNORECASE,
-)
 DESIGN_STATUSES = {"pending", "approved", "deferred"}
-LEGACY_CLAUDE_DESIGN_TRANSPORTS = {"pending", "direct-mcp", "claude-cli", "manual"}
-CLAUDE_DESIGN_TRANSPORTS_V4 = LEGACY_CLAUDE_DESIGN_TRANSPORTS | {"none"}
-CLAUDE_DESIGN_USAGES = {"pending", "none", "exploration"}
-HANDOFF_STATUSES_V4 = {"pending", "not-applicable", "approved"}
-DESIGN_SYSTEM_SOURCES = {"pending", "claude-design", "git", "none"}
-DESIGN_SYSTEM_CONNECTIONS = {
-    "pending",
-    "organization-default",
-    "project-attached",
-    "none",
-}
-DESIGN_SYSTEM_PUBLICATIONS = {"pending", "draft", "published", "not-applicable"}
 SCREEN_METADATA_FIELDS = {
     "화면 ID": "id",
     "화면 이름": "title",
@@ -45,68 +23,42 @@ SCREEN_METADATA_FIELDS = {
 }
 
 
-def sha256_hex(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def tree_sha256(root: Path) -> str:
-    digest = hashlib.sha256()
-    files = sorted(path for path in root.rglob("*") if path.is_file())
-    for path in files:
-        relative = path.relative_to(root).as_posix().encode("utf-8")
-        digest.update(relative)
-        digest.update(b"\0")
-        digest.update(str(path.stat().st_size).encode("ascii"))
-        digest.update(b"\0")
-        digest.update(bytes.fromhex(sha256_hex(path)))
-        digest.update(b"\n")
-    return digest.hexdigest()
-
-
-def reject_symlinks(root: Path, label: str, errors: list[str]) -> bool:
-    if not root.exists():
-        return False
-    if root.is_symlink():
-        errors.append(f"{label}: symlink 금지 — {root}")
-        return True
-    found = False
-    for path in root.rglob("*"):
-        if path.is_symlink():
-            errors.append(f"{label}: symlink 금지 — {path}")
-            found = True
-    return found
-
-
-def load_yaml(path: Path, errors: list[str]):
-    try:
-        return yaml.safe_load(path.read_text(encoding="utf-8"))
-    except (OSError, yaml.YAMLError) as exc:
-        errors.append(f"{path}: YAML 읽기 실패 — {exc}")
-        return None
-
-
 def load_requirements(req_dir: Path, errors: list[str]) -> dict[str, dict]:
     requirements: dict[str, dict] = {}
     for path in sorted(req_dir.glob("*.yaml")):
-        data = load_yaml(path, errors)
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        except (OSError, yaml.YAMLError) as exc:
+            errors.append(f"{path}: YAML 읽기 실패 — {exc}")
+            continue
         if not isinstance(data, list):
             errors.append(f"{path}: 최상위가 리스트가 아님")
             continue
         for item in data:
             if not isinstance(item, dict):
+                errors.append(f"{path}: 요구사항 항목은 object여야 함")
                 continue
             req_id = item.get("id")
             if not isinstance(req_id, str) or not REQ_RE.fullmatch(req_id):
+                errors.append(f"{path}: 요구사항 ID 형식 위반 — {req_id}")
                 continue
             if req_id in requirements:
                 errors.append(f"{path}: 요구사항 ID 중복 — {req_id}")
                 continue
             requirements[req_id] = item
     return requirements
+
+
+def valid_screen_ref(value) -> bool:
+    if not isinstance(value, str) or "\\" in value:
+        return False
+    parts = value.split("/")
+    return (
+        len(parts) >= 2
+        and parts[0] == "screens"
+        and all(part not in {"", ".", ".."} for part in parts)
+        and value.endswith(".md")
+    )
 
 
 def effective_design_status(item: dict) -> str:
@@ -118,245 +70,30 @@ def effective_design_status(item: dict) -> str:
 
 def validate_requirement_state(req_id: str, item: dict, errors: list[str]) -> str:
     status = effective_design_status(item)
-    design_ref = item.get("design_ref")
+    refs = item.get("design_ref")
     defer_ref = item.get("design_defer_ref")
     if status not in DESIGN_STATUSES:
         errors.append(f"{req_id}: design_status 값 오류 — {status}")
-        return status
-    if status == "pending":
-        if design_ref is not None:
+    elif status == "approved":
+        if not isinstance(refs, list) or not refs:
+            errors.append(f"{req_id}: design_ref는 화면 경로의 비어 있지 않은 목록이어야 함")
+        elif any(not valid_screen_ref(ref) for ref in refs):
+            errors.append(f"{req_id}: design_ref는 screens/ 아래 Markdown 상대경로여야 함")
+        elif len(refs) != len(set(refs)):
+            errors.append(f"{req_id}: design_ref 중복")
+        if defer_ref is not None:
+            errors.append(f"{req_id}: approved에는 design_defer_ref 금지")
+    elif status == "pending":
+        if refs is not None:
             errors.append(f"{req_id}: pending에는 design_ref 금지")
         if defer_ref is not None:
             errors.append(f"{req_id}: pending에는 design_defer_ref 금지")
-    elif status == "approved":
-        if not isinstance(design_ref, str) or not DSN_RE.fullmatch(design_ref):
-            errors.append(f"{req_id}: design_ref 누락 또는 형식 위반 (DSN-000)")
-        if defer_ref is not None:
-            errors.append(f"{req_id}: approved에는 design_defer_ref 금지")
     else:
-        if design_ref is not None:
+        if refs is not None:
             errors.append(f"{req_id}: deferred에는 design_ref 금지")
         if not isinstance(defer_ref, str) or not defer_ref.strip():
             errors.append(f"{req_id}: deferred에는 design_defer_ref 필수")
     return status
-
-
-def valid_timestamp(value) -> bool:
-    if not isinstance(value, str) or not value:
-        return False
-    try:
-        parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
-    except ValueError:
-        return False
-    return parsed.tzinfo is not None
-
-
-def valid_relative_path(value) -> bool:
-    if not isinstance(value, str) or not value or "\\" in value:
-        return False
-    path = PurePosixPath(value)
-    return (
-        bool(path.parts)
-        and not path.is_absolute()
-        and not re.match(r"^[A-Za-z]:", value)
-        and all(part not in {"", ".", ".."} for part in path.parts)
-    )
-
-
-def validate_design_system_metadata(
-    manifest: dict,
-    manifest_path: Path,
-    metadata_required: bool,
-    errors: list[str],
-) -> None:
-    if manifest.get("schema_version") not in {3, 4}:
-        return
-    metadata = manifest.get("design_system")
-    if not isinstance(metadata, dict):
-        errors.append(f"{manifest_path}: schema version 3 이상에는 design_system object 필수")
-        return
-
-    source = metadata.get("source")
-    connection = metadata.get("connection")
-    publication = metadata.get("publication")
-    if source not in DESIGN_SYSTEM_SOURCES:
-        errors.append(f"{manifest_path}: design_system.source 값 오류 — {source}")
-    if connection not in DESIGN_SYSTEM_CONNECTIONS:
-        errors.append(f"{manifest_path}: design_system.connection 값 오류 — {connection}")
-    if publication not in DESIGN_SYSTEM_PUBLICATIONS:
-        errors.append(f"{manifest_path}: design_system.publication 값 오류 — {publication}")
-    if (
-        source not in DESIGN_SYSTEM_SOURCES
-        or connection not in DESIGN_SYSTEM_CONNECTIONS
-        or publication not in DESIGN_SYSTEM_PUBLICATIONS
-    ):
-        return
-
-    if metadata_required and "pending" in {source, connection, publication}:
-        errors.append(f"{manifest_path}: 구현 준비가 끝난 package에는 Design System 상태 확정 필수")
-        return
-    if source == "pending":
-        return
-
-    name = metadata.get("name")
-    project_id = metadata.get("project_id")
-    source_repo = metadata.get("source_repo")
-    source_revision = metadata.get("source_revision")
-    source_paths = metadata.get("source_paths")
-    checked_at = metadata.get("checked_at")
-
-    if not isinstance(source_paths, list):
-        errors.append(f"{manifest_path}: design_system.source_paths는 리스트여야 함")
-        source_paths = []
-    elif any(not isinstance(path, str) for path in source_paths):
-        errors.append(f"{manifest_path}: design_system.source_paths 값은 문자열이어야 함")
-        source_paths = []
-    elif len(source_paths) != len(set(source_paths)):
-        errors.append(f"{manifest_path}: design_system.source_paths 중복")
-
-    if metadata_required and not valid_timestamp(checked_at):
-        errors.append(
-            f"{manifest_path}: design_system.checked_at은 timezone 포함 ISO 8601이어야 함"
-        )
-    elif checked_at is not None and not valid_timestamp(checked_at):
-        errors.append(f"{manifest_path}: design_system.checked_at 형식 위반")
-
-    if source == "none":
-        if connection != "none" or publication != "not-applicable":
-            errors.append(
-                f"{manifest_path}: Design System 미사용은 connection none, publication not-applicable 필수"
-            )
-        if any(value is not None for value in (name, project_id, source_repo, source_revision)):
-            errors.append(f"{manifest_path}: Design System 미사용에는 이름·remote·Git 참조 금지")
-        if source_paths:
-            errors.append(f"{manifest_path}: Design System 미사용에는 source_paths 금지")
-        return
-
-    if connection not in {"organization-default", "project-attached"}:
-        errors.append(f"{manifest_path}: 사용 Design System에는 실제 연결 방식 필수")
-    if publication not in {"draft", "published"}:
-        errors.append(f"{manifest_path}: 사용 Design System에는 Draft 또는 Published 상태 필수")
-    if connection == "organization-default" and publication != "published":
-        errors.append(f"{manifest_path}: 조직 기본 Design System은 Published여야 함")
-    if publication == "draft" and connection != "project-attached":
-        errors.append(f"{manifest_path}: Draft Design System은 project에 직접 연결해야 함")
-    if not isinstance(name, str) or not name.strip():
-        errors.append(f"{manifest_path}: 사용 Design System에는 정확한 name 필수")
-    if project_id is not None and (
-        not isinstance(project_id, str) or not UUID_RE.fullmatch(project_id)
-    ):
-        errors.append(f"{manifest_path}: design_system.project_id UUID 형식 위반")
-
-    if source == "git":
-        if not isinstance(source_repo, str) or not REPO_RE.fullmatch(source_repo):
-            errors.append(f"{manifest_path}: Git Design System source_repo는 owner/repo 형식이어야 함")
-        if not isinstance(source_revision, str) or not GIT_REV_RE.fullmatch(source_revision):
-            errors.append(f"{manifest_path}: Git Design System source_revision은 commit hash여야 함")
-        if not source_paths:
-            errors.append(f"{manifest_path}: Git Design System source_paths 필수")
-        elif any(not valid_relative_path(path) for path in source_paths):
-            errors.append(f"{manifest_path}: Git Design System source_paths는 안전한 상대경로여야 함")
-    else:
-        if source_repo is not None or source_revision is not None or source_paths:
-            errors.append(f"{manifest_path}: Claude Design 관리 시스템에 Git source를 발명할 수 없음")
-
-
-def validate_claude_design_metadata(
-    manifest: dict,
-    manifest_path: Path,
-    handoff_status: str,
-    errors: list[str],
-) -> None:
-    schema_version = manifest.get("schema_version")
-    if schema_version not in {2, 3, 4}:
-        return
-    metadata = manifest.get("claude_design")
-    if not isinstance(metadata, dict):
-        errors.append(f"{manifest_path}: schema version 2 이상에는 claude_design object 필수")
-        return
-
-    transport = metadata.get("transport")
-    allowed_transports = (
-        CLAUDE_DESIGN_TRANSPORTS_V4
-        if schema_version == 4
-        else LEGACY_CLAUDE_DESIGN_TRANSPORTS
-    )
-    if transport not in allowed_transports:
-        errors.append(
-            f"{manifest_path}: claude_design.transport 값 오류 — {transport}"
-        )
-        return
-    if handoff_status == "approved" and transport == "pending":
-        errors.append(f"{manifest_path}: 승인 handoff에는 Claude Design 연결 방식 확정 필수")
-
-    if schema_version == 4:
-        usage = metadata.get("usage")
-        if usage not in CLAUDE_DESIGN_USAGES:
-            errors.append(f"{manifest_path}: claude_design.usage 값 오류 — {usage}")
-            return
-        if usage == "pending":
-            errors.append(f"{manifest_path}: 구현 준비 전 claude_design.usage 확정 필수")
-            return
-        if usage == "none":
-            if transport != "none":
-                errors.append(f"{manifest_path}: Claude Design 미사용은 transport none 필수")
-            if handoff_status != "not-applicable":
-                errors.append(
-                    f"{manifest_path}: Claude Design 미사용은 handoff.status not-applicable 필수"
-                )
-            if any(
-                metadata.get(field) is not None
-                for field in ("project_id", "project_url", "checked_at")
-            ):
-                errors.append(
-                    f"{manifest_path}: Claude Design 미사용에는 project 참조와 확인 시각 금지"
-                )
-            return
-        if transport not in {"manual", "direct-mcp", "claude-cli"}:
-            errors.append(
-                f"{manifest_path}: Claude Design 탐색에는 manual 또는 자동 전송 방식 필수"
-            )
-        if handoff_status != "approved":
-            errors.append(
-                f"{manifest_path}: Claude Design 탐색 결과는 한 번 export해 handoff 승인을 받아야 함"
-            )
-    project_id = metadata.get("project_id")
-    project_url = metadata.get("project_url")
-    timestamp = (
-        metadata.get("checked_at")
-        if schema_version == 4
-        else metadata.get("last_synced_at")
-    )
-    remote_transport = transport in {"direct-mcp", "claude-cli"}
-    has_remote_ref = project_id is not None or project_url is not None
-
-    if remote_transport or has_remote_ref or schema_version == 4:
-        if not isinstance(project_id, str) or not UUID_RE.fullmatch(project_id):
-            errors.append(f"{manifest_path}: claude_design.project_id UUID 형식 위반")
-        expected_prefix = (
-            f"https://claude.ai/design/p/{project_id}" if isinstance(project_id, str) else None
-        )
-        if (
-            not isinstance(project_url, str)
-            or expected_prefix is None
-            or not (
-                project_url == expected_prefix
-                or project_url.startswith(expected_prefix + "?")
-                or project_url.startswith(expected_prefix + "/")
-                or project_url.startswith(expected_prefix + "#")
-            )
-        ):
-            errors.append(
-                f"{manifest_path}: claude_design.project_url이 project_id와 일치하지 않음"
-            )
-
-    timestamp_field = "checked_at" if schema_version == 4 else "last_synced_at"
-    if (remote_transport or schema_version == 4) and not valid_timestamp(timestamp):
-        errors.append(
-            f"{manifest_path}: claude_design.{timestamp_field}은 timezone 포함 ISO 8601이어야 함"
-        )
-    elif timestamp is not None and not valid_timestamp(timestamp):
-        errors.append(f"{manifest_path}: claude_design.{timestamp_field} 형식 위반")
 
 
 def markdown_table_cells(line: str) -> list[str] | None:
@@ -471,190 +208,99 @@ def markdown_metadata(path: Path, errors: list[str]) -> dict:
     return markdown_metadata_table(path, text, errors)
 
 
-def validate_package(
-    package_dir: Path,
-    expected_id: str,
+def screen_refs(item: dict) -> set[str]:
+    refs = item.get("design_ref")
+    return {ref for ref in refs if valid_screen_ref(ref)} if isinstance(refs, list) else set()
+
+
+def local_file(path: Path, root: Path, errors: list[str]) -> bool:
+    # symlink로 검사 범위 밖 파일을 읽거나 경로를 우회하지 않는다.
+    current = path
+    while current != root:
+        if current.is_symlink():
+            errors.append(f"{path}: symlink 금지")
+            return False
+        current = current.parent
+    if root.is_symlink():
+        errors.append(f"{root}: symlink 금지")
+        return False
+    if not path.is_file():
+        errors.append(f"{path}: 파일 누락")
+        return False
+    return True
+
+
+def validate_screens(
+    design_dir: Path,
     requirements: dict[str, dict],
+    selected: set[str],
+    partial: bool,
     errors: list[str],
-) -> None:
-    if reject_symlinks(package_dir, "동결 패키지", errors):
-        return
-    manifest_path = package_dir / "manifest.yaml"
-    manifest = load_yaml(manifest_path, errors)
-    if not isinstance(manifest, dict):
-        errors.append(f"{manifest_path}: manifest가 object가 아님")
-        return
-    schema_version = manifest.get("schema_version")
-    if schema_version not in {1, 2, 3, 4}:
-        errors.append(f"{manifest_path}: 지원 schema_version은 1, 2, 3 또는 4")
-    if manifest.get("id") != expected_id or package_dir.name != expected_id:
-        errors.append(f"{manifest_path}: id와 디렉터리명이 {expected_id}와 일치하지 않음")
-
-    package_reqs = manifest.get("requirements")
-    if not isinstance(package_reqs, list) or not package_reqs:
-        errors.append(f"{manifest_path}: requirements는 비어있지 않은 리스트여야 함")
-        package_reqs = []
-    invalid_reqs = [
-        req_id
-        for req_id in package_reqs
-        if not isinstance(req_id, str) or not REQ_RE.fullmatch(req_id)
-    ]
-    if invalid_reqs:
-        errors.append(f"{manifest_path}: requirements ID 형식 위반 {invalid_reqs}")
-    package_reqs = [
-        req_id
-        for req_id in package_reqs
-        if isinstance(req_id, str) and REQ_RE.fullmatch(req_id)
-    ]
-    if len(package_reqs) != len(set(package_reqs)):
-        errors.append(f"{manifest_path}: requirements 중복")
-    for req_id in package_reqs:
-        item = requirements.get(req_id)
-        if item is None:
-            errors.append(f"{manifest_path}: 알 수 없는 요구사항 {req_id}")
-        elif item.get("ui") is not True:
-            errors.append(f"{manifest_path}: UI가 아닌 요구사항 포함 {req_id}")
-        else:
-            before = len(errors)
-            status = validate_requirement_state(req_id, item, errors)
-            if status != "approved" and len(errors) == before:
-                errors.append(f"{manifest_path}: {req_id}가 approved 상태가 아님")
-            elif status == "approved" and item.get("design_ref") != expected_id:
-                errors.append(
-                    f"{manifest_path}: {req_id}의 design_ref가 {expected_id}가 아님"
-                )
-
-    screens = manifest.get("screens")
-    if not isinstance(screens, list) or not screens:
-        errors.append(f"{manifest_path}: screens는 비어있지 않은 리스트여야 함")
-        screens = []
-    invalid_screens = [
-        screen_id
-        for screen_id in screens
-        if not isinstance(screen_id, str) or not SCR_RE.fullmatch(screen_id)
-    ]
-    if invalid_screens:
-        errors.append(f"{manifest_path}: 화면 ID 형식 위반 {invalid_screens}")
-    screens = [
-        screen_id
-        for screen_id in screens
-        if isinstance(screen_id, str) and SCR_RE.fullmatch(screen_id)
-    ]
-    if len(screens) != len(set(screens)):
-        errors.append(f"{manifest_path}: screens 중복")
-
-    spec = manifest.get("spec")
-    if not isinstance(spec, dict):
-        errors.append(f"{manifest_path}: spec object 누락")
-        return
-    if spec.get("status") != "approved":
-        errors.append(f"{manifest_path}: 1차 문서 승인이 완료되지 않음")
-    if not valid_timestamp(spec.get("approved_at")):
-        errors.append(f"{manifest_path}: spec.approved_at은 timezone 포함 ISO 8601이어야 함")
-
-    ia_path = package_dir / "spec" / "ia.md"
-    reject_symlinks(package_dir / "spec", "승인 snapshot", errors)
-    expected_ia = spec.get("ia_sha256")
-    if not ia_path.is_file():
-        errors.append(f"{manifest_path}: spec/ia.md 누락")
-    elif not isinstance(expected_ia, str) or not SHA_RE.fullmatch(expected_ia):
-        errors.append(f"{manifest_path}: spec.ia_sha256 형식 위반")
-    elif sha256_hex(ia_path) != expected_ia:
-        errors.append(f"{manifest_path}: spec/ia.md hash 불일치")
-
-    screen_hashes = spec.get("screen_sha256")
-    if not isinstance(screen_hashes, dict):
-        errors.append(f"{manifest_path}: spec.screen_sha256 object 누락")
-        screen_hashes = {}
-    if set(screen_hashes) != set(screens):
-        errors.append(f"{manifest_path}: screens와 screen_sha256 키가 일치하지 않음")
-
-    screen_dir = package_dir / "spec" / "screens"
-    actual_screen_ids = (
-        {path.stem for path in screen_dir.glob("*.md")} if screen_dir.is_dir() else set()
-    )
-    if actual_screen_ids != set(screens):
-        errors.append(f"{manifest_path}: snapshot 화면 파일과 screens가 일치하지 않음")
-
-    covered: set[str] = set()
-    for screen_id in screens:
-        screen_path = screen_dir / f"{screen_id}.md"
-        expected_hash = screen_hashes.get(screen_id)
-        if not screen_path.is_file():
+) -> int:
+    if not design_dir.is_dir():
+        errors.append(f"디자인 디렉터리 없음: {design_dir}")
+        return 0
+    local_file(design_dir / "ia.md", design_dir, errors)
+    expected = {
+        ref
+        for req_id in selected
+        for ref in screen_refs(requirements[req_id])
+    }
+    candidates = set((design_dir / "screens").rglob("*.md"))
+    candidates.update(design_dir / ref for ref in expected)
+    seen: dict[str, Path] = {}
+    checked = 0
+    for path in sorted(candidates):
+        ref = path.relative_to(design_dir).as_posix()
+        file_errors: list[str] = []
+        if not local_file(path, design_dir, file_errors):
+            if not partial or ref in expected:
+                errors.extend(file_errors)
             continue
-        if not isinstance(expected_hash, str) or not SHA_RE.fullmatch(expected_hash):
-            errors.append(f"{manifest_path}: {screen_id} hash 형식 위반")
-        elif sha256_hex(screen_path) != expected_hash:
-            errors.append(f"{manifest_path}: {screen_id} hash 불일치")
-        metadata = markdown_metadata(screen_path, errors)
-        if metadata.get("id") != screen_id:
-            errors.append(f"{screen_path}: 문서 정보의 화면 ID 불일치")
+        metadata = markdown_metadata(path, file_errors)
         linked = metadata.get("requirements")
-        if not isinstance(linked, list) or not linked:
-            errors.append(f"{screen_path}: requirements가 비어 있음")
+        linked_ids = (
+            {value for value in linked if isinstance(value, str)}
+            if isinstance(linked, list)
+            else set()
+        )
+        # 선택한 REQ를 역으로 참조하는 화면도 검사해 누락된 design_ref를 찾는다.
+        if partial and ref not in expected and not (selected & linked_ids):
             continue
-        invalid_linked = [
-            req_id
-            for req_id in linked
-            if not isinstance(req_id, str) or not REQ_RE.fullmatch(req_id)
-        ]
-        if invalid_linked:
-            errors.append(f"{screen_path}: requirements ID 형식 위반 {invalid_linked}")
-        covered.update(
-            req_id
-            for req_id in linked
-            if isinstance(req_id, str) and REQ_RE.fullmatch(req_id)
-        )
-    if covered != set(package_reqs):
-        missing = sorted(set(package_reqs) - covered)
-        extra = sorted(covered - set(package_reqs))
-        errors.append(
-            f"{manifest_path}: requirements는 화면 문서의 연결 REQ와 정확히 일치해야 함 "
-            f"(누락 {missing}, 초과 {extra})"
-        )
-
-    handoff = manifest.get("handoff")
-    if not isinstance(handoff, dict):
-        errors.append(f"{manifest_path}: handoff object 누락")
-        return
-    handoff_status = handoff.get("status")
-    if schema_version == 4 and handoff_status not in HANDOFF_STATUSES_V4:
-        errors.append(f"{manifest_path}: handoff.status 값 오류 — {handoff_status}")
-    validate_claude_design_metadata(
-        manifest,
-        manifest_path,
-        str(handoff_status),
-        errors,
-    )
-    validate_design_system_metadata(
-        manifest,
-        manifest_path,
-        handoff_status in {"approved", "not-applicable"},
-        errors,
-    )
-    if schema_version != 4 and handoff_status != "approved":
-        errors.append(f"{manifest_path}: 2차 handoff 승인이 완료되지 않음")
-    if schema_version == 4 and handoff_status == "pending":
-        errors.append(f"{manifest_path}: 구현 참조가 아직 확정되지 않음")
-    expected_tree = handoff.get("tree_sha256")
-    handoff_dir = package_dir / "handoff"
-    if schema_version == 4 and handoff_status == "not-applicable":
-        if handoff.get("approved_at") is not None or expected_tree is not None:
-            errors.append(
-                f"{manifest_path}: not-applicable handoff에는 승인 시각과 tree hash 금지"
-            )
-        if handoff_dir.exists():
-            errors.append(f"{manifest_path}: not-applicable handoff 디렉터리 금지")
-        return
-    if not valid_timestamp(handoff.get("approved_at")):
-        errors.append(f"{manifest_path}: handoff.approved_at은 timezone 포함 ISO 8601이어야 함")
-    reject_symlinks(handoff_dir, "handoff", errors)
-    if not handoff_dir.is_dir() or not any(path.is_file() for path in handoff_dir.rglob("*")):
-        errors.append(f"{manifest_path}: handoff 파일 누락")
-    elif not isinstance(expected_tree, str) or not SHA_RE.fullmatch(expected_tree):
-        errors.append(f"{manifest_path}: handoff.tree_sha256 형식 위반")
-    elif tree_sha256(handoff_dir) != expected_tree:
-        errors.append(f"{manifest_path}: handoff tree hash 불일치")
+        checked += 1
+        errors.extend(file_errors)
+        screen_id = metadata.get("id")
+        if not isinstance(screen_id, str) or not SCR_RE.fullmatch(screen_id):
+            errors.append(f"{path}: 화면 ID 형식 위반 — {screen_id}")
+        else:
+            if screen_id != path.stem:
+                errors.append(f"{path}: 문서 정보의 화면 ID와 파일명 불일치")
+            if screen_id in seen:
+                errors.append(f"{path}: 화면 ID 중복 — {screen_id} ({seen[screen_id]})")
+            seen[screen_id] = path
+        title = metadata.get("title")
+        if not isinstance(title, str) or not title.strip():
+            errors.append(f"{path}: 화면 이름 누락")
+        if not isinstance(linked, list) or not linked:
+            errors.append(f"{path}: 연결 REQ는 비어 있지 않은 목록이어야 함")
+            linked = []
+        if any(not isinstance(value, str) or not REQ_RE.fullmatch(value) for value in linked):
+            errors.append(f"{path}: 연결 REQ ID 형식 위반")
+        if len(linked) != len(linked_ids):
+            errors.append(f"{path}: 연결 REQ 중복 또는 잘못된 값")
+        for req_id in sorted(linked_ids):
+            item = requirements.get(req_id)
+            if item is None:
+                errors.append(f"{path}: 알 수 없는 요구사항 — {req_id}")
+            elif item.get("ui") is not True:
+                errors.append(f"{path}: UI가 아닌 요구사항 — {req_id}")
+            elif req_id in selected and effective_design_status(item) == "approved":
+                if ref not in screen_refs(item):
+                    errors.append(f"{path}: {req_id}의 design_ref에 화면 연결 누락")
+        for req_id in sorted(selected):
+            if ref in screen_refs(requirements[req_id]) and req_id not in linked_ids:
+                errors.append(f"{path}: 연결 REQ에 {req_id} 누락")
+    return checked
 
 
 def print_errors(errors: list[str]) -> int:
@@ -664,83 +310,58 @@ def print_errors(errors: list[str]) -> int:
     return 1
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("requirements_dir", type=Path)
     parser.add_argument("design_dir", type=Path)
     scope = parser.add_mutually_exclusive_group()
     scope.add_argument("--mode", choices=("inventory",))
-    scope.add_argument("--package")
     scope.add_argument("--requirement", action="append")
     scope.add_argument("--all", action="store_true")
-    args = parser.parse_args()
-    mode = "inventory" if args.mode == "inventory" else "all"
-    if args.package:
-        mode = "package"
-    elif args.requirement:
-        mode = "requirement"
-
+    args = parser.parse_args(argv)
+    mode = "requirement" if args.requirement else (args.mode or "all")
     errors: list[str] = []
     if not args.requirements_dir.is_dir():
-        print(f"ERROR: 요구사항 디렉터리 없음: {args.requirements_dir}")
-        return 1
+        return print_errors([f"요구사항 디렉터리 없음: {args.requirements_dir}"])
     requirements = load_requirements(args.requirements_dir, errors)
     if errors:
         return print_errors(errors)
-    ui_requirements = {
-        req_id: item for req_id, item in requirements.items() if item.get("ui") is True
-    }
-    if not ui_requirements and mode in {"inventory", "all"}:
+    if args.requirement:
+        selected = set(args.requirement)
+        for req_id in sorted(selected):
+            if req_id not in requirements:
+                errors.append(f"알 수 없는 요구사항: {req_id}")
+            elif requirements[req_id].get("ui") is not True:
+                errors.append(f"{req_id}: UI 요구사항이 아님")
+        if errors:
+            return print_errors(errors)
+    else:
+        selected = {
+            req_id for req_id, item in requirements.items() if item.get("ui") is True
+        }
+    for req_id in sorted(selected):
+        status = validate_requirement_state(req_id, requirements[req_id], errors)
+        if mode != "inventory" and status != "approved":
+            errors.append(f"{req_id}: 승인되지 않은 UI 요구사항 — {status}")
+    if not selected:
         print("UI 요구사항 없음 — 디자인 검증 생략")
         return 0
-
-    refs: set[str] = set()
-    checked_count = 0
-    if mode in {"inventory", "all"}:
-        checked_count = len(ui_requirements)
-        for req_id, item in ui_requirements.items():
-            status = validate_requirement_state(req_id, item, errors)
-            if status == "approved" and isinstance(item.get("design_ref"), str):
-                refs.add(item["design_ref"])
-            if mode == "all" and status != "approved":
-                errors.append(f"{req_id}: design_ref 누락 — 현재 상태 {status}")
-    elif mode == "package":
-        if not DSN_RE.fullmatch(str(args.package)):
-            errors.append(f"package ID 형식 위반: {args.package}")
-        else:
-            refs.add(args.package)
-    else:
-        requested = list(dict.fromkeys(args.requirement or []))
-        checked_count = len(requested)
-        for req_id in requested:
-            item = requirements.get(req_id)
-            if item is None:
-                errors.append(f"알 수 없는 요구사항: {req_id}")
-                continue
-            if item.get("ui") is not True:
-                errors.append(f"{req_id}: UI 요구사항이 아님")
-                continue
-            status = validate_requirement_state(req_id, item, errors)
-            if status != "approved":
-                errors.append(f"{req_id}: 승인되지 않아 구현할 수 없음 — {status}")
-                continue
-            if isinstance(item.get("design_ref"), str):
-                refs.add(item["design_ref"])
-
-    if refs and not args.design_dir.is_dir():
-        errors.append(f"디자인 디렉터리 없음: {args.design_dir}")
-    for design_ref in sorted(refs):
-        package_dir = args.design_dir / "packages" / design_ref
-        if not package_dir.is_dir():
-            errors.append(f"{design_ref}: 승인 패키지 없음 — {package_dir}")
-            continue
-        validate_package(package_dir, design_ref, requirements, errors)
-
+    screen_requirements = selected
+    if mode == "inventory":
+        # 미승인 항목은 위에서 상태만 검사한다. 설계 작성 전에도 목록을 확인할 수 있다.
+        screen_requirements = {
+            req_id
+            for req_id in selected
+            if effective_design_status(requirements[req_id]) == "approved"
+        }
+    checked = 0
+    if screen_requirements:
+        checked = validate_screens(
+            args.design_dir, requirements, screen_requirements, mode != "all", errors
+        )
     if errors:
         return print_errors(errors)
-    print(
-        f"UI 디자인 검증 통과: mode={mode}, UI REQ {checked_count}개, 패키지 {len(refs)}개"
-    )
+    print(f"UI 디자인 검증 통과: mode={mode}, UI REQ {len(selected)}개, 화면 {checked}개")
     return 0
 
 
