@@ -389,10 +389,10 @@ test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오�
 	await openTeamMaker(page);
 	await page.waitForLoadState('networkidle');
 
-	await expect(page.getByRole('heading', { name: '1. 참가자 입력 (0명)' })).toBeVisible();
-	await expect(page.getByRole('heading', { name: '2. 나누는 방식' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: '1 참가자 입력 (0명)' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: '2 나누는 방식' })).toBeVisible();
 	await expect(page.getByRole('button', { name: '팀 만들기' })).toBeDisabled();
-	await expect(page.getByRole('heading', { name: '3. 결과' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: '3 결과' })).toBeVisible();
 	await expect(page.locator('#split-value')).toHaveText('2');
 	await expect(page.locator('#copy-result-button')).toHaveCount(1);
 	await expect(page.locator('#copy-result-button')).toBeHidden();
@@ -446,11 +446,7 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 		await expect(faq.getByRole('heading', { level: 3 })).toBeVisible();
 		await expect(faq.locator('p')).toBeVisible();
 	}
-	await expect(
-		guide.getByText(
-			'Lake가 만들고 직접 관리합니다. 참가자 이름은 현재 브라우저에만 저장되며 서버로 전송되지 않습니다.'
-		)
-	).toBeVisible();
+	await expect(page.locator('footer').getByText('Lake가 만들고 직접 관리합니다.')).toBeVisible();
 	const collapsibleSections = guide.locator('.seo-details');
 	await expect(collapsibleSections).toHaveCount(4);
 	for (const section of await collapsibleSections.all()) {
@@ -477,7 +473,7 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	expect(mobileColumns).toHaveLength(1);
 	await expectNoHorizontalOverflow(page);
 
-	const privacyButton = guide.locator('.privacy-trigger');
+	const privacyButton = page.locator('footer .privacy-trigger');
 	await privacyButton.focus();
 	await page.keyboard.press('Enter');
 	const privacyDialog = page.getByRole('dialog', { name: '개인정보처리방침' });
@@ -514,7 +510,7 @@ test('참가자 편집, 두 나누기 방식, 다시 섞기와 새로고침 복�
 	await toggleParticipant(page, '나연', false);
 	await expect(page.getByText('아직 만든 팀이 없습니다', { exact: true })).toBeVisible();
 	await expect(
-		page.getByRole('heading', { name: '1. 참가자 입력 (5명 중 4명 참가)' })
+		page.getByRole('heading', { name: '1 참가자 입력 (5명 중 4명 참가)' })
 	).toBeVisible();
 
 	await page.reload();
@@ -531,7 +527,7 @@ test('쉼표로 참가자를 추가하고 삭제 뒤 빈자리를 순서대로 �
 	await openTeamMaker(page);
 	await page.getByRole('textbox', { name: '참가자 이름' }).fill('1, 2,3,4,5,6,7,8');
 	await page.getByRole('button', { name: '추가', exact: true }).click();
-	await expect(page.getByRole('heading', { name: '1. 참가자 입력 (8명)' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: '1 참가자 입력 (8명)' })).toBeVisible();
 	await page.getByRole('button', { name: '5 삭제', exact: true }).click();
 
 	const participantNames = page.locator('#participant-list .participant-name');

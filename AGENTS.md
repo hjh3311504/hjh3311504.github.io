@@ -42,8 +42,8 @@ SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
 
 ## 핵심 규칙
 
-1. 공개 route는 `/`와 `/team-maker`다. Team Maker route는 마지막 슬래시를 사용하지 않는다.
-2. Team Maker 정적 build 결과는 `build/team-maker.html`이다.
+1. 공개 route는 `/`, `/team-maker`, `/qr-code`다. 도구 route는 마지막 슬래시를 사용하지 않는다.
+2. 도구 정적 build 결과는 `build/team-maker.html`과 `build/qr-code.html`이다.
 3. Team Maker 정적 자산은 `/images/team-maker/` 경로를 사용한다.
 4. route와 build 형태를 바꾸면 관련 REQ, ADR, README와 검증 script를 함께 갱신한다.
 5. `docs/design/`에는 현재 `ia.md`, `screens/`, 최신 `handoff/`와 마지막 요청문 `claude-design-DSN.md`만 관리한다. 번호별 package·snapshot·manifest는 만들지 않는다. handoff는 새 전달본 전체로 교체하며 코드 수정마다 재생성하지 않는다.
