@@ -1,6 +1,7 @@
 <script>
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
+	import PrivacyDialog from '$lib/components/organisms/PrivacyDialog.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { DisclosureSection } from '$lib/components/ui';
 	import { siteBaseUrl } from '$lib/data/meta.js';
@@ -123,13 +124,13 @@
 	<meta property="og:image:type" content="image/png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
-	<meta property="og:image:alt" content="팀 메이커에서 참가자를 세 팀으로 나눈 모습" />
+	<meta property="og:image:alt" content="팀 메이커에서 가상 참가자 6명을 3팀으로 나눈 결과" />
 
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={seoTitle} />
 	<meta name="twitter:description" content={seoDescription} />
 	<meta name="twitter:image" content={teamMakerImageUrl} />
-	<meta name="twitter:image:alt" content="팀 메이커에서 참가자를 세 팀으로 나눈 모습" />
+	<meta name="twitter:image:alt" content="팀 메이커에서 가상 참가자 6명을 3팀으로 나눈 결과" />
 
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html structuredDataScript}
@@ -287,6 +288,9 @@
 					Lake가 만들고 직접 관리합니다. 참가자 이름은 현재 브라우저에만 저장되며 서버로 전송되지
 					않습니다.
 				</p>
+				<div class="trust-note">
+					<PrivacyDialog triggerSuffix="에서 저장 정보와 삭제 방법을 확인하세요." />
+				</div>
 			</div>
 		</main>
 		<BulkAddDialog />

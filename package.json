@@ -2,7 +2,9 @@
 	"name": "hjh3311504-github-io",
 	"version": "1.0.0",
 	"private": true,
+	"license": "MIT",
 	"scripts": {
+		"generate:assets": "node scripts/generate_site_assets.js",
 		"dev": "vite dev --host",
 		"build": "vite build",
 		"postbuild": "npm run optimize-images",
@@ -31,7 +33,6 @@
 		"globals": "^17.11.0",
 		"prettier": "^3.9.6",
 		"prettier-plugin-svelte": "^4.1.1",
-		"sass": "^1.103.1",
 		"sharp": "^0.35.4",
 		"sirv-cli": "^3.0.1",
 		"svelte": "^5.57.0",
@@ -40,8 +41,5 @@
 		"vite": "^8.2.2"
 	},
 	"type": "module",
-	"dependencies": {
-		"@fontsource/inter": "^4.5.15"
-	},
-	"homepage": "https://hjh3311504.github.com"
+	"homepage": "https://hjh3311504.github.io"
 }

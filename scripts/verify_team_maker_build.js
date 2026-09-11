@@ -1,9 +1,18 @@
 import { access, readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
+import sharp from 'sharp';
 import { verifyTeamMakerCss } from './verify_team_maker_css.js';
+import { publishedLicenses } from './licenses.js';
 
 const root = process.cwd();
 const requiredFiles = [
+	'build/favicon.svg',
+	'build/favicon.ico',
+	'build/images/site-open-graph-1200x630.png',
+	'build/licenses/SUIT-LICENSE.txt',
+	'build/licenses/SUITE-LICENSE.txt',
+	'build/licenses/site-LICENSE.txt',
+	'build/licenses/THIRD_PARTY_NOTICES.md',
 	'build/index.html',
 	'build/team-maker.html',
 	'build/images/team-maker/favicon.svg',
@@ -19,7 +28,17 @@ for (const file of requiredFiles) {
 	}
 }
 
-const removedOutputs = ['build/blog.html', 'build/blog', 'build/rss.xml', 'build/team-maker'];
+const removedOutputs = [
+	'build/blog.html',
+	'build/blog',
+	'build/rss.xml',
+	'build/team-maker',
+	'build/images/features',
+	'build/images/sample-image.png',
+	'build/images/site-preview.png',
+	'build/images/site-screenshot.png',
+	'build/favicons/safari-pinned-tab.svg'
+];
 for (const output of removedOutputs) {
 	try {
 		await access(path.join(root, output));
@@ -32,6 +51,69 @@ for (const output of removedOutputs) {
 const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
 const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
+// 광고 미실행 방침은 존재하지 않는 URL에 쓰이는 정적 404에도 적용합니다.
+for (const [name, document] of [
+	['홈', homeHtml],
+	['Team Maker', html],
+	['404', notFoundHtml]
+]) {
+	if (
+		/jsdelivr|fantinel|This template was built|Sample for the static template|site-preview\.png|site-screenshot\.png/i.test(
+			document
+		)
+	) {
+		throw new Error(`${name} HTML에 템플릿 또는 외부 글꼴의 흔적이 남아 있습니다.`);
+	}
+	if (!document.includes('favicon.svg')) throw new Error(`${name} HTML에 Lake favicon이 없습니다.`);
+	if (/<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle|googlesyndication)/i.test(document)) {
+		throw new Error(`${name} HTML에 광고 스크립트가 남아 있습니다.`);
+	}
+}
+for (const [name, document] of [
+	['site', homeHtml],
+	['team-maker', html]
+]) {
+	const imagePath = `/images/${name}-open-graph-1200x630.png`;
+	const metadata = await sharp(path.join(root, 'build', imagePath)).metadata();
+	if (metadata.format !== 'png' || metadata.width !== 1200 || metadata.height !== 630) {
+		throw new Error(`${name} 공유 이미지는 1200×630 PNG여야 합니다.`);
+	}
+	for (const attribute of ['property="og:image"', 'name="twitter:image"']) {
+		const tag = document.match(new RegExp(`<meta\\b[^>]*${attribute}[^>]*>`))?.[0];
+		if (!tag?.includes(`https://hjh3311504.github.io${imagePath}`)) {
+			throw new Error(`${name} 공유 이미지 연결이 올바르지 않습니다.`);
+		}
+	}
+	for (const attribute of ['property="og:image:alt"', 'name="twitter:image:alt"']) {
+		if (!document.includes(attribute)) throw new Error(`${name} 공유 이미지 설명이 없습니다.`);
+	}
+}
+const packageInfo = JSON.parse(await readFile('package.json', 'utf8'));
+const siteLicense = await readFile('LICENSE', 'utf8');
+if (
+	packageInfo.license !== 'MIT' ||
+	!siteLicense.startsWith('MIT License\n') ||
+	!siteLicense.includes('Copyright (c) 2026 Lake (hjh3311504)')
+) {
+	throw new Error('자체 코드의 MIT 라이선스와 패키지 고지가 일치하지 않습니다.');
+}
+for (const [source, name] of publishedLicenses) {
+	const original = await readFile(source, 'utf8');
+	const published = await readFile(`build/licenses/${name}`, 'utf8');
+	if (original !== published) throw new Error(`${name} 라이선스·출처 원문이 배포되지 않았습니다.`);
+}
+if (!/<meta\s+name="robots"\s+content="noindex"/.test(notFoundHtml)) {
+	throw new Error('404 HTML에 noindex가 없습니다.');
+}
+if (/<link\b[^>]*\brel="canonical"/.test(notFoundHtml)) {
+	throw new Error('404 HTML에 canonical을 지정하면 안 됩니다.');
+}
+if (!homeHtml.includes('id="privacy-dialog"') || !homeHtml.includes('개인정보처리방침')) {
+	throw new Error('홈의 개인정보처리방침 모달이나 여는 버튼이 없습니다.');
+}
+if (!html.includes('id="privacy-dialog"') || !html.includes('개인정보처리방침')) {
+	throw new Error('Team Maker의 개인정보처리방침 모달이나 여는 버튼이 없습니다.');
+}
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
 // 기능 파일, 화면 component와 보완 CSS도 빠짐없이 검사합니다.
@@ -117,9 +199,9 @@ if (!notFoundHtml.includes('data-ui-button')) {
 const uiDialogTags = [...html.matchAll(/<dialog\b[^>]*\bdata-ui-dialog\b[^>]*>/g)].map(
 	(match) => match[0]
 );
-if (uiDialogTags.length !== 7) {
+if (uiDialogTags.length !== 8) {
 	throw new Error(
-		`Team Maker의 공통 Dialog는 7개여야 합니다. 현재 ${uiDialogTags.length}개입니다.`
+		`Team Maker의 공통 Dialog는 8개여야 합니다. 현재 ${uiDialogTags.length}개입니다.`
 	);
 }
 if (

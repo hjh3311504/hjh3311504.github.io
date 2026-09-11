@@ -1,8 +1,0 @@
-@use 'sass:color';
-
-// Calculate brightness of a given color.
-@function brightness($color) {
-	@return (color.channel($color, 'red', $space: rgb) * 0.299) +
-		(color.channel($color, 'green', $space: rgb) * 0.587) +
-		(color.channel($color, 'blue', $space: rgb) * 0.114);
-}

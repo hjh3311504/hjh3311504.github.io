@@ -212,13 +212,7 @@
 		height: 100%;
 		min-height: 0;
 		padding: 18px 14px 14px;
-		font-family:
-			'SUIT',
-			Inter,
-			-apple-system,
-			BlinkMacSystemFont,
-			'Segoe UI',
-			sans-serif;
+		font-family: var(--site-body-font);
 		color: var(--shell-text-body);
 	}
 
@@ -240,7 +234,7 @@
 		padding: 0;
 		overflow: hidden;
 		color: var(--shell-text-heading);
-		font-family: 'SUITE', 'SUIT', sans-serif;
+		font-family: var(--site-title-font);
 		font-size: 18px;
 		font-weight: 700;
 		line-height: 1;

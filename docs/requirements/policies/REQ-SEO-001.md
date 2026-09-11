@@ -17,6 +17,15 @@
 
 Open Graph와 Twitter의 제목·설명은 검색 문구와 같은 값을 사용한다.
 
+## 공유 이미지
+
+- Team Maker 이미지 경로는 `/images/team-maker-open-graph-1200x630.png`이며 1200×630 PNG를 사용한다.
+- 제목은 `팀 메이커`, 소개는 `스포츠·게임·모임을 위한 무료 팀짜기·조짜기`다. 현재 화면의 파란색 결과 카드와 로컬 글꼴을 사용한다.
+- 가상 참가자 가람·나래, 다온·라온, 마루·하늘을 각각 1·2·3팀으로 표시한다. 실제 저장 데이터를 넣지 않는다.
+- OG와 Twitter의 대체 설명은 `팀 메이커에서 가상 참가자 6명을 3팀으로 나눈 결과`다. 구조화 데이터도 같은 이미지 URL과 크기를 사용한다.
+- 홈은 별도의 `/images/site-open-graph-1200x630.png`를 사용한다. 사이트 이름과 소개, Team Maker 진입점을 담는다. 크기는 1200×630이다.
+- 두 이미지는 `npm run generate:assets`로 재생성하고 build 검사로 크기·형식·참조를 확인한다.
+
 ## 구조화 데이터
 
 - 기존 `WebSite`, `WebPage`, `ImageObject`, `WebApplication` graph를 유지한다.
@@ -26,3 +35,7 @@ Open Graph와 Twitter의 제목·설명은 검색 문구와 같은 값을 사용
 - 실제 화면에서 제공하는 기능만 `featureList`에 넣는다.
 - `isAccessibleForFree: true`와 0원 `Offer`를 유지한다.
 - `FAQPage` 구조화 데이터는 추가하지 않는다.
+
+## 오류 화면
+
+404와 동적 오류 화면은 `noindex`를 제공한다. 정적 404에는 홈을 가리키는 canonical을 넣지 않는다. 정상 홈의 canonical과 Team Maker 검색 정보는 유지한다.

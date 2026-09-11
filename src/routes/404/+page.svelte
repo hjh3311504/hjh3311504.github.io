@@ -1,6 +1,5 @@
 <script>
-	import { page } from '$app/state';
 	import ErrorPage from '$lib/components/organisms/ErrorPage.svelte';
 </script>
 
-<ErrorPage status={page.status} />
+<ErrorPage status={404} />

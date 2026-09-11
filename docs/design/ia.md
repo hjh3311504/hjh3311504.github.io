@@ -4,7 +4,7 @@
 
 - surface: `web`
 - route: `/`, `/team-maker`
-- 관련 REQ: `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-019`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`, `REQ-WEB-026`
+- 관련 REQ: `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-019`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`, `REQ-WEB-026`, `REQ-WEB-027`
 
 ## 화면과 이동
 
@@ -24,6 +24,10 @@
 참가자 일괄 추가, 규칙 선택, 명단 저장·불러오기, 승패 기록, 참가자 통계, 팀별 추첨과 삭제 확인은 새 route가 아닌 팀 메이커 화면의 dialog로 처리한다.
 
 팀 메이커의 3단계 사용법, 활용 상황, 주요 기능과 FAQ는 같은 `/team-maker` 화면에서 도구 뒤에 이어진다. 각 안내 섹션은 처음에는 펼치고 제목을 눌러 따로 접거나 다시 펼칠 수 있다. 별도 검색용 route를 만들지 않으며 검색 사용자와 기존 사용자에게 같은 내용을 제공한다.
+
+개인정보처리방침은 홈 footer와 Team Maker 안내 마지막에서 여는 모달로 제공한다. 새 route를 추가하지 않는다.
+
+정적 404와 동적 오류 화면은 공통 내비게이션과 한국어 오류 안내를 사용한다. 홈 이동 버튼을 제공하고 검색 색인에서는 제외한다. 상품 화면이나 sitemap 항목을 새로 추가하지 않는다. 사이트 글꼴은 로컬 파일로 제공하며 favicon과 공유 이미지는 현재 Lake 사이트 디자인을 사용한다.
 
 ## 보류 항목
 

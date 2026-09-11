@@ -12,6 +12,8 @@
 
 ## 배포 뒤 등록 점검
 
+2026년 9월 11일 홈과 Team Maker OG 이미지를 현재 화면의 색상·글꼴로 갱신했다. Team Maker 이미지의 URL과 1200×630 크기는 유지한다. 가상 참가자 6명의 3팀 배정 결과를 사용하며 OG·Twitter 대체 설명도 맞춘다. 이미지와 favicon은 `npm run generate:assets`로 재생성한다. 글꼴은 외부 CDN 없이 사이트에서 직접 제공한다.
+
 - [x] Google Search Console에서 기존 소유 확인 상태를 점검한다.
 - [x] 네이버 서치어드바이저에서 기존 소유 확인 상태를 점검한다.
 - [ ] 두 서비스에 `https://hjh3311504.github.io/sitemap.xml`을 제출한다.

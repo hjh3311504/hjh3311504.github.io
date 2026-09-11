@@ -15,7 +15,7 @@
 - 프레임워크: SvelteKit 2, Svelte 5.
 - build: Vite 8과 `@sveltejs/adapter-static`.
 - 패키지: npm과 `package-lock.json`.
-- 스타일: 공통 화면은 SCSS, Team Maker는 전용 CSS를 사용한다.
+- 스타일: 공통 화면과 Team Maker 모두 CSS를 사용한다.
 - 단위 테스트: Node.js test runner — `npm test`.
 - 브라우저 테스트: Playwright — `npm run test:e2e:team-maker`.
 - 정적 검사: Svelte Check — `npm run check`.
@@ -29,7 +29,7 @@
 | `src/routes/`         | SvelteKit page와 endpoint           |
 | `src/lib/components/` | 공용 Svelte component               |
 | `src/lib/team-maker/` | Team Maker 화면 동작과 팀 배정 core |
-| `src/lib/scss/`       | 공통 style과 theme                  |
+| `src/lib/styles/`     | 공통 기본 style과 로컬 글꼴         |
 | `static/`             | build에 그대로 포함할 정적 파일     |
 | `tests/`              | 단위 테스트와 Playwright E2E 테스트 |
 | `docs/requirements/`  | 요구사항 SSOT                       |
@@ -51,6 +51,8 @@ SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
 7. 참가자 데이터는 브라우저 `localStorage`에만 저장한다. 서버, 로그인, 비밀 키를 추가하지 않는다.
 8. `build/`, `.svelte-kit/`, `node_modules/`, `output/`은 생성 결과다. source처럼 직접 관리하지 않는다.
 9. `AGENTS.md`와 `CLAUDE.md`는 같은 내용을 유지한다. 한 파일을 바꾸면 다른 파일도 함께 바꾼다.
+10. 글꼴은 `src/lib/styles/fonts.css`에서 로컬 파일로 제공한다. 외부 글꼴 CDN을 추가하지 않는다. Team Maker의 작은 글꼴 우선 로딩을 유지한다.
+11. favicon과 OG 이미지의 원본은 `static/favicon.svg`와 `scripts/generate_site_assets.js`다. 변경 뒤 `npm run generate:assets`로 공개 이미지를 재생성한다. 라이선스와 출처는 `THIRD_PARTY_NOTICES.md`를 따른다.
 
 ## Team Maker 기능 구조
 

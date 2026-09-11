@@ -1,14 +1,3 @@
-// {
-// 	"cssVariables.lookupFiles": ["**/*.css", "**/*.scss", "**/*.sass", "**/*.less"],
-// 	"editor.formatOnSave": true,
-// 	"prettier.singleQuote": true,
-// 	"frontMatter.preview.host": "http://localhost:5173/",
-// 	"frontMatter.framework.startCommand": "npm run dev",
-// 	"frontMatter.content.autoUpdateDate": false,
-// 	"frontMatter.content.fmHighlight": true,
-// 	"frontMatter.content.publicFolder": "static",
-// 	"files.autoSave": "afterDelay"
-// }
 {
   "typescript.suggest.paths": false,
   "javascript.suggest.paths": false,
@@ -24,9 +13,7 @@
   "npm-intellisense.scanDevDependencies": true,
 
   "html-css-class-completion.searchRemoteGlobPattern": "**/*.{svelte,html}",
-  "html-css-class-completion.enableScssFindUsage": true,
-
-  "[scss]": {
+  "[css]": {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,

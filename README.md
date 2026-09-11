@@ -2,6 +2,27 @@
 
 SvelteKit으로 만든 root 사이트와 Team Maker를 한 저장소에서 관리합니다.
 
+## 공통 화면과 정적 자산
+
+홈은 `src/routes/+page.svelte`, 공통 오류 안내는 `src/lib/components/organisms/ErrorPage.svelte`에서 관리합니다. 정적 404와 SvelteKit 오류 화면이 같은 안내를 사용합니다. 공통 기본 CSS와 글꼴 선언은 `src/lib/styles/`에 있습니다. 글꼴은 사이트 안의 SUIT·SUITE 파일로 제공하며 외부 CDN에 요청하지 않습니다. Team Maker는 작은 글꼴을 먼저 받고 이름을 입력할 때 전체 글꼴로 보완합니다.
+
+홈과 Team Maker 공유 이미지는 1200×630 PNG입니다. `scripts/generate_site_assets.js`의 문구와 카드 배치를 수정한 뒤 아래 명령을 실행하세요. 생성에는 Playwright Chromium이 필요합니다. `static/favicon.svg`를 수정해도 같은 명령으로 PNG·ICO를 다시 만듭니다.
+
+```shell
+npx playwright install chromium
+npm run generate:assets
+```
+
+홈 이미지는 `static/images/site-open-graph-1200x630.png`, Team Maker 이미지는 `static/images/team-maker-open-graph-1200x630.png`입니다. 공개 이미지 파일은 배포에 필요하므로 원본 코드와 함께 commit합니다. Team Maker 이미지에는 가상 참가자 6명만 사용합니다. 공유 서비스에 이전 이미지가 남으면 배포 후 해당 서비스에서 링크 미리보기 캐시를 갱신하세요.
+
+## 라이선스
+
+현재 자체 코드는 [MIT](./LICENSE)를 따릅니다. 저작권자는 Lake (hjh3311504)입니다. 템플릿 정리 후 홈·공통 UI를 원본과 대조한 [적용 근거](./docs/adr/2026-09-11-현재-자체-코드에-MIT-적용.md)를 기록했습니다.
+
+글꼴, 외부 아이콘, 기존 Team Maker 이미지와 보존용 설계 자료는 자체 코드의 MIT 범위와 구분합니다. SUIT·SUITE는 OFL 1.1, 홈 GitHub 아이콘은 Bootstrap Icons의 MIT 고지를 유지합니다. 기존 Team Maker 이미지와 보존용 설계 자료에는 이번 MIT를 적용하지 않습니다. 정확한 경로와 조건은 [출처·라이선스 목록](./THIRD_PARTY_NOTICES.md)을 확인하세요. build의 `/licenses/`에는 자체 MIT와 외부 글꼴·아이콘·실행 의존성의 원문을 함께 포함합니다.
+
+이 저장소가 시작된 Matheus Fantinel의 SvelteKit Static Blog Template과 과거 commit의 GPLv3 조건은 변경하지 않습니다.
+
 [Team Maker 바로 사용하기](https://hjh3311504.github.io/team-maker) — 이름을 입력하면 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 프로그램입니다. 같은 팀·다른 팀 규칙, 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.
 
 ## 로컬 실행
@@ -75,15 +96,15 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 
 `src/routes/team-maker/team-maker.css`는 CSS를 불러오는 진입점입니다. 실제 규칙은 `src/lib/team-maker/styles/`에 있습니다.
 
-| 파일 이름                 | 역할                            |
-| ------------------------- | ------------------------------- |
-| `base.css`, `common*.css` | 글꼴·테마·공통 요소·반응형 화면 |
-| `participants*.css`       | 참가자·규칙·팀 수 설정          |
-| `results*.css`            | 팀 결과와 누적 당첨자           |
-| `history*.css`            | 오늘 기록·전체 기록·통계        |
-| `dialogs*.css`            | dialog와 명단·확인창            |
-| `wheel*.css`              | 돌림판·축하 효과                |
-| `content.css`             | 검색 안내와 FAQ                 |
+| 파일 이름                 | 역할                       |
+| ------------------------- | -------------------------- |
+| `base.css`, `common*.css` | 테마·공통 요소·반응형 화면 |
+| `participants*.css`       | 참가자·규칙·팀 수 설정     |
+| `results*.css`            | 팀 결과와 누적 당첨자      |
+| `history*.css`            | 오늘 기록·전체 기록·통계   |
+| `dialogs*.css`            | dialog와 명단·확인창       |
+| `wheel*.css`              | 돌림판·축하 효과           |
+| `content.css`             | 검색 안내와 FAQ            |
 
 기존 적용 순서를 보존하기 위해 일부 기능은 보완 파일로 나누었습니다. 진입점의 import 순서를 임의로 바꾸지 마세요. 여러 기능에 걸친 공통 규칙은 `common*.css`에서 관리합니다. build 검증은 `src/lib/team-maker/` 아래의 JavaScript, Svelte와 CSS를 하위 폴더까지 모두 검사합니다.
 
@@ -165,6 +186,15 @@ GitHub 저장소의 **Settings → Pages → Build and deployment → Source**�
 
 ## 광고를 나중에 추가할 때
 
-실제 광고는 현재 범위에 없습니다. 광고를 추가하려면 디자인 승인을 다시 받은 뒤 `src/routes/team-maker/+page.svelte`의 `AD_SLOT_TOP` 주석 위치에 코드를 넣으세요.
+홈, Team Maker와 오류 화면에서 광고 스크립트를 실행하지 않습니다. 실제 광고는 현재 범위에 없습니다. 광고를 추가하려면 디자인 승인을 다시 받은 뒤 `src/routes/team-maker/+page.svelte`의 `AD_SLOT_TOP` 주석 위치에 코드를 넣으세요.
 
 사이트 등록은 이 GitHub Pages root 도메인을 기준으로 진행하세요. `ads.txt`가 필요하면 `static/ads.txt`에 추가하세요. 이 파일은 `/ads.txt`로 배포되므로 Team Maker만이 아니라 root 사이트 전체에 영향을 줍니다.
+
+## 애드센스 재심사 준비
+
+홈 footer와 Team Maker 안내 마지막은 개인정보처리방침 모달을 엽니다.
+
+- 개인정보 처리 방식을 바꾸면 홈의 방침과 적용일, `REQ-WEB-027`을 함께 갱신하세요. 광고 도입 전 실제 데이터 처리와 필요한 동의 절차도 반영하세요.
+- 소유권 확인에는 기존 `/ads.txt`를 사용할 수 있습니다. `pub-3102141816876720`이 실제 애드센스 계정의 게시자 ID인지 확인하세요. 파일 공개와 계정의 확인 완료는 별개입니다.
+- 정적 404는 `noindex`이며 홈 canonical을 포함하지 않습니다. GitHub Pages의 `/404` 직접 요청은 HTTP 200일 수 있으므로 배포 후 존재하지 않는 주소의 HTTP 404도 확인하세요.
+- 재심사 전에 배포본의 안내·개인정보처리방침 링크·오류 화면 광고 제외와 애드센스의 실제 반려 문구·소유권 확인 상태를 대조하세요. Google Search Console에서는 정상 URL의 수집 상태를 확인하세요.
