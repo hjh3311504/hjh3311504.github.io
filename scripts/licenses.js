@@ -9,7 +9,7 @@ export const publishedLicenses = [
 	['src/lib/team-maker/fonts/SUITE-LICENSE.txt', 'SUITE-LICENSE.txt'],
 	['node_modules/fontkit/README.md', 'fontkit-NOTICE.md'],
 	['node_modules/fontkit/package.json', 'fontkit-package.json'],
-	['node_modules/brotli/README.md', 'brotli-NOTICE.md'],
+	['node_modules/brotli/readme.md', 'brotli-NOTICE.md'],
 	['node_modules/brotli/package.json', 'brotli-package.json'],
 	['node_modules/dfa/README.md', 'dfa-NOTICE.md'],
 	['node_modules/dfa/package.json', 'dfa-package.json'],
