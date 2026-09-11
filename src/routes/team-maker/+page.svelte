@@ -1,7 +1,8 @@
 <script>
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
-	import PrivacyDialog from '$lib/components/organisms/PrivacyDialog.svelte';
+	import ToolPageHeader from '$lib/components/organisms/ToolPageHeader.svelte';
+	import ToolPageFooter from '$lib/components/organisms/ToolPageFooter.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { DisclosureSection } from '$lib/components/ui';
 	import { siteBaseUrl } from '$lib/data/meta.js';
@@ -139,12 +140,11 @@
 <SiteShell active="team-maker" variant="team-maker">
 	<div class="team-maker-page" data-assets-base={teamMakerAssetsBase} bind:this={pageRoot}>
 		<main class="app-shell">
-			<header class="page-header">
-				<h1>무료 팀짜기·조짜기</h1>
-				<p>
-					팀 메이커는 스포츠·게임·모임 참가자를 무작위로 고르게 나누는 온라인 팀 배정 도구입니다.
-				</p>
-			</header>
+			<ToolPageHeader
+				class="page-header"
+				title="무료 팀짜기·조짜기"
+				description="팀 메이커는 스포츠·게임·모임 참가자를 무작위로 고르게 나누는 온라인 팀 배정 도구입니다."
+			/>
 			<!-- AD_SLOT_TOP: 실제 광고는 별도 디자인 승인 뒤 이 위치에 추가합니다. -->
 
 			<div id="storage-alert" class="storage-alert" role="alert" hidden>
@@ -283,15 +283,8 @@
 						</article>
 					</div>
 				</DisclosureSection>
-
-				<p class="trust-note">
-					Lake가 만들고 직접 관리합니다. 참가자 이름은 현재 브라우저에만 저장되며 서버로 전송되지
-					않습니다.
-				</p>
-				<div class="trust-note">
-					<PrivacyDialog triggerSuffix="에서 저장 정보와 삭제 방법을 확인하세요." />
-				</div>
 			</div>
+			<ToolPageFooter />
 		</main>
 		<BulkAddDialog />
 

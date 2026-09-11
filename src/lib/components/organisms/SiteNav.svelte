@@ -180,6 +180,25 @@
 				<span>팀 메이커</span>
 				{#if active === 'team-maker'}<span class="current-badge">현재</span>{/if}
 			</Button>
+			<Button
+				class={active === 'qr-code' ? 'active' : ''}
+				href={resolve('/qr-code')}
+				variant="ghost"
+				aria-current={active === 'qr-code' ? 'page' : undefined}
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					aria-hidden="true"
+					><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h3v3h-6z" /></svg
+				>
+				<span>QR 코드</span>
+				{#if active === 'qr-code'}<span class="current-badge">현재</span>{/if}
+			</Button>
 		</div>
 	</nav>
 

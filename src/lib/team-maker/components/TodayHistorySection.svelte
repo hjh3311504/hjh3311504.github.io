@@ -12,7 +12,9 @@
 	<SectionHeader class="section-heading" actionsClass="heading-actions">
 		{#snippet heading()}
 			<div class="today-heading">
-				<h2 id="statistics-title">4. 오늘의 기록</h2>
+				<h2 id="statistics-title" class="ui-step-heading">
+					<span class="ui-step-number">4</span> <span>오늘의 기록</span>
+				</h2>
 				<p id="today-history-count">(0경기)</p>
 				<p class="won-legend">* 당첨자</p>
 			</div>

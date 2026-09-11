@@ -14,6 +14,7 @@ const requiredFiles = [
 	'build/licenses/site-LICENSE.txt',
 	'build/licenses/THIRD_PARTY_NOTICES.md',
 	'build/index.html',
+	'build/qr-code.html',
 	'build/team-maker.html',
 	'build/images/team-maker/favicon.svg',
 	'build/images/team-maker-open-graph-1200x630.png'
@@ -50,11 +51,13 @@ for (const output of removedOutputs) {
 
 const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
 const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
+const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 // 광고 미실행 방침은 존재하지 않는 URL에 쓰이는 정적 404에도 적용합니다.
 for (const [name, document] of [
 	['홈', homeHtml],
 	['Team Maker', html],
+	['QR 코드', qrHtml],
 	['404', notFoundHtml]
 ]) {
 	if (
@@ -168,7 +171,6 @@ const requiredHtml = [
 	`<meta name="twitter:title" content="${seoTitle}"`,
 	`<meta name="twitter:description" content="${seoDescription}"`,
 	'<meta name="twitter:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
-	'<h1>무료 팀짜기·조짜기</h1>',
 	'<h2 id="how-to-title">3단계로 팀 나누기</h2>',
 	'<h2 id="use-cases-title">이럴 때 사용하세요</h2>',
 	'<h2 id="features-title">팀 메이커의 주요 기능</h2>',
@@ -213,6 +215,9 @@ if (
 }
 
 const h1Count = html.match(/<h1\b/g)?.length ?? 0;
+if (!/<h1\b[^>]*>무료 팀짜기·조짜기<\/h1>/.test(html)) {
+	throw new Error('Team Maker의 h1 제목 문구가 올바르지 않습니다.');
+}
 if (h1Count !== 1) {
 	throw new Error(`team-maker HTML의 h1은 1개여야 합니다. 현재 ${h1Count}개입니다.`);
 }
@@ -279,9 +284,10 @@ const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
 	.filter((reference) => !/^(?:https?:|data:|#)/.test(reference));
 for (const reference of new Set(localReferences)) {
 	const cleanReference = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
-	const isTeamMakerPage = /^(?:\.\/|\/)?team-maker$/.test(cleanReference);
-	const absolutePath = isTeamMakerPage
-		? path.join(root, 'build/team-maker.html')
+	const routeName = cleanReference.replace(/^(?:\.\/|\/)/, '');
+	const isToolPage = ['team-maker', 'qr-code'].includes(routeName);
+	const absolutePath = isToolPage
+		? path.join(root, `build/${routeName}.html`)
 		: cleanReference.startsWith('/')
 			? path.join(root, 'build', cleanReference.slice(1))
 			: path.resolve(root, 'build', cleanReference);
@@ -346,3 +352,26 @@ await verifyTeamMakerCss(root);
 console.log(
 	`Team Maker SvelteKit build 검증 통과: 필수 파일 ${requiredFiles.length}개, local 자원 ${new Set(localReferences).size}개`
 );
+
+const sitemapHtml = await readFile('build/sitemap.xml', 'utf8');
+for (const marker of [
+	'QR 코드 만들기',
+	'id="qr-content"',
+	'id="qr-guide-title"',
+	'id="qr-faq-title"',
+	'id="privacy-dialog"',
+	'PNG 저장',
+	'SVG 저장',
+	'data-ui-section',
+	'data-ui-section-header',
+	'data-ui-empty-state',
+	'data-ui-disclosure',
+	'href="https://hjh3311504.github.io/qr-code"'
+]) {
+	if (!qrHtml.includes(marker))
+		throw new Error(`QR 코드 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/qr-code</loc>'))
+	throw new Error('sitemap에 QR 코드 주소가 없습니다.');
+if ((qrHtml.match(/<h1\b/g)?.length ?? 0) !== 1) throw new Error('QR 코드의 h1은 1개여야 합니다.');
+console.log('QR 코드 정적 페이지와 sitemap 검증 통과');

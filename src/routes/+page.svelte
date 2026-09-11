@@ -98,6 +98,31 @@
 							</span>
 						</Surface>
 					</li>
+					<li>
+						<Surface class="project-card" href={resolve('/qr-code')} variant="interactive">
+							<span class="project-icon qr-project-icon" aria-hidden="true"
+								><svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h3v3h-6z" /></svg
+								></span
+							>
+							<span class="project-copy"
+								><span class="project-title-row"
+									><span class="project-title">QR 코드 만들기</span><span class="project-kind"
+										>도구</span
+									></span
+								><span class="project-description"
+									>주소와 텍스트를 QR 코드로 만들고<br />저장·복사·인쇄하는 무료 도구입니다.</span
+								></span
+							>
+							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
+						</Surface>
+					</li>
 				</ul>
 			</Section>
 
@@ -288,6 +313,11 @@
 		background: #2a9d99;
 		border-radius: 12px;
 		box-shadow: 0 6px 16px -6px rgb(42 157 153 / 70%);
+	}
+
+	.qr-project-icon {
+		background: #6d4bc3;
+		box-shadow: 0 6px 16px -6px rgb(109 75 195 / 70%);
 	}
 
 	.project-copy {

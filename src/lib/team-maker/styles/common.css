@@ -62,26 +62,6 @@
 		padding: 40px 0 72px;
 	}
 
-	.page-header {
-		padding: 0 4px;
-	}
-
-	.page-header h1 {
-		margin: 0;
-		font-size: 28px;
-		font-weight: 800;
-		line-height: 1.25;
-		letter-spacing: -0.5px;
-	}
-
-	.page-header p {
-		margin: 8px 0 0;
-		color: var(--muted);
-		font-size: 14px;
-		line-height: 1.65;
-		word-break: keep-all;
-	}
-
 	.storage-alert {
 		display: flex;
 		gap: 12px;
@@ -168,19 +148,8 @@
 		font-family: 'SUITE', 'SUIT', sans-serif;
 	}
 
-	.section-heading h2,
-	.settings-card h2,
-	.result-heading h2,
-	.history-card h2 {
-		margin: 0;
-		font-size: 18px;
-		line-height: 1.4;
-		letter-spacing: -0.2px;
-	}
-
-	.settings-card h2 {
-		font-size: 18px;
-		line-height: normal;
+	.participant-card > .section-heading {
+		flex-wrap: wrap;
 	}
 
 	.count-label {

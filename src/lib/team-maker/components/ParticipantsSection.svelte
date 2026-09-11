@@ -4,7 +4,8 @@
 
 <Section variant="raised" class="card participant-card" aria-labelledby="participant-title">
 	<SectionHeader
-		title="1. 참가자 입력"
+		step={1}
+		title="참가자 입력"
 		titleId="participant-title"
 		class="section-heading"
 		actionsClass="heading-actions"

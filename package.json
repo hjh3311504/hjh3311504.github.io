@@ -9,7 +9,7 @@
 		"build": "vite build",
 		"postbuild": "npm run optimize-images",
 		"preview": "sirv build --dev",
-		"test": "npm run test:team-maker",
+		"test": "npm run test:team-maker && node --test tests/qr-code/*.test.js",
 		"test:team-maker": "node --test tests/team-maker/*.test.js",
 		"pretest:e2e:team-maker": "npm run build",
 		"test:e2e:team-maker": "env -u NO_COLOR playwright test",
@@ -31,6 +31,7 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.23.0",
 		"globals": "^17.11.0",
+		"jsqr": "^1.4.0",
 		"prettier": "^3.9.6",
 		"prettier-plugin-svelte": "^4.1.1",
 		"sharp": "^0.35.4",
@@ -38,8 +39,13 @@
 		"svelte": "^5.57.0",
 		"svelte-check": "^4.7.6",
 		"typescript": "^6.0.3",
-		"vite": "^8.2.2"
+		"vite": "^8.2.2",
+		"wawoff2": "^2.0.1"
 	},
 	"type": "module",
-	"homepage": "https://hjh3311504.github.io"
+	"homepage": "https://hjh3311504.github.io",
+	"dependencies": {
+		"fontkit": "^2.0.4",
+		"qrcode": "^1.5.4"
+	}
 }

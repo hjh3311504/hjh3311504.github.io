@@ -1,6 +1,7 @@
 <script>
 	let {
 		title = '',
+		step = undefined,
 		titleId = undefined,
 		level = 2,
 		description = undefined,
@@ -26,8 +27,15 @@
 		{@render heading()}
 	{:else}
 		<div class="ui-section-heading-copy">
-			<svelte:element this={headingTag} id={titleId}>
-				{title}{#if titleSuffix}{titleSuffixSeparator}{@render titleSuffix()}{/if}
+			<svelte:element this={headingTag} id={titleId} class:ui-step-heading={step !== undefined}>
+				{#if step !== undefined}
+					<span class="ui-step-number">{step}</span>
+					<span
+						>{title}{#if titleSuffix}{titleSuffixSeparator}{@render titleSuffix()}{/if}</span
+					>
+				{:else}
+					{title}{#if titleSuffix}{titleSuffixSeparator}{@render titleSuffix()}{/if}
+				{/if}
 			</svelte:element>
 			{#if description}<p>{description}</p>{/if}
 		</div>

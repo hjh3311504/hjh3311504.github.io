@@ -3,7 +3,7 @@
 </script>
 
 <Section variant="raised" class="card settings-card" aria-labelledby="settings-title">
-	<SectionHeader title="2. 나누는 방식" titleId="settings-title" />
+	<SectionHeader step={2} title="나누는 방식" titleId="settings-title" />
 	<div class="mode-switch" role="radiogroup" aria-label="나누는 방식">
 		<Button id="team-mode-button" variant="ghost" role="radio" aria-checked="true"
 			>팀 수로 나누기</Button

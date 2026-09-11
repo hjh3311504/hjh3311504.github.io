@@ -6,7 +6,8 @@
 
 <Section variant="raised" class="results-section" aria-labelledby="results-title">
 	<SectionHeader
-		title="3. 결과"
+		step={3}
+		title="결과"
 		titleId="results-title"
 		class="result-heading"
 		actionsClass="result-actions"
