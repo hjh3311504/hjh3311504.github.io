@@ -1,33 +1,36 @@
-import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import { writable } from 'svelte/store';
 
-function createTheme() {
-	let currentTheme = 'auto';
-	if (browser) {
-		try {
-			currentTheme = localStorage.getItem('juno.develog.theme') || currentTheme;
-		} catch {
-			// 저장 공간을 사용할 수 없어도 기본 테마를 유지한다.
-		}
+const themeKey = 'juno.develog.theme';
+const choices = new Set(['auto', 'light', 'dark']);
+
+/** @param {unknown} value */
+const normalize = (value) => (choices.has(value) ? value : 'auto');
+
+function readPreference() {
+	if (!browser) return 'auto';
+	try {
+		return normalize(localStorage.getItem(themeKey));
+	} catch {
+		return 'auto';
 	}
-
-	const { subscribe, set } = writable(currentTheme);
-
-	return {
-		subscribe,
-		/** @param {string} value */
-		set: (value) => {
-			if (browser) {
-				try {
-					localStorage.setItem('juno.develog.theme', value);
-				} catch {
-					// 저장에 실패해도 현재 화면의 테마는 바꾼다.
-				}
-				document.firstElementChild?.setAttribute('data-theme', value);
-			}
-			set(value);
-		}
-	};
 }
 
-export const theme = createTheme();
+const preference = writable(readPreference());
+
+export const theme = {
+	subscribe: preference.subscribe,
+	/** @param {string} value */
+	set(value) {
+		const selected = normalize(value);
+		if (browser) {
+			document.documentElement.dataset.theme = selected;
+			try {
+				localStorage.setItem(themeKey, selected);
+			} catch {
+				// 저장이 차단되어도 현재 화면에서는 선택을 적용한다.
+			}
+		}
+		preference.set(selected);
+	}
+};

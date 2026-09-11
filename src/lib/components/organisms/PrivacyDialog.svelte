@@ -70,14 +70,12 @@
 
 		<h3>사이트 접속과 외부 서비스</h3>
 		<p>
-			이 사이트는 GitHub Pages에서 제공합니다. 홈과 오류 화면의 글꼴은 jsDelivr에서 불러옵니다. 이
-			과정에서 각 서비스에 IP 주소와 브라우저 정보 등 접속 정보가 전달될 수 있습니다. 자세한 처리
-			내용은
+			이 사이트와 글꼴은 GitHub Pages에서 제공합니다. 사이트에 접속하면 GitHub에 IP 주소와 브라우저
+			정보 등 접속 정보가 전달될 수 있습니다. 자세한 처리 내용은
 			<a
 				href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
 				>GitHub 개인정보처리방침</a
-			>과 <a href="https://www.jsdelivr.com/terms/privacy-policy">jsDelivr 개인정보처리방침</a>에서
-			확인하세요.
+			>에서 확인하세요.
 		</p>
 
 		<h3>광고와 방문자 분석</h3>

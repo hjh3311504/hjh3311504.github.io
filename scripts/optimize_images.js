@@ -1,6 +1,7 @@
 import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
+import { publishLicenses } from './licenses.js';
 
 const imageRoot = path.resolve('build/images');
 
@@ -25,3 +26,5 @@ for (const sourcePath of images) {
 }
 
 console.log(`이미지 최적화 완료: 원본 ${images.length}개`);
+
+await publishLicenses();

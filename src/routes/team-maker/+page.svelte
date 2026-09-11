@@ -124,13 +124,13 @@
 	<meta property="og:image:type" content="image/png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
-	<meta property="og:image:alt" content="팀 메이커에서 참가자를 세 팀으로 나눈 모습" />
+	<meta property="og:image:alt" content="팀 메이커에서 가상 참가자 6명을 3팀으로 나눈 결과" />
 
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={seoTitle} />
 	<meta name="twitter:description" content={seoDescription} />
 	<meta name="twitter:image" content={teamMakerImageUrl} />
-	<meta name="twitter:image:alt" content="팀 메이커에서 참가자를 세 팀으로 나눈 모습" />
+	<meta name="twitter:image:alt" content="팀 메이커에서 가상 참가자 6명을 3팀으로 나눈 결과" />
 
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html structuredDataScript}
