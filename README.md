@@ -17,6 +17,8 @@ npm run generate:assets
 
 ## 라이선스
 
+배포 라이선스의 원본 경로는 설치된 파일명의 대소문자까지 일치시켜야 합니다. `npm test`의 라이선스 경로 검사가 macOS에서도 Linux 배포 환경의 대소문자 오류를 잡습니다.
+
 현재 자체 코드는 [MIT](./LICENSE)를 따릅니다. 저작권자는 Lake (hjh3311504)입니다. 템플릿 정리 후 홈·공통 UI를 원본과 대조한 [적용 근거](./docs/adr/2026-09-11-현재-자체-코드에-MIT-적용.md)를 기록했습니다.
 
 글꼴, 외부 아이콘, 기존 Team Maker 이미지와 보존용 설계 자료는 자체 코드의 MIT 범위와 구분합니다. SUIT·SUITE는 OFL 1.1, 홈 GitHub 아이콘은 Bootstrap Icons의 MIT 고지를 유지합니다. 기존 Team Maker 이미지와 보존용 설계 자료에는 이번 MIT를 적용하지 않습니다. 정확한 경로와 조건은 [출처·라이선스 목록](./THIRD_PARTY_NOTICES.md)을 확인하세요. build의 `/licenses/`에는 자체 MIT와 외부 글꼴·아이콘·실행 의존성의 원문을 함께 포함합니다.
