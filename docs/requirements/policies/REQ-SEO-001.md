@@ -26,3 +26,7 @@ Open Graph와 Twitter의 제목·설명은 검색 문구와 같은 값을 사용
 - 실제 화면에서 제공하는 기능만 `featureList`에 넣는다.
 - `isAccessibleForFree: true`와 0원 `Offer`를 유지한다.
 - `FAQPage` 구조화 데이터는 추가하지 않는다.
+
+## 오류 화면
+
+404와 동적 오류 화면은 `noindex`를 제공한다. 정적 404에는 홈을 가리키는 canonical을 넣지 않는다. 정상 홈의 canonical과 Team Maker 검색 정보는 유지한다.

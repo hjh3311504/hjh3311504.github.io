@@ -165,6 +165,15 @@ GitHub 저장소의 **Settings → Pages → Build and deployment → Source**�
 
 ## 광고를 나중에 추가할 때
 
-실제 광고는 현재 범위에 없습니다. 광고를 추가하려면 디자인 승인을 다시 받은 뒤 `src/routes/team-maker/+page.svelte`의 `AD_SLOT_TOP` 주석 위치에 코드를 넣으세요.
+홈, Team Maker와 오류 화면에서 광고 스크립트를 실행하지 않습니다. 실제 광고는 현재 범위에 없습니다. 광고를 추가하려면 디자인 승인을 다시 받은 뒤 `src/routes/team-maker/+page.svelte`의 `AD_SLOT_TOP` 주석 위치에 코드를 넣으세요.
 
 사이트 등록은 이 GitHub Pages root 도메인을 기준으로 진행하세요. `ads.txt`가 필요하면 `static/ads.txt`에 추가하세요. 이 파일은 `/ads.txt`로 배포되므로 Team Maker만이 아니라 root 사이트 전체에 영향을 줍니다.
+
+## 애드센스 재심사 준비
+
+홈 footer와 Team Maker 안내 마지막은 개인정보처리방침 모달을 엽니다.
+
+- 개인정보 처리 방식을 바꾸면 홈의 방침과 적용일, `REQ-WEB-027`을 함께 갱신하세요. 광고 도입 전 실제 데이터 처리와 필요한 동의 절차도 반영하세요.
+- 소유권 확인에는 기존 `/ads.txt`를 사용할 수 있습니다. `pub-3102141816876720`이 실제 애드센스 계정의 게시자 ID인지 확인하세요. 파일 공개와 계정의 확인 완료는 별개입니다.
+- 정적 404는 `noindex`이며 홈 canonical을 포함하지 않습니다. GitHub Pages의 `/404` 직접 요청은 HTTP 200일 수 있으므로 배포 후 존재하지 않는 주소의 HTTP 404도 확인하세요.
+- 재심사 전에 배포본의 안내·개인정보처리방침 링크·오류 화면 광고 제외와 애드센스의 실제 반려 문구·소유권 확인 상태를 대조하세요. Google Search Console에서는 정상 URL의 수집 상태를 확인하세요.

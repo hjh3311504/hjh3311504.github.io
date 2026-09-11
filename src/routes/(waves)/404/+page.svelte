@@ -3,6 +3,10 @@
 	import Error from '$lib/icons/error.svelte';
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex" />
+</svelte:head>
+
 <div class="error-page">
 	<div class="container">
 		<h1>Oh no! 404!</h1>

@@ -228,6 +228,26 @@ test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색
 		'https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml'
 	);
 	await expect(page.getByRole('link', { name: 'Blog', exact: true })).toHaveCount(0);
+	const homePrivacyButton = page.locator('footer .privacy-trigger');
+	await homePrivacyButton.click();
+	const homePrivacyDialog = page.getByRole('dialog', { name: '개인정보처리방침' });
+	await expect(homePrivacyDialog).toBeVisible();
+	await expect(homePrivacyDialog).toHaveCSS('overflow-y', 'hidden');
+	await expect(homePrivacyDialog.locator('.privacy-content')).toHaveCSS('overflow-y', 'auto');
+	const privacyPosition = await homePrivacyDialog.evaluate((dialog) => {
+		const bounds = dialog.getBoundingClientRect();
+		return {
+			dialogX: bounds.left + bounds.width / 2,
+			dialogY: bounds.top + bounds.height / 2,
+			viewportX: window.innerWidth / 2,
+			viewportY: window.innerHeight / 2
+		};
+	});
+	expect(Math.abs(privacyPosition.dialogX - privacyPosition.viewportX)).toBeLessThanOrEqual(1);
+	expect(Math.abs(privacyPosition.dialogY - privacyPosition.viewportY)).toBeLessThanOrEqual(1);
+	await homePrivacyDialog.getByRole('button', { name: '개인정보처리방침 닫기' }).click();
+	await expect(homePrivacyDialog).not.toBeVisible();
+	await expect(homePrivacyButton).toBeFocused();
 	await page.getByRole('button', { name: '테마 변경, 현재 자동' }).click();
 	await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'light');
 	await page.getByRole('button', { name: '테마 변경, 현재 밝게' }).click();
@@ -455,6 +475,19 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 			getComputedStyle(element).gridTemplateColumns.split(' ').filter(Boolean)
 		);
 	expect(mobileColumns).toHaveLength(1);
+	await expectNoHorizontalOverflow(page);
+
+	const privacyButton = guide.locator('.privacy-trigger');
+	await privacyButton.focus();
+	await page.keyboard.press('Enter');
+	const privacyDialog = page.getByRole('dialog', { name: '개인정보처리방침' });
+	await expect(privacyDialog).toBeVisible();
+	await expect(privacyDialog).toHaveCSS('overflow-y', 'hidden');
+	await expect(privacyDialog.locator('.privacy-content')).toHaveCSS('overflow-y', 'auto');
+	await expect(privacyDialog).toContainText('브라우저에 저장하는 정보');
+	await privacyDialog.getByRole('button', { name: '개인정보처리방침 닫기' }).click();
+	await expect(privacyDialog).not.toBeVisible();
+	await expect(privacyButton).toBeFocused();
 	await expectNoHorizontalOverflow(page);
 });
 

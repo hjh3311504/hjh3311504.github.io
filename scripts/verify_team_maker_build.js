@@ -32,6 +32,28 @@ for (const output of removedOutputs) {
 const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
 const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
+// 광고 미실행 방침은 존재하지 않는 URL에 쓰이는 정적 404에도 적용합니다.
+for (const [name, document] of [
+	['홈', homeHtml],
+	['Team Maker', html],
+	['404', notFoundHtml]
+]) {
+	if (/<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle|googlesyndication)/i.test(document)) {
+		throw new Error(`${name} HTML에 광고 스크립트가 남아 있습니다.`);
+	}
+}
+if (!/<meta\s+name="robots"\s+content="noindex"/.test(notFoundHtml)) {
+	throw new Error('404 HTML에 noindex가 없습니다.');
+}
+if (/<link\b[^>]*\brel="canonical"/.test(notFoundHtml)) {
+	throw new Error('404 HTML에 canonical을 지정하면 안 됩니다.');
+}
+if (!homeHtml.includes('id="privacy-dialog"') || !homeHtml.includes('개인정보처리방침')) {
+	throw new Error('홈의 개인정보처리방침 모달이나 여는 버튼이 없습니다.');
+}
+if (!html.includes('id="privacy-dialog"') || !html.includes('개인정보처리방침')) {
+	throw new Error('Team Maker의 개인정보처리방침 모달이나 여는 버튼이 없습니다.');
+}
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
 // 기능 파일, 화면 component와 보완 CSS도 빠짐없이 검사합니다.
@@ -117,9 +139,9 @@ if (!notFoundHtml.includes('data-ui-button')) {
 const uiDialogTags = [...html.matchAll(/<dialog\b[^>]*\bdata-ui-dialog\b[^>]*>/g)].map(
 	(match) => match[0]
 );
-if (uiDialogTags.length !== 7) {
+if (uiDialogTags.length !== 8) {
 	throw new Error(
-		`Team Maker의 공통 Dialog는 7개여야 합니다. 현재 ${uiDialogTags.length}개입니다.`
+		`Team Maker의 공통 Dialog는 8개여야 합니다. 현재 ${uiDialogTags.length}개입니다.`
 	);
 }
 if (

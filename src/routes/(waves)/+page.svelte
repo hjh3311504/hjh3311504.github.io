@@ -1,5 +1,6 @@
 <script>
 	import { resolve } from '$app/paths';
+	import PrivacyDialog from '$lib/components/organisms/PrivacyDialog.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
 </script>
@@ -79,7 +80,9 @@
 				</ul>
 			</Section>
 
-			<footer><span>© 2026 Lake's develog</span></footer>
+			<footer>
+				<PrivacyDialog triggerClass="privacy-footer-link" /><span>© 2026 Lake's develog</span>
+			</footer>
 		</Surface>
 	</div>
 </SiteShell>
@@ -313,7 +316,15 @@
 			0 8px 18px -8px rgb(0 117 222 / 50%);
 	}
 
+	:global(.privacy-footer-link) {
+		color: var(--shell-text-heading);
+	}
+
 	footer {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 12px;
 		padding: 16px clamp(24px, 4vw, 36px);
 		margin: auto calc(-1 * clamp(24px, 4vw, 36px)) calc(-1 * clamp(24px, 4vw, 36px));
 		font-size: 14px;

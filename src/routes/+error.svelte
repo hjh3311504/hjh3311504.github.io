@@ -6,6 +6,10 @@
 	import Error from '$lib/icons/error.svelte';
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex" />
+</svelte:head>
+
 <Header showBackground />
 
 <main>

@@ -1,6 +1,7 @@
 <script>
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
+	import PrivacyDialog from '$lib/components/organisms/PrivacyDialog.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { DisclosureSection } from '$lib/components/ui';
 	import { siteBaseUrl } from '$lib/data/meta.js';
@@ -287,6 +288,9 @@
 					Lake가 만들고 직접 관리합니다. 참가자 이름은 현재 브라우저에만 저장되며 서버로 전송되지
 					않습니다.
 				</p>
+				<div class="trust-note">
+					<PrivacyDialog triggerSuffix="에서 저장 정보와 삭제 방법을 확인하세요." />
+				</div>
 			</div>
 		</main>
 		<BulkAddDialog />

@@ -13,7 +13,9 @@
 </script>
 
 <svelte:head>
-	<link rel="canonical" href={siteBaseUrl} />
+	{#if usesSiteShell}
+		<link rel="canonical" href={siteBaseUrl} />
+	{/if}
 	<meta name="keywords" content={keywords.join(', ')} />
 
 	<meta name="description" content={description} />

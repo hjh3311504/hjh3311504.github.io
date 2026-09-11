@@ -3,6 +3,7 @@
 
 	let {
 		id,
+		element = $bindable(),
 		title = '',
 		titleId,
 		description = undefined,
@@ -10,6 +11,7 @@
 		describedBy = descriptionId,
 		showClose = true,
 		closeLabel = '닫기',
+		closeAction = undefined,
 		class: className = '',
 		actionsClass = '',
 		'aria-labelledby': ariaLabelledBy = undefined,
@@ -25,6 +27,7 @@
 </script>
 
 <dialog
+	bind:this={element}
 	{...restProps}
 	{id}
 	class={['ui-dialog', className].filter(Boolean).join(' ')}
@@ -49,7 +52,12 @@
 				<div class:dialog-heading-actions={Boolean(headerActions)} class="ui-dialog-header-actions">
 					{#if headerActions}{@render headerActions()}{/if}
 					{#if showClose}
-						<IconButton class="dialog-close" label={closeLabel} data-close-dialog>
+						<IconButton
+							class="dialog-close"
+							label={closeLabel}
+							onclick={closeAction}
+							data-close-dialog
+						>
 							<svg
 								width="15"
 								height="15"
