@@ -199,6 +199,24 @@
 				<span>QR 코드</span>
 				{#if active === 'qr-code'}<span class="current-badge">현재</span>{/if}
 			</Button>
+			<Button
+				class={active === 'marble-race' ? 'active' : ''}
+				href={resolve('/marble-race')}
+				variant="ghost"
+				aria-current={active === 'marble-race' ? 'page' : undefined}
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					aria-hidden="true"><circle cx="12" cy="8" r="5" /><path d="M4 19h6m4 0h6M8 7l2-2" /></svg
+				>
+				<span>구슬 레이스</span>
+				{#if active === 'marble-race'}<span class="current-badge">현재</span>{/if}
+			</Button>
 		</div>
 	</nav>
 

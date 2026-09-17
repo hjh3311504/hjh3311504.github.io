@@ -123,6 +123,32 @@
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
 						</Surface>
 					</li>
+					<li>
+						<Surface class="project-card" href={resolve('/marble-race')} variant="interactive">
+							<span class="project-icon" aria-hidden="true"
+								><svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									><circle cx="12" cy="8" r="5" /><path d="M4 19h6m4 0h6M8 7l2-2" /></svg
+								></span
+							>
+							<span class="project-copy"
+								><span class="project-title-row"
+									><span class="project-title">톡톡 구슬 레이스</span><span class="project-kind"
+										>도구</span
+									></span
+								><span class="project-description"
+									>14가지 블록을 깨며 내려가는 구슬 경기.<br />소리와 함께 즐기는 무료 ASMR
+									추첨입니다.</span
+								></span
+							>
+							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
+						</Surface>
+					</li>
 				</ul>
 			</Section>
 

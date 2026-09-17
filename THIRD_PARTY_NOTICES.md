@@ -60,3 +60,11 @@ QR 생성에는 [qrcode](https://github.com/soldair/node-qrcode)와 브라우저
 글자 윤곽선은 [fontkit](https://github.com/foliojs/fontkit)의 MIT 코드로 만듭니다. 브라우저에 함께 들어가는 실행 의존성의 원문을 `scripts/licenses.js`에서 배포합니다. fontkit·brotli·dfa는 설치 패키지와 공식 저장소에 독립된 LICENSE 파일이 없으므로 MIT 표시가 있는 README와 저자·버전을 포함한 package.json 원문을 그대로 배포합니다. 원문에 없는 저작권 문구는 만들지 않습니다. 나머지 패키지는 설치된 LICENSE 원문을 배포합니다.
 
 제목은 기존 SUIT 전체 글꼴의 굵기 700을 사용합니다. `wawoff2`는 개발·build 단계에서 WOFF2 압축을 풀 때만 사용합니다. 글꼴 내용과 이름은 변경하지 않습니다. 생성되는 `.svelte-kit/qr-font/SUIT-Variable.ttf`와 build의 대응 글꼴 파일에도 기존 SUIT OFL 고지를 적용합니다. SVG는 글꼴 파일을 포함하지 않고 사용자가 입력한 제목의 도형만 담습니다.
+
+## 구슬 레이스 음원
+
+`static/audio/marble-race/`의 음원 파일은 프로젝트 MIT 라이선스에 포함하지 않는다. Pixabay 출처는 Pixabay Content License를 따른다.
+
+Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [구슬 레이스 음원 출처](docs/marble-audio-sources.md)에 기록한다. 정적 음원 폴더의 선택 JSON은 파일과 출처·라이선스·해시 정보를 제공한다.
+
+버터는 기존 왁뿌볼 파일, 젤리 연못은 기존 물풍선 파일을 재사용한다. 팡파레는 [Tada Fanfare A — plasterbrain / Freesound Community](https://pixabay.com/sound-effects/tada-fanfare-a-6313/)다.

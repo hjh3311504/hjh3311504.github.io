@@ -69,3 +69,4 @@ jobs:
           curl --fail --silent --show-error --retry 5 --retry-delay 5 "$ROOT_URL" > /dev/null
           test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/team-maker")" = "200"
           test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/qr-code")" = "200"
+          test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/marble-race")" = "200"
