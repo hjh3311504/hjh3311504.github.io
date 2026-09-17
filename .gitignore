@@ -12,3 +12,7 @@ vite.config.ts.timestamp-*
 /output/playwright/
 /.playwright-cli/
 __pycache__/
+
+# 로컬 음원 제작·검토 자료
+/.context/
+/output/audio-review*/

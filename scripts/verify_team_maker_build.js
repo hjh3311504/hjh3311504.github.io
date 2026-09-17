@@ -15,6 +15,7 @@ const requiredFiles = [
 	'build/licenses/THIRD_PARTY_NOTICES.md',
 	'build/index.html',
 	'build/qr-code.html',
+	'build/marble-race.html',
 	'build/team-maker.html',
 	'build/images/team-maker/favicon.svg',
 	'build/images/team-maker-open-graph-1200x630.png'
@@ -52,12 +53,14 @@ for (const output of removedOutputs) {
 const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
 const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
+const marbleHtml = await readFile(path.join(root, 'build/marble-race.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 // 광고 미실행 방침은 존재하지 않는 URL에 쓰이는 정적 404에도 적용합니다.
 for (const [name, document] of [
 	['홈', homeHtml],
 	['Team Maker', html],
 	['QR 코드', qrHtml],
+	['구슬 레이스', marbleHtml],
 	['404', notFoundHtml]
 ]) {
 	if (
@@ -285,7 +288,7 @@ const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
 for (const reference of new Set(localReferences)) {
 	const cleanReference = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
 	const routeName = cleanReference.replace(/^(?:\.\/|\/)/, '');
-	const isToolPage = ['team-maker', 'qr-code'].includes(routeName);
+	const isToolPage = ['team-maker', 'qr-code', 'marble-race'].includes(routeName);
 	const absolutePath = isToolPage
 		? path.join(root, `build/${routeName}.html`)
 		: cleanReference.startsWith('/')
@@ -375,3 +378,26 @@ if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/qr-code</loc>'))
 	throw new Error('sitemap에 QR 코드 주소가 없습니다.');
 if ((qrHtml.match(/<h1\b/g)?.length ?? 0) !== 1) throw new Error('QR 코드의 h1은 1개여야 합니다.');
 console.log('QR 코드 정적 페이지와 sitemap 검증 통과');
+
+for (const marker of [
+	'톡톡 구슬 레이스',
+	'id="race-names"',
+	'id="block-library-title"',
+	'첫 번째',
+	'마지막',
+	'여러 명',
+	'id="privacy-dialog"',
+	'href="https://hjh3311504.github.io/marble-race"'
+]) {
+	if (!marbleHtml.includes(marker))
+		throw new Error(`구슬 레이스 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+if ((marbleHtml.match(/<h1\b/g)?.length ?? 0) !== 1)
+	throw new Error('구슬 레이스의 h1은 1개여야 합니다.');
+if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/marble-race</loc>'))
+	throw new Error('sitemap에 구슬 레이스 주소가 없습니다.');
+for (const document of [homeHtml, html, qrHtml]) {
+	if (!/href="(?:\.\/|\/)marble-race"/.test(document))
+		throw new Error('홈 또는 공통 메뉴에 구슬 레이스 링크가 없습니다.');
+}
+console.log('구슬 레이스 정적 페이지와 sitemap 검증 통과');

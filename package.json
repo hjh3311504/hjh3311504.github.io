@@ -9,7 +9,7 @@
 		"build": "vite build",
 		"postbuild": "npm run optimize-images",
 		"preview": "sirv build --dev",
-		"test": "npm run test:team-maker && node --test tests/qr-code/*.test.js",
+		"test": "npm run test:team-maker && node --test tests/qr-code/*.test.js && node --test tests/marble-race/*.test.js",
 		"test:team-maker": "node --test tests/team-maker/*.test.js",
 		"pretest:e2e:team-maker": "npm run build",
 		"test:e2e:team-maker": "env -u NO_COLOR playwright test",
@@ -18,7 +18,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"optimize-images": "node scripts/optimize_images.js"
+		"optimize-images": "node scripts/optimize_images.js",
+		"test:marble-race": "node --test tests/marble-race/*.test.js"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
