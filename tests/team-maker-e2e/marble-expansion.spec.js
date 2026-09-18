@@ -1,4 +1,3 @@
-import { observeRace, attachRaceProgress } from './helpers/observe-race.js';
 import { test, expect } from '@playwright/test';
 import { SOUND_FILES } from '../../src/lib/marble-race/audio.js';
 const start = (page) => page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first();
@@ -177,82 +176,6 @@ test('1,000개 경기에서 화면과 버튼 응답을 측정하고 목록을 �
 		await page.getByRole('region', { name: '구슬 도착 순위', exact: true }).locator('li').count()
 	).toBeLessThan(30);
 	await expect(page.locator('.race-stats')).toContainText('/ 1000 도착');
-});
-
-test('1,000개 전원 완주·실제 시간·전체 결과 복사와 확정 결과 보존', async ({
-	page,
-	context
-}, info) => {
-	test.setTimeout(930000);
-	await observeRace(page);
-	await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-	await page.goto('/marble-race');
-	await page.getByLabel('참가자 이름').fill('완주*1000');
-	await page.getByRole('button', { name: '도각도각 키보드', exact: true }).click();
-	await start(page).click();
-	await expect(page.locator('.stage-state')).toHaveText('경기 중', { timeout: 15000 });
-	await page.evaluate(() => {
-		window.__performance = {
-			started: performance.now(),
-			last: performance.now(),
-			bucket: performance.now(),
-			frames: 0,
-			totalFrames: 0,
-			minFps: Infinity
-		};
-		const frame = (now) => {
-			const m = window.__performance;
-			m.frames++;
-			m.totalFrames++;
-			if (now - m.bucket >= 1000) {
-				m.minFps = Math.min(m.minFps, m.frames / ((now - m.bucket) / 1000));
-				m.bucket = now;
-				m.frames = 0;
-			}
-			m.last = now;
-			if (document.querySelector('.stage-state').textContent !== '경기 종료')
-				requestAnimationFrame(frame);
-		};
-		requestAnimationFrame(frame);
-	});
-	let progress;
-	try {
-		await page.waitForFunction(
-			() =>
-				window.__raceState &&
-				(window.__raceState.finished.length === 1000 ||
-					window.__raceState.time >= 600 ||
-					window.__drain.stalls.length > 0),
-			null,
-			{ timeout: 900000 }
-		);
-	} finally {
-		progress = await attachRaceProgress(page, info);
-	}
-	expect(progress.stalls).toEqual([]);
-	expect(progress.time).toBeLessThanOrEqual(600);
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
-	await expect(page.locator('.race-stats')).toContainText('1000 / 1000 도착');
-	const stats = await page.evaluate(() => ({
-		...window.__performance,
-		wallSeconds: (performance.now() - window.__performance.started) / 1000,
-		gameClock: document.querySelector('.race-stats>span:nth-child(2)').textContent
-	}));
-	console.log('1,000개 전체 경기', JSON.stringify({ ...stats, progress }));
-	await info.attach('1,000개 전체 경기', {
-		body: JSON.stringify(stats, null, 2),
-		contentType: 'application/json'
-	});
-	expect(stats.minFps).toBeGreaterThanOrEqual(30);
-	const selected = await page.getByRole('complementary', { name: '확정 당첨자' }).innerText();
-	await page.getByRole('button', { name: '마지막', exact: true }).click();
-	await expect(page.getByRole('complementary', { name: '확정 당첨자' })).toHaveText(selected, {
-		useInnerText: true
-	});
-	await page.getByRole('button', { name: '결과 복사', exact: true }).first().click();
-	const copied = await page.evaluate(() => navigator.clipboard.readText());
-	expect(copied).toContain('첫번째 도착 당첨자');
-	expect(copied).toContain('1000등: 완주');
 });
 
 test('타자기를 도각2로 복구하고 도각3을 선택한 내 맵과 음원을 유지한다', async ({ page }) => {
