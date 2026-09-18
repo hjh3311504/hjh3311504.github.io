@@ -273,7 +273,8 @@ test('도착은 중앙 통로 안의 아래 방향 교차만 인정하고 중복
 	);
 	stepRace(race);
 	assert.equal(race.finished.length, 1);
-	assert.deepEqual(winners(race, 'last'), []);
+	assert.equal(winners(race, 'last')[0].id, 1);
+	assert.equal(race.marbles[1].finished, false);
 	Object.assign(race.marbles[1], { x: 360, y: race.layout.finish.y - 2, vy: 400 });
 	stepRace(race);
 	assert.deepEqual(

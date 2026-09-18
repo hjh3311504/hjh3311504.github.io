@@ -225,7 +225,7 @@ test('종료 뒤 기본·커스텀 맵 변경은 결과와 카메라를 초기�
 		await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 		await expect(page.locator('.winner-panel')).toHaveCount(0);
 		await expect(page.locator('.stage-title strong')).toHaveText(
-			action === '수정' ? '수정한 맵' : '톡톡 나무공방'
+			action === '수정' ? '수정한 맵' : '도각도각 키보드'
 		);
 	}
 });

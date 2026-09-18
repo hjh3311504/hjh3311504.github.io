@@ -372,12 +372,13 @@ export const SAVED_MAPS = [
 }));
 
 export const MAPS = SAVED_MAPS;
+export const DEFAULT_MAP_ID = 'keyboard';
 
 export function resolveMapId(id, customMaps = []) {
 	const migrated =
 		{ workshop: 'keyboard', 'thock-collection': 'keyboard', toys: 'crunch', bounce: 'soft' }[id] ??
 		id;
-	return [...MAPS, ...customMaps].some((map) => map.id === migrated) ? migrated : 'crunch';
+	return [...MAPS, ...customMaps].some((map) => map.id === migrated) ? migrated : DEFAULT_MAP_ID;
 }
 
 export const MARBLE_COLORS = [

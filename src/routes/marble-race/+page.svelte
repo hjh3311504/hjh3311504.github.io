@@ -8,7 +8,13 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import Surface from '$lib/components/ui/Surface.svelte';
 	import Toast from '$lib/components/ui/Toast.svelte';
-	import { MAPS, resolveMap, resolveMapId, parseNames } from '$lib/marble-race/catalog.js';
+	import {
+		DEFAULT_MAP_ID,
+		MAPS,
+		resolveMap,
+		resolveMapId,
+		parseNames
+	} from '$lib/marble-race/catalog.js';
 	import { createRace, raceOrder, winners, butterHitCount } from '$lib/marble-race/physics.js';
 	import { FINALE_SPEED } from '$lib/marble-race/director.js';
 	import { createWorkerClient } from '$lib/marble-race/worker-client.js';
@@ -40,7 +46,7 @@
 	} from '$lib/marble-race/page-content.js';
 	import './marble-race.css';
 	let namesText = $state(DEFAULT_NAMES),
-		mapId = $state('crunch'),
+		mapId = $state(DEFAULT_MAP_ID),
 		mode = $state('first'),
 		rangeText = $state('1~3'),
 		nth = $state(1),
@@ -108,7 +114,7 @@
 		mode === 'first'
 			? '첫번째 도착'
 			: mode === 'last'
-				? '마지막 도착'
+				? '마지막 남은 구슬'
 				: mode === 'nth'
 					? `${nth}번째 도착`
 					: range.error
@@ -840,7 +846,10 @@
 								class="sound-toggle"
 								aria-pressed={soundEnabled}
 								onclick={toggleSound}
-								disabled={!ready}>{soundEnabled ? '♫ 소리 켜짐' : '♪ 소리 꺼짐'}</Button
+								disabled={!ready}
+								><span class="sound-toggle-icon">{soundEnabled ? '♫' : '♪'}</span>
+								<span class="sound-toggle-label">소리 {soundEnabled ? '켜짐' : '꺼짐'}</span
+								></Button
 							><label for="race-volume" class="sr-only">소리 크기</label><input
 								id="race-volume"
 								type="range"
