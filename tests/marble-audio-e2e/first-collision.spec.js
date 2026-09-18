@@ -131,8 +131,8 @@ for (const [server, port] of [
 				.click();
 			await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
 			for (const [type, name] of [
-				['clicky', /청축 키보드 소리/],
-				['typewriter', /옛날 타자기 소리/],
+				['clicky', /찰칵 키보드 소리/],
+				['thock2', /도각 키보드2 소리/],
 				['wrap', /뽁뽁이 소리/]
 			]) {
 				await clear();
@@ -145,7 +145,7 @@ for (const [server, port] of [
 			}
 			await start();
 			await verify('미리듣기 후 시작');
-			await page.getByRole('button', { name: '잠시 멈춤 Ⅱ', exact: true }).click();
+			await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 			await page.evaluate(async () => {
 				await window.__audioContext.suspend();
 				const original = window.__audioContext.resume.bind(window.__audioContext);

@@ -1,6 +1,7 @@
 import { BLOCKS } from './catalog.js';
 import { createTilePainter } from './tile-painter.js';
-import { WIDTH, blockAngle, gateOpen, arcStart } from './physics.js';
+import { drawSpecialBlock } from './special-painter.js';
+import { WIDTH, blockAngle, gateOpen, arcStart, tilesInView } from './physics.js';
 
 export function createRenderer(canvas) {
 	const ctx = canvas.getContext('2d');
@@ -43,12 +44,14 @@ export function createRenderer(canvas) {
 				race.time >= block.respawnAt - 0.2
 			) {
 				ctx.save();
+				ctx.translate(block.x, block.y);
+				ctx.rotate(blockAngle(block, race.time));
 				ctx.strokeStyle = BLOCKS[block.type].color;
 				ctx.globalAlpha = 0.35;
 				ctx.lineWidth = 1.5;
 				rounded(
-					block.x - block.w / 2,
-					block.y - (block.baseHeight ?? block.h) / 2,
+					-block.w / 2,
+					-(block.baseHeight ?? block.h) / 2,
 					block.w,
 					block.baseHeight ?? block.h,
 					block.cornerRadius ?? 3
@@ -80,7 +83,7 @@ export function createRenderer(canvas) {
 		ctx.rotate(blockAngle(block, race.time));
 		const pulse = Math.max(0, 1 - (race.time - block.flash) * 7);
 		if (type === 'gate' && gateOpen(block, race.time)) ctx.globalAlpha = 0.2;
-		else ctx.globalAlpha = ['gel', 'wind', 'bubble', 'pond'].includes(type) ? 0.7 : 1;
+		else ctx.globalAlpha = ['gel', 'wind', 'bubble'].includes(type) ? 0.7 : 1;
 		ctx.fillStyle = definition.color;
 		ctx.strokeStyle = definition.color;
 		ctx.lineWidth = 1.5;
@@ -89,6 +92,8 @@ export function createRenderer(canvas) {
 			ctx.shadowBlur = 12;
 			rounded(-w / 2, -h / 2, w, h, block.cornerRadius);
 			ctx.fill();
+		} else if (['butter', 'frost', 'pond'].includes(type)) {
+			drawSpecialBlock(ctx, block, race.time);
 		} else if (type === 'wall') {
 			// 칸막이의 둥근 끝과 유도벽의 각진 연결부를 충돌 모양 그대로 그린다.
 			rounded(-w / 2, -h / 2, w, h, block.cornerRadius ?? 0);
@@ -154,12 +159,7 @@ export function createRenderer(canvas) {
 			ctx.stroke();
 			ctx.strokeStyle = '#172a3b65';
 			ctx.lineWidth = 1.3;
-			if (type === 'butter') {
-				ctx.fillStyle = '#735221';
-				ctx.font = 'bold 18px SUIT, sans-serif';
-				ctx.textAlign = 'center';
-				ctx.fillText(`${(block.maxHp ?? 5) - block.hp}/${block.maxHp ?? 5}`, 0, 6);
-			} else if (type === 'wood') {
+			if (type === 'wood') {
 				line([
 					[-w / 2 + 8, -4],
 					[-8, -2],
@@ -204,7 +204,7 @@ export function createRenderer(canvas) {
 				ctx.fillStyle = '#775d2e80';
 				for (let i = 0; i < 18; i++)
 					ctx.fillRect(-w / 2 + 7 + ((i * 17) % (w - 12)), -8 + ((i * 7) % 17), 2, 2);
-			} else if (type === 'gel' || type === 'sticky' || type === 'pond') {
+			} else if (type === 'gel' || type === 'sticky') {
 				ctx.strokeStyle = '#ffffff9a';
 				for (let row = -1; row <= 1; row++) {
 					const points = [];
@@ -321,7 +321,7 @@ export function createRenderer(canvas) {
 		ctx.scale(scale, scale);
 		ctx.translate(0, -camera);
 		ctx.fillStyle = '#294051';
-		for (let y = Math.floor(camera / 32) * 32; y < camera + viewHeight; y += 32) {
+		for (let y = Math.floor(camera / 32) * 32; scale > 0.08 && y < camera + viewHeight; y += 32) {
 			for (let x = 24; x < WIDTH; x += 32) {
 				ctx.beginPath();
 				ctx.arc(x, y, 1, 0, Math.PI * 2);
@@ -343,6 +343,17 @@ export function createRenderer(canvas) {
 		ctx.fillStyle = '#8fa7b9';
 		ctx.fillText('출발', 28, 24);
 
+		if (race.preview) {
+			if (scale < 0.08) {
+				for (const zone of race.zones) {
+					ctx.fillStyle = BLOCKS[zone.type].color;
+					ctx.fillRect(12, zone.start, WIDTH - 24, zone.end - zone.start);
+				}
+			} else {
+				for (const block of tilesInView(race.layout, camera - 32, camera + viewHeight + 32))
+					drawBlock(block, race);
+			}
+		}
 		for (const block of race.blocks)
 			if (
 				block.id !== 'finale-bar' &&
@@ -453,6 +464,22 @@ export function createRenderer(canvas) {
 			ctx.arc(marble.x, marble.y, marble.r, 0, Math.PI * 2);
 			ctx.fill();
 			ctx.font = `800 ${Math.max(10, 8 / scale)}px SUIT, sans-serif`;
+			if (marble.held?.kind === 'frost') {
+				ctx.fillStyle = '#b2e9f780';
+				ctx.strokeStyle = '#e4faff';
+				ctx.lineWidth = 2;
+				ctx.beginPath();
+				for (let i = 0; i < 6; i++) {
+					const a = (i * Math.PI) / 3;
+					const x = marble.x + Math.cos(a) * (marble.r + 3);
+					const y = marble.y + Math.sin(a) * (marble.r + 3);
+					if (i === 0) ctx.moveTo(x, y);
+					else ctx.lineTo(x, y);
+				}
+				ctx.closePath();
+				ctx.fill();
+				ctx.stroke();
+			}
 			ctx.fillStyle = '#142736';
 			ctx.fillText(String(marble.id + 1), marble.x, marble.y + 4);
 			if (!overview || isFocus) {
@@ -480,18 +507,5 @@ export function createRenderer(canvas) {
 			}
 		}
 	}
-	function celebrate(race, reduced) {
-		if (reduced) return;
-		for (let i = 0; i < 50; i++)
-			particles.push({
-				x: 360,
-				y: race.layout.finish.y - 20,
-				vx: Math.cos(i * 2.4) * 180,
-				vy: -100 - (i % 7) * 30,
-				life: 0.9,
-				size: 3,
-				color: ['#ffc85b', '#76dbc0', '#eea19b'][i % 3]
-			});
-	}
-	return { render, addEvents, celebrate };
+	return { render, addEvents };
 }

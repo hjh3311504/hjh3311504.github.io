@@ -48,8 +48,13 @@ export function butterHitCount(participantCount) {
 	return Math.max(1, Math.round(5 * Math.sqrt(participantCount / 30)));
 }
 
-export function createLayout(mapId, participantCount = 2) {
+export function tileRowsForCount(participantCount) {
+	return Math.max(4, Math.round(TILE_ROWS * Math.sqrt(participantCount / 30)));
+}
+
+export function createLayout(mapId, participantCount = 30) {
 	const map = resolveMap(mapId);
+	const tileRows = tileRowsForCount(participantCount);
 	const zones = [],
 		connectors = [];
 	let y = Math.max(FIRST_LAYER_Y, 70 + (Math.ceil(participantCount / 26) - 1) * 40 + 90);
@@ -57,20 +62,23 @@ export function createLayout(mapId, participantCount = 2) {
 		const zone = {
 			id: `layer-${index}`,
 			type,
+			rows: tileRows,
 			y,
 			start: y - 16,
-			end: y + TILE_ROWS * TILE_PITCH - 16
+			end: y + tileRows * TILE_PITCH - 16
 		};
 		zones.push(zone);
-		y += TILE_ROWS * TILE_PITCH;
+		y += tileRows * TILE_PITCH;
 		if (index < map.layers.length - 1) {
 			connectors.push({
 				id: `connector-${connectors.length}`,
 				zoneId: zone.id,
 				start: y - 16,
 				end: y + CONNECTOR_HEIGHT - 16,
-				kind: ['scatter', 'butter', 'pond'][index],
-				pinStart: y - 16 + SPECIAL_HEIGHT
+				kind: ['frost', 'butter', 'pond'][index],
+				pinStart: y - 16 + PIN_SECTION_HEIGHT + 238,
+				pinRowGap: 50,
+				specialStart: y - 16 + PIN_SECTION_HEIGHT
 			});
 			y += CONNECTOR_HEIGHT;
 		}
@@ -85,6 +93,7 @@ export function createLayout(mapId, participantCount = 2) {
 	y = finalApproach.end;
 	return {
 		participantCount,
+		tileRows,
 		finalApproach,
 		zones,
 		connectors,
@@ -123,39 +132,52 @@ function addScatterPins(blocks, section) {
 	])
 		for (const x of xs)
 			blocks.push(
-				makeBlock('rubber', x, section.pinStart + offset, {
-					id: `${section.id}-pin-${row}-${x}`,
-					connectorId: section.id,
-					zoneId: section.id,
-					deviceId: `${section.id}-pins`,
-					soundType: 'rubber',
-					pin: true,
-					w: 32,
-					h: 32,
-					cornerRadius: 16,
-					restitution: 0.45,
-					friction: 0.02
-				})
-			);
-}
-export function createMap(mapId, random = randomGenerator(1), layout = createLayout(mapId)) {
-	const blocks = [];
-
-	for (const zone of layout.zones)
-		for (let row = 0; row < TILE_ROWS; row++)
-			for (let col = 0; col < 20; col++)
-				blocks.push(
-					makeBlock(zone.type, 37 + col * 34 + (row % 2 ? 8 : -8), zone.y + row * 34, {
-						id: `${zone.id}-${row}-${col}`,
-						zoneId: zone.id,
-						tile: true,
+				makeBlock(
+					'rubber',
+					x,
+					section.pinStart + (section.pinRowGap ? 58 + row * section.pinRowGap : offset),
+					{
+						id: `${section.id}-pin-${row}-${x}`,
+						connectorId: section.id,
+						zoneId: section.id,
+						deviceId: `${section.id}-pins`,
+						soundType: 'rubber',
+						pin: true,
 						w: 32,
 						h: 32,
-						cornerRadius: 10
-					})
-				);
+						cornerRadius: 16,
+						restitution: 0.45,
+						friction: 0.02
+					}
+				)
+			);
+}
+// 준비 화면은 전체 배치를 유지하되 현재 보이는 줄만 만든다.
+export function* tilesInView(layout, top = -Infinity, bottom = Infinity) {
+	for (const zone of layout.zones) {
+		const first = Math.max(0, Math.ceil((top - zone.y - 16) / TILE_PITCH));
+		const last = Math.min(zone.rows - 1, Math.floor((bottom - zone.y + 16) / TILE_PITCH));
+		for (let row = first; row <= last; row++)
+			for (let col = 0; col < 20; col++)
+				yield makeBlock(zone.type, 37 + col * 34 + (row % 2 ? 8 : -8), zone.y + row * 34, {
+					id: `${zone.id}-${row}-${col}`,
+					zoneId: zone.id,
+					tile: true,
+					w: 32,
+					h: 32,
+					cornerRadius: 10
+				});
+	}
+}
+export function createMap(
+	mapId,
+	random = randomGenerator(1),
+	layout = createLayout(mapId),
+	options = {}
+) {
+	const blocks = options.preview ? [] : [...tilesInView(layout)];
 	for (const connector of layout.connectors) {
-		const { id, start, kind } = connector;
+		const { id, specialStart: start, kind } = connector;
 		const common = { connectorId: id, zoneId: id, deviceId: id };
 		for (const side of [-1, 1])
 			blocks.push(
@@ -169,20 +191,41 @@ export function createMap(mapId, random = randomGenerator(1), layout = createLay
 					{ ...common, cornerRadius: 7, soundType: 'rubber', friction: 0 }
 				)
 			);
-		if (kind === 'butter') {
+		if (kind === 'frost') {
+			for (const [index, x, offset, direction] of [
+				[0, 130, 530, 1],
+				[1, 360, 530, 1],
+				[2, 590, 530, -1],
+				[3, 245, 750, 1],
+				[4, 475, 750, -1]
+			])
+				blocks.push(
+					makeBlock('frost', x, start + offset, {
+						...common,
+						id: `${id}-frost-${index}`,
+						deviceId: `${id}-frost-${index}`,
+						w: 160,
+						h: 28,
+						angle: (direction * Math.PI) / 6,
+						cornerRadius: 8,
+						special: true
+					})
+				);
+		} else if (kind === 'butter') {
 			for (const [row, xs] of [
 				[0, [116, 360, 604]],
 				[1, [238, 482]]
 			])
 				for (const x of xs)
 					blocks.push(
-						makeBlock('butter', x, start + 330 + row * 220, {
+						makeBlock('butter', x, start + 480 + row * 220, {
 							...common,
 							id: `${id}-butter-${row}-${x}`,
 							deviceId: `${id}-butter-${row}-${x}`,
 							w: 120,
 							h: 64,
 							baseHeight: 64,
+							angle: ((x > WIDTH / 2 ? -1 : 1) * Math.PI) / 6,
 							hp: butterHitCount(layout.participantCount),
 							maxHp: butterHitCount(layout.participantCount),
 							cornerRadius: 16,
@@ -190,18 +233,26 @@ export function createMap(mapId, random = randomGenerator(1), layout = createLay
 						})
 					);
 		} else if (kind === 'pond') {
-			const bypassLeft = random() < 0.5;
-			connector.bypass = bypassLeft ? { left: 12, right: 256 } : { left: 464, right: 708 };
-			blocks.push(
-				makeBlock('pond', bypassLeft ? 482 : 238, start + 480, {
-					...common,
-					id: `${id}-pond`,
-					w: 452,
-					h: 140,
-					cornerRadius: 0,
-					special: true
-				})
-			);
+			connector.bypasses = [
+				{ left: 164, right: 284 },
+				{ left: 436, right: 556 }
+			];
+			for (const [position, x] of [
+				['left', 88],
+				['center', 360],
+				['right', 632]
+			])
+				blocks.push(
+					makeBlock('pond', x, start + 630, {
+						...common,
+						id: `${id}-pond-${position}`,
+						deviceId: `${id}-pond-${position}`,
+						w: 152,
+						h: 140,
+						cornerRadius: 0,
+						special: true
+					})
+				);
 		}
 		addScatterPins(blocks, connector);
 	}
@@ -253,6 +304,7 @@ export function createMap(mapId, random = randomGenerator(1), layout = createLay
 				zoneId: 'finale',
 				soundType: 'rubber',
 				deviceId: 'finale-chute',
+				silent: true,
 				extendEnds: true,
 				friction: 0,
 				cornerRadius: 6
@@ -311,7 +363,7 @@ export function followedMarble(race, mode, focusId) {
 		alive.sort((a, b) => (mode === 'last' ? a.y - b.y : b.y - a.y) || a.id - b.id)[0]
 	);
 }
-export function* prepareRace(participants, mapId = 'crunch', seed = 1) {
+export function* prepareRace(participants, mapId = 'crunch', seed = 1, options = {}) {
 	const names = [];
 	if (Array.isArray(participants)) {
 		for (const name of participants) {
@@ -326,8 +378,8 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1) {
 			}
 	if (names.length < 2) throw new Error('구슬은2개 이상이어야 합니다.');
 	const random = randomGenerator(seed);
-	const layout = createLayout(mapId, names.length),
-		blocks = createMap(mapId, random, layout);
+	const layout = createLayout(mapId, options.layoutCount ?? names.length),
+		blocks = createMap(mapId, random, layout, options);
 	const positions = [];
 	const columns = Math.min(26, names.length);
 	for (let i = 0; i < names.length; i++) {
@@ -381,6 +433,7 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1) {
 		if (index % 256 === 0) yield { phase: 'marbles', count: index };
 	}
 	return {
+		preview: Boolean(options.preview),
 		marbles,
 		blocks,
 		zones: layout.zones,
@@ -394,8 +447,8 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1) {
 	};
 }
 
-export function createRace(names, mapId = 'crunch', seed = 1) {
-	const iterator = prepareRace(names, mapId, seed);
+export function createRace(names, mapId = 'crunch', seed = 1, options = {}) {
+	const iterator = prepareRace(names, mapId, seed, options);
 	let result = iterator.next();
 	while (!result.done) result = iterator.next();
 	return result.value;
@@ -500,6 +553,7 @@ function emit(race, block, marble, broken = false, impact = 100, contact = null)
 	race.events.push({
 		type: block.type,
 		soundType: block.soundType ?? block.type,
+		silent: block.silent ?? false,
 		deviceId: block.deviceId ?? block.id,
 		impact,
 		zoneId: block.zoneId,
@@ -579,17 +633,47 @@ export function hitBlock(race, marble, block, hit, dt = STEP) {
 		}
 		return;
 	}
+	if (block.type === 'frost') {
+		const impact = Math.max(0, -(marble.vx * hit.nx + marble.vy * hit.ny));
+		// 풀린 뒤에도 표면 충돌을 유지한다. 접촉이 이어지는 동안에는 다시 얼리지 않는다.
+		bounce(marble, hit, 0, 0.01);
+		if (dt <= 0 || marble.specialContacts.has(block.id)) return;
+		// 이미 얼어붙은 구슬과 겹친 자리에는 고정하지 않고 구슬 충돌로 먼저 분리한다.
+		if (
+			race.marbles.some(
+				(other) =>
+					other !== marble &&
+					!other.finished &&
+					other.held &&
+					Math.hypot(other.x - marble.x, other.y - marble.y) < other.r + marble.r
+			)
+		)
+			return;
+		marble.specialContacts.add(block.id);
+		marble.held = {
+			kind: 'frost',
+			until: race.time + 1,
+			blockId: block.id,
+			x: marble.x,
+			y: marble.y
+		};
+		marble.vx = marble.vy = 0;
+		emit(race, block, marble, false, impact);
+		return;
+	}
 	if (block.type === 'butter') {
 		const impact = Math.max(0, -(marble.vx * hit.nx + marble.vy * hit.ny));
 		const freshContact = !marble.specialContacts.has(block.id);
 		bounce(marble, hit, 0.35, 0.25);
-		if (!freshContact || dt <= 0 || impact < 5) return;
+		if (!freshContact || dt <= 0 || impact <= 0) return;
 		marble.specialContacts.add(block.id);
-		block.hp--;
-		if (block.hp === 0) destroyBlock(race, marble, block, impact);
+		const contact = { x: marble.x - hit.nx * marble.r, y: marble.y - hit.ny * marble.r };
+		// 약한 접촉도 소리를 내되, 손상 기준과 지속 접촉 중복 방지는 유지한다.
+		if (impact >= 5) block.hp--;
+		if (block.hp === 0) destroyBlock(race, marble, block, impact, contact);
 		else {
 			block.h = block.baseHeight * (0.45 + (0.55 * block.hp) / (block.maxHp ?? 5));
-			emit(race, block, marble, false, impact);
+			emit(race, block, marble, false, impact, contact);
 		}
 		return;
 	}
@@ -855,7 +939,14 @@ export function stepRace(race, dt = STEP) {
 			}
 			for (const id of marble.specialContacts) {
 				const block = race.blockLookup.get(id);
-				if (!block?.alive || !collision({ ...marble, r: marble.r + 2 }, block, race.time))
+				if (
+					!block?.alive ||
+					!collision(
+						{ ...marble, r: marble.r + (block.type === 'frost' ? 12 : 2) },
+						block,
+						race.time
+					)
+				)
 					marble.specialContacts.delete(id);
 			}
 			if (marble.y > marble.bestY + 25) {
@@ -942,15 +1033,24 @@ export function stepRace(race, dt = STEP) {
 	return race.events;
 }
 
-export function winners(race, mode, count = 1) {
+export function winners(race, mode, count = 1, startRank = 1) {
 	if (mode === 'nth')
 		return race.finished.length >= count ? race.finished.slice(count - 1, count) : [];
 	if (mode === 'last')
 		return race.finished.length === race.marbles.length ? race.finished.slice(-1) : [];
-	return race.finished.slice(
-		0,
-		mode === 'multiple' ? clamp(Math.floor(count) || 1, 1, race.marbles.length) : 1
-	);
+	if (mode === 'multiple') {
+		if (
+			!Number.isSafeInteger(startRank) ||
+			!Number.isSafeInteger(count) ||
+			startRank < 1 ||
+			count < 1 ||
+			startRank > race.marbles.length ||
+			count > race.marbles.length - startRank + 1
+		)
+			return [];
+		return race.finished.slice(startRank - 1, startRank - 1 + count);
+	}
+	return race.finished.slice(0, 1);
 }
 
 export function raceOrder(race) {

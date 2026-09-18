@@ -125,24 +125,28 @@
 					</li>
 					<li>
 						<Surface class="project-card" href={resolve('/marble-race')} variant="interactive">
-							<span class="project-icon" aria-hidden="true"
+							<span class="project-icon marble-project-icon" aria-hidden="true"
 								><svg
 									width="26"
 									height="26"
 									viewBox="0 0 24 24"
 									fill="none"
 									stroke="currentColor"
-									stroke-width="2"
-									><circle cx="12" cy="8" r="5" /><path d="M4 19h6m4 0h6M8 7l2-2" /></svg
+									stroke-width="1.8"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><circle cx="7" cy="16" r="4" /><path
+										d="M5.5 15l1-1M15 21V3m0 0h7v8h-7M18.5 3v8M15 7h7"
+									/></svg
 								></span
 							>
 							<span class="project-copy"
 								><span class="project-title-row"
-									><span class="project-title">톡톡 구슬 레이스</span><span class="project-kind"
+									><span class="project-title">ASMR 구슬 레이스</span><span class="project-kind"
 										>도구</span
 									></span
 								><span class="project-description"
-									>14가지 블록을 깨며 내려가는 구슬 경기.<br />소리와 함께 즐기는 무료 ASMR
+									>이름을 넣고 블록을 깨며 내려가는 구슬 경기.<br />소리와 함께 즐기는 무료 ASMR
 									추첨입니다.</span
 								></span
 							>
@@ -344,6 +348,11 @@
 	.qr-project-icon {
 		background: #6d4bc3;
 		box-shadow: 0 6px 16px -6px rgb(109 75 195 / 70%);
+	}
+
+	.marble-project-icon {
+		background: #3274d9;
+		box-shadow: 0 6px 16px -6px rgb(50 116 217 / 70%);
 	}
 
 	.project-copy {

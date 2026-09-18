@@ -112,3 +112,70 @@ test('결승 확대는2.4배로 후보의 좌우·상하 위치를 따라가고 
 	const reduced = createCamera().update(race, { ...options, reduced: true });
 	assert.equal(reduced.scale, 1);
 });
+
+test('결승 선두는 즉시 갱신하되 카메라는 실제 시간으로 부드럽게 전환한다', () => {
+	const race = createRace(['가', '나']);
+	Object.assign(race.marbles[0], { x: 180, y: race.layout.finale.start + 140 });
+	Object.assign(race.marbles[1], { x: 540, y: race.layout.finale.start + 160 });
+	const camera = createCamera();
+	const options = { width: 720, height: 680, seconds: 1 / 60 };
+	for (let i = 0; i < 180; i++)
+		camera.update(race, { ...options, cinematic: { active: true, focusId: 0 } });
+	const before = camera.getView();
+	const switched = { ...options, cinematic: { active: true, focusId: 1 } };
+	const arrival = camera.update(race, { ...switched, seconds: 0 });
+	assert.equal(arrival.left, before.left, '새 상태 수신만으로 위치가 순간이동하지 않는다');
+	assert.equal(arrival.top, before.top);
+	const targetLeft = 540 - options.width / before.scale / 2;
+	const targetTop = race.marbles[1].y - (options.height / before.scale) * 0.48;
+	const first = camera.update(race, switched);
+	assert.ok(
+		first.left > before.left && first.left < targetLeft,
+		'첫 화면부터 새 선두 쪽으로 이동한다'
+	);
+	assert.ok(first.top > before.top && first.top < targetTop);
+	assert.equal(first.scale, before.scale);
+	for (let i = 1; i < 18; i++) {
+		race.time += (1 / 60) * 0.25; //0.25배속이어도 화면 이동은 실제 시간으로 계산한다.
+		camera.update(race, switched);
+	}
+	const settled = camera.getView();
+	assert.ok((targetLeft - settled.left) / (targetLeft - before.left) < 0.051);
+	assert.ok((targetTop - settled.top) / (targetTop - before.top) < 0.051);
+	const back = camera.update(race, { ...options, cinematic: { active: true, focusId: 0 } });
+	assert.ok(
+		back.left < settled.left && back.left > before.left,
+		'재추월도 대기 없이 방향을 바꾼다'
+	);
+});
+
+test('미니맵 탐색은 기본 배율과 해당 음향 범위를 사용하고 현재 결승 후보로 부드럽게 돌아온다', () => {
+	const race = createRace(['가', '나'], 'keyboard');
+	const camera = createCamera();
+	race.marbles[0].y = race.layout.finish.y - 100;
+	const options = {
+		width: 720,
+		height: 680,
+		seconds: 1 / 60,
+		cinematic: { active: true, focusId: 0 }
+	};
+	for (let i = 0; i < 180; i++) camera.update(race, options);
+	const before = camera.getView();
+	const first = camera.update(race, { ...options, inspectionY: race.zones[0].y });
+	assert.ok(first.top < before.top);
+	assert.ok(first.top > 100, '위 구역으로 즉시 뛰지 않는다');
+	for (let i = 0; i < 180; i++) camera.update(race, { ...options, inspectionY: race.zones[0].y });
+	const inspecting = camera.getView();
+	assert.ok(Math.abs(inspecting.scale - 1) < 0.001);
+	assert.ok(
+		inspecting.audioTop >= inspecting.top - 1e-6 &&
+			inspecting.audioBottom <= inspecting.bottom + 1e-6
+	);
+	race.marbles[1].y = race.layout.finish.y - 30;
+	const next = { ...options, cinematic: { active: true, focusId: 1 } };
+	camera.update(race, next);
+	assert.ok(camera.getView().top < race.layout.finale.start);
+	for (let i = 0; i < 240; i++) camera.update(race, next);
+	assert.ok(camera.getView().top > race.layout.finale.start);
+	assert.ok(Math.abs(camera.getView().scale - 2.4) < 0.001);
+});

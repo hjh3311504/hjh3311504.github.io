@@ -179,7 +179,7 @@ export function createTilePainter(ctx) {
 				[-10, 12],
 				[10, 12]
 			]);
-		} else if (type === 'thock' || type === 'clicky') {
+		} else if (['thock', 'thock2', 'thock3', 'thock4', 'clicky'].includes(type)) {
 			ctx.fillStyle = '#ffffff77';
 			rounded(-11, -12, 22, 21, 4);
 			ctx.fill();
@@ -187,7 +187,7 @@ export function createTilePainter(ctx) {
 			ctx.fillStyle = '#36435b';
 			ctx.textAlign = 'center';
 			ctx.font = '700 12px SUIT, sans-serif';
-			ctx.fillText(type === 'thock' ? 'A' : 'K', 0, 3);
+			ctx.fillText({ thock: '1', thock2: '2', thock3: '3', thock4: '4', clicky: 'K' }[type], 0, 3);
 			line([
 				[-8, 11],
 				[8, 11]

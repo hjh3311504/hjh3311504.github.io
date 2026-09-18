@@ -1,4 +1,4 @@
-import { ACTIVE_BLOCK_TYPES, parseNames, resolveMapId } from './catalog.js';
+import { ACTIVE_BLOCK_TYPES, migrateBlockType, parseNames, resolveMapId } from './catalog.js';
 export const SETTINGS_KEY = 'lake.marble-race.v1';
 export const CUSTOM_MAPS_KEY = 'lake.marble-race.custom-maps.v1';
 export const DEFAULT_NAMES =
@@ -21,13 +21,13 @@ export function validateCustomMaps(value) {
 				m.name.length <= 40 &&
 				Array.isArray(m.layers) &&
 				m.layers.length === 4 &&
-				m.layers.every((t) => ACTIVE_BLOCK_TYPES.includes(t))
+				m.layers.every((t) => ACTIVE_BLOCK_TYPES.includes(migrateBlockType(t)))
 		)
 		.slice(0, 10)
 		.map((m) => ({
 			id: m.id,
 			name: m.name.trim(),
-			layers: [...m.layers],
+			layers: m.layers.map(migrateBlockType),
 			caption: '내가 고른 네 가지 소리',
 			icon: '✦',
 			colors: ['#76dbc0', '#bba4f5']
@@ -39,6 +39,7 @@ export function readSettings(storage) {
 		mapId: 'crunch',
 		mode: 'first',
 		count: 3,
+		rangeText: '1~3',
 		nth: 1,
 		soundEnabled: true,
 		volume: 45
@@ -58,6 +59,8 @@ export function readSettings(storage) {
 			if (['first', 'last', 'multiple', 'nth'].includes(saved.mode)) defaults.mode = saved.mode;
 			for (const key of ['count', 'nth'])
 				if (Number.isSafeInteger(saved[key]) && saved[key] > 0) defaults[key] = saved[key];
+			defaults.rangeText =
+				typeof saved.rangeText === 'string' ? saved.rangeText : `1~${defaults.count}`;
 			if (typeof saved.soundEnabled === 'boolean') defaults.soundEnabled = saved.soundEnabled;
 			if (Number.isFinite(saved.volume)) defaults.volume = Math.max(0, Math.min(100, saved.volume));
 		}
@@ -66,11 +69,29 @@ export function readSettings(storage) {
 	}
 	return { ...defaults, customMaps, message };
 }
-export function validateDraw(mode, count, nth, total) {
-	const value = mode === 'nth' ? nth : count;
-	return ['nth', 'multiple'].includes(mode) &&
-		(!Number.isSafeInteger(value) || value < 1 || value > total)
-		? `당첨 ${mode === 'nth' ? '순번' : '인원'}을1부터 구슬 수 사이의 정수로 입력해 주세요.`
+export function parseDrawRange(text, total) {
+	const match = typeof text === 'string' && /^\s*(\d+)\s*~\s*(\d+)\s*$/.exec(text);
+	const invalid = (error) => ({ start: 1, end: 1, count: 1, error });
+	if (!match) return invalid('시작 순위와 끝 순위를 양의 정수로 입력해 주세요.');
+	const start = Number(match[1]),
+		end = Number(match[2]);
+	if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 1 || end > total)
+		return invalid('당첨 순위는1부터 전체 구슬 수 사이의 정수로 입력해 주세요.');
+	if (start > end) return invalid('시작 순위는 끝 순위보다 클 수 없어요.');
+	return { start, end, count: end - start + 1, error: '' };
+}
+export function validateDraw(mode, count, nth, total, startRank = 1) {
+	if (mode === 'multiple')
+		return !Number.isSafeInteger(count) ||
+			count < 1 ||
+			!Number.isSafeInteger(startRank) ||
+			startRank < 1 ||
+			startRank > total ||
+			count > total - startRank + 1
+			? '당첨 순위는1부터 전체 구슬 수 사이의 정수로 입력해 주세요.'
+			: '';
+	return mode === 'nth' && (!Number.isSafeInteger(nth) || nth < 1 || nth > total)
+		? '당첨 순번을1부터 구슬 수 사이의 정수로 입력해 주세요.'
 		: '';
 }
 export function previewParticipants(text) {

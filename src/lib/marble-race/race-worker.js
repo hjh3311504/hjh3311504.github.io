@@ -17,7 +17,8 @@ function snapshot(events = [], initial = false) {
 		finished: m.finished,
 		finishTime: m.finishTime,
 		windUntil: m.windUntil,
-		windDirection: m.windDirection
+		windDirection: m.windDirection,
+		held: m.held
 	}));
 	return {
 		time: race.time,
@@ -45,17 +46,17 @@ self.onmessage = async ({ data }) => {
 				result = iterator.next();
 			}
 			race = result.value;
-			director = createDirector(data.mode, data.count);
+			director = createDirector(data.mode, data.count, data.startRank);
 			cinematic = director.update(race);
 			self.postMessage({ kind: 'ready', state: snapshot([], true) });
 		} else if (data.kind === 'advance' && race) {
 			const events = [],
 				newWinners = [];
 			let remaining = Math.min(0.08, Math.max(0, data.seconds));
-			// 한 요청 안에서도 당첨 확정 직후에는1배속으로 돌아간다.
+			// 한 요청 안에서도 연출이 끝나면 사용자가 선택한 배속으로 돌아간다.
 			let endedSlow = false;
 			while (remaining >= STEP / 2 && race.finished.length < race.marbles.length) {
-				const speed = cinematic.active ? FINALE_SPEED : endedSlow ? 1 : data.speed;
+				const speed = cinematic.active ? FINALE_SPEED : data.speed;
 				if (remaining + 1e-12 < STEP / speed) break;
 				events.push(...stepRace(race));
 				remaining -= STEP / speed;

@@ -1,55 +1,63 @@
 <script>
-	import { onMount, untrack } from 'svelte';
+	import { onMount, untrack, tick } from 'svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
-	import ToolPageHeader from '$lib/components/organisms/ToolPageHeader.svelte';
+	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
+	import SectionHeader from '$lib/components/ui/SectionHeader.svelte';
+	import WinnerCelebration from '$lib/marble-race/components/WinnerCelebration.svelte';
 	import ToolPageFooter from '$lib/components/organisms/ToolPageFooter.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Surface from '$lib/components/ui/Surface.svelte';
-	import Dialog from '$lib/components/ui/Dialog.svelte';
-	import {
-		BLOCKS,
-		MAPS,
-		ACTIVE_BLOCK_TYPES,
-		SPECIAL_TYPES,
-		resolveMap,
-		resolveMapId,
-		parseNames
-	} from '$lib/marble-race/catalog.js';
+	import Toast from '$lib/components/ui/Toast.svelte';
+	import { MAPS, resolveMap, resolveMapId, parseNames } from '$lib/marble-race/catalog.js';
 	import { createRace, raceOrder, winners, butterHitCount } from '$lib/marble-race/physics.js';
 	import { FINALE_SPEED } from '$lib/marble-race/director.js';
 	import { createWorkerClient } from '$lib/marble-race/worker-client.js';
 	import { createRenderer } from '$lib/marble-race/renderer.js';
-	import { createAudio, SOUND_FILES } from '$lib/marble-race/audio.js';
+	import { createAudio } from '$lib/marble-race/audio.js';
 	import { createCamera } from '$lib/marble-race/camera.js';
 	import {
 		DEFAULT_NAMES,
 		readSettings,
 		createSettingsWriter,
-		validateDraw
+		validateDraw,
+		parseDrawRange
 	} from '$lib/marble-race/settings.js';
-	import BlockThumbnail from '$lib/marble-race/BlockThumbnail.svelte';
+	import BlockLibrary from '$lib/marble-race/components/BlockLibrary.svelte';
 	import RaceMinimap from '$lib/marble-race/components/RaceMinimap.svelte';
 	import StageOverlay from '$lib/marble-race/components/StageOverlay.svelte';
 	import WinnerPanel from '$lib/marble-race/components/WinnerPanel.svelte';
-	import VirtualList from '$lib/marble-race/components/VirtualList.svelte';
+	import RankingGrid from '$lib/marble-race/components/RankingGrid.svelte';
 	import CustomMapEditor from '$lib/marble-race/components/CustomMapEditor.svelte';
+	import RaceGuide from '$lib/marble-race/components/RaceGuide.svelte';
+	import {
+		pageName,
+		seoTitle,
+		seoDescription,
+		pageUrl,
+		shareImage,
+		shareImageAlt,
+		structuredDataScript
+	} from '$lib/marble-race/page-content.js';
 	import './marble-race.css';
 	let namesText = $state(DEFAULT_NAMES),
 		mapId = $state('crunch'),
 		mode = $state('first'),
-		count = $state(3),
+		rangeText = $state('1~3'),
 		nth = $state(1),
 		soundEnabled = $state(true),
 		volume = $state(45),
 		customMaps = $state([]);
 	let status = $state('ready'),
+		loadingFrom = $state('ready'),
 		speed = $state(1),
 		ready = $state(false),
 		message = $state(''),
+		copyNotice = $state(null),
 		fatalError = $state(''),
 		audioFailed = $state(false),
 		focusId = $state('-1'),
 		overview = $state(false),
+		inspectionY = $state(null),
 		fullscreen = $state(false),
 		reduced = $state(false);
 	let race = $state.raw(null),
@@ -61,10 +69,11 @@
 		arrived = $state(0),
 		progress = $state(''),
 		celebrating = $state(false),
+		celebrationId = $state(0),
+		celebrationWinners = $state.raw([]),
 		liveAnnouncement = $state(''),
 		raceModeLabel = $state(''),
 		query = $state('');
-	let confirmDialog = $state();
 	let canvas,
 		stage,
 		renderer,
@@ -79,24 +88,32 @@
 		previous = 0,
 		lastPhysics = 0,
 		lastSync = 0,
-		pendingSeconds = 0,
-		confirmPrevious = 'ready';
+		pendingSeconds = 0;
 	const client = createWorkerClient(),
 		camera = createCamera();
 	let parsed = $derived(parseNames(namesText));
+	let controlStatus = $derived(status === 'loading' ? loadingFrom : status);
 	let busy = $derived(['running', 'paused', 'loading'].includes(status));
 	let maps = $derived([...MAPS, ...customMaps]);
 	let selectedMap = $derived(resolveMap(mapId, customMaps));
-	let drawCount = $derived(mode === 'nth' ? nth : mode === 'multiple' ? count : 1);
-	let countError = $derived(validateDraw(mode, count, nth, parsed.count));
+	let range = $derived(parseDrawRange(rangeText, parsed.count));
+	let drawStart = $derived(mode === 'multiple' ? range.start : 1);
+	let drawCount = $derived(mode === 'nth' ? nth : mode === 'multiple' ? range.count : 1);
+	let countError = $derived(
+		mode === 'multiple'
+			? range.error || validateDraw(mode, range.count, nth, parsed.count, drawStart)
+			: validateDraw(mode, 1, nth, parsed.count)
+	);
 	let modeLabel = $derived(
 		mode === 'first'
-			? '첫 번째 도착'
+			? '첫번째 도착'
 			: mode === 'last'
 				? '마지막 도착'
 				: mode === 'nth'
 					? `${nth}번째 도착`
-					: `먼저 도착한 ${count}개`
+					: range.error
+						? '지정한 도착 순위'
+						: `${range.start}~${range.end}번째 도착`
 	);
 	let visibleOrder = $derived(
 		query.trim()
@@ -113,7 +130,7 @@
 			progress: Math.min(100, Math.max(0, (m.y / race.layout.finish.y) * 100))
 		}));
 		if (status !== 'finished' || !selectedWinners.length)
-			selectedWinners = winners(race, mode, drawCount).map((m) => ({
+			selectedWinners = winners(race, mode, drawCount, drawStart).map((m) => ({
 				id: m.id,
 				name: m.name,
 				color: m.color
@@ -129,6 +146,7 @@
 			mode,
 			focusId,
 			cinematic,
+			inspectionY,
 			reduced
 		});
 		audio?.setView({
@@ -157,19 +175,20 @@
 			race.finished = state.finished.map((id) => state.marbles[id]);
 			race = { ...race };
 		}
+		const focusChanged = state.cinematic?.active && state.cinematic.focusId !== cinematic?.focusId;
 		cinematic = state.cinematic;
-		if (cinematic?.finishedCelebration) speed = 1;
 		if (cinematic?.newWinners?.length) {
 			clearTimeout(celebrationTimer);
 			celebrating = true;
-			celebrationTimer = setTimeout(() => (celebrating = false), 850);
+			celebrationId++;
+			celebrationWinners = cinematic.newWinners;
+			celebrationTimer = setTimeout(() => (celebrating = false), 2200);
 			for (const winner of cinematic.newWinners) {
 				audio.celebrate?.();
-				renderer.celebrate?.(race, reduced);
 				liveAnnouncement = `당첨: ${winner.name}, ${winner.id + 1}번`;
 			}
-			synchronize();
 		}
+		if (focusChanged || cinematic?.newWinners?.length) synchronize();
 		renderer.addEvents(state.events ?? [], reduced);
 		draw();
 		audio.playCollisions(state.events ?? []);
@@ -214,7 +233,7 @@
 			synchronize();
 			lastSync = now;
 		}
-		draw(status === 'running' ? seconds : 0);
+		draw(seconds);
 		raf = requestAnimationFrame(frame);
 	}
 	function reset() {
@@ -226,6 +245,12 @@
 		audio?.cancelPreparation();
 		status = 'ready';
 		speed = 1;
+		inspectionY = null;
+		focusId = '-1';
+		overview = false;
+		query = '';
+		message = '';
+		copyNotice = null;
 		cinematic = null;
 		audioFailed = false;
 		clearTimeout(celebrationTimer);
@@ -242,7 +267,7 @@
 			for (let i = 0; i < entry.count && samples.length < 60; i++) samples.push(entry.name);
 			if (samples.length >= 60) break;
 		}
-		race = createRace(samples, selectedMap, 2026);
+		race = createRace(samples, selectedMap, 2026, { layoutCount: valid.count, preview: true });
 		for (const block of race.blocks.filter((b) => b.type === 'butter'))
 			block.hp = block.maxHp = butterHitCount(valid.count);
 		race.identity = Symbol();
@@ -251,12 +276,17 @@
 	}
 	async function start(withoutSound = false) {
 		if (!ready || busy || parsed.error || countError || fatalError) return;
+		clearTimeout(celebrationTimer);
+		celebrating = false;
+		celebrationWinners = [];
 		const current = ++operation;
 		audio.stop();
 		audio.setOptions(soundEnabled, volume / 100);
 		audioFailed = false;
 		message = '';
+		copyNotice = null;
 		raceModeLabel = modeLabel;
+		loadingFrom = status;
 		status = 'loading';
 		progress = '소리와 구슬을 준비하고 있어요.';
 		if (withoutSound) {
@@ -281,7 +311,8 @@
 				(info) => {
 					if (current === operation)
 						progress = `구슬을 준비하고 있어요. ${info.count.toLocaleString()}개`;
-				}
+				},
+				drawStart
 			);
 			if (current !== operation) return;
 			cinematic = null;
@@ -293,7 +324,7 @@
 			lastPhysics = performance.now();
 			previous = lastPhysics;
 			writer.flush();
-			liveAnnouncement = `${parsed.count}개의 경기를 시작합니다. ${modeLabel} 당첨`;
+			liveAnnouncement = `${parsed.count}개의 구슬로 경기를 시작합니다. 당첨 기준은 ${modeLabel}입니다.`;
 		} catch (error) {
 			if (current === operation) {
 				status = 'ready';
@@ -301,11 +332,21 @@
 			}
 		}
 	}
+	async function focusPausePanel() {
+		await tick();
+		if (status !== 'paused' || document.hidden) return;
+		const button = document.getElementById('resume-race');
+		button?.focus({ preventScroll: true });
+		button?.scrollIntoView({ block: 'nearest', behavior: reduced ? 'instant' : 'smooth' });
+	}
 	async function pause() {
 		if (status === 'running') {
 			status = 'paused';
+			clearTimeout(celebrationTimer);
+			celebrating = false;
 			synchronize();
 			audio.stop();
+			await focusPausePanel();
 			return;
 		}
 		if (status !== 'paused') return;
@@ -317,6 +358,7 @@
 			soundEnabled = false;
 			audio.setOptions(false, volume / 100);
 		}
+		loadingFrom = status;
 		status = 'loading';
 		progress = '소리를 준비하고 있어요.';
 		const loaded = await audio.prepare(selectedMap.types);
@@ -347,27 +389,25 @@
 			if (!event.repeat) toggleSpeed();
 		}
 	}
-	function requestEdit() {
+	async function requestEdit() {
 		if (status === 'loading') {
 			reset();
 			return;
 		}
-		confirmPrevious = status;
-		if (status === 'running') {
-			status = 'paused';
-			synchronize();
-			audio.stop();
-		}
-		confirmDialog.showModal();
+		if (status === 'running') await pause();
+		else if (status === 'paused') await focusPausePanel();
 	}
-	function cancelEdit() {
-		confirmDialog.close();
-		if (confirmPrevious === 'running') void resume();
-	}
-	function confirmEdit() {
-		confirmDialog.close();
+	async function confirmEdit() {
 		reset();
-		requestAnimationFrame(() => document.getElementById('race-names')?.focus());
+		if (document.fullscreenElement === stage) {
+			try {
+				await document.exitFullscreen();
+			} catch {
+				message = '전체화면을 닫으면 경기 설정을 변경할 수 있어요.';
+			}
+		}
+		await tick();
+		document.getElementById('race-names')?.focus();
 	}
 	async function toggleSound() {
 		soundEnabled = !soundEnabled;
@@ -397,21 +437,52 @@
 		}
 	}
 	async function copyResult() {
+		const current = operation;
 		try {
 			await navigator.clipboard.writeText(
 				`${raceModeLabel} 당첨자\n${selectedWinners.map((m) => `${m.id + 1}번 ${m.name}`).join('\n')}\n\n전체 도착 순위\n${order.map((m) => `${m.rank}등: ${m.name} (${m.id + 1}번)`).join('\n')}`
 			);
-			message = '결과를 복사했어요.';
+			if (current === operation) copyNotice = { message: '결과를 복사했어요.' };
 		} catch {
-			message = '결과를 복사하지 못했어요.';
+			if (current === operation) copyNotice = { message: '결과를 복사하지 못했어요.' };
 		}
 	}
+	function setRangeBoundary(index, value) {
+		const parts = rangeText.split('~');
+		parts[index] = value;
+		rangeText = `${parts[0] ?? ''}~${parts[1] ?? ''}`;
+	}
+	function selectMap(id) {
+		if (busy || mapId === id) return;
+		mapId = id;
+		if (status === 'finished') reset();
+		else preparePreview();
+	}
+	function inspectMap(y) {
+		inspectionY = y;
+		overview = false;
+	}
+	function stopInspecting() {
+		inspectionY = null;
+		focusId = '-1';
+	}
 	function changeMaps(value) {
+		const before = JSON.stringify(selectedMap);
 		customMaps = value;
 		mapId = resolveMapId(mapId, value);
+		if (status === 'finished' && before !== JSON.stringify(resolveMap(mapId, value))) reset();
 	}
 	$effect(() => {
-		const settings = { namesText, mapId, mode, count, nth, soundEnabled, volume };
+		const settings = {
+			namesText,
+			mapId,
+			mode,
+			count: range.count,
+			rangeText,
+			nth,
+			soundEnabled,
+			volume
+		};
 		if (ready) writer.schedule(settings, JSON.parse(JSON.stringify(customMaps)));
 	});
 	$effect(() => {
@@ -419,7 +490,7 @@
 		mapId;
 		customMaps;
 		mode;
-		count;
+		rangeText;
 		nth;
 		if (ready && !busy) {
 			clearTimeout(previewTimer);
@@ -449,7 +520,7 @@
 			};
 		}
 		const saved = readSettings(storage);
-		({ namesText, mapId, mode, count, nth, soundEnabled, volume, customMaps, message } = saved);
+		({ namesText, mapId, mode, rangeText, nth, soundEnabled, volume, customMaps, message } = saved);
 		writer = createSettingsWriter(storage, (value) => (message = value));
 		try {
 			renderer = createRenderer(canvas);
@@ -501,22 +572,45 @@
 	});
 </script>
 
-<svelte:head
-	><title>톡톡 구슬 레이스 — 소리로 즐기는 ASMR 추첨</title><meta
-		name="description"
-		content="참가자 곱하기와 내 맵, 특수 장치로 즐기는 ASMR 구슬 추첨. 첫 번째·마지막·여러 명·n번째 도착을 고르세요."
-	/><link rel="canonical" href="https://hjh3311504.github.io/marble-race" /></svelte:head
->
+<svelte:head>
+	<title>{seoTitle}</title>
+	<meta name="description" content={seoDescription} />
+	<meta name="author" content="Lake" />
+	<meta name="application-name" content={pageName} />
+	<meta
+		name="robots"
+		content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+	/>
+	<link rel="canonical" href={pageUrl} />
+	<meta property="og:type" content="website" />
+	<meta property="og:locale" content="ko_KR" />
+	<meta property="og:site_name" content="Lake's develog" />
+	<meta property="og:title" content={seoTitle} />
+	<meta property="og:description" content={seoDescription} />
+	<meta property="og:url" content={pageUrl} />
+	<meta property="og:image" content={shareImage} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:type" content="image/png" />
+	<meta property="og:image:alt" content={shareImageAlt} />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={seoTitle} />
+	<meta name="twitter:description" content={seoDescription} />
+	<meta name="twitter:image" content={shareImage} />
+	<meta name="twitter:image:alt" content={shareImageAlt} />
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{@html structuredDataScript}
+</svelte:head>
 <SiteShell active="marble-race">
-	<main class="marble-page">
-		<ToolPageHeader
-			eyebrow="소리로 즐기는 추첨"
-			title="톡톡 구슬 레이스"
-			description="톡, 뽁, 타닥. 나만의 소리로 추첨을 시작하세요."
-		/>
+	<ToolPageLayout
+		class="marble-page"
+		maxWidth="1550px"
+		title={pageName}
+		description="이름을 넣고 소리로 즐기는 무료 구슬 추첨기. 수업 발표자부터 방송 이벤트 당첨자까지 뽑아 보세요."
+	>
 		<div class="marble-layout">
 			<aside class="race-settings" aria-label="경기 설정">
-				{#if busy}<Surface class="settings-lock" role="status"
+				{#if busy}<Surface variant="card" class="settings-lock" role="status"
 						><strong>경기 설정이 잠겨 있어요</strong>
 						<p>경기 중에는 참가자·맵·당첨 방식을 변경할 수 없습니다.</p>
 						<Button fullWidth onclick={requestEdit}
@@ -525,13 +619,14 @@
 								: '경기 종료하고 설정 변경'}</Button
 						></Surface
 					>{/if}
-				<Surface as="section" class="race-panel"
-					><div class="panel-title">
-						<h2>01 참가자</h2>
-						<span class="count-badge">{parsed.count.toLocaleString()}개</span>
-					</div>
+				<Surface variant="card" as="section" class="race-panel"
+					><SectionHeader class="panel-title" title="참가자" step={1}>
+						{#snippet meta()}<span class="count-badge">{parsed.count.toLocaleString()}개</span
+							>{/snippet}
+					</SectionHeader>
 					<label for="race-names">참가자 이름</label><textarea
 						id="race-names"
+						class="ui-field"
 						bind:value={namesText}
 						disabled={busy}
 						rows="7"
@@ -539,32 +634,28 @@
 						aria-describedby="names-help names-error"
 						aria-invalid={Boolean(parsed.error)}
 						placeholder="토끼*10&#10;고양이*5"></textarea>
-					<p id="names-help" class="field-help">
-						줄바꿈이나 쉼표로 구분 · 이름당20자<br />토끼*10 → 토끼 구슬10개 · 같은 이름도 별도 당첨
-					</p>
+					<p id="names-help" class="field-help">토끼*10처럼 입력하면 같은 구슬을 여러 개 넣어요.</p>
 					<p id="names-error" class="field-error">{parsed.error}</p>
 					{#if parsed.count > 1000}<p class="field-help">
 							구슬이 많으면 준비와 경기에 시간이 더 걸릴 수 있어요. 준비 중에도 취소할 수 있습니다.
 						</p>{/if}
-					<Button variant="ghost" disabled={busy} onclick={() => (namesText = DEFAULT_NAMES)}
-						>예시 명단 넣기</Button
-					></Surface
-				>
-				<Surface as="section" class="race-panel"
-					><div class="panel-title"><h2>02 맵 고르기</h2></div>
+				</Surface>
+				<Surface variant="card" as="section" class="race-panel"
+					><SectionHeader class="panel-title" title="맵 고르기" step={2} />
 					<div class="map-options">
 						{#each maps as map (map.id)}<Button
 								class={`map-option ${mapId === map.id ? 'selected' : ''}`}
 								disabled={busy}
 								aria-label={map.name}
 								aria-pressed={mapId === map.id}
-								onclick={() => (mapId = map.id)}
+								onclick={() => selectMap(map.id)}
+								title={map.name}
 								><span
 									class="map-symbol"
 									style={`--map-color:${map.colors[0]};--map-second:${map.colors[1]}`}
 									>{map.icon}</span
-								><span><strong>{map.name}</strong><small>{map.caption}</small></span><span
-									aria-hidden="true">{mapId === map.id ? '✓' : ''}</span
+								><span class="map-name"><strong>{map.name}</strong></span><span aria-hidden="true"
+									>{mapId === map.id ? '✓' : ''}</span
 								></Button
 							>{/each}
 					</div>
@@ -572,61 +663,100 @@
 						maps={customMaps}
 						disabled={busy}
 						onchange={changeMaps}
-						onselect={(id) => (mapId = id)}
+						onselect={selectMap}
 					/></Surface
 				>
-				<Surface as="section" class="race-panel"
-					><div class="panel-title"><h2>03 당첨 방식</h2></div>
+				<Surface variant="card" as="section" class="race-panel"
+					><SectionHeader class="panel-title" title="당첨 방식" step={3} />
 					<div class="winner-options" role="group" aria-label="당첨 방식">
-						{#each [['first', '첫 번째'], ['last', '마지막'], ['multiple', '여러 명'], ['nth', 'n번째']] as [value, label] (value)}<Button
+						{#each [['first', '첫번째'], ['last', '마지막'], ['multiple', '여러명'], ['nth', 'n번째']] as [value, label] (value)}<Button
 								class={mode === value ? 'selected' : ''}
 								aria-pressed={mode === value}
 								disabled={busy}
 								onclick={() => (mode = value)}>{label}</Button
 							>{/each}
 					</div>
-					{#if mode === 'multiple'}<label class="number-field" for="winner-count"
-							>당첨 인원<input
-								id="winner-count"
-								type="number"
-								min="1"
-								max={parsed.count}
-								step="1"
-								bind:value={count}
-								disabled={busy}
-								aria-invalid={Boolean(countError)}
-							/>개</label
-						>{/if}
-					{#if mode === 'nth'}<label class="number-field" for="winner-nth"
-							>당첨 순번<input
-								id="winner-nth"
-								type="number"
-								min="1"
-								max={parsed.count}
-								step="1"
-								bind:value={nth}
-								disabled={busy}
-								aria-invalid={Boolean(countError)}
-							/>번째</label
-						>{/if}
-					<p class="field-error">{countError}</p>
-					<p class="field-help">{modeLabel} 구슬이 당첨됩니다.</p></Surface
+					{#if mode === 'multiple' || mode === 'nth'}
+						<fieldset class="winner-settings" disabled={busy}>
+							<legend>{mode === 'multiple' ? '당첨 순위 범위' : '당첨 순번'}</legend>
+							<div class="winner-settings-inputs" class:is-range={mode === 'multiple'}>
+								{#if mode === 'multiple'}<label class="sr-only" for="winner-range-start"
+										>시작 순위</label
+									>
+									<input
+										id="winner-range-start"
+										class="ui-field"
+										type="number"
+										inputmode="numeric"
+										min="1"
+										max={parsed.count}
+										step="1"
+										value={rangeText.split('~')[0]?.trim() ?? ''}
+										oninput={(event) => setRangeBoundary(0, event.currentTarget.value)}
+										aria-invalid={Boolean(countError)}
+										aria-describedby="winner-input-help winner-error"
+									/>
+									<span aria-hidden="true">~</span>
+									<label class="sr-only" for="winner-range-end">끝 순위</label>
+									<input
+										id="winner-range-end"
+										class="ui-field"
+										type="number"
+										inputmode="numeric"
+										min="1"
+										max={parsed.count}
+										step="1"
+										value={rangeText.split('~')[1]?.trim() ?? ''}
+										oninput={(event) => setRangeBoundary(1, event.currentTarget.value)}
+										aria-invalid={Boolean(countError)}
+										aria-describedby="winner-input-help winner-error"
+									/>
+								{:else}
+									<label class="sr-only" for="winner-nth">당첨 순번</label>
+									<input
+										id="winner-nth"
+										class="ui-field"
+										type="number"
+										inputmode="numeric"
+										min="1"
+										max={parsed.count}
+										step="1"
+										bind:value={nth}
+										aria-invalid={Boolean(countError)}
+										aria-describedby="winner-input-help winner-error"
+									/>
+								{/if}
+							</div>
+						</fieldset>
+						<p id="winner-input-help" class="field-help">
+							{mode === 'multiple'
+								? '시작4, 끝6이면4·5·6번째로 도착한 구슬이 당첨돼요.'
+								: '순번4를 입력하면4번째로 도착한 구슬이 당첨돼요.'}
+						</p>
+					{/if}
+					<p id="winner-error" class="field-error">{countError}</p>
+					<p class="field-help">
+						{mode === 'multiple' && !countError
+							? `${range.start}~${range.end}번째로 도착한 구슬 ${range.count}개가 당첨됩니다.`
+							: `${modeLabel} 구슬이 당첨됩니다.`}
+					</p></Surface
 				>
-				<p class="storage-note">
-					명단·맵·당첨 방식·소리 설정은 바꿀 때마다 이 브라우저에 저장됩니다.
-				</p>
 			</aside>
 			<div class="race-main">
 				<section class="race-stage" bind:this={stage} aria-label="구슬 경기장">
+					<Toast notification={copyNotice} />
+					<div class="sr-only" aria-live="polite" aria-atomic="true" data-race-announcement>
+						{liveAnnouncement}
+					</div>
 					<div class="stage-toolbar">
 						<div class="stage-title">
-							<strong>{selectedMap.name}</strong><span class="stage-state"
+							<strong>{selectedMap.name}</strong><span class="stage-state" role="status"
 								>{status === 'loading'
-									? '소리 준비 중'
+									? progress
 									: status === 'running'
 										? '경기 중'
 										: status === 'paused'
-											? '잠시 멈춤'
+											? '일시정지'
 											: status === 'finished'
 												? '경기 종료'
 												: '출발 준비'}</span
@@ -648,9 +778,6 @@
 							>
 						</div>
 					</div>
-					{#if cinematic?.active}<p class="cinematic-note" role="status">
-							당첨 확정까지{FINALE_SPEED}배속으로 진행합니다.
-						</p>{/if}
 					<div class="canvas-wrap">
 						<canvas
 							bind:this={canvas}
@@ -662,11 +789,17 @@
 							onkeydown={canvasKeydown}
 							aria-label={`구슬 경기 화면. 현재 ${cinematic?.active ? FINALE_SPEED : speed}배속. 클릭하거나 Enter·Space를 누르면 배속을 전환합니다.`}
 						></canvas>
-						<RaceMinimap {race} {view} {overview} /><WinnerPanel
-							winners={selectedWinners}
-							{celebrating}
-							{reduced}
-						/>
+						{#if celebrating}{#key celebrationId}<WinnerCelebration
+									winners={celebrationWinners}
+									{reduced}
+								/>{/key}{/if}
+						<RaceMinimap
+							{race}
+							{view}
+							{overview}
+							oninspect={inspectMap}
+							onleave={stopInspecting}
+						/><WinnerPanel winners={selectedWinners} {celebrating} {reduced} />
 						{#if status === 'ready'}<StageOverlay title="누가 당첨될까요?"
 								><p>{parsed.count.toLocaleString()}개의 구슬 · {modeLabel}</p>
 								{#if parsed.count > 60}<p>
@@ -679,15 +812,12 @@
 										>구슬 굴리기 ▶</Button
 									>{/snippet}</StageOverlay
 							>{/if}
-						{#if status === 'loading'}<StageOverlay title="경기를 준비하고 있어요"
-								><p role="status">{progress}</p>
-								{#snippet actions()}<Button onclick={requestEdit}>준비 취소하고 설정 변경</Button
-									>{/snippet}</StageOverlay
-							>{/if}
-						{#if status === 'paused'}<StageOverlay title="잠깐 쉬어 가요"
-								><p>일시정지 중에도 경기 설정은 잠겨 있습니다. 변경하려면 경기를 종료해 주세요.</p>
-								{#snippet actions()}<Button variant="primary" onclick={pause}>계속하기 ▶</Button
-									><Button onclick={requestEdit}>경기 종료하고 설정 변경</Button
+						{#if status === 'paused'}<StageOverlay title="일시정지" titleId="pause-race-title"
+								><p>계속 진행하거나, 경기를 종료하고 설정을 바꿀 수 있어요.</p>
+								<p>종료하면 현재 경기를 이어갈 수 없어요.<br />참가자와 설정은 유지됩니다.</p>
+								{#snippet actions()}<Button id="resume-race" variant="primary" onclick={pause}
+										>계속하기 ▶</Button
+									><Button variant="danger" onclick={confirmEdit}>종료하고 설정 변경</Button
 									>{/snippet}</StageOverlay
 							>{/if}
 						{#if status === 'finished'}<StageOverlay title="축하합니다!"
@@ -721,16 +851,24 @@
 							/>
 						</div>
 						<div class="play-controls">
-							{#if busy}<Button onclick={requestEdit}
-									>{status === 'loading' ? '준비 취소' : '경기 종료하고 설정 변경'}</Button
-								><Button variant="primary" disabled={status === 'loading'} onclick={pause}
-									>{status === 'paused' ? '계속하기 ▶' : '잠시 멈춤 Ⅱ'}</Button
-								>{:else}<Button
-									variant="primary"
-									onclick={() => start()}
-									disabled={!ready || Boolean(parsed.error || countError || fatalError)}
-									>{status === 'finished' ? '다시 시작 ↻' : '구슬 굴리기 ▶'}</Button
-								>{/if}
+							<Button
+								variant="primary"
+								aria-busy={status === 'loading'}
+								aria-disabled={status === 'loading'}
+								disabled={!ready || (!busy && Boolean(parsed.error || countError || fatalError))}
+								onclick={() => {
+									if (status === 'loading') return;
+									if (status === 'running' || status === 'paused') pause();
+									else start();
+								}}
+								>{controlStatus === 'paused'
+									? '계속하기 ▶'
+									: controlStatus === 'running'
+										? '일시정지 Ⅱ'
+										: controlStatus === 'finished'
+											? '다시 시작 ↻'
+											: '구슬 굴리기 ▶'}</Button
+							>
 						</div>
 					</div>
 					<div class="race-stats">
@@ -745,7 +883,7 @@
 						>
 					</div>
 				</section>
-				<p class="race-message" role="status">{message}</p>
+				{#if message}<p class="race-message" role="status">{message}</p>{/if}
 				{#if audioFailed}<div class="audio-recovery">
 						<Button onclick={() => (status === 'paused' ? resume() : start())}
 							>소리 다시 준비</Button
@@ -753,99 +891,38 @@
 							>소리 없이 시작</Button
 						>
 					</div>{/if}
-				<Surface as="section" class="race-panel"
+				<Surface variant="card" as="section" class="race-panel"
 					><div class="panel-title">
 						<h2>도착 순위</h2>
 						{#if status === 'finished'}<Button onclick={copyResult}>결과 복사</Button>{/if}
 					</div>
 					<label for="marble-search">구슬 찾기</label><input
 						id="marble-search"
+						class="ui-field"
 						type="search"
 						bind:value={query}
 						placeholder="이름 또는 구슬 번호"
 					/>
-					<Button variant="ghost" onclick={() => (focusId = '-1')}>자동으로 따라가기</Button>
-					<VirtualList items={visibleOrder} height={288} rowHeight={48} label="구슬 도착 순위"
-						>{#snippet children(m)}<span>{m.rank}등</span><i
-								class="marble-dot"
-								style:background={m.color}
-							></i><Button variant="ghost" onclick={() => (focusId = String(m.id))}
-								>{m.name} <small>{m.id + 1}번</small></Button
-							><span>{m.finished ? '도착' : `${Math.floor(m.progress)}%`}</span
-							>{/snippet}</VirtualList
-					>
+					<Button variant="ghost" onclick={stopInspecting}>자동으로 따라가기</Button>
+					{#key race?.identity}<RankingGrid
+							items={visibleOrder}
+							selectedId={focusId}
+							resetKey={query}
+							onselect={(id) => {
+								inspectionY = null;
+								focusId = String(id);
+							}}
+						/>{/key}
 				</Surface>
 			</div>
 		</div>
-		<section class="block-library" aria-labelledby="block-library-title">
-			<div class="library-heading">
-				<h2 id="block-library-title">블록 도감</h2>
-				<p>미리듣기와 경기에서 같은 소리를 사용해요.</p>
-			</div>
-			<div class="block-grid">
-				{#each ACTIVE_BLOCK_TYPES as type (type)}<Surface class="block-card"
-						><BlockThumbnail {type} />
-						<div>
-							<h3>{BLOCKS[type].name}</h3>
-							{#if selectedMap.layers.includes(type)}<small class="map-material"
-									>선택 맵에 포함</small
-								>{/if}
-							<p>{BLOCKS[type].description}</p>
-							{#if type === 'butter'}<p>
-									이번 경기: {butterHitCount(parsed.count || 2)}회 충돌하면 부서져요.
-								</p>{/if}
-							<small>{BLOCKS[type].sound}</small>
-						</div>
-						<Button
-							aria-label={`${BLOCKS[type].name} 소리 미리듣기`}
-							disabled={!ready || busy}
-							onclick={() => previewSound(type)}>소리 듣기 ♫</Button
-						></Surface
-					>{/each}
-			</div>
-		</section>
-		<section class="block-library" aria-labelledby="special-library-title">
-			<h2 id="special-library-title">특수 구간 안내</h2>
-			<div class="block-grid">
-				{#each SPECIAL_TYPES as type (type)}<Surface class="block-card"
-						><div class="special-symbol" style:background={BLOCKS[type].color}>
-							{BLOCKS[type].symbol}
-						</div>
-						<div>
-							<h3>{BLOCKS[type].name}</h3>
-							{#if selectedMap.layers.includes(type)}<small class="map-material"
-									>선택 맵에 포함</small
-								>{/if}
-							<p>{BLOCKS[type].description}</p>
-							{#if type === 'butter'}<p>
-									이번 경기: {butterHitCount(parsed.count || 2)}회 충돌하면 부서져요.
-								</p>{/if}
-						</div>
-						<Button
-							disabled={!ready || busy || !SOUND_FILES[type]?.length}
-							onclick={() => previewSound(type)}
-							>{SOUND_FILES[type]?.length ? '소리 듣기 ♫' : '소리 선택 중'}</Button
-						></Surface
-					>{/each}
-			</div>
-			<p>경기 중에는 미리듣기가 잠깁니다. 소리·볼륨은 경기 화면에서 조절할 수 있어요.</p>
-		</section>
+		<BlockLibrary
+			selectedLayers={selectedMap.layers}
+			disabled={!ready || busy}
+			waxHits={butterHitCount(parsed.count || 2)}
+			onpreview={previewSound}
+		/>
+		<RaceGuide />
 		<ToolPageFooter />
-	</main>
-	<Dialog
-		bind:element={confirmDialog}
-		title="경기를 종료할까요?"
-		titleId="stop-race-title"
-		closeAction={cancelEdit}
-		oncancel={(event) => {
-			event.preventDefault();
-			cancelEdit();
-		}}
-		><p>현재 경기를 이어갈 수 없습니다. 참가자와 설정은 유지됩니다.</p>
-		{#snippet actions()}<Button onclick={cancelEdit}>경기로 돌아가기</Button><Button
-				variant="danger"
-				onclick={confirmEdit}>종료하고 설정 변경</Button
-			>{/snippet}</Dialog
-	>
-	<div class="sr-only" aria-live="polite">{liveAnnouncement}</div>
+	</ToolPageLayout>
 </SiteShell>

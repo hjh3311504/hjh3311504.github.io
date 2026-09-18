@@ -332,3 +332,21 @@
 		padding: 22px;
 	}
 }
+
+/* 도구 페이지의 입력·선택 필드가 같은 색과 포커스를 사용한다. */
+.ui-field {
+	box-sizing: border-box;
+	font: inherit;
+	color: var(--ui-text);
+	background: var(--ui-surface);
+	border: 1px solid var(--ui-border-strong);
+	border-radius: var(--ui-radius-sm);
+}
+.ui-field:focus-visible {
+	outline: 2px solid var(--ui-focus);
+	outline-offset: 2px;
+}
+.ui-field:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}

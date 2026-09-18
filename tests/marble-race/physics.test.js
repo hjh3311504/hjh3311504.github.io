@@ -45,7 +45,7 @@ test('명단의 빈 줄을 제거하고 중복 이름은 별도 구슬로 유지
 	assert.ok(parseNames('가'.repeat(21) + ',나').error);
 	assert.equal(parseNames('😀'.repeat(20) + ',나').error, '');
 });
-test('활성3개 맵은 일반11종·재질4층·특수 구간3곳과 회전 판을 제공한다', () => {
+test('활성3개 맵은 일반12종·재질4층·특수 구간3곳과 회전 판을 제공한다', () => {
 	for (const map of MAPS) {
 		assert.ok(map.layers.every((type) => ACTIVE_BLOCK_TYPES.includes(type)));
 		assert.equal(new Set(map.layers).size, 4);
@@ -53,13 +53,14 @@ test('활성3개 맵은 일반11종·재질4층·특수 구간3곳과 회전 판
 		assert.equal(race.layout.connectors.length, 3);
 		assert.deepEqual(
 			race.layout.connectors.map((c) => c.kind),
-			['scatter', 'butter', 'pond']
+			['frost', 'butter', 'pond']
 		);
-		for (let i = 0; i < 3; i++) assert.equal(race.zones[i + 1].y - race.zones[i].y, 12 * 34 + 1220);
-		assert.equal(race.blocks.filter((b) => b.tile).length, 960);
+		for (let i = 0; i < 3; i++)
+			assert.equal(race.zones[i + 1].y - race.zones[i].y, race.layout.tileRows * 34 + 1220);
+		assert.equal(race.blocks.filter((b) => b.tile).length, race.layout.tileRows * 80);
 		for (const zone of race.zones) {
 			const tiles = race.blocks.filter((b) => b.tile && b.zoneId === zone.id);
-			assert.equal(tiles.length, 240);
+			assert.equal(tiles.length, race.layout.tileRows * 20);
 			assert.ok(tiles.every((b) => b.type === zone.type && b.w === 32 && b.h === 32));
 			assert.equal(tiles[1].x - tiles[0].x, 34);
 			assert.equal(tiles[20].y - tiles[0].y, 34);
@@ -85,15 +86,17 @@ test('활성3개 맵은 일반11종·재질4층·특수 구간3곳과 회전 판
 		assert.equal(race.layout.height - race.layout.finale.start, 740);
 	}
 	assert.equal(MAPS.length, 3);
+	assert.equal(BLOCKS.thock.name, '도각 키보드1');
 	assert.deepEqual(ACTIVE_BLOCK_TYPES, [
 		'thock',
+		'thock2',
+		'thock3',
+		'thock4',
 		'clicky',
-		'typewriter',
 		'popit',
 		'wrap',
 		'cork',
 		'wood',
-		'ember',
 		'droplet',
 		'frog',
 		'duck'
@@ -103,13 +106,14 @@ test('활성3개 맵은 일반11종·재질4층·특수 구간3곳과 회전 판
 		[...new Set(MAPS.flatMap((map) => map.layers))].sort(),
 		[...ACTIVE_BLOCK_TYPES].sort()
 	);
-	for (const type of ['slime', 'sand', 'soap', 'waxball', 'asmr']) {
+	for (const type of ['slime', 'sand', 'soap', 'waxball', 'asmr', 'ember']) {
 		assert.ok(BREAKABLE_TYPES.includes(type));
 		assert.ok(MAPS.every((map) => !map.types.includes(type)));
 	}
 	assert.equal(SAVED_MAPS.length, 3);
 	for (const [id, expected] of Object.entries({
 		workshop: 'keyboard',
+		'thock-collection': 'keyboard',
 		toys: 'crunch',
 		bounce: 'soft',
 		keyboard: 'keyboard',
@@ -117,7 +121,7 @@ test('활성3개 맵은 일반11종·재질4층·특수 구간3곳과 회전 판
 		crunch: 'crunch'
 	}))
 		assert.equal(resolveMapId(id), expected);
-	assert.equal(BREAKABLE_TYPES.length, 16);
+	assert.equal(BREAKABLE_TYPES.length, 19);
 });
 test('도감과 보존 재질은 정면·옆면·모서리에서 접촉면에 맞게 반동하고 한 번만 깨진다', () => {
 	for (const type of BREAKABLE_TYPES)
@@ -254,8 +258,8 @@ test('분산 장치 접촉은 실제 충돌마다 한 장치당 한 번 기록�
 test('도착은 중앙 통로 안의 아래 방향 교차만 인정하고 중복 기록하지 않는다', () => {
 	const race = createRace(['중앙', '바깥']);
 	race.blocks = [];
-	Object.assign(race.marbles[0], { x: 360, y: FINISH_Y - 1, vy: 400 });
-	Object.assign(race.marbles[1], { x: 500, y: FINISH_Y - 1, vy: 400 });
+	Object.assign(race.marbles[0], { x: 360, y: race.layout.finish.y - 1, vy: 400 });
+	Object.assign(race.marbles[1], { x: 500, y: race.layout.finish.y - 1, vy: 400 });
 	stepRace(race);
 	assert.deepEqual(
 		race.finished.map((m) => m.id),
@@ -264,7 +268,7 @@ test('도착은 중앙 통로 안의 아래 방향 교차만 인정하고 중복
 	stepRace(race);
 	assert.equal(race.finished.length, 1);
 	assert.deepEqual(winners(race, 'last'), []);
-	Object.assign(race.marbles[1], { x: 360, y: FINISH_Y - 2, vy: 400 });
+	Object.assign(race.marbles[1], { x: 360, y: race.layout.finish.y - 2, vy: 400 });
 	stepRace(race);
 	assert.deepEqual(
 		winners(race, 'multiple', 2).map((m) => m.id),
