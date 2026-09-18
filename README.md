@@ -263,7 +263,7 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 - 얼음 경사판은 선택한 동결음 `frost-freeze-v1.wav`를 얼어붙는 순간 한 번 재생한다. 미리듣기와 경기는 같은 파일을 사용하며 접촉 지속 중에는 반복하지 않는다.
 - 크랙 왁스는 선택한 균열음2개를 충돌마다 번갈아 사용하며, 젤리 연못은 기존 물풍선 음원을 쓴다. 유도 바·분산 핀·결승 회전 바는 기존 팝잇 음원2개를 교대로 사용한다. 장치 합계3개·최소100ms와 충돌 세기에 따른 음량을 유지하며 골인 통로의 수직 벽은 무음이다. 당첨은 승인한 Tada Fanfare A다. 일반층 음향 범위는 최대800이며 다른 층의 재생음은 짧게 감쇠해 정리한다.
 - 음원과 오디오 실행을 확인한 뒤 시작·재개한다. 로딩 실패 시 재시도·무음 시작을 제공한다. 음소거·볼륨은 모든 효과음에 적용한다.
-- Web Worker가 계산을 담당한다. 주변 구슬만 검사하며 순서를 고정한다. 준비는 나눠 실행해 취소할 수 있다. 화면 밖 구슬 그림과 화면 밖 순위 행은 생략하지만 물리·전체 결과 복사는 유지한다.
+- Web Worker가 계산을 담당한다. 준비 시 고정 정보를 한 번 보내고 진행 중에는 구슬 동적 상태와 변경된 블록 속성만 전송한다. 초기화 시 전송·복원 상태를 새로 만들고 이전 Worker 응답을 무시한다. 주변 구슬만 검사하며 순서를 고정한다. 준비는 나눠 실행해 취소할 수 있다. 화면 밖 구슬 그림과 화면 밖 순위 행은 생략하지만 물리·전체 결과 복사는 유지한다.
 
 | 맵·ID                        | 일반 재질 순서                       |
 | ---------------------------- | ------------------------------------ |
@@ -271,11 +271,11 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 | 톡톡 나무공방 · `crunch`     | 나무 → 코르크 → 찰칵 키보드 → 뽁뽁이 |
 | 뽁뽁 물놀이 · `soft`         | 물방울 → 개구리 → 오리 → 팝잇        |
 
-화면 조립은 `src/routes/marble-race/+page.svelte`, 설정은 `settings.js`, 맵·재질은 `catalog.js`, 물리는 `physics.js`, Worker 연결은 `worker-client.js`와 `race-worker.js`, 결승 연출은 `director.js`, 카메라·그림·음향은 `camera.js`·`renderer.js`·`audio.js`가 담당한다. 새 재사용 화면은 `src/lib/marble-race/components/`에 있다. 도감 이미지는 게임과 같은 `tile-painter.js`를 쓴다.
+화면 조립은 `src/routes/marble-race/+page.svelte`, 설정은 `settings.js`, 맵·재질은 `catalog.js`, 물리는 `physics.js`, Worker 연결·증분 전송은 `worker-client.js`·`race-worker.js`·`transport.js`, 결승 연출은 `director.js`, 카메라·그림·음향은 `camera.js`·`renderer.js`·`audio.js`가 담당한다. 새 재사용 화면은 `src/lib/marble-race/components/`에 있다. 도감 이미지는 게임과 같은 `tile-painter.js`를 쓴다.
 
 기존 설정 키 `lake.marble-race.v1`과 맵 별칭을 유지한다. 내 맵은 `lake.marble-race.custom-maps.v1`에 저장하며 손상·삭제된 맵은 나무공방으로 돌아간다. 서버로 참가자 정보를 보내지 않는다.
 
-`npm run test:marble-race`는 입력·저장·특수 장치·복구·충돌·Worker 동일성·90경기 완주를 검사한다. `node scripts/measure_marble_race.js`는 구간별 분포와 우승 편향을 비교할 원시 데이터를 출력한다. `--large`는2/30/60/100/300/1,000개 경기를600초까지 관측한다.60개 이하 목표는120경기초·결승15초다. 이전60초 목표의 실패는 새 목표의 결과와 구분한다.
+`npm run test:marble-race`는 입력·저장·특수 장치·복구·충돌·Worker 동일성·90경기 완주를 검사한다. `node scripts/measure_marble_race.js`는 구간별 분포와 우승 편향을 비교할 원시 데이터를 출력한다. `--large`는2/30/60/100/300/1,000개 경기를600초까지 관측한다.기본3개 맵·2/30/60개·난수10개는120경기초 내 완주해야 한다. 결승15초는 별도 목표로 초과 횟수·최댓값을 계속 기록한다. 결승 입구60개 밀집은 시작 각도4가지에서60경기초 내 전원 완주하고, 출구 앞에 대기 구슬이 있는데8.8경기초 동안 도착이 없으면 배출 정체로 실패한다. 기존 밀집30초 초과 인원도 기록한다.1,000개는600경기초 완주를 직접 계산과 브라우저에서 나눠 확인한다. 브라우저 안전 종료 한도는900실제초이며 기존270실제초의 도착 수를 기록한다. 시간 기준 변경을 속도 개선으로 표시하지 않는다. 이전60초 목표의 실패는 새 목표의 결과와 구분한다. 결승 구조를 유지한 시간 기준과 전송량 측정은 [결승 대기·증분 전송 ADR](docs/adr/2026-09-19-결승-대기와-배출-검사-증분-전송.md)에 기록한다.
 
 화면 검사는 `npx playwright test tests/team-maker-e2e/marble-race.spec.js tests/team-maker-e2e/marble-expansion.spec.js`를 사용한다. 첫 출력 전용 검사는 `playwright.marble-audio.config.js`를 따른다. 측정 환경과 실제 결과는 [새 결정 기록](docs/adr/2026-09-17-특수-구간과-대규모-구슬-경기.md)에 남긴다. [음원 출처](docs/marble-audio-sources.md)와 프로젝트 MIT 라이선스는 구분한다. 이전 음원과 ADR은 보존한다.
 

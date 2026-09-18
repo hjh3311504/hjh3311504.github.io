@@ -1,3 +1,4 @@
+import { createSnapshotDecoder } from './transport.js';
 export function createWorkerClient() {
 	let worker,
 		waiting,
@@ -24,7 +25,10 @@ export function createWorkerClient() {
 			stop();
 			worker = new Worker(new URL('./race-worker.js', import.meta.url), { type: 'module' });
 			alive = true;
+			const currentWorker = worker;
+			const decode = createSnapshotDecoder();
 			worker.onmessage = ({ data }) => {
+				if (worker !== currentWorker) return;
 				if (data.kind === 'progress') {
 					onProgress?.(data);
 					return;
@@ -32,9 +36,16 @@ export function createWorkerClient() {
 				const p = waiting;
 				waiting = null;
 				if (data.kind === 'error') p?.reject(new Error(data.message));
-				else p?.resolve(data);
+				else {
+					try {
+						p?.resolve({ ...data, state: decode(data.state) });
+					} catch (error) {
+						p?.reject(error);
+					}
+				}
 			};
 			worker.onerror = () => {
+				if (worker !== currentWorker) return;
 				waiting?.reject(
 					new Error('경기 계산을 시작하지 못했어요. 새로고침 후 다시 시도해 주세요.')
 				);

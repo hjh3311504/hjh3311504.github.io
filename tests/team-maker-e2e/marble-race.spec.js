@@ -1,3 +1,4 @@
+import { observeRace } from './helpers/observe-race.js';
 import { test, expect } from '@playwright/test';
 import { MAPS } from '../../src/lib/marble-race/catalog.js';
 import { SOUND_FILES } from '../../src/lib/marble-race/audio.js';
@@ -35,14 +36,8 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await page.getByRole('button', { name: /^도각도각 키보드$/ }).click();
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
-		expect(requests).toHaveLength(new Set(MAPS[0].types.flatMap((type) => SOUND_FILES[type])).size);
-		expect(
-			requests.every((url) =>
-				/\/(thock-[12]|thock2-v1|thock3-v3-[12]|thock3-v2|rubber-[12]|frost-freeze-v1|wax-crack-v1-[12]|asmr-lava-ai-v1|fanfare-tada-v1)\.wav$/.test(
-					url
-				)
-			)
-		).toBe(true);
+		const expectedFiles = [...new Set(MAPS[0].types.flatMap((type) => SOUND_FILES[type]))].sort();
+		expect(requests.map((url) => new URL(url).pathname).sort()).toEqual(expectedFiles);
 		await page.waitForTimeout(6000);
 		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 		await expect(page.locator('.stage-state')).toHaveText('일시정지');
@@ -194,57 +189,127 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 			await context.close();
 		}
 	});
-	test('첫 충돌과 결승 충돌이 들리고 자동 카메라는 위로 되돌아가지 않는다', async ({ page }) => {
-		test.setTimeout(140000);
+	async function startObservedRace(page) {
+		await observeRace(page);
 		await page.addInitScript(() => {
-			window.__raceAudio = [];
-			window.__finaleShown = false;
-			const originalSource = AudioContext.prototype.createBufferSource;
-			AudioContext.prototype.createBufferSource = function () {
-				const source = originalSource.call(this),
-					originalStart = source.start;
-				source.start = function (...args) {
-					window.__raceAudio.push({
-						finale: window.__finaleShown,
-						clock: document.querySelector('.race-stats > span:nth-child(2)')?.textContent
-					});
-					return originalStart.apply(this, args);
-				};
-				return source;
-			};
-			const originalText = CanvasRenderingContext2D.prototype.fillText;
-			CanvasRenderingContext2D.prototype.fillText = function (text, ...args) {
-				if (text === '회전 판을 지나 골인하세요!') window.__finaleShown = true;
-				return originalText.call(this, text, ...args);
+			window.__audio = [];
+			window.__starts = [];
+			const original = AudioBufferSourceNode.prototype.start;
+			AudioBufferSourceNode.prototype.start = function (...args) {
+				window.__starts.push(performance.now());
+				return original.apply(this, args);
 			};
 		});
 		await page.goto('/marble-race');
-		await page
-			.getByRole('textbox', { name: '참가자 이름' })
-			.fill(Array.from({ length: 30 }, (_, i) => `구슬${i + 1}`).join('\n'));
+		expect(await page.locator('main').ariaSnapshot()).toContain('구슬');
+		await page.locator('canvas').evaluate((canvas) => {
+			canvas.setAttribute('data-audio-diagnostics', '');
+			canvas.addEventListener('marble-audio', ({ detail }) => window.__audio.push(detail));
+		});
+		await page.getByLabel('참가자 이름').fill('구슬*30');
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	}
+	test('첫 화면 내 블록 충돌은 실제 오디오 재생으로 연결된다', async ({ page }) => {
+		await startObservedRace(page);
+		await page.waitForFunction(
+			() => window.__audio.some((e) => e.kind === 'played' && e.event?.broken),
+			null,
+			{ timeout: 6000 }
+		);
+		const result = await page.evaluate(() => {
+			const played = window.__audio.find((e) => e.kind === 'played' && e.event?.broken);
+			const earliest = window.__audio.find(
+				(e) =>
+					e.kind === 'collision' &&
+					e.audible &&
+					e.event.broken &&
+					e.event.y >= e.view.top &&
+					e.event.y <= e.view.bottom
+			);
+			const first = window.__audio.find(
+				(e) =>
+					e.kind === 'collision' &&
+					e.audible &&
+					e.event.blockId === played?.event.blockId &&
+					e.event.time === played?.event.time
+			);
+			return {
+				earliest,
+				first,
+				played,
+				started: window.__starts.some(
+					(time) => time <= played?.wallTime && time > played?.wallTime - 20
+				)
+			};
+		});
+		expect(result.earliest).toBeTruthy();
+		expect(result.first).toBeTruthy();
+		expect(result.played).toBeTruthy();
+		expect(result.started).toBe(true);
+		expect(result.played.wallTime - result.first.wallTime).toBeLessThan(80);
+		expect(result.played.wallTime - result.earliest.wallTime).toBeLessThan(80);
+		expect(result.played.event.time - result.earliest.event.time).toBeLessThanOrEqual(0.08);
+	});
+	test('실제 결승 장치 충돌은 팝잇 재생으로 연결된다', async ({ page }) => {
+		test.setTimeout(140000);
+		await startObservedRace(page);
+		await page.getByRole('button', { name: '경기 배속 전환', exact: true }).click();
+		await page.waitForFunction(
+			() => window.__audio.some((e) => e.kind === 'played' && e.event?.zoneId === 'finale'),
+			null,
+			{ timeout: 125000 }
+		);
+		const result = await page.evaluate(() => {
+			const played = window.__audio.find(
+				(e) => e.kind === 'played' && e.event?.zoneId === 'finale'
+			);
+			return {
+				played,
+				collided: window.__audio.some(
+					(e) =>
+						e.kind === 'collision' &&
+						e.event?.blockId === played.event.blockId &&
+						e.event?.time === played.event.time
+				),
+				started: window.__starts.some(
+					(time) => time <= played.wallTime && time > played.wallTime - 20
+				)
+			};
+		});
+		expect(result.collided).toBe(true);
+		expect(result.started).toBe(true);
+		expect(SOUND_FILES.popit).toContain(result.played.file);
+	});
+	test('자동 카메라는 결승 연출 전까지 위로 돌아가지 않고 확대 비율을 유지한다', async ({
+		page
+	}) => {
+		test.setTimeout(140000);
+		await startObservedRace(page);
 		await page.evaluate(() => {
 			window.__views = [];
 			window.__viewTimer = setInterval(() => {
+				const state = window.__raceState;
+				if (!state) return;
 				const t = document.querySelector('canvas').getContext('2d').getTransform();
-				window.__views.push({ top: -t.f / t.d, scale: t.a, finale: window.__finaleShown });
+				window.__views.push({
+					top: -t.f / t.d,
+					scale: t.a,
+					cinematic: state.cinematic?.active || state.cinematic?.complete
+				});
 			}, 50);
 		});
-		await page.waitForFunction(() => window.__raceAudio.length > 0, null, { timeout: 6000 });
-		// 첫 충돌과 실제 출력 연결은 marble-audio-e2e에서 두 브라우저로 검사한다.
 		await page.getByRole('button', { name: '경기 배속 전환', exact: true }).click();
-		await expect(page.locator('.stage-state')).toHaveText('경기 종료', { timeout: 125000 });
-		const result = await page.evaluate(() => {
-			clearInterval(window.__viewTimer);
-			return { audio: window.__raceAudio, views: window.__views };
+		await page.waitForFunction(() => window.__raceState?.cinematic?.active, null, {
+			timeout: 125000
 		});
-		expect(result.audio.some((event) => event.finale)).toBe(true);
-		for (let i = 1; i < result.views.length; i++) {
-			if (!result.views[i].finale) {
-				expect(result.views[i].top).toBeGreaterThanOrEqual(result.views[i - 1].top - 0.001);
-				expect(result.views[i].scale).toBeCloseTo(result.views[0].scale, 6);
-			}
-			expect(result.views[i].scale).toBeLessThanOrEqual(result.views[0].scale * 2.4 + 0.001);
+		const views = await page.evaluate(() => {
+			clearInterval(window.__viewTimer);
+			return window.__views.filter((v) => !v.cinematic);
+		});
+		expect(views.length).toBeGreaterThan(10);
+		for (let i = 1; i < views.length; i++) {
+			expect(views[i].top).toBeGreaterThanOrEqual(views[i - 1].top - 0.001);
+			expect(views[i].scale).toBeCloseTo(views[0].scale, 6);
 		}
 	});
 	test('경기 중 화면 크기와 전체화면을 바꿔도 카메라와 소리가 멈추지 않는다', async ({ page }) => {
