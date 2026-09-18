@@ -5,7 +5,7 @@ export const BLOCKS = {
 		name: '나무',
 		symbol: '≋',
 		color: '#d6a06b',
-		description: '톡! 작은 조각으로 깨져요.',
+		description: '톡! 나무 조각이 깨져요.',
 		sound: '단단한 톡·딱'
 	},
 	glass: {
@@ -110,19 +110,19 @@ export const BLOCKS = {
 	thock: {
 		restitution: 0.61,
 		friction: 0.25,
-		name: '도각 키보드',
+		name: '도각 키보드1',
 		symbol: '⌨',
 		color: '#dfc9ac',
-		description: '키캡이 도각 눌리고 빠져요.',
+		description: '키캡이 도각 눌려요.',
 		sound: '낮고 둥근 도각'
 	},
 	clicky: {
 		restitution: 0.63,
 		friction: 0.2,
-		name: '청축 키보드',
+		name: '찰칵 키보드',
 		symbol: '⌨',
 		color: '#b8c9ed',
-		description: '청축 스위치가 선명하게 찰칵 울려요.',
+		description: '키캡이 찰칵 울려요.',
 		sound: '선명한 찰칵'
 	},
 	switch: {
@@ -158,7 +158,7 @@ export const BLOCKS = {
 		name: '팝잇',
 		symbol: '⊙',
 		color: '#c9b6ef',
-		description: '볼록한 부분이 뽁 뒤집혀요.',
+		description: '눌리면 뽁 뒤집혀요.',
 		sound: '둥근 뽁'
 	},
 	wrap: {
@@ -167,7 +167,7 @@ export const BLOCKS = {
 		name: '뽁뽁이',
 		symbol: '⠶',
 		color: '#b9e1ed',
-		description: '작은 공기방울이 짧게 톡 터져요.',
+		description: '공기방울이 톡 터져요.',
 		sound: '짧고 또렷한 톡'
 	},
 	slime: {
@@ -209,8 +209,31 @@ BLOCKS.typewriter = {
 	description: '둥근 문자 키가 눌리며 철컥·탁 울려요.',
 	sound: '단단한 금속 타건'
 };
+BLOCKS.thock2 = {
+	...BLOCKS.thock,
+	name: '도각 키보드2',
+	color: '#cfbbed',
+	description: '낮고 둥글게 도각 울려요.'
+};
+BLOCKS.thock3 = {
+	...BLOCKS.thock,
+	name: '도각 키보드3',
+	color: '#a6dbcf',
+	description: '부드럽게 도각 울려요.',
+	sound: '부드러운 도각'
+};
+BLOCKS.thock4 = {
+	...BLOCKS.thock,
+	name: '도각 키보드4',
+	color: '#f0b6aa',
+	description: '짧고 단단하게 도각 울려요.',
+	sound: '짧고 둥근 도각'
+};
 export const BREAKABLE_TYPES = [
 	'thock',
+	'thock2',
+	'thock3',
+	'thock4',
 	'clicky',
 	'typewriter',
 	'slime',
@@ -242,7 +265,7 @@ BLOCKS.cork = {
 	name: '코르크',
 	symbol: '▰',
 	color: '#d5b183',
-	description: '마개가 뽁 빠지며 작은 조각으로 흩어져요.',
+	description: '마개가 뽁 빠져요.',
 	sound: '짧은 마개 팝'
 };
 BLOCKS.ember = {
@@ -260,7 +283,7 @@ BLOCKS.droplet = {
 	name: '물방울',
 	symbol: '◊',
 	color: '#8dd7ed',
-	description: '물방울이 똑 떨어지며 잔물결을 만들어요.',
+	description: '똑! 물방울이 퍼져요.',
 	sound: '또렷한 똑'
 };
 BLOCKS.frog = {
@@ -269,7 +292,7 @@ BLOCKS.frog = {
 	name: '개구리',
 	symbol: '●',
 	color: '#a2d679',
-	description: '개구리가 짧게 개굴 울며 사라져요.',
+	description: '개굴 울고 사라져요.',
 	sound: '짧은 개굴'
 };
 BLOCKS.duck = {
@@ -278,19 +301,20 @@ BLOCKS.duck = {
 	name: '오리',
 	symbol: '●',
 	color: '#f4d779',
-	description: '오리가 꽥 울며 작은 조각으로 흩어져요.',
+	description: '꽥 울며 조각이 흩어져요.',
 	sound: '또렷한 꽥'
 };
-// 긴 질감4종과 물풍선은 정의·음원을 보존하고 경기·도감에서 제외한다.
+// 긴 질감4종·물풍선·타자기·불씨는 정의와 음원을 보존하고 경기·도감에서 제외한다.
 export const ACTIVE_BLOCK_TYPES = [
 	'thock',
+	'thock2',
+	'thock3',
+	'thock4',
 	'clicky',
-	'typewriter',
 	'popit',
 	'wrap',
 	'cork',
 	'wood',
-	'ember',
 	'droplet',
 	'frog',
 	'duck'
@@ -300,39 +324,39 @@ for (const type of SOUND_TYPES) {
 	const interval = { sand: 0.06, soap: 0.09, slime: 0.08, waxball: 0.15, rubber: 0.1 }[type];
 	BLOCKS[type].audio =
 		interval === undefined
-			? { group: 'percussion', maxVoices: 12, interval: 0.028, level: 1 }
+			? { group: 'percussion', maxVoices: 3, interval: 0.028, level: 1 }
 			: {
 					group: type === 'rubber' ? 'device' : 'texture',
-					maxVoices: type === 'rubber' ? 1 : 3,
+					maxVoices: 3,
 					interval,
 					level: type === 'rubber' ? 0.45 : 1
 				};
 }
-for (const type of ['clicky', 'typewriter']) {
-	BLOCKS[type].audio = { group: 'percussion', maxVoices: 3, interval: 0.06, level: 1 };
-}
 BLOCKS.asmr.audio = { group: 'percussion', maxVoices: 3, interval: 0.1, level: 1 };
-// 울음의 몸통은 유지하되 겹침이 새 타격을 가리지 않게 한다.
-for (const type of ['frog', 'duck']) {
-	BLOCKS[type].audio = { group: 'percussion', maxVoices: 3, interval: 0.1, level: 0.85 };
+// 전체 한도와 별개로 일반 블록은 종류마다3개까지 겹쳐 재생한다.
+for (const type of ACTIVE_BLOCK_TYPES) {
+	BLOCKS[type].audio.maxVoices = 3;
 }
-BLOCKS.ember.audio = { group: 'percussion', maxVoices: 3, interval: 0.12, level: 0.85 };
+// 시작 간격28ms와 기존 음량은 유지한다.
+for (const type of ['frog', 'duck', 'ember']) {
+	BLOCKS[type].audio.level = 0.85;
+}
 export const SAVED_MAPS = [
 	{
 		id: 'keyboard',
 		name: '도각도각 키보드',
-		caption: '경쾌한 타건과 팝',
+		caption: '네 가지 도각 소리를 차례로',
 		icon: '⌨',
-		colors: ['#dfc9ac', '#b8c9ed'],
-		layers: ['thock', 'clicky', 'typewriter', 'popit']
+		colors: ['#dfc9ac', '#f0b6aa'],
+		layers: ['thock', 'thock2', 'thock3', 'thock4']
 	},
 	{
 		id: 'crunch',
 		name: '톡톡 나무공방',
-		caption: '나무·코르크와 타닥이는 불씨',
+		caption: '나무·코르크와 경쾌한 찰칵 소리',
 		icon: '◇',
 		colors: ['#d6a06b', '#d5b183'],
-		layers: ['wood', 'cork', 'ember', 'wrap']
+		layers: ['wood', 'cork', 'clicky', 'wrap']
 	},
 	{
 		id: 'soft',
@@ -344,13 +368,15 @@ export const SAVED_MAPS = [
 	}
 ].map((map) => ({
 	...map,
-	types: [...new Set([...map.layers, 'butter', 'pond', 'rubber', 'fanfare'])]
+	types: [...new Set([...map.layers, 'frost', 'butter', 'pond', 'rubber', 'fanfare'])]
 }));
 
 export const MAPS = SAVED_MAPS;
 
 export function resolveMapId(id, customMaps = []) {
-	const migrated = { workshop: 'keyboard', toys: 'crunch', bounce: 'soft' }[id] ?? id;
+	const migrated =
+		{ workshop: 'keyboard', 'thock-collection': 'keyboard', toys: 'crunch', bounce: 'soft' }[id] ??
+		id;
 	return [...MAPS, ...customMaps].some((map) => map.id === migrated) ? migrated : 'crunch';
 }
 
@@ -407,7 +433,14 @@ export function parseNames(text) {
 		}
 	};
 }
+export function migrateBlockType(type) {
+	if (type === 'ember') return 'clicky';
+	return type === 'typewriter' ? 'thock2' : type;
+}
 export function resolveMap(value, customMaps = []) {
+	if (value && typeof value === 'object' && Array.isArray(value.layers))
+		value = { ...value, layers: value.layers.map(migrateBlockType) };
+
 	if (
 		value &&
 		typeof value === 'object' &&
@@ -421,7 +454,16 @@ export function resolveMap(value, customMaps = []) {
 	const id = resolveMapId(value, customMaps);
 	return resolveMap([...MAPS, ...customMaps].find((map) => map.id === id));
 }
-export const SPECIAL_TYPES = ['butter', 'pond'];
+export const SPECIAL_TYPES = ['frost', 'butter', 'pond'];
+BLOCKS.frost = {
+	...BLOCKS.ice,
+	name: '얼음 경사판',
+	sound: '쩌저저저적 얼어붙는 소리',
+	restitution: 0,
+	friction: 0.01,
+	description: '1초 얼었다가 미끄러져요.',
+	audio: { group: 'device', maxVoices: 3, interval: 0.1, level: 0.75 }
+};
 BLOCKS.scatter = {
 	name: '분산 통로',
 	color: '#8bbce7',
@@ -430,15 +472,16 @@ BLOCKS.scatter = {
 };
 BLOCKS.butter = {
 	...BLOCKS.waxbutter,
-	name: '버터',
-	description: '구슬이 많을수록 더 여러 번 부딪혀야 부서져요.3초 후 돌아와요.',
-	sound: '왁뿌볼의 오도독',
-	audio: { group: 'device', maxVoices: 3, interval: 0.1, level: 0.75 }
+	name: '크랙 왁스',
+	color: '#e9b4aa',
+	description: '눌리다가 바삭 깨져요.',
+	sound: '서로 다른 두 가지 빠삭·오도독',
+	audio: { group: 'percussion', maxVoices: 3, interval: 0.028, level: 0.75 }
 };
 BLOCKS.pond = {
 	...BLOCKS.gel,
 	name: '젤리 연못',
-	description: '퐁당 들어가 천천히 가라앉아요. 한쪽 우회로로 피해 갈 수도 있어요.',
+	description: '풍덩 가라앉거나 우회해요.',
 	sound: '기존 물풍선의 풍덩',
 	audio: { group: 'device', maxVoices: 3, interval: 0.1, level: 0.8 }
 };
@@ -446,4 +489,4 @@ BLOCKS.fanfare = {
 	name: '당첨 축하',
 	audio: { group: 'celebration', maxVoices: 1, interval: 0, level: 0.8 }
 };
-SOUND_TYPES.push('butter', 'pond', 'fanfare');
+SOUND_TYPES.push('frost', 'butter', 'pond', 'fanfare');

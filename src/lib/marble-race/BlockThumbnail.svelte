@@ -1,5 +1,7 @@
 <script>
 	import { createTilePainter } from './tile-painter.js';
+	import { drawSpecialBlock } from './special-painter.js';
+	import { SPECIAL_TYPES } from './catalog.js';
 
 	let { type } = $props();
 	let source = $state('');
@@ -16,7 +18,23 @@
 			if (disposed) return;
 			ctx.setTransform(3, 0, 0, 3, 0, 0);
 			ctx.clearRect(0, 0, 32, 32);
-			drawTile({ type: currentType, x: 16, y: 16, w: 32, h: 32, cornerRadius: 10 });
+			if (SPECIAL_TYPES.includes(currentType)) {
+				ctx.save();
+				ctx.translate(16, 16);
+				const shape =
+					currentType === 'butter'
+						? { w: 120, h: 64, cornerRadius: 16 }
+						: currentType === 'frost'
+							? { w: 160, h: 28, cornerRadius: 8 }
+							: { w: 152, h: 140, cornerRadius: 0 };
+				const scale = currentType === 'butter' ? 0.22 : 0.18;
+				ctx.scale(scale, scale);
+				if (currentType !== 'pond') ctx.rotate(Math.PI / 6);
+				drawSpecialBlock(ctx, { type: currentType, ...shape }, 0, { counter: false });
+				ctx.restore();
+			} else {
+				drawTile({ type: currentType, x: 16, y: 16, w: 32, h: 32, cornerRadius: 10 });
+			}
 			source = canvas.toDataURL();
 		};
 		draw();
@@ -28,6 +46,10 @@
 	});
 </script>
 
-<span class="block-symbol" aria-hidden="true">
+<span
+	class="block-symbol"
+	class:special-thumbnail={SPECIAL_TYPES.includes(type)}
+	aria-hidden="true"
+>
 	{#if source}<img src={source} alt="" width="96" height="96" />{/if}
 </span>

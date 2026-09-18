@@ -1,6 +1,16 @@
 # 구슬 레이스 음원 출처
 
-음원은 게임과 도감에서 같은 파일을 사용한다. 파일명과 소리는 유지하며, 이 문서는 Pixabay 원음의 출처·제작자·라이선스를 기록한다. 프로젝트 MIT 라이선스와 음원 라이선스는 구분한다.
+음원은 게임과 도감에서 같은 파일을 사용한다. 이 문서는 사용 음원의 출처·제작자·라이선스를 기록한다. 프로젝트 MIT 라이선스와 음원 라이선스는 구분한다.
+
+찰칵 키보드는 사용자가 고른 C의 독립된 타건2개(`clicky-v6-1.wav`·`clicky-v6-2.wav`)를 번갈아 재생한다. 재질 동시3개·전체 동시6개·최소28ms 제한을 유지한다.
+
+도각 키보드2와3의 소리를 교환했다. 도각2는 `thock3-v3-1.wav`·`thock3-v3-2.wav`를 A→B 순서로 번갈아 재생하고, 도각3은 단음 `thock2-v1.wav`를 사용한다. 도감과 경기는 같은 파일을 사용하며 재질 동시3개·전체 동시6개·최소28ms 제한을 적용한다. 이전 파일과 비활성 타자기 파일은 보존한다.
+
+도각 키보드4는 예전에 도각3에서 사용했던 단음 `thock3-v2.wav`를 사용한다. 도감과 경기는 같은 파일을 공유하며 재질 동시3개·전체 동시6개·최소28ms 제한을 적용한다. 도각1과 맵·물리는 유지한다. 기존 두 타격 파일들은 보존한다.
+
+## 크랙 왁스
+
+특수 블록 크랙 왁스는 `wax-crack-v1-1.wav`와 `wax-crack-v1-2.wav`를 번갈아 사용한다. 파괴 전 독립 충돌부터 소리를 내며 마지막 파괴 때도 한 번만 재생한다. 도감과 경기는 같은 파일을 사용한다. 전체 동시6개·최소28ms 제한을 따르며 다른 특수 장치의 동시3개 제한과 분리한다. 기존 `waxball-crack-A.wav`는 보존한다.
 
 ## Pixabay 선택과 보존 파일
 
@@ -18,7 +28,7 @@ Pixabay 원음은 [Pixabay Content License](https://pixabay.com/service/license-
 | `duck-ai-v1-1.wav`    | [075176_Duck Quack](https://pixabay.com/sound-effects/nature-075176-duck-quack-40345/)                                         | Freesound Community                           |
 | `fanfare-tada-v1.wav` | [Tada Fanfare A](https://pixabay.com/sound-effects/tada-fanfare-a-6313/)                                                       | plasterbrain (Freesound), freesound_community |
 
-불씨는 `ember-ai-v2-1.wav`와 `ember-ai-v2-2.wav`를 사용한다. 이전 버전은 보존용이다.
+불씨는 비활성화했다. `ember-ai-v2-1.wav`·`ember-ai-v2-2.wav`와 이전 버전은 보존용이며 현재 맵과 도감에서 불러오지 않는다.
 
 ## 기존 Pixabay 출처
 
@@ -63,4 +73,35 @@ Pixabay 원음은 [Pixabay Content License](https://pixabay.com/service/license-
 
 ## 재생
 
-0.3·1·2배속 모두 같은 파일을 원래 속도와 음정으로 재생한다. 재생 제한과 화면 범위 처리는 게임 코드에서 관리한다. 선택된 파일과 원본 해시는 정적 음원 폴더의 JSON에서 확인한다.
+유도 바·분산 핀·고정 결승 유도벽·결승 회전 바는 기존 팝잇 파일 popit-1.wav·popit-2.wav를 교대로 재생한다. 장치 재생 경로인 rubber의 동시3개·최소100ms·음량 기준은 유지한다. 일반 팝잇과 같은 파일을 재사용하며 골인 통로의 수직 벽은 무음이다.
+
+0.25·1·2배속 모두 같은 파일을 원래 속도와 음정으로 재생한다. 재생 제한과 화면 범위 처리는 게임 코드에서 관리한다. 선택된 파일과 원본 해시는 정적 음원 폴더의 JSON에서 확인한다.
+
+## 찰칵 키보드 C
+
+MattRuthSound의 다음 두 녹음을 사용한다. 각각 하나의 타건을 담은 별도 파일이다.
+
+| 사용 파일         | 원음                                                                          | 제작자        | 이용 조건                                                 |
+| ----------------- | ----------------------------------------------------------------------------- | ------------- | --------------------------------------------------------- |
+| `clicky-v6-1.wav` | [One Keypress 006](https://freesound.org/people/MattRuthSound/sounds/561699/) | MattRuthSound | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `clicky-v6-2.wav` | [One Keypress 007](https://freesound.org/people/MattRuthSound/sounds/561698/) | MattRuthSound | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+
+게임용 변형음이며 원본과 다르다. 위 제작자·출처·라이선스는 배포 파일의 `clicky-selection.json`에도 포함한다. 기존 B 파일은 보존한다.
+
+## 도각 키보드2 보존 음원
+
+- 원음: [Keyboard typing sounds: Unidentified Technics keyboard — zrrion](https://freesound.org/people/zrrion/sounds/665075/)
+- 라이선스: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+- 보존 파일: `thock2-v2-1.wav`, `thock2-v2-2.wav`
+- 게임용 발췌 파일이며 원음 전체를 제공하지 않는다.
+
+## 도각 키보드4 보존 음원
+
+- 원음: [Thocky Keyboard Sound Effect — dinamakan](https://pixabay.com/sound-effects/film-special-effects-thocky-keyboard-sound-effect-264568/)
+- 라이선스: Pixabay Content License
+- 보존 파일: `thock4-v6-1.wav`, `thock4-v6-2.wav`
+- 사용자가 선택한 P1에서 다른 두 구간을 새로 고른 파일이다. 원음의 타건 질감을 우선하며 이전 도각4 파일은 보존한다.
+
+얼음 경사판(`frost`)은 사용자가 선택한 `frost-freeze-v1.wav`를 동결 시작 시 재생한다. 약1.61초의 연속 균열과 잔향을 사용하며 경기와 미리듣기는 같은 파일을 공유한다. 장치 그룹 동시3개·전체 동시6개 제한을 유지하고0.25·1·2배속에서도 음원의 속도와 음정은 같다.
+
+전체 동시 재생은6개이며 도각1을 포함한 일반 재질별 한도는3개다. 크랙 왁스·얼음 경사판·고무 범퍼 각각3개와 팡파레1개와 장치·질감 그룹 제한은 유지한다. 미리듣기·팡파레도 전체 한도를 공유하며 음원·음정·개별 음량은 바꾸지 않는다. 전체 최소28ms와 각 재질의 간격을 유지한다.

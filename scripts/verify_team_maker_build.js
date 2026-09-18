@@ -3,12 +3,21 @@ import path from 'node:path';
 import sharp from 'sharp';
 import { verifyTeamMakerCss } from './verify_team_maker_css.js';
 import { publishedLicenses } from './licenses.js';
+import {
+	pageName,
+	seoTitle as marbleTitle,
+	seoDescription as marbleDescription,
+	pageUrl as marbleUrl,
+	shareImage as marbleImage,
+	faqs as marbleFaqs
+} from '../src/lib/marble-race/page-content.js';
 
 const root = process.cwd();
 const requiredFiles = [
 	'build/favicon.svg',
 	'build/favicon.ico',
 	'build/images/site-open-graph-1200x630.png',
+	'build/images/marble-race-open-graph-1200x630.png',
 	'build/licenses/SUIT-LICENSE.txt',
 	'build/licenses/SUITE-LICENSE.txt',
 	'build/licenses/site-LICENSE.txt',
@@ -380,12 +389,16 @@ if ((qrHtml.match(/<h1\b/g)?.length ?? 0) !== 1) throw new Error('QR 코드의 h
 console.log('QR 코드 정적 페이지와 sitemap 검증 통과');
 
 for (const marker of [
-	'톡톡 구슬 레이스',
+	pageName,
+	'id="marble-guide-title"',
+	'id="marble-methods-title"',
+	'id="marble-uses-title"',
+	'id="marble-faq-title"',
 	'id="race-names"',
 	'id="block-library-title"',
-	'첫 번째',
+	'첫번째',
 	'마지막',
-	'여러 명',
+	'여러명',
 	'id="privacy-dialog"',
 	'href="https://hjh3311504.github.io/marble-race"'
 ]) {
@@ -401,3 +414,36 @@ for (const document of [homeHtml, html, qrHtml]) {
 		throw new Error('홈 또는 공통 메뉴에 구슬 레이스 링크가 없습니다.');
 }
 console.log('구슬 레이스 정적 페이지와 sitemap 검증 통과');
+
+// 게임 실행 전의 정적 HTML에도 검색 정보와 실제 안내가 있어야 한다.
+for (const marker of [
+	`<title>${marbleTitle}</title>`,
+	`name="description" content="${marbleDescription}"`,
+	`property="og:title" content="${marbleTitle}"`,
+	`property="og:image" content="${marbleImage}"`,
+	`name="twitter:card" content="summary_large_image"`,
+	`name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"`
+]) {
+	if (!marbleHtml.includes(marker)) throw new Error(`ASMR 구슬 레이스 검색 정보 누락: ${marker}`);
+}
+const marbleJson = marbleHtml.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+if (!marbleJson) throw new Error('ASMR 구슬 레이스 구조화 데이터가 없습니다.');
+const marbleGraph = JSON.parse(marbleJson[1])['@graph'];
+const marbleApp = marbleGraph.find((item) => item['@type'] === 'WebApplication');
+if (
+	marbleApp?.url !== marbleUrl ||
+	marbleApp?.name !== pageName ||
+	marbleApp?.description !== marbleDescription ||
+	marbleApp?.offers?.price !== 0
+)
+	throw new Error('ASMR 구슬 레이스 앱 정보와 검색 설명이 일치하지 않습니다.');
+if (marbleApp.aggregateRating || marbleApp.review)
+	throw new Error('확인되지 않은 평점·리뷰를 넣지 않습니다.');
+for (const faq of marbleFaqs) {
+	if (!marbleHtml.includes(faq.question) || !marbleHtml.includes(faq.answer))
+		throw new Error(`정적 HTML에 FAQ 본문이 없습니다: ${faq.question}`);
+}
+const marbleImageMeta = await sharp('build/images/marble-race-open-graph-1200x630.png').metadata();
+if (marbleImageMeta.width !== 1200 || marbleImageMeta.height !== 630)
+	throw new Error('ASMR 구슬 레이스 공유 이미지는1200×630이어야 합니다.');
+console.log('ASMR 구슬 레이스 검색 정보·구조화 데이터·정적 가이드·공유 이미지 검증 통과');

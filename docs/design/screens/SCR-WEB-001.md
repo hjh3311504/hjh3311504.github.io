@@ -4,7 +4,7 @@
 |---|---|
 | 화면 ID | `SCR-WEB-001` |
 | 화면 이름 | 팀 메이커 |
-| 연결 REQ | `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`, `REQ-WEB-026`, `REQ-WEB-027`, `REQ-WEB-028` |
+| 연결 REQ | `REQ-MARBLE-005`, `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`, `REQ-WEB-026`, `REQ-WEB-027`, `REQ-WEB-028` |
 
 ## 목적
 
@@ -231,3 +231,5 @@
 사용자 설계·구현 승인: 2026-09-11 QR 안내 디자인을 Team Maker 하단 안내 4개에 적용.
 
 3단계 사용법·활용 상황·주요 기능·FAQ는 공통 DisclosureSection의 카드와 제목 앞 CSS 삼각형을 사용한다. 기본 마커를 숨기고 화살표와 텍스트를 세로 가운데 정렬하며 간격은 12px다. 오른쪽 접기·펼치기 문구는 제거한다. 처음에는 모두 펼쳐 두며 마우스·키보드로 독립적으로 조작한다. 본문과 ID·접근성 연결은 유지한다. 참가자·설정·결과·오늘 기록에는 새 접기 기능을 추가하지 않는다.
+
+공통 메뉴의 구슬 추첨 도구 이름은 `ASMR 구슬 레이스`로 표시하며 기존 `/marble-race`로 연결한다.

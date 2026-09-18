@@ -20,7 +20,7 @@ export function createWorkerClient() {
 		});
 	}
 	return {
-		async prepare(participants, map, seed, mode, count, onProgress) {
+		async prepare(participants, map, seed, mode, count, onProgress, startRank = 1) {
 			stop();
 			worker = new Worker(new URL('./race-worker.js', import.meta.url), { type: 'module' });
 			alive = true;
@@ -47,7 +47,8 @@ export function createWorkerClient() {
 					map,
 					seed,
 					mode,
-					count
+					count,
+					startRank
 				})
 			).state;
 		},

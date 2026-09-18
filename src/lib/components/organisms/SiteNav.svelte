@@ -211,10 +211,16 @@
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
-					stroke-width="2"
-					aria-hidden="true"><circle cx="12" cy="8" r="5" /><path d="M4 19h6m4 0h6M8 7l2-2" /></svg
+					stroke-width="1.8"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="marble-nav-icon"
+					aria-hidden="true"
+					><circle cx="7" cy="16" r="4" /><path
+						d="M5.5 15l1-1M15 21V3m0 0h7v8h-7M18.5 3v8M15 7h7"
+					/></svg
 				>
-				<span>구슬 레이스</span>
+				<span>ASMR 구슬 레이스</span>
 				{#if active === 'marble-race'}<span class="current-badge">현재</span>{/if}
 			</Button>
 		</div>
@@ -347,6 +353,11 @@
 
 	nav :global(a span:not(.current-badge)) {
 		flex: 1;
+	}
+
+	.marble-nav-icon {
+		flex: none;
+		color: #3274d9;
 	}
 
 	.current-badge {

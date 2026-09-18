@@ -100,7 +100,7 @@ test('1,001개 준비는 여러 번 나뉘며 출발 구슬끼리 겹치지 않�
 		cells.get(key).push(m);
 	}
 });
-test('버터는 독립 접촉5회에만 파괴되고3초 뒤 원래 모양으로 복구한다', () => {
+test('크랙 왁스는 독립 접촉마다 한 번 소리 나고5회에 파괴되며3초 뒤 복구한다', () => {
 	const race = createRace(Array(30).fill('가'));
 	const block = race.blocks.find((b) => b.type === 'butter');
 	race.blocks = [block];
@@ -114,6 +114,10 @@ test('버터는 독립 접촉5회에만 파괴되고3초 뒤 원래 모양으로
 		const hp = block.hp;
 		hitBlock(race, m, block, hit);
 		assert.equal(block.hp, hp);
+		assert.equal(race.events.length, i + 1, '지속 접촉과 마지막 파괴음은 중복되지 않는다');
+		assert.equal(race.events[i].soundType, 'butter');
+		assert.equal(race.events[i].broken, i === 4);
+		assert.ok(race.events[i].y > m.y, '충돌면 위치로 소리 범위를 판정한다');
 		assert.equal(hp, 4 - i);
 		if (i < 4) assert.ok(block.h < 64);
 	}
@@ -129,13 +133,31 @@ test('버터는 독립 접촉5회에만 파괴되고3초 뒤 원래 모양으로
 	assert.equal(block.h, 64);
 	assert.equal(block.hp, 5);
 });
+test('크랙 왁스의 약한 재접촉도 소리 나지만 내구도와 겹침 보정은 별도로 처리한다', () => {
+	const race = createRace(Array(30).fill('가'));
+	const block = race.blocks.find((b) => b.type === 'butter');
+	const m = race.marbles[0];
+	for (const dt of [0, 1 / 120, 1 / 120]) {
+		Object.assign(m, { x: block.x, y: block.y - block.h / 2 - 12, vx: 0, vy: 3 });
+		hitBlock(race, m, block, collision(m, block, race.time), dt);
+	}
+	assert.equal(block.hp, block.maxHp);
+	assert.equal(race.events.length, 1);
+	m.y = block.y - 200;
+	stepRace(race);
+	assert.equal(m.specialContacts.has(block.id), false);
+	Object.assign(m, { x: block.x, y: block.y - block.h / 2 - 12, vx: 0, vy: 3 });
+	hitBlock(race, m, block, collision(m, block, race.time));
+	assert.equal(race.events.filter((e) => e.type === 'butter').length, 1);
+	assert.equal(block.hp, block.maxHp);
+});
 test('연못은 반동 없이 힘으로 감속하며 진입음은 한 번, 밖으로 빠져나온다', () => {
 	const race = createRace(['가', '나']);
 	const block = race.blocks.find((b) => b.type === 'pond');
 	race.blocks = [block];
 	race.marbles[1].finished = true;
 	const m = race.marbles[0];
-	Object.assign(m, { x: 360, y: block.y - block.h / 2 - 10, vx: 0, vy: 430 });
+	Object.assign(m, { x: block.x, y: block.y - block.h / 2 - 10, vx: 0, vy: 430 });
 	let sounds = 0,
 		minSpeed = 430;
 	while (race.time < 5 && m.y < block.y + block.h / 2 + 15) {
@@ -147,14 +169,14 @@ test('연못은 반동 없이 힘으로 감속하며 진입음은 한 번, 밖�
 	assert.ok(minSpeed > 60 && minSpeed < 100);
 	assert.ok(m.y > block.y + block.h / 2 + 13);
 	assert.deepEqual(SOUND_FILES.pond, SOUND_FILES.asmr);
-	assert.deepEqual(SOUND_FILES.butter, SOUND_FILES.waxball);
+	assert.notDeepEqual(SOUND_FILES.butter, SOUND_FILES.waxball);
 });
 test('n번째와 마지막 당첨·슬로모션·중복 축하 방지', () => {
 	for (const mode of ['first', 'last', 'multiple', 'nth']) {
 		const race = createRace(['가', '가', '다']);
 		const count = mode === 'first' || mode === 'last' ? 1 : 2;
 		const d = createDirector(mode, count);
-		race.marbles.forEach((m, i) => (m.y = race.layout.finale.start + 100 - i * 30));
+		race.marbles.forEach((m, i) => (m.y = race.layout.finale.rotor.y - i * 30));
 		assert.equal(d.update(race).active, true);
 		for (const id of [1, 0, 2]) {
 			const m = race.marbles[id];
@@ -178,4 +200,144 @@ test('n번째와 마지막 당첨·슬로모션·중복 축하 방지', () => {
 			[0]
 		);
 	}
+});
+
+test('결승 추적 후보는 경기 시간 대기 없이 현재 순위로 즉시 바뀐다', () => {
+	for (const [mode, count, expected] of [
+		['first', 1, [0, 1, 0]],
+		['multiple', 2, [0, 1, 0]],
+		['last', 1, [2, 0, 2]],
+		['nth', 2, [1, 2, 1]]
+	]) {
+		const race = createRace(['가', '나', '다']);
+		const director = createDirector(mode, count);
+		for (const [index, positions] of [
+			[300, 200, 100],
+			[100, 300, 200],
+			[300, 200, 100]
+		].entries()) {
+			race.marbles.forEach((m, i) => {
+				m.y = race.layout.finale.rotor.y + positions[i] - 100;
+			});
+			const state = director.update(race);
+			assert.equal(state.active, true);
+			assert.equal(state.focusId, expected[index], mode);
+			assert.equal(state.newWinners.length, 0);
+			assert.equal(race.time, 0, '후보 갱신에 시간 경과가 필요하지 않다');
+		}
+	}
+});
+
+test('결승 확대와 슬로모션은 회전문100위에 도착할 때 시작하며 반동으로 취소되지 않는다', () => {
+	for (const mode of ['first', 'last', 'multiple', 'nth']) {
+		const race = createRace(['가', '나', '다']);
+		const director = createDirector(mode, mode === 'multiple' || mode === 'nth' ? 2 : 1);
+		const trigger = race.layout.finale.rotor.y - 100;
+		for (const y of [race.layout.finale.start, trigger - 1]) {
+			race.marbles.forEach((m) => (m.y = y));
+			assert.equal(director.update(race).active, false, `${mode}: 회전문 접근 전에는 일반 배속`);
+		}
+		race.marbles.forEach((m) => (m.y = trigger));
+		assert.equal(director.update(race).active, true, `${mode}: 기준 높이에 도착하면 연출 시작`);
+		race.marbles.forEach((m) => (m.y = trigger - 150));
+		assert.equal(director.update(race).active, true, `${mode}: 시작 뒤 상승 반동에도 유지`);
+	}
+});
+
+test('저장된 타자기 구역은 도각2로 바꾸고 도각3·중복 구역·명단을 보존한다', () => {
+	const oldMap = {
+		id: 'custom-old-keys',
+		name: '내 키보드',
+		layers: ['typewriter', 'thock3', 'typewriter', 'thock']
+	};
+	const storage = {
+		getItem(key) {
+			return JSON.stringify(
+				key === CUSTOM_MAPS_KEY ? [oldMap] : { namesText: '토끼*30', mapId: oldMap.id, volume: 27 }
+			);
+		}
+	};
+	const loaded = readSettings(storage);
+	assert.equal(loaded.namesText, '토끼*30');
+	assert.equal(loaded.mapId, oldMap.id);
+	assert.equal(loaded.volume, 27);
+	assert.deepEqual(loaded.customMaps[0].layers, ['thock2', 'thock3', 'thock2', 'thock']);
+	assert.deepEqual(resolveMap(oldMap).layers, loaded.customMaps[0].layers);
+	assert.equal(oldMap.layers[0], 'typewriter', '입력 저장 객체는 직접 바꾸지 않는다');
+	const race = createRace(['가', '나'], loaded.customMaps[0]);
+	assert.deepEqual(
+		race.zones.map((z) => z.type),
+		loaded.customMaps[0].layers
+	);
+	for (const type of ['thock2', 'thock3']) {
+		const b = race.blocks.find((b) => b.type === type),
+			m = race.marbles[0];
+		Object.assign(m, { x: b.x, y: b.y - 28, vx: 0, vy: 200 });
+		hitBlock(race, m, b, collision(m, b, race.time));
+		assert.equal(b.alive, false);
+		assert.equal(b.respawnAt, 3);
+	}
+	race.marbles.forEach((m) => Object.assign(m, { x: 360, y: 50, vx: 0, vy: 0 }));
+	race.time = 3;
+	stepRace(race);
+	for (const type of ['thock2', 'thock3'])
+		assert.ok(race.blocks.filter((b) => b.type === type).every((b) => b.alive));
+});
+
+test('도각 네 종류의 새 맵과 저장을 연결하고 도각4는 파괴·복구한다', () => {
+	const map = resolveMap('keyboard');
+	assert.equal(resolveMap('thock-collection').id, 'keyboard');
+	assert.deepEqual(map.layers, ['thock', 'thock2', 'thock3', 'thock4']);
+	const saved = readSettings({
+		getItem: (key) =>
+			key === SETTINGS_KEY
+				? JSON.stringify({ mapId: 'thock-collection', namesText: '가,나' })
+				: null
+	});
+	assert.equal(saved.mapId, map.id);
+	const custom = validateCustomMaps([
+		{ id: 'custom-four', name: '도각4 두 번', layers: ['thock4', 'thock', 'thock4', 'thock2'] }
+	]);
+	assert.deepEqual(custom[0].layers, ['thock4', 'thock', 'thock4', 'thock2']);
+	const race = createRace(['가', '나'], map.id);
+	assert.deepEqual(
+		race.zones.map((z) => z.type),
+		map.layers
+	);
+	const block = race.blocks.find((b) => b.type === 'thock4');
+	const marble = race.marbles[0];
+	Object.assign(marble, { x: block.x, y: block.y - 28, vx: 0, vy: 200 });
+	hitBlock(race, marble, block, collision(marble, block, race.time));
+	assert.equal(block.alive, false);
+	assert.equal(block.respawnAt, 3);
+	race.marbles.forEach((m) => Object.assign(m, { x: 360, y: 50, vx: 0, vy: 0 }));
+	race.time = 3;
+	stepRace(race);
+	assert.equal(block.alive, true);
+});
+
+test('저장한 불씨 구역만 찰칵으로 바꾸고 맵 선택·명단·다른 구역을 보존한다', () => {
+	const oldMap = {
+		id: 'custom-ember',
+		name: '내 나무공방',
+		layers: ['wood', 'ember', 'cork', 'ember']
+	};
+	const loaded = readSettings({
+		getItem: (key) =>
+			JSON.stringify(
+				key === CUSTOM_MAPS_KEY
+					? [oldMap]
+					: { namesText: '토끼*5,오리', mapId: oldMap.id, volume: 35 }
+			)
+	});
+	assert.equal(loaded.namesText, '토끼*5,오리');
+	assert.equal(loaded.mapId, oldMap.id);
+	assert.equal(loaded.volume, 35);
+	assert.equal(loaded.customMaps[0].name, oldMap.name);
+	assert.deepEqual(loaded.customMaps[0].layers, ['wood', 'clicky', 'cork', 'clicky']);
+	assert.deepEqual(resolveMap(oldMap).layers, loaded.customMaps[0].layers);
+	assert.equal(oldMap.layers[1], 'ember');
+	const race = createRace(['토끼', '오리'], loaded.customMaps[0]);
+	assert.ok(race.blocks.every((block) => block.type !== 'ember'));
+	assert.equal(resolveMap(oldMap).types.includes('ember'), false);
 });

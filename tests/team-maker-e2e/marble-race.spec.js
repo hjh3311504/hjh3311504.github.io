@@ -31,27 +31,32 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		});
 		await page.goto('/marble-race');
 		await expect(page.getByRole('heading', { name: '블록 도감' })).toBeVisible();
-		await expect(page.locator('[aria-labelledby=block-library-title] button')).toHaveCount(11);
+		await expect(page.locator('[aria-labelledby=block-library-title] button')).toHaveCount(15);
 		await page.getByRole('button', { name: /^도각도각 키보드$/ }).click();
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		expect(requests).toHaveLength(new Set(MAPS[0].types.flatMap((type) => SOUND_FILES[type])).size);
 		expect(
 			requests.every((url) =>
-				/\/(thock-[12]|clicky-keyboard-press-ai-v1|typewriter-8-ai-v1|popit-[12]|rubber-[12]|waxball-crack-A|asmr-lava-ai-v1|fanfare-tada-v1)\.wav$/.test(
+				/\/(thock-[12]|thock2-v1|thock3-v3-[12]|thock3-v2|rubber-[12]|frost-freeze-v1|wax-crack-v1-[12]|asmr-lava-ai-v1|fanfare-tada-v1)\.wav$/.test(
 					url
 				)
 			)
 		).toBe(true);
 		await page.waitForTimeout(6000);
-		await page.getByRole('button', { name: '잠시 멈춤 Ⅱ', exact: true }).click();
-		await expect(page.locator('.stage-state')).toHaveText('잠시 멈춤');
+		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
+		await expect(page.locator('.stage-state')).toHaveText('일시정지');
 		const stats = await page.locator('.race-stats').innerText();
-		const pausedCanvas = await page.locator('canvas').evaluate((canvas) => canvas.toDataURL());
+		// 일시정지 중에도 미니맵 탐색과 카메라 보간은 가능하다. 물리 위치만 고정한다.
+		const positions = () =>
+			page
+				.locator('.race-minimap svg circle')
+				.evaluateAll((nodes) =>
+					nodes.map((node) => [node.getAttribute('cx'), node.getAttribute('cy')])
+				);
+		const pausedPositions = await positions();
 		await page.waitForTimeout(2200);
-		expect(await page.locator('canvas').evaluate((canvas) => canvas.toDataURL())).toBe(
-			pausedCanvas
-		);
+		expect(await positions()).toEqual(pausedPositions);
 		await expect(page.locator('.race-stats')).toHaveText(stats, { useInnerText: true });
 		await editSettings(page);
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
@@ -85,9 +90,15 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		});
 		await page.goto('/marble-race');
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
-		await expect(page.locator('.stage-state')).toHaveText('소리 준비 중');
+		await expect(page.locator('.stage-state')).toHaveText('소리와 구슬을 준비하고 있어요.');
+		const control = page.locator('.play-controls button');
+		await expect(control).toHaveText('구슬 굴리기 ▶');
+		await expect(control).toBeDisabled();
+		await expect(control).toHaveCSS('opacity', '1');
+		await expect(control).toHaveCSS('min-width', '144px');
+		await expect(page.locator('.stage-overlay-card')).toHaveCount(0);
 		await expect(page.getByRole('textbox', { name: '참가자 이름' })).toBeDisabled();
-		await expect(page.getByRole('button', { name: '잠시 멈춤 Ⅱ', exact: true })).toBeDisabled();
+		await expect(page.getByRole('button', { name: '일시정지 Ⅱ', exact: true })).toHaveCount(0);
 		await editSettings(page);
 		release();
 		await expect(page.locator('.stage-state')).toHaveText('출발 준비');
@@ -129,7 +140,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await page.getByRole('button', { name: '경기장 전체화면', exact: true }).click();
 		await expect(speed).toHaveText('2배속');
 		await page.getByRole('button', { name: '전체화면 닫기', exact: true }).click();
-		await page.getByRole('button', { name: '잠시 멈춤 Ⅱ', exact: true }).click();
+		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 		await expect(speed).toBeDisabled();
 		await expect(speed).toHaveText('2배속');
 		await page.getByRole('button', { name: '계속하기 ▶', exact: true }).last().click();
@@ -257,9 +268,9 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	});
 	for (const [mode, map, count] of [
-		['첫 번째', '도각도각 키보드', 1],
+		['첫번째', '도각도각 키보드', 1],
 		['마지막', '도각도각 키보드', 1],
-		['여러 명', '도각도각 키보드', 2],
+		['여러명', '도각도각 키보드', 2],
 		['n번째', '도각도각 키보드', 1]
 	]) {
 		test(`${mode}: 중복 이름을 별도 구슬로 처리하고 최종 당첨자를 표시한다`, async ({ page }) => {
@@ -271,7 +282,10 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 			await page.getByRole('button', { name: new RegExp('^' + map + '$') }).click();
 			await page.getByRole('button', { name: mode, exact: true }).click();
 			if (mode === 'n번째') await page.getByRole('spinbutton', { name: '당첨 순번' }).fill('2');
-			if (mode === '여러 명') await page.getByRole('spinbutton', { name: '당첨 인원' }).fill('2');
+			if (mode === '여러명') {
+				await page.getByLabel('시작 순위').fill('1');
+				await page.getByLabel('끝 순위').fill('2');
+			}
 			await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
 			await expect(page.locator('.stage-state')).toHaveText('경기 종료', { timeout: 155000 });
 			await expect(page.locator('.winner-names > span')).toHaveCount(count);
@@ -285,9 +299,10 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 	}
 });
 
-test('이전 맵3종을 연결하고 저장 명단과 나머지 설정을 보존한다', async ({ page }) => {
+test('이전 맵과 도각 전용 맵을 연결하고 저장 명단과 나머지 설정을 보존한다', async ({ page }) => {
 	for (const [oldId, name] of [
 		['workshop', '도각도각 키보드'],
+		['thock-collection', '도각도각 키보드'],
 		['toys', '톡톡 나무공방'],
 		['bounce', '뽁뽁 물놀이']
 	]) {
@@ -314,11 +329,12 @@ test('이전 맵3종을 연결하고 저장 명단과 나머지 설정을 보존
 			'aria-pressed',
 			'true'
 		);
-		await expect(page.getByRole('button', { name: '여러 명', exact: true })).toHaveAttribute(
+		await expect(page.getByRole('button', { name: '여러명', exact: true })).toHaveAttribute(
 			'aria-pressed',
 			'true'
 		);
-		await expect(page.getByRole('spinbutton', { name: '당첨 인원' })).toHaveValue('2');
+		await expect(page.getByLabel('시작 순위')).toHaveValue('1');
+		await expect(page.getByLabel('끝 순위')).toHaveValue('2');
 	}
 });
 
@@ -363,45 +379,89 @@ test('물풍선은 제외하고 코르크·나무는 도감과 맵에서 같은 
 	await page.locator('canvas').evaluate((canvas) => {
 		canvas.setAttribute('data-audio-diagnostics', '');
 		window.__newBlockSounds = [];
+		window.__previewVoices = 0;
+		const start = AudioBufferSourceNode.prototype.start;
+		AudioBufferSourceNode.prototype.start = function (...args) {
+			const result = start.apply(this, args);
+			window.__previewVoices++;
+			this.addEventListener('ended', () => window.__previewVoices--, { once: true });
+			return result;
+		};
+		window.__thockFiles = { thock2: [], thock3: [], thock4: [] };
 		canvas.addEventListener('marble-audio', (event) => {
-			if (event.detail.kind === 'played') window.__newBlockSounds.push(event.detail.type);
+			if (event.detail.kind === 'played') {
+				window.__newBlockSounds.push(event.detail.type);
+				window.__thockFiles[event.detail.type]?.push(event.detail.file);
+			}
 		});
 	});
+	const waitForPreviewEnd = () =>
+		expect.poll(() => page.evaluate(() => window.__previewVoices)).toBe(0);
 	const played = (type) =>
 		expect
 			.poll(() => page.evaluate((type) => window.__newBlockSounds.includes(type), type))
 			.toBe(true);
 	await expect(page.getByRole('button', { name: /ASMR 캡슐 소리/ })).toHaveCount(0);
+	await expect(page.getByRole('button', { name: /불씨 소리 미리듣기/ })).toHaveCount(0);
+	await expect(page.getByRole('button', { name: /옛날 타자기 소리/ })).toHaveCount(0);
+	for (const [type, name] of [
+		['thock', '도각 키보드1'],
+		['thock2', '도각 키보드2'],
+		['thock3', '도각 키보드3'],
+		['thock4', '도각 키보드4']
+	]) {
+		await waitForPreviewEnd();
+		await page.getByRole('button', { name: new RegExp(`${name} 소리 미리듣기`) }).click();
+		await played(type);
+		expect(requests.some((url) => url.endsWith(SOUND_FILES[type][0]))).toBe(true);
+	}
+
+	for (const number of [2, 3, 4]) {
+		const type = `thock${number}`;
+		await waitForPreviewEnd();
+		await page
+			.getByRole('button', { name: new RegExp(`도각 키보드${number} 소리 미리듣기`) })
+			.click();
+		await expect
+			.poll(() => page.evaluate((type) => window.__thockFiles[type], type))
+			.toEqual([SOUND_FILES[type][0], SOUND_FILES[type][1 % SOUND_FILES[type].length]]);
+	}
+
 	const wood = page.getByRole('button', { name: /나무 소리 미리듣기/ });
 	await expect(wood.locator('small')).toHaveCount(0);
+	await waitForPreviewEnd();
 	await wood.click();
 	await played('wood');
 	await expect.poll(() => requests.filter((url) => /wood-[12]\.wav$/.test(url)).length).toBe(2);
 	const cork = page.getByRole('button', { name: /코르크 소리 미리듣기/ });
 	await expect(cork.locator('small')).toHaveCount(0);
+	await waitForPreviewEnd();
 	await cork.click();
 	await played('cork');
 	await expect
 		.poll(() => requests.filter((url) => /cork-pop-b-ai-[12]\.wav$/.test(url)).length)
 		.toBe(2);
 	for (const [type, name] of [
-		['ember', '불씨'],
 		['droplet', '물방울'],
 		['frog', '개구리'],
 		['duck', '오리']
 	]) {
+		await waitForPreviewEnd();
 		await page.getByRole('button', { name: new RegExp(`${name} 소리 미리듣기`) }).click();
 		await played(type);
 	}
-	await page.getByRole('button', { name: /청축 키보드 소리 미리듣기/ }).click();
+	await waitForPreviewEnd();
+	await page.getByRole('button', { name: /찰칵 키보드 소리 미리듣기/ }).click();
 	await played('clicky');
 	await expect
-		.poll(() => requests.some((url) => url.endsWith('clicky-keyboard-press-ai-v1.wav')))
-		.toBe(true);
+		.poll(() => requests.filter((url) => /clicky-v6-[12]\.wav$/.test(url)).length)
+		.toBe(2);
 	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 });
 
-test('도감11종을 게임 타일 이미지로 표시하고 각 맵의 음원만 준비한다', async ({ page }) => {
+test('일반12종과 특수3종을 실제 경기 이미지로 표시하고 각 맵의 음원만 준비한다', async ({
+	page
+}) => {
 	const requests = [];
 	page.on('request', (request) => {
 		if (request.url().includes('/audio/marble-race/'))
@@ -413,7 +473,7 @@ test('도감11종을 게임 타일 이미지로 표시하고 각 맵의 음원�
 			'블록 도감'
 		);
 		const pictures = page.locator('[aria-labelledby=block-library-title] img');
-		await expect(pictures).toHaveCount(11);
+		await expect(pictures).toHaveCount(15);
 		await expect
 			.poll(() =>
 				pictures.evaluateAll((images) =>
@@ -422,10 +482,10 @@ test('도감11종을 게임 타일 이미지로 표시하고 각 맵의 음원�
 			)
 			.toBe(true);
 		const sources = await pictures.evaluateAll((images) => images.map((img) => img.src));
-		expect(new Set(sources).size).toBe(11);
+		expect(new Set(sources).size).toBe(15);
 		expect(sources.every((src) => src.startsWith('data:image/png;base64,'))).toBe(true);
 		await page.getByRole('button', { name: map.name, exact: true }).click();
-		await expect(page.locator('.map-material')).toHaveCount(4);
+		await expect(page.locator('.map-material').filter({ hasText: '포함' })).toHaveCount(4);
 		requests.length = 0;
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');

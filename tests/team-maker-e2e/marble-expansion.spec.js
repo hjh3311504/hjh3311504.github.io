@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { SOUND_FILES } from '../../src/lib/marble-race/audio.js';
 const start = (page) => page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first();
 test('경기 전 저장·곱하기·n번째·볼륨과 중복 재질 내 맵을 복원한다', async ({ page }) => {
 	await page.goto('/marble-race');
@@ -17,7 +18,7 @@ test('경기 전 저장·곱하기·n번째·볼륨과 중복 재질 내 맵을 
 		'true'
 	);
 	await expect
-		.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('lake.marble-race.v1')).nth))
+		.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('lake.marble-race.v1'))?.nth))
 		.toBe(1001);
 	await page.reload();
 	await expect(page.getByLabel('참가자 이름')).toHaveValue('토끼*1001');
@@ -38,24 +39,57 @@ test('경기 전 저장·곱하기·n번째·볼륨과 중복 재질 내 맵을 
 		'true'
 	);
 });
-test('설정 잠금 이유·확인 취소·종료 후 편집과 미니맵을 제공한다', async ({ page }) => {
+test('일시정지 패널 하나에서 계속하기·종료 후 편집과 미니맵을 제공한다', async ({ page }) => {
 	await page.goto('/marble-race');
+	expect(await page.locator('main').ariaSnapshot()).toContain('구슬 굴리기');
+	await page.evaluate(() => {
+		window.__loadingOverlaySeen = false;
+		window.__playButton = document.querySelector('.play-controls button');
+		window.__playButtonReplaced = false;
+		new MutationObserver(() => {
+			if (document.querySelector('.play-controls button') !== window.__playButton)
+				window.__playButtonReplaced = true;
+			if (
+				[...document.querySelectorAll('.stage-overlay-card')].some((card) =>
+					card.textContent.includes('경기를 준비하고 있어요')
+				)
+			)
+				window.__loadingOverlaySeen = true;
+		}).observe(document.querySelector('.race-stage'), { childList: true, subtree: true });
+	});
+	// 이 검사는 잠금·미니맵 UI를 검증하며 브라우저 오디오 실행 상태와 분리한다.
+	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 	await start(page).click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	await expect(
 		page.getByText('경기 중에는 참가자·맵·당첨 방식을 변경할 수 없습니다.', { exact: true })
 	).toBeVisible();
+	await expect(
+		page
+			.locator('.play-controls')
+			.getByRole('button', { name: '경기 종료하고 설정 변경', exact: true })
+	).toHaveCount(0);
 	const box = page.locator('.race-minimap svg > rect').last();
 	const before = await box.getAttribute('y');
 	await expect.poll(() => box.getAttribute('y'), { timeout: 10000 }).not.toBe(before);
 	await page.getByRole('button', { name: '경기 종료하고 설정 변경', exact: true }).first().click();
-	await expect(page.getByRole('dialog', { name: '경기를 종료할까요?' })).toBeVisible();
-	await page.getByRole('button', { name: '경기로 돌아가기' }).click();
+	const panel = page.getByRole('region', { name: '일시정지' });
+	await expect(panel).toBeVisible();
+	await expect(panel).toHaveCount(1);
+	await expect(page.getByRole('dialog', { name: '경기를 종료할까요?' })).toHaveCount(0);
+	await expect(panel.getByRole('button', { name: '계속하기 ▶' })).toBeFocused();
+	await expect(panel.getByText(/종료하면 현재 경기를 이어갈 수 없어요/)).toBeVisible();
+	await panel.getByRole('button', { name: '계속하기 ▶' }).click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
-	await page.getByRole('button', { name: '잠시 멈춤 Ⅱ' }).click();
-	await expect(page.getByText(/일시정지 중에도 경기 설정/)).toBeVisible();
-	await page.getByRole('button', { name: '경기 종료하고 설정 변경', exact: true }).first().click();
-	await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
+	expect(await page.evaluate(() => window.__loadingOverlaySeen)).toBe(false);
+	expect(await page.evaluate(() => window.__playButtonReplaced)).toBe(false);
+	await page.getByRole('button', { name: '일시정지 Ⅱ' }).click();
+	await expect(panel).toBeVisible();
+	await page.setViewportSize({ width: 390, height: 844 });
+	await expect(panel.getByRole('button', { name: '종료하고 설정 변경' })).toBeVisible();
+	await panel.getByRole('button', { name: '종료하고 설정 변경' }).click();
+	await expect(panel).toHaveCount(0);
+	await expect(page.getByLabel('참가자 이름')).toBeFocused();
 	await expect(page.getByLabel('참가자 이름')).toBeEnabled();
 	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 });
@@ -67,7 +101,12 @@ test('백만 개 준비를 취소하고 현재 명단을 유지한다', async ({
 	await expect(
 		page.getByRole('button', { name: '준비 취소하고 설정 변경', exact: true }).first()
 	).toBeVisible();
-	await page.getByRole('button', { name: '준비 취소하고 설정 변경', exact: true }).first().click();
+	await expect(page.locator('.stage-overlay-card')).toHaveCount(0);
+	await expect(page.locator('.stage-state')).toContainText('준비');
+	await expect(page.locator('.play-controls button')).toHaveCount(1);
+	await expect(page.locator('.play-controls button')).toHaveText('구슬 굴리기 ▶');
+	await expect(page.locator('.play-controls button')).toBeDisabled();
+	await page.getByRole('button', { name: '준비 취소하고 설정 변경', exact: true }).click();
 	await expect(page.getByLabel('참가자 이름')).toBeEnabled();
 	await expect(page.getByLabel('참가자 이름')).toHaveValue('토끼*1000000');
 	await page.waitForTimeout(300);
@@ -79,6 +118,8 @@ test('1,000개 경기에서 화면과 버튼 응답을 측정하고 목록을 �
 	test.setTimeout(45000);
 	await page.goto('/marble-race');
 	await page.getByLabel('참가자 이름').fill('구슬*1000');
+	// 음원 로딩을 제외한 화면·Worker 성능을 측정한다.
+	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 	await start(page).click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중', { timeout: 15000 });
 	const metrics = await page.evaluate(
@@ -106,11 +147,11 @@ test('1,000개 경기에서 화면과 버튼 응답을 측정하고 목록을 �
 		() =>
 			new Promise((resolve) => {
 				const button = [...document.querySelectorAll('button')].find((b) =>
-					b.textContent.includes('잠시 멈춤')
+					b.textContent.includes('일시정지')
 				);
 				const start = performance.now();
 				const observer = new MutationObserver(() => {
-					if (document.querySelector('.stage-state').textContent === '잠시 멈춤') {
+					if (document.querySelector('.stage-state').textContent === '일시정지') {
 						observer.disconnect();
 						resolve(performance.now() - start);
 					}
@@ -192,6 +233,54 @@ test('1,000개 전원 완주·실제 시간·전체 결과 복사와 확정 결�
 	});
 	await page.getByRole('button', { name: '결과 복사', exact: true }).first().click();
 	const copied = await page.evaluate(() => navigator.clipboard.readText());
-	expect(copied).toContain('첫 번째 도착 당첨자');
+	expect(copied).toContain('첫번째 도착 당첨자');
 	expect(copied).toContain('1000등: 완주');
+});
+
+test('타자기를 도각2로 복구하고 도각3을 선택한 내 맵과 음원을 유지한다', async ({ page }) => {
+	const requests = [];
+	page.on('request', (r) => {
+		if (r.url().includes('/audio/marble-race/')) requests.push(r.url());
+	});
+	await page.addInitScript(() => {
+		if (sessionStorage.getItem('thock-migration-seeded')) return;
+		sessionStorage.setItem('thock-migration-seeded', 'yes');
+		localStorage.setItem(
+			'lake.marble-race.v1',
+			JSON.stringify({ namesText: '토끼*2', mapId: 'custom-keys', volume: 27 })
+		);
+		localStorage.setItem(
+			'lake.marble-race.custom-maps.v1',
+			JSON.stringify([
+				{ id: 'custom-keys', name: '내 키보드', layers: ['typewriter', 'thock', 'popit', 'thock'] }
+			])
+		);
+	});
+	await page.goto('/marble-race');
+	expect(await page.locator('main').ariaSnapshot()).toContain('도각 키보드2');
+	await expect(page.getByLabel('참가자 이름')).toHaveValue('토끼*2');
+	await expect(page.getByRole('button', { name: '내 키보드', exact: true })).toHaveAttribute(
+		'aria-pressed',
+		'true'
+	);
+	await page.getByRole('button', { name: '수정', exact: true }).click();
+	const dialog = page.getByRole('dialog', { name: '내 맵 만들기' });
+	await expect(dialog.getByLabel('1구역')).toHaveValue('thock2');
+	await expect(dialog.getByRole('option', { name: '옛날 타자기', exact: true })).toHaveCount(0);
+	await dialog.getByLabel('2구역').selectOption('thock3');
+	await dialog.getByRole('button', { name: '저장하고 선택' }).click();
+	await expect
+		.poll(() =>
+			page.evaluate(
+				() => JSON.parse(localStorage.getItem('lake.marble-race.custom-maps.v1'))[0].layers
+			)
+		)
+		.toEqual(['thock2', 'thock3', 'popit', 'thock']);
+	await page.reload();
+	await expect(page.getByLabel('소리 크기')).toHaveValue('27');
+	await start(page).click();
+	await expect(page.locator('.stage-state')).toHaveText('경기 중');
+	for (const type of ['thock2', 'thock3'])
+		expect(requests.some((url) => url.endsWith(SOUND_FILES[type][0]))).toBe(true);
+	expect(requests.some((url) => url.includes('typewriter'))).toBe(false);
 });

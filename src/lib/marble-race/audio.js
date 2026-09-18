@@ -1,7 +1,9 @@
 import { BLOCKS, SOUND_TYPES } from './catalog.js';
 
+const MAX_VOICES = 6;
+
 const soundVersion = {
-	clicky: 'v5',
+	clicky: 'v6',
 	typewriter: 'v5',
 	slime: 'v3',
 	sand: 'v5',
@@ -19,19 +21,24 @@ export const SOUND_FILES = Object.fromEntries(
 );
 
 // 선택한 음원 파일을 사용하고 비활성 왁뿌볼 A도 보존한다.
-SOUND_FILES.clicky = ['/audio/marble-race/clicky-keyboard-press-ai-v1.wav'];
 SOUND_FILES.wrap = ['/audio/marble-race/wrap-pop-ai-v1.wav'];
 SOUND_FILES.asmr = ['/audio/marble-race/asmr-lava-ai-v1.wav'];
 SOUND_FILES.cork = [1, 2].map((index) => `/audio/marble-race/cork-pop-b-ai-${index}.wav`);
+SOUND_FILES.thock2 = [1, 2].map((index) => `/audio/marble-race/thock3-v3-${index}.wav`);
+SOUND_FILES.thock3 = ['/audio/marble-race/thock2-v1.wav'];
+SOUND_FILES.thock4 = ['/audio/marble-race/thock3-v2.wav'];
 SOUND_FILES.typewriter = ['/audio/marble-race/typewriter-8-ai-v1.wav'];
 SOUND_FILES.frog = [1, 2].map((index) => `/audio/marble-race/frog-ai-v1-${index}.wav`);
 SOUND_FILES.ember = [1, 2].map((index) => `/audio/marble-race/ember-ai-v2-${index}.wav`);
 SOUND_FILES.duck = ['/audio/marble-race/duck-ai-v1-1.wav'];
 SOUND_FILES.droplet = ['/audio/marble-race/droplet-ai-v1-1.wav'];
 SOUND_FILES.waxball = ['/audio/marble-race/waxball-crack-A.wav'];
-SOUND_FILES.butter = SOUND_FILES.waxball;
+SOUND_FILES.butter = [1, 2].map((index) => `/audio/marble-race/wax-crack-v1-${index}.wav`);
 SOUND_FILES.pond = SOUND_FILES.asmr;
+SOUND_FILES.frost = ['/audio/marble-race/frost-freeze-v1.wav'];
 SOUND_FILES.fanfare = ['/audio/marble-race/fanfare-tada-v1.wav'];
+// 장치의 재생 제한·충돌 세기는 유지하고 소리만 팝잇과 공유한다.
+SOUND_FILES.rubber = SOUND_FILES.popit;
 
 // 한 번의 작은 스파이크만 큰 녹음이 다른 소리에 묻히지 않도록 몸통 음량을 맞춘다.
 // 비누와 새 질감 파일은 이미 기준 이상이므로 그대로다. 원본 파일은 변경하지 않는다.
@@ -64,7 +71,8 @@ export function createAudio({
 		variants = new Map(),
 		lastPlayed = new Map();
 	let nextType = 0,
-		zoneSwitchUntil = 0;
+		zoneSwitchUntil = 0,
+		voiceSlotUntil = 0;
 	async function initialize() {
 		if (disposed) return false;
 		try {
@@ -145,12 +153,14 @@ export function createAudio({
 		lastPlayed.clear();
 		nextType = 0;
 		zoneSwitchUntil = 0;
+		voiceSlotUntil = 0;
 	}
 	function fadeVoice(voice) {
 		if (!context) return;
 		voice.gain.gain.setTargetAtTime(0, context.currentTime, 0.003);
 		try {
 			voice.source.stop(context.currentTime + 0.012);
+			voiceSlotUntil = Math.max(voiceSlotUntil, context.currentTime + 0.012);
 		} catch {
 			/* 이미 종료 */
 		}
@@ -177,7 +187,7 @@ export function createAudio({
 	}
 	function celebrate() {
 		for (const voice of voices) if (voice.type === 'fanfare') fadeVoice(voice);
-		if (voices.size >= 12) fadeVoice([...voices][0]);
+		if (voices.size >= MAX_VOICES) fadeVoice([...voices][0]);
 		return play('fanfare', 360, true);
 	}
 	function setOptions(soundEnabled, level) {
@@ -203,7 +213,7 @@ export function createAudio({
 		if (disposed) return skip('disposed');
 		if (!enabled) return skip('muted');
 		if (context?.state !== 'running') return skip('context-not-running');
-		if (voices.size >= 12) return skip('global-voices');
+		if (voices.size >= MAX_VOICES) return skip('global-voices');
 		const time = context.currentTime;
 		if (!preview && time - lastTime < 0.028) return skip('global-interval');
 		const policy = BLOCKS[type]?.audio;
@@ -211,7 +221,7 @@ export function createAudio({
 		const active = [...voices];
 		if (active.filter((voice) => voice.type === type).length >= policy.maxVoices)
 			return skip('material-voices');
-		const groupLimit = policy.group === 'texture' ? 6 : policy.group === 'device' ? 1 : 12;
+		const groupLimit = policy.group === 'texture' ? 6 : policy.group === 'device' ? 3 : 12;
 		if (active.filter((voice) => voice.group === policy.group).length >= groupLimit)
 			return skip('group-voices');
 		if (!preview && time - (lastPlayed.get(type) ?? -Infinity) < policy.interval)
@@ -258,15 +268,19 @@ export function createAudio({
 			gain.disconnect();
 			panner.disconnect();
 		};
+		// 짧게 사라지는 소리와 새 소리도 전체 한도를 넘겨 겹치지 않게 한다.
 		source.start(
-			event?.zoneId?.startsWith('layer-')
-				? Math.max(context.currentTime, zoneSwitchUntil)
-				: context.currentTime
+			Math.max(
+				context.currentTime,
+				voiceSlotUntil,
+				event?.zoneId?.startsWith('layer-') ? zoneSwitchUntil : 0
+			)
 		);
 		report('played', { type, event, file: files[index % files.length], level: gain.gain.value });
 		return true;
 	}
 	function playCollision(event) {
+		if (event.silent) return false;
 		if (!Number.isFinite(event.y)) return false;
 		const outside = outsideView(event);
 		if (outside >= 52) {
@@ -290,6 +304,10 @@ export function createAudio({
 		const candidates = new Map();
 		for (const event of events) {
 			report('collision', { event, view, audible: enabled && context?.state === 'running' });
+			if (event.silent) {
+				report('skipped', { event, reason: 'silent-device' });
+				continue;
+			}
 			if (!Number.isFinite(event.y) || !Number.isFinite(event.x)) {
 				report('skipped', { event, reason: 'invalid-position' });
 				continue;

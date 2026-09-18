@@ -4,17 +4,17 @@
 
 2026년 9월 11일 현재 자체 코드에 MIT를 적용합니다. 저작권자는 Lake (hjh3311504)입니다. [MIT 원문](https://github.com/hjh3311504/hjh3311504.github.io/blob/main/LICENSE)과 아래 적용 범위를 함께 확인하세요.
 
-| 대상                                                                                             | 적용 조건                                                                                            |
-| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| `src/`의 자체 JavaScript·TypeScript·Svelte·CSS·HTML                                              | MIT. 아래 글꼴과 Bootstrap 아이콘은 각 저작권 고지를 따릅니다.                                       |
-| `scripts/`, `tests/`, 자체 설정 파일과 일반 문서                                                 | MIT. 보존용 설계 자료와 외부 라이선스 원문은 제외합니다.                                             |
-| `static/favicon.svg`, `static/favicon.ico`, `static/favicons/`                                   | 이번 작업에서 만든 Lake 아이콘과 설정으로, MIT를 적용합니다.                                         |
-| `static/images/site-open-graph-1200x630.png`, `static/images/team-maker-open-graph-1200x630.png` | 자체 생성 script로 만든 공유 이미지이며 MIT를 적용합니다.                                            |
-| `src/lib/team-maker/fonts/`와 설계 전달본의 SUIT·SUITE 글꼴                                      | SIL Open Font License 1.1                                                                            |
-| 홈의 GitHub 아이콘                                                                               | Bootstrap Icons의 MIT와 원저작권 고지                                                                |
-| `static/images/team-maker/`의 기존 이미지·SVG                                                    | 이번 MIT 적용 범위에서 제외합니다. 기존 자료의 권리는 변경하지 않습니다.                             |
-| `docs/design/handoff/`, `docs/design/claude-design-DSN.md`                                       | 보존용 설계 자료·요청문입니다. 이번 MIT 적용 범위에서 제외하며 포함된 외부 자료의 조건을 유지합니다. |
-| npm 패키지와 외부 라이선스 원문                                                                  | 각 저작권자의 라이선스를 유지합니다.                                                                 |
+| 대상                                                                                                                                                  | 적용 조건                                                                                            |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `src/`의 자체 JavaScript·TypeScript·Svelte·CSS·HTML                                                                                                   | MIT. 아래 글꼴과 Bootstrap 아이콘은 각 저작권 고지를 따릅니다.                                       |
+| `scripts/`, `tests/`, 자체 설정 파일과 일반 문서                                                                                                      | MIT. 보존용 설계 자료와 외부 라이선스 원문은 제외합니다.                                             |
+| `static/favicon.svg`, `static/favicon.ico`, `static/favicons/`                                                                                        | 이번 작업에서 만든 Lake 아이콘과 설정으로, MIT를 적용합니다.                                         |
+| `static/images/site-open-graph-1200x630.png`, `static/images/team-maker-open-graph-1200x630.png`, `static/images/marble-race-open-graph-1200x630.png` | 자체 생성 script로 만든 공유 이미지이며 MIT를 적용합니다.                                            |
+| `src/lib/team-maker/fonts/`와 설계 전달본의 SUIT·SUITE 글꼴                                                                                           | SIL Open Font License 1.1                                                                            |
+| 홈의 GitHub 아이콘                                                                                                                                    | Bootstrap Icons의 MIT와 원저작권 고지                                                                |
+| `static/images/team-maker/`의 기존 이미지·SVG                                                                                                         | 이번 MIT 적용 범위에서 제외합니다. 기존 자료의 권리는 변경하지 않습니다.                             |
+| `docs/design/handoff/`, `docs/design/claude-design-DSN.md`                                                                                            | 보존용 설계 자료·요청문입니다. 이번 MIT 적용 범위에서 제외하며 포함된 외부 자료의 조건을 유지합니다. |
+| npm 패키지와 외부 라이선스 원문                                                                                                                       | 각 저작권자의 라이선스를 유지합니다.                                                                 |
 
 MIT 적용 제외는 해당 자료에 GPL을 새로 적용하거나 별도의 재사용 허락을 부여한다는 뜻이 아닙니다. 제외된 이미지·설계 자료를 따로 재사용하려면 해당 자료의 이용 조건을 확인하세요. 일반 문서에서 외부 자료를 인용한 부분에도 원저작자의 권리가 유지됩니다.
 
@@ -68,3 +68,13 @@ QR 생성에는 [qrcode](https://github.com/soldair/node-qrcode)와 브라우저
 Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [구슬 레이스 음원 출처](docs/marble-audio-sources.md)에 기록한다. 정적 음원 폴더의 선택 JSON은 파일과 출처·라이선스·해시 정보를 제공한다.
 
 버터는 기존 왁뿌볼 파일, 젤리 연못은 기존 물풍선 파일을 재사용한다. 팡파레는 [Tada Fanfare A — plasterbrain / Freesound Community](https://pixabay.com/sound-effects/tada-fanfare-a-6313/)다.
+
+찰칵 키보드 C의 `clicky-v6-1.wav`·`clicky-v6-2.wav`는 MattRuthSound의 [One Keypress 006](https://freesound.org/people/MattRuthSound/sounds/561699/)·[007](https://freesound.org/people/MattRuthSound/sounds/561698/)을 바탕으로 한 변형음이다. [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따르며 프로젝트 MIT 라이선스에 포함하지 않는다. 배포 음원의 `clicky-selection.json`에도 출처를 제공한다.
+
+### 도각 키보드2 보존 음원
+
+`thock2-v2-1.wav`·`thock2-v2-2.wav`는 zrrion의 [Keyboard typing sounds: Unidentified Technics keyboard](https://freesound.org/people/zrrion/sounds/665075/)에서 발췌했다. 원음은 [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)으로 제공된다.
+
+### 도각 키보드4 보존 음원
+
+`thock4-v6-1.wav`·`thock4-v6-2.wav`는 dinamakan의 [Thocky Keyboard Sound Effect](https://pixabay.com/sound-effects/film-special-effects-thocky-keyboard-sound-effect-264568/)를 사용한다. 원음은 Pixabay Content License로 제공되며 프로젝트 MIT 라이선스와 구분한다.

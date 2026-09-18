@@ -9,7 +9,7 @@ export function createRaceClock() {
 		},
 		advance(seconds, speed, step) {
 			accumulator +=
-				Math.max(0, Math.min(0.08, seconds)) * ([0.3, 1, 2].includes(speed) ? speed : 1);
+				Math.max(0, Math.min(0.08, seconds)) * ([0.25, 1, 2].includes(speed) ? speed : 1);
 			while (accumulator + 1e-12 >= STEP) {
 				accumulator = Math.max(0, accumulator - STEP);
 				if (step() === false) {
