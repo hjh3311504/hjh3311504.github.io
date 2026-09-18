@@ -155,20 +155,41 @@ test('인원 미리보기·미니맵 호버와 키보드 탐색은 이탈하면 
 	const zone = page.locator('.race-minimap svg > rect').nth(1);
 	await expect(zone).toHaveAttribute('height', String(69 * 34));
 	await map.scrollIntoViewIfNeeded();
+	// 큰 명단의 미리보기는 전체 출발 자리에서 표본을 고르므로 자동 화면이0에 고정되지 않는다.
+	// 같은 배치의 자동 위치가 안정된 뒤 탐색 전후를 비교한다.
+	let automaticTop = Number(await frame(page).getAttribute('y'));
+	let samples = 0;
+	await expect
+		.poll(
+			async () => {
+				const next = Number(await frame(page).getAttribute('y'));
+				const difference = Math.abs(next - automaticTop);
+				automaticTop = next;
+				return ++samples >= 2 ? difference : Infinity;
+			},
+			{ intervals: [300] }
+		)
+		.toBeLessThan(1);
 	const box = await map.boundingBox();
 	await page.mouse.move(box.x + box.width / 2, box.y + box.height * 0.65);
 	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeGreaterThan(5000);
 	await page.mouse.move(box.x + box.width + 25, box.y);
-	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeLessThan(10);
+	await expect
+		.poll(async () => Math.abs(Number(await frame(page).getAttribute('y')) - automaticTop))
+		.toBeLessThan(10);
 	await map.focus();
 	await page.keyboard.press('End');
 	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeGreaterThan(10000);
 	await page.keyboard.press('Escape');
-	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeLessThan(10);
+	await expect
+		.poll(async () => Math.abs(Number(await frame(page).getAttribute('y')) - automaticTop))
+		.toBeLessThan(10);
 	await map.press('ArrowDown');
 	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeGreaterThan(20);
 	await page.keyboard.press('Tab');
-	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeLessThan(10);
+	await expect
+		.poll(async () => Math.abs(Number(await frame(page).getAttribute('y')) - automaticTop))
+		.toBeLessThan(10);
 	await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('1배속');
 });
 
