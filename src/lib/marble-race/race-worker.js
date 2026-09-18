@@ -1,42 +1,17 @@
 import { prepareRace, stepRace, STEP } from './physics.js';
 import { createDirector, FINALE_SPEED } from './director.js';
+import { createSnapshotEncoder } from './transport.js';
+let encode = createSnapshotEncoder();
 let race,
 	director,
 	cinematic,
 	token = 0;
-function snapshot(events = [], initial = false) {
-	const marbles = race.marbles.map((m) => ({
-		id: m.id,
-		name: m.name,
-		color: m.color,
-		x: m.x,
-		y: m.y,
-		r: m.r,
-		vx: m.vx,
-		vy: m.vy,
-		finished: m.finished,
-		finishTime: m.finishTime,
-		windUntil: m.windUntil,
-		windDirection: m.windDirection,
-		held: m.held
-	}));
-	return {
-		time: race.time,
-		marbles,
-		finished: race.finished.map((m) => m.id),
-		blocks: race.blocks.map((b) => ({ ...b })),
-		layout: race.layout,
-		zones: race.zones,
-		events,
-		cinematic,
-		initial
-	};
-}
 self.onmessage = async ({ data }) => {
 	try {
 		if (data.kind === 'prepare') {
 			const current = ++token;
 			race = null;
+			encode = createSnapshotEncoder();
 			const iterator = prepareRace(data.participants, data.map, data.seed);
 			let result = iterator.next();
 			while (!result.done) {
@@ -48,7 +23,7 @@ self.onmessage = async ({ data }) => {
 			race = result.value;
 			director = createDirector(data.mode, data.count, data.startRank);
 			cinematic = director.update(race);
-			self.postMessage({ kind: 'ready', state: snapshot([], true) });
+			self.postMessage({ kind: 'ready', state: encode(race, [], cinematic, true) });
 		} else if (data.kind === 'advance' && race) {
 			const events = [],
 				newWinners = [];
@@ -67,7 +42,7 @@ self.onmessage = async ({ data }) => {
 			self.postMessage({
 				kind: 'frame',
 				state: {
-					...snapshot(events),
+					...encode(race, events, cinematic),
 					cinematic: { ...cinematic, newWinners, finishedCelebration: endedSlow }
 				},
 				unused: remaining

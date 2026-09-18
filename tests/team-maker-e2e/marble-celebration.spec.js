@@ -10,13 +10,14 @@ async function prepareWinners(page) {
 				super(...args);
 				this.announced = new Set();
 				this.addEventListener('message', ({ data }) => {
-					if (data.kind === 'ready') this.initialState = data.state;
+					if (data.kind === 'ready') this.initialState = structuredClone(data.state);
 				});
 			}
 			postMessage(data) {
 				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
 				const state = structuredClone(this.initialState);
 				state.initial = false;
+				state.blockChanges = [];
 				state.time = 30;
 				state.events = [];
 				state.finished = [...window.__arrivals];

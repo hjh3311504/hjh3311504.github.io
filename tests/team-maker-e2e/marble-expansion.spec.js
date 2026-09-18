@@ -1,3 +1,4 @@
+import { observeRace, attachRaceProgress } from './helpers/observe-race.js';
 import { test, expect } from '@playwright/test';
 import { SOUND_FILES } from '../../src/lib/marble-race/audio.js';
 const start = (page) => page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first();
@@ -182,7 +183,8 @@ test('1,000개 전원 완주·실제 시간·전체 결과 복사와 확정 결�
 	page,
 	context
 }, info) => {
-	test.setTimeout(300000);
+	test.setTimeout(930000);
+	await observeRace(page);
 	await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 	await page.goto('/marble-race');
 	await page.getByLabel('참가자 이름').fill('완주*1000');
@@ -213,14 +215,30 @@ test('1,000개 전원 완주·실제 시간·전체 결과 복사와 확정 결�
 		};
 		requestAnimationFrame(frame);
 	});
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료', { timeout: 270000 });
+	let progress;
+	try {
+		await page.waitForFunction(
+			() =>
+				window.__raceState &&
+				(window.__raceState.finished.length === 1000 ||
+					window.__raceState.time >= 600 ||
+					window.__drain.stalls.length > 0),
+			null,
+			{ timeout: 900000 }
+		);
+	} finally {
+		progress = await attachRaceProgress(page, info);
+	}
+	expect(progress.stalls).toEqual([]);
+	expect(progress.time).toBeLessThanOrEqual(600);
+	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
 	await expect(page.locator('.race-stats')).toContainText('1000 / 1000 도착');
 	const stats = await page.evaluate(() => ({
 		...window.__performance,
 		wallSeconds: (performance.now() - window.__performance.started) / 1000,
 		gameClock: document.querySelector('.race-stats>span:nth-child(2)').textContent
 	}));
-	console.log('1,000개 전체 경기', JSON.stringify(stats));
+	console.log('1,000개 전체 경기', JSON.stringify({ ...stats, progress }));
 	await info.attach('1,000개 전체 경기', {
 		body: JSON.stringify(stats, null, 2),
 		contentType: 'application/json'

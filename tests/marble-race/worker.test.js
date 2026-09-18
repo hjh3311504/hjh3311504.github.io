@@ -1,3 +1,4 @@
+import { createSnapshotDecoder } from '../../src/lib/marble-race/transport.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Worker } from 'node:worker_threads';
@@ -9,13 +10,16 @@ test('실제 Worker와 직접 계산은0.25·1·2배속의 같은 경기 시각�
 			`const {parentPort}=require('node:worker_threads');global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
 			{ eval: true }
 		);
+		const decode = createSnapshotDecoder();
 		const request = (data) =>
 			new Promise((resolve, reject) => {
 				const receive = (result) => {
 					if (result.kind === 'progress') return;
 					worker.off('message', receive);
 					worker.off('error', reject);
-					result.kind === 'error' ? reject(Error(result.message)) : resolve(result);
+					result.kind === 'error'
+						? reject(Error(result.message))
+						: resolve({ ...result, state: decode(result.state) });
 				};
 				worker.on('message', receive);
 				worker.once('error', reject);

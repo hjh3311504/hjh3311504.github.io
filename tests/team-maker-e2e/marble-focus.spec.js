@@ -10,7 +10,7 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 			constructor(...args) {
 				super(...args);
 				this.addEventListener('message', ({ data }) => {
-					if (data.kind === 'ready') this.initialState = data.state;
+					if (data.kind === 'ready') this.initialState = structuredClone(data.state);
 				});
 			}
 			postMessage(data) {
@@ -18,6 +18,7 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 				const state = structuredClone(this.initialState);
 				const leader = window.__testLeader;
 				state.initial = false;
+				state.blockChanges = [];
 				state.time = 20;
 				state.events = [];
 				state.marbles.forEach((m, i) => {

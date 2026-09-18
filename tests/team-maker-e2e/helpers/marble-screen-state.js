@@ -7,7 +7,7 @@ export async function screenRace(page) {
 				super(...args);
 				this.addEventListener('message', ({ data }) => {
 					if (data.kind === 'ready') {
-						this.initialState = data.state;
+						this.initialState = structuredClone(data.state);
 						this.announced = new Set();
 						this.wasActive = false;
 					}
@@ -22,6 +22,7 @@ export async function screenRace(page) {
 				window.__raceRequestedSpeed = data.speed;
 				const state = structuredClone(this.initialState);
 				state.initial = false;
+				state.blockChanges = [];
 				state.time = 30;
 				state.events = [];
 				const count =
