@@ -39,6 +39,7 @@ SOUND_FILES.frost = ['/audio/marble-race/frost-freeze-v1.wav'];
 SOUND_FILES.fanfare = ['/audio/marble-race/fanfare-tada-v1.wav'];
 // 장치의 재생 제한·충돌 세기는 유지하고 소리만 팝잇과 공유한다.
 SOUND_FILES.rubber = SOUND_FILES.popit;
+SOUND_FILES.pulse = ['/audio/marble-race/pulse-whoosh-deep-v2.wav'];
 
 // 한 번의 작은 스파이크만 큰 녹음이 다른 소리에 묻히지 않도록 몸통 음량을 맞춘다.
 // 비누와 새 질감 파일은 이미 기준 이상이므로 그대로다. 원본 파일은 변경하지 않는다.
@@ -205,7 +206,7 @@ export function createAudio({
 			...detail
 		});
 	}
-	function play(type, x = 360, preview = false, level = 1, event = null) {
+	function play(type, x = 360, preview = false, level = 1, event = null, priority = false) {
 		const skip = (reason) => {
 			report('skipped', { type, reason, event });
 			return false;
@@ -213,9 +214,9 @@ export function createAudio({
 		if (disposed) return skip('disposed');
 		if (!enabled) return skip('muted');
 		if (context?.state !== 'running') return skip('context-not-running');
-		if (voices.size >= MAX_VOICES) return skip('global-voices');
+		if (!priority && voices.size >= MAX_VOICES) return skip('global-voices');
 		const time = context.currentTime;
-		if (!preview && time - lastTime < 0.028) return skip('global-interval');
+		if (!preview && !priority && time - lastTime < 0.028) return skip('global-interval');
 		const policy = BLOCKS[type]?.audio;
 		if (!policy) return skip('unknown-type');
 		const active = [...voices];
@@ -231,9 +232,15 @@ export function createAudio({
 		const index = variants.get(type) ?? 0;
 		const buffer = buffers.get(files[index % files.length]);
 		if (!buffer) return skip('buffer-not-ready');
+		if (voices.size >= MAX_VOICES) {
+			const replaceable = priority && active.find((voice) => voice.type !== 'fanfare');
+			if (!replaceable) return skip('global-voices');
+			fadeVoice(replaceable);
+		}
+		const scheduledTime = priority ? Math.max(time, lastTime + 0.028, voiceSlotUntil) : time;
 		variants.set(type, index + 1);
-		lastTime = time;
-		lastPlayed.set(type, time);
+		lastTime = scheduledTime;
+		lastPlayed.set(type, scheduledTime);
 		if (event?.zoneId?.startsWith('layer-')) {
 			for (const old of [...voices])
 				if (old.zoneId?.startsWith('layer-') && old.zoneId !== event.zoneId) {
@@ -271,7 +278,7 @@ export function createAudio({
 		// 짧게 사라지는 소리와 새 소리도 전체 한도를 넘겨 겹치지 않게 한다.
 		source.start(
 			Math.max(
-				context.currentTime,
+				scheduledTime,
 				voiceSlotUntil,
 				event?.zoneId?.startsWith('layer-') ? zoneSwitchUntil : 0
 			)
@@ -296,7 +303,8 @@ export function createAudio({
 			event.x,
 			false,
 			(1 - outside / 52) * strength,
-			event
+			event,
+			event.kind === 'skill'
 		);
 	}
 	function playCollisions(events) {
@@ -323,6 +331,16 @@ export function createAudio({
 				if (prior) report('skipped', { event: prior, reason: 'same-material-candidate' });
 				candidates.set(type, event);
 			} else report('skipped', { event, reason: 'same-material-candidate' });
+		}
+		// 드문 파동은 일반 충돌음보다 먼저 고른다. 반복 그림 프레임은 이벤트를 만들지 않는다.
+		const pulse = candidates.get('pulse');
+		if (pulse) {
+			candidates.delete('pulse');
+			if (playCollision(pulse)) {
+				for (const pending of candidates.values())
+					report('skipped', { event: pending, reason: 'frame-start-interval' });
+				return true;
+			}
 		}
 		for (let offset = 0; offset < SOUND_TYPES.length; offset++) {
 			const index = (nextType + offset) % SOUND_TYPES.length;

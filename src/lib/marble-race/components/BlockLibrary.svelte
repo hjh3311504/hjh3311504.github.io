@@ -6,13 +6,14 @@
 	let { selectedLayers, disabled = false, waxHits, onpreview } = $props();
 	const groups = [
 		{ id: 'basic-blocks-title', title: '기본 블록', types: ACTIVE_BLOCK_TYPES },
-		{ id: 'special-blocks-title', title: '특수 블록', types: SPECIAL_TYPES }
+		{ id: 'special-blocks-title', title: '특수 블록', types: SPECIAL_TYPES },
+		{ id: 'skills-title', title: '스킬', types: ['pulse'], skill: true }
 	];
 </script>
 
 <Section variant="card" class="block-library library-panel" aria-labelledby="block-library-title">
 	<SectionHeader
-		title="블록 도감"
+		title="도감"
 		titleId="block-library-title"
 		description="미리듣기와 경기에서 같은 소리를 사용해요."
 	/>
@@ -22,11 +23,15 @@
 	{#each groups as group (group.id)}
 		<section class="library-group" aria-labelledby={group.id}>
 			<h3 id={group.id} class="group-title">{group.title}<span>{group.types.length}종</span></h3>
+
 			<div class="library-grid">
 				{#each group.types as type (type)}
 					{@const description =
 						type === 'butter' ? `${waxHits}번 닿으면 바삭 깨져요.` : BLOCKS[type].description}
-					<Surface variant="card" class="block-card library-item">
+					<Surface
+						variant="card"
+						class={group.skill ? 'skill-card library-item' : 'block-card library-item'}
+					>
 						<div class="item-heading">
 							<BlockThumbnail {type} />
 							<div class="item-title">
@@ -79,6 +84,7 @@
 		margin: 0 0 14px;
 		font-size: 18px;
 	}
+
 	.group-title span {
 		color: var(--ui-text-muted);
 		font-size: 14px;

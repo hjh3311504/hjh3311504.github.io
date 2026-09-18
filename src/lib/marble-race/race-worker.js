@@ -12,7 +12,9 @@ self.onmessage = async ({ data }) => {
 			const current = ++token;
 			race = null;
 			encode = createSnapshotEncoder();
-			const iterator = prepareRace(data.participants, data.map, data.seed);
+			const iterator = prepareRace(data.participants, data.map, data.seed, {
+				skillsEnabled: data.skillsEnabled
+			});
 			let result = iterator.next();
 			while (!result.done) {
 				self.postMessage({ kind: 'progress', ...result.value });

@@ -10,7 +10,8 @@ async function editSettings(page) {
 			.click();
 		return;
 	}
-	await page.getByRole('button', { name: '경기 종료하고 설정 변경', exact: true }).first().click();
+	if (await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).isVisible())
+		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 	await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
 }
 
@@ -31,12 +32,16 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 			if (request.url().includes('/audio/marble-race/')) requests.push(request.url());
 		});
 		await page.goto('/marble-race');
-		await expect(page.getByRole('heading', { name: '블록 도감' })).toBeVisible();
-		await expect(page.locator('[aria-labelledby=block-library-title] button')).toHaveCount(15);
+		await expect(page.getByRole('heading', { name: '도감' })).toBeVisible();
+		await expect(
+			page.locator('[aria-labelledby=block-library-title] .block-card button')
+		).toHaveCount(15);
 		await page.getByRole('button', { name: /^도각도각 키보드$/ }).click();
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
-		const expectedFiles = [...new Set(MAPS[0].types.flatMap((type) => SOUND_FILES[type]))].sort();
+		const expectedFiles = [
+			...new Set([...MAPS[0].types, 'pulse'].flatMap((type) => SOUND_FILES[type]))
+		].sort();
 		expect(requests.map((url) => new URL(url).pathname).sort()).toEqual(expectedFiles);
 		await page.waitForTimeout(6000);
 		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
@@ -56,7 +61,9 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await editSettings(page);
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
-		expect(requests).toHaveLength(new Set(MAPS[0].types.flatMap((type) => SOUND_FILES[type])).size);
+		expect(requests).toHaveLength(
+			new Set([...MAPS[0].types, 'pulse'].flatMap((type) => SOUND_FILES[type])).size
+		);
 	});
 	test('다운로드 실패 후 재시도와 무음 시작을 제공한다', async ({ page }) => {
 		await page.route('**/audio/marble-race/*.wav', (route) =>
@@ -409,7 +416,7 @@ test('뽁뽁이를 미리 듣고 비활성 재질 없이 경기한다', async ({
 		if (r.url().includes('/audio/marble-race/')) requests.push(r.url());
 	});
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('블록 도감');
+	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
 	for (const name of ['슬라임', '키네틱 샌드', '비누', '왁뿌볼', '물풍선'])
 		await expect(
 			page
@@ -434,7 +441,7 @@ test('물풍선은 제외하고 코르크·나무는 도감과 맵에서 같은 
 	});
 	await page.goto('/marble-race');
 	await page.getByRole('button', { name: '도각도각 키보드', exact: true }).click();
-	expect(await page.locator('main').ariaSnapshot()).toContain('블록 도감');
+	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
 	const capsule = page.getByRole('button', { name: /물풍선 소리 미리듣기/ });
 	await expect(capsule).toHaveCount(0);
 	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
@@ -535,9 +542,9 @@ test('일반12종과 특수3종을 실제 경기 이미지로 표시하고 각 �
 	for (const map of MAPS) {
 		await page.goto('/marble-race');
 		expect(await page.locator('[aria-labelledby=block-library-title]').ariaSnapshot()).toContain(
-			'블록 도감'
+			'도감'
 		);
-		const pictures = page.locator('[aria-labelledby=block-library-title] img');
+		const pictures = page.locator('[aria-labelledby=block-library-title] .block-card img');
 		await expect(pictures).toHaveCount(15);
 		await expect
 			.poll(() =>
@@ -555,7 +562,7 @@ test('일반12종과 특수3종을 실제 경기 이미지로 표시하고 각 �
 		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		expect(requests.slice().sort()).toEqual(
-			[...new Set(map.types.flatMap((type) => SOUND_FILES[type]))].sort()
+			[...new Set([...map.types, 'pulse'].flatMap((type) => SOUND_FILES[type]))].sort()
 		);
 	}
 	await editSettings(page);

@@ -86,7 +86,7 @@ function fixture(fetchFile, options = {}) {
 
 test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니다', () => {
 	assert.equal(BREAKABLE_TYPES.length, 19);
-	assert.equal(SOUND_TYPES.length, 24);
+	assert.equal(SOUND_TYPES.length, 25);
 	const hashes = new Set();
 	for (const files of Object.values(SOUND_FILES)) {
 		assert.ok(files.length === 1 || files.length === 2);
@@ -104,7 +104,8 @@ test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니�
 					file.includes('crack-A') ||
 					file.includes('wax-crack-v1-') ||
 					file.includes('frost-freeze-v1') ||
-					file.includes('fanfare-tada')
+					file.includes('fanfare-tada') ||
+					file.includes('pulse-whoosh-deep')
 					? 48000
 					: 24000
 			);
@@ -120,7 +121,7 @@ test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니�
 		hashes.add(pair.join(','));
 	}
 	assert.deepEqual(SOUND_FILES.rubber, SOUND_FILES.popit);
-	assert.equal(hashes.size, 22);
+	assert.equal(hashes.size, 23);
 });
 test('크랙 왁스는 파괴 전 충돌부터 두 음원을 교대하며 장치음과 함께 왁스3개까지 재생한다', async () => {
 	const { audio, context, sources, requests } = fixture();
@@ -941,4 +942,43 @@ test('모든 배속에서 장치3개와 일반음3개를 함께 재생하고 공
 		assert.equal(audio.play('frost'), true);
 		audio.destroy();
 	}
+});
+
+test('파동음은 미리듣기와 같은 파일이며 일반 충돌보다 먼저 재생하고28ms 간격을 지킨다', async () => {
+	const { audio, context, sources, requests } = fixture();
+	await audio.prepare(['pulse', 'thock']);
+	audio.setView({ top: 0, bottom: 800 });
+	assert.equal(requests.filter((url) => SOUND_FILES.pulse.includes(url)).length, 1);
+	assert.equal(audio.play('pulse', 360, true), true);
+	assert.equal(sources.at(-1).buffer, SOUND_FILES.pulse[0]);
+	audio.stop();
+	assert.equal(audio.play('thock'), true);
+	const previous = sources.at(-1).startTime;
+	context.currentTime += 0.005;
+	const pulse = { kind: 'skill', type: 'pulse', soundType: 'pulse', x: 360, y: 200 };
+	assert.equal(audio.playCollisions([{ type: 'thock', x: 360, y: 200 }, pulse]), true);
+	assert.equal(sources.at(-1).buffer, SOUND_FILES.pulse[0]);
+	assert.ok(sources.at(-1).startTime >= previous + 0.028);
+	assert.equal(audio.playCollisions([pulse]), false, '파동은 동시에1개만 재생한다');
+	audio.stop();
+	assert.equal(audio.playCollisions([{ ...pulse, y: 900 }]), false);
+	audio.setOptions(false, 0.45);
+	assert.equal(audio.playCollisions([pulse]), false);
+	audio.destroy();
+});
+
+test('파동음은 전체6개가 차면 일반 소리를 줄여 교체하고 정지 시 예약도 정리한다', async () => {
+	const { audio, context, sources } = fixture();
+	await audio.prepare(['pulse', 'thock', 'popit']);
+	for (const type of ['thock', 'thock', 'thock', 'popit', 'popit', 'popit']) {
+		context.currentTime += 0.04;
+		assert.equal(audio.play(type), true);
+	}
+	assert.equal(audio.playCollisions([{ kind: 'skill', type: 'pulse', x: 360, y: 200 }]), true);
+	assert.equal(sources[0].stopped, true);
+	assert.ok(sources.at(-1).startTime >= sources[0].stopTime);
+	assert.equal(sources.filter((source) => !source.stopped).length, 6);
+	audio.stop();
+	assert.ok(sources.every((source) => source.stopped));
+	audio.destroy();
 });
