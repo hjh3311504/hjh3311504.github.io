@@ -18,6 +18,7 @@ export function createSnapshotEncoder() {
 		}));
 		const state = {
 			time: race.time,
+			skillWaves: race.skills.waves,
 			marbles,
 			finished: race.finished.map((m) => m.id),
 			events,
@@ -60,6 +61,7 @@ export function createSnapshotDecoder() {
 			current = {
 				...current,
 				time: state.time,
+				skillWaves: state.skillWaves,
 				finished: state.finished,
 				events: state.events,
 				cinematic: state.cinematic,

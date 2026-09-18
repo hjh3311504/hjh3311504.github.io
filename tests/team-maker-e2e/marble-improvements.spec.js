@@ -4,7 +4,7 @@ const start = (page) => page.getByRole('button', { name: '구슬 굴리기 ▶',
 const frame = (page) => page.locator('.race-minimap svg > rect').last();
 async function enter(page) {
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('블록 도감');
+	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
 }
 
 test('문구·간결한 맵 카드·실제 특수 블록 그림을 공통 도감에 표시한다', async ({ page }) => {

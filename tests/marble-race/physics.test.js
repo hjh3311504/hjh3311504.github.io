@@ -443,7 +443,7 @@ test('30·60명 구슬의75% 이상이 재질 구간에서 가로102 이상 이�
 	assert.ok(lateral / measured >= 0.75, `${lateral}/${measured}`);
 	t.diagnostic(`좌우 이동: ${lateral}/${measured} (${((lateral / measured) * 100).toFixed(1)}%)`);
 });
-test('일반 블록은3초 뒤 복구하며 파괴 회차마다 효과를 한 번만 낸다', () => {
+test('일반 블록은 한 번만 깨지고3초 이후에도 복구·예고·중복 효과가 없다', () => {
 	for (const type of BREAKABLE_TYPES) {
 		const { race, marble, block } = fixture(type, { tile: true });
 		const hit = collision(marble, block, race.time);
@@ -451,27 +451,20 @@ test('일반 블록은3초 뒤 복구하며 파괴 회차마다 효과를 한 �
 		hitBlock(race, marble, block, hit);
 		assert.equal(race.events.length, 1);
 		assert.equal(race.events[0].breakCycle, 1);
-		assert.equal(block.respawnAt, 4);
-		assert.equal(race.respawnQueue.length, 1);
-		Object.assign(marble, { x: 60, y: 100, vx: 0, vy: 0 });
-		race.marbles[1].finished = true;
-		race.time = 4 - STEP * 2;
-		stepRace(race);
-		assert.equal(block.alive, false);
-		while (race.time < 4 + STEP) stepRace(race);
-		assert.equal(block.alive, true);
-		assert.equal(block.hp, 1);
+		assert.equal(block.respawnAt, null, '복구 예고를 예약하지 않는다');
 		assert.equal(race.respawnQueue.length, 0);
-		assert.equal(race.events.length, 0, '복구는 소리를 내지 않는다');
+		race.marbles[1].finished = true;
+		Object.assign(marble, { x: 60, y: 100, vx: 0, vy: 0 });
+		while (race.time < 8) stepRace(race);
+		assert.equal(block.alive, false);
+		assert.equal(block.hp, 0);
 		Object.assign(marble, { x: 360, y: 277, vx: 0, vy: 170 });
 		hitBlock(race, marble, block, collision(marble, block, race.time));
-		assert.equal(race.events.length, 1);
-		assert.equal(race.events[0].breakCycle, 2);
-		assert.equal(block.alive, false);
-		assert.equal(block.respawnAt, race.time + 3);
+		assert.equal(race.events.length, 0);
+		assert.equal(block.breakCycle, 1);
 	}
 });
-test('구슬이 겹친 자리는 기다렸다가 복구하며 밀어내지 않는다', () => {
+test('파괴된 자리는 구슬이 들어왔다 나가도 다시 생기지 않는다', () => {
 	const { race, marble, block } = fixture('soap', { tile: true });
 	hitBlock(race, marble, block, collision(marble, block, race.time));
 	race.time = 4;
@@ -482,20 +475,22 @@ test('구슬이 겹친 자리는 기다렸다가 복구하며 밀어내지 않�
 	assert.ok(Math.abs(marble.y - 300) < 1);
 	marble.x = 200;
 	stepRace(race);
-	assert.equal(block.alive, true);
+	assert.equal(block.alive, false);
 	assert.equal(block.respawnAt, null);
 });
-test('일시정지 동안 복구 시간이 흐르지 않고 새 경기에는 예약을 넘기지 않는다', () => {
-	const { race, marble, block } = fixture('thock');
+test('새 경기는 이전 파괴 상태를 넘기지 않고 블록을 다시 채운다', () => {
+	const race = createRace(['가', '나'], 'keyboard', 47);
+	const block = race.blocks.find((b) => b.tile);
+	const marble = race.marbles[0];
+	Object.assign(marble, { x: block.x, y: block.y - 28, vx: 0, vy: 170 });
 	hitBlock(race, marble, block, collision(marble, block, race.time));
-	const saved = [race.time, block.respawnAt, block.alive];
-	// 일시정지는 stepRace 호출을 중단한다. 실제 시간과 예약은 연결하지 않는다.
-	assert.deepEqual([race.time, block.respawnAt, block.alive], saved);
-	const fresh = createRace(['가', '나']);
+	assert.equal(block.alive, false);
+	const fresh = createRace(['가', '나'], 'keyboard', 47);
 	assert.equal(fresh.respawnQueue.length, 0);
-	assert.ok(fresh.blocks.every((b) => b.breakCycle === 0 && b.respawnAt === null));
+	assert.ok(fresh.blocks.every((b) => b.alive && b.breakCycle === 0 && b.respawnAt === null));
+	assert.equal(fresh.blocks.find((b) => b.id === block.id).alive, true);
 });
-test('같은 자리에 복구된 블록을 반복 파괴해도 정체 시간을 초기화하지 않는다', () => {
+test('사라진 블록의 재접촉으로 정체 시간을 초기화하지 않는다', () => {
 	const { race, marble, block } = fixture('thock');
 	hitBlock(race, marble, block, collision(marble, block, race.time));
 	Object.assign(marble, { x: 60, y: 100, vx: 0, vy: 0 });
@@ -510,8 +505,8 @@ test('같은 자리에 복구된 블록을 반복 파괴해도 정체 시간을 
 	stepRace(race);
 	assert.ok(marble.windUntil > race.time);
 });
-test('선두가 연 길은 복구 전에는 통과하고 복구 후에는 다시 충돌한다', () => {
-	for (const delay of [2.9, 3.1]) {
+test('선두가 연 길은3초 전후와 오래 지난 뒤에도 후발 구슬이 통과한다', () => {
+	for (const delay of [2.9, 3.1, 30]) {
 		const { race, marble, block } = fixture('thock', { tile: true });
 		hitBlock(race, marble, block, collision(marble, block, race.time));
 		marble.finished = true;
@@ -521,8 +516,8 @@ test('선두가 연 길은 복구 전에는 통과하고 복구 후에는 다시
 		stepRace(race);
 		Object.assign(follower, { x: 360, y: 277, vx: 0, vy: 170 });
 		stepRace(race);
-		assert.equal(follower.vy < 0, delay > 3);
-		assert.equal(block.breakCycle, delay > 3 ? 2 : 1);
+		assert.ok(follower.vy > 0);
+		assert.equal(block.breakCycle, 1);
 	}
 });
 test('일반 재질의 반발계수는0.55~0.65 범위다', () => {

@@ -15,6 +15,7 @@ export async function observeRace(page, seed = 47) {
 								Object.assign(state.blocks[patch.index], patch.changes);
 							Object.assign(state, {
 								time: data.state.time,
+								skillWaves: data.state.skillWaves,
 								finished: data.state.finished,
 								cinematic: data.state.cinematic
 							});

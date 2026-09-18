@@ -46,7 +46,7 @@ test('소수 구슬만 표시하는 미리보기에도 실제 인원의 전체 �
 	assert.equal(preview.blocks.filter((b) => b.tile).length, 5520);
 });
 
-test('왁스는 중앙 방향으로 기울고 압축·복구 때 회전된 구슬 겹침을 확인한다', () => {
+test('왁스는 중앙 방향으로 기울고 경사면 충돌로 압축된 뒤 재생성하지 않는다', () => {
 	for (const side of [0, 4]) {
 		const race = createRace(Array(30).fill('공'), 'keyboard');
 		const wax = race.blocks.filter((b) => b.type === 'butter');
@@ -76,8 +76,9 @@ test('왁스는 중앙 방향으로 기울고 압축·복구 때 회전된 구�
 		marble.held = null;
 		marble.y = block.y + 250;
 		stepRace(race);
-		assert.equal(block.alive, true);
-		assert.equal(block.h, 64);
+		assert.equal(block.alive, false);
+		assert.equal(block.respawnAt, null);
+		assert.equal(race.respawnQueue.length, 0);
 		assert.equal(block.angle, angle);
 	}
 });

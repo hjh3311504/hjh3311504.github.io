@@ -122,7 +122,7 @@ test('좌·중앙·우 연못3개는 감속·진입음을 내고 두 우회로�
 	}
 });
 
-test('참가 구슬 수에 맞춰 버터 파괴 횟수와 복구 후 내구도를 유지한다', () => {
+test('참가 구슬 수에 맞춰 왁스 파괴 횟수를 정하고 파괴 후 재생성하지 않는다', () => {
 	for (const [count, hits] of [
 		[2, 1],
 		[30, 5],
@@ -149,9 +149,9 @@ test('참가 구슬 수에 맞춰 버터 파괴 횟수와 복구 후 내구도�
 		m.x = 30;
 		r.time = 3;
 		stepRace(r);
-		assert.equal(b.alive, true);
-		assert.equal(b.hp, hits);
-		assert.equal(b.h, 64);
+		assert.equal(b.alive, false);
+		assert.equal(b.hp, 0);
+		assert.equal(b.respawnAt, null);
 	}
 });
 

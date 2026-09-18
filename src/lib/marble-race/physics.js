@@ -1,3 +1,4 @@
+import { createSkills, updateSkills } from './skills.js';
 import { BLOCKS, MARBLE_COLORS, BREAKABLE_TYPES, resolveMap } from './catalog.js';
 
 export const WIDTH = 720;
@@ -7,6 +8,8 @@ const FIRST_LAYER_Y = 300;
 const SPECIAL_HEIGHT = 960;
 const PIN_SECTION_HEIGHT = 260;
 const CONNECTOR_HEIGHT = SPECIAL_HEIGHT + PIN_SECTION_HEIGHT;
+// 재생성을 다시 시험할 수 있도록 기존 복구 로직은 보존한다.
+const BLOCK_RESPAWN_ENABLED = false;
 export const RESPAWN_DELAY = 3;
 const FINALE_HEIGHT = 740;
 export const STEP = 1 / 120;
@@ -381,27 +384,25 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1, options =
 	const layout = createLayout(mapId, options.layoutCount ?? names.length),
 		blocks = createMap(mapId, random, layout, options);
 	const positions = [];
-	const columns = Math.min(26, names.length);
+	const total = options.layoutCount ?? names.length;
+	const columns = Math.min(26, total);
+	// 필요한 자리만 뽑아 큰 명단의 미리보기도 실제 경기와 같은 배치를 사용한다.
+	const remainingSlots = new Map();
 	for (let i = 0; i < names.length; i++) {
-		const row = Math.floor(i / columns),
-			col = i % columns;
-		const rowCount = Math.min(columns, names.length - row * columns);
+		const picked = i + Math.floor(random() * (total - i));
+		const slot = remainingSlots.get(picked) ?? picked;
+		remainingSlots.set(picked, remainingSlots.get(i) ?? i);
+		remainingSlots.delete(i);
+		const row = Math.floor(slot / columns),
+			col = slot % columns;
+		const rowCount = Math.min(columns, total - row * columns);
+		const inset = columns <= 24 ? 60 : 25;
 		positions.push({
-			x:
-				names.length === 2
-					? 180 + col * 360
-					: columns <= 24
-						? 60 + (col * 600) / (columns - 1)
-						: 25 + (col * 670) / Math.max(1, rowCount - 1),
-			y: names.length <= 26 ? 60 + random() * 180 : 70 + row * 40 + random() * 8,
+			x: rowCount === 1 ? WIDTH / 2 : inset + (col * (WIDTH - 2 * inset)) / (rowCount - 1),
+			y: 70 + row * 40,
 			r: RADIUS
 		});
 		if (i % 256 === 0) yield { phase: 'positions', count: i };
-	}
-	for (let i = positions.length - 1; i > 0; i--) {
-		const j = Math.floor(random() * (i + 1));
-		[positions[i], positions[j]] = [positions[j], positions[i]];
-		if (i % 256 === 0) yield { phase: 'shuffle', count: i };
 	}
 	const marbles = [];
 	for (let index = 0; index < names.length; index++) {
@@ -421,6 +422,8 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1, options =
 			bestY: 0,
 			lastProgress: 0,
 			windUntil: 0,
+			pinRest: null,
+			pulseBoostUntil: 0,
 			windDirection: random() < 0.5 ? -1 : 1,
 			scatterPassages: new Map(),
 			brokenPositions: new Set(),
@@ -434,6 +437,7 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1, options =
 	}
 	return {
 		preview: Boolean(options.preview),
+		skills: createSkills(seed, Boolean(options.skillsEnabled)),
 		marbles,
 		blocks,
 		zones: layout.zones,
@@ -590,21 +594,23 @@ function destroyBlock(race, marble, block, impact, contact = null) {
 		marble.brokenPositions.add(block.id);
 		marble.lastProgress = race.time;
 	}
-	block.respawnAt = race.time + RESPAWN_DELAY;
-	const queue = race.respawnQueue;
-	let lo = 0,
-		hi = queue.length;
-	while (lo < hi) {
-		const mid = (lo + hi) >>> 1,
-			other = queue[mid];
-		if (
-			other.respawnAt < block.respawnAt ||
-			(other.respawnAt === block.respawnAt && (other.order ?? 0) <= (block.order ?? 0))
-		)
-			lo = mid + 1;
-		else hi = mid;
+	if (BLOCK_RESPAWN_ENABLED) {
+		block.respawnAt = race.time + RESPAWN_DELAY;
+		const queue = race.respawnQueue;
+		let lo = 0,
+			hi = queue.length;
+		while (lo < hi) {
+			const mid = (lo + hi) >>> 1,
+				other = queue[mid];
+			if (
+				other.respawnAt < block.respawnAt ||
+				(other.respawnAt === block.respawnAt && (other.order ?? 0) <= (block.order ?? 0))
+			)
+				lo = mid + 1;
+			else hi = mid;
+		}
+		queue.splice(lo, 0, block);
 	}
-	queue.splice(lo, 0, block);
 	emit(race, block, marble, true, impact, contact);
 }
 
@@ -866,6 +872,41 @@ function separateMarbles(race) {
 		}
 	}
 }
+// 핀 꼭대기의 작은 반복 반동은 일반8초 정체보다 일찍 해소한다.
+function releasePinRest(race, marble) {
+	if (
+		marble.held ||
+		marble.finaleEntry !== null ||
+		marble.y >= race.layout.finale.start ||
+		marble.windUntil > race.time ||
+		Math.hypot(marble.vx, marble.vy) > 4
+	) {
+		marble.pinRest = null;
+		return;
+	}
+	const pin = nearbyBlocks(race.spatial, marble).find((block) => {
+		if (!block.alive || !block.pin) return false;
+		const contact = collision({ ...marble, r: marble.r + 0.15 }, block, race.time);
+		return contact && contact.ny < -0.98;
+	});
+	if (!pin) {
+		marble.pinRest = null;
+		return;
+	}
+	const rest = marble.pinRest;
+	if (!rest || rest.id !== pin.id || Math.hypot(marble.x - rest.x, marble.y - rest.y) > 2) {
+		marble.pinRest = { id: pin.id, since: race.time, x: marble.x, y: marble.y };
+		return;
+	}
+	if (race.time - rest.since < 1) return;
+	// 이미 기울어진 쪽으로 밀고, 정중앙에서는 경기 난수로 정한 방향을 쓴다.
+	const offset = marble.x - pin.x;
+	if (Math.abs(offset) > 0.05) marble.windDirection = Math.sign(offset);
+	marble.windUntil = race.time + 0.35;
+	marble.lastProgress = race.time;
+	marble.pinRest = null;
+}
+
 function restoreBlocks(race) {
 	const waiting = [];
 	let index = 0;
@@ -898,6 +939,19 @@ function restoreBlocks(race) {
 export function stepRace(race, dt = STEP) {
 	if (dt <= 0 || dt > 1 / 60) throw new Error('물리 계산 간격은 1/60초 이하여야 합니다.');
 	race.events = [];
+	for (const wave of updateSkills(race.skills, race.marbles, race.time, dt)) {
+		race.events.push({
+			type: 'pulse',
+			soundType: 'pulse',
+			kind: 'skill',
+			deviceId: `pulse-${wave.id}`,
+			id: wave.sourceId,
+			x: wave.x,
+			y: wave.y,
+			time: wave.time,
+			impact: 200
+		});
+	}
 	if (race.spatial?.blocks !== race.blocks) {
 		race.spatial = createSpatialIndex(race.blocks);
 		race.blockLookup = new Map(race.blocks.map((b) => [b.id, b]));
@@ -914,7 +968,7 @@ export function stepRace(race, dt = STEP) {
 	const h = dt / divisions;
 	for (let part = 0; part < divisions; part++) {
 		race.time += h;
-		restoreBlocks(race);
+		if (BLOCK_RESPAWN_ENABLED) restoreBlocks(race);
 		for (const block of race.movingBlocks) {
 			if (block.opensAt !== undefined && race.time >= block.opensAt) block.alive = false;
 			if (block.motion) block.x = shuttleState(block, race.time).x;
@@ -930,6 +984,7 @@ export function stepRace(race, dt = STEP) {
 			if (marble.finished) continue;
 			previous.set(marble.id, { x: marble.x, y: marble.y });
 			if (marble.held) {
+				marble.pinRest = null;
 				if (race.time < marble.held.until) continue;
 				marble.held = null;
 			}
@@ -962,8 +1017,15 @@ export function stepRace(race, dt = STEP) {
 					marble.x < 70 ? 1 : marble.x > WIDTH - 70 ? -1 : -marble.windDirection;
 			}
 			if (marble.windUntil > race.time) marble.vx += marble.windDirection * 320 * h;
-			marble.vy = Math.min(430, marble.vy + 420 * h);
-			marble.vx = clamp(marble.vx * Math.exp(-h * 1.5), -600, 600);
+			const pulseBoost = marble.pulseBoostUntil > race.time;
+			// 파동 직후에는 낮은 공기 저항과 높은 속도 한도로 먼 거리까지 날아간다.
+			const horizontalLimit = pulseBoost ? 1000 : 600;
+			marble.vy = Math.min(pulseBoost ? 900 : 430, marble.vy + 420 * h);
+			marble.vx = clamp(
+				marble.vx * Math.exp(-h * (pulseBoost ? 0.6 : 1.5)),
+				-horizontalLimit,
+				horizontalLimit
+			);
 			marble.x += marble.vx * h;
 			marble.y += marble.vy * h;
 			resolveBlocks(race, marble, h, previous.get(marble.id));
@@ -973,6 +1035,7 @@ export function stepRace(race, dt = STEP) {
 		for (const marble of race.marbles) {
 			if (marble.finished) continue;
 			constrainWalls(marble);
+			releasePinRest(race, marble);
 			const before = previous.get(marble.id);
 			for (const connector of [...race.layout.connectors, race.layout.finalApproach]) {
 				for (const [key, line] of [

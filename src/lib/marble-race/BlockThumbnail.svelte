@@ -1,6 +1,7 @@
 <script>
 	import { createTilePainter } from './tile-painter.js';
 	import { drawSpecialBlock } from './special-painter.js';
+	import { drawPulse } from './pulse-painter.js';
 	import { SPECIAL_TYPES } from './catalog.js';
 
 	let { type } = $props();
@@ -18,7 +19,17 @@
 			if (disposed) return;
 			ctx.setTransform(3, 0, 0, 3, 0, 0);
 			ctx.clearRect(0, 0, 32, 32);
-			if (SPECIAL_TYPES.includes(currentType)) {
+			if (currentType === 'pulse') {
+				ctx.save();
+				ctx.translate(16, 16);
+				ctx.scale(0.16, 0.16);
+				drawPulse(ctx, { x: 0, y: 0, color: '#428be6' }, 0.45);
+				ctx.fillStyle = '#428be6';
+				ctx.beginPath();
+				ctx.arc(0, 0, 26, 0, Math.PI * 2);
+				ctx.fill();
+				ctx.restore();
+			} else if (SPECIAL_TYPES.includes(currentType)) {
 				ctx.save();
 				ctx.translate(16, 16);
 				const shape =
