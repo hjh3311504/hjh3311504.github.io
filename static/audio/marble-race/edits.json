@@ -1,0 +1,288 @@
+{
+	"thock": [
+		{
+			"file": "thock-1.wav",
+			"duration": 0.18,
+			"parts": [
+				{
+					"source": "thock",
+					"originalSha256": "bdfa594696dea0570ad6771fd5b7c4a9fd81e173ec38690ff56fb9c5e1f00707"
+				}
+			]
+		},
+		{
+			"file": "thock-2.wav",
+			"duration": 0.18,
+			"parts": [
+				{
+					"source": "thock",
+					"originalSha256": "bdfa594696dea0570ad6771fd5b7c4a9fd81e173ec38690ff56fb9c5e1f00707"
+				}
+			]
+		}
+	],
+	"popit": [
+		{
+			"file": "popit-1.wav",
+			"duration": 0.21,
+			"parts": [
+				{
+					"source": "popit",
+					"originalSha256": "db56494d7d46038aaedd55a600cdc36db955c5cbecb1a952f431595c9d083e35"
+				}
+			]
+		},
+		{
+			"file": "popit-2.wav",
+			"duration": 0.21,
+			"parts": [
+				{
+					"source": "popit",
+					"originalSha256": "db56494d7d46038aaedd55a600cdc36db955c5cbecb1a952f431595c9d083e35"
+				}
+			]
+		}
+	],
+	"rubber": [
+		{
+			"file": "rubber-1.wav",
+			"duration": 0.2,
+			"parts": [
+				{
+					"source": "popit",
+					"originalSha256": "db56494d7d46038aaedd55a600cdc36db955c5cbecb1a952f431595c9d083e35"
+				},
+				{
+					"source": "wood",
+					"originalSha256": "562e458219746f574e63d901f7faeb5f1f7841c869b9890d86cae011a7160e07"
+				}
+			]
+		},
+		{
+			"file": "rubber-2.wav",
+			"duration": 0.2,
+			"parts": [
+				{
+					"source": "popit",
+					"originalSha256": "db56494d7d46038aaedd55a600cdc36db955c5cbecb1a952f431595c9d083e35"
+				},
+				{
+					"source": "wood",
+					"originalSha256": "562e458219746f574e63d901f7faeb5f1f7841c869b9890d86cae011a7160e07"
+				}
+			]
+		}
+	],
+	"clicky": [
+		{
+			"file": "clicky-v5-1.wav",
+			"duration": 0.205,
+			"sha256": "7c1e10edd0576d9277f4a2f0ee7f02d1966d03dfcbca408966838619d80e972e",
+			"approvedChoice": "B",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "blue",
+					"originalSha256": "d00fb0f0d99e369cb7f964b6b0b051361ee52ec2e032abb6aefd69559c274d6b",
+					"title": "Typing / Blue-switch",
+					"creator": "fzb (Freesound)",
+					"url": "https://pixabay.com/sound-effects/technology-typing-28154/",
+					"license": "Pixabay Content License"
+				}
+			]
+		},
+		{
+			"file": "clicky-v5-2.wav",
+			"duration": 0.205,
+			"sha256": "67d52eaf3ee79b57f957b64ae773e2d6fe00efe5d7f49e7f39d392cee8db03ad",
+			"approvedChoice": "B",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "blue",
+					"originalSha256": "d00fb0f0d99e369cb7f964b6b0b051361ee52ec2e032abb6aefd69559c274d6b",
+					"title": "Typing / Blue-switch",
+					"creator": "fzb (Freesound)",
+					"url": "https://pixabay.com/sound-effects/technology-typing-28154/",
+					"license": "Pixabay Content License"
+				}
+			]
+		}
+	],
+	"typewriter": [
+		{
+			"file": "typewriter-v5-1.wav",
+			"duration": 0.145,
+			"sha256": "40814ea4848412f3aef4f2ef28fbf8931930a943bb0c928c596b0a6c905a904a",
+			"approvedChoice": "A",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "typewriter",
+					"originalSha256": "255781573d962933c5daf3e83926025aea8df54680a899d07142337904ffe7e2",
+					"title": "Typewriter",
+					"creator": "sea-you-later",
+					"url": "https://pixabay.com/sound-effects/film-special-effects-typewriter-301419/",
+					"license": "Pixabay Content License"
+				}
+			]
+		},
+		{
+			"file": "typewriter-v5-2.wav",
+			"duration": 0.145,
+			"sha256": "7ee761b53cfa2d7e6f98a7527092db55320d83a33dceda3e2d4ebc85a68b6489",
+			"approvedChoice": "A",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "typewriter",
+					"originalSha256": "255781573d962933c5daf3e83926025aea8df54680a899d07142337904ffe7e2",
+					"title": "Typewriter",
+					"creator": "sea-you-later",
+					"url": "https://pixabay.com/sound-effects/film-special-effects-typewriter-301419/",
+					"license": "Pixabay Content License"
+				}
+			]
+		}
+	],
+	"slime": [
+		{
+			"file": "slime-v3-1.wav",
+			"duration": 0.6,
+			"parts": [
+				{
+					"source": "slime-squish-12",
+					"originalSha256": "18177e6408d9ecc72c3d5c33d08620b3a13ac618350ae0c2cb01f4d3b24bd2ec"
+				}
+			]
+		},
+		{
+			"file": "slime-v3-2.wav",
+			"duration": 0.6,
+			"parts": [
+				{
+					"source": "slime-squish-12",
+					"originalSha256": "18177e6408d9ecc72c3d5c33d08620b3a13ac618350ae0c2cb01f4d3b24bd2ec"
+				}
+			]
+		}
+	],
+	"sand": [
+		{
+			"file": "sand-v5-1.wav",
+			"duration": 0.32,
+			"sha256": "dee22ca39b366e37a1fce421318f0e94fc17b937e0153939f591af40879635d7",
+			"approvedChoice": "A",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "salt-grinder",
+					"originalSha256": "3e338189acc3ea484bb8134b3c7c7dbbbf5f558968b7c6dd1fc552371bbf3eea",
+					"title": "Salt grinder crushing salt",
+					"creator": "jay_mar (Freesound)",
+					"url": "https://pixabay.com/sound-effects/household-salt-grinder-crushing-salt-63031/",
+					"license": "Pixabay Content License"
+				}
+			]
+		},
+		{
+			"file": "sand-v5-2.wav",
+			"duration": 0.32,
+			"sha256": "7e17a2b115d2fb4ccdd2bf23d95f07c719c0e97674a08f6c7b200f70ad59b2b9",
+			"approvedChoice": "A",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "salt-grinder",
+					"originalSha256": "3e338189acc3ea484bb8134b3c7c7dbbbf5f558968b7c6dd1fc552371bbf3eea",
+					"title": "Salt grinder crushing salt",
+					"creator": "jay_mar (Freesound)",
+					"url": "https://pixabay.com/sound-effects/household-salt-grinder-crushing-salt-63031/",
+					"license": "Pixabay Content License"
+				}
+			]
+		}
+	],
+	"soap": [
+		{
+			"file": "soap-v2-1.wav",
+			"duration": 0.3,
+			"parts": [
+				{
+					"source": "cracker",
+					"originalSha256": "2c291e2c09a5d097b7df3b4b46b61fe6f0c168d77e72c73e812e70d392c9b067"
+				}
+			]
+		},
+		{
+			"file": "soap-v2-2.wav",
+			"duration": 0.3,
+			"parts": [
+				{
+					"source": "cracker",
+					"originalSha256": "2c291e2c09a5d097b7df3b4b46b61fe6f0c168d77e72c73e812e70d392c9b067"
+				}
+			]
+		}
+	],
+	"waxball": [
+		{
+			"file": "waxball-v5-1.wav",
+			"duration": 0.395,
+			"sha256": "0740826c9bd031c73990df04b851cc29a98ff7af25e5cac51d0c7767174c42de",
+			"approvedChoice": "B",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "eggshell",
+					"originalSha256": "635828b16f2454069e630283fef003091da4f1651357bc55050c2656a8280075",
+					"title": "Crushing shells of eggs",
+					"creator": "AudioPapkin",
+					"url": "https://pixabay.com/sound-effects/film-special-effects-crushing-shells-of-eggs-311132/",
+					"license": "Pixabay Content License"
+				}
+			]
+		},
+		{
+			"file": "waxball-v5-2.wav",
+			"duration": 0.395,
+			"sha256": "af3a6df9a2d4c09624b842592f1ed75541f035ba936c131c5931297d93a7efd7",
+			"approvedChoice": "B",
+			"sampleRate": 48000,
+			"parts": [
+				{
+					"source": "eggshell",
+					"originalSha256": "635828b16f2454069e630283fef003091da4f1651357bc55050c2656a8280075",
+					"title": "Crushing shells of eggs",
+					"creator": "AudioPapkin",
+					"url": "https://pixabay.com/sound-effects/film-special-effects-crushing-shells-of-eggs-311132/",
+					"license": "Pixabay Content License"
+				}
+			]
+		}
+	],
+	"wood": [
+		{
+			"file": "wood-1.wav",
+			"duration": 0.18,
+			"parts": [
+				{
+					"source": "wood",
+					"originalSha256": "562e458219746f574e63d901f7faeb5f1f7841c869b9890d86cae011a7160e07"
+				}
+			],
+			"sha256": "7c74d6cd529cc6ddd69d0bdcc2db1eae0258ac959b95106af699ee8fa17d82ac"
+		},
+		{
+			"file": "wood-2.wav",
+			"duration": 0.18,
+			"parts": [
+				{
+					"source": "wood",
+					"originalSha256": "562e458219746f574e63d901f7faeb5f1f7841c869b9890d86cae011a7160e07"
+				}
+			],
+			"sha256": "6e429569d85f872a806c46167c8754c2ad5c5d8e75c33da4839490459074b413"
+		}
+	]
+}

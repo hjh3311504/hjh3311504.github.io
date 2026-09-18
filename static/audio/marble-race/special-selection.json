@@ -1,0 +1,13 @@
+{
+	"date": "2026-09-17",
+	"fanfare": {
+		"file": "fanfare-tada-v1.wav",
+		"source": "https://pixabay.com/sound-effects/tada-fanfare-a-6313/",
+		"creator": "plasterbrain (Freesound), freesound_community",
+		"license": "Pixabay Content License",
+		"sampleRate": 48000,
+		"channels": 1,
+		"sourceSha256": "5fa556d6ad2870239a757092fa57f00e64140df10f5d77d2a0b4cb0b59be9ce7",
+		"sha256": "21629982348269148a942c9cd5e7448808ba6bc92af7aca496a15ed2a903b267"
+	}
+}

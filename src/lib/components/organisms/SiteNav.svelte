@@ -199,6 +199,30 @@
 				<span>QR 코드</span>
 				{#if active === 'qr-code'}<span class="current-badge">현재</span>{/if}
 			</Button>
+			<Button
+				class={active === 'marble-race' ? 'active' : ''}
+				href={resolve('/marble-race')}
+				variant="ghost"
+				aria-current={active === 'marble-race' ? 'page' : undefined}
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.8"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="marble-nav-icon"
+					aria-hidden="true"
+					><circle cx="7" cy="16" r="4" /><path
+						d="M5.5 15l1-1M15 21V3m0 0h7v8h-7M18.5 3v8M15 7h7"
+					/></svg
+				>
+				<span>ASMR 구슬 레이스</span>
+				{#if active === 'marble-race'}<span class="current-badge">현재</span>{/if}
+			</Button>
 		</div>
 	</nav>
 
@@ -329,6 +353,11 @@
 
 	nav :global(a span:not(.current-badge)) {
 		flex: 1;
+	}
+
+	.marble-nav-icon {
+		flex: none;
+		color: #3274d9;
 	}
 
 	.current-badge {

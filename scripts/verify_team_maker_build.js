@@ -3,18 +3,28 @@ import path from 'node:path';
 import sharp from 'sharp';
 import { verifyTeamMakerCss } from './verify_team_maker_css.js';
 import { publishedLicenses } from './licenses.js';
+import {
+	pageName,
+	seoTitle as marbleTitle,
+	seoDescription as marbleDescription,
+	pageUrl as marbleUrl,
+	shareImage as marbleImage,
+	faqs as marbleFaqs
+} from '../src/lib/marble-race/page-content.js';
 
 const root = process.cwd();
 const requiredFiles = [
 	'build/favicon.svg',
 	'build/favicon.ico',
 	'build/images/site-open-graph-1200x630.png',
+	'build/images/marble-race-open-graph-1200x630.png',
 	'build/licenses/SUIT-LICENSE.txt',
 	'build/licenses/SUITE-LICENSE.txt',
 	'build/licenses/site-LICENSE.txt',
 	'build/licenses/THIRD_PARTY_NOTICES.md',
 	'build/index.html',
 	'build/qr-code.html',
+	'build/marble-race.html',
 	'build/team-maker.html',
 	'build/images/team-maker/favicon.svg',
 	'build/images/team-maker-open-graph-1200x630.png'
@@ -52,12 +62,14 @@ for (const output of removedOutputs) {
 const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
 const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
+const marbleHtml = await readFile(path.join(root, 'build/marble-race.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 // 광고 미실행 방침은 존재하지 않는 URL에 쓰이는 정적 404에도 적용합니다.
 for (const [name, document] of [
 	['홈', homeHtml],
 	['Team Maker', html],
 	['QR 코드', qrHtml],
+	['구슬 레이스', marbleHtml],
 	['404', notFoundHtml]
 ]) {
 	if (
@@ -285,7 +297,7 @@ const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
 for (const reference of new Set(localReferences)) {
 	const cleanReference = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
 	const routeName = cleanReference.replace(/^(?:\.\/|\/)/, '');
-	const isToolPage = ['team-maker', 'qr-code'].includes(routeName);
+	const isToolPage = ['team-maker', 'qr-code', 'marble-race'].includes(routeName);
 	const absolutePath = isToolPage
 		? path.join(root, `build/${routeName}.html`)
 		: cleanReference.startsWith('/')
@@ -375,3 +387,63 @@ if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/qr-code</loc>'))
 	throw new Error('sitemap에 QR 코드 주소가 없습니다.');
 if ((qrHtml.match(/<h1\b/g)?.length ?? 0) !== 1) throw new Error('QR 코드의 h1은 1개여야 합니다.');
 console.log('QR 코드 정적 페이지와 sitemap 검증 통과');
+
+for (const marker of [
+	pageName,
+	'id="marble-guide-title"',
+	'id="marble-methods-title"',
+	'id="marble-uses-title"',
+	'id="marble-faq-title"',
+	'id="race-names"',
+	'id="block-library-title"',
+	'첫번째',
+	'마지막',
+	'여러명',
+	'id="privacy-dialog"',
+	'href="https://hjh3311504.github.io/marble-race"'
+]) {
+	if (!marbleHtml.includes(marker))
+		throw new Error(`구슬 레이스 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+if ((marbleHtml.match(/<h1\b/g)?.length ?? 0) !== 1)
+	throw new Error('구슬 레이스의 h1은 1개여야 합니다.');
+if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/marble-race</loc>'))
+	throw new Error('sitemap에 구슬 레이스 주소가 없습니다.');
+for (const document of [homeHtml, html, qrHtml]) {
+	if (!/href="(?:\.\/|\/)marble-race"/.test(document))
+		throw new Error('홈 또는 공통 메뉴에 구슬 레이스 링크가 없습니다.');
+}
+console.log('구슬 레이스 정적 페이지와 sitemap 검증 통과');
+
+// 게임 실행 전의 정적 HTML에도 검색 정보와 실제 안내가 있어야 한다.
+for (const marker of [
+	`<title>${marbleTitle}</title>`,
+	`name="description" content="${marbleDescription}"`,
+	`property="og:title" content="${marbleTitle}"`,
+	`property="og:image" content="${marbleImage}"`,
+	`name="twitter:card" content="summary_large_image"`,
+	`name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"`
+]) {
+	if (!marbleHtml.includes(marker)) throw new Error(`ASMR 구슬 레이스 검색 정보 누락: ${marker}`);
+}
+const marbleJson = marbleHtml.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+if (!marbleJson) throw new Error('ASMR 구슬 레이스 구조화 데이터가 없습니다.');
+const marbleGraph = JSON.parse(marbleJson[1])['@graph'];
+const marbleApp = marbleGraph.find((item) => item['@type'] === 'WebApplication');
+if (
+	marbleApp?.url !== marbleUrl ||
+	marbleApp?.name !== pageName ||
+	marbleApp?.description !== marbleDescription ||
+	marbleApp?.offers?.price !== 0
+)
+	throw new Error('ASMR 구슬 레이스 앱 정보와 검색 설명이 일치하지 않습니다.');
+if (marbleApp.aggregateRating || marbleApp.review)
+	throw new Error('확인되지 않은 평점·리뷰를 넣지 않습니다.');
+for (const faq of marbleFaqs) {
+	if (!marbleHtml.includes(faq.question) || !marbleHtml.includes(faq.answer))
+		throw new Error(`정적 HTML에 FAQ 본문이 없습니다: ${faq.question}`);
+}
+const marbleImageMeta = await sharp('build/images/marble-race-open-graph-1200x630.png').metadata();
+if (marbleImageMeta.width !== 1200 || marbleImageMeta.height !== 630)
+	throw new Error('ASMR 구슬 레이스 공유 이미지는1200×630이어야 합니다.');
+console.log('ASMR 구슬 레이스 검색 정보·구조화 데이터·정적 가이드·공유 이미지 검증 통과');

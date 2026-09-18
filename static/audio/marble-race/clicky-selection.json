@@ -1,0 +1,23 @@
+{
+	"type": "clicky",
+	"choice": "C",
+	"license": "CC BY 4.0",
+	"licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+	"notice": "게임용 변형음이며 원본과 다르다. 프로젝트 MIT 라이선스와 구분한다.",
+	"files": [
+		{
+			"file": "clicky-v6-1.wav",
+			"title": "One Keypress 006",
+			"creator": "MattRuthSound",
+			"url": "https://freesound.org/people/MattRuthSound/sounds/561699/",
+			"sha256": "4c710fe46206817e0d2b5bba0ddf359e294f1d44ae55d0976e014bdbf83d1dc8"
+		},
+		{
+			"file": "clicky-v6-2.wav",
+			"title": "One Keypress 007",
+			"creator": "MattRuthSound",
+			"url": "https://freesound.org/people/MattRuthSound/sounds/561698/",
+			"sha256": "81ec902b54a8f846a7a901f22fb6cc3b55cd3615743d3d3c1fb8a138e30ea245"
+		}
+	]
+}

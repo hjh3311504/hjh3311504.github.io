@@ -1,0 +1,94 @@
+{
+	"ember": [
+		{
+			"sourceSha256": "cd8f53bf453f6a94cffe4a008349982d7097d4512aa0a35cdbc02e781197c257",
+			"outputSha256": "5f575197d48a6baba8bb34dd3520343fb64c957349baaf5cbba612924b0c97b0",
+			"outputFile": "ember-ai-v2-1.wav",
+			"durationSeconds": 0.9,
+			"sourceTitle": "Fire Sounds",
+			"creator": "DRAGON-STUDIO",
+			"sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-fire-sounds-356121/",
+			"license": "Pixabay Content License",
+			"licenseUrl": "https://pixabay.com/service/license-summary/",
+			"originalSha256": "e493564ddbe47447c155fd204d964144fdfd616d2160a4f49ffecb61136dcc49",
+			"selection": "2026-09-17 사용자 선택",
+			"materialSubstitution": false
+		},
+		{
+			"sourceSha256": "05ca252042ba854c6a39eb7907c9016251e243198c2c3d9a69cd73a6b1aa35de",
+			"outputSha256": "b5efca7edb58a04e3f2bd302a64f8a720c498b3ecb8e0cc6d07750e207defe1d",
+			"outputFile": "ember-ai-v2-2.wav",
+			"durationSeconds": 0.9,
+			"sourceTitle": "Fire Sounds",
+			"creator": "DRAGON-STUDIO",
+			"sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-fire-sounds-356121/",
+			"license": "Pixabay Content License",
+			"licenseUrl": "https://pixabay.com/service/license-summary/",
+			"originalSha256": "e493564ddbe47447c155fd204d964144fdfd616d2160a4f49ffecb61136dcc49",
+			"selection": "2026-09-17 사용자 선택",
+			"materialSubstitution": false
+		}
+	],
+	"droplet": [
+		{
+			"sourceSha256": "59c2a6ab34b957f5bd9a37e9ef9de40613a1170e10e8b291718b3fac92198d38",
+			"outputSha256": "1f3339e0361042f2a2207ac9200ad45405acd2b2cdfce1a3d131172b84216b70",
+			"outputFile": "droplet-ai-v1-1.wav",
+			"durationSeconds": 0.32,
+			"sourceTitle": "WATER DROPLET SFX @MRSTOKES302",
+			"creator": "Mrstokes302",
+			"sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-water-droplet-sfx-mrstokes302-530199/",
+			"license": "Pixabay Content License",
+			"licenseUrl": "https://pixabay.com/service/license-summary/",
+			"originalSha256": "c19fce15653a912eec02ce662968c509703e97387ea4ff2f7480f0295f8a1675",
+			"selection": "2026-09-17 사용자 선택",
+			"materialSubstitution": false
+		}
+	],
+	"frog": [
+		{
+			"sourceSha256": "b59f87ca879e0d8a92736d0400c4f24ec7cf7f19d0aa1fbd74c73c7df3d4d5ec",
+			"outputSha256": "343b8f52c0817dc1b41e16b9569ed54658ce5bda17565df2d965b52950ec1af0",
+			"outputFile": "frog-ai-v1-1.wav",
+			"durationSeconds": 0.32,
+			"sourceTitle": "Frog Croaking Sound Effect",
+			"creator": "DRAGON-STUDIO",
+			"sourceUrl": "https://pixabay.com/sound-effects/nature-frog-croaking-sound-effect-322956/",
+			"license": "Pixabay Content License",
+			"licenseUrl": "https://pixabay.com/service/license-summary/",
+			"originalSha256": "db24e0fb773b1e9a4ac2702f3edc61e4e4f188725b6c08eaff0995a5956d91b6",
+			"selection": "2026-09-17 사용자 선택",
+			"materialSubstitution": false
+		},
+		{
+			"sourceSha256": "bdfb03a0a5b3e31810686d5fd131a67dd198efa5e76471f1830cd2f8ca202c22",
+			"outputSha256": "e3ad0c287d7d741a08da08b2186cca8184daeb674bf4cdf46b930ab5afa39487",
+			"outputFile": "frog-ai-v1-2.wav",
+			"durationSeconds": 0.35,
+			"sourceTitle": "Frog Croaking Sound Effect",
+			"creator": "DRAGON-STUDIO",
+			"sourceUrl": "https://pixabay.com/sound-effects/nature-frog-croaking-sound-effect-322956/",
+			"license": "Pixabay Content License",
+			"licenseUrl": "https://pixabay.com/service/license-summary/",
+			"originalSha256": "db24e0fb773b1e9a4ac2702f3edc61e4e4f188725b6c08eaff0995a5956d91b6",
+			"selection": "2026-09-17 사용자 선택",
+			"materialSubstitution": false
+		}
+	],
+	"duck": [
+		{
+			"sourceSha256": "7686d50bcd1a072037e7d35a7aa32dbb1f9e15656c03b86efe4f36285a29899c",
+			"outputSha256": "96a992bff1146c6610ce6d18a2434a93c956e4690d8b84329486b33d89783437",
+			"outputFile": "duck-ai-v1-1.wav",
+			"durationSeconds": 0.2,
+			"sourceTitle": "075176_Duck Quack",
+			"creator": "Freesound Community",
+			"sourceUrl": "https://pixabay.com/sound-effects/nature-075176-duck-quack-40345/",
+			"license": "Pixabay Content License",
+			"licenseUrl": "https://pixabay.com/service/license-summary/",
+			"originalSha256": "d2a56b47e606b766015d7d496ba02b39f147315b58662f0c7b6f2827731ae32f",
+			"selection": "2026-09-17 사용자 선택",
+			"materialSubstitution": false
+		}
+	]
+}
