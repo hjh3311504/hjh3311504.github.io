@@ -1036,8 +1036,12 @@ export function stepRace(race, dt = STEP) {
 export function winners(race, mode, count = 1, startRank = 1) {
 	if (mode === 'nth')
 		return race.finished.length >= count ? race.finished.slice(count - 1, count) : [];
-	if (mode === 'last')
-		return race.finished.length === race.marbles.length ? race.finished.slice(-1) : [];
+	if (mode === 'last') {
+		if (race.finished.length === race.marbles.length) return race.finished.slice(-1);
+		if (race.finished.length === race.marbles.length - 1)
+			return race.marbles.filter((marble) => !marble.finished);
+		return [];
+	}
 	if (mode === 'multiple') {
 		if (
 			!Number.isSafeInteger(startRank) ||

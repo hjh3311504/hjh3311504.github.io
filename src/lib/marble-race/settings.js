@@ -1,4 +1,10 @@
-import { ACTIVE_BLOCK_TYPES, migrateBlockType, parseNames, resolveMapId } from './catalog.js';
+import {
+	DEFAULT_MAP_ID,
+	ACTIVE_BLOCK_TYPES,
+	migrateBlockType,
+	parseNames,
+	resolveMapId
+} from './catalog.js';
 export const SETTINGS_KEY = 'lake.marble-race.v1';
 export const CUSTOM_MAPS_KEY = 'lake.marble-race.custom-maps.v1';
 export const DEFAULT_NAMES =
@@ -36,7 +42,7 @@ export function validateCustomMaps(value) {
 export function readSettings(storage) {
 	const defaults = {
 		namesText: DEFAULT_NAMES,
-		mapId: 'crunch',
+		mapId: DEFAULT_MAP_ID,
 		mode: 'first',
 		count: 3,
 		rangeText: '1~3',

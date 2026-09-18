@@ -301,14 +301,26 @@
 	align-items: center;
 	gap: 8px;
 }
-.sound-toggle {
+.marble-page .sound-toggle {
+	display: grid;
+	grid-template-columns: 20px max-content;
+	column-gap: 6px;
+	width: auto;
+	flex-shrink: 0;
 	background: none;
 	border: 0;
 	color: #c1d8dd;
 	font-size: 12px !important;
 	white-space: nowrap;
-	padding: 8px 0;
+	padding: 8px 12px;
 }
+.sound-toggle-icon {
+	text-align: center;
+}
+.sound-toggle-label {
+	text-align: left;
+}
+
 .sound-controls input {
 	width: 64px;
 	accent-color: #8bd8bd;

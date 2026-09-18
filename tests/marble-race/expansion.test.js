@@ -44,7 +44,7 @@ test('저장 입력·이전 맵·중복 재질 내 맵을 복구하고 손상된
 	assert.equal(read.mapId, map.id);
 	assert.deepEqual(resolveMap(read.mapId, read.customMaps).layers, map.layers);
 	store.delete(CUSTOM_MAPS_KEY);
-	assert.equal(readSettings(storage).mapId, 'crunch');
+	assert.equal(readSettings(storage).mapId, 'keyboard');
 	store.set(SETTINGS_KEY, JSON.stringify({ mapId: 'workshop', namesText: '보존' }));
 	assert.equal(readSettings(storage).mapId, 'keyboard');
 	assert.equal(readSettings(storage).namesText, '보존');
@@ -178,7 +178,13 @@ test('n번째와 마지막 당첨·슬로모션·중복 축하 방지', () => {
 		const d = createDirector(mode, count);
 		race.marbles.forEach((m, i) => (m.y = race.layout.finale.rotor.y - i * 30));
 		assert.equal(d.update(race).active, true);
-		for (const id of [1, 0, 2]) {
+		const expectedWinners = {
+			first: [[1], [], []],
+			last: [[], [2], []],
+			multiple: [[1], [0], []],
+			nth: [[], [0], []]
+		};
+		for (const [index, id] of [1, 0, 2].entries()) {
 			const m = race.marbles[id];
 			m.finished = true;
 			m.finishTime = ++race.time;
@@ -186,9 +192,7 @@ test('n번째와 마지막 당첨·슬로모션·중복 축하 방지', () => {
 			const state = d.update(race);
 			assert.deepEqual(
 				state.newWinners.map((m) => m.id),
-				winners(race, mode, count)
-					.filter((m) => m.id === id)
-					.map((m) => m.id)
+				expectedWinners[mode][index]
 			);
 			assert.equal(d.update(race).newWinners.length, 0);
 		}
