@@ -33,6 +33,17 @@ h1 { font-family: SUITE; font-size: 76px; line-height: 1.06; letter-spacing: -3p
 .project h2 { font-family: SUITE; font-size: 30px; margin: 0 0 10px; }
 .project p { font-size: 22px; color: #615d59; line-height: 1.5; margin: 0; }
 .open { display: inline-block; background: #0075de; color: #fff; font-size: 20px; font-weight: 700; padding: 10px 18px; border-radius: 8px; margin-top: 22px; }
+.marble-copy h1 { font-size: 64px; line-height: 1.15; }
+.marble-preview { background: #102635; color: white; padding: 28px; }
+.marble-preview .count { color: #addadf; font-size: 16px; }
+.marbles { display: flex; justify-content: space-around; align-items: center; height: 124px; }
+.marble { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; background: #79d4ef; color: #123147; font-size: 20px; font-weight: 800; box-shadow: inset -6px -8px 0 #0002; }
+.marble:nth-child(2) { background: #ffdc91; transform: translateY(-14px); }
+.marble:nth-child(3) { background: #cdb6ef; transform: translateY(10px); }
+.sound-tiles { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.sound-tile { display: grid; place-items: center; height: 44px; border-radius: 10px; background: #f2d3a7; color: #654d38; font-size: 20px; font-weight: 800; box-shadow: inset 0 -5px #0002; }
+.sound-tile:nth-child(n+15) { background: #91d9c9; color: #285d58; }
+.marble-note { margin: 22px 0 0; color: #d4e9ef; font-size: 18px; text-align: center; }
 `;
 const teams = [
 	['가람', '나래'],
@@ -45,6 +56,12 @@ const teams = [
 	)
 	.join('');
 const pages = [
+	{
+		name: 'marble-race',
+		title: 'ASMR 구슬 레이스',
+		body: `<div class="copy marble-copy"><p class="eyebrow">무료 구슬 추첨기 · 랜덤 뽑기</p><h1>ASMR<br>구슬 레이스</h1><p class="description">이름을 넣고, 소리로 즐기는 추첨<br>수업에서도 방송에서도</p></div><div class="preview marble-preview"><div class="preview-heading">톡톡, 뽁뽁! <span class="count">이름을 건 레이스</span></div><div class="marbles"><span class="marble">토끼</span><span class="marble">고양이</span><span class="marble">오리</span></div><div class="sound-tiles">${Array.from({ length: 28 }, (_, i) => `<span class="sound-tile">${i < 14 ? ['A', 'S', 'M', 'R', 'K', 'E', 'Y'][i % 7] : '●'}</span>`).join('')}</div><p class="marble-note">첫번째 · 마지막 · 여러명 · n번째</p></div>`,
+		url: 'hjh3311504.github.io/marble-race'
+	},
 	{
 		name: 'team-maker',
 		title: '팀 메이커',
@@ -104,4 +121,4 @@ header.writeUInt16LE(32, 12);
 header.writeUInt32LE(png.length, 14);
 header.writeUInt32LE(22, 18);
 await writeFile('static/favicon.ico', Buffer.concat([header, png]));
-console.log('홈·Team Maker 공유 이미지와 Lake favicon을 생성했습니다.');
+console.log('홈·Team Maker·ASMR 구슬 레이스 공유 이미지와 Lake favicon을 생성했습니다.');

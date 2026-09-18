@@ -143,39 +143,39 @@
   design_ref: [screens/SCR-WEB-001.md]
   examples_ref: policies/REQ-WEB-018.md
 - id: REQ-WEB-019
-  text: 루트 페이지는 개발자 소개와 팀 메이커·QR 코드 진입점을 한 열의 세로 목록으로 보여주고 새 프로젝트도 같은 목록에 추가하며 내용이 짧으면 footer를 첫 화면 하단에 두되 템플릿 안내는 노출하지 않는다.
+  text: 루트 페이지는 개발자 소개와 팀 메이커·QR 코드·구슬 레이스 진입점을 한 열의 세로 목록으로 보여주고 새 프로젝트도 같은 목록에 추가하며 내용이 짧으면 footer를 첫 화면 하단에 두되 템플릿 안내는 노출하지 않는다.
   surface: [web]
-  source: "사용자 요청 2026-09-01 > 루트 페이지 개선, 이후 프로젝트 추가와 세로 구성; 블로그 전체 삭제; 사용자 확정 2026-09-02 > footer를 첫 화면 하단 영역에 배치; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가"
+  source: "사용자 요청 2026-09-01 > 루트 페이지 개선, 이후 프로젝트 추가와 세로 구성; 블로그 전체 삭제; 사용자 확정 2026-09-02 > footer를 첫 화면 하단 영역에 배치; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: crud
   ui: true
   design_status: approved
   design_ref: [screens/SCR-WEB-002.md]
 - id: REQ-WEB-020
-  text: 루트, 팀 메이커와 QR 코드 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용하며 아래쪽의 개선·버그 제보 링크로 통합 GitHub Issue 양식을 새 창에서 연다.
+  text: 루트, 팀 메이커, QR 코드와 구슬 레이스 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용하며 아래쪽의 개선·버그 제보 링크로 통합 GitHub Issue 양식을 새 창에서 연다.
   surface: [web]
-  source: "사용자 확정 2026-09-01 > 데스크톱 고정 사이드바와 고정 해제 drawer; 사용자 요청·확정 2026-09-09 > 사이드바 하단의 통합 GitHub Issue 제보 양식; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가"
+  source: "사용자 확정 2026-09-01 > 데스크톱 고정 사이드바와 고정 해제 drawer; 사용자 요청·확정 2026-09-09 > 사이드바 하단의 통합 GitHub Issue 제보 양식; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-021
   text: 공통 내비게이션은 현재 화면을 글과 모양으로 구분하고 drawer의 열기·닫기·초점 복귀를 포함한 모든 동작을 키보드와 보조 기술에 제공한다.
   surface: [web]
-  source: "사용자 요청 2026-09-01 > 키보드 접근성; 사용자 확정 > drawer"
+  source: "사용자 요청 2026-09-01 > 키보드 접근성; 사용자 확정 > drawer; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-022
   text: 공통 내비게이션은 1200px 이하에서 화면 위 햄버거 버튼으로 여는 왼쪽 drawer에 모든 이동 항목을 세로로 보여준다.
   surface: [web]
-  source: "사용자 확정 2026-09-01 > 모바일 햄버거와 drawer; 사용자 선택 2026-09-02 > DSN-005 현재 구현 기준 재동결"
+  source: "사용자 확정 2026-09-01 > 모바일 햄버거와 drawer; 사용자 선택 2026-09-02 > DSN-005 현재 구현 기준 재동결; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-023
   text: 팀이 2개면 `1팀승`·`2팀패`로 적고 3팀 이상이면 1등부터 순차로 순위를 지정하며 남은 팀이 하나면 자동으로 마지막 등수가 되고 팀 이름이 이미 보이는 결과 카드에서는 `1등`처럼 등수만, 기록 목록에서는 `1팀 1등`처럼 팀 이름과 함께 적는다.
@@ -214,13 +214,13 @@
   design_ref: [screens/SCR-WEB-001.md]
   examples_ref: policies/REQ-WEB-026.md
 - id: REQ-WEB-027
-  text: 개인정보처리방침은 홈·QR 코드 footer와 Team Maker 안내 마지막에서 여는 모달로 제공한다. 모달은 운영자, 브라우저 저장 정보·기간·삭제 방법, 외부 서비스, 현재 광고 미실행과 향후 도입 시 방침 갱신, 문의와 적용일을 공개하며 키보드와 닫기 버튼·Escape·바깥 영역 클릭으로 닫을 수 있다. 광고를 실행하지 않는 현재 설정과 설명을 일치시킨다.
+  text: 개인정보처리방침은 홈·QR 코드·구슬 레이스 footer와 Team Maker 안내 마지막에서 여는 모달로 제공한다. 모달은 운영자, 브라우저 저장 정보·기간·삭제 방법, 외부 서비스, 현재 광고 미실행과 향후 도입 시 방침 갱신, 문의와 적용일을 공개하며 키보드와 닫기 버튼·Escape·바깥 영역 클릭으로 닫을 수 있다. 광고를 실행하지 않는 현재 설정과 설명을 일치시킨다.
   surface: [web]
-  source: "사용자 확정 2026-09-11 > 기존 화면 보강을 통한 애드센스 재심사 준비 계획 구현; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가"
+  source: "사용자 확정 2026-09-11 > 기존 화면 보강을 통한 애드센스 재심사 준비 계획 구현; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: policy
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
   examples_ref: policies/REQ-WEB-027.md
 - id: REQ-BUILD-001
   text: team-maker는 HTML, CSS, JavaScript를 우선 사용하며 무작위 섞기, 팀 분배, 순위·통계 집계와 돌림판 시점 계산 로직을 화면 코드와 분리한다.
@@ -253,16 +253,16 @@
   risk: medium
   adr: docs/adr/2026-09-05-Team-Maker-공개-URL은-마지막-슬래시-없이-사용.md
 - id: REQ-PAGES-003
-  text: GitHub Actions는 루트 사이트, team-maker와 qr-code를 검사·빌드·배포하고 세 공개 주소가 정상인지 확인한다.
+  text: GitHub Actions는 루트 사이트, team-maker, qr-code와 marble-race를 검사·빌드·배포하고 네 공개 주소가 정상인지 확인한다.
   surface: [pages]
-  source: "승인된 제품 브리프 > 성공 기준; ADR 2026-08-30 루트 저장소를 monorepo로 사용; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가"
+  source: "승인된 제품 브리프 > 성공 기준; ADR 2026-08-30 루트 저장소를 monorepo로 사용; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: structural
   risk: medium
   adr: docs/adr/2026-08-30-루트-저장소-monorepo-사용.md
 - id: REQ-PAGES-004
-  text: 정적 빌드는 /blog, /blog/<slug>와 /rss.xml을 생성하지 않고 sitemap에는 루트, Team Maker와 QR 코드 주소를 포함한다.
+  text: 정적 빌드는 /blog, /blog/<slug>와 /rss.xml을 생성하지 않고 sitemap에는 루트, Team Maker, QR 코드와 구슬 레이스 주소를 포함한다.
   surface: [pages]
-  source: "사용자 요청 2026-09-01 > 블로그 전체 삭제 후 재배포; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가"
+  source: "사용자 요청 2026-09-01 > 블로그 전체 삭제 후 재배포; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: structural
   risk: medium
 - id: REQ-SEO-001

@@ -1,0 +1,752 @@
+{
+	"configuration": {
+		"funnel": "직선, 양쪽 동일 높이",
+		"mouthOffset": 400,
+		"chuteWidth": 40,
+		"rotorX": 290,
+		"rotorYOffset": 400,
+		"rotorWidth": 180,
+		"rotorHeight": 16,
+		"period": 4.8,
+		"direction": "시계 방향",
+		"wallFriction": 0
+	},
+	"games": 90,
+	"completedGames": 90,
+	"maxRaceSeconds": 60.41666666668778,
+	"maxFinaleSeconds": 17.950067933518625,
+	"finaleOver15Games": 14,
+	"rows": [
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 5,
+			"time": 59.883333333354024,
+			"dwell": 3.063130585769599,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 47,
+			"time": 55.72500000001738,
+			"dwell": 2.2409490070129294,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 999,
+			"time": 56.20000000001776,
+			"dwell": 1.9736266925069756,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 1,
+			"time": 60.41666666668778,
+			"dwell": 2.345704818909546,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 2,
+			"time": 59.591666666687125,
+			"dwell": 2.31571823748056,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 3,
+			"time": 57.60000000001887,
+			"dwell": 1.3590302800270067,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 17,
+			"time": 58.13333333335263,
+			"dwell": 1.5202594015902804,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 29,
+			"time": 57.60000000001887,
+			"dwell": 2.1058145119655407,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 81,
+			"time": 59.533333333353745,
+			"dwell": 2.5682524176870487,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 2,
+			"seed": 2026,
+			"time": 58.52500000001961,
+			"dwell": 1.9703993607902035,
+			"finished": 2
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 5,
+			"time": 47.95833333334449,
+			"dwell": 8.278357702219932,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 47,
+			"time": 55.53333333335043,
+			"dwell": 7.865388129872969,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 999,
+			"time": 51.716666666680844,
+			"dwell": 6.152731778586915,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 1,
+			"time": 43.358333333340866,
+			"dwell": 8.578121240873095,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 2,
+			"time": 36.533333333335456,
+			"dwell": 6.417666516504923,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 3,
+			"time": 53.900000000015915,
+			"dwell": 7.2389982856150255,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 17,
+			"time": 43.06666666667378,
+			"dwell": 6.039206585169985,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 29,
+			"time": 52.70000000001501,
+			"dwell": 6.613082688500519,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 81,
+			"time": 49.67500000001254,
+			"dwell": 6.085208370272991,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 30,
+			"seed": 2026,
+			"time": 58.53333333335298,
+			"dwell": 8.404176730480017,
+			"finished": 30
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 5,
+			"time": 38.20833333333681,
+			"dwell": 16.701203159216494,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 47,
+			"time": 36.450000000001964,
+			"dwell": 13.895454580965783,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 999,
+			"time": 48.85833333334531,
+			"dwell": 14.07703662828288,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 1,
+			"time": 38.5083333333371,
+			"dwell": 14.168026143792424,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 2,
+			"time": 37.141666666669366,
+			"dwell": 17.359120797642255,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 3,
+			"time": 50.250000000013024,
+			"dwell": 17.6514183627027,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 17,
+			"time": 35.86666666666829,
+			"dwell": 14.737345775969747,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 29,
+			"time": 38.42500000000359,
+			"dwell": 14.262247522293812,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 81,
+			"time": 39.89166666667145,
+			"dwell": 14.459969187070882,
+			"finished": 60
+		},
+		{
+			"map": "keyboard",
+			"n": 60,
+			"seed": 2026,
+			"time": 49.78333333334599,
+			"dwell": 12.41236464598547,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 5,
+			"time": 58.33333333335279,
+			"dwell": 2.501220019114996,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 47,
+			"time": 57.80833333335237,
+			"dwell": 1.995082752951454,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 999,
+			"time": 58.72500000001977,
+			"dwell": 1.9038612828892454,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 1,
+			"time": 57.89166666668577,
+			"dwell": 1.4037562000178028,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 2,
+			"time": 57.191666666685215,
+			"dwell": 2.5124317865106605,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 3,
+			"time": 57.87500000001909,
+			"dwell": 1.6636894537930047,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 17,
+			"time": 59.866666666687344,
+			"dwell": 2.4957159201520653,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 29,
+			"time": 58.88333333335323,
+			"dwell": 1.8148264277603587,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 81,
+			"time": 59.09166666668673,
+			"dwell": 2.164997257746073,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 2,
+			"seed": 2026,
+			"time": 56.30000000001784,
+			"dwell": 1.6108760226219374,
+			"finished": 2
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 5,
+			"time": 34.400000000000276,
+			"dwell": 6.285310754912388,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 47,
+			"time": 43.29166666667414,
+			"dwell": 6.8231983661147915,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 999,
+			"time": 51.75833333334741,
+			"dwell": 6.223649081544416,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 1,
+			"time": 40.908333333338824,
+			"dwell": 8.948028705457421,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 2,
+			"time": 55.00833333335012,
+			"dwell": 5.774247265494527,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 3,
+			"time": 53.44166666668223,
+			"dwell": 6.224991418555884,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 17,
+			"time": 48.18333333334473,
+			"dwell": 4.769329605936008,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 29,
+			"time": 55.28333333335025,
+			"dwell": 5.6473931310837,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 81,
+			"time": 36.17500000000177,
+			"dwell": 7.464212010166204,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 30,
+			"seed": 2026,
+			"time": 41.85833333333968,
+			"dwell": 9.415009316893588,
+			"finished": 30
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 5,
+			"time": 33.73333333333318,
+			"dwell": 13.207058432154199,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 47,
+			"time": 38.49166666667038,
+			"dwell": 16.712908812167985,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 999,
+			"time": 34.5750000000005,
+			"dwell": 13.317149834549319,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 1,
+			"time": 38.85000000000399,
+			"dwell": 15.152123532052826,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 2,
+			"time": 36.64166666666897,
+			"dwell": 13.939140104349445,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 3,
+			"time": 36.2666666666685,
+			"dwell": 16.787659781017965,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 17,
+			"time": 48.550000000011686,
+			"dwell": 14.093579066932396,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 29,
+			"time": 50.108333333346216,
+			"dwell": 15.906986398794633,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 81,
+			"time": 37.62500000000303,
+			"dwell": 13.764782186000723,
+			"finished": 60
+		},
+		{
+			"map": "crunch",
+			"n": 60,
+			"seed": 2026,
+			"time": 38.00000000000336,
+			"dwell": 17.950067933518625,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 5,
+			"time": 58.42500000001953,
+			"dwell": 1.427658897027591,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 47,
+			"time": 57.75833333335233,
+			"dwell": 1.4788906112187803,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 999,
+			"time": 60.05833333335416,
+			"dwell": 1.3816899476526814,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 1,
+			"time": 57.90833333335245,
+			"dwell": 2.0644590743476243,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 2,
+			"time": 57.71666666668563,
+			"dwell": 1.687925697649959,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 3,
+			"time": 57.95833333335249,
+			"dwell": 1.3988107988114962,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 17,
+			"time": 60.34166666668772,
+			"dwell": 1.659922443781383,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 29,
+			"time": 60.05833333335416,
+			"dwell": 2.720692380716656,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 81,
+			"time": 59.316666666686906,
+			"dwell": 2.0665667829542613,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 2,
+			"seed": 2026,
+			"time": 57.150000000018515,
+			"dwell": 1.6032565039660867,
+			"finished": 2
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 5,
+			"time": 45.51666666667592,
+			"dwell": 7.152196788980408,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 47,
+			"time": 43.32500000000747,
+			"dwell": 7.556353587613259,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 999,
+			"time": 44.10000000000812,
+			"dwell": 7.694829483422197,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 1,
+			"time": 42.2583333333399,
+			"dwell": 7.684864421678295,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 2,
+			"time": 50.733333333346685,
+			"dwell": 7.178082366904281,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 3,
+			"time": 50.36666666667977,
+			"dwell": 5.226652369172346,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 17,
+			"time": 52.69166666668156,
+			"dwell": 7.894080533263981,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 29,
+			"time": 52.55000000001489,
+			"dwell": 7.708460785913292,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 81,
+			"time": 53.20833333334869,
+			"dwell": 5.683946202761572,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 30,
+			"seed": 2026,
+			"time": 44.35000000000828,
+			"dwell": 7.714019726684537,
+			"finished": 30
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 5,
+			"time": 49.29166666667882,
+			"dwell": 17.147992087515682,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 47,
+			"time": 38.71666666667054,
+			"dwell": 16.4388240649814,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 999,
+			"time": 51.25833333334713,
+			"dwell": 16.595917240591277,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 1,
+			"time": 36.40833333333535,
+			"dwell": 13.350694025810611,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 2,
+			"time": 37.16666666666934,
+			"dwell": 16.528083413769775,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 3,
+			"time": 50.27500000001301,
+			"dwell": 16.239985145826896,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 17,
+			"time": 40.666666666672086,
+			"dwell": 15.391499040372,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 29,
+			"time": 50.300000000013014,
+			"dwell": 13.3437456466025,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 81,
+			"time": 37.6083333333363,
+			"dwell": 14.602711947051635,
+			"finished": 60
+		},
+		{
+			"map": "soft",
+			"n": 60,
+			"seed": 2026,
+			"time": 41.850000000006354,
+			"dwell": 14.611174865937471,
+			"finished": 60
+		}
+	],
+	"closeEntryGames": 75,
+	"leadReversals": 25,
+	"largeRace": {
+		"map": "keyboard",
+		"seed": 47,
+		"count": 1000,
+		"finished": 1000,
+		"time": 122.68333333330462,
+		"maxFinaleDwell": 82.68301961894852,
+		"wallSeconds": 123.409374083
+	}
+}

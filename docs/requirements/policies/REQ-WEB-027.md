@@ -17,3 +17,9 @@
 - [GitHub 개인정보처리방침](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)
 
 - QR 북마크의 주소·텍스트·제목은 브라우저에만 저장한다. 저장하지 않은 입력은 남기지 않는다. 북마크 삭제 기능을 제공한다.
+
+## 구슬 레이스 추가
+
+- 적용일: 2026-09-16. 구슬 레이스 footer에도 같은 방침 모달을 연결한다.
+- 경기 시작 시 명단과 맵·당첨 방식·소리 설정을 localStorage에 저장한다. 경기 결과는 저장하지 않는다.
+- 브라우저의 사이트 데이터 삭제로 지우며 참가자 정보와 효과음은 외부 서버로 전송하지 않는다.
