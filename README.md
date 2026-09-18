@@ -155,13 +155,20 @@ git show '<commit>:docs/design/packages/DSN-010/manifest.yaml'
 
 ## 검사와 build
 
+로컬에서는 변경한 기능에 필요한 검사만 실행합니다. 전체 검사는 GitHub의 PR workflow에서 실행합니다. 문서 변경은 포맷·연결 검사, 로직 변경은 관련 단위 테스트, 화면 변경은 정적 검사와 관련 브라우저 검사를 선택하세요.
+
 ```shell
-npm run check
-npm test
-npm run test:e2e:team-maker
-npm run build
-npm run verify:team-maker
+# 관련 단위 테스트만 실행
+node --test tests/marble-race/audio.test.js
+
+# build가 필요할 때: build1회 후 관련 브라우저 검사
+npm run test:e2e:team-maker -- tests/team-maker-e2e/navigation.spec.js
+
+# 같은 코드로 build를 이미 마쳤다면 재build 없이 검사
+npm run test:e2e:built -- tests/team-maker-e2e/navigation.spec.js
 ```
+
+두 브라우저 명령을 연달아 실행할 필요는 없습니다. `test:e2e:built`는 현재 코드로 만든 build가 있을 때만 사용하세요. `npm run build` 뒤에 `test:e2e:team-maker`를 실행하면 사전 실행 명령 때문에 build가 반복됩니다.
 
 `npm test`는 CSS 진입점·중첩 폴더의 홀수 px 글자 크기 검사와 팀 분배·배정 규칙, 저장 데이터 복원과 실패 처리, 이벤트·예약 작업 해제를 검사합니다. `npm run test:e2e:team-maker`는 production build를 만든 뒤 Chromium에서 참가자 편집, 명단 저장, 승패 기록, 추첨, 새로고침, route 재진입, 예약 삭제 취소, 밝은·어두운 테마의 버튼 hover와 비활성 상태, 모바일과 키보드 흐름을 검사합니다. 처음 실행할 때 Chromium이 없다면 `npx playwright install chromium`을 먼저 실행하세요. `npm run verify:team-maker`는 root 페이지, SvelteKit이 생성한 Team Maker route와 bundle, 상대 자원 경로, 제품 코드의 외부 HTTP 자원 사용 여부를 검사합니다. 홀수 px 글자 크기는 CSS 진입점과 `src/lib/team-maker/styles/` 하위의 모든 CSS에서 검사하며, 위반한 파일 경로와 값을 표시합니다.
 
@@ -173,12 +180,18 @@ build 후 `scripts/optimize_images.js`가 PNG·JPEG 원본에서 WebP와 AVIF를
 
 ## 배포
 
-`main` branch에 push하면 `.github/workflows/pages.yml`이 다음 작업을 실행합니다.
+`.github/workflows/pages.yml`은 실행 시점에 따라 작업을 나눕니다.
 
-1. SvelteKit 검사와 Team Maker 단위 테스트
-2. root 사이트와 Team Maker build 및 브라우저 E2E 테스트
-3. GitHub Pages artifact 업로드와 배포
-4. 공개 root 주소와 `/team-maker` 주소 확인
+| 시점                  | 실행 작업                                                                  | 배포 |
+| --------------------- | -------------------------------------------------------------------------- | ---- |
+| PR 생성·갱신          | lint·정적 검사·전체 단위 테스트·build1회·전체 브라우저 검사·정적 결과 검증 | 없음 |
+| `main` push           | build1회·정적 결과 검증·Pages 업로드·공개 주소 확인                        | 실행 |
+| `main` 수동 실행      | `main` push와 동일                                                         | 실행 |
+| 다른 branch 수동 실행 | 실행하지 않음                                                              | 없음 |
+
+전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`의 응답을 확인합니다.
+
+검사 결과 이름 `build`는 유지합니다. [검사·배포 분리 결정](docs/adr/2026-09-19-PR-검사와-배포-분리.md)에 변경 이유와 확인 범위를 기록합니다.
 
 GitHub 저장소의 **Settings → Pages → Build and deployment → Source**는 **GitHub Actions**로 설정해야 합니다.
 

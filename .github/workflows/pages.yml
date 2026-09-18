@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,28 +29,35 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Lint
+        if: github.event_name == 'pull_request'
         run: npm run lint
       - name: Check SvelteKit
+        if: github.event_name == 'pull_request'
         run: npm run check
-      - name: Test Team Maker logic
+      - name: Test site logic
+        if: github.event_name == 'pull_request'
         run: npm test
       - name: Install Playwright Chromium
+        if: github.event_name == 'pull_request'
         run: npx playwright install --with-deps chromium
-      - name: Build and test Team Maker in browser
-        run: npm run test:e2e:team-maker
-      - name: Verify root and Team Maker output
+      - name: Build site
+        run: npm run build
+      - name: Test site in browser
+        if: github.event_name == 'pull_request'
+        run: npm run test:e2e:built
+      - name: Verify site output
         run: npm run verify:team-maker
       - name: Configure GitHub Pages
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v6
       - name: Upload GitHub Pages artifact
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v5
         with:
           path: build
 
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
