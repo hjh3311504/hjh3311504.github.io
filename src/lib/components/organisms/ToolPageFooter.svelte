@@ -3,8 +3,8 @@
 </script>
 
 <footer class="tool-page-footer">
-	<span>Lake가 만들고 직접 관리합니다.</span>
 	<PrivacyDialog />
+	<span>© 2026 Lake's develog</span>
 </footer>
 
 <style>

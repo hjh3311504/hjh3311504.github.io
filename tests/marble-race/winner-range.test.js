@@ -99,7 +99,7 @@ test('4~6 당첨은 구슬 번호와 이름이 아니라 실제 도착 순위로
 test('범위 시작 후보부터 추적하고4·5·6번째만 축하하며 마지막 당첨 뒤 슬로모션을 해제한다', () => {
 	const race = createRace(Array(8).fill('같은이름'));
 	const director = createDirector('multiple', 3, 4);
-	const threshold = race.layout.finale.rotor.y - 100;
+	const threshold = race.layout.finale.mouthY - 100;
 	race.marbles.forEach((m, i) => {
 		m.y = threshold + 50 - i * 25;
 	});
