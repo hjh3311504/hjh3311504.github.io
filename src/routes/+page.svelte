@@ -99,31 +99,6 @@
 						</Surface>
 					</li>
 					<li>
-						<Surface class="project-card" href={resolve('/qr-code')} variant="interactive">
-							<span class="project-icon qr-project-icon" aria-hidden="true"
-								><svg
-									width="26"
-									height="26"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h3v3h-6z" /></svg
-								></span
-							>
-							<span class="project-copy"
-								><span class="project-title-row"
-									><span class="project-title">QR 코드 만들기</span><span class="project-kind"
-										>도구</span
-									></span
-								><span class="project-description"
-									>주소와 텍스트를 QR 코드로 만들고<br />저장·복사·인쇄하는 무료 도구입니다.</span
-								></span
-							>
-							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
-						</Surface>
-					</li>
-					<li>
 						<Surface class="project-card" href={resolve('/marble-race')} variant="interactive">
 							<span class="project-icon marble-project-icon" aria-hidden="true"
 								><svg
@@ -148,6 +123,31 @@
 								><span class="project-description"
 									>이름을 넣고 블록을 깨며 내려가는 구슬 경기.<br />소리와 함께 즐기는 무료 ASMR
 									추첨입니다.</span
+								></span
+							>
+							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
+						</Surface>
+					</li>
+					<li>
+						<Surface class="project-card" href={resolve('/qr-code')} variant="interactive">
+							<span class="project-icon qr-project-icon" aria-hidden="true"
+								><svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h3v3h-6z" /></svg
+								></span
+							>
+							<span class="project-copy"
+								><span class="project-title-row"
+									><span class="project-title">QR 코드 만들기</span><span class="project-kind"
+										>도구</span
+									></span
+								><span class="project-description"
+									>주소와 텍스트를 QR 코드로 만들고<br />저장·복사·인쇄하는 무료 도구입니다.</span
 								></span
 							>
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>

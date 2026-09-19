@@ -34,7 +34,7 @@ test('경기 전 저장·곱하기·n번째·볼륨과 중복 재질 내 맵을 
 		)
 	).toEqual(Array(4).fill('wood'));
 	await page.getByRole('button', { name: '삭제', exact: true }).click();
-	await expect(page.getByRole('button', { name: '톡톡 나무공방', exact: true })).toHaveAttribute(
+	await expect(page.getByRole('button', { name: '도각도각 키보드', exact: true })).toHaveAttribute(
 		'aria-pressed',
 		'true'
 	);

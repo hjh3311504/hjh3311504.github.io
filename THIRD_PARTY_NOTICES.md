@@ -63,7 +63,7 @@ QR 생성에는 [qrcode](https://github.com/soldair/node-qrcode)와 브라우저
 
 ## 구슬 레이스 음원
 
-`static/audio/marble-race/`의 음원 파일은 프로젝트 MIT 라이선스에 포함하지 않는다. Pixabay 출처는 Pixabay Content License를 따른다.
+`static/audio/marble-race/`의 외부 출처 음원 파일은 프로젝트 MIT 라이선스에 포함하지 않는다. Pixabay 출처는 Pixabay Content License를 따른다.
 
 Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [구슬 레이스 음원 출처](docs/marble-audio-sources.md)에 기록한다. 정적 음원 폴더의 선택 JSON은 파일과 출처·라이선스·해시 정보를 제공한다.
 
@@ -78,3 +78,5 @@ Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [�
 ### 도각 키보드4 보존 음원
 
 `thock4-v6-1.wav`·`thock4-v6-2.wav`는 dinamakan의 [Thocky Keyboard Sound Effect](https://pixabay.com/sound-effects/film-special-effects-thocky-keyboard-sound-effect-264568/)를 사용한다. 원음은 Pixabay Content License로 제공되며 프로젝트 MIT 라이선스와 구분한다.
+
+원형 파동의 `pulse-whoosh-deep-v2.wav`는 ksjsbwuil의 [Whoosh Deep Short](https://pixabay.com/sound-effects/technology-whoosh-deep-short-513923/)를 사용하며 Pixabay Content License를 따른다.

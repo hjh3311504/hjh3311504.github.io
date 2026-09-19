@@ -8,7 +8,13 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import Surface from '$lib/components/ui/Surface.svelte';
 	import Toast from '$lib/components/ui/Toast.svelte';
-	import { MAPS, resolveMap, resolveMapId, parseNames } from '$lib/marble-race/catalog.js';
+	import {
+		DEFAULT_MAP_ID,
+		MAPS,
+		resolveMap,
+		resolveMapId,
+		parseNames
+	} from '$lib/marble-race/catalog.js';
 	import { createRace, raceOrder, winners, butterHitCount } from '$lib/marble-race/physics.js';
 	import { FINALE_SPEED } from '$lib/marble-race/director.js';
 	import { createWorkerClient } from '$lib/marble-race/worker-client.js';
@@ -40,7 +46,7 @@
 	} from '$lib/marble-race/page-content.js';
 	import './marble-race.css';
 	let namesText = $state(DEFAULT_NAMES),
-		mapId = $state('crunch'),
+		mapId = $state(DEFAULT_MAP_ID),
 		mode = $state('first'),
 		rangeText = $state('1~3'),
 		nth = $state(1),
@@ -50,6 +56,7 @@
 	let status = $state('ready'),
 		loadingFrom = $state('ready'),
 		speed = $state(1),
+		skillsEnabled = $state(true),
 		ready = $state(false),
 		message = $state(''),
 		copyNotice = $state(null),
@@ -88,7 +95,8 @@
 		previous = 0,
 		lastPhysics = 0,
 		lastSync = 0,
-		pendingSeconds = 0;
+		pendingSeconds = 0,
+		raceSeed = 2026;
 	const client = createWorkerClient(),
 		camera = createCamera();
 	let parsed = $derived(parseNames(namesText));
@@ -96,6 +104,9 @@
 	let busy = $derived(['running', 'paused', 'loading'].includes(status));
 	let maps = $derived([...MAPS, ...customMaps]);
 	let selectedMap = $derived(resolveMap(mapId, customMaps));
+	let raceSoundTypes = $derived(
+		skillsEnabled ? [...selectedMap.types, 'pulse'] : selectedMap.types
+	);
 	let range = $derived(parseDrawRange(rangeText, parsed.count));
 	let drawStart = $derived(mode === 'multiple' ? range.start : 1);
 	let drawCount = $derived(mode === 'nth' ? nth : mode === 'multiple' ? range.count : 1);
@@ -108,7 +119,7 @@
 		mode === 'first'
 			? '첫번째 도착'
 			: mode === 'last'
-				? '마지막 도착'
+				? '마지막 남은 구슬'
 				: mode === 'nth'
 					? `${nth}번째 도착`
 					: range.error
@@ -158,6 +169,8 @@
 		renderer.render(race, {
 			focusId: cinematic?.active ? cinematic.focusId : focusId,
 			overview,
+			skillsEnabled,
+			reduced,
 			view
 		});
 	}
@@ -170,6 +183,7 @@
 			};
 		} else {
 			race.time = state.time;
+			race.skillWaves = state.skillWaves;
 			race.marbles = state.marbles;
 			race.blocks = state.blocks;
 			race.finished = state.finished.map((id) => state.marbles[id]);
@@ -244,6 +258,7 @@
 		deferredFrame = null;
 		audio?.cancelPreparation();
 		status = 'ready';
+		raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
 		speed = 1;
 		inspectionY = null;
 		focusId = '-1';
@@ -267,15 +282,31 @@
 			for (let i = 0; i < entry.count && samples.length < 60; i++) samples.push(entry.name);
 			if (samples.length >= 60) break;
 		}
-		race = createRace(samples, selectedMap, 2026, { layoutCount: valid.count, preview: true });
+		race = createRace(samples, selectedMap, raceSeed, { layoutCount: valid.count, preview: true });
 		for (const block of race.blocks.filter((b) => b.type === 'butter'))
 			block.hp = block.maxHp = butterHitCount(valid.count);
 		race.identity = Symbol();
 		synchronize();
 		draw();
 	}
+	function toggleSkills() {
+		if (!ready || status !== 'ready') return;
+		skillsEnabled = !skillsEnabled;
+		liveAnnouncement = skillsEnabled
+			? '스킬 사용 ON. 낮은 확률로 파동을 발사해 주변 구슬을 밀어냅니다.'
+			: '스킬 사용 OFF';
+	}
+	function shufflePositions() {
+		if (!ready || status !== 'ready' || parsed.error || fatalError) return;
+		clearTimeout(previewTimer);
+		raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
+		preparePreview();
+		liveAnnouncement = '구슬의 출발 자리를 섞었어요.';
+	}
+
 	async function start(withoutSound = false) {
 		if (!ready || busy || parsed.error || countError || fatalError) return;
+		if (status === 'finished') raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
 		clearTimeout(celebrationTimer);
 		celebrating = false;
 		celebrationWinners = [];
@@ -294,7 +325,7 @@
 			audio.setOptions(false, volume / 100);
 		}
 		try {
-			const loaded = await audio.prepare(selectedMap.types);
+			const loaded = await audio.prepare(raceSoundTypes);
 			if (current !== operation) return;
 			if (!loaded && soundEnabled) {
 				status = 'ready';
@@ -305,14 +336,15 @@
 			const state = await client.prepare(
 				{ entries: parsed.entries, count: parsed.count },
 				JSON.parse(JSON.stringify(selectedMap)),
-				crypto.getRandomValues(new Uint32Array(1))[0],
+				raceSeed,
 				mode,
 				drawCount,
 				(info) => {
 					if (current === operation)
 						progress = `구슬을 준비하고 있어요. ${info.count.toLocaleString()}개`;
 				},
-				drawStart
+				drawStart,
+				skillsEnabled
 			);
 			if (current !== operation) return;
 			cinematic = null;
@@ -361,7 +393,7 @@
 		loadingFrom = status;
 		status = 'loading';
 		progress = '소리를 준비하고 있어요.';
-		const loaded = await audio.prepare(selectedMap.types);
+		const loaded = await audio.prepare(raceSoundTypes);
 		if (current !== operation) return;
 		if (!loaded && soundEnabled) {
 			status = 'paused';
@@ -416,7 +448,7 @@
 			if (status === 'running') {
 				status = 'paused';
 				await resume();
-			} else await audio.prepare(selectedMap.types);
+			} else await audio.prepare(raceSoundTypes);
 		}
 	}
 	async function previewSound(type) {
@@ -481,6 +513,7 @@
 			rangeText,
 			nth,
 			soundEnabled,
+			skillsEnabled,
 			volume
 		};
 		if (ready) writer.schedule(settings, JSON.parse(JSON.stringify(customMaps)));
@@ -520,7 +553,18 @@
 			};
 		}
 		const saved = readSettings(storage);
-		({ namesText, mapId, mode, rangeText, nth, soundEnabled, volume, customMaps, message } = saved);
+		({
+			namesText,
+			mapId,
+			mode,
+			rangeText,
+			nth,
+			soundEnabled,
+			skillsEnabled,
+			volume,
+			customMaps,
+			message
+		} = saved);
 		writer = createSettingsWriter(storage, (value) => (message = value));
 		try {
 			renderer = createRenderer(canvas);
@@ -551,6 +595,7 @@
 		document.addEventListener('visibilitychange', onVisibility);
 		document.addEventListener('fullscreenchange', onFull);
 		window.addEventListener('pagehide', flush);
+		raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
 		ready = true;
 		preparePreview();
 		raf = requestAnimationFrame(frame);
@@ -769,6 +814,21 @@
 								aria-pressed={speed === 2}
 								disabled={status !== 'running' || cinematic?.active}
 								onclick={toggleSpeed}>{cinematic?.active ? FINALE_SPEED : speed}배속</Button
+							><Button
+								onclick={shufflePositions}
+								disabled={!ready || status !== 'ready' || Boolean(parsed.error || fatalError)}
+								>자리섞기</Button
+							><Button
+								class="skill-toggle"
+								aria-label="스킬 사용"
+								aria-pressed={skillsEnabled}
+								title={status === 'ready'
+									? '낮은 확률로 원형 파동을 발사해 주변 구슬을 밀어냅니다.'
+									: '경기를 종료하고 출발 준비 화면에서 변경해 주세요.'}
+								disabled={!ready || status !== 'ready'}
+								onclick={toggleSkills}
+								>스킬 사용 <span class="skill-toggle-state">{skillsEnabled ? 'ON' : 'OFF'}</span
+								></Button
 							><Button aria-pressed={overview} onclick={() => (overview = !overview)}
 								>{overview ? '따라가기' : '전체 맵'}</Button
 							><Button
@@ -827,7 +887,7 @@
 												>{winner.name} <small>{winner.id + 1}번</small></span
 											>{/each}
 									</div>{:else}<p>
-										{selectedWinners.length}개 당첨 · 목록에서 확인하세요.
+										{selectedWinners.length}명 당첨 · 목록에서 확인하세요.
 									</p>{/if}{#snippet actions()}<Button variant="primary" onclick={() => start()}
 										>한 번 더 굴리기 ↻</Button
 									><Button onclick={copyResult}>결과 복사</Button>{/snippet}</StageOverlay
@@ -840,7 +900,10 @@
 								class="sound-toggle"
 								aria-pressed={soundEnabled}
 								onclick={toggleSound}
-								disabled={!ready}>{soundEnabled ? '♫ 소리 켜짐' : '♪ 소리 꺼짐'}</Button
+								disabled={!ready}
+								><span class="sound-toggle-icon">{soundEnabled ? '♫' : '♪'}</span>
+								<span class="sound-toggle-label">소리 {soundEnabled ? '켜짐' : '꺼짐'}</span
+								></Button
 							><label for="race-volume" class="sr-only">소리 크기</label><input
 								id="race-volume"
 								type="range"

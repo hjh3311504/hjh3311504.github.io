@@ -82,21 +82,27 @@ SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
 
 ## 검증
 
-변경 범위에 맞는 명령만 실행한다. PR 전에는 아래 검사를 모두 실행한다.
+로컬에서는 변경 범위에 맞는 검사만 실행한다. PR 전에 전체 검사를 반복 실행하지 않는다. 전체 검사는 GitHub의 PR workflow에서 수행한다.
+
+- 문서만 변경: 포맷·문서 연결·`git diff --check`를 확인한다.
+- 로직 변경: 관련 단위 테스트를 실행한다. 공통 로직이나 의존성 변경은 영향을 받는 검사 범위를 넓힌다.
+- Svelte·스타일 변경: 정적 검사와 관련 Playwright 검사를 실행한다. 화면 검증에 필요한 build는1회만 만든다.
+- workflow·build 설정 변경: workflow 문법·이벤트별 실행 조건·build·정적 결과 검증을 확인한다. 제품 동작을 바꾸지 않았다면 전체 경기 테스트를 로컬에서 반복하지 않는다.
+- 검사 실패·추가 변경·영향 범위가 불확실한 경우에만 검사를 넓히거나 다시 실행한다. 실행한 검사와 실행하지 않은 검사를 구분해 보고한다.
+
+브라우저 검사는 다음 중 한 방식만 사용한다.
 
 ```shell
-npm run lint
-npm run check
-npm test
-npm run build
-npm run verify:team-maker
+# build가 없거나 제품 코드가 변경됐을 때: build1회와 관련 브라우저 검사
+npm run test:e2e:team-maker -- tests/team-maker-e2e/변경한기능.spec.js
+
+# 같은 코드로 build를 이미 마쳤을 때: 재build 없이 관련 브라우저 검사
+npm run test:e2e:built -- tests/team-maker-e2e/변경한기능.spec.js
 ```
 
-화면 동작을 바꿨다면 Playwright 검사도 실행한다.
+`test:e2e:built`는 최신 build가 있을 때만 사용한다. `npm run build` 직후 `npm run test:e2e:team-maker`를 호출해 중복 build하지 않는다.
 
-```shell
-npm run test:e2e:team-maker
-```
+PR workflow는 lint·정적 검사·전체 단위 테스트·build1회·전체 브라우저 검사·정적 결과 검증을 수행한다. `main` push와 `main` 수동 배포는 build1회·정적 결과 검증·배포·공개 주소 확인만 수행한다. 전체 검사를 통과한 PR을 거쳐 머지하며, 배포 경로에서 생략한 검사를 통과했다고 보고하지 않는다.
 
 문서만 바꿔도 `git diff --check`를 실행한다. 요구사항을 바꾸면 해당 REQ validator도 실행한다. UI 요구사항이나 화면 문서의 연결을 바꾸면 `python3 scripts/verify_ui_design.py docs/requirements docs/design --all`을 실행한다. 해당 validator를 수정하면 `python3 -m unittest discover -s tests/design -p 'test_*.py'`도 실행한다.
 
