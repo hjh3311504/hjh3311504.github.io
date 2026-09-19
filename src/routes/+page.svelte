@@ -156,6 +156,59 @@
 				</ul>
 			</Section>
 
+			<Section class="home-guide" aria-labelledby="choose-tool-title">
+				<SectionHeader title="어떤 도구를 쓰면 될까요?" titleId="choose-tool-title" />
+				<p>모임을 준비할 때는 나눌 대상과 필요한 결과에 따라 도구를 고르세요.</p>
+				<dl>
+					<dt>참가자를 여러 팀으로 나누기</dt>
+					<dd>
+						<a href={resolve('/team-maker')}>팀 메이커</a>는 참가자 전원을 여러 팀으로 나눕니다.
+						팀별 인원을 고르게 맞추고, 함께하거나 떨어져야 하는 사람을 규칙으로 정할 수 있습니다.
+						실력을 평가해 팀을 나누는 기능은 아닙니다.
+					</dd>
+					<dt>발표자나 당첨자 뽑기</dt>
+					<dd>
+						<a href={resolve('/marble-race')}>ASMR 구슬 레이스</a>는 구슬의 도착 순서로 당첨자를
+						정합니다. 팀 전체를 나누는 대신 원하는 도착 순위를 고르고, 경기 화면과 소리로 진행
+						과정을 함께 볼 수 있습니다.
+					</dd>
+					<dt>QR 코드로 링크 공유하기</dt>
+					<dd>
+						<a href={resolve('/qr-code')}>QR 코드 만들기</a>는 이미 있는 신청서나 안내 페이지의
+						주소를 QR 이미지로 바꿉니다. 제목을 붙여 저장하거나 한 장에 여러 개 인쇄할 수 있습니다.
+						신청서 자체를 만드는 도구는 아닙니다.
+					</dd>
+				</dl>
+				<p>
+					예를 들어 모임 신청 주소는 QR로 나누고, 모인 참가자는 팀 메이커로 배정한 뒤, 발표 순서는
+					구슬 레이스로 정할 수 있습니다. 도구 사이에 입력한 명단이 자동으로 전달되지는 않습니다.
+				</p>
+			</Section>
+
+			<Section class="home-guide" aria-labelledby="site-author-title">
+				<SectionHeader title="만든 사람과 문의" titleId="site-author-title" />
+				<p>
+					운영자 Lake가 직접 쓰려고 만든 도구를 공개하는 공간입니다. 설치나 로그인 없이 사용할 수
+					있도록 브라우저에서 입력과 계산을 처리합니다. 각 도구 아래에서 사용 예제와 저장 방식,
+					기능의 한계를 확인하세요.
+				</p>
+				<p>
+					<a href="https://github.com/hjh3311504/hjh3311504.github.io">공개 소스와 변경 기록</a>에서
+					구현을 확인할 수 있습니다. 사용한 외부 자료는
+					<a
+						href="https://github.com/hjh3311504/hjh3311504.github.io/blob/main/THIRD_PARTY_NOTICES.md"
+						>출처·라이선스 목록</a
+					>에 구분해 적었습니다.
+				</p>
+				<p>
+					사용 중 불편하거나 잘못된 안내를 발견하면 <a
+						href="https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml"
+						>개선·버그 제보</a
+					>로 알려 주세요. GitHub 계정이 필요하며 제보 내용은 공개됩니다. 실제 참가자 명단 대신 가상
+					이름으로 상황을 설명해 주세요.
+				</p>
+			</Section>
+
 			<footer>
 				<PrivacyDialog triggerClass="privacy-footer-link" /><span>© 2026 Lake's develog</span>
 			</footer>
@@ -404,6 +457,43 @@
 
 	:global(.privacy-footer-link) {
 		color: var(--shell-text-heading);
+	}
+
+	:global(.home-guide) {
+		display: grid;
+		gap: 16px;
+		padding-top: 24px;
+		border-top: 1px solid var(--shell-hairline);
+		line-height: 1.75;
+		word-break: keep-all;
+		overflow-wrap: anywhere;
+	}
+
+	:global(.home-guide) :global(h2) {
+		margin: 0;
+		font-size: 20px;
+	}
+
+	:global(.home-guide) p,
+	:global(.home-guide) dl,
+	:global(.home-guide) dd {
+		margin: 0;
+		color: var(--shell-text-muted);
+	}
+
+	:global(.home-guide) dt {
+		margin: 16px 0 4px;
+		font-weight: 700;
+	}
+
+	:global(.home-guide) dt:first-child {
+		margin-top: 0;
+	}
+
+	:global(.home-guide) a {
+		color: var(--shell-text-heading);
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
 	footer {
