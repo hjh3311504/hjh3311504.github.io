@@ -73,7 +73,7 @@ test('특수 구간은 유도 바·핀·특수 블록 순서이며 핀52개를 �
 test('유도 바·분산 핀·회전 바는 장치 충돌음을 내고 골인 통로 벽은 무음이다', () => {
 	const race = createRace(['가', '나']);
 	const devices = race.blocks.filter(
-		(b) => b.pin || b.id.includes('-guide-') || b.id === 'finale-bar'
+		(b) => b.pin || b.id.includes('-guide-') || (b.zoneId === 'finale' && b.type === 'rotor')
 	);
 	assert.equal(devices.length, 61);
 	assert.ok(devices.every((b) => !b.silent && b.soundType === 'rubber'));

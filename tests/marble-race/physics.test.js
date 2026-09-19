@@ -86,7 +86,7 @@ test('활성3개 맵은 일반12종·재질4층·특수 구간3곳과 회전 판
 		assert.equal(race.layout.finish.right - race.layout.finish.left, 40);
 		const rotors = race.blocks.filter((b) => b.type === 'rotor');
 		assert.equal(rotors.length, 1);
-		assert.equal(rotors[0].w, 180);
+		assert.equal(rotors[0].w, 290);
 		assert.equal(rotors[0].h, 16);
 		assert.equal(race.blocks.filter((b) => b.arc).length, 0);
 		assert.equal(race.layout.height - race.layout.finale.start, 740);
@@ -617,8 +617,8 @@ test('결승은 직선 깔때기와 같은 높이의 입구, 왼쪽 회전축으
 	const guides = race.blocks.filter((b) => b.deviceId === 'finale-guide');
 	assert.equal(guides.length, 2);
 	assert.equal(finale.mouthY, finale.start + 400);
-	assert.equal(bar.y, finale.mouthY);
-	assert.equal(bar.x, finish.left - 50);
+	assert.equal(bar.y, finale.mouthY + 10);
+	assert.equal(bar.x, finish.left - 120);
 	assert.equal(bar.direction, -1);
 	for (const side of [-1, 1]) {
 		const guide = guides.find((b) => Math.sign(b.x - 360) === side);
@@ -630,15 +630,16 @@ test('결승은 직선 깔때기와 같은 높이의 입구, 왼쪽 회전축으
 		assert.equal(chute.x - (side * chute.h) / 2, side < 0 ? finish.left : finish.right);
 	}
 	bar.phase = 0;
-	const waiting = { x: 360, y: finale.mouthY - 20, r: 13 };
+	const waiting = { x: 360, y: bar.y - 20, r: 13 };
 	assert.ok(collision(waiting, bar, 0), '수평 판 끝이 입구를 막는다');
 	assert.equal(collision(waiting, bar, 1), null, '수직 판은 입구를 연다');
 	const inside = { x: 360, y: finale.mouthY + 35, r: 13 };
 	assert.ok(race.blocks.filter((b) => b.type === 'wall').every((b) => !collision(inside, b, 0)));
 });
 
-test('결승 입구 밀집60개는60초 내 배출 정체 없이 실제 판정선을 통과한다', (t) => {
-	for (const phase of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
+test('결승 입구 밀집60개는 시작 각도4가지에서60초 내 배출한다', (t) => {
+	const phases = [0, Math.PI / 2, Math.PI, Math.PI * 1.5];
+	for (const phase of phases) {
 		const race = createRace(Array(60).fill('공'), 'keyboard', 47);
 		race.blocks.find((b) => b.id === 'finale-bar').phase = phase;
 		for (const [i, m] of race.marbles.entries())

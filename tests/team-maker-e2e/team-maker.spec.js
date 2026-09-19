@@ -446,7 +446,7 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 		await expect(faq.getByRole('heading', { level: 3 })).toBeVisible();
 		await expect(faq.locator('p')).toBeVisible();
 	}
-	await expect(page.locator('footer').getByText('Lake가 만들고 직접 관리합니다.')).toBeVisible();
+	await expect(page.locator('footer').getByText("© 2026 Lake's develog")).toBeVisible();
 	const collapsibleSections = guide.locator('.seo-details');
 	await expect(collapsibleSections).toHaveCount(4);
 	for (const section of await collapsibleSections.all()) {

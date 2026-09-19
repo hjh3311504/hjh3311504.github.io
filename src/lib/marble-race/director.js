@@ -28,7 +28,7 @@ export function createDirector(mode = 'first', count = 1, startRank = 1) {
 							: alive[0];
 			if (candidate && !candidate.finished) {
 				focus = candidate.id;
-				if (!complete && candidate.y >= race.layout.finale.rotor.y - 100) active = true;
+				if (!complete && candidate.y >= race.layout.finale.mouthY - 100) active = true;
 			}
 			return {
 				active,
