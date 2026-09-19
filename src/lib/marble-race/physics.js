@@ -106,7 +106,7 @@ export function createLayout(mapId, participantCount = 30) {
 			start: y,
 			end: y + FINALE_HEIGHT,
 			mouthY: y + 400,
-			rotor: { x: 290, y: y + 400 }
+			rotor: { x: 220, y: y + 410 }
 		},
 		finish: { y: y + FINALE_HEIGHT - 30, left: 340, right: 380 },
 		height: y + FINALE_HEIGHT
@@ -261,18 +261,19 @@ export function createMap(
 	}
 	addScatterPins(blocks, layout.finalApproach);
 	const y = layout.finale.start;
+	const finalePhase = random() * Math.PI * 2;
 	blocks.push(
 		makeBlock('rotor', layout.finale.rotor.x, layout.finale.rotor.y, {
 			id: 'finale-bar',
 			zoneId: 'finale',
 			deviceId: 'finale-bar',
 			soundType: 'rubber',
-			w: 180,
+			w: 290,
 			h: 16,
 			cornerRadius: 8,
 			angularSpeed: (Math.PI * 2) / 4.4,
 			direction: -1,
-			phase: random() * Math.PI * 2,
+			phase: finalePhase,
 			restitution: 0.35,
 			friction: 0.05
 		})

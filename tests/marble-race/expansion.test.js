@@ -239,11 +239,11 @@ test('결승 추적 후보는 경기 시간 대기 없이 현재 순위로 즉�
 	}
 });
 
-test('결승 확대와 슬로모션은 회전문100위에 도착할 때 시작하며 반동으로 취소되지 않는다', () => {
+test('결승 확대와 슬로모션은 입구100위에 도착할 때 시작하며 반동으로 취소되지 않는다', () => {
 	for (const mode of ['first', 'last', 'multiple', 'nth']) {
 		const race = createRace(['가', '나', '다']);
 		const director = createDirector(mode, mode === 'multiple' || mode === 'nth' ? 2 : 1);
-		const trigger = race.layout.finale.rotor.y - 100;
+		const trigger = race.layout.finale.mouthY - 100;
 		for (const y of [race.layout.finale.start, trigger - 1]) {
 			race.marbles.forEach((m) => (m.y = y));
 			assert.equal(director.update(race).active, false, `${mode}: 회전문 접근 전에는 일반 배속`);
