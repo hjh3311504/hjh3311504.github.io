@@ -1,10 +1,13 @@
-import { ACTIVE_BLOCK_TYPES, migrateBlockType, parseNames, resolveMapId } from './catalog.js';
+import {
+	DEFAULT_MAP_ID,
+	ACTIVE_BLOCK_TYPES,
+	migrateBlockType,
+	parseNames,
+	resolveMapId
+} from './catalog.js';
 export const SETTINGS_KEY = 'lake.marble-race.v1';
 export const CUSTOM_MAPS_KEY = 'lake.marble-race.custom-maps.v1';
-export const DEFAULT_NAMES =
-	'토끼,고양이,오리,펭귄,수달,곰,여우,햄스터,강아지,다람쥐,판다,코알라,기린,코끼리,사자,호랑이,얼룩말,하마,코뿔소,사슴,고슴도치,너구리,미어캣,알파카,캥거루,돌고래,고래,물개,거북이,부엉이'
-		.split(',')
-		.join('\n');
+export const DEFAULT_NAMES = ['토끼*2', '고양이*2', '오리*2', '펭귄*2', '수달*2'].join('\n');
 export function validateCustomMaps(value) {
 	if (!Array.isArray(value)) return [];
 	const ids = new Set();
@@ -36,12 +39,13 @@ export function validateCustomMaps(value) {
 export function readSettings(storage) {
 	const defaults = {
 		namesText: DEFAULT_NAMES,
-		mapId: 'crunch',
+		mapId: DEFAULT_MAP_ID,
 		mode: 'first',
 		count: 3,
 		rangeText: '1~3',
 		nth: 1,
 		soundEnabled: true,
+		skillsEnabled: true,
 		volume: 45
 	};
 	let customMaps = [],
@@ -61,6 +65,7 @@ export function readSettings(storage) {
 				if (Number.isSafeInteger(saved[key]) && saved[key] > 0) defaults[key] = saved[key];
 			defaults.rangeText =
 				typeof saved.rangeText === 'string' ? saved.rangeText : `1~${defaults.count}`;
+			if (typeof saved.skillsEnabled === 'boolean') defaults.skillsEnabled = saved.skillsEnabled;
 			if (typeof saved.soundEnabled === 'boolean') defaults.soundEnabled = saved.soundEnabled;
 			if (Number.isFinite(saved.volume)) defaults.volume = Math.max(0, Math.min(100, saved.volume));
 		}

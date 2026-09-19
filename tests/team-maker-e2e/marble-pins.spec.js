@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('유도 바 아래 핀52개와 연못3개·크랙 왁스 안내를 표시한다', async ({ page }) => {
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('블록 도감');
+	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
 	const guide = page.locator('[aria-labelledby="block-library-title"]');
 	await expect(guide.getByRole('heading', { name: '크랙 왁스', exact: true })).toBeVisible();
 	await expect(guide.getByRole('button', { name: '크랙 왁스 소리 미리듣기' })).toBeVisible();

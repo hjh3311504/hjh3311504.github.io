@@ -44,7 +44,7 @@ test('저장 입력·이전 맵·중복 재질 내 맵을 복구하고 손상된
 	assert.equal(read.mapId, map.id);
 	assert.deepEqual(resolveMap(read.mapId, read.customMaps).layers, map.layers);
 	store.delete(CUSTOM_MAPS_KEY);
-	assert.equal(readSettings(storage).mapId, 'crunch');
+	assert.equal(readSettings(storage).mapId, 'keyboard');
 	store.set(SETTINGS_KEY, JSON.stringify({ mapId: 'workshop', namesText: '보존' }));
 	assert.equal(readSettings(storage).mapId, 'keyboard');
 	assert.equal(readSettings(storage).namesText, '보존');
@@ -79,11 +79,18 @@ test('1,001개 준비는 여러 번 나뉘며 출발 구슬끼리 겹치지 않�
 	const iterator = prepareRace(parseNames('구슬*1001'), 'keyboard', 47);
 	let chunks = 0,
 		result;
+	const progress = new Map();
 	do {
 		result = iterator.next();
 		chunks++;
+		if (!result.done) {
+			const { phase, count } = result.value;
+			assert.ok(count - (progress.get(phase) ?? 0) <= 256, '한 번에 준비하는 양을 제한한다');
+			progress.set(phase, count);
+		}
 	} while (!result.done);
-	assert.ok(chunks > 12);
+	assert.ok(chunks > 1);
+	assert.ok(progress.has('names') && progress.has('positions') && progress.has('marbles'));
 	const race = result.value;
 	assert.equal(race.marbles.length, 1001);
 	assert.ok(race.zones[0].start > 1500);
@@ -100,7 +107,7 @@ test('1,001개 준비는 여러 번 나뉘며 출발 구슬끼리 겹치지 않�
 		cells.get(key).push(m);
 	}
 });
-test('크랙 왁스는 독립 접촉마다 한 번 소리 나고5회에 파괴되며3초 뒤 복구한다', () => {
+test('크랙 왁스는 독립 접촉마다 한 번 소리 나고5회에 파괴된 뒤 복구하지 않는다', () => {
 	const race = createRace(Array(30).fill('가'));
 	const block = race.blocks.find((b) => b.type === 'butter');
 	race.blocks = [block];
@@ -122,16 +129,16 @@ test('크랙 왁스는 독립 접촉마다 한 번 소리 나고5회에 파괴�
 		if (i < 4) assert.ok(block.h < 64);
 	}
 	assert.equal(block.alive, false);
-	assert.equal(block.respawnAt, 3);
+	assert.equal(block.respawnAt, null);
 	Object.assign(m, { x: block.x, y: block.y - 28, vx: 0, vy: 0 });
 	race.time = 3;
 	stepRace(race);
-	assert.equal(block.alive, false, '복구된 전체 크기의 겹침도 기다린다');
+	assert.equal(block.alive, false, '파괴된 위치를 지날 때에도 재생성하지 않는다');
 	m.x = 30;
 	stepRace(race);
-	assert.equal(block.alive, true);
-	assert.equal(block.h, 64);
-	assert.equal(block.hp, 5);
+	assert.equal(block.alive, false);
+	assert.equal(block.hp, 0);
+	assert.equal(race.respawnQueue.length, 0);
 });
 test('크랙 왁스의 약한 재접촉도 소리 나지만 내구도와 겹침 보정은 별도로 처리한다', () => {
 	const race = createRace(Array(30).fill('가'));
@@ -178,7 +185,13 @@ test('n번째와 마지막 당첨·슬로모션·중복 축하 방지', () => {
 		const d = createDirector(mode, count);
 		race.marbles.forEach((m, i) => (m.y = race.layout.finale.rotor.y - i * 30));
 		assert.equal(d.update(race).active, true);
-		for (const id of [1, 0, 2]) {
+		const expectedWinners = {
+			first: [[1], [], []],
+			last: [[], [2], []],
+			multiple: [[1], [0], []],
+			nth: [[], [0], []]
+		};
+		for (const [index, id] of [1, 0, 2].entries()) {
 			const m = race.marbles[id];
 			m.finished = true;
 			m.finishTime = ++race.time;
@@ -186,9 +199,7 @@ test('n번째와 마지막 당첨·슬로모션·중복 축하 방지', () => {
 			const state = d.update(race);
 			assert.deepEqual(
 				state.newWinners.map((m) => m.id),
-				winners(race, mode, count)
-					.filter((m) => m.id === id)
-					.map((m) => m.id)
+				expectedWinners[mode][index]
 			);
 			assert.equal(d.update(race).newWinners.length, 0);
 		}
@@ -275,16 +286,16 @@ test('저장된 타자기 구역은 도각2로 바꾸고 도각3·중복 구역�
 		Object.assign(m, { x: b.x, y: b.y - 28, vx: 0, vy: 200 });
 		hitBlock(race, m, b, collision(m, b, race.time));
 		assert.equal(b.alive, false);
-		assert.equal(b.respawnAt, 3);
+		assert.equal(b.respawnAt, null);
 	}
 	race.marbles.forEach((m) => Object.assign(m, { x: 360, y: 50, vx: 0, vy: 0 }));
 	race.time = 3;
 	stepRace(race);
 	for (const type of ['thock2', 'thock3'])
-		assert.ok(race.blocks.filter((b) => b.type === type).every((b) => b.alive));
+		assert.equal(race.blocks.filter((b) => b.type === type && !b.alive).length, 1);
 });
 
-test('도각 네 종류의 새 맵과 저장을 연결하고 도각4는 파괴·복구한다', () => {
+test('도각 네 종류의 새 맵과 저장을 연결하고 도각4는 파괴 후 빈자리로 남는다', () => {
 	const map = resolveMap('keyboard');
 	assert.equal(resolveMap('thock-collection').id, 'keyboard');
 	assert.deepEqual(map.layers, ['thock', 'thock2', 'thock3', 'thock4']);
@@ -309,11 +320,11 @@ test('도각 네 종류의 새 맵과 저장을 연결하고 도각4는 파괴·
 	Object.assign(marble, { x: block.x, y: block.y - 28, vx: 0, vy: 200 });
 	hitBlock(race, marble, block, collision(marble, block, race.time));
 	assert.equal(block.alive, false);
-	assert.equal(block.respawnAt, 3);
+	assert.equal(block.respawnAt, null);
 	race.marbles.forEach((m) => Object.assign(m, { x: 360, y: 50, vx: 0, vy: 0 }));
 	race.time = 3;
 	stepRace(race);
-	assert.equal(block.alive, true);
+	assert.equal(block.alive, false);
 });
 
 test('저장한 불씨 구역만 찰칵으로 바꾸고 맵 선택·명단·다른 구역을 보존한다', () => {

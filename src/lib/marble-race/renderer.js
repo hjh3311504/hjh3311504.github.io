@@ -1,3 +1,5 @@
+import { drawPulse } from './pulse-painter.js';
+import { PULSE_RADIUS, PULSE_DURATION } from './skills.js';
 import { BLOCKS } from './catalog.js';
 import { createTilePainter } from './tile-painter.js';
 import { drawSpecialBlock } from './special-painter.js';
@@ -288,7 +290,10 @@ export function createRenderer(canvas) {
 		particles = particles.slice(-240);
 	}
 
-	function render(race, { focusId = -1, overview = false, view } = {}) {
+	function render(
+		race,
+		{ focusId = -1, overview = false, skillsEnabled = false, reduced = false, view } = {}
+	) {
 		if (oldRace !== (race.identity ?? race)) {
 			camera = 0;
 			particles = [];
@@ -420,6 +425,19 @@ export function createRenderer(canvas) {
 		}
 		particles = particles.filter((p) => p.life > 0);
 		ctx.globalAlpha = 1;
+		if (skillsEnabled) {
+			for (const wave of race.skillWaves ?? race.skills?.waves ?? []) {
+				const age = race.time - wave.time;
+				if (
+					age < 0 ||
+					age >= PULSE_DURATION ||
+					wave.y + PULSE_RADIUS < camera ||
+					wave.y - PULSE_RADIUS > camera + viewHeight
+				)
+					continue;
+				drawPulse(ctx, wave, age / PULSE_DURATION, reduced);
+			}
+		}
 		const labels = [];
 		const renderMarbles = [...race.marbles].sort(
 			(a, b) => (b.id === Number(focusId)) - (a.id === Number(focusId))

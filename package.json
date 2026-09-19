@@ -13,6 +13,7 @@
 		"test:team-maker": "node --test tests/team-maker/*.test.js",
 		"pretest:e2e:team-maker": "npm run build",
 		"test:e2e:team-maker": "env -u NO_COLOR playwright test",
+		"test:e2e:built": "env -u NO_COLOR playwright test",
 		"verify:team-maker": "node scripts/verify_team_maker_build.js",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",

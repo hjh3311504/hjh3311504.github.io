@@ -5,7 +5,7 @@
 
 {#if winners.length}
 	<aside class:celebrating={celebrating && !reduced} class="winner-panel" aria-label="확정 당첨자">
-		<strong>🎉 당첨 {winners.length}개</strong>
+		<strong>🎉 당첨 {winners.length}명</strong>
 		<VirtualList items={winners} height={160} rowHeight={38} label="확정 당첨 목록"
 			>{#snippet children(winner, index)}<span>{index + 1}.</span><i style:background={winner.color}
 				></i><span>{winner.name}</span><small>{winner.id + 1}번</small>{/snippet}</VirtualList

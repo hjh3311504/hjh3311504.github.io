@@ -58,7 +58,7 @@ for (const selectedSpeed of [1, 2]) {
 	}) => {
 		await screenRace(page);
 		await page.goto('/marble-race');
-		expect(await page.locator('main').ariaSnapshot()).toContain('블록 도감');
+		expect(await page.locator('main').ariaSnapshot()).toContain('도감');
 		await page.getByLabel('참가자 이름').fill('하나\n둘\n셋\n넷\n다섯\n여섯\n일곱\n여덟');
 		await page.getByRole('button', { name: '여러명', exact: true }).click();
 		await page.getByLabel('시작 순위').fill('4');
@@ -100,7 +100,7 @@ for (const selectedSpeed of [1, 2]) {
 		await expect(speed).toHaveText(`${selectedSpeed}배속`);
 		await expect.poll(() => page.evaluate(() => window.__raceRequestedSpeed)).toBe(selectedSpeed);
 		const panel = page.getByRole('complementary', { name: '확정 당첨자' });
-		await expect(panel).toContainText('당첨 3개');
+		await expect(panel).toContainText('당첨 3명');
 		for (const name of ['넷', '다섯', '여섯']) await expect(panel).toContainText(name);
 		for (const name of ['하나', '둘', '셋', '일곱', '여덟'])
 			await expect(panel).not.toContainText(name);

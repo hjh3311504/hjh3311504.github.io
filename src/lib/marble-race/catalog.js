@@ -372,12 +372,13 @@ export const SAVED_MAPS = [
 }));
 
 export const MAPS = SAVED_MAPS;
+export const DEFAULT_MAP_ID = 'keyboard';
 
 export function resolveMapId(id, customMaps = []) {
 	const migrated =
 		{ workshop: 'keyboard', 'thock-collection': 'keyboard', toys: 'crunch', bounce: 'soft' }[id] ??
 		id;
-	return [...MAPS, ...customMaps].some((map) => map.id === migrated) ? migrated : 'crunch';
+	return [...MAPS, ...customMaps].some((map) => map.id === migrated) ? migrated : DEFAULT_MAP_ID;
 }
 
 export const MARBLE_COLORS = [
@@ -489,4 +490,10 @@ BLOCKS.fanfare = {
 	name: '당첨 축하',
 	audio: { group: 'celebration', maxVoices: 1, interval: 0, level: 0.8 }
 };
-SOUND_TYPES.push('frost', 'butter', 'pond', 'fanfare');
+BLOCKS.pulse = {
+	name: '원형 파동',
+	color: '#428be6',
+	description: '주변 구슬을 멀리 날려요.',
+	audio: { group: 'skill', maxVoices: 1, interval: 0.2, level: 0.8 }
+};
+SOUND_TYPES.push('frost', 'butter', 'pond', 'fanfare', 'pulse');
