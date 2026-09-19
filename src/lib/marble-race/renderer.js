@@ -89,7 +89,7 @@ export function createRenderer(canvas) {
 		ctx.fillStyle = definition.color;
 		ctx.strokeStyle = definition.color;
 		ctx.lineWidth = 1.5;
-		if (block.id === 'finale-bar') {
+		if (block.zoneId === 'finale' && type === 'rotor') {
 			ctx.shadowColor = '#00e5ed';
 			ctx.shadowBlur = 12;
 			rounded(-w / 2, -h / 2, w, h, block.cornerRadius);
@@ -361,14 +361,17 @@ export function createRenderer(canvas) {
 		}
 		for (const block of race.blocks)
 			if (
-				block.id !== 'finale-bar' &&
+				!(block.zoneId === 'finale' && block.type === 'rotor') &&
 				block.y > camera - 280 &&
 				block.y < camera + viewHeight + 280
 			)
 				drawBlock(block, race);
-		const finaleBar = race.blocks.find((block) => block.id === 'finale-bar');
-		if (finaleBar && finaleBar.y > camera - 100 && finaleBar.y < camera + viewHeight + 100)
-			drawBlock(finaleBar, race);
+		for (const block of race.blocks) {
+			if (block.zoneId !== 'finale' || block.type !== 'rotor') continue;
+			const radius = Math.hypot(block.w, block.h) / 2;
+			if (block.y + radius > camera && block.y - radius < camera + viewHeight)
+				drawBlock(block, race);
+		}
 		for (const effect of ripples) {
 			ctx.save();
 			ctx.strokeStyle = '#e7fffc';
@@ -438,13 +441,13 @@ export function createRenderer(canvas) {
 				drawPulse(ctx, wave, age / PULSE_DURATION, reduced);
 			}
 		}
-		const labels = [];
-		const renderMarbles = [...race.marbles].sort(
-			(a, b) => (b.id === Number(focusId)) - (a.id === Number(focusId))
-		);
+		const renderMarbles = race.marbles
+			.filter(
+				(marble) =>
+					!marble.finished && marble.y >= camera - 60 && marble.y <= camera + viewHeight + 60
+			)
+			.sort((a, b) => (a.id === Number(focusId)) - (b.id === Number(focusId)));
 		for (const marble of renderMarbles) {
-			if (marble.finished || marble.y < camera - 60 || marble.y > camera + viewHeight + 60)
-				continue;
 			const isFocus = marble.id === Number(focusId);
 			if (isFocus) {
 				ctx.strokeStyle = isFocus ? '#ffffff' : '#7cf2ce';
@@ -500,6 +503,10 @@ export function createRenderer(canvas) {
 			}
 			ctx.fillStyle = '#142736';
 			ctx.fillText(String(marble.id + 1), marble.x, marble.y + 4);
+		}
+		// 구슬을 먼저 모두 그려 이름표가 다른 구슬에 가려지지 않게 한다.
+		for (const marble of renderMarbles) {
+			const isFocus = marble.id === Number(focusId);
 			if (!overview || isFocus) {
 				const labelFont = Math.max(14, (isFocus ? 18 : 14) / scale);
 				ctx.font = `${isFocus ? 800 : 600} ${labelFont}px SUIT, sans-serif`;
@@ -507,16 +514,6 @@ export function createRenderer(canvas) {
 					[...marble.name].length > 9 ? [...marble.name].slice(0, 8).join('') + '…' : marble.name;
 				const width = ctx.measureText(name).width + 12;
 				const labelX = Math.max(width / 2 + 3, Math.min(WIDTH - width / 2 - 3, marble.x));
-				const box = { x: labelX - width / 2, y: marble.y + 17, w: width, h: labelFont + 8 };
-				if (
-					!isFocus &&
-					labels.some(
-						(b) =>
-							box.x < b.x + b.w && box.x + box.w > b.x && box.y < b.y + b.h && box.y + box.h > b.y
-					)
-				)
-					continue;
-				labels.push(box);
 				ctx.fillStyle = '#101d2ce8';
 				rounded(labelX - width / 2, marble.y + 17, width, labelFont + 8, 5);
 				ctx.fill();

@@ -33,6 +33,10 @@ export async function screenRace(page) {
 				for (const m of state.marbles) {
 					m.finished = m.id < count;
 					m.y = state.layout.finish.y - 100;
+					if (window.__raceOverlapping) {
+						m.x = 350 + m.id * 10;
+						m.y = state.layout.finale.start + 300 + m.id * 10;
+					}
 				}
 				const { mode, count: drawCount, startRank } = this.settings;
 				const arrived = state.marbles.slice(0, count);
@@ -51,12 +55,21 @@ export async function screenRace(page) {
 				state.cinematic = {
 					active,
 					complete,
-					focusId: mode === 'multiple' ? Math.max(startRank - 1, count) : 0,
+					focusId:
+						window.__raceFocusId ?? (mode === 'multiple' ? Math.max(startRank - 1, count) : 0),
 					newWinners: selected.filter((m) => !this.announced.has(m.id)),
 					finishedCelebration: this.wasActive && !active
 				};
 				selected.forEach((m) => this.announced.add(m.id));
 				this.wasActive = active;
+				if (window.__raceDisplayFrame) {
+					const frame = window.__raceDisplayFrame;
+					state.time = frame.time;
+					state.marbles.forEach((marble, index) => Object.assign(marble, frame.marbles[index]));
+					state.cinematic = frame.cinematic;
+					const index = state.blocks.findIndex((block) => block.id === 'finale-bar');
+					state.blockChanges = [{ index, changes: { phase: frame.phase } }];
+				}
 				queueMicrotask(() =>
 					this.dispatchEvent(
 						new MessageEvent('message', { data: { kind: 'frame', state, unused: 0 } })
