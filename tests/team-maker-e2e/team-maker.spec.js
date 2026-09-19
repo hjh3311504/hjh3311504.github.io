@@ -223,7 +223,9 @@ test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색
 	await expect(page.getByRole('complementary')).toBeVisible();
 	await expect(page.getByRole('link', { name: '홈' })).toHaveAttribute('aria-current', 'page');
 	await expect(page.getByRole('link', { name: /팀 메이커 도구/ })).toBeVisible();
-	await expect(page.getByRole('link', { name: '개선·버그 제보' })).toHaveAttribute(
+	await expect(
+		page.getByRole('complementary').getByRole('link', { name: '개선·버그 제보' })
+	).toHaveAttribute(
 		'href',
 		'https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml'
 	);

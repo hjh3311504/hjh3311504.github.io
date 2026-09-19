@@ -64,6 +64,48 @@ const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
 const marbleHtml = await readFile(path.join(root, 'build/marble-race.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
+// 활용 안내는 JavaScript를 실행하지 않아도 정적 본문에서 읽을 수 있어야 합니다.
+for (const [name, document, phrases] of [
+	['홈', homeHtml, ['어떤 도구를 쓰면 될까요?', '만든 사람과 문의', '출처·라이선스 목록']],
+	[
+		'Team Maker',
+		html,
+		[
+			'10명을 3팀으로 나누기',
+			'다음 모임에서 명단 다시 쓰기',
+			'실력이 비슷한 팀을 보장하지는 않습니다'
+		]
+	],
+	[
+		'QR 코드',
+		qrHtml,
+		[
+			'모임 신청 주소를 작은 안내지 12장',
+			'실제 종이를 휴대폰으로 스캔',
+			'원래 페이지의 접근 권한이 바뀌지는 않습니다'
+		]
+	],
+	[
+		'구슬 레이스',
+		marbleHtml,
+		[
+			'가상 참가자 10명 중 4~6번째',
+			'모든 참가자의 당첨 확률이 같다고 보장하지 않습니다',
+			'페이지를 떠나기 전에 남겨 두세요'
+		]
+	]
+]) {
+	const bodyText = document
+		.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+		.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+		.replace(/<[^>]*>/g, '')
+		.replace(/\s+/g, '');
+	for (const phrase of phrases) {
+		if (!bodyText.includes(phrase.replace(/\s+/g, ''))) {
+			throw new Error(`${name} 정적 본문에 활용 안내가 없습니다: ${phrase}`);
+		}
+	}
+}
 // 광고 미실행 방침은 존재하지 않는 URL에 쓰이는 정적 404에도 적용합니다.
 for (const [name, document] of [
 	['홈', homeHtml],
