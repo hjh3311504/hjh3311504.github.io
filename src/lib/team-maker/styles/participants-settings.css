@@ -10,7 +10,7 @@
 		width: 60px;
 		height: 22px;
 		min-height: 22px;
-		padding: 0 6px;
+		padding: 0 var(--space-8);
 		color: var(--primary-dark);
 		font-feature-settings: 'tnum';
 		font-variant-numeric: tabular-nums;
@@ -41,7 +41,7 @@
 		align-items: center;
 		min-width: 0;
 		min-height: 32px;
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		line-height: 1.4;
 	}
 
@@ -62,8 +62,8 @@
 		position: relative;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 6px;
-		padding: 4px;
+		gap: var(--space-8);
+		padding: var(--space-4);
 		background: var(--canvas);
 		border: 1px solid var(--line);
 		border-radius: 10px;
@@ -80,7 +80,7 @@
 		background: var(--surface);
 		border-radius: 8px;
 		box-shadow:
-			0 1px 2px rgb(28 30 38 / 10%),
+			0 1px 2px var(--color-box-shadow-28),
 			0 0 0 1px var(--primary-line) inset;
 		transform: translateX(0);
 		transition: transform 220ms cubic-bezier(0.2, 0, 0.2, 1);
@@ -93,10 +93,10 @@
 	.mode-switch button {
 		position: relative;
 		z-index: 1;
-		padding: 11px 8px;
+		padding: var(--space-12) var(--space-8);
 		cursor: pointer;
 		color: var(--muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-weight: 650;
 		background: transparent;
 		border: 0;
@@ -111,20 +111,20 @@
 	.stepper-row {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 16px;
+		gap: var(--space-16);
 		align-items: center;
 		justify-content: space-between;
 	}
 
 	.stepper-row label {
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-weight: 600;
 	}
 
 	.stepper-row p {
 		margin: 0;
 		color: var(--muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		line-height: 1.5;
 	}
 
@@ -136,14 +136,14 @@
 	.stepper-copy {
 		display: flex;
 		flex-direction: column;
-		gap: 4px;
+		gap: var(--space-4);
 		min-width: 180px;
 	}
 
 	.stepper {
 		display: flex;
 		flex: none;
-		gap: 10px;
+		gap: var(--space-12);
 		align-items: center;
 	}
 
@@ -153,7 +153,7 @@
 		padding: 0;
 		cursor: pointer;
 		color: var(--ink);
-		font-size: 20px;
+		font-size: var(--font-size-20);
 		font-weight: 650;
 		background: var(--surface);
 		border: 1px solid var(--line-strong);
@@ -172,7 +172,7 @@
 
 	.stepper output {
 		min-width: 44px;
-		font-size: 20px;
+		font-size: var(--font-size-20);
 		font-feature-settings: 'tnum';
 		font-weight: 700;
 		font-variant-numeric: tabular-nums;

@@ -1,13 +1,12 @@
 @scope (.team-maker-page) {
 	.history-dialog {
-		width: min(calc(100% - 32px), 520px);
 	}
 
 	.history-overview {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
-		padding: 14px;
+		gap: var(--space-12);
+		padding: var(--space-16);
 		background: var(--surface-soft);
 		border: 1px solid var(--line);
 		border-radius: 12px;
@@ -15,14 +14,14 @@
 
 	.history-overview h3 {
 		margin: 0;
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-weight: 800;
 	}
 
 	.overview-facts {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-		gap: 8px;
+		gap: var(--space-8);
 		padding: 0;
 		margin: 0;
 		list-style: none;
@@ -31,8 +30,8 @@
 	.overview-fact {
 		display: flex;
 		flex-direction: column;
-		gap: 2px;
-		padding: 8px 10px;
+		gap: var(--space-2);
+		padding: var(--space-8) var(--space-12);
 		background: var(--surface);
 		border: 1px solid var(--line);
 		border-radius: 10px;
@@ -40,12 +39,12 @@
 
 	.overview-fact-label {
 		color: var(--muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-weight: 650;
 	}
 
 	.overview-fact-value {
-		font-size: 22px;
+		font-size: var(--font-size-22);
 		font-weight: 800;
 		font-variant-numeric: tabular-nums;
 	}
@@ -53,7 +52,7 @@
 	.overview-ranking {
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		gap: var(--space-8);
 		padding: 0;
 		margin: 0;
 		list-style: none;
@@ -62,20 +61,20 @@
 	.overview-row {
 		display: grid;
 		grid-template-columns: 18px minmax(48px, 88px) minmax(0, 1fr) auto;
-		gap: 8px;
+		gap: var(--space-8);
 		align-items: center;
 	}
 
 	.overview-place {
 		color: var(--faint);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-weight: 750;
 		font-variant-numeric: tabular-nums;
 		text-align: right;
 	}
 
 	.overview-name {
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-weight: 700;
 		overflow-wrap: anywhere;
 		word-break: keep-all;
@@ -99,7 +98,7 @@
 
 	.overview-detail {
 		color: var(--muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-weight: 650;
 		font-variant-numeric: tabular-nums;
 		white-space: nowrap;
@@ -108,33 +107,33 @@
 	.history-groups {
 		display: flex;
 		flex-direction: column;
-		gap: 20px;
+		gap: var(--space-20);
 	}
 
 	.history-date-heading {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding-bottom: 7px;
-		margin: 0 0 8px;
-		border-bottom: 1px solid #eef2f7;
+		padding-bottom: var(--space-8);
+		margin: 0 0 var(--space-8);
+		border-bottom: 1px solid var(--color-surface-alt);
 	}
 
 	.history-date-heading h3 {
 		margin: 0;
-		font-size: 16px;
+		font-size: var(--font-size-16);
 	}
 
 	.history-date-heading span {
-		margin-right: 8px;
+		margin-right: var(--space-8);
 		color: var(--muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 	}
 
 	.history-match-list {
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
+		gap: var(--space-8);
 		padding: 0;
 		margin: 0;
 		list-style: none;
@@ -144,9 +143,9 @@
 	.history-summary-row {
 		display: grid;
 		grid-template-columns: auto 1fr auto;
-		gap: 10px;
+		gap: var(--space-12);
 		align-items: start;
-		padding: 11px 8px 11px 12px;
+		padding: var(--space-12) var(--space-8) var(--space-12) var(--space-12);
 		background: var(--surface-soft);
 		border: 1px solid var(--line);
 		border-radius: 10px;
@@ -154,22 +153,23 @@
 
 	.history-match > .history-time {
 		height: 22px;
-		margin-top: 10px;
+		/* 팀 제목의 중앙에 맞추는 보정2px을 기본8px 간격에 더한다. */
+		margin-top: calc(var(--space-8) + var(--space-2));
 	}
 
 	.history-teams {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: var(--space-12);
 		min-width: 0;
 	}
 
 	.history-team-line {
 		display: flex;
 		flex-direction: column;
-		gap: 3px;
+		gap: var(--space-4);
 		min-width: 0;
-		padding: 8px 10px;
+		padding: var(--space-8) var(--space-12);
 		background: var(--surface);
 		border: 1px solid var(--line);
 		border-radius: 10px;
@@ -177,7 +177,7 @@
 
 	.history-team-heading {
 		display: flex;
-		gap: 8px;
+		gap: var(--space-8);
 		align-items: center;
 		min-width: 0;
 	}
@@ -203,9 +203,9 @@
 		flex: none;
 		align-items: center;
 		min-height: 22px;
-		padding: 0 8px;
+		padding: 0 var(--space-8);
 		color: var(--green);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-weight: 750;
 		background: var(--green-soft);
 		border: 1px solid var(--green-line);
@@ -222,7 +222,7 @@
 		white-space: normal;
 		word-break: keep-all;
 		color: var(--muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		line-height: 1.5;
 	}
 
@@ -234,7 +234,7 @@
 		min-height: 24px;
 		padding: 0;
 		color: var(--muted);
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		font-weight: 800;
 		line-height: 1;
 		background: transparent;
@@ -258,9 +258,9 @@
 		width: 40px;
 		min-width: 40px;
 		height: 22px;
-		padding: 0 4px;
+		padding: 0 var(--space-4);
 		color: var(--danger);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-weight: 750;
 		font-feature-settings: 'tnum';
 		font-variant-numeric: tabular-nums;

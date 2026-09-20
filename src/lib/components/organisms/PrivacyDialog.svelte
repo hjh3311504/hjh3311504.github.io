@@ -35,6 +35,8 @@
 </Button>
 
 <Dialog
+	size="wide"
+	scroll="body"
 	bind:element={dialog}
 	id="privacy-dialog"
 	class="privacy-dialog"
@@ -50,7 +52,7 @@
 		운영자: Lake · 적용일: <time datetime="2026-09-16">2026년 9월 16일</time>
 	{/snippet}
 
-	<div class="privacy-content">
+	<div class="privacy-content" data-ui-dialog-body>
 		<h3>브라우저에 저장하는 정보</h3>
 		<p>
 			팀 메이커의 참가자 이름, 참가 여부, 배정 규칙, 저장 명단, 경기 기록과 설정은 현재 브라우저의
@@ -120,56 +122,9 @@
 		background: transparent;
 	}
 
-	:global(.privacy-dialog[open]) {
-		display: flex;
-		flex-direction: column;
-		position: fixed;
-		inset: 0;
-		width: min(680px, calc(100vw - 32px));
-		max-height: min(760px, calc(100vh - 32px));
-		padding: 0;
-		margin: auto;
-		overflow: hidden;
-	}
-
-	:global(.privacy-dialog::backdrop) {
-		background: rgb(20 24 32 / 52%);
-	}
-
-	:global(.privacy-dialog .ui-dialog-header) {
-		flex: 0 0 auto;
-		padding: 24px 24px 18px;
-		border-bottom: 1px solid var(--ui-border);
-	}
-
-	:global(.privacy-dialog .dialog-close[data-close-dialog]) {
-		height: 36px;
-		color: var(--ui-text-muted);
-		background: transparent;
-		border-color: transparent;
-	}
-
-	:global(.privacy-dialog .dialog-close[data-close-dialog]:not(:disabled):hover) {
-		color: var(--ui-danger);
-		background: var(--ui-danger-soft);
-		border-color: var(--ui-danger-border);
-	}
-
-	:global(.privacy-dialog .ui-dialog-header h2),
-	:global(.privacy-dialog .ui-dialog-header p),
 	.privacy-content h3,
 	.privacy-content p {
 		margin: 0;
-	}
-
-	:global(.privacy-dialog .ui-dialog-header h2) {
-		font-size: 22px;
-	}
-
-	:global(.privacy-dialog .ui-dialog-header p) {
-		margin-top: 6px;
-		color: var(--ui-text-muted);
-		font-size: 14px;
 	}
 
 	.privacy-content {
@@ -177,15 +132,14 @@
 		min-height: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
-		padding: 22px 24px;
+		gap: var(--space-12);
 		overflow-y: auto;
 		scrollbar-gutter: stable;
 	}
 
 	.privacy-content h3 {
-		margin-top: 10px;
-		font-size: 16px;
+		margin-top: var(--space-12);
+		font-size: var(--font-size-16);
 	}
 
 	.privacy-content h3:first-child {
@@ -194,7 +148,7 @@
 
 	.privacy-content p {
 		color: var(--ui-text-muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		line-height: 1.7;
 		word-break: keep-all;
 		overflow-wrap: anywhere;
@@ -207,10 +161,9 @@
 	}
 
 	@media (max-width: 520px) {
-		:global(.privacy-dialog .ui-dialog-header),
 		.privacy-content {
-			padding-right: 18px;
-			padding-left: 18px;
+			padding-right: var(--space-20);
+			padding-left: var(--space-20);
 		}
 	}
 </style>

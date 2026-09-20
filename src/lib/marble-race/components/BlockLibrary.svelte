@@ -58,48 +58,40 @@
 
 <style>
 	:global(.library-panel) {
-		padding: 28px;
-		margin-top: 36px;
-	}
-	:global(.library-panel .ui-section-header h2) {
-		margin: 0;
-		font-size: 22px;
-	}
-	:global(.library-panel .ui-section-header p) {
-		margin-top: 8px;
-		font-size: 14px;
+		padding: var(--space-28);
+		margin-top: var(--space-36);
 	}
 	.library-group {
-		margin-top: 24px;
+		margin-top: var(--space-24);
 		min-width: 0;
 	}
 	.library-group + .library-group {
-		padding-top: 24px;
+		padding-top: var(--space-24);
 		border-top: 1px solid var(--ui-border);
 	}
 	.group-title {
 		display: flex;
 		align-items: center;
-		gap: 8px;
-		margin: 0 0 14px;
-		font-size: 18px;
+		gap: var(--space-8);
+		margin: 0 0 var(--space-16);
+		font-size: var(--font-size-18);
 	}
 
 	.group-title span {
 		color: var(--ui-text-muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-weight: 400;
 	}
 	.library-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
-		gap: 14px;
+		gap: var(--space-16);
 	}
 	:global(.marble-page .library-panel .library-item) {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		gap: 10px;
-		padding: 16px;
+		gap: var(--space-12);
+		padding: var(--space-16);
 		align-items: start;
 		background: var(--shell-surface-soft);
 	}
@@ -109,7 +101,7 @@
 	.item-heading {
 		display: flex;
 		align-items: center;
-		gap: 12px;
+		gap: var(--space-12);
 	}
 	.item-heading :global(.block-symbol) {
 		width: 48px;
@@ -118,7 +110,7 @@
 	}
 	h4 {
 		margin: 0;
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		line-height: 1.5;
 		min-width: 0;
 		white-space: nowrap;
@@ -129,27 +121,27 @@
 		min-width: 0;
 		display: flex;
 		align-items: center;
-		gap: 6px;
+		gap: var(--space-8);
 	}
 	.library-legend {
 		display: flex;
 		align-items: center;
-		gap: 8px;
-		margin: 14px 0 0;
+		gap: var(--space-8);
+		margin: var(--space-16) 0 0;
 		color: var(--ui-text-muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		line-height: 1.6;
 	}
 	.inclusion-label {
 		flex-shrink: 0;
 		display: inline-flex;
 		align-items: center;
-		padding: 2px 8px;
+		padding: var(--space-2) var(--space-8);
 		border: 1px solid color-mix(in srgb, var(--ui-primary) 30%, transparent);
 		border-radius: 6px;
 		background: color-mix(in srgb, var(--ui-primary) 10%, var(--ui-surface));
 		color: var(--ui-primary);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		line-height: 18px;
 		font-weight: 600;
 		white-space: nowrap;
@@ -158,7 +150,7 @@
 		margin: 0;
 		min-width: 0;
 		color: var(--ui-text-muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		line-height: 1.6;
 		white-space: nowrap;
 		overflow: hidden;
@@ -166,7 +158,7 @@
 	}
 	@media (max-width: 760px) {
 		:global(.library-panel) {
-			padding: 18px;
+			padding: var(--space-20);
 		}
 	}
 </style>

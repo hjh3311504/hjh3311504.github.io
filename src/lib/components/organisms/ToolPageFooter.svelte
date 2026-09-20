@@ -13,10 +13,10 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
-		gap: 12px;
-		margin-top: 32px;
+		gap: var(--space-12);
+		margin-top: var(--space-32);
 		color: var(--shell-text-muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		line-height: 1.7;
 	}
 </style>

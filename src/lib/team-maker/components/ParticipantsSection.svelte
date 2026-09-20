@@ -72,6 +72,7 @@
 	<form id="add-person-form" class="add-person-form">
 		<label class="sr-only" for="person-name">참가자 이름</label>
 		<input
+			class="ui-field"
 			id="person-name"
 			name="person-name"
 			type="text"

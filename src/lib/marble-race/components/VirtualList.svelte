@@ -43,9 +43,9 @@
 		right: 0;
 		display: flex;
 		align-items: center;
-		gap: 8px;
-		padding: 4px 8px;
+		gap: var(--space-8);
+		padding: var(--space-4) var(--space-8);
 		box-sizing: border-box;
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 </style>

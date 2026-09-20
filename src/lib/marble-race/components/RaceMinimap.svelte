@@ -155,10 +155,10 @@
 		width: 100px;
 		height: min(300px, calc(100% - 24px));
 		pointer-events: auto;
-		background: #0a1520d9;
-		border: 1px solid #64748b;
+		background: var(--color-background-25);
+		border: 1px solid var(--color-border-8);
 		border-radius: 8px;
-		padding: 5px;
+		padding: var(--space-4);
 		z-index: 2;
 	}
 	.minimap-control {
@@ -183,8 +183,8 @@
 	span {
 		display: block;
 		text-align: center;
-		color: #fff;
-		font-size: 12px;
+		color: var(--color-white);
+		font-size: var(--font-size-12);
 	}
 	@media (max-width: 600px) {
 		.race-minimap {
@@ -194,7 +194,7 @@
 			bottom: 5px;
 		}
 		span {
-			font-size: 12px;
+			font-size: var(--font-size-12);
 		}
 	}
 </style>

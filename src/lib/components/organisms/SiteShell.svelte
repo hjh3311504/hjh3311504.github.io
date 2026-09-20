@@ -240,27 +240,27 @@
 
 <style>
 	:global(body:has(.site-shell)) {
-		background-color: #f6f5f4;
+		background-color: var(--color-canvas-light);
 	}
 
 	:global(html[data-theme='dark'] body:has(.site-shell)) {
-		background-color: #1a1918;
+		background-color: var(--color-canvas-dark);
 	}
 
 	.site-shell {
-		--shell-canvas: #f6f5f4;
-		--shell-surface: #fff;
-		--shell-surface-soft: #f6f5f4;
-		--shell-hairline: #e6e6e6;
-		--shell-text-heading: rgb(0 0 0 / 95%);
-		--shell-text-body: #31302e;
-		--shell-text-muted: #615d59;
-		--shell-focus: #0075de;
-		--shell-nav-accent: #0075de;
-		--shell-nav-wash: rgb(0 117 222 / 9%);
-		--shell-row-hover: rgb(0 0 0 / 4%);
-		--shell-overlay: rgb(0 0 0 / 40%);
-		--shell-menu-shadow: rgb(0 0 0 / 5%) 0 23px 52px;
+		--shell-canvas: var(--color-canvas-light);
+		--shell-surface: var(--color-white);
+		--shell-surface-soft: var(--color-canvas-light);
+		--shell-hairline: var(--color-shell-hairline);
+		--shell-text-heading: var(--color-shell-text-heading);
+		--shell-text-body: var(--color-text-light);
+		--shell-text-muted: var(--color-shell-text-muted);
+		--shell-focus: var(--color-primary);
+		--shell-nav-accent: var(--color-primary);
+		--shell-nav-wash: var(--color-shell-nav-wash);
+		--shell-row-hover: var(--color-shell-row-hover);
+		--shell-overlay: var(--color-shell-overlay);
+		--shell-menu-shadow: var(--color-shell-menu-shadow) 0 23px 52px;
 		--ui-canvas: var(--shell-canvas);
 		--ui-surface: var(--shell-surface);
 		--ui-surface-soft: var(--shell-surface-soft);
@@ -269,14 +269,14 @@
 		--ui-border: var(--shell-hairline);
 		--ui-border-strong: color-mix(in srgb, var(--shell-text-muted), transparent 65%);
 		--ui-primary: var(--shell-nav-accent);
-		--ui-primary-hover: color-mix(in srgb, var(--shell-nav-accent), #000 18%);
-		--ui-on-primary: #fff;
+		--ui-primary-hover: color-mix(in srgb, var(--shell-nav-accent), var(--color-black) 18%);
+		--ui-on-primary: var(--color-white);
 		--ui-focus: var(--shell-focus);
 		--shell-page-background: linear-gradient(
 			180deg,
-			rgb(0 117 222 / 10%) 0%,
-			rgb(0 117 222 / 5%) 42%,
-			rgb(0 117 222 / 0%) 100%
+			var(--color-shell-page-background) 0%,
+			var(--color-shell-page-background-2) 42%,
+			var(--color-shell-page-background-3) 100%
 		);
 		display: flex;
 		align-items: flex-start;
@@ -289,62 +289,62 @@
 	}
 
 	.site-shell.team-maker {
-		--shell-surface-soft: #f9fbfd;
-		--shell-hairline: #e7ecf2;
-		--shell-text-heading: #1c1e26;
-		--shell-text-body: #1c1e26;
-		--shell-text-muted: #5b5f6b;
-		--shell-overlay: rgb(28 30 38 / 45%);
+		--shell-surface-soft: var(--color-shell-surface-soft);
+		--shell-hairline: var(--color-shell-hairline-2);
+		--shell-text-heading: var(--color-shell-text-heading-2);
+		--shell-text-body: var(--color-shell-text-heading-2);
+		--shell-text-muted: var(--color-shell-text-muted-2);
+		--shell-overlay: var(--color-shell-overlay-2);
 		--shell-menu-shadow: none;
 	}
 
 	.site-shell[data-theme='dark'] {
-		--shell-canvas: #1a1918;
-		--shell-surface: #262523;
-		--shell-surface-soft: #2f2e2b;
-		--shell-hairline: #403d3a;
-		--shell-text-heading: #fff;
-		--shell-text-body: #f2f0ed;
-		--shell-text-muted: #c3bdb6;
-		--shell-focus: #62aef0;
-		--shell-nav-accent: #62aef0;
-		--shell-nav-wash: rgb(0 117 222 / 16%);
-		--shell-row-hover: rgb(255 255 255 / 7%);
-		--shell-overlay: rgb(0 0 0 / 62%);
-		--shell-menu-shadow: rgb(0 0 0 / 45%) 0 23px 52px;
+		--shell-canvas: var(--color-canvas-dark);
+		--shell-surface: var(--color-shell-surface);
+		--shell-surface-soft: var(--color-shell-surface-soft-2);
+		--shell-hairline: var(--color-shell-hairline-3);
+		--shell-text-heading: var(--color-white);
+		--shell-text-body: var(--color-text-dark);
+		--shell-text-muted: var(--color-shell-text-muted-3);
+		--shell-focus: var(--color-shell-focus);
+		--shell-nav-accent: var(--color-shell-focus);
+		--shell-nav-wash: var(--color-shell-nav-wash-2);
+		--shell-row-hover: var(--color-shell-row-hover-2);
+		--shell-overlay: var(--color-shell-overlay-3);
+		--shell-menu-shadow: var(--color-shell-menu-shadow-2) 0 23px 52px;
 		--shell-page-background: linear-gradient(
 			180deg,
-			rgb(98 174 240 / 16%) 0%,
-			rgb(98 174 240 / 7%) 42%,
-			rgb(98 174 240 / 0%) 100%
+			var(--color-shell-page-background-4) 0%,
+			var(--color-shell-page-background-5) 42%,
+			var(--color-shell-page-background-6) 100%
 		);
 		color-scheme: dark;
 	}
 
 	@media (prefers-color-scheme: dark) {
 		:global(html[data-theme='auto'] body:has(.site-shell)) {
-			background-color: #1a1918;
+			background-color: var(--color-canvas-dark);
 		}
 
 		.site-shell[data-theme='auto'] {
-			--shell-canvas: #1a1918;
-			--shell-surface: #262523;
-			--shell-surface-soft: #2f2e2b;
-			--shell-hairline: #403d3a;
-			--shell-text-heading: #fff;
-			--shell-text-body: #f2f0ed;
-			--shell-text-muted: #c3bdb6;
-			--shell-focus: #62aef0;
-			--shell-nav-accent: #62aef0;
-			--shell-nav-wash: rgb(0 117 222 / 16%);
-			--shell-row-hover: rgb(255 255 255 / 7%);
-			--shell-overlay: rgb(0 0 0 / 62%);
-			--shell-menu-shadow: rgb(0 0 0 / 45%) 0 23px 52px;
+			--shell-canvas: var(--color-canvas-dark);
+			--shell-surface: var(--color-shell-surface);
+			--shell-surface-soft: var(--color-shell-surface-soft-2);
+			--shell-hairline: var(--color-shell-hairline-3);
+			--shell-text-heading: var(--color-white);
+			--shell-text-body: var(--color-text-dark);
+			--shell-text-muted: var(--color-shell-text-muted-3);
+			--shell-focus: var(--color-shell-focus);
+			--shell-nav-accent: var(--color-shell-focus);
+			--shell-nav-wash: var(--color-shell-nav-wash-2);
+			--shell-row-hover: var(--color-shell-row-hover-2);
+			--shell-overlay: var(--color-shell-overlay-3);
+			--shell-menu-shadow: var(--color-shell-menu-shadow-2) 0 23px 52px;
 			--shell-page-background: linear-gradient(
 				180deg,
-				rgb(98 174 240 / 16%) 0%,
-				rgb(98 174 240 / 7%) 42%,
-				rgb(98 174 240 / 0%) 100%
+				var(--color-shell-page-background-4) 0%,
+				var(--color-shell-page-background-5) 42%,
+				var(--color-shell-page-background-6) 100%
 			);
 			color-scheme: dark;
 		}
@@ -411,7 +411,7 @@
 		flex: none;
 		align-items: center;
 		height: 56px;
-		padding-left: 8px;
+		padding-left: var(--space-8);
 		pointer-events: none;
 		background: transparent;
 	}
@@ -459,8 +459,8 @@
 		background: var(--shell-surface);
 		border-right: 1px solid var(--shell-hairline);
 		box-shadow:
-			rgb(0 0 0 / 4%) 0 10px 24px,
-			rgb(0 0 0 / 5%) 0 23px 52px;
+			var(--color-shell-row-hover) 0 10px 24px,
+			var(--color-shell-menu-shadow) 0 23px 52px;
 		animation: shell-slide 200ms cubic-bezier(0.2, 0, 0.2, 1) both;
 	}
 

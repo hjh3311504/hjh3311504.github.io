@@ -1,0 +1,15 @@
+- id: REQ-UI-001
+  text: 홈과 모든 도구 페이지는 공통 컴포넌트와 글자 크기·여백·색상 토큰을 사용한다. 일반 UI 글자 크기는 짝수 px, 여백은4px 단위와 보정용2px으로 제한한다. 공통 섹션 제목·번호·모달 외형은 페이지에서 다시 정의하지 않는다. 제목과 설명8px, 제목과 본문16px, 입력 항목16px, 카드·모달 내부24px와 모바일16px, 모달 본문과 하단 버튼24px를 기본으로 한다. QR 캡션 맞춤·출력·인쇄와 게임 내부 그리기는 별도 규칙을 유지한다. 새 페이지와 컴포넌트도 자동 검사 대상이다.
+  surface: [web]
+  source: "사용자 계획 구현 승인 2026-09-20 > 공통 컴포넌트 정리와 작업 중 프론트엔드 검사"
+  kind: structural
+  ui: true
+  design_status: approved
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
+  adr: docs/adr/2026-09-20-공통-UI와-수정-직후-검사.md
+- id: REQ-UI-002
+  text: Codex와 Claude Code는 파일 수정 뒤 같은 UI 검사기를 실행하고 위반 위치·규칙·수정 방향을 다음 판단에 전달한다. 개발 서버와 PR 없이 새 파일과 shell 변경을 감지한다. 검사 기록은 세션별로 분리하고 같은 파일 내용의 반복 경고를 줄인다. 검사 실패를 정상 통과로 처리하지 않는다. 실제 hook 활성화는 설정 파일 작성과 구분하여 검증한다.
+  surface: [tooling]
+  source: "사용자 계획 구현 승인 2026-09-20 > 에이전트에게 직접 즉시 피드백"
+  kind: structural
+  adr: docs/adr/2026-09-20-공통-UI와-수정-직후-검사.md

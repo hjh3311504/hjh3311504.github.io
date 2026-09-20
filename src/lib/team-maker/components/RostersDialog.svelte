@@ -13,7 +13,13 @@
 >
 	<form id="save-roster-form" class="roster-save-row">
 		<label class="sr-only" for="roster-name">명단 이름</label>
-		<input id="roster-name" type="text" placeholder="예: 수요일 풋살" autocomplete="off" />
+		<input
+			class="ui-field"
+			id="roster-name"
+			type="text"
+			placeholder="예: 수요일 풋살"
+			autocomplete="off"
+		/>
 		<Button
 			id="save-roster-button"
 			class="primary-small-button"

@@ -16,6 +16,6 @@
 		justify-content: center;
 		pointer-events: none;
 		z-index: 4;
-		padding: 20px;
+		padding: var(--space-20);
 	}
 </style>

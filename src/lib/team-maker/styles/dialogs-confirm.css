@@ -1,7 +1,5 @@
 @scope (.team-maker-page) {
 	.confirm-dialog {
-		width: max-content;
-		max-width: calc(100% - 32px);
 		border-color: var(--danger-line);
 	}
 
@@ -25,11 +23,11 @@
 	}
 
 	#confirm-action-button {
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 
 	.danger-filled-button:not(:disabled):hover {
-		background: #d93d43;
-		border-color: #d93d43;
+		background: var(--color-background-27);
+		border-color: var(--color-background-27);
 	}
 }

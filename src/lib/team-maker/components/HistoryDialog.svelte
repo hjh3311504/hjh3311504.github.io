@@ -3,6 +3,7 @@
 </script>
 
 <Dialog
+	size="wide"
 	id="history-dialog"
 	class="app-dialog history-dialog"
 	title="전체 기록"
@@ -112,7 +113,13 @@
 					<h3 class="overview-block-title">전체 순위</h3>
 					<label class="overview-search">
 						<span class="sr-only">참가자 검색</span>
-						<input id="history-search" type="search" placeholder="참가자 검색" autocomplete="off" />
+						<input
+							class="ui-field"
+							id="history-search"
+							type="search"
+							placeholder="참가자 검색"
+							autocomplete="off"
+						/>
 					</label>
 				</div>
 				<div class="rank-table-wrap">

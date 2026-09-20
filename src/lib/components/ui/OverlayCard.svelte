@@ -17,34 +17,34 @@
 		pointer-events: auto;
 		width: min(420px, 100%);
 		max-height: 100%;
-		padding: 24px;
+		padding: var(--space-24);
 		overflow-y: auto;
-		background: #102635f2;
-		color: #fff;
-		border: 1px solid #476477;
+		background: var(--color-background-24);
+		color: var(--color-white);
+		border: 1px solid var(--color-border-7);
 		border-radius: 18px;
 		text-align: center;
-		box-shadow: 0 12px 36px #0006;
-		font-size: 16px;
+		box-shadow: 0 12px 36px var(--color-box-shadow-16);
+		font-size: var(--font-size-16);
 		line-height: 1.55;
 		word-break: keep-all;
 		overflow-wrap: anywhere;
 	}
 	.ui-overlay-card-title {
 		display: block;
-		font-size: 24px;
+		font-size: var(--font-size-24);
 	}
 	.ui-overlay-card-title.has-body {
-		margin-bottom: 16px;
+		margin-bottom: var(--space-16);
 	}
 	:global(.ui-overlay-card p + p) {
-		margin-top: 8px;
+		margin-top: var(--space-8);
 	}
 	.ui-overlay-card-actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 10px;
+		gap: var(--space-12);
 		justify-content: center;
-		margin-top: 18px;
+		margin-top: var(--space-20);
 	}
 </style>

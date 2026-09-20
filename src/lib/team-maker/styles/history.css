@@ -2,46 +2,46 @@
 	.history-card {
 		display: flex;
 		flex-direction: column;
-		gap: 14px;
+		gap: var(--space-16);
 		margin: 0;
-		padding: 22px;
+		padding: var(--space-24);
 	}
 
 	.statistics-content {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: var(--space-12);
 	}
 
 	.history-card .section-heading {
 		flex-wrap: wrap;
-		gap: 8px;
+		gap: var(--space-8);
 	}
 
 	.history-card .section-heading > .today-heading {
 		display: flex;
-		gap: 4px;
+		gap: var(--space-4);
 		align-items: baseline;
 	}
 
 	.history-card h3 {
 		margin: 0;
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 
-	.history-card .section-heading p {
-		margin: 2px 0 0;
+	.history-card .today-heading > p {
+		margin: var(--space-2) 0 0;
 		color: var(--muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 	}
 
 	#today-history-count {
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 
 	.history-summary-row {
 		min-width: 0;
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 
 	.history-time {
@@ -49,7 +49,7 @@
 		flex: none;
 		align-items: center;
 		color: var(--muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-feature-settings: 'tnum';
 		font-variant-numeric: tabular-nums;
 		line-height: 1;
@@ -57,7 +57,8 @@
 
 	.history-summary-row .history-time {
 		height: 22px;
-		margin-top: 10px;
+		/* 팀 제목의 중앙에 맞추는 보정2px을 기본8px 간격에 더한다. */
+		margin-top: calc(var(--space-8) + var(--space-2));
 	}
 
 	.history-winner-chip {
@@ -83,6 +84,6 @@
 	.seo-content {
 		display: flex;
 		flex-direction: column;
-		gap: 20px;
+		gap: var(--space-20);
 	}
 }
