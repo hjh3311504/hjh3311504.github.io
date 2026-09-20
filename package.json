@@ -20,7 +20,9 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"optimize-images": "node scripts/optimize_images.js",
-		"test:marble-race": "node --test tests/marble-race/*.test.js"
+		"test:marble-race": "node --test tests/marble-race/*.test.js",
+		"check:ui": "node scripts/check_ui.js",
+		"test:ui": "node --test tests/ui/*.test.js"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
@@ -34,6 +36,8 @@
 		"eslint-plugin-svelte": "^3.23.0",
 		"globals": "^17.11.0",
 		"jsqr": "^1.4.0",
+		"postcss": "^8.5.28",
+		"postcss-value-parser": "^4.2.0",
 		"prettier": "^3.9.6",
 		"prettier-plugin-svelte": "^4.1.1",
 		"sharp": "^0.35.4",

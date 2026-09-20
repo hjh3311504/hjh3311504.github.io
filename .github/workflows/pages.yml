@@ -31,6 +31,9 @@ jobs:
       - name: Lint
         if: github.event_name == 'pull_request'
         run: npm run lint
+      - name: Check UI rules
+        if: github.event_name == 'pull_request'
+        run: npm run check:ui && npm run test:ui
       - name: Check SvelteKit
         if: github.event_name == 'pull_request'
         run: npm run check

@@ -3,6 +3,7 @@ html.team-maker-dialog-open {
 }
 
 html.team-maker-restoring-scroll {
+	/* ui-exception important: 숨김 상태 또는 스크롤 복원 중 임시 상태를 우선 적용한다. */
 	scroll-behavior: auto !important;
 }
 
@@ -25,39 +26,39 @@ html.team-maker-dialog-open body {
 		system-ui,
 		sans-serif;
 	font-synthesis: none;
-	--canvas: #f6f5f4;
-	--surface: #ffffff;
-	--surface-soft: #f9fbfd;
-	--surface-alt: #eef2f7;
-	--ink: #1c1e26;
-	--muted: #5b5f6b;
-	--faint: #8a90a0;
-	--line: #e7ecf2;
-	--line-strong: #d7dee7;
-	--primary: #0075de;
-	--primary-active: #005bab;
-	--primary-dark: #005bab;
-	--on-primary: #ffffff;
-	--on-danger: #ffffff;
-	--focus: #0075de;
-	--primary-soft: rgb(0 117 222 / 10%);
-	--primary-line: rgb(0 117 222 / 30%);
-	--danger: #c2333c;
-	--danger-fill: #f95256;
-	--danger-soft: #fff5f5;
-	--danger-line: #ffd6d8;
-	--orange: #a83209;
-	--orange-soft: #fff7f2;
-	--orange-line: #ffd9c2;
-	--middle-rank: #6d28d9;
-	--middle-rank-soft: rgb(109 40 217 / 10%);
-	--middle-rank-line: rgb(109 40 217 / 30%);
-	--green: #178c6c;
-	--green-soft: #eefaf5;
-	--green-line: #c7ecdf;
-	--rank-green-fill: #178c6c;
-	--rank-danger-fill: #c2333c;
-	--scrim: rgb(28 30 38 / 45%);
+	--canvas: var(--color-canvas-light);
+	--surface: var(--color-white);
+	--surface-soft: var(--color-shell-surface-soft);
+	--surface-alt: var(--color-surface-alt);
+	--ink: var(--color-shell-text-heading-2);
+	--muted: var(--color-shell-text-muted-2);
+	--faint: var(--color-color-20);
+	--line: var(--color-shell-hairline-2);
+	--line-strong: var(--color-line-strong);
+	--primary: var(--color-primary);
+	--primary-active: var(--color-primary-hover);
+	--primary-dark: var(--color-primary-hover);
+	--on-primary: var(--color-white);
+	--on-danger: var(--color-white);
+	--focus: var(--color-primary);
+	--primary-soft: var(--color-shell-page-background);
+	--primary-line: var(--color-primary-line);
+	--danger: var(--color-ui-danger);
+	--danger-fill: var(--color-ui-danger-fill);
+	--danger-soft: var(--color-ui-danger-soft);
+	--danger-line: var(--color-ui-danger-border);
+	--orange: var(--color-orange);
+	--orange-soft: var(--color-orange-soft);
+	--orange-line: var(--color-orange-line);
+	--middle-rank: var(--color-middle-rank);
+	--middle-rank-soft: var(--color-middle-rank-soft);
+	--middle-rank-line: var(--color-middle-rank-line);
+	--green: var(--color-green);
+	--green-soft: var(--color-green-soft);
+	--green-line: var(--color-green-line);
+	--rank-green-fill: var(--color-green);
+	--rank-danger-fill: var(--color-ui-danger);
+	--scrim: var(--color-shell-overlay-2);
 	--ui-canvas: var(--canvas);
 	--ui-surface: var(--surface);
 	--ui-surface-soft: var(--surface-soft);
@@ -90,73 +91,73 @@ html.team-maker-dialog-open body {
 
 .site-shell[data-theme='dark'] .team-maker-page {
 	color-scheme: dark;
-	--canvas: #1a1918;
-	--surface: #262523;
-	--surface-soft: #2f2e2b;
-	--surface-alt: #373531;
-	--ink: #f2f0ed;
-	--muted: #c3bdb6;
-	--faint: #a7a099;
-	--line: #403d3a;
-	--line-strong: #514d49;
-	--primary: #0075de;
-	--primary-active: #005bab;
-	--primary-dark: #62aef0;
-	--on-primary: #ffffff;
-	--on-danger: #180b33;
-	--focus: #62aef0;
-	--primary-soft: rgb(0 117 222 / 16%);
-	--primary-line: rgb(0 117 222 / 42%);
-	--danger: #ff9096;
-	--danger-fill: #ff6f75;
-	--danger-soft: rgb(255 111 117 / 12%);
-	--danger-line: rgb(255 111 117 / 45%);
-	--orange: #ffa367;
-	--orange-soft: rgb(255 163 103 / 12%);
-	--orange-line: rgb(255 163 103 / 42%);
-	--middle-rank: #c4b5fd;
-	--middle-rank-soft: rgb(196 181 253 / 12%);
-	--middle-rank-line: rgb(196 181 253 / 42%);
-	--green: #54d6a8;
-	--green-soft: rgb(84 214 168 / 12%);
-	--green-line: rgb(84 214 168 / 40%);
-	--scrim: rgb(0 0 0 / 62%);
+	--canvas: var(--color-canvas-dark);
+	--surface: var(--color-shell-surface);
+	--surface-soft: var(--color-shell-surface-soft-2);
+	--surface-alt: var(--color-surface-alt-2);
+	--ink: var(--color-text-dark);
+	--muted: var(--color-shell-text-muted-3);
+	--faint: var(--color-row-remove-color);
+	--line: var(--color-shell-hairline-3);
+	--line-strong: var(--color-line-strong-2);
+	--primary: var(--color-primary);
+	--primary-active: var(--color-primary-hover);
+	--primary-dark: var(--color-shell-focus);
+	--on-primary: var(--color-white);
+	--on-danger: var(--color-on-danger);
+	--focus: var(--color-shell-focus);
+	--primary-soft: var(--color-shell-nav-wash-2);
+	--primary-line: var(--color-primary-line-2);
+	--danger: var(--color-row-remove-danger);
+	--danger-fill: var(--color-danger-fill);
+	--danger-soft: var(--color-row-remove-background);
+	--danger-line: var(--color-row-remove-border);
+	--orange: var(--color-orange-2);
+	--orange-soft: var(--color-orange-soft-2);
+	--orange-line: var(--color-orange-line-2);
+	--middle-rank: var(--color-middle-rank-2);
+	--middle-rank-soft: var(--color-middle-rank-soft-2);
+	--middle-rank-line: var(--color-middle-rank-line-2);
+	--green: var(--color-green-2);
+	--green-soft: var(--color-green-soft-2);
+	--green-line: var(--color-green-line-2);
+	--scrim: var(--color-shell-overlay-3);
 }
 
 @media (prefers-color-scheme: dark) {
 	.site-shell[data-theme='auto'] .team-maker-page {
 		color-scheme: dark;
-		--canvas: #1a1918;
-		--surface: #262523;
-		--surface-soft: #2f2e2b;
-		--surface-alt: #373531;
-		--ink: #f2f0ed;
-		--muted: #c3bdb6;
-		--faint: #a7a099;
-		--line: #403d3a;
-		--line-strong: #514d49;
-		--primary: #0075de;
-		--primary-active: #005bab;
-		--primary-dark: #62aef0;
-		--on-primary: #ffffff;
-		--on-danger: #180b33;
-		--focus: #62aef0;
-		--primary-soft: rgb(0 117 222 / 16%);
-		--primary-line: rgb(0 117 222 / 42%);
-		--danger: #ff9096;
-		--danger-fill: #ff6f75;
-		--danger-soft: rgb(255 111 117 / 12%);
-		--danger-line: rgb(255 111 117 / 45%);
-		--orange: #ffa367;
-		--orange-soft: rgb(255 163 103 / 12%);
-		--orange-line: rgb(255 163 103 / 42%);
-		--middle-rank: #c4b5fd;
-		--middle-rank-soft: rgb(196 181 253 / 12%);
-		--middle-rank-line: rgb(196 181 253 / 42%);
-		--green: #54d6a8;
-		--green-soft: rgb(84 214 168 / 12%);
-		--green-line: rgb(84 214 168 / 40%);
-		--scrim: rgb(0 0 0 / 62%);
+		--canvas: var(--color-canvas-dark);
+		--surface: var(--color-shell-surface);
+		--surface-soft: var(--color-shell-surface-soft-2);
+		--surface-alt: var(--color-surface-alt-2);
+		--ink: var(--color-text-dark);
+		--muted: var(--color-shell-text-muted-3);
+		--faint: var(--color-row-remove-color);
+		--line: var(--color-shell-hairline-3);
+		--line-strong: var(--color-line-strong-2);
+		--primary: var(--color-primary);
+		--primary-active: var(--color-primary-hover);
+		--primary-dark: var(--color-shell-focus);
+		--on-primary: var(--color-white);
+		--on-danger: var(--color-on-danger);
+		--focus: var(--color-shell-focus);
+		--primary-soft: var(--color-shell-nav-wash-2);
+		--primary-line: var(--color-primary-line-2);
+		--danger: var(--color-row-remove-danger);
+		--danger-fill: var(--color-danger-fill);
+		--danger-soft: var(--color-row-remove-background);
+		--danger-line: var(--color-row-remove-border);
+		--orange: var(--color-orange-2);
+		--orange-soft: var(--color-orange-soft-2);
+		--orange-line: var(--color-orange-line-2);
+		--middle-rank: var(--color-middle-rank-2);
+		--middle-rank-soft: var(--color-middle-rank-soft-2);
+		--middle-rank-line: var(--color-middle-rank-line-2);
+		--green: var(--color-green-2);
+		--green-soft: var(--color-green-soft-2);
+		--green-line: var(--color-green-line-2);
+		--scrim: var(--color-shell-overlay-3);
 	}
 }
 
@@ -229,22 +230,22 @@ html.team-maker-dialog-open body {
 @keyframes tm-win-pulse {
 	0% {
 		box-shadow:
-			0 0 0 0 rgb(0 117 222 / 34%),
-			0 2px 8px rgb(28 30 38 / 6%);
+			0 0 0 0 var(--color-box-shadow-24),
+			0 2px 8px var(--color-box-shadow-2);
 		transform: scale(1) translateY(0);
 	}
 
 	22% {
 		box-shadow:
-			0 0 0 10px rgb(0 117 222 / 16%),
-			0 18px 34px rgb(0 117 222 / 28%);
+			0 0 0 10px var(--color-shell-nav-wash-2),
+			0 18px 34px var(--color-box-shadow-25);
 		transform: scale(1.045) translateY(-6px);
 	}
 
 	46% {
 		box-shadow:
-			0 0 0 16px rgb(0 117 222 / 0%),
-			0 10px 24px rgb(0 117 222 / 18%);
+			0 0 0 16px var(--color-shell-page-background-3),
+			0 10px 24px var(--color-box-shadow-26);
 		transform: scale(0.995) translateY(0);
 	}
 
@@ -253,7 +254,7 @@ html.team-maker-dialog-open body {
 	}
 
 	100% {
-		box-shadow: 0 8px 22px rgb(0 117 222 / 16%);
+		box-shadow: 0 8px 22px var(--color-shell-nav-wash-2);
 		transform: scale(1) translateY(0);
 	}
 }

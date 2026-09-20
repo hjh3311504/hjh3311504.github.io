@@ -3,6 +3,7 @@
 </script>
 
 <Dialog
+	size="wide"
 	id="player-stats-dialog"
 	class="app-dialog stats-dialog"
 	title="참가자 통계"

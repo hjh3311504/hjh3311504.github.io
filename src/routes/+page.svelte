@@ -224,7 +224,7 @@
 		flex: 1 1 auto;
 		justify-content: center;
 		width: 100%;
-		padding: clamp(40px, 7vw, 88px) clamp(16px, 4vw, 40px) clamp(56px, 9vw, 96px);
+		padding: var(--space-80) var(--space-40);
 		font-family:
 			'SUIT',
 			'SUIT Full',
@@ -232,38 +232,38 @@
 			BlinkMacSystemFont,
 			'Segoe UI',
 			sans-serif;
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		line-height: 1.5;
 	}
 
 	:global(.home-card) {
 		display: flex;
 		flex-direction: column;
-		gap: 28px;
+		gap: var(--space-28);
 		width: 100%;
 		max-width: 720px;
-		padding: clamp(24px, 4vw, 36px);
+		padding: var(--space-24);
 		overflow: hidden;
 		color: var(--shell-text-body);
 		background: var(--shell-surface);
 		border: 1px solid var(--shell-hairline);
 		border-radius: 14px;
 		box-shadow:
-			inset 0 1px 0 rgb(255 255 255 / 90%),
-			0 1px 2px rgb(28 30 38 / 6%),
-			0 14px 32px -12px rgb(28 30 38 / 20%);
+			inset 0 1px 0 var(--color-box-shadow),
+			0 1px 2px var(--color-box-shadow-2),
+			0 14px 32px -12px var(--color-box-shadow-3);
 	}
 
 	:global(.home-intro) {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: var(--space-12);
 	}
 
 	.eyebrow,
 	.project-kind {
 		color: var(--shell-text-muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-weight: 600;
 		line-height: 1.33;
 		letter-spacing: 0.125px;
@@ -278,7 +278,7 @@
 
 	.home-stage :global(h1) {
 		margin: 0;
-		font-size: clamp(36px, 5vw, 45px);
+		font-size: var(--font-size-44);
 		font-weight: 700;
 		line-height: 1.15;
 		letter-spacing: -0.75px;
@@ -288,7 +288,7 @@
 		max-width: 46ch;
 		margin: 0;
 		color: var(--shell-text-muted);
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		line-height: 1.65;
 		word-break: keep-all;
 	}
@@ -296,34 +296,34 @@
 	.intro-links {
 		display: flex;
 		align-items: center;
-		gap: 8px;
-		margin-top: 8px;
+		gap: var(--space-8);
+		margin-top: var(--space-8);
 	}
 
 	:global(.github-link) {
 		display: inline-flex;
 		align-items: center;
-		gap: 8px;
+		gap: var(--space-8);
 		height: 40px;
-		padding: 0 14px;
+		padding: 0 var(--space-16);
 		color: var(--shell-text-body);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-weight: 600;
 		text-decoration: none;
 		background: var(--shell-surface);
 		border: 1px solid color-mix(in srgb, var(--shell-hairline), var(--shell-text-muted) 20%);
 		border-radius: 8px;
 		box-shadow:
-			0 1px 2px rgb(28 30 38 / 5%),
-			0 4px 12px -4px rgb(28 30 38 / 12%);
+			0 1px 2px var(--color-box-shadow-4),
+			0 4px 12px -4px var(--color-box-shadow-5);
 	}
 
 	:global(.github-link:hover) {
 		color: var(--shell-text-heading);
 		background: var(--shell-surface-soft);
 		box-shadow:
-			0 2px 4px rgb(28 30 38 / 6%),
-			0 16px 34px -12px rgb(28 30 38 / 26%);
+			0 2px 4px var(--color-box-shadow-2),
+			0 16px 34px -12px var(--color-box-shadow-6);
 	}
 
 	:global(.github-link:focus-visible),
@@ -335,15 +335,15 @@
 	:global(.browse) {
 		display: flex;
 		flex-direction: column;
-		gap: 14px;
-		padding-top: 4px;
+		gap: var(--space-16);
+		padding-top: var(--space-4);
 		border-top: 1px solid var(--shell-hairline);
 	}
 
 	:global(.browse) :global(h2) {
-		padding-top: 20px;
+		padding-top: var(--space-20);
 		margin: 0;
-		font-size: 18px;
+		font-size: var(--font-size-18);
 		font-weight: 700;
 		line-height: 1.4;
 		letter-spacing: -0.2px;
@@ -352,7 +352,7 @@
 	:global(.browse) ul {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: var(--space-12);
 		padding: 0;
 		margin: 0;
 		list-style: none;
@@ -361,17 +361,17 @@
 	:global(.project-card) {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 18px;
+		gap: var(--space-20);
 		align-items: center;
-		padding: 20px;
+		padding: var(--space-20);
 		color: var(--shell-text-body);
 		text-decoration: none;
 		background: var(--shell-surface);
 		border: 1px solid var(--shell-hairline);
 		border-radius: 14px;
 		box-shadow:
-			0 1px 2px rgb(28 30 38 / 5%),
-			0 4px 12px -4px rgb(28 30 38 / 12%);
+			0 1px 2px var(--color-box-shadow-4),
+			0 4px 12px -4px var(--color-box-shadow-5);
 		transition:
 			border-color 200ms cubic-bezier(0.2, 0, 0.2, 1),
 			box-shadow 260ms cubic-bezier(0.2, 0, 0.2, 1);
@@ -381,8 +381,8 @@
 		text-decoration: none;
 		border-color: var(--shell-nav-accent);
 		box-shadow:
-			0 2px 4px rgb(28 30 38 / 6%),
-			0 16px 34px -12px rgb(28 30 38 / 26%);
+			0 2px 4px var(--color-box-shadow-2),
+			0 16px 34px -12px var(--color-box-shadow-6);
 	}
 
 	.project-icon {
@@ -392,39 +392,39 @@
 		justify-content: center;
 		width: 56px;
 		height: 56px;
-		color: #fff;
-		background: #2a9d99;
+		color: var(--color-white);
+		background: var(--color-background);
 		border-radius: 12px;
-		box-shadow: 0 6px 16px -6px rgb(42 157 153 / 70%);
+		box-shadow: 0 6px 16px -6px var(--color-box-shadow-7);
 	}
 
 	.qr-project-icon {
-		background: #6d4bc3;
-		box-shadow: 0 6px 16px -6px rgb(109 75 195 / 70%);
+		background: var(--color-background-2);
+		box-shadow: 0 6px 16px -6px var(--color-box-shadow-8);
 	}
 
 	.marble-project-icon {
-		background: #3274d9;
-		box-shadow: 0 6px 16px -6px rgb(50 116 217 / 70%);
+		background: var(--color-background-3);
+		box-shadow: 0 6px 16px -6px var(--color-box-shadow-9);
 	}
 
 	.project-copy {
 		display: flex;
 		flex: 1 1 260px;
 		flex-direction: column;
-		gap: 6px;
+		gap: var(--space-8);
 		min-width: 0;
 	}
 
 	.project-title-row {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 12px;
+		gap: var(--space-12);
 		align-items: baseline;
 	}
 
 	.project-title {
-		font-size: 20px;
+		font-size: var(--font-size-20);
 		font-weight: 700;
 		line-height: 1.3;
 		letter-spacing: -0.4px;
@@ -432,7 +432,7 @@
 
 	.project-description {
 		color: var(--shell-text-muted);
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		line-height: 1.65;
 		word-break: keep-all;
 	}
@@ -441,18 +441,18 @@
 		display: inline-flex;
 		flex: none;
 		align-items: center;
-		gap: 8px;
+		gap: var(--space-8);
 		height: 40px;
-		padding: 0 16px;
-		color: #fff;
-		font-size: 14px;
+		padding: 0 var(--space-16);
+		color: var(--color-white);
+		font-size: var(--font-size-14);
 		font-weight: 700;
 		line-height: 1;
-		background: #0075de;
+		background: var(--color-primary);
 		border-radius: 8px;
 		box-shadow:
-			0 1px 2px rgb(0 117 222 / 22%),
-			0 8px 18px -8px rgb(0 117 222 / 50%);
+			0 1px 2px var(--color-box-shadow-10),
+			0 8px 18px -8px var(--color-box-shadow-11);
 	}
 
 	:global(.privacy-footer-link) {
@@ -461,8 +461,8 @@
 
 	:global(.home-guide) {
 		display: grid;
-		gap: 16px;
-		padding-top: 24px;
+		gap: var(--space-16);
+		padding-top: var(--space-24);
 		border-top: 1px solid var(--shell-hairline);
 		line-height: 1.75;
 		word-break: keep-all;
@@ -471,7 +471,7 @@
 
 	:global(.home-guide) :global(h2) {
 		margin: 0;
-		font-size: 20px;
+		font-size: var(--font-size-20);
 	}
 
 	:global(.home-guide) p,
@@ -482,7 +482,7 @@
 	}
 
 	:global(.home-guide) dt {
-		margin: 16px 0 4px;
+		margin: var(--space-16) 0 var(--space-4);
 		font-weight: 700;
 	}
 
@@ -500,10 +500,10 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: 12px;
-		padding: 16px clamp(24px, 4vw, 36px);
-		margin: auto calc(-1 * clamp(24px, 4vw, 36px)) calc(-1 * clamp(24px, 4vw, 36px));
-		font-size: 14px;
+		gap: var(--space-12);
+		padding: var(--space-16) var(--space-24);
+		margin: auto calc(-1 * var(--space-24)) calc(-1 * var(--space-24));
+		font-size: var(--font-size-14);
 		line-height: 1.6;
 		background: var(--shell-surface);
 		border-top: 1px solid var(--shell-hairline);
@@ -524,6 +524,27 @@
 		.open-button {
 			width: 100%;
 			justify-content: center;
+		}
+	}
+	@media (max-width: 1024px) {
+		.home-stage {
+			padding: var(--space-64) var(--space-32) var(--space-80);
+		}
+	}
+	@media (max-width: 760px) {
+		.home-stage {
+			padding: var(--space-40) var(--space-16) var(--space-60);
+		}
+		:global(.home-card) {
+			padding: var(--space-16);
+		}
+		footer {
+			padding: var(--space-16);
+			margin: auto calc(-1 * var(--space-16)) calc(-1 * var(--space-16));
+		}
+
+		.home-stage :global(h1) {
+			font-size: var(--font-size-36);
 		}
 	}
 </style>

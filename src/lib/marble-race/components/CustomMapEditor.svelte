@@ -52,6 +52,7 @@
 		</div>{/each}
 </div>
 <Dialog
+	scroll="body"
 	bind:element={dialog}
 	class="custom-map-dialog"
 	title="내 맵 만들기"
@@ -60,7 +61,7 @@
 	descriptionId="custom-map-description"
 	closeAction={() => dialog.close()}
 >
-	<div class="custom-map-body">
+	<div class="custom-map-body" data-ui-dialog-body>
 		<label for="custom-map-name">맵 이름</label>
 		<input id="custom-map-name" class="ui-field map-name-field" bind:value={name} maxlength="40" />
 		<div class="layer-list">
@@ -118,93 +119,54 @@
 <style>
 	.custom-map-tools {
 		display: grid;
-		gap: 8px;
-		margin-top: 12px;
+		gap: var(--space-8);
+		margin-top: var(--space-12);
 	}
 	.custom-map-row {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: var(--space-8);
 	}
 	.custom-map-row span {
 		flex: 1;
 	}
-	:global(.custom-map-dialog[open]) {
-		display: flex;
-		flex-direction: column;
-		position: fixed;
-		inset: 0;
-		width: min(520px, calc(100vw - 32px));
-		max-height: calc(100dvh - 32px);
-		padding: 0;
-		margin: auto;
-		overflow: hidden;
-	}
-	:global(.custom-map-dialog::backdrop) {
-		background: rgb(20 24 32 / 52%);
-	}
-	:global(.custom-map-dialog .ui-dialog-header) {
-		flex: none;
-		padding: 24px 24px 18px;
-		border-bottom: 1px solid var(--ui-border);
-	}
-	:global(.custom-map-dialog .ui-dialog-header h2) {
-		font-size: 22px;
-	}
-	:global(.custom-map-dialog .ui-dialog-header p) {
-		margin-top: 6px;
-		color: var(--ui-text-muted);
-		font-size: 14px;
-		line-height: 1.6;
-	}
-	:global(.custom-map-dialog .dialog-close) {
-		color: var(--ui-text-muted);
-		background: transparent;
-		border-color: transparent;
-	}
-	:global(.custom-map-dialog .ui-dialog-actions) {
-		flex: none;
-		padding: 16px 24px;
-		border-top: 1px solid var(--ui-border);
-	}
 	.custom-map-body {
 		min-height: 0;
-		padding: 20px 24px;
 		overflow-y: auto;
 	}
 	label {
 		display: block;
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		font-weight: 600;
 	}
 	.map-name-field {
-		margin-top: 8px;
+		margin-top: var(--space-8);
 	}
 	.layer-list {
 		display: grid;
-		gap: 16px;
-		margin-top: 20px;
+		gap: var(--space-16);
+		margin-top: var(--space-20);
 	}
 	.layer-editor {
 		display: grid;
-		gap: 8px;
+		gap: var(--space-8);
 	}
 	.layer-controls {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto auto;
 		align-items: center;
-		gap: 8px;
+		gap: var(--space-8);
 	}
 	.layer-controls :global(.ui-button) {
 		height: 44px;
-		padding: 0 12px;
+		padding: 0 var(--space-12);
 	}
 	input,
 	select {
 		width: 100%;
 		min-width: 0;
 		height: 44px;
-		padding: 0 12px;
+		padding: 0 var(--space-12);
 		font: inherit;
 	}
 	.layer-select {
@@ -213,7 +175,7 @@
 	}
 	select {
 		appearance: none;
-		padding-right: 36px;
+		padding-right: var(--space-36);
 		cursor: pointer;
 	}
 	.layer-select svg {
@@ -226,8 +188,8 @@
 	}
 	.map-note,
 	.map-error {
-		margin: 20px 0 0;
-		font-size: 14px;
+		margin: var(--space-20) 0 0;
+		font-size: var(--font-size-14);
 		line-height: 1.6;
 	}
 	.map-note {
@@ -237,11 +199,9 @@
 		color: var(--ui-danger);
 	}
 	@media (max-width: 520px) {
-		:global(.custom-map-dialog .ui-dialog-header),
-		:global(.custom-map-dialog .ui-dialog-actions),
 		.custom-map-body {
-			padding-left: 16px;
-			padding-right: 16px;
+			padding-left: var(--space-16);
+			padding-right: var(--space-16);
 		}
 	}
 </style>

@@ -25,13 +25,13 @@
 	}
 	span {
 		max-width: min(100%, 480px);
-		padding: 12px 20px;
+		padding: var(--space-12) var(--space-20);
 		border: 1px solid var(--ui-border-strong);
 		border-radius: var(--ui-radius-md);
 		background: var(--ui-surface);
 		color: var(--ui-text);
-		box-shadow: 0 4px 20px rgb(0 0 0 / 18%);
-		font-size: 16px;
+		box-shadow: 0 4px 20px var(--color-box-shadow-17);
+		font-size: var(--font-size-16);
 		line-height: 1.5;
 		text-align: center;
 		overflow-wrap: anywhere;

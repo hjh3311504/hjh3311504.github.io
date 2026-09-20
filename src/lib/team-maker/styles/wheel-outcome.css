@@ -1,13 +1,13 @@
 @scope (.team-maker-page) {
 	.wheel-side-head {
 		display: flex;
-		gap: 8px;
+		gap: var(--space-8);
 		align-items: center;
 		justify-content: space-between;
 	}
 
 	.picked-card {
-		padding: 12px;
+		padding: var(--space-12);
 		background: var(--surface-soft);
 		border: 1px solid var(--line);
 		border-radius: 12px;
@@ -15,10 +15,10 @@
 
 	.picked-clear {
 		min-height: 0;
-		padding: 2px 4px;
+		padding: var(--space-2) var(--space-4);
 		color: var(--danger);
 		font: inherit;
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-weight: 650;
 		background: transparent;
 		border: 0;
@@ -33,7 +33,7 @@
 	.wheel-result[data-picked='true'] {
 		display: flex;
 		flex-direction: column;
-		gap: 2px;
+		gap: var(--space-2);
 		align-items: center;
 		background: transparent;
 		border-color: transparent;
@@ -41,10 +41,10 @@
 
 	.wheel-outcome-eyebrow {
 		display: inline-flex;
-		gap: 6px;
+		gap: var(--space-8);
 		align-items: center;
 		color: var(--green);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		font-feature-settings: 'tnum';
 		font-weight: 750;
 	}
@@ -58,7 +58,7 @@
 	.wheel-outcome-name {
 		color: var(--ink);
 		font-family: 'SUITE', 'SUIT', sans-serif;
-		font-size: 24px;
+		font-size: var(--font-size-24);
 		font-weight: 850;
 	}
 
