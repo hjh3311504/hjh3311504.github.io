@@ -83,13 +83,13 @@
 <style>
 	.marble-guide {
 		display: grid;
-		gap: 16px;
-		margin-top: 32px;
+		gap: var(--space-16);
+		margin-top: var(--space-32);
 	}
 	.guide-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 24px;
+		gap: var(--space-24);
 		padding: 0;
 		margin: 0;
 		list-style-position: inside;
@@ -102,8 +102,8 @@
 		font-weight: 700;
 	}
 	h3 {
-		margin: 0 0 8px;
-		font-size: 18px;
+		margin: 0 0 var(--space-8);
+		font-size: var(--font-size-18);
 		line-height: 1.5;
 		color: var(--ui-text);
 	}
@@ -111,22 +111,22 @@
 		display: inline;
 	}
 	p {
-		margin: 8px 0 0;
-		font-size: 16px;
+		margin: var(--space-8) 0 0;
+		font-size: var(--font-size-16);
 		line-height: 1.75;
 		color: var(--ui-text-muted);
 		word-break: keep-all;
 		overflow-wrap: anywhere;
 	}
 	p.guide-intro {
-		margin: 0 0 24px;
+		margin: 0 0 var(--space-24);
 	}
 	p.guide-links {
-		margin-top: 24px;
+		margin-top: var(--space-24);
 	}
 	.guide-faq {
 		display: grid;
-		gap: 24px;
+		gap: var(--space-24);
 	}
 	a {
 		color: var(--ui-primary);
@@ -136,7 +136,7 @@
 	@media (max-width: 760px) {
 		.guide-grid {
 			grid-template-columns: 1fr;
-			gap: 20px;
+			gap: var(--space-20);
 		}
 	}
 </style>

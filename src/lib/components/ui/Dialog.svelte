@@ -3,6 +3,8 @@
 
 	let {
 		id,
+		size = 'md',
+		scroll = 'dialog',
 		element = $bindable(),
 		title = '',
 		titleId,
@@ -34,6 +36,8 @@
 	aria-labelledby={titleId ?? ariaLabelledBy}
 	aria-describedby={describedBy ?? ariaDescribedBy}
 	data-ui-dialog
+	data-size={size}
+	data-scroll={scroll}
 >
 	{#if beforeHeader}{@render beforeHeader()}{/if}
 	{#if header}

@@ -1,20 +1,17 @@
 <script>
+	import QrDialogs from '$lib/qr-code/components/QrDialogs.svelte';
+	import QrGuide from '$lib/qr-code/components/QrGuide.svelte';
+	import QrPreviewSection from '$lib/qr-code/components/QrPreviewSection.svelte';
+	import QrBookmarksSection from '$lib/qr-code/components/QrBookmarksSection.svelte';
+	import QrInputSection from '$lib/qr-code/components/QrInputSection.svelte';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { SvelteMap } from 'svelte/reactivity';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
-	import ToolPageHeader from '$lib/components/organisms/ToolPageHeader.svelte';
+	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
 	import ToolPageFooter from '$lib/components/organisms/ToolPageFooter.svelte';
-	import RemoveRowButton from '$lib/components/ui/RemoveRowButton.svelte';
-	import {
-		Button,
-		Dialog,
-		DisclosureSection,
-		Section,
-		SectionHeader,
-		EmptyState
-	} from '$lib/components/ui';
+
 	import { siteBaseUrl, image as shareImage } from '$lib/data/meta.js';
-	import QrPreview from '$lib/qr-code/QrPreview.svelte';
+
 	import { prepareTitle } from '$lib/qr-code/title.js';
 	import { pendingTitle } from '$lib/qr-code/title-layout.js';
 	import { limitTitle } from '$lib/qr-code/title-input.js';
@@ -178,6 +175,13 @@
 		}
 	}
 
+	function openBookmark(item) {
+		pasteError = '';
+		content = item.content;
+		title = item.title;
+		titleField = item.title;
+	}
+
 	function removeBookmark(index) {
 		const item = bookmarks[index];
 		if (persist(bookmarks.filter((_, i) => i !== index))) {
@@ -311,302 +315,70 @@
 </svelte:head>
 
 <SiteShell active="qr-code" variant="qr-code">
-	<main class="qr-page">
-		<ToolPageHeader
-			class="qr-heading"
-			title="QR 코드 만들기"
-			description="긴 주소도, 짧은 메모도. 스캔 한 번으로 전달하세요."
-		/>
+	<ToolPageLayout
+		class="qr-page"
+		headerClass="qr-heading"
+		title="QR 코드 만들기"
+		description="긴 주소도, 짧은 메모도. 스캔 한 번으로 전달하세요."
+	>
 		<noscript><p>QR 코드를 만들려면 브라우저에서 JavaScript를 켜세요.</p></noscript>
 		<div class="qr-workspace">
 			<div class="qr-editor">
-				<Section variant="card" class="qr-panel" aria-labelledby="qr-input-title">
-					<SectionHeader
-						class="qr-section-header"
-						step={1}
-						title="내용을 입력하세요"
-						titleId="qr-input-title"
-					/>
-					<label for="qr-content"
-						>웹페이지 주소 <span class="required-label" aria-label="필수">*</span></label
-					>
-					<input
-						type="url"
-						id="qr-content"
-						bind:value={content}
-						oninput={() => (pasteError = '')}
-						onpaste={checkPastedContent}
-						ondrop={checkPastedContent}
-						placeholder="https://example.com"
-						aria-describedby="qr-content-help"
-						aria-invalid={Boolean(inputError || error)}
-						spellcheck="false"
-					/>
-					<p
-						id="qr-content-help"
-						class="field-help"
-						class:qr-field-error={Boolean(inputError || error)}
-						role={inputError || error ? 'alert' : undefined}
-					>
-						{inputError || error || '웹페이지는 https://를 포함한 전체 주소를 넣으세요.'}
-					</p>
-					<label for="qr-title">제목</label>
-					<input
-						id="qr-title"
-						value={titleField}
-						oninput={updateTitle}
-						oncompositionend={updateTitle}
-						placeholder="예: 오늘의 수업 자료"
-						aria-describedby="qr-title-help"
-					/>
-					<p id="qr-title-help" class="field-help">
-						QR 이미지 아래에 한 줄로 표시됩니다(최대 10자).
-					</p>
-				</Section>
-				<Section variant="card" class="qr-panel qr-bookmarks" aria-labelledby="qr-bookmarks-title">
-					<SectionHeader class="qr-section-header" title="내 북마크" titleId="qr-bookmarks-title"
-						>{#snippet titleSuffix()}<span class="count">{bookmarks.length}</span
-							>{/snippet}</SectionHeader
-					>
-					<div class="qr-bookmark-content">
-						{#if bookmarks.length}
-							<ul>
-								{#each bookmarks as item, index (index)}<li>
-										<Button
-											variant="ghost"
-											class="bookmark-open"
-											onclick={() => {
-												pasteError = '';
-												content = item.content;
-												title = item.title;
-												titleField = item.title;
-											}}
-											><strong>{item.title || '제목 없는 QR 코드'}</strong><span
-												>{item.content}</span
-											></Button
-										><RemoveRowButton
-											label={`${item.title || '제목 없는 QR 코드'} 북마크 삭제`}
-											onclick={() => removeBookmark(index)}
-										/>
-									</li>{/each}
-							</ul>
-						{:else}<EmptyState
-								class="bookmark-empty"
-								title="자주 쓰는 QR 코드를 모아 두세요."
-								description="만든 뒤 ‘북마크에 저장’을 누르면 다시 꺼내 쓸 수 있습니다."
-							/>{/if}
-					</div>
-					{#if deleted}<Button variant="ghost" size="sm" onclick={undoDelete}
-							>북마크 삭제 취소</Button
-						>{/if}
-					{#if storageError}<p class="qr-error" role="alert">{storageError}</p>{/if}
-				</Section>
+				<QrInputSection
+					bind:content
+					onContentInput={() => (pasteError = '')}
+					{titleField}
+					{error}
+					{inputError}
+					{checkPastedContent}
+					{updateTitle}
+				/>
+				<QrBookmarksSection
+					onopen={openBookmark}
+					{storageError}
+					{bookmarks}
+					{deleted}
+					{removeBookmark}
+					{undoDelete}
+				/>
 			</div>
-			<Section
-				variant="card"
-				class="qr-panel qr-preview-panel"
-				aria-labelledby="qr-preview-title"
-				aria-busy={busy}
-			>
-				<SectionHeader
-					class="qr-section-header"
-					step={2}
-					title="미리보기"
-					titleId="qr-preview-title"
-					>{#snippet meta()}<span class="local-badge">PNG · SVG</span>{/snippet}</SectionHeader
-				>
-				<QrPreview qrPath={qr?.path} {title} {busy} />
-				<div class="qr-download-actions">
-					<Button
-						variant="primary"
-						aria-busy={outputAction === 'png'}
-						disabled={!qrReady || Boolean(outputAction)}
-						onclick={() => download('png')}>PNG 저장</Button
-					>
-					<Button
-						variant="outline"
-						class="qr-svg-download"
-						disabled={!svgReady || Boolean(outputAction)}
-						aria-busy={outputAction === 'svg'}
-						onclick={() => download('svg')}>SVG 저장</Button
-					>
-				</div>
-				<div class="qr-actions">
-					<Button
-						variant="outline"
-						disabled={!qrReady || Boolean(outputAction)}
-						aria-busy={outputAction === 'copy'}
-						onclick={copyImage}>이미지 복사</Button
-					><Button variant="outline" disabled={!qrReady} onclick={() => expandedDialog?.showModal()}
-						>크게 보기</Button
-					>
-				</div>
-				<div class="qr-actions qr-secondary-actions">
-					<Button
-						class="qr-save"
-						variant="outline"
-						disabled={!qrReady || saved}
-						onclick={saveBookmark}>{saved ? '북마크에 저장됨' : '북마크에 저장'}</Button
-					>
-					<Button
-						variant="outline"
-						disabled={!qrReady || Boolean(outputAction)}
-						aria-busy={outputAction === 'print'}
-						onclick={openPrint}>인쇄</Button
-					>
-				</div>
-				{#if outputError || displayedTitle.svgError}
-					<div class="qr-svg-notice">
-						{#if outputError}<p role="alert">{outputError}</p>{/if}
-						{#if displayedTitle.svgError}<p role="status">{displayedTitle.svgError}</p>{/if}
-						{#if displayedTitle.canRetrySvg}<Button
-								variant="ghost"
-								size="sm"
-								disabled={titleBusy}
-								aria-busy={titleBusy}
-								onclick={() => retryVersion++}>SVG 다시 시도</Button
-							>{/if}
-					</div>
-				{/if}
-			</Section>
+			<QrPreviewSection
+				{title}
+				{qr}
+				{titleBusy}
+				{outputAction}
+				{busy}
+				{outputError}
+				{expandedDialog}
+				bind:retryVersion
+				{qrReady}
+				{displayedTitle}
+				{svgReady}
+				{saved}
+				{saveBookmark}
+				{download}
+				{copyImage}
+				{openPrint}
+			/>
 		</div>
-		<div class="qr-guide">
-			<DisclosureSection title="QR 코드, 이렇게 사용하세요" titleId="qr-guide-title">
-				<p class="qr-guide-intro">
-					모임 신청 주소를 작은 안내지 12장으로 나누는 예제입니다. 먼저 신청서나 안내 페이지를
-					만들고, 다른 사람도 열 수 있는 공유 주소를 준비하세요.
-				</p>
-				<ol class="qr-guide-steps">
-					<li>
-						<h3>1. 주소와 제목 입력</h3>
-						<p>
-							웹페이지 주소에 https://를 포함한 신청 주소를 붙여넣으세요. 제목에는 ‘모임 신청’처럼
-							용도를 적으세요. 제목은 최대 10자이며 QR 아래에만 표시됩니다. 스캔해서 열리는 주소에는
-							제목이 추가되지 않습니다.
-						</p>
-					</li>
-					<li>
-						<h3>2. 스캔 확인</h3>
-						<p>
-							‘크게 보기’를 누르고 휴대폰 카메라로 QR을 비추세요. 의도한 신청 페이지가 열리는지
-							확인하세요. 작성자 계정으로만 열리는 페이지라면 공유 권한부터 수정하세요. QR을
-							만든다고 원래 페이지의 접근 권한이 바뀌지는 않습니다.
-						</p>
-					</li>
-					<li>
-						<h3>3. 저장·복사·인쇄</h3>
-						<p>
-							‘인쇄’를 누르고 ‘3열×4행 — 12개’를 고른 뒤 ‘인쇄하기’를 누르세요. 같은 QR과 제목이 A4
-							한 장에 12개 배치됩니다. 브라우저 인쇄 설정에서 A4 세로·배율 100%로 맞추고 머리글과
-							바닥글을 끈 뒤 한 장에 들어가는지 확인하세요. 1개·30개 배열도 선택할 수 있습니다.
-						</p>
-						<p>
-							먼저 한 장을 인쇄해 잘린 부분과 QR 주변의 흰 여백을 확인하세요. 실제 종이를 휴대폰으로
-							스캔해 본 뒤 필요한 수량을 인쇄하세요. 문서에 넣을 이미지는 PNG로 저장하고, 확대해서
-							쓸 이미지는 SVG로 저장할 수 있습니다.
-						</p>
-					</li>
-				</ol>
-			</DisclosureSection>
-			<DisclosureSection title="자주 묻는 질문" titleId="qr-faq-title">
-				<div class="qr-faq">
-					<article>
-						<h3>유효기간이나 주소 변경은 어떻게 되나요?</h3>
-						<p>
-							QR 이미지 자체에는 만료일이 없지만 연결한 페이지는 유지되어야 합니다. QR에는 입력한
-							주소가 그대로 담기므로 이미 배포한 QR의 연결 주소를 이 도구에서 바꿀 수 없습니다.
-							주소가 바뀌면 새 주소를 입력하고 스캔을 확인한 뒤 이미지를 다시 저장하거나 인쇄하세요.
-							기존 안내지와 문서의 QR도 교체하세요.
-						</p>
-					</article>
-					<article>
-						<h3>PNG와 SVG는 어떻게 다른가요?</h3>
-						<p>
-							PNG는 문서에 넣기 편하고, SVG는 확대해도 선명하며 제목을 도형으로 저장합니다. SVG에서
-							지원하지 않는 이모지 등은 PNG를 사용하세요.
-						</p>
-					</article>
-					<article>
-						<h3>QR이 잘 읽히지 않아요.</h3>
-						<p>
-							QR을 크게 표시하고 주변의 흰 여백을 유지하세요. 인쇄할 때 가로세로 비율을 바꾸거나
-							무늬 일부를 자르지 마세요. 화면에서는 읽히지만 종이에서만 실패한다면 인쇄 번짐을
-							확인하고 12개 또는 1개 배열로 더 크게 출력해 보세요.
-						</p>
-					</article>
-					<article>
-						<h3>북마크는 어디에 저장되나요?</h3>
-						<p>
-							현재 브라우저에만 저장되며 다른 기기와 공유되지 않습니다. 브라우저 데이터를 지우면
-							함께 삭제됩니다.
-						</p>
-					</article>
-				</div>
-			</DisclosureSection>
-		</div>
+		<QrGuide />
 		<ToolPageFooter />
-	</main>
-	<Dialog
-		bind:element={expandedDialog}
-		id="qr-expanded"
-		class="qr-expanded"
-		title="QR 코드 크게 보기"
-		titleId="qr-expanded-title"
-		description="휴대폰 카메라로 QR 코드를 스캔하세요."
-		descriptionId="qr-expanded-help"
-		closeLabel="크게 보기 닫기"
-		closeAction={() => expandedDialog.close()}
-	>
-		<QrPreview qrPath={qr?.path} {title} {busy} />
-	</Dialog>
-	<Dialog
-		bind:element={printDialog}
-		id="qr-print-settings"
-		class="qr-print-settings"
-		title="QR 코드 인쇄"
-		titleId="qr-print-title"
-		description="A4 세로 1장에 같은 QR 코드와 제목을 반복해서 인쇄합니다."
-		descriptionId="qr-print-help"
-		closeLabel="인쇄 설정 닫기"
-		closeAction={cancelPrint}
-		oncancel={(event) => {
-			event.preventDefault();
-			cancelPrint();
-		}}
-	>
-		<fieldset class="qr-print-options" disabled={outputAction === 'print'}>
-			<legend>인쇄 배열</legend>
-			{#each printLayouts as layout (layout.id)}
-				<label
-					><input
-						type="radio"
-						name="qr-print-layout"
-						value={layout.id}
-						bind:group={selectedPrintLayout}
-					/>{layout.label}</label
-				>
-			{/each}
-		</fieldset>
-		{#if printError}<p class="qr-error" role="alert">{printError}</p>{/if}
-		{#snippet actions()}
-			<Button variant="outline" onclick={cancelPrint}>취소</Button>
-			<Button
-				variant="primary"
-				disabled={!qrReady || Boolean(outputAction)}
-				aria-busy={outputAction === 'print'}
-				onclick={printQr}>인쇄하기</Button
-			>
-		{/snippet}
-	</Dialog>
-	{#if printUrl}<div
-			bind:this={printRoot}
-			class="qr-print"
-			class:qr-print-single={printedLayout.id === 'single'}
-			style:--print-columns={printedLayout.columns}
-			style:--print-rows={printedLayout.rows}
-		>
-			{#each Array.from({ length: printedLayout.columns * printedLayout.rows }, (_, index) => index) as index (index)}
-				<div class="qr-print-cell"><img src={printUrl} alt="제목을 포함한 인쇄할 QR 코드" /></div>
-			{/each}
-		</div>{/if}
-</SiteShell>
+	</ToolPageLayout>
+	<QrDialogs
+		{title}
+		{qr}
+		{outputAction}
+		{printUrl}
+		bind:printRoot
+		bind:printDialog
+		{printError}
+		{printLayouts}
+		bind:selectedPrintLayout
+		{printedLayout}
+		{busy}
+		bind:expandedDialog
+		{qrReady}
+		{cancelPrint}
+		{printQr}
+	/></SiteShell
+>

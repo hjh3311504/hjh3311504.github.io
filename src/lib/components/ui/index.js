@@ -1,5 +1,6 @@
 export { default as Button } from './Button.svelte';
 export { default as Dialog } from './Dialog.svelte';
+export { default as FormField } from './FormField.svelte';
 export { default as DisclosureSection } from './DisclosureSection.svelte';
 export { default as EmptyState } from './EmptyState.svelte';
 export { default as IconButton } from './IconButton.svelte';

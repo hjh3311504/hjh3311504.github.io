@@ -32,28 +32,45 @@
 		display: grid;
 		place-items: center;
 		flex: 1;
-		padding: 80px 24px;
+		padding: var(--space-80) var(--space-24);
 	}
 	:global(.error-card) {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 24px;
+		gap: var(--space-24);
 		width: min(100%, 640px);
-		padding: clamp(24px, 5vw, 48px);
+		padding: var(--space-48);
 	}
 	.status {
 		color: var(--shell-nav-accent);
-		font-size: 48px;
+		font-size: var(--font-size-48);
 		font-weight: 800;
 	}
 	h1 {
-		font-size: clamp(24px, 4vw, 32px);
+		font-size: var(--font-size-32);
 		line-height: 1.3;
 	}
 	p {
 		color: var(--shell-text-muted);
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		line-height: 1.7;
+	}
+	@media (max-width: 1024px) {
+		:global(.error-card) {
+			padding: var(--space-32);
+		}
+	}
+	@media (max-width: 760px) {
+		.error-stage {
+			padding: var(--space-40) var(--space-16);
+		}
+		:global(.error-card) {
+			padding: var(--space-16);
+		}
+
+		h1 {
+			font-size: var(--font-size-24);
+		}
 	}
 </style>

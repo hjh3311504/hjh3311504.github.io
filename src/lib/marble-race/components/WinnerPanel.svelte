@@ -19,16 +19,16 @@
 		right: 10px;
 		bottom: 12px;
 		width: min(230px, 58%);
-		border: 1px solid #86dfc5;
-		background: #102c35ef;
-		color: #fff;
+		border: 1px solid var(--color-border-10);
+		background: var(--color-background-26);
+		color: var(--color-white);
 		border-radius: 12px;
 		z-index: 3;
-		padding: 10px;
-		box-shadow: 0 6px 24px #0004;
+		padding: var(--space-12);
+		box-shadow: 0 6px 24px var(--color-box-shadow-21);
 	}
 	strong {
-		font-size: 16px;
+		font-size: var(--font-size-16);
 	}
 	i {
 		width: 16px;
@@ -38,18 +38,18 @@
 	}
 	small {
 		margin-left: auto;
-		font-size: 12px;
+		font-size: var(--font-size-12);
 	}
 	.celebrating {
 		animation: celebrate 0.6s ease-out;
 	}
 	@keyframes celebrate {
 		0% {
-			box-shadow: 0 0 0 0 #fcda79aa;
+			box-shadow: 0 0 0 0 var(--color-box-shadow-22);
 			transform: scale(0.96);
 		}
 		60% {
-			box-shadow: 0 0 0 18px #fcda7900;
+			box-shadow: 0 0 0 18px var(--color-box-shadow-23);
 			transform: scale(1.03);
 		}
 		100% {

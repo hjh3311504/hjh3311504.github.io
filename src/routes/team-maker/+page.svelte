@@ -1,7 +1,7 @@
 <script>
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
-	import ToolPageHeader from '$lib/components/organisms/ToolPageHeader.svelte';
+	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
 	import ToolPageFooter from '$lib/components/organisms/ToolPageFooter.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { DisclosureSection } from '$lib/components/ui';
@@ -139,12 +139,14 @@
 
 <SiteShell active="team-maker" variant="team-maker">
 	<div class="team-maker-page" data-assets-base={teamMakerAssetsBase} bind:this={pageRoot}>
-		<main class="app-shell">
-			<ToolPageHeader
-				class="page-header"
-				title="무료 팀짜기·조짜기"
-				description="팀 메이커는 스포츠·게임·모임 참가자를 무작위로 고르게 나누는 온라인 팀 배정 도구입니다."
-			/>
+		<ToolPageLayout
+			class="app-shell"
+			headerClass="page-header"
+			maxWidth="640px"
+			density="compact"
+			title="무료 팀짜기·조짜기"
+			description="팀 메이커는 스포츠·게임·모임 참가자를 무작위로 고르게 나누는 온라인 팀 배정 도구입니다."
+		>
 			<!-- AD_SLOT_TOP: 실제 광고는 별도 디자인 승인 뒤 이 위치에 추가합니다. -->
 
 			<div id="storage-alert" class="storage-alert" role="alert" hidden>
@@ -307,7 +309,7 @@
 				</DisclosureSection>
 			</div>
 			<ToolPageFooter />
-		</main>
+		</ToolPageLayout>
 		<BulkAddDialog />
 
 		<AssignmentRuleDialog />

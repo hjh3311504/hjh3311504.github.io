@@ -81,7 +81,7 @@
 	.ranking-grid {
 		overflow: auto;
 		overscroll-behavior: contain;
-		margin-top: 12px;
+		margin-top: var(--space-12);
 	}
 	.ranking-grid:focus-visible {
 		outline: 2px solid var(--ui-focus);
@@ -101,11 +101,11 @@
 		display: grid;
 		grid-template-rows: 20px 40px 20px;
 		justify-content: stretch;
-		gap: 2px;
+		gap: var(--space-2);
 		width: 100%;
 		height: 100%;
 		min-width: 0;
-		padding: 8px 12px;
+		padding: var(--space-8) var(--space-12);
 		border-color: var(--ui-border);
 		background: var(--ui-surface-soft);
 		text-align: left;
@@ -116,9 +116,9 @@
 	}
 	.rank-card-head {
 		display: flex;
-		gap: 8px;
+		gap: var(--space-8);
 		align-items: center;
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 	i {
 		width: 16px;
@@ -128,10 +128,10 @@
 	}
 	small {
 		margin-left: auto;
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 	.rank-card-name {
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		line-height: 20px;
 		overflow: hidden;
 		display: -webkit-box;
@@ -143,11 +143,11 @@
 	}
 	.rank-card-status {
 		color: var(--ui-text-muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		line-height: 20px;
 	}
 	.ranking-empty {
 		color: var(--ui-text-muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 </style>

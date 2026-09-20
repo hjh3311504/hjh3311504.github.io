@@ -3,7 +3,7 @@
 		flex: none;
 		width: 20px;
 		color: var(--muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-feature-settings: 'tnum';
 		font-weight: 650;
 		font-variant-numeric: tabular-nums;
@@ -12,7 +12,7 @@
 
 	.participant-row .participant-name {
 		height: 36px;
-		padding: 0 10px;
+		padding: 0 var(--space-12);
 		line-height: 34px;
 		background: transparent;
 		border-color: transparent;

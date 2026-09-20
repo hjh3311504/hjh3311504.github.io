@@ -3,22 +3,22 @@
 	--site-body-font: 'SUIT', system-ui, sans-serif;
 	--site-title-font: 'SUITE', 'SUIT', sans-serif;
 	font-family: var(--site-body-font);
-	font-size: 18px;
+	font-size: var(--font-size-18);
 	font-synthesis: none;
 	color-scheme: light;
-	background: #f6f5f4;
-	color: #31302e;
+	background: var(--color-canvas-light);
+	color: var(--color-text-light);
 }
 html[data-theme='dark'] {
 	color-scheme: dark;
-	background: #1a1918;
-	color: #f2f0ed;
+	background: var(--color-canvas-dark);
+	color: var(--color-text-dark);
 }
 @media (prefers-color-scheme: dark) {
 	html[data-theme='auto'] {
 		color-scheme: dark;
-		background: #1a1918;
-		color: #f2f0ed;
+		background: var(--color-canvas-dark);
+		color: var(--color-text-dark);
 	}
 }
 *,
@@ -83,7 +83,7 @@ strong {
 	font-weight: 600;
 }
 ::selection {
-	background: rgb(0 117 222 / 22%);
+	background: var(--color-box-shadow-10);
 }
 html {
 	scroll-behavior: smooth;
@@ -92,4 +92,25 @@ html {
 	html {
 		scroll-behavior: auto;
 	}
+}
+
+/* 브라우저 기본 배율로 홀수·소수 크기가 생기지 않도록 기본 제목도 지정한다. */
+h1 {
+	font-size: var(--font-size-28);
+}
+h2 {
+	font-size: var(--font-size-22);
+}
+h3 {
+	font-size: var(--font-size-18);
+}
+h4 {
+	font-size: var(--font-size-16);
+}
+h5 {
+	font-size: var(--font-size-14);
+}
+h6,
+small {
+	font-size: var(--font-size-12);
 }

@@ -41,18 +41,18 @@
 		top: 12%;
 		left: 50%;
 		width: min(440px, 90%);
-		padding: 18px 20px;
-		border: 1px solid #ffdc75;
+		padding: var(--space-20) var(--space-20);
+		border: 1px solid var(--color-border-9);
 		border-radius: 18px;
-		background: #102635f2;
-		color: #fff;
+		background: var(--color-background-24);
+		color: var(--color-white);
 		box-shadow:
-			0 8px 40px #0005,
-			0 0 28px #ffdc7533;
+			0 8px 40px var(--color-box-shadow-19),
+			0 0 28px var(--color-box-shadow-20);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 16px;
+		gap: var(--space-16);
 		text-align: center;
 		transform: translateX(-50%);
 		animation: reveal 2.2s ease both;
@@ -61,17 +61,17 @@
 		min-width: 0;
 	}
 	strong {
-		font-size: 24px;
+		font-size: var(--font-size-24);
 	}
 	p {
-		margin: 6px 0 0;
-		font-size: 20px;
+		margin: var(--space-8) 0 0;
+		font-size: var(--font-size-20);
 		font-weight: 700;
 		overflow-wrap: anywhere;
 	}
 	.winner-star {
-		color: #ffdc75;
-		font-size: 32px;
+		color: var(--color-border-9);
+		font-size: var(--font-size-32);
 	}
 	.confetti {
 		position: absolute;
@@ -120,17 +120,17 @@
 	}
 	@media (max-width: 600px) {
 		.winner-banner {
-			gap: 8px;
-			padding: 14px 12px;
+			gap: var(--space-8);
+			padding: var(--space-16) var(--space-12);
 		}
 		strong {
-			font-size: 20px;
+			font-size: var(--font-size-20);
 		}
 		p {
-			font-size: 18px;
+			font-size: var(--font-size-18);
 		}
 		.winner-star {
-			font-size: 24px;
+			font-size: var(--font-size-24);
 		}
 	}
 </style>

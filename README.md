@@ -2,6 +2,12 @@
 
 SvelteKit으로 만든 root 사이트, Team Maker, QR 코드와 구슬 레이스 도구를 한 저장소에서 관리합니다.
 
+## 공통 UI와 수정 직후 검사
+
+새 페이지도 공통 컴포넌트와 토큰을 사용합니다. [컴포넌트 목록·사용 예시·hook 연결 안내](docs/frontend-ui.md)를 먼저 확인하세요. `npm run check:ui`는 전체 UI 규칙, `npm run test:ui`는 검사기와 hook을 검증합니다. Codex와 Claude Code는 수정 직후 같은 검사기로 피드백을 받으며 실제 활성화에는 각 환경의 hook 로딩·신뢰 확인이 필요합니다.
+
+QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/marble-race/components/`에서 기능별로 관리합니다. route는 상태·주요 동작·전체 배치를 담당합니다.
+
 ## 공통 화면과 정적 자산
 
 홈은 `src/routes/+page.svelte`, 공통 오류 안내는 `src/lib/components/organisms/ErrorPage.svelte`에서 관리합니다. 정적 404와 SvelteKit 오류 화면이 같은 안내를 사용합니다. 공통 기본 CSS와 글꼴 선언은 `src/lib/styles/`에 있습니다. 글꼴은 사이트 안의 SUIT·SUITE 파일로 제공하며 외부 CDN에 요청하지 않습니다. Team Maker는 작은 글꼴을 먼저 받고 이름을 입력할 때 전체 글꼴로 보완합니다.

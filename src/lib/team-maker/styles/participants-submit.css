@@ -2,10 +2,10 @@
 	.make-button {
 		width: 100%;
 		margin: 0;
-		padding: 16px 20px;
-		font-size: 16px;
+		padding: var(--space-16) var(--space-20);
+		font-size: var(--font-size-16);
 		border-radius: 12px;
-		box-shadow: 0 4px 14px rgb(0 117 222 / 24%);
+		box-shadow: 0 4px 14px var(--color-box-shadow-29);
 	}
 
 	.make-button:disabled {

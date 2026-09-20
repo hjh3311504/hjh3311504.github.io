@@ -1,0 +1,17 @@
+{
+	"hooks": {
+		"PostToolUse": [
+			{
+				"matcher": "*",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node \"$(git rev-parse --show-toplevel)/scripts/ui_hook.js\"",
+						"timeout": 10,
+						"statusMessage": "수정한 UI 규칙 확인"
+					}
+				]
+			}
+		]
+	}
+}

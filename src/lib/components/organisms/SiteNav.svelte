@@ -253,7 +253,7 @@
 		flex-direction: column;
 		height: 100%;
 		min-height: 0;
-		padding: 18px 14px 14px;
+		padding: var(--space-20) var(--space-16) var(--space-16);
 		font-family: var(--site-body-font);
 		color: var(--shell-text-body);
 	}
@@ -261,9 +261,9 @@
 	.site-nav-heading {
 		display: flex;
 		align-items: center;
-		gap: 2px;
+		gap: var(--space-2);
 		min-height: 36px;
-		padding: 0 2px 0 10px;
+		padding: 0 var(--space-2) 0 var(--space-12);
 	}
 
 	:global(.site-name) {
@@ -277,7 +277,7 @@
 		overflow: hidden;
 		color: var(--shell-text-heading);
 		font-family: var(--site-title-font);
-		font-size: 18px;
+		font-size: var(--font-size-18);
 		font-weight: 700;
 		line-height: 1;
 		letter-spacing: -0.3px;
@@ -318,19 +318,19 @@
 	nav {
 		display: flex;
 		flex-direction: column;
-		gap: 2px;
-		margin-top: 18px;
+		gap: var(--space-2);
+		margin-top: var(--space-20);
 	}
 
 	nav :global(a) {
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
-		gap: 10px;
+		gap: var(--space-12);
 		height: 38px;
-		padding: 0 10px 0 7px;
+		padding: 0 var(--space-12) 0 var(--space-8);
 		color: var(--shell-text-body);
-		font-size: 16px;
+		font-size: var(--font-size-16);
 		font-weight: 500;
 		text-decoration: none;
 		background: transparent;
@@ -361,8 +361,8 @@
 
 	.current-badge {
 		flex: none;
-		padding: 3px 7px;
-		font-size: 12px;
+		padding: var(--space-4) var(--space-8);
+		font-size: var(--font-size-12);
 		font-weight: 600;
 		line-height: 1;
 		border: 1px solid currentColor;
@@ -370,9 +370,9 @@
 	}
 
 	.nav-group-label {
-		padding: 18px 10px 6px;
+		padding: var(--space-20) var(--space-12) var(--space-8);
 		color: var(--shell-text-muted);
-		font-size: 12px;
+		font-size: var(--font-size-12);
 		font-weight: 600;
 		letter-spacing: 0.4px;
 	}
@@ -380,26 +380,26 @@
 	.project-links {
 		display: flex;
 		flex-direction: column;
-		gap: 2px;
-		padding-left: 13px;
-		margin-left: 10px;
+		gap: var(--space-2);
+		padding-left: var(--space-12);
+		margin-left: var(--space-12);
 		border-left: 1px solid var(--shell-hairline);
 	}
 
 	.nav-feedback {
-		padding-top: 14px;
+		padding-top: var(--space-16);
 		margin-top: auto;
 		border-top: 1px solid var(--shell-hairline);
 	}
 
 	:global(.feedback-link) {
 		display: flex;
-		gap: 9px;
+		gap: var(--space-8);
 		align-items: center;
 		width: 100%;
 		height: auto;
 		min-height: 48px;
-		padding: 7px 9px;
+		padding: var(--space-8) var(--space-8);
 		color: var(--shell-text-body);
 		text-decoration: none;
 		border-radius: 7px;
@@ -418,17 +418,17 @@
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		gap: 2px;
+		gap: var(--space-2);
 		align-items: flex-start;
 		min-width: 0;
 	}
 
 	.feedback-copy strong {
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 
 	.feedback-external {
 		color: var(--shell-text-muted);
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 </style>

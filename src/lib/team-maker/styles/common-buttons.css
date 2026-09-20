@@ -9,7 +9,7 @@
 	}
 
 	.primary-small-button {
-		font-size: 14px;
+		font-size: var(--font-size-14);
 	}
 
 	.primary-button:hover,
