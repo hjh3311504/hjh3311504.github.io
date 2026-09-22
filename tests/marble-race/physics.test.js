@@ -86,7 +86,7 @@ test('활성3개 맵은 일반12종·재질4층·특수 구간3곳과 회전 판
 		assert.equal(race.layout.finish.right - race.layout.finish.left, 40);
 		const rotors = race.blocks.filter((b) => b.type === 'rotor');
 		assert.equal(rotors.length, 1);
-		assert.equal(rotors[0].w, 290);
+		assert.equal(rotors[0].w, 320);
 		assert.equal(rotors[0].h, 16);
 		assert.equal(race.blocks.filter((b) => b.arc).length, 0);
 		assert.equal(race.layout.height - race.layout.finale.start, 740);
@@ -618,7 +618,7 @@ test('결승은 직선 깔때기와 같은 높이의 입구, 왼쪽 회전축으
 	assert.equal(guides.length, 2);
 	assert.equal(finale.mouthY, finale.start + 400);
 	assert.equal(bar.y, finale.mouthY + 10);
-	assert.equal(bar.x, finish.left - 120);
+	assert.equal(bar.x, finish.left - 130);
 	assert.equal(bar.direction, -1);
 	for (const side of [-1, 1]) {
 		const guide = guides.find((b) => Math.sign(b.x - 360) === side);

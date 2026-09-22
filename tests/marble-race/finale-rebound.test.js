@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { stepRace } from '../../src/lib/marble-race/physics.js';
 import { createFinaleDuel } from './helpers/finale-duel.js';
 
-function runDuel(options) {
+function runDuel(options, configure = () => {}) {
 	const race = createFinaleDuel(options);
+	configure(race);
 	const rises = [];
 	let ascent = null;
 	let overtakenDuringRebound = false;
@@ -69,4 +70,29 @@ test('양쪽 진입과 시작 각도32조합에서 기존보다 선두의 평균
 		metrics[1].reversed >= metrics[0].reversed,
 		'고정 접전 표본의 역전 기회를 줄이지 않는다'
 	);
+});
+
+test('길이를 늘린 결승 바는290 길이보다 더 높이 밀어내고 접전32조합 모두 완주한다', (t) => {
+	const metrics = [];
+	for (const before of [true, false]) {
+		const rises = [];
+		let reversed = 0;
+		for (const side of [-1, 1]) {
+			for (let phase = 0; phase < 16; phase++) {
+				const result = runDuel({ side, phase: (phase * Math.PI) / 8 }, (race) => {
+					if (before)
+						Object.assign(
+							race.blocks.find((b) => b.id === 'finale-bar'),
+							{ x: 220, w: 290 }
+						);
+				});
+				rises.push(...result.rises);
+				reversed += result.race.finished[0].id === 1 ? 1 : 0;
+			}
+		}
+		metrics.push({ meanRise: rises.reduce((a, b) => a + b, 0) / rises.length, reversed });
+	}
+	t.diagnostic(JSON.stringify(metrics));
+	assert.ok(metrics[1].meanRise > metrics[0].meanRise * 1.2, '평균 되튕김 높이가20% 이상 늘어난다');
+	assert.ok(metrics[1].reversed >= metrics[0].reversed, '접전에서 역전 기회를 줄이지 않는다');
 });

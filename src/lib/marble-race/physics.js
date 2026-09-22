@@ -1,4 +1,4 @@
-import { createSkills, updateSkills } from './skills.js';
+import { createSkills, updateSkills, applyGusts, GUST_SPEED } from './skills.js';
 import { BLOCKS, MARBLE_COLORS, BREAKABLE_TYPES, resolveMap } from './catalog.js';
 
 export const WIDTH = 720;
@@ -106,7 +106,7 @@ export function createLayout(mapId, participantCount = 30) {
 			start: y,
 			end: y + FINALE_HEIGHT,
 			mouthY: y + 400,
-			rotor: { x: 220, y: y + 410 }
+			rotor: { x: 210, y: y + 410 }
 		},
 		finish: { y: y + FINALE_HEIGHT - 30, left: 340, right: 380 },
 		height: y + FINALE_HEIGHT
@@ -268,7 +268,7 @@ export function createMap(
 			zoneId: 'finale',
 			deviceId: 'finale-bar',
 			soundType: 'rubber',
-			w: 290,
+			w: 320,
 			h: 16,
 			cornerRadius: 8,
 			angularSpeed: (Math.PI * 2) / 4.4,
@@ -942,10 +942,10 @@ export function stepRace(race, dt = STEP) {
 	race.events = [];
 	for (const wave of updateSkills(race.skills, race.marbles, race.time, dt)) {
 		race.events.push({
-			type: 'pulse',
-			soundType: 'pulse',
+			type: wave.type,
+			soundType: wave.type,
 			kind: 'skill',
-			deviceId: `pulse-${wave.id}`,
+			deviceId: `${wave.type}-${wave.id}`,
 			id: wave.sourceId,
 			x: wave.x,
 			y: wave.y,
@@ -962,7 +962,7 @@ export function stepRace(race, dt = STEP) {
 		);
 	}
 	// 이동량을 반지름보다 작게 나눠 얇은 장치도 먼저 닿는 면에서 처리한다.
-	let speed = 430;
+	let speed = race.skills.waves.some((wave) => wave.type === 'gust') ? GUST_SPEED : 430;
 	for (const marble of race.marbles)
 		if (!marble.finished) speed = Math.max(speed, Math.hypot(marble.vx, marble.vy));
 	const divisions = Math.max(1, Math.ceil(((speed + 500) * dt) / 4));
@@ -980,6 +980,7 @@ export function stepRace(race, dt = STEP) {
 				block.y = block.pivotY + Math.sin(angle) * block.orbitRadius;
 			}
 		}
+		applyGusts(race.skills, race.marbles, race.time);
 		const previous = new Map();
 		for (const marble of race.marbles) {
 			if (marble.finished) continue;
@@ -987,6 +988,7 @@ export function stepRace(race, dt = STEP) {
 			if (marble.held) {
 				marble.pinRest = null;
 				if (race.time < marble.held.until) continue;
+				if (marble.held.kind === 'lightning') marble.lastProgress = race.time;
 				marble.held = null;
 			}
 			for (const id of marble.ignored.keys()) {

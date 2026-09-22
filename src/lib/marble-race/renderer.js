@@ -1,5 +1,4 @@
-import { drawPulse } from './pulse-painter.js';
-import { PULSE_RADIUS, PULSE_DURATION } from './skills.js';
+import { drawSkill, drawElectricField } from './skill-painter.js';
 import { BLOCKS } from './catalog.js';
 import { createTilePainter } from './tile-painter.js';
 import { drawSpecialBlock } from './special-painter.js';
@@ -430,15 +429,10 @@ export function createRenderer(canvas) {
 		ctx.globalAlpha = 1;
 		if (skillsEnabled) {
 			for (const wave of race.skillWaves ?? race.skills?.waves ?? []) {
-				const age = race.time - wave.time;
-				if (
-					age < 0 ||
-					age >= PULSE_DURATION ||
-					wave.y + PULSE_RADIUS < camera ||
-					wave.y - PULSE_RADIUS > camera + viewHeight
-				)
-					continue;
-				drawPulse(ctx, wave, age / PULSE_DURATION, reduced);
+				drawSkill(ctx, wave, race.time - wave.time, reduced, {
+					top: camera,
+					bottom: camera + viewHeight
+				});
 			}
 		}
 		const renderMarbles = race.marbles
@@ -485,6 +479,7 @@ export function createRenderer(canvas) {
 			ctx.arc(marble.x, marble.y, marble.r, 0, Math.PI * 2);
 			ctx.fill();
 			ctx.font = `800 ${Math.max(10, 8 / scale)}px SUIT, sans-serif`;
+			if (marble.held?.kind === 'lightning') drawElectricField(ctx, marble, race.time, reduced);
 			if (marble.held?.kind === 'frost') {
 				ctx.fillStyle = '#b2e9f780';
 				ctx.strokeStyle = '#e4faff';

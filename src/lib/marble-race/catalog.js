@@ -494,6 +494,18 @@ BLOCKS.pulse = {
 	name: '원형 파동',
 	color: '#428be6',
 	description: '주변 구슬을 멀리 날려요.',
-	audio: { group: 'skill', maxVoices: 1, interval: 0.2, level: 0.8 }
+	audio: { group: 'skill', level: 0.8 }
 };
-SOUND_TYPES.push('frost', 'butter', 'pond', 'fanfare', 'pulse');
+BLOCKS.lightning = {
+	name: '번개',
+	color: '#e5edff',
+	description: '번개에 닿은 구슬을2초간 멈춰요.',
+	audio: { group: 'skill', level: 0.8 }
+};
+BLOCKS.gust = {
+	name: '바람',
+	color: '#b1f2e8',
+	description: '솟아오르는 바람이 다른 구슬을 위로 날려요.',
+	audio: { group: 'skill', level: 0.8 }
+};
+SOUND_TYPES.push('frost', 'butter', 'pond', 'fanfare', 'pulse', 'lightning', 'gust');

@@ -41,7 +41,7 @@ const cracks = [
 	]
 ];
 
-export function drawCrackWax(ctx, block, { counter = true } = {}) {
+export function drawCrackWax(ctx, block) {
 	const { w, h } = block;
 	const maxHp = block.maxHp ?? 5;
 	const hits = Math.max(0, maxHp - (block.hp ?? maxHp));
@@ -70,7 +70,8 @@ export function drawCrackWax(ctx, block, { counter = true } = {}) {
 	ctx.ellipse(-w * 0.18, -h * 0.28, w * 0.25, h * 0.08, -0.06, 0, Math.PI * 2);
 	ctx.fill();
 
-	const count = 3 + Math.floor(damage * 5);
+	// 손상이 없으면 매끈하게 두고, 충돌 누적에 따라 균열 가지를 늘린다.
+	const count = Math.ceil(damage * cracks.length);
 	ctx.lineJoin = 'round';
 	ctx.lineCap = 'round';
 	for (const points of cracks.slice(0, count)) {
@@ -105,19 +106,6 @@ export function drawCrackWax(ctx, block, { counter = true } = {}) {
 			ctx.closePath();
 			ctx.fill();
 		}
-	}
-	if (counter) {
-		const label = `${hits}/${maxHp}`;
-		ctx.font = 'bold 16px SUIT, sans-serif';
-		ctx.textAlign = 'center';
-		ctx.textBaseline = 'middle';
-		const badgeWidth = ctx.measureText(label).width + 12;
-		ctx.fillStyle = '#57353dd9';
-		ctx.beginPath();
-		ctx.roundRect(-badgeWidth / 2, -10, badgeWidth, 20, 6);
-		ctx.fill();
-		ctx.fillStyle = '#fff8ee';
-		ctx.fillText(label, 0, 1);
 	}
 	ctx.restore();
 }

@@ -1,5 +1,7 @@
 import { BLOCKS, SOUND_TYPES } from './catalog.js';
+import { isSkillVisible } from './skill-visibility.js';
 
+// 스킬 외 소리의 동시 재생 한도다. 스킬은 화면 범위로만 걸러낸다.
 const MAX_VOICES = 6;
 
 const soundVersion = {
@@ -40,6 +42,8 @@ SOUND_FILES.fanfare = ['/audio/marble-race/fanfare-tada-v1.wav'];
 // 장치의 재생 제한·충돌 세기는 유지하고 소리만 팝잇과 공유한다.
 SOUND_FILES.rubber = SOUND_FILES.popit;
 SOUND_FILES.pulse = ['/audio/marble-race/pulse-whoosh-deep-v2.wav'];
+SOUND_FILES.lightning = ['/audio/marble-race/lightning-v1.wav'];
+SOUND_FILES.gust = ['/audio/marble-race/gust-v1.wav'];
 
 // 한 번의 작은 스파이크만 큰 녹음이 다른 소리에 묻히지 않도록 몸통 음량을 맞춘다.
 // 비누와 새 질감 파일은 이미 기준 이상이므로 그대로다. 원본 파일은 변경하지 않는다.
@@ -161,7 +165,8 @@ export function createAudio({
 		voice.gain.gain.setTargetAtTime(0, context.currentTime, 0.003);
 		try {
 			voice.source.stop(context.currentTime + 0.012);
-			voiceSlotUntil = Math.max(voiceSlotUntil, context.currentTime + 0.012);
+			if (voice.group !== 'skill')
+				voiceSlotUntil = Math.max(voiceSlotUntil, context.currentTime + 0.012);
 		} catch {
 			/* 이미 종료 */
 		}
@@ -169,8 +174,8 @@ export function createAudio({
 	}
 	function outsideView(event) {
 		return Math.max(
-			view.top - event.y,
-			event.y - view.bottom,
+			(view.audioTop ?? view.top) - event.y,
+			event.y - (view.audioBottom ?? view.bottom),
 			(view.left ?? 0) - event.x,
 			event.x - (view.right ?? 720),
 			0
@@ -180,15 +185,15 @@ export function createAudio({
 		view = nextView;
 		for (const voice of voices)
 			if (
-				voice.zoneId?.startsWith('layer-') &&
-				Number.isFinite(voice.y) &&
-				outsideView(voice) >= 52
+				(voice.skill && !isSkillVisible(voice.skill, view)) ||
+				(voice.zoneId?.startsWith('layer-') && Number.isFinite(voice.y) && outsideView(voice) >= 52)
 			)
 				fadeVoice(voice);
 	}
 	function celebrate() {
 		for (const voice of voices) if (voice.type === 'fanfare') fadeVoice(voice);
-		if (voices.size >= MAX_VOICES) fadeVoice([...voices][0]);
+		const limited = [...voices].filter((voice) => voice.group !== 'skill');
+		if (limited.length >= MAX_VOICES) fadeVoice(limited[0]);
 		return play('fanfare', 360, true);
 	}
 	function setOptions(soundEnabled, level) {
@@ -206,7 +211,7 @@ export function createAudio({
 			...detail
 		});
 	}
-	function play(type, x = 360, preview = false, level = 1, event = null, priority = false) {
+	function play(type, x = 360, preview = false, level = 1, event = null) {
 		const skip = (reason) => {
 			report('skipped', { type, reason, event });
 			return false;
@@ -214,33 +219,32 @@ export function createAudio({
 		if (disposed) return skip('disposed');
 		if (!enabled) return skip('muted');
 		if (context?.state !== 'running') return skip('context-not-running');
-		if (!priority && voices.size >= MAX_VOICES) return skip('global-voices');
-		const time = context.currentTime;
-		if (!preview && !priority && time - lastTime < 0.028) return skip('global-interval');
 		const policy = BLOCKS[type]?.audio;
 		if (!policy) return skip('unknown-type');
-		const active = [...voices];
-		if (active.filter((voice) => voice.type === type).length >= policy.maxVoices)
-			return skip('material-voices');
-		const groupLimit = policy.group === 'texture' ? 6 : policy.group === 'device' ? 3 : 12;
-		if (active.filter((voice) => voice.group === policy.group).length >= groupLimit)
-			return skip('group-voices');
-		if (!preview && time - (lastPlayed.get(type) ?? -Infinity) < policy.interval)
-			return skip('material-interval');
+		const skill = policy.group === 'skill';
+		const time = context.currentTime;
+		const active = [...voices].filter((voice) => voice.group !== 'skill');
+		if (!skill) {
+			if (active.length >= MAX_VOICES) return skip('global-voices');
+			if (!preview && time - lastTime < 0.028) return skip('global-interval');
+			if (active.filter((voice) => voice.type === type).length >= policy.maxVoices)
+				return skip('material-voices');
+			const groupLimit = policy.group === 'texture' ? 6 : policy.group === 'device' ? 3 : 12;
+			if (active.filter((voice) => voice.group === policy.group).length >= groupLimit)
+				return skip('group-voices');
+			if (!preview && time - (lastPlayed.get(type) ?? -Infinity) < policy.interval)
+				return skip('material-interval');
+		}
 		const files = SOUND_FILES[type];
 		if (!files) return skip('unknown-file');
 		const index = variants.get(type) ?? 0;
 		const buffer = buffers.get(files[index % files.length]);
 		if (!buffer) return skip('buffer-not-ready');
-		if (voices.size >= MAX_VOICES) {
-			const replaceable = priority && active.find((voice) => voice.type !== 'fanfare');
-			if (!replaceable) return skip('global-voices');
-			fadeVoice(replaceable);
-		}
-		const scheduledTime = priority ? Math.max(time, lastTime + 0.028, voiceSlotUntil) : time;
 		variants.set(type, index + 1);
-		lastTime = scheduledTime;
-		lastPlayed.set(type, scheduledTime);
+		if (!skill) {
+			lastTime = time;
+			lastPlayed.set(type, time);
+		}
 		if (event?.zoneId?.startsWith('layer-')) {
 			for (const old of [...voices])
 				if (old.zoneId?.startsWith('layer-') && old.zoneId !== event.zoneId) {
@@ -264,6 +268,7 @@ export function createAudio({
 			gain,
 			type,
 			group: policy.group,
+			skill: skill && !preview ? event : null,
 			zoneId: event?.zoneId,
 			x: event?.x,
 			y: event?.y
@@ -275,19 +280,25 @@ export function createAudio({
 			gain.disconnect();
 			panner.disconnect();
 		};
-		// 짧게 사라지는 소리와 새 소리도 전체 한도를 넘겨 겹치지 않게 한다.
+		// 스킬은 다른 소리의 종료나 재생 간격을 기다리지 않는다.
 		source.start(
-			Math.max(
-				scheduledTime,
-				voiceSlotUntil,
-				event?.zoneId?.startsWith('layer-') ? zoneSwitchUntil : 0
-			)
+			skill
+				? time
+				: Math.max(time, voiceSlotUntil, event?.zoneId?.startsWith('layer-') ? zoneSwitchUntil : 0)
 		);
 		report('played', { type, event, file: files[index % files.length], level: gain.gain.value });
 		return true;
 	}
 	function playCollision(event) {
 		if (event.silent) return false;
+		const type = event.soundType ?? event.type;
+		if (BLOCKS[type]?.audio?.group === 'skill') {
+			if (!isSkillVisible(event, view)) {
+				report('skipped', { type, event, reason: 'outside-view' });
+				return false;
+			}
+			return play(type, event.x, false, 1, event);
+		}
 		if (!Number.isFinite(event.y)) return false;
 		const outside = outsideView(event);
 		if (outside >= 52) {
@@ -303,13 +314,13 @@ export function createAudio({
 			event.x,
 			false,
 			(1 - outside / 52) * strength,
-			event,
-			event.kind === 'skill'
+			event
 		);
 	}
 	function playCollisions(events) {
 		// 화면 갱신마다 재질을 순환한다. 밀린 소리를 다음 프레임에 예약하지 않는다.
 		const candidates = new Map();
+		let skillPlayed = false;
 		for (const event of events) {
 			report('collision', { event, view, audible: enabled && context?.state === 'running' });
 			if (event.silent) {
@@ -320,27 +331,22 @@ export function createAudio({
 				report('skipped', { event, reason: 'invalid-position' });
 				continue;
 			}
+			const type = event.soundType ?? event.type;
+			if (BLOCKS[type]?.audio?.group === 'skill') {
+				// 같은 종류라도 발동마다 모두 재생한다.
+				skillPlayed = playCollision(event) || skillPlayed;
+				continue;
+			}
 			const outside = outsideView(event);
 			if (outside >= 52) {
 				report('skipped', { event, reason: 'outside-view' });
 				continue;
 			}
-			const type = event.soundType ?? event.type;
 			const prior = candidates.get(type);
 			if (!prior || (event.impact ?? 100) > (prior.impact ?? 100)) {
 				if (prior) report('skipped', { event: prior, reason: 'same-material-candidate' });
 				candidates.set(type, event);
 			} else report('skipped', { event, reason: 'same-material-candidate' });
-		}
-		// 드문 파동은 일반 충돌음보다 먼저 고른다. 반복 그림 프레임은 이벤트를 만들지 않는다.
-		const pulse = candidates.get('pulse');
-		if (pulse) {
-			candidates.delete('pulse');
-			if (playCollision(pulse)) {
-				for (const pending of candidates.values())
-					report('skipped', { event: pending, reason: 'frame-start-interval' });
-				return true;
-			}
 		}
 		for (let offset = 0; offset < SOUND_TYPES.length; offset++) {
 			const index = (nextType + offset) % SOUND_TYPES.length;
@@ -353,7 +359,7 @@ export function createAudio({
 				return true;
 			}
 		}
-		return false;
+		return skillPlayed;
 	}
 	function cancelPreparation() {
 		stop();

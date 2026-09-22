@@ -5,7 +5,8 @@ import {
 	firePulse,
 	updateSkills,
 	PULSE_RADIUS,
-	SKILL_COOLDOWN
+	SKILL_COOLDOWN,
+	SKILL_CHANCE_PER_SECOND
 } from '../../src/lib/marble-race/skills.js';
 import { createRace, stepRace, makeBlock, STEP } from '../../src/lib/marble-race/physics.js';
 import { createRaceClock } from '../../src/lib/marble-race/clock.js';
@@ -52,7 +53,8 @@ test('파동은 범위 안 구슬만 바깥으로 밀고 위치·발사자·동�
 	assert.equal(skills.cooldowns.get(0), 2 + SKILL_COOLDOWN);
 });
 
-test('확률 발동은 난수로 재현하고 구슬별8초 대기와 OFF를 지킨다', () => {
+test('기본 확률0.5%와 난수 재현·구슬별8초 대기·OFF를 지킨다', () => {
+	assert.equal(SKILL_CHANCE_PER_SECOND, 0.005);
 	const a = createSkills(47, true),
 		b = createSkills(47, true);
 	const marbles = Array.from({ length: 30 }, (_, i) => marble(i, i * 150));
@@ -60,6 +62,9 @@ test('확률 발동은 난수로 재현하고 구슬별8초 대기와 OFF를 지
 	const last = new Map();
 	let serial = 0;
 	for (let i = 0; i < 120 * 60; i++) {
+		for (const group of [marbles, copy])
+			for (const marble of group)
+				if (marble.held && marble.held.until <= i * STEP) marble.held = null;
 		updateSkills(a, marbles, i * STEP, STEP);
 		updateSkills(b, copy, i * STEP, STEP);
 		for (const wave of a.waves.filter((w) => w.id > serial)) {
@@ -69,7 +74,8 @@ test('확률 발동은 난수로 재현하고 구슬별8초 대기와 OFF를 지
 			serial = wave.id;
 		}
 	}
-	assert.ok(serial > 0 && serial < 40, `60초 발동 횟수: ${serial}`);
+	const cooldownLimit = marbles.length * Math.ceil(58 / SKILL_COOLDOWN);
+	assert.ok(serial > 0 && serial < 20 && serial <= cooldownLimit, `60초 발동 횟수: ${serial}`);
 	assert.deepEqual(a, b);
 	a.enabled = false;
 	const velocities = marbles.map((m) => [m.vx, m.vy]);
@@ -196,7 +202,10 @@ test('파동 하나마다 효과음 이벤트는 한 번만 만들고 표시 중
 	assert.equal(new Set(events.map((event) => event.deviceId)).size, events.length);
 	assert.ok(
 		events.every(
-			(event) => event.type === 'pulse' && Number.isFinite(event.x) && Number.isFinite(event.y)
+			(event) =>
+				['pulse', 'lightning', 'gust'].includes(event.type) &&
+				Number.isFinite(event.x) &&
+				Number.isFinite(event.y)
 		)
 	);
 });

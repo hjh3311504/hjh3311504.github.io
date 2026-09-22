@@ -20,6 +20,7 @@
 
 	import { createWorkerClient } from '$lib/marble-race/worker-client.js';
 	import { createRenderer } from '$lib/marble-race/renderer.js';
+	import { SKILL_TYPES } from '$lib/marble-race/skills.js';
 	import { createAudio } from '$lib/marble-race/audio.js';
 	import { createCamera } from '$lib/marble-race/camera.js';
 	import {
@@ -102,7 +103,7 @@
 	let maps = $derived([...MAPS, ...customMaps]);
 	let selectedMap = $derived(resolveMap(mapId, customMaps));
 	let raceSoundTypes = $derived(
-		skillsEnabled ? [...selectedMap.types, 'pulse'] : selectedMap.types
+		skillsEnabled ? [...selectedMap.types, ...SKILL_TYPES] : selectedMap.types
 	);
 	let range = $derived(parseDrawRange(rangeText, parsed.count));
 	let drawStart = $derived(mode === 'multiple' ? range.start : 1);
@@ -159,8 +160,6 @@
 		});
 		audio?.setView({
 			...view,
-			top: view.audioTop ?? view.top,
-			bottom: view.audioBottom ?? view.bottom,
 			zones: race.zones
 		});
 		renderer.render(race, {

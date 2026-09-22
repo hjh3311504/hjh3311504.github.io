@@ -1,13 +1,14 @@
 <script>
 	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
 	import { BLOCKS, ACTIVE_BLOCK_TYPES, SPECIAL_TYPES } from '../catalog.js';
+	import { SKILL_TYPES } from '../skills.js';
 	import BlockThumbnail from '../BlockThumbnail.svelte';
 
 	let { selectedLayers, disabled = false, waxHits, onpreview } = $props();
 	const groups = [
 		{ id: 'basic-blocks-title', title: '기본 블록', types: ACTIVE_BLOCK_TYPES },
 		{ id: 'special-blocks-title', title: '특수 블록', types: SPECIAL_TYPES },
-		{ id: 'skills-title', title: '스킬', types: ['pulse'], skill: true }
+		{ id: 'skills-title', title: '스킬', types: SKILL_TYPES, skill: true }
 	];
 </script>
 
