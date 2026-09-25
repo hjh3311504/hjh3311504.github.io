@@ -1,6 +1,8 @@
+import { installMarbleWire } from './helpers/marble-wire.js';
 import { test, expect } from '@playwright/test';
 
 test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라간다', async ({ page }) => {
+	await installMarbleWire(page);
 	await page.emulateMedia({ reducedMotion: 'no-preference' });
 	await page.addInitScript(() => {
 		window.__testLeader = 0;
@@ -19,13 +21,14 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 				const leader = window.__testLeader;
 				state.initial = false;
 				state.blockChanges = [];
-				state.time = 20;
+				state.time = 20 + (this.frames = (this.frames ?? 0) + 1) / 120;
 				state.events = [];
 				state.marbles.forEach((m, i) => {
 					m.x = i === 0 ? 260 : 460;
 					m.y = state.layout.finale.start + (i === leader ? 200 : 160);
 				});
 				state.cinematic = { active: true, focusId: leader, newWinners: [] };
+				window.__packMarbleState(state);
 				queueMicrotask(() =>
 					this.dispatchEvent(
 						new MessageEvent('message', {
@@ -69,10 +72,13 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 		};
 	});
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('구슬 굴리기');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
+	await expect(
+		page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first()
+	).toBeEnabled();
 	await page.getByLabel('참가자 이름').fill('앞구슬\n뒤구슬');
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect.poll(() => page.evaluate(() => window.__focusObservation?.id)).toBe(0);
 	await expect(page.getByRole('button', { name: '경기 배속 전환', exact: true })).toHaveText(
 		'0.25배속'

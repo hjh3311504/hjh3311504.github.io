@@ -31,7 +31,7 @@ test('스킬은 준비 중에만 바꾸고 경기·일시정지 중에는 시작
 	await expect(toggle).toHaveText('스킬 사용 ON');
 	await page.getByLabel('참가자 이름').fill('토끼*30');
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	await expect
 		.poll(() => page.evaluate(() => window.__raceState?.skillWaves?.length ?? 0), {
@@ -55,7 +55,7 @@ test('스킬은 준비 중에만 바꾸고 경기·일시정지 중에는 시작
 	await expect(toggle).toBeEnabled();
 	await toggle.click();
 	await expect(toggle).toHaveText('스킬 사용 OFF');
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	await expect(toggle).toBeDisabled();
 	await expect.poll(() => page.evaluate(() => window.__raceState?.time ?? 0)).toBeGreaterThan(3);
@@ -68,13 +68,16 @@ test('도감의3종 스킬과 실제 발동에서 같은 효과음을 재생한�
 	await observeRace(page, 47);
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
+	await expect(
+		page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first()
+	).toBeEnabled();
 	await expect(page.getByRole('heading', { name: '도감', exact: true })).toBeVisible();
 	await expect(page.getByRole('heading', { name: '블록 도감', exact: true })).toHaveCount(0);
 	const skill = page.getByRole('region', { name: /^스킬/ });
 	await expect(skill.locator('.skill-card')).toHaveCount(3);
 	for (const image of await skill.locator('img').all())
 		await expect(image).toHaveAttribute('src', /^data:image/);
-	await page.locator('canvas').evaluate((canvas) => {
+	await page.locator('canvas[role="button"]').evaluate((canvas) => {
 		window.__skillSounds = [];
 		canvas.setAttribute('data-audio-diagnostics', '');
 		canvas.addEventListener('marble-audio', ({ detail }) => {
@@ -101,7 +104,7 @@ test('도감의3종 스킬과 실제 발동에서 같은 효과음을 재생한�
 		'aria-pressed',
 		'true'
 	);
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(preview).toBeDisabled();
 	await expect
 		.poll(() => page.evaluate(() => window.__skillSounds.some((e) => e.event?.kind === 'skill')), {
@@ -134,7 +137,7 @@ for (const width of [1440, 390]) {
 		await observeRace(page, 47);
 		await page.goto('/marble-race');
 		expect(await page.locator('main').ariaSnapshot()).toContain('스킬 사용');
-		await page.locator('canvas').evaluate((canvas) => {
+		await page.locator('canvas[role="button"]').evaluate((canvas) => {
 			window.__skillAudioLog = [];
 			canvas.setAttribute('data-audio-diagnostics', '');
 			canvas.addEventListener('marble-audio', ({ detail }) => {
@@ -142,7 +145,7 @@ for (const width of [1440, 390]) {
 			});
 		});
 		await page.getByLabel('참가자 이름').fill('구슬*60');
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		await expect
 			.poll(() => page.evaluate(() => window.__raceState?.time ?? 0), { timeout: 12000 })

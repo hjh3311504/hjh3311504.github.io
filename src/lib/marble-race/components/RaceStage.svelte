@@ -19,6 +19,7 @@
 		fullscreen,
 		reduced,
 		race,
+		displayRace = null,
 		selectedWinners,
 		view,
 		cinematic,
@@ -118,7 +119,7 @@
 					{reduced}
 				/>{/key}{/if}
 		<RaceMinimap
-			{race}
+			race={displayRace ?? race}
 			{view}
 			{overview}
 			oninspect={inspectMap}
@@ -126,14 +127,12 @@
 		/><WinnerPanel winners={selectedWinners} {celebrating} {reduced} />
 		{#if status === 'ready'}<StageOverlay title="누가 당첨될까요?"
 				><p>{parsed.count.toLocaleString()}개의 구슬 · {modeLabel}</p>
-				{#if parsed.count > 60}<p>
-						준비 화면은 구슬 일부만 표시합니다.
-					</p>{/if}{#snippet actions()}<Button
+				{#snippet actions()}<Button
 						variant="primary"
 						size="lg"
 						onclick={() => start()}
 						disabled={!ready || Boolean(parsed.error || countError || fatalError)}
-						>구슬 굴리기 ▶</Button
+						>레이스 시작 ▶</Button
 					>{/snippet}</StageOverlay
 			>{/if}
 		{#if status === 'paused'}<StageOverlay title="일시정지" titleId="pause-race-title"
@@ -193,7 +192,7 @@
 						? '일시정지 Ⅱ'
 						: controlStatus === 'finished'
 							? '다시 시작 ↻'
-							: '구슬 굴리기 ▶'}</Button
+							: '레이스 시작 ▶'}</Button
 			>
 		</div>
 	</div>

@@ -16,9 +16,13 @@
 		resolveMapId,
 		parseNames
 	} from '$lib/marble-race/catalog.js';
-	import { createRace, raceOrder, winners, butterHitCount } from '$lib/marble-race/physics.js';
+	import { raceOrder, winners, butterHitCount, STEP } from '$lib/marble-race/physics.js';
 
 	import { createWorkerClient } from '$lib/marble-race/worker-client.js';
+	import { createPreviewOrder } from '$lib/marble-race/preview-order.js';
+	import { pinRankingItem } from '$lib/marble-race/ranking-order.js';
+	import { createPresentation } from '$lib/marble-race/presentation.js';
+	import { createDrawSchedule } from '$lib/marble-race/draw-schedule.js';
 	import { createRenderer } from '$lib/marble-race/renderer.js';
 	import { SKILL_TYPES } from '$lib/marble-race/skills.js';
 	import { createAudio } from '$lib/marble-race/audio.js';
@@ -65,6 +69,7 @@
 		inspectionY = $state(null),
 		fullscreen = $state(false),
 		reduced = $state(false);
+	let displayRace = $state.raw(null);
 	let race = $state.raw(null),
 		order = $state.raw([]),
 		selectedWinners = $state.raw([]),
@@ -87,16 +92,25 @@
 		raf = 0,
 		operation = 0,
 		previewTimer,
+		physicsTimer,
 		celebrationTimer,
 		workerBusy = false,
+		snapshotPending = false,
 		deferredFrame = null,
 		previous = 0,
 		lastPhysics = 0,
 		lastSync = 0,
 		pendingSeconds = 0,
 		raceSeed = 2026;
+	let previewOperation = 0;
+	let previousRaceSettings;
+	const previewClient = createWorkerClient();
 	const client = createWorkerClient(),
-		camera = createCamera();
+		camera = createCamera(),
+		presentation = createPresentation(),
+		shouldDraw = createDrawSchedule();
+	let canvasBounds = { width: 0, height: 0 };
+	let pendingAudioEvents = [];
 	let parsed = $derived(parseNames(namesText));
 	let controlStatus = $derived(status === 'loading' ? loadingFrom : status);
 	let busy = $derived(['running', 'paused', 'loading'].includes(status));
@@ -124,15 +138,32 @@
 						? '지정한 도착 순위'
 						: `${range.start}~${range.end}번째 도착`
 	);
-	let visibleOrder = $derived(
-		query.trim()
-			? order.filter((m) => m.name.includes(query.trim()) || String(m.id + 1) === query.trim())
-			: order
+	let previewEntries = $derived((parsed.error ? parseNames(DEFAULT_NAMES) : parsed).entries);
+	let matchingOrder = $derived(
+		race?.preview
+			? createPreviewOrder(previewEntries, query)
+			: query.trim()
+				? order.filter((m) => m.name.includes(query.trim()) || String(m.id + 1) === query.trim())
+				: order
 	);
+	let trackedMarble = $derived(
+		focusId === '-1'
+			? undefined
+			: race?.preview
+				? createPreviewOrder(previewEntries).slice(Number(focusId), Number(focusId) + 1)[0]
+				: order.find((marble) => String(marble.id) === focusId)
+	);
+	let visibleOrder = $derived(pinRankingItem(matchingOrder, trackedMarble));
 	function synchronize() {
 		if (!race) return;
+		// 새 미리보기가 도착하기 전 이전 경기의 당첨자를 다시 채우지 않는다.
+		if (status === 'ready') {
+			elapsed = arrived = 0;
+			return;
+		}
 		elapsed = race.time;
 		arrived = race.finished.length;
+		if (race.preview) return;
 		order = raceOrder(race).map((m, i) => ({
 			...m,
 			rank: i + 1,
@@ -147,8 +178,9 @@
 	}
 	function draw(seconds = 0) {
 		if (!race || !renderer) return;
-		const bounds = canvas.getBoundingClientRect();
-		view = camera.update(race, {
+		const bounds = canvasBounds;
+		displayRace = presentation.sample(race, performance.now(), status === 'running');
+		view = camera.update(displayRace, {
 			width: bounds.width,
 			height: bounds.height,
 			seconds,
@@ -162,13 +194,18 @@
 			...view,
 			zones: race.zones
 		});
-		renderer.render(race, {
+		renderer.render(displayRace, {
 			focusId: cinematic?.active ? cinematic.focusId : focusId,
 			overview,
 			skillsEnabled,
 			reduced,
-			view
+			view,
+			bounds
 		});
+		if (pendingAudioEvents.length) {
+			audio?.playCollisions(pendingAudioEvents);
+			pendingAudioEvents = [];
+		}
 	}
 	function acceptState(state) {
 		if (state.initial || !race) {
@@ -185,6 +222,7 @@
 			race.finished = state.finished.map((id) => state.marbles[id]);
 			race = { ...race };
 		}
+		presentation.push(race, performance.now());
 		const focusChanged = state.cinematic?.active && state.cinematic.focusId !== cinematic?.focusId;
 		cinematic = state.cinematic;
 		if (cinematic?.newWinners?.length) {
@@ -200,23 +238,57 @@
 		}
 		if (focusChanged || cinematic?.newWinners?.length) synchronize();
 		renderer.addEvents(state.events ?? [], reduced);
-		draw();
-		audio.playCollisions(state.events ?? []);
+		pendingAudioEvents.push(...(state.events ?? []));
 		if (race.finished.length === race.marbles.length && status === 'running') {
 			status = 'finished';
 			synchronize();
 			liveAnnouncement = `경기 종료. 당첨자 ${selectedWinners.map((m) => m.name).join(', ')}`;
 		}
 	}
-	function frame(now) {
-		const seconds = previous ? Math.min(0.08, (now - previous) / 1000) : 0;
-		previous = now;
+	function captureLatestState() {
+		if (workerBusy || !snapshotPending) return;
+		workerBusy = true;
+		const current = operation;
+		void client
+			.snapshot()
+			.then((result) => {
+				if (current !== operation) return;
+				snapshotPending = false;
+				if (status === 'running') acceptState(result.state);
+				else if (status === 'paused' || status === 'loading') deferredFrame = result.state;
+			})
+			.catch((error) => {
+				if (current === operation) {
+					status = 'paused';
+					message = error.message;
+				}
+			})
+			.finally(() => {
+				if (current === operation) {
+					workerBusy = false;
+					if (status === 'running') advancePhysics();
+				}
+			});
+	}
+	function advancePhysics() {
+		clearTimeout(physicsTimer);
 		if (status === 'running' && !workerBusy) {
+			const now = performance.now();
 			if (!audio.isReady()) {
 				void pause();
 				message = '소리가 멈춰 경기를 잠시 멈췄어요. 계속하기를 눌러 주세요.';
 			} else {
-				const delta = Math.min(0.08, (now - lastPhysics) / 1000 + pendingSeconds);
+				// 새로 지난 시간만 제한한다. Worker가 나눠 처리 중인 시간은 버리지 않는다.
+				const delta = Math.min(0.08, (now - lastPhysics) / 1000) + pendingSeconds;
+				// 계산할 시간이 모이면 화면 프레임을 기다리지 않고 다음 요청을 보낸다.
+				const minimum = STEP / (cinematic?.active ? 0.25 : speed);
+				if (delta + 1e-12 < minimum) {
+					physicsTimer = setTimeout(
+						advancePhysics,
+						Math.max(1, Math.ceil((minimum - delta) * 1000))
+					);
+					return;
+				}
 				lastPhysics = now;
 				workerBusy = true;
 				const current = operation;
@@ -225,33 +297,48 @@
 					.then((result) => {
 						if (current !== operation) return;
 						pendingSeconds = result.unused ?? 0;
-						if (status === 'running') acceptState(result.state);
-						else if (status === 'paused' || status === 'loading') deferredFrame = result.state;
+						if (result.kind === 'advanced') {
+							snapshotPending = true;
+						} else if (result.kind === 'frame') {
+							snapshotPending = false;
+							if (status === 'running') acceptState(result.state);
+							else if (status === 'paused' || status === 'loading') deferredFrame = result.state;
+						}
+						// 화면 변경을 반영하는 작업이 시작되기 전에 다음 계산을 요청한다.
+						workerBusy = false;
+						if (status === 'running') advancePhysics();
+						else if (status === 'paused' || status === 'loading') captureLatestState();
 					})
 					.catch((error) => {
 						if (current === operation) {
+							workerBusy = false;
 							status = 'paused';
 							message = error.message;
 						}
-					})
-					.finally(() => {
-						if (current === operation) workerBusy = false;
 					});
 			}
 		}
+	}
+	function frame(now) {
+		raf = requestAnimationFrame(frame);
+		if (!shouldDraw(now, race?.marbles.length ?? 0)) return;
+		const seconds = previous ? Math.min(0.08, (now - previous) / 1000) : 0;
+		previous = now;
 		if (race && now - lastSync > 150) {
 			synchronize();
 			lastSync = now;
 		}
 		draw(seconds);
-		raf = requestAnimationFrame(frame);
 	}
 	function reset() {
+		clearTimeout(physicsTimer);
 		operation++;
 		client.stop();
 		workerBusy = false;
+		snapshotPending = false;
 		pendingSeconds = 0;
 		deferredFrame = null;
+		pendingAudioEvents = [];
 		audio?.cancelPreparation();
 		status = 'ready';
 		raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
@@ -270,20 +357,37 @@
 		liveAnnouncement = '';
 		preparePreview();
 	}
-	function preparePreview() {
+	function cancelPreview() {
+		previewOperation++;
+		previewClient.stop();
+		clearTimeout(previewTimer);
+	}
+	async function preparePreview() {
 		if (!ready || status !== 'ready') return;
+		cancelPreview();
+		const current = previewOperation;
 		const valid = parsed.error ? parseNames(DEFAULT_NAMES) : parsed;
-		const samples = [];
-		for (const entry of valid.entries) {
-			for (let i = 0; i < entry.count && samples.length < 60; i++) samples.push(entry.name);
-			if (samples.length >= 60) break;
+		try {
+			const state = await previewClient.prepare(
+				{ entries: valid.entries, count: valid.count },
+				JSON.parse(JSON.stringify(selectedMap)),
+				raceSeed,
+				mode,
+				drawCount,
+				undefined,
+				drawStart,
+				false,
+				true
+			);
+			if (current !== previewOperation || status !== 'ready' || !ready) return;
+			previewClient.stop();
+			race = { ...state, identity: Symbol(), finished: [] };
+			cinematic = null;
+			synchronize();
+			draw();
+		} catch (error) {
+			if (current === previewOperation && ready && status === 'ready') message = error.message;
 		}
-		race = createRace(samples, selectedMap, raceSeed, { layoutCount: valid.count, preview: true });
-		for (const block of race.blocks.filter((b) => b.type === 'butter'))
-			block.hp = block.maxHp = butterHitCount(valid.count);
-		race.identity = Symbol();
-		synchronize();
-		draw();
 	}
 	function toggleSkills() {
 		if (!ready || status !== 'ready') return;
@@ -302,6 +406,7 @@
 
 	async function start(withoutSound = false) {
 		if (!ready || busy || parsed.error || countError || fatalError) return;
+		cancelPreview();
 		if (status === 'finished') raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
 		clearTimeout(celebrationTimer);
 		celebrating = false;
@@ -346,11 +451,13 @@
 			cinematic = null;
 			speed = 1;
 			workerBusy = false;
+			snapshotPending = false;
 			pendingSeconds = 0;
 			status = document.hidden ? 'paused' : 'running';
 			acceptState(state);
 			lastPhysics = performance.now();
 			previous = lastPhysics;
+			advancePhysics();
 			writer.flush();
 			liveAnnouncement = `${parsed.count}개의 구슬로 경기를 시작합니다. 당첨 기준은 ${modeLabel}입니다.`;
 		} catch (error) {
@@ -369,7 +476,10 @@
 	}
 	async function pause() {
 		if (status === 'running') {
+			clearTimeout(physicsTimer);
 			status = 'paused';
+			captureLatestState();
+			pendingAudioEvents = [];
 			clearTimeout(celebrationTimer);
 			celebrating = false;
 			synchronize();
@@ -404,6 +514,7 @@
 		}
 		lastPhysics = performance.now();
 		previous = lastPhysics;
+		advancePhysics();
 	}
 	function toggleSpeed() {
 		if (status === 'running' && !cinematic?.active) {
@@ -515,14 +626,14 @@
 		if (ready) writer.schedule(settings, JSON.parse(JSON.stringify(customMaps)));
 	});
 	$effect(() => {
-		namesText;
-		mapId;
-		customMaps;
-		mode;
-		rangeText;
-		nth;
-		if (ready && !busy) {
-			clearTimeout(previewTimer);
+		// 종료 자체와 설정 편집을 구분해 결과 화면이 저절로 사라지지 않게 한다.
+		const settings = JSON.stringify([namesText, selectedMap, mode, rangeText, nth]);
+		const changed = previousRaceSettings !== undefined && previousRaceSettings !== settings;
+		previousRaceSettings = settings;
+		if (!ready || busy) return;
+		if (changed && status === 'finished') untrack(reset);
+		else if (status === 'ready') {
+			cancelPreview();
 			previewTimer = setTimeout(preparePreview, 200);
 		}
 	});
@@ -585,7 +696,11 @@
 			draw();
 		};
 		const flush = () => writer.flush();
-		const resize = new ResizeObserver(() => draw());
+		const resize = new ResizeObserver(([entry]) => {
+			canvasBounds = { width: entry.contentRect.width, height: entry.contentRect.height };
+			draw();
+		});
+		canvasBounds = canvas.getBoundingClientRect();
 		resize.observe(canvas);
 		media.addEventListener('change', onMotion);
 		document.addEventListener('visibilitychange', onVisibility);
@@ -597,9 +712,11 @@
 		raf = requestAnimationFrame(frame);
 		return () => {
 			ready = false;
+			cancelPreview();
 			operation++;
 			client.stop();
 			cancelAnimationFrame(raf);
+			clearTimeout(physicsTimer);
 			clearTimeout(previewTimer);
 			clearTimeout(celebrationTimer);
 			writer.destroy();
@@ -683,6 +800,7 @@
 					{fullscreen}
 					{reduced}
 					{race}
+					{displayRace}
 					{selectedWinners}
 					{view}
 					{cinematic}
@@ -728,7 +846,7 @@
 					{focusId}
 					onselect={(id) => {
 						inspectionY = null;
-						focusId = String(id);
+						focusId = focusId === String(id) ? '-1' : String(id);
 					}}
 					{race}
 					bind:query

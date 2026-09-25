@@ -25,7 +25,8 @@ test('증분 전송은 파괴·압축·복구와 구슬 상태를 원래 값 그
 		assert.equal(wire.blocks, undefined);
 		assert.equal(wire.layout, undefined);
 		assert.equal(wire.zones, undefined);
-		assert.equal(wire.marbles[0].name, undefined);
+		assert.equal(wire.marbles, undefined);
+		assert.ok(wire.marbleValues instanceof Float64Array);
 		state = decode(wire);
 		assert.deepEqual(state.blocks, race.blocks);
 	}

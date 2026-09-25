@@ -1,11 +1,33 @@
 import { drawPulse } from './pulse-painter.js';
 import { SKILL_DURATIONS, PULSE_RADIUS } from './skills.js';
 
+// 같은 크기의 전기 고리는 빛 번짐을 한 번만 그리고 회전·이동해서 재사용한다.
+// Canvas가 사라지면 이 캐시도 함께 수거된다.
+const electricSprites = new WeakMap();
+const tornadoStrands = Array.from({ length: 5 }, (_, strand) =>
+	Array.from({ length: 201 }, (_, i) => {
+		const t = i / 200;
+		const angle = t * Math.PI * (10 + strand * 0.7) + strand * 2.1;
+		return {
+			t,
+			sin: Math.sin(angle),
+			cos: Math.cos(angle),
+			growth: t ** 1.6,
+			bulge: 1 + 0.1 * Math.sin(t * 23 + strand * 2),
+			noise: Math.sin(t * 19 + strand * 2) * t * 4
+		};
+	})
+);
+
 // 경기 효과는 경기 시간만 사용하며 그림을 위해 경기 난수를 소비하지 않는다.
 export function drawSkill(ctx, wave, age, reduced = false, view = {}) {
 	const duration = SKILL_DURATIONS[wave.type];
 	if (age < 0 || age >= duration) return;
 	const progress = age / duration;
+	const extent =
+		wave.type === 'pulse' ? PULSE_RADIUS : wave.type === 'gust' ? wave.width / 2 + 16 : 96;
+	if (wave.x + extent < (view.left ?? -Infinity) || wave.x - extent > (view.right ?? Infinity))
+		return;
 	if (wave.type === 'pulse') {
 		if (
 			wave.y + PULSE_RADIUS < (view.top ?? -Infinity) ||
@@ -29,31 +51,62 @@ export function drawSkill(ctx, wave, age, reduced = false, view = {}) {
 }
 
 export function drawElectricField(ctx, marble, time, reduced = false) {
+	let cache = electricSprites.get(ctx);
+	if (!cache) electricSprites.set(ctx, (cache = new Map()));
+	const transform = ctx.getTransform();
+	const quality = Math.min(
+		4,
+		Math.max(0.25, 2 ** Math.ceil(Math.log2(Math.hypot(transform.a, transform.b))))
+	);
+	const key = `${marble.r}:${quality}:${reduced}`;
+	let sprite = cache.get(key);
+	if (!sprite) {
+		const size = (marble.r + 24) * 2;
+		const makeLayer = (bolts) => {
+			const bitmap = ctx.canvas.ownerDocument.createElement('canvas');
+			bitmap.width = bitmap.height = Math.ceil(size * quality);
+			const brush = bitmap.getContext('2d');
+			brush.scale(quality, quality);
+			brush.translate(size / 2, size / 2);
+			brush.strokeStyle = '#ffffff';
+			brush.lineWidth = 2;
+			brush.shadowColor = '#c2dbff';
+			brush.shadowBlur = reduced ? 0 : 7 * quality;
+			if (bolts) {
+				for (let i = 0; i < 4; i++) {
+					brush.save();
+					brush.rotate((i * Math.PI) / 2);
+					const r = marble.r + 4;
+					brush.beginPath();
+					brush.moveTo(r, -7);
+					brush.lineTo(r + 5, -2);
+					brush.lineTo(r + 1, 1);
+					brush.lineTo(r + 5, 7);
+					brush.stroke();
+					brush.restore();
+				}
+			} else {
+				for (let i = 0; i < 2; i++) {
+					brush.beginPath();
+					brush.ellipse(0, 0, marble.r + 7, marble.r + 3, (i * Math.PI) / 2, 0, Math.PI * 2);
+					brush.stroke();
+				}
+			}
+			return bitmap;
+		};
+		sprite = { size, rings: makeLayer(false), bolts: reduced ? null : makeLayer(true) };
+		if (cache.size >= 16) cache.clear();
+		cache.set(key, sprite);
+	}
 	ctx.save();
 	ctx.translate(marble.x, marble.y);
-	ctx.strokeStyle = '#ffffff';
-	ctx.lineWidth = 2;
-	ctx.shadowColor = '#c2dbff';
-	ctx.shadowBlur = reduced ? 0 : 7;
 	const phase = reduced ? 0 : time * 3;
-	for (let i = 0; i < 2; i++) {
-		ctx.beginPath();
-		ctx.ellipse(0, 0, marble.r + 7, marble.r + 3, phase + (i * Math.PI) / 2, 0, Math.PI * 2);
-		ctx.stroke();
-	}
-	if (!reduced) {
-		for (let i = 0; i < 4; i++) {
-			ctx.save();
-			ctx.rotate((i * Math.PI) / 2 + phase * 0.4);
-			const r = marble.r + 4;
-			ctx.beginPath();
-			ctx.moveTo(r, -7);
-			ctx.lineTo(r + 5, -2);
-			ctx.lineTo(r + 1, 1);
-			ctx.lineTo(r + 5, 7);
-			ctx.stroke();
-			ctx.restore();
-		}
+	const half = sprite.size / 2;
+	ctx.rotate(phase);
+	ctx.drawImage(sprite.rings, -half, -half, sprite.size, sprite.size);
+	if (sprite.bolts) {
+		ctx.rotate(-phase * 0.6);
+		ctx.drawImage(sprite.bolts, -half, -half, sprite.size, sprite.size);
 	}
 	ctx.restore();
 }
@@ -197,29 +250,35 @@ function drawTornado(ctx, wave, progress, reduced) {
 	ctx.fill();
 
 	// 높이마다 폭과 중심이 다른 나선을 겹쳐 끊기지 않는 회오리를 만든다.
+	// 앞·뒤 나선의 같은 좌표를 두 번 계산하지 않는다. 고정 삼각함수도 재사용한다.
+	const sinPhase = Math.sin(phase),
+		cosPhase = Math.cos(phase);
+	const centers = tornadoStrands[0].map(({ t }) => Math.sin(t * 7 + phase * 0.12) * (2 + t * 6));
+	const points = new Float64Array(5 * 201 * 3);
+	for (let strand = 0; strand < tornadoStrands.length; strand++) {
+		tornadoStrands[strand].forEach(({ t, sin, cos, growth, bulge, noise }, i) => {
+			const sine = sin * cosPhase + cos * sinPhase;
+			const px =
+				x + centers[i] + (cos * cosPhase - sin * sinPhase) * (3 + (halfWidth - 3) * growth) * bulge;
+			const offset = (strand * 201 + i) * 3;
+			points[offset] = px;
+			points[offset + 1] =
+				bottom - 4 - t * (height - 18) + sine * (2 + t * 11) + noise - (px - x) * 0.1;
+			points[offset + 2] = Number(sine >= 0);
+		});
+	}
 	for (const front of [false, true]) {
 		for (let strand = 0; strand < 5; strand++) {
 			ctx.beginPath();
 			let drawing = false;
 			for (let i = 0; i <= 200; i++) {
-				const t = i / 200;
-				const angle = t * Math.PI * (10 + strand * 0.7) + phase + strand * 2.1;
-				if (Math.sin(angle) >= 0 !== front) {
+				const offset = (strand * 201 + i) * 3;
+				if (points[offset + 2] !== Number(front)) {
 					drawing = false;
 					continue;
 				}
-				const radius = (3 + (halfWidth - 3) * t ** 1.6) * (1 + 0.1 * Math.sin(t * 23 + strand * 2));
-				const center = Math.sin(t * 7 + phase * 0.12) * (2 + t * 6);
-				const px = x + center + Math.cos(angle) * radius;
-				const py =
-					bottom -
-					4 -
-					t * (height - 18) +
-					Math.sin(angle) * (2 + t * 11) +
-					Math.sin(t * 19 + strand * 2) * t * 4 -
-					(px - x) * 0.1;
-				if (drawing) ctx.lineTo(px, py);
-				else ctx.moveTo(px, py);
+				if (drawing) ctx.lineTo(points[offset], points[offset + 1]);
+				else ctx.moveTo(points[offset], points[offset + 1]);
 				drawing = true;
 			}
 			ctx.strokeStyle = front ? '#29292933' : '#33333322';

@@ -1,8 +1,12 @@
+import { createMarbleGrid } from './marble-grid.js';
+import { solveFinaleContacts } from './finale-contacts.js';
+import { constrainFinaleMotion } from './finale-boundary.js';
 import { createSkills, updateSkills, applyGusts, GUST_SPEED } from './skills.js';
 import { BLOCKS, MARBLE_COLORS, BREAKABLE_TYPES, resolveMap } from './catalog.js';
 
 export const WIDTH = 720;
 export const TILE_ROWS = 12;
+export const BLOCK_SCALE_LIMIT = 100;
 const TILE_PITCH = 34;
 const FIRST_LAYER_Y = 300;
 const SPECIAL_HEIGHT = 960;
@@ -14,6 +18,8 @@ export const RESPAWN_DELAY = 3;
 const FINALE_HEIGHT = 740;
 export const STEP = 1 / 120;
 const RADIUS = 13;
+const MARBLE_RESTITUTION = 0.8;
+const LARGE_RACE_SIZE = 200;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 export function randomGenerator(seed) {
@@ -52,7 +58,10 @@ export function butterHitCount(participantCount) {
 }
 
 export function tileRowsForCount(participantCount) {
-	return Math.max(4, Math.round(TILE_ROWS * Math.sqrt(participantCount / 30)));
+	return Math.max(
+		4,
+		Math.round(TILE_ROWS * Math.sqrt(Math.min(participantCount, BLOCK_SCALE_LIMIT) / 30))
+	);
 }
 
 export function createLayout(mapId, participantCount = 30) {
@@ -105,8 +114,10 @@ export function createLayout(mapId, participantCount = 30) {
 			id: 'finale',
 			start: y,
 			end: y + FINALE_HEIGHT,
+			guideStartY: y + 400 - 328 * Math.tan((40 * Math.PI) / 180),
+			rightGuideStartY: y + 400 - 328 * Math.tan((30 * Math.PI) / 180),
 			mouthY: y + 400,
-			rotor: { x: 210, y: y + 410 }
+			rotor: { x: 160, y: y + 480 }
 		},
 		finish: { y: y + FINALE_HEIGHT - 30, left: 340, right: 380 },
 		height: y + FINALE_HEIGHT
@@ -260,7 +271,6 @@ export function createMap(
 		addScatterPins(blocks, connector);
 	}
 	addScatterPins(blocks, layout.finalApproach);
-	const y = layout.finale.start;
 	const finalePhase = random() * Math.PI * 2;
 	blocks.push(
 		makeBlock('rotor', layout.finale.rotor.x, layout.finale.rotor.y, {
@@ -268,10 +278,10 @@ export function createMap(
 			zoneId: 'finale',
 			deviceId: 'finale-bar',
 			soundType: 'rubber',
-			w: 320,
+			w: 448,
 			h: 16,
 			cornerRadius: 8,
-			angularSpeed: (Math.PI * 2) / 4.4,
+			angularSpeed: (Math.PI * 2) / 13.2,
 			direction: -1,
 			phase: finalePhase,
 			restitution: 0.35,
@@ -279,7 +289,8 @@ export function createMap(
 		})
 	);
 	for (const side of [-1, 1]) {
-		// 직선 깔때기의 안쪽 면을 폭40 출구에 연결한다. 벽 두께는 바깥으로 둔다.
+		// 왼쪽40°·오른쪽30°의 안쪽 면을 폭40 출구에 연결한다.
+		const y = side === -1 ? layout.finale.guideStartY : layout.finale.rightGuideStartY;
 		const mouthY = layout.finale.mouthY;
 		const slope = 328 / (mouthY - y);
 		const offsetX = 6 / Math.sqrt(1 + slope * slope);
@@ -338,34 +349,64 @@ export function createSpatialIndex(blocks) {
 				x <= Math.floor((centerX + radius) / CELL);
 				x++
 			) {
-				const key = `${x},${y}`;
-				if (!cells.has(key)) cells.set(key, []);
-				cells.get(key).push(order);
+				let row = cells.get(y);
+				if (!row) cells.set(y, (row = new Map()));
+				let cell = row.get(x);
+				if (!cell) row.set(x, (cell = []));
+				cell.push(order);
 			}
 	});
 	return { blocks, cells };
 }
-export function nearbyBlocks(index, marble) {
-	const orders = new Set();
+const blockQueryScratch = new WeakMap();
+export function nearbyBlocks(index, marble, result = []) {
+	let scratch = blockQueryScratch.get(index);
+	if (!scratch) {
+		scratch = { seen: new Uint32Array(index.blocks.length), stamp: 0, orders: [] };
+		blockQueryScratch.set(index, scratch);
+	}
+	if (++scratch.stamp === 0xffffffff) {
+		scratch.seen.fill(0);
+		scratch.stamp = 1;
+	}
+	const { seen, stamp, orders } = scratch;
+	orders.length = 0;
+	result.length = 0;
 	for (
 		let y = Math.floor((marble.y - marble.r) / CELL);
 		y <= Math.floor((marble.y + marble.r) / CELL);
 		y++
-	)
+	) {
+		const row = index.cells.get(y);
+		if (!row) continue;
 		for (
 			let x = Math.floor((marble.x - marble.r) / CELL);
 			x <= Math.floor((marble.x + marble.r) / CELL);
 			x++
 		)
-			for (const order of index.cells.get(`${x},${y}`) ?? []) orders.add(order);
-	return [...orders].sort((a, b) => a - b).map((order) => index.blocks[order]);
+			for (const order of row.get(x) ?? []) {
+				if (seen[order] === stamp) continue;
+				seen[order] = stamp;
+				orders.push(order);
+			}
+	}
+	orders.sort((a, b) => a - b);
+	for (const order of orders) result.push(index.blocks[order]);
+	return result;
 }
 export function followedMarble(race, mode, focusId) {
-	const alive = race.marbles.filter((m) => !m.finished);
-	return (
-		alive.find((m) => m.id === Number(focusId)) ??
-		alive.sort((a, b) => (mode === 'last' ? a.y - b.y : b.y - a.y) || a.id - b.id)[0]
-	);
+	let selected, candidate;
+	for (const marble of race.marbles) {
+		if (marble.finished) continue;
+		if (marble.id === Number(focusId)) selected = marble;
+		if (
+			!candidate ||
+			(mode === 'last' ? marble.y < candidate.y : marble.y > candidate.y) ||
+			(marble.y === candidate.y && marble.id < candidate.id)
+		)
+			candidate = marble;
+	}
+	return selected ?? candidate;
 }
 export function* prepareRace(participants, mapId = 'crunch', seed = 1, options = {}) {
 	const names = [];
@@ -408,32 +449,37 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1, options =
 	const marbles = [];
 	for (let index = 0; index < names.length; index++) {
 		const name = names[index];
-		marbles.push({
+		const marble = {
 			id: index,
 			name,
 			color: MARBLE_COLORS[index % MARBLE_COLORS.length],
 			...positions[index],
 			vx: 0,
 			vy: 0,
-			contacts: new Map(),
-			ignored: new Map(),
 			held: null,
 			finished: false,
 			finishTime: null,
-			bestY: 0,
-			lastProgress: 0,
 			windUntil: 0,
-			pinRest: null,
-			pulseBoostUntil: 0,
-			windDirection: random() < 0.5 ? -1 : 1,
-			scatterPassages: new Map(),
-			brokenPositions: new Set(),
-			zoneEntries: new Map(),
-			finaleEntry: null,
-			specialContacts: new Set(),
-			materialTravel: null,
-			trail: []
-		});
+			windDirection: random() < 0.5 ? -1 : 1
+		};
+		// 준비 화면에는 접촉 기록과 물리 계산용 Map·Set을 만들지 않는다.
+		if (!options.preview)
+			Object.assign(marble, {
+				contacts: new Map(),
+				ignored: new Map(),
+				bestY: 0,
+				lastProgress: 0,
+				pinRest: null,
+				pulseBoostUntil: 0,
+				scatterPassages: new Map(),
+				brokenPositions: new Set(),
+				zoneEntries: new Map(),
+				finaleEntry: null,
+				specialContacts: new Set(),
+				materialTravel: null,
+				trail: []
+			});
+		marbles.push(marble);
 		if (index % 256 === 0) yield { phase: 'marbles', count: index };
 	}
 	return {
@@ -445,6 +491,7 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1, options =
 		respawnQueue: [],
 		layout,
 		time: 0,
+		finaleRotorContacts: new Map(),
 		finished: [],
 		events: [],
 		seed,
@@ -490,8 +537,27 @@ export function gateOpen(block, time) {
 	return (time + block.phase) % 5.2 > 2.8;
 }
 
+const collisionGeometry = new WeakMap();
+function shapeGeometry(block, time) {
+	const angle = blockAngle(block, time),
+		corner = Math.min(block.cornerRadius ?? 0, block.w / 2, block.h / 2);
+	let g = collisionGeometry.get(block);
+	if (g && g.angle === angle && g.w === block.w && g.h === block.h && g.corner === corner) return g;
+	g = {
+		angle,
+		w: block.w,
+		h: block.h,
+		corner,
+		c: Math.cos(angle),
+		s: Math.sin(angle),
+		halfW: block.w / 2 - corner,
+		halfH: block.h / 2 - corner
+	};
+	collisionGeometry.set(block, g);
+	return g;
+}
 // 구슬 중심을 블록의 로컬 좌표로 옮겨 충돌면을 계산한다.
-export function collision(marble, block, time) {
+export function collision(marble, block, time, geometry) {
 	if (block.arc) {
 		const arc = block.arc,
 			start = arcStart(block, time);
@@ -517,21 +583,21 @@ export function collision(marble, block, time) {
 		};
 	}
 
-	const angle = blockAngle(block, time);
-	const c = Math.cos(angle),
-		s = Math.sin(angle);
+	geometry ??= shapeGeometry(block, time);
+	const { c, s } = geometry;
 	const dx = marble.x - block.x,
 		dy = marble.y - block.y;
 	const lx = dx * c + dy * s,
 		ly = -dx * s + dy * c;
-	const corner = Math.min(block.cornerRadius ?? 0, block.w / 2, block.h / 2);
-	const halfW = block.w / 2 - corner,
-		halfH = block.h / 2 - corner;
+	const { corner, halfW, halfH } = geometry;
+	// 바깥 사각형에도 닿지 않으면 거리 계산이 필요 없다.
+	if (Math.abs(lx) > halfW + marble.r + corner || Math.abs(ly) > halfH + marble.r + corner)
+		return null;
 	const px = clamp(lx, -halfW, halfW),
 		py = clamp(ly, -halfH, halfH);
 	let nx = lx - px,
 		ny = ly - py;
-	const distance = Math.hypot(nx, ny);
+	const distance = nx === 0 ? Math.abs(ny) : ny === 0 ? Math.abs(nx) : Math.hypot(nx, ny);
 	if (distance >= marble.r + corner) return null;
 	let depth = marble.r + corner - distance;
 	if (distance < 0.0001) {
@@ -617,6 +683,12 @@ function destroyBlock(race, marble, block, impact, contact = null) {
 
 export function hitBlock(race, marble, block, hit, dt = STEP) {
 	if (!block.alive || !hit) return;
+	if (
+		block.id === 'finale-bar' &&
+		!marble.finished &&
+		(!marble.held || marble.held.kind === 'lightning')
+	)
+		race.finaleRotorContacts.set(marble, race.time);
 	const contactId = block.deviceId ?? block.id;
 	const lastHit = marble.contacts.get(contactId) ?? -100;
 	const fresh = race.time - lastHit > 0.22;
@@ -778,7 +850,7 @@ function constrainWalls(marble) {
 	}
 }
 function firstContactFraction(marble, block, from, time) {
-	if (!from || collision({ ...marble, ...from }, block, time)) return 0;
+	if (!from || collision({ x: from.x, y: from.y, r: marble.r }, block, time)) return 0;
 	let low = 0,
 		high = 1;
 	for (let i = 0; i < 10; i++) {
@@ -793,85 +865,147 @@ function firstContactFraction(marble, block, from, time) {
 	}
 	return high;
 }
+const nearbyCache = new WeakMap();
+function cachedNearbyBlocks(index, marble) {
+	const minX = Math.floor((marble.x - marble.r) / CELL),
+		maxX = Math.floor((marble.x + marble.r) / CELL),
+		minY = Math.floor((marble.y - marble.r) / CELL),
+		maxY = Math.floor((marble.y + marble.r) / CELL);
+	let cache = nearbyCache.get(marble);
+	if (!cache) {
+		cache = { blocks: [] };
+		nearbyCache.set(marble, cache);
+	}
+	if (
+		cache.index !== index ||
+		cache.minX !== minX ||
+		cache.maxX !== maxX ||
+		cache.minY !== minY ||
+		cache.maxY !== maxY
+	) {
+		Object.assign(cache, { index, minX, maxX, minY, maxY });
+		nearbyBlocks(index, marble, cache.blocks);
+	}
+	return cache.blocks;
+}
+const blockContactScratch = new WeakMap();
 function resolveBlocks(race, marble, dt, from) {
-	const touched = new Set();
+	let scratch = blockContactScratch.get(race);
+	if (!scratch) {
+		scratch = { touched: new Set(), candidates: [], pool: [] };
+		blockContactScratch.set(race, scratch);
+	}
+	const { touched, candidates, pool } = scratch;
+	touched.clear();
 	for (let pass = 0; pass < 3; pass++) {
 		let resolved = false;
-		const candidates = nearbyBlocks(race.spatial, marble)
-			.filter((block) => block.alive && collision(marble, block, race.time))
-			.map((block) => ({ block, fraction: firstContactFraction(marble, block, from, race.time) }))
-			.sort((a, b) => a.fraction - b.fraction);
-		for (const { block } of candidates) {
+		candidates.length = 0;
+		for (const block of marble.y - marble.r >= race.finaleOnlyY
+			? race.finaleBlocks
+			: cachedNearbyBlocks(race.spatial, marble)) {
 			if (!block.alive) continue;
 			const hit = collision(marble, block, race.time);
+			if (!hit) continue;
+			const candidate = pool[candidates.length] ?? (pool[candidates.length] = {});
+			candidate.block = block;
+			candidate.hit = hit;
+			candidates.push(candidate);
+		}
+		// 닿은 블록이 하나면 접촉 순서를 정하기 위한10회 거리 탐색이 필요 없다.
+		if (candidates.length > 1) {
+			for (const candidate of candidates)
+				candidate.fraction = firstContactFraction(marble, candidate.block, from, race.time);
+			candidates.sort((a, b) => a.fraction - b.fraction);
+		}
+		for (const candidate of candidates) {
+			const { block } = candidate;
+			if (!block.alive) continue;
+			// 하나만 닿았으면 탐색 뒤 위치가 그대로이므로 같은 접촉면을 다시 계산하지 않는다.
+			const hit = candidates.length === 1 ? candidate.hit : collision(marble, block, race.time);
 			if (!hit) continue;
 			// 겹침 보정 중에는 같은 효과장의 힘을 중복 적용하지 않는다.
 			if (touched.has(block.id) && ['gel', 'wind', 'sticky', 'pond'].includes(block.type)) continue;
 			touched.add(block.id);
 			hitBlock(race, marble, block, hit, dt);
-			if (marble.held) return;
+			if (marble.held && marble.held.kind !== 'lightning') return;
 			if (!['gel', 'wind', 'sticky', 'pond'].includes(block.type)) resolved = true;
 		}
 		constrainWalls(marble);
 		if (!resolved) break;
 	}
+	if (from) constrainFinaleMotion(race, marble, from.x, from.y);
 }
+// 경기별 격자와 후보 배열을 재사용한다. 후보 순서는 기존 번호 오름차순을 유지한다.
+const marbleContactScratch = new WeakMap();
 function separateMarbles(race) {
-	const marbles = race.marbles,
-		cells = new Map(),
-		keys = new Map();
-	const key = (m) => `${Math.floor(m.x / 32)},${Math.floor(m.y / 32)}`;
-	const update = (m) => {
-		if (m.finished) return;
-		const k = key(m),
-			old = keys.get(m.id);
-		if (k === old) return;
-		if (old) cells.get(old)?.delete(m);
-		if (!cells.has(k)) cells.set(k, new Set());
-		cells.get(k).add(m);
-		keys.set(m.id, k);
-	};
-	for (const m of marbles) update(m);
+	const marbles = race.marbles;
+	let grid = marbleContactScratch.get(race);
+	if (!grid) marbleContactScratch.set(race, (grid = createMarbleGrid()));
+	if (!grid.prepare(marbles)) return;
+	const { byId, update } = grid;
 	for (let i = 0; i < marbles.length; i++) {
 		const a = marbles[i];
 		if (a.finished) continue;
-		const candidates = [];
-		const cx = Math.floor(a.x / 32),
-			cy = Math.floor(a.y / 32);
-		for (let y = cy - 1; y <= cy + 1; y++)
-			for (let x = cx - 1; x <= cx + 1; x++)
-				for (const b of cells.get(`${x},${y}`) ?? []) if (b.id > a.id) candidates.push(b);
-		candidates.sort((a, b) => a.id - b.id);
-		for (const b of candidates) {
+		const candidates = grid.nearby(a);
+		for (const id of candidates) {
+			if (id <= a.id) continue;
+			const b = byId[id];
 			if (b.finished || (a.held && b.held)) continue;
 			const dx = b.x - a.x,
-				dy = b.y - a.y,
-				distance = Math.hypot(dx, dy);
+				dy = b.y - a.y;
+			const radius = a.r + b.r;
+			if (Math.abs(dx) >= radius || Math.abs(dy) >= radius) continue;
+			const distance = Math.hypot(dx, dy);
 			if (distance >= a.r + b.r) continue;
 			const nx = distance > 0.001 ? dx / distance : 1,
 				ny = distance > 0.001 ? dy / distance : 0;
 			const ia = a.held ? 0 : 1,
 				ib = b.held ? 0 : 1,
 				total = ia + ib;
-			const overlap = Math.min(4, a.r + b.r - distance) / total;
+			const ax = a.x,
+				ay = a.y,
+				bx = b.x,
+				by = b.y;
+			const finale =
+				race.marbles.length >= LARGE_RACE_SIZE &&
+				(a.finaleEntry != null ||
+					b.finaleEntry != null ||
+					a.y + a.r >= race.layout.finale.start ||
+					b.y + b.r >= race.layout.finale.start);
+			// 결승의 위치 보정은 단계 끝의 연결 접촉 처리에서 한 번 맡는다.
+			const overlap = finale ? 0 : Math.min(4, a.r + b.r - distance) / total;
 			a.x -= nx * overlap * ia;
 			a.y -= ny * overlap * ia;
 			b.x += nx * overlap * ib;
 			b.y += ny * overlap * ib;
 			const speed = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
 			if (speed < 0) {
-				const impulse = (-speed * 1.6) / total;
+				const impulse = (-speed * (1 + MARBLE_RESTITUTION)) / total;
 				a.vx -= impulse * nx * ia;
 				a.vy -= impulse * ny * ia;
 				b.vx += impulse * nx * ib;
 				b.vy += impulse * ny * ib;
 			}
-			if (!a.held) resolveBlocks(race, a, 0);
-			if (!b.held) resolveBlocks(race, b, 0);
-			update(a);
-			update(b);
+			// 결승 쌍은 여기서 속도만 바뀌므로 위치·벽·격자를 다시 확인할 필요가 없다.
+			if (!finale) {
+				if (!a.held) resolveBlocks(race, a, 0);
+				if (!b.held) resolveBlocks(race, b, 0);
+				constrainFinaleMotion(race, a, ax, ay);
+				constrainFinaleMotion(race, b, bx, by);
+				update(a);
+				update(b);
+			}
 		}
 	}
+}
+
+// 결승의 연결된 접촉은 위치와 닫히는 속도를 함께 풀고 반발·음향은 반복하지 않는다.
+export function settleFinaleContacts(race, display = false) {
+	if (!display)
+		for (const [m, time] of race.finaleRotorContacts) {
+			if (m.finished || race.time - time > STEP + 1e-9) race.finaleRotorContacts.delete(m);
+		}
+	solveFinaleContacts(race, collision, blockAngle, display);
 }
 // 핀 꼭대기의 작은 반복 반동은 일반8초 정체보다 일찍 해소한다.
 function releasePinRest(race, marble) {
@@ -885,9 +1019,9 @@ function releasePinRest(race, marble) {
 		marble.pinRest = null;
 		return;
 	}
-	const pin = nearbyBlocks(race.spatial, marble).find((block) => {
+	const pin = cachedNearbyBlocks(race.spatial, marble).find((block) => {
 		if (!block.alive || !block.pin) return false;
-		const contact = collision({ ...marble, r: marble.r + 0.15 }, block, race.time);
+		const contact = collision({ x: marble.x, y: marble.y, r: marble.r + 0.15 }, block, race.time);
 		return contact && contact.ny < -0.98;
 	});
 	if (!pin) {
@@ -937,6 +1071,8 @@ function restoreBlocks(race) {
 	if (index) race.respawnQueue = waiting.concat(race.respawnQueue.slice(index));
 }
 
+const previousPositions = new WeakMap();
+const tickPositions = new WeakMap();
 export function stepRace(race, dt = STEP) {
 	if (dt <= 0 || dt > 1 / 60) throw new Error('물리 계산 간격은 1/60초 이하여야 합니다.');
 	race.events = [];
@@ -956,17 +1092,48 @@ export function stepRace(race, dt = STEP) {
 	if (race.spatial?.blocks !== race.blocks) {
 		race.spatial = createSpatialIndex(race.blocks);
 		race.blockLookup = new Map(race.blocks.map((b) => [b.id, b]));
+		race.finaleBlocks = race.blocks.filter((b) => b.zoneId === 'finale');
+		race.finaleOnlyY = race.layout.finale.start;
+		for (const b of race.blocks)
+			if (b.zoneId !== 'finale')
+				race.finaleOnlyY = Math.max(
+					race.finaleOnlyY,
+					(b.pivotY ?? b.y) + Math.hypot(b.w, b.h) / 2 + (b.orbitRadius ?? 0)
+				);
 		race.movingBlocks = race.blocks.filter(
 			(b) =>
 				b.opensAt !== undefined || b.orbitRadius !== undefined || b.motion || b.type === 'seesaw'
 		);
 	}
 	// 이동량을 반지름보다 작게 나눠 얇은 장치도 먼저 닿는 면에서 처리한다.
-	let speed = race.skills.waves.some((wave) => wave.type === 'gust') ? GUST_SPEED : 430;
+	let speed2 = (race.skills.waves.some((wave) => wave.type === 'gust') ? GUST_SPEED : 430) ** 2;
+	let hasFinale = false;
 	for (const marble of race.marbles)
-		if (!marble.finished) speed = Math.max(speed, Math.hypot(marble.vx, marble.vy));
-	const divisions = Math.max(1, Math.ceil(((speed + 500) * dt) / 4));
+		if (!marble.finished) {
+			speed2 = Math.max(speed2, marble.vx * marble.vx + marble.vy * marble.vy);
+			hasFinale ||= marble.finaleEntry != null || marble.y + marble.r >= race.layout.finale.start;
+		}
+	// 큰 경기의 결승에서는 이동 상한을8로 둔다. 반지름13보다 작으며 빠른 이동은 계속 나눈다.
+	const travel = race.marbles.length >= LARGE_RACE_SIZE && hasFinale ? 8 : 4;
+	const divisions = Math.max(1, Math.ceil(((Math.sqrt(speed2) + 500) * dt) / travel));
 	const h = dt / divisions;
+	const damping = Math.exp(-h * 1.5),
+		pulseDamping = Math.exp(-h * 0.6);
+	let previous = previousPositions.get(race);
+	if (!previous) previousPositions.set(race, (previous = []));
+	const passages = [];
+	for (const connector of [...race.layout.connectors, race.layout.finalApproach]) {
+		passages.push({ id: connector.id, key: 'entry', line: connector.start });
+		passages.push({ id: connector.id, key: 'exit', line: connector.end });
+	}
+	let tickBefore = tickPositions.get(race);
+	if (!tickBefore) tickPositions.set(race, (tickBefore = []));
+	for (const m of race.marbles)
+		if (!m.finished) {
+			const point = tickBefore[m.id] ?? (tickBefore[m.id] = { x: 0, y: 0 });
+			point.x = m.x;
+			point.y = m.y;
+		}
 	for (let part = 0; part < divisions; part++) {
 		race.time += h;
 		if (BLOCK_RESPAWN_ENABLED) restoreBlocks(race);
@@ -981,13 +1148,24 @@ export function stepRace(race, dt = STEP) {
 			}
 		}
 		applyGusts(race.skills, race.marbles, race.time);
-		const previous = new Map();
 		for (const marble of race.marbles) {
 			if (marble.finished) continue;
-			previous.set(marble.id, { x: marble.x, y: marble.y });
+			const position = previous[marble.id] ?? (previous[marble.id] = { x: 0, y: 0 });
+			position.x = marble.x;
+			position.y = marble.y;
 			if (marble.held) {
 				marble.pinRest = null;
-				if (race.time < marble.held.until) continue;
+				if (race.time < marble.held.until) {
+					// 번개 정지 중에도 움직이는 회전바는 구슬의 고정 위치를 밀어낸다.
+					const bar = race.blockLookup.get('finale-bar');
+					if (marble.held.kind === 'lightning' && bar?.alive && collision(marble, bar, race.time)) {
+						resolveBlocks(race, marble, h, previous[marble.id]);
+						marble.held.x = marble.x;
+						marble.held.y = marble.y;
+						marble.vx = marble.vy = 0;
+					}
+					continue;
+				}
 				if (marble.held.kind === 'lightning') marble.lastProgress = race.time;
 				marble.held = null;
 			}
@@ -1000,7 +1178,7 @@ export function stepRace(race, dt = STEP) {
 				if (
 					!block?.alive ||
 					!collision(
-						{ ...marble, r: marble.r + (block.type === 'frost' ? 12 : 2) },
+						{ x: marble.x, y: marble.y, r: marble.r + (block.type === 'frost' ? 12 : 2) },
 						block,
 						race.time
 					)
@@ -1025,49 +1203,49 @@ export function stepRace(race, dt = STEP) {
 			const horizontalLimit = pulseBoost ? 1000 : 600;
 			marble.vy = Math.min(pulseBoost ? 900 : 430, marble.vy + 420 * h);
 			marble.vx = clamp(
-				marble.vx * Math.exp(-h * (pulseBoost ? 0.6 : 1.5)),
+				marble.vx * (pulseBoost ? pulseDamping : damping),
 				-horizontalLimit,
 				horizontalLimit
 			);
 			marble.x += marble.vx * h;
 			marble.y += marble.vy * h;
-			resolveBlocks(race, marble, h, previous.get(marble.id));
+			resolveBlocks(race, marble, h, previous[marble.id]);
 		}
 		separateMarbles(race);
-		const arrivals = [];
 		for (const marble of race.marbles) {
 			if (marble.finished) continue;
 			constrainWalls(marble);
+			constrainFinaleMotion(race, marble, previous[marble.id].x, previous[marble.id].y);
+		}
+		if (part === divisions - 1) settleFinaleContacts(race);
+		const arrivals = [];
+		for (const marble of race.marbles) {
+			if (marble.finished) continue;
 			releasePinRest(race, marble);
-			const before = previous.get(marble.id);
-			for (const connector of [...race.layout.connectors, race.layout.finalApproach]) {
-				for (const [key, line] of [
-					['entry', connector.start],
-					['exit', connector.end]
-				]) {
-					if (before.y >= line || marble.y < line) continue;
-					let record = marble.scatterPassages.get(connector.id);
-					if (!record) {
-						record = { contacts: [], entry: null, exit: null };
-						marble.scatterPassages.set(connector.id, record);
-					}
-					if (record[key]) continue;
-					const fraction = (line - before.y) / (marble.y - before.y);
-					record[key] = {
-						x: before.x + (marble.x - before.x) * fraction,
-						time: race.time - h + fraction * h,
-						rank:
-							1 +
-							race.marbles.filter(
-								(other) => other.id !== marble.id && (other.finished || other.y > marble.y)
-							).length
-					};
+			const before = previous[marble.id];
+			for (const { id, key, line } of passages) {
+				if (before.y >= line || marble.y < line) continue;
+				let record = marble.scatterPassages.get(id);
+				if (!record) {
+					record = { contacts: [], entry: null, exit: null };
+					marble.scatterPassages.set(id, record);
 				}
+				if (record[key]) continue;
+				const fraction = (line - before.y) / (marble.y - before.y);
+				let rank = 1;
+				for (const other of race.marbles)
+					if (other.id !== marble.id && (other.finished || other.y > marble.y)) rank++;
+				record[key] = {
+					x: before.x + (marble.x - before.x) * fraction,
+					time: race.time - h + fraction * h,
+					rank
+				};
 			}
-			for (const zone of race.zones)
-				if (marble.y >= zone.y - 29 && !marble.zoneEntries.has(zone.id)) {
-					marble.zoneEntries.set(zone.id, { x: marble.x, time: race.time });
-				}
+			if (marble.zoneEntries.size < race.zones.length)
+				for (const zone of race.zones)
+					if (marble.y >= zone.y - 29 && !marble.zoneEntries.has(zone.id)) {
+						marble.zoneEntries.set(zone.id, { x: marble.x, time: race.time });
+					}
 			if (marble.y >= race.zones[0].y - 29 && marble.finaleEntry === null) {
 				marble.materialTravel ??= { minX: marble.x, maxX: marble.x };
 				marble.materialTravel.minX = Math.min(marble.materialTravel.minX, marble.x);
@@ -1078,17 +1256,27 @@ export function stepRace(race, dt = STEP) {
 				marble.finaleEntry = race.time - h + clamp(fraction, 0, 1) * h;
 				marble.windUntil = 0;
 			}
+			if (part !== divisions - 1) continue;
+			const prior = tickBefore[marble.id];
 			const finish = race.layout.finish;
-			if (before.y < finish.y && marble.y >= finish.y && marble.y > before.y) {
-				const fraction = (finish.y - before.y) / (marble.y - before.y);
-				const x = before.x + (marble.x - before.x) * fraction;
+			const mouth = race.layout.finale.mouthY;
+			if (prior.y >= mouth && marble.y < mouth) marble.chuteEntered = false;
+			if (prior.y < mouth && marble.y >= mouth && marble.y > prior.y) {
+				const fraction = (mouth - prior.y) / (marble.y - prior.y);
+				const x = prior.x + (marble.x - prior.x) * fraction;
+				marble.chuteEntered = x - marble.r >= finish.left && x + marble.r <= finish.right;
+			}
+			if (prior.y < finish.y && marble.y >= finish.y && marble.y > prior.y) {
+				const fraction = (finish.y - prior.y) / (marble.y - prior.y);
+				const x = prior.x + (marble.x - prior.x) * fraction;
 				if (
 					marble.finaleEntry !== null &&
+					marble.chuteEntered === true &&
 					x - marble.r >= finish.left &&
 					x + marble.r <= finish.right
 				) {
 					marble.finished = true;
-					marble.finishTime = race.time - h + fraction * h;
+					marble.finishTime = race.time - dt + fraction * dt;
 					arrivals.push(marble);
 				}
 			}

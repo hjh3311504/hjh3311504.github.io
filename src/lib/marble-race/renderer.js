@@ -1,4 +1,5 @@
 import { drawSkill, drawElectricField } from './skill-painter.js';
+import { drawMarble } from './marble-painter.js';
 import { BLOCKS } from './catalog.js';
 import { createTilePainter } from './tile-painter.js';
 import { drawSpecialBlock } from './special-painter.js';
@@ -14,6 +15,120 @@ export function createRenderer(canvas) {
 	let ripples = [];
 	let lastTime = 0;
 	let oldRace;
+	const textSprites = new Map(),
+		tileSprites = new Map();
+	const sprites = new Map(),
+		labels = new Map();
+	let blockBands = new Map();
+	let gridPattern;
+	let textQuality = 1;
+	function marbleSprite(marble, font, quality) {
+		const key = `${marble.color}:${marble.r}:${marble.id}:${font}:${quality}`;
+		if (sprites.has(key)) return sprites.get(key);
+		const bitmap = document.createElement('canvas');
+		const brush = bitmap.getContext('2d');
+		brush.font = font;
+		let width = Math.ceil(
+			Math.max((marble.r + 2) * 2, brush.measureText(String(marble.id + 1)).width + 4)
+		);
+		let height = Math.max((marble.r + 2) * 2, Number(font.match(/([\d.]+)px/)[1]) * 1.5 + 8);
+		width = Math.ceil(width * quality) / quality;
+		height = Math.ceil(height * quality) / quality;
+		bitmap.width = Math.round(width * quality);
+		bitmap.height = Math.round(height * quality);
+		brush.scale(quality, quality);
+		brush.translate(width / 2, height / 2);
+		drawMarble(brush, marble, font);
+		if (sprites.size >= 2048) sprites.clear();
+		const sprite = { bitmap, width, height };
+		sprites.set(key, sprite);
+		return sprite;
+	}
+
+	function paintText(text, x, y, background = false) {
+		const key = `${ctx.font}:${ctx.fillStyle}:${background}:${textQuality}:${text}`;
+		let sprite = textSprites.get(key);
+		if (!sprite) {
+			const fontSize = Number(ctx.font.match(/([\d.]+)px/)[1]);
+			let width = Math.ceil(ctx.measureText(text).width) + (background ? 12 : 4),
+				height = background ? Math.ceil(fontSize) + 8 : Math.ceil(fontSize * 1.5) + 4;
+			const bitmap = document.createElement('canvas');
+			width = Math.ceil(width * textQuality) / textQuality;
+			height = Math.ceil(height * textQuality) / textQuality;
+			bitmap.width = Math.round(width * textQuality);
+			bitmap.height = Math.round(height * textQuality);
+			const brush = bitmap.getContext('2d');
+			brush.scale(textQuality, textQuality);
+			brush.font = ctx.font;
+			if (background) {
+				brush.fillStyle = '#101d2ce8';
+				brush.beginPath();
+				brush.roundRect(0, 0, width, height, 5);
+				brush.fill();
+			}
+			brush.fillStyle = ctx.fillStyle;
+			brush.textAlign = 'center';
+			const baseline = background ? fontSize + 4 : height - 4;
+			brush.fillText(text, width / 2, baseline);
+			sprite = { bitmap, width, height, baseline };
+			if (textSprites.size >= 2048) textSprites.clear();
+			textSprites.set(key, sprite);
+		}
+		ctx.drawImage(
+			sprite.bitmap,
+			x - sprite.width / 2,
+			y - sprite.baseline,
+			sprite.width,
+			sprite.height
+		);
+	}
+	function paintTile(block) {
+		const key = `${block.type}:${block.w}:${block.h}:${block.cornerRadius}`;
+		let sprite = tileSprites.get(key);
+		if (!sprite) {
+			const bitmap = document.createElement('canvas'),
+				width = block.w + 4,
+				height = block.h + 4;
+			bitmap.width = width * 4;
+			bitmap.height = height * 4;
+			const brush = bitmap.getContext('2d');
+			brush.scale(4, 4);
+			brush.translate(width / 2, height / 2);
+			createTilePainter(brush)({ ...block, x: 0, y: 0 });
+			sprite = { bitmap, width, height };
+			tileSprites.set(key, sprite);
+		}
+		ctx.drawImage(
+			sprite.bitmap,
+			block.x - sprite.width / 2,
+			block.y - sprite.height / 2,
+			sprite.width,
+			sprite.height
+		);
+	}
+
+	function indexBlocks(blocks) {
+		blockBands = new Map();
+		for (const [order, block] of blocks.entries()) {
+			const extent = block.arc?.radius ?? Math.hypot(block.w, block.h) / 2;
+			const radius = extent + (block.orbitRadius ?? 0) + 16;
+			const y = block.pivotY ?? block.y;
+			for (
+				let band = Math.floor((y - radius) / 256);
+				band <= Math.floor((y + radius) / 256);
+				band++
+			) {
+				if (!blockBands.has(band)) blockBands.set(band, []);
+				blockBands.get(band).push({ block, order });
+			}
+		}
+	}
+	function blocksInView(top, bottom) {
+		const visible = new Map();
+		for (let band = Math.floor(top / 256); band <= Math.floor(bottom / 256); band++)
+			for (const entry of blockBands.get(band) ?? []) visible.set(entry.order, entry.block);
+		return [...visible.entries()].sort((a, b) => a[0] - b[0]).map((entry) => entry[1]);
+	}
 
 	function rounded(x, y, w, h, radius = 7) {
 		ctx.beginPath();
@@ -28,7 +143,8 @@ export function createRenderer(canvas) {
 	function drawBlock(block, race) {
 		if (block.arc) {
 			const start = arcStart(block, race.time);
-			ctx.strokeStyle = block.arc.period ? '#b8a7ed' : '#657d91';
+			ctx.strokeStyle =
+				block.zoneId === 'finale' ? '#edffff' : block.arc.period ? '#b8a7ed' : '#657d91';
 			ctx.lineWidth = block.arc.thickness;
 			ctx.lineCap = 'round';
 			ctx.beginPath();
@@ -63,7 +179,7 @@ export function createRenderer(canvas) {
 			return;
 		}
 		if (block.tile) {
-			drawTile(block);
+			paintTile(block);
 			return;
 		}
 		if (block.motion) {
@@ -291,7 +407,14 @@ export function createRenderer(canvas) {
 
 	function render(
 		race,
-		{ focusId = -1, overview = false, skillsEnabled = false, reduced = false, view } = {}
+		{
+			focusId = -1,
+			overview = false,
+			skillsEnabled = false,
+			reduced = false,
+			view,
+			bounds = canvas.getBoundingClientRect()
+		} = {}
 	) {
 		if (oldRace !== (race.identity ?? race)) {
 			camera = 0;
@@ -299,9 +422,12 @@ export function createRenderer(canvas) {
 			impressions = [];
 			ripples = [];
 			lastTime = 0;
+			labels.clear();
+			sprites.clear();
+			textSprites.clear();
+			indexBlocks(race.blocks);
 			oldRace = race.identity ?? race;
 		}
-		const bounds = canvas.getBoundingClientRect();
 		if (!bounds.width || !bounds.height) return;
 		const dpr = Math.min(window.devicePixelRatio || 1, 2);
 		const pixelWidth = Math.round(bounds.width * dpr),
@@ -324,13 +450,23 @@ export function createRenderer(canvas) {
 		ctx.translate(overview ? (bounds.width - WIDTH * scale) / 2 : -view.left * scale, 0);
 		ctx.scale(scale, scale);
 		ctx.translate(0, -camera);
-		ctx.fillStyle = '#294051';
-		for (let y = Math.floor(camera / 32) * 32; scale > 0.08 && y < camera + viewHeight; y += 32) {
-			for (let x = 24; x < WIDTH; x += 32) {
-				ctx.beginPath();
-				ctx.arc(x, y, 1, 0, Math.PI * 2);
-				ctx.fill();
+		if (scale > 0.08) {
+			if (!gridPattern) {
+				const tile = document.createElement('canvas');
+				tile.width = tile.height = 128;
+				const brush = tile.getContext('2d');
+				brush.scale(4, 4);
+				brush.fillStyle = '#294051';
+				for (const y of [0, 32]) {
+					brush.beginPath();
+					brush.arc(24, y, 1, 0, Math.PI * 2);
+					brush.fill();
+				}
+				gridPattern = ctx.createPattern(tile, 'repeat');
+				gridPattern.setTransform(new DOMMatrix().scale(0.25));
 			}
+			ctx.fillStyle = gridPattern;
+			ctx.fillRect(12, camera, WIDTH - 24, viewHeight);
 		}
 		ctx.strokeStyle = '#385062';
 		ctx.lineWidth = 2;
@@ -358,14 +494,10 @@ export function createRenderer(canvas) {
 					drawBlock(block, race);
 			}
 		}
-		for (const block of race.blocks)
-			if (
-				!(block.zoneId === 'finale' && block.type === 'rotor') &&
-				block.y > camera - 280 &&
-				block.y < camera + viewHeight + 280
-			)
-				drawBlock(block, race);
-		for (const block of race.blocks) {
+		const visibleBlocks = blocksInView(camera, camera + viewHeight);
+		for (const block of visibleBlocks)
+			if (!(block.zoneId === 'finale' && block.type === 'rotor')) drawBlock(block, race);
+		for (const block of visibleBlocks) {
 			if (block.zoneId !== 'finale' || block.type !== 'rotor') continue;
 			const radius = Math.hypot(block.w, block.h) / 2;
 			if (block.y + radius > camera && block.y - radius < camera + viewHeight)
@@ -430,17 +562,45 @@ export function createRenderer(canvas) {
 		if (skillsEnabled) {
 			for (const wave of race.skillWaves ?? race.skills?.waves ?? []) {
 				drawSkill(ctx, wave, race.time - wave.time, reduced, {
+					left: overview ? 0 : view.left,
+					right: (overview ? 0 : view.left) + bounds.width / scale,
 					top: camera,
 					bottom: camera + viewHeight
 				});
 			}
 		}
+		const numberFont = `800 ${Math.round(Math.max(10, 8 / scale) * 2) / 2}px SUIT, sans-serif`;
+		// 전체 맵에서도 글자를 자르거나 거대한 비트맵을 만들지 않는다.
+		const spriteQuality = 2 ** Math.ceil(Math.log2(scale * dpr));
+		textQuality = spriteQuality;
 		const renderMarbles = race.marbles
 			.filter(
 				(marble) =>
 					!marble.finished && marble.y >= camera - 60 && marble.y <= camera + viewHeight + 60
 			)
 			.sort((a, b) => (a.id === Number(focusId)) - (b.id === Number(focusId)));
+		// 이름표 위로 구슬·번호·추적 표식이 보이게 한다.
+		for (const marble of renderMarbles) {
+			const isFocus = marble.id === Number(focusId);
+			if (!overview || isFocus) {
+				const labelFont = Math.round(Math.max(14, (isFocus ? 18 : 14) / scale) * 2) / 2;
+				ctx.font = `${isFocus ? 800 : 600} ${labelFont}px SUIT, sans-serif`;
+				const key = `${ctx.font}:${marble.name}`;
+				let label = labels.get(key);
+				if (!label) {
+					const chars = [...marble.name],
+						name = chars.length > 9 ? chars.slice(0, 8).join('') + '…' : marble.name;
+					label = { name, width: ctx.measureText(name).width + 12 };
+					// 확대 중의 연속 글자 크기로 캐시가 무한히 늘지 않게 한다.
+					if (labels.size > 4096) labels.clear();
+					labels.set(key, label);
+				}
+				const { name, width } = label;
+				const labelX = Math.max(width / 2 + 3, Math.min(WIDTH - width / 2 - 3, marble.x));
+				ctx.fillStyle = isFocus ? '#ffffff' : '#dceaf3';
+				paintText(name, labelX, marble.y + 21 + labelFont, true);
+			}
+		}
 		for (const marble of renderMarbles) {
 			const isFocus = marble.id === Number(focusId);
 			if (isFocus) {
@@ -463,22 +623,15 @@ export function createRenderer(canvas) {
 					]);
 				}
 			}
-			const gradient = ctx.createRadialGradient(
-				marble.x - 4,
-				marble.y - 5,
-				1,
-				marble.x + 2,
-				marble.y + 3,
-				marble.r + 3
+			const sprite = marbleSprite(marble, numberFont, spriteQuality);
+			ctx.drawImage(
+				sprite.bitmap,
+				marble.x - sprite.width / 2,
+				marble.y - sprite.height / 2,
+				sprite.width,
+				sprite.height
 			);
-			gradient.addColorStop(0, '#ffffff');
-			gradient.addColorStop(0.3, marble.color);
-			gradient.addColorStop(1, '#304a61');
-			ctx.fillStyle = gradient;
-			ctx.beginPath();
-			ctx.arc(marble.x, marble.y, marble.r, 0, Math.PI * 2);
-			ctx.fill();
-			ctx.font = `800 ${Math.max(10, 8 / scale)}px SUIT, sans-serif`;
+			ctx.font = numberFont;
 			if (marble.held?.kind === 'lightning') drawElectricField(ctx, marble, race.time, reduced);
 			if (marble.held?.kind === 'frost') {
 				ctx.fillStyle = '#b2e9f780';
@@ -497,24 +650,7 @@ export function createRenderer(canvas) {
 				ctx.stroke();
 			}
 			ctx.fillStyle = '#142736';
-			ctx.fillText(String(marble.id + 1), marble.x, marble.y + 4);
-		}
-		// 구슬을 먼저 모두 그려 이름표가 다른 구슬에 가려지지 않게 한다.
-		for (const marble of renderMarbles) {
-			const isFocus = marble.id === Number(focusId);
-			if (!overview || isFocus) {
-				const labelFont = Math.max(14, (isFocus ? 18 : 14) / scale);
-				ctx.font = `${isFocus ? 800 : 600} ${labelFont}px SUIT, sans-serif`;
-				const name =
-					[...marble.name].length > 9 ? [...marble.name].slice(0, 8).join('') + '…' : marble.name;
-				const width = ctx.measureText(name).width + 12;
-				const labelX = Math.max(width / 2 + 3, Math.min(WIDTH - width / 2 - 3, marble.x));
-				ctx.fillStyle = '#101d2ce8';
-				rounded(labelX - width / 2, marble.y + 17, width, labelFont + 8, 5);
-				ctx.fill();
-				ctx.fillStyle = isFocus ? '#ffffff' : '#dceaf3';
-				ctx.fillText(name, labelX, marble.y + 21 + labelFont);
-			}
+			if (marble.held) paintText(String(marble.id + 1), marble.x, marble.y + 4);
 		}
 	}
 	return { render, addEvents };

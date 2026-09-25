@@ -8,7 +8,7 @@ test('마지막 방식은1개만 남을 때 당첨·팡파레를 실행하고 �
 	await observeRace(page, 47);
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('골인하지 않은 구슬이 1개만 남으면');
-	await page.locator('canvas').evaluate((canvas) => {
+	await page.locator('canvas[role="button"]').evaluate((canvas) => {
 		window.__fanfares = [];
 		canvas.setAttribute('data-audio-diagnostics', '');
 		canvas.addEventListener('marble-audio', ({ detail }) => {
@@ -26,7 +26,7 @@ test('마지막 방식은1개만 남을 때 당첨·팡파레를 실행하고 �
 	await page.getByLabel('참가자 이름').fill('토끼\n고양이');
 	await page.getByRole('button', { name: '도각도각 키보드', exact: true }).click();
 	await page.getByRole('button', { name: '마지막', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	await page.getByRole('button', { name: '경기 배속 전환', exact: true }).click();
 	await expect(page.locator('.winner-panel')).toBeVisible({ timeout: 75000 });
@@ -44,4 +44,8 @@ test('마지막 방식은1개만 남을 때 당첨·팡파레를 실행하고 �
 	await expect(page.locator('.stage-state')).toHaveText('경기 종료', { timeout: 15000 });
 	await expect(page.locator('.winner-panel')).toHaveText(selected, { useInnerText: true });
 	expect(await page.evaluate(() => window.__fanfares.length)).toBe(1);
+	const finalWidth = await page.evaluate(
+		() => window.__raceState.blocks.find((b) => b.id === 'finale-bar').w
+	);
+	expect(finalWidth).toBe(448);
 });

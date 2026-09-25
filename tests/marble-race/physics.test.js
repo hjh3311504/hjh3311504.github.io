@@ -86,9 +86,12 @@ test('활성3개 맵은 일반12종·재질4층·특수 구간3곳과 회전 판
 		assert.equal(race.layout.finish.right - race.layout.finish.left, 40);
 		const rotors = race.blocks.filter((b) => b.type === 'rotor');
 		assert.equal(rotors.length, 1);
-		assert.equal(rotors[0].w, 320);
+		assert.equal(rotors[0].w, 448);
 		assert.equal(rotors[0].h, 16);
-		assert.equal(race.blocks.filter((b) => b.arc).length, 0);
+		assert.deepEqual(
+			race.blocks.filter((b) => b.arc).map((b) => b.id),
+			[]
+		);
 		assert.equal(race.layout.height - race.layout.finale.start, 740);
 	}
 	assert.equal(MAPS.length, 3);
@@ -264,8 +267,18 @@ test('분산 장치 접촉은 실제 충돌마다 한 장치당 한 번 기록�
 test('도착은 중앙 통로 안의 아래 방향 교차만 인정하고 중복 기록하지 않는다', () => {
 	const race = createRace(['중앙', '바깥']);
 	race.blocks = [];
-	Object.assign(race.marbles[0], { x: 360, y: race.layout.finish.y - 1, vy: 400 });
-	Object.assign(race.marbles[1], { x: 500, y: race.layout.finish.y - 1, vy: 400 });
+	Object.assign(race.marbles[0], {
+		x: 360,
+		y: race.layout.finish.y - 1,
+		vy: 400,
+		chuteEntered: true
+	});
+	Object.assign(race.marbles[1], {
+		x: 500,
+		y: race.layout.finish.y - 1,
+		vy: 400,
+		chuteEntered: true
+	});
 	stepRace(race);
 	assert.deepEqual(
 		race.finished.map((m) => m.id),
@@ -275,7 +288,12 @@ test('도착은 중앙 통로 안의 아래 방향 교차만 인정하고 중복
 	assert.equal(race.finished.length, 1);
 	assert.equal(winners(race, 'last')[0].id, 1);
 	assert.equal(race.marbles[1].finished, false);
-	Object.assign(race.marbles[1], { x: 360, y: race.layout.finish.y - 2, vy: 400 });
+	Object.assign(race.marbles[1], {
+		x: 360,
+		y: race.layout.finish.y - 2,
+		vy: 400,
+		chuteEntered: true
+	});
 	stepRace(race);
 	assert.deepEqual(
 		winners(race, 'multiple', 2).map((m) => m.id),
@@ -288,8 +306,8 @@ test('같은 계산 안의 도착은 실제 교차 시각으로 정렬한다', (
 	race.blocks = [];
 	// 도착 판정만 분리해 확인할 수 있도록 넓은 테스트용 영역을 쓴다.
 	race.layout.finish = { left: 100, right: 600, y: FINISH_Y };
-	Object.assign(race.marbles[0], { x: 200, y: FINISH_Y - 2, vy: 400 });
-	Object.assign(race.marbles[1], { x: 500, y: FINISH_Y - 1, vy: 400 });
+	Object.assign(race.marbles[0], { x: 200, y: FINISH_Y - 2, vy: 400, chuteEntered: true });
+	Object.assign(race.marbles[1], { x: 500, y: FINISH_Y - 1, vy: 400, chuteEntered: true });
 	stepRace(race);
 	assert.deepEqual(
 		race.finished.map((m) => m.id),
@@ -549,19 +567,32 @@ test('마지막 구간은 기존 정체 바람을 종료하고 오래 있어도 
 	assert.equal(m.vx, 0);
 });
 
-test('결승 판은4.4초 주기로 반시계 방향으로 회전하며 입구 구슬을 걷어 올린다', () => {
+test('결승 판은13.2초 주기로 반시계 방향으로 회전하며 오른쪽 접촉을 걷어 올린다', () => {
 	const race = createRace(['가', '나']);
 	const bar = race.blocks.find((b) => b.id === 'finale-bar');
 	for (let time = 0; time < 9; time += 0.17)
-		assert.ok(Math.abs(blockAngle(bar, time + 4.4) - blockAngle(bar, time) + Math.PI * 2) < 1e-8);
+		assert.ok(Math.abs(blockAngle(bar, time + 13.2) - blockAngle(bar, time) + Math.PI * 2) < 1e-8);
 	bar.phase = 0;
 	const marble = race.marbles[0];
-	Object.assign(marble, { x: 360, y: bar.y - 20, vx: 0, vy: 50 });
+	Object.assign(marble, { x: bar.x + 100, y: bar.y - 20, vx: 0, vy: 50 });
 	const hit = collision(marble, bar, 0);
 	assert.ok(hit);
 	hitBlock(race, marble, bar, hit);
 	assert.ok(marble.vy < 0, '판 오른쪽에 닿은 구슬은 실제 표면 속도로 위쪽 반동을 받는다');
 });
+test('길이448 결승 바는 기존440 바보다 위쪽4만큼 더 닿는다', () => {
+	const race = createRace(['가', '나']);
+	const bar = race.blocks.find((b) => b.id === 'finale-bar');
+	bar.phase = Math.PI / 2;
+	const waiting = { x: bar.x, y: bar.y - 235, r: 13 };
+	assert.ok(collision(waiting, bar, 0));
+	assert.equal(collision(waiting, { ...bar, w: 440 }, 0), null);
+	assert.equal(bar.w / 2 - 440 / 2, 4);
+	assert.equal(bar.x, 160);
+	assert.equal(bar.y, race.layout.finale.start + 480);
+	assert.equal(bar.direction, -1);
+});
+
 test('같은 장치의 벽 조각은 중복음을 내지 않고 다음 실제 충돌은 다시 재생한다', () => {
 	const race = createRace(['가', '나']);
 	const a = makeBlock('wall', 360, 300, { soundType: 'rubber', deviceId: 'test-cylinder' });
@@ -610,27 +641,29 @@ test('둥근 유도벽의 충돌 모양은 그림과 같고 에너지를 늘리�
 	}
 });
 
-test('결승은 직선 깔때기와 같은 높이의 입구, 왼쪽 회전축으로 연결한다', () => {
+test('결승은 왼쪽40°·오른쪽30° 직선과 같은 높이의 입구, 왼쪽 아래 회전축으로 연결한다', () => {
 	const race = createRace(['가', '나']);
 	const { finale, finish } = race.layout;
 	const bar = race.blocks.find((b) => b.id === 'finale-bar');
 	const guides = race.blocks.filter((b) => b.deviceId === 'finale-guide');
 	assert.equal(guides.length, 2);
 	assert.equal(finale.mouthY, finale.start + 400);
-	assert.equal(bar.y, finale.mouthY + 10);
-	assert.equal(bar.x, finish.left - 130);
+	assert.equal(bar.y, finale.mouthY + 80);
+	assert.equal(bar.x, finish.left - 180);
 	assert.equal(bar.direction, -1);
 	for (const side of [-1, 1]) {
 		const guide = guides.find((b) => Math.sign(b.x - 360) === side);
 		const chute = race.blocks.find((b) => b.id === `chute-${side}`);
-		for (const depth of [50, 200, 350]) {
-			const surfaceX = 360 + side * (348 - (328 * depth) / 400);
-			assert.ok(collision({ x: surfaceX, y: finale.start + depth, r: 1 }, guide, 0));
+		for (const ratio of [0.1, 0.5, 0.9]) {
+			const surfaceX = 360 + side * (348 - 328 * ratio);
+			const startY = side === -1 ? finale.guideStartY : finale.rightGuideStartY;
+			const y = startY + (finale.mouthY - startY) * ratio;
+			assert.ok(collision({ x: surfaceX, y, r: 1 }, guide, 0));
 		}
 		assert.equal(chute.x - (side * chute.h) / 2, side < 0 ? finish.left : finish.right);
 	}
 	bar.phase = 0;
-	const waiting = { x: 360, y: bar.y - 20, r: 13 };
+	const waiting = { x: 350, y: bar.y - 20, r: 13 };
 	assert.ok(collision(waiting, bar, 0), '수평 판 끝이 입구를 막는다');
 	assert.equal(collision(waiting, bar, 1), null, '수직 판은 입구를 연다');
 	const inside = { x: 360, y: finale.mouthY + 35, r: 13 };

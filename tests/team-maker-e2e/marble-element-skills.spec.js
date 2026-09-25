@@ -11,11 +11,15 @@ for (const width of [1440, 390]) {
 		await observeRace(page, 47);
 		await page.goto('/marble-race');
 		expect(await page.locator('main').ariaSnapshot()).toContain('번개');
+		// 초기 설정 복원이 끝난 뒤 명단을 입력해야 기본 명단으로 덮어쓰이지 않는다.
+		await expect(
+			page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first()
+		).toBeEnabled();
 		await page
 			.getByLabel('참가자 이름')
 			.fill(width === 390 ? '아주긴이름의구슬참가자입니다*30' : '공*30');
 		await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		await mkdir('.context', { recursive: true });
 		for (const type of ['gust', 'lightning']) {

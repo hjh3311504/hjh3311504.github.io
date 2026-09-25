@@ -1,5 +1,5 @@
 // 경기 시간 기준 확률과 별도 난수를 써서 배속·화면 갱신에 영향을 받지 않는다.
-export const PULSE_RADIUS = 120;
+export const PULSE_RADIUS = 180;
 export const PULSE_DURATION = 0.45;
 export const SKILL_TYPES = ['pulse', 'lightning', 'gust'];
 export const LIGHTNING_RANGE = 240;

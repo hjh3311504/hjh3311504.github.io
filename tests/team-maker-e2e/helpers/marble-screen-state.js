@@ -1,4 +1,6 @@
+import { installMarbleWire } from './marble-wire.js';
 export async function screenRace(page) {
+	await installMarbleWire(page);
 	await page.addInitScript(() => {
 		window.__racePhase = 'running';
 		const NativeWorker = window.Worker;
@@ -23,7 +25,7 @@ export async function screenRace(page) {
 				const state = structuredClone(this.initialState);
 				state.initial = false;
 				state.blockChanges = [];
-				state.time = 30;
+				state.time = 30 + (this.frames = (this.frames ?? 0) + 1) / 120;
 				state.events = [];
 				const count =
 					window.__racePhase === 'finished'
@@ -66,10 +68,11 @@ export async function screenRace(page) {
 					const frame = window.__raceDisplayFrame;
 					state.time = frame.time;
 					state.marbles.forEach((marble, index) => Object.assign(marble, frame.marbles[index]));
-					state.cinematic = frame.cinematic;
+					state.cinematic = { ...frame.cinematic };
 					const index = state.blocks.findIndex((block) => block.id === 'finale-bar');
 					state.blockChanges = [{ index, changes: { phase: frame.phase } }];
 				}
+				window.__packMarbleState(state);
 				queueMicrotask(() =>
 					this.dispatchEvent(
 						new MessageEvent('message', { data: { kind: 'frame', state, unused: 0 } })

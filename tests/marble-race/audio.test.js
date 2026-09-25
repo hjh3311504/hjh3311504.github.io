@@ -946,8 +946,11 @@ test('모든 배속에서 장치3개와 일반음3개를 함께 재생하고 공
 	}
 });
 
-test('스킬음은 같은 종류와 같은 순간의 발동도 모두 재생하며 파일을 공유한다', async () => {
-	const { audio, sources, requests, context } = fixture();
+test('스킬음은 미리듣기와 경기에서 절반 크기로 재생하며 동시 발동과 파일 공유를 유지한다', async () => {
+	const log = [];
+	const { audio, sources, requests, context } = fixture(undefined, {
+		onDiagnostic: (event) => log.push(event)
+	});
 	await audio.prepare(['pulse', 'lightning', 'gust']);
 	audio.setView({ left: 0, right: 720, top: 0, bottom: 800 });
 	const types = ['pulse', 'lightning', 'gust'];
@@ -964,6 +967,11 @@ test('스킬음은 같은 종류와 같은 순간의 발동도 모두 재생하�
 	}));
 	assert.equal(audio.playCollisions(events), true);
 	assert.equal(sources.length, 15);
+	assert.ok(
+		log
+			.filter((event) => event.kind === 'played')
+			.every((event) => Math.abs(event.level - 0.28) < 1e-9)
+	);
 	assert.deepEqual(
 		sources.slice(3).map((s) => s.buffer),
 		events.map((e) => SOUND_FILES[e.type][0])
@@ -1032,11 +1040,11 @@ test('스킬은 실제 화면과 겹치는 효과만 재생하며800높이와 �
 	});
 	const cases = [
 		['pulse', 300, 1500, true], // 기존800높이 바깥도 실제 화면이면 재생
-		['pulse', 300, 1719, true],
-		['pulse', 300, 1720, false],
-		['pulse', -10, 300, false], // 원의 사각 모서리만 겹치는 경우 제외
-		['pulse', -19, 600, true],
-		['pulse', -20, 600, false],
+		['pulse', 300, 1779, true],
+		['pulse', 300, 1780, false],
+		['pulse', -60, 300, false], // 원의 사각 모서리만 겹치는 경우 제외
+		['pulse', -79, 600, true],
+		['pulse', -80, 600, false],
 		['lightning', 300, 2200, true], // 낙뢰 끝이 밖이어도 번개 줄기가 보임
 		['lightning', 300, 400, false],
 		['lightning', 515, 900, true],

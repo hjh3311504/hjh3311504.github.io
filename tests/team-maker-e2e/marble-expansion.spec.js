@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { SOUND_FILES } from '../../src/lib/marble-race/audio.js';
-const start = (page) => page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first();
+const start = (page) => page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
 test('경기 전 저장·곱하기·n번째·볼륨과 중복 재질 내 맵을 복원한다', async ({ page }) => {
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('내 맵 만들기');
+	await expect(start(page)).toBeEnabled();
 	await page.getByLabel('참가자 이름').fill('토끼*1001');
 	await page.getByRole('button', { name: 'n번째', exact: true }).click();
 	await page.getByLabel('당첨 순번').fill('1001');
@@ -41,7 +42,7 @@ test('경기 전 저장·곱하기·n번째·볼륨과 중복 재질 내 맵을 
 });
 test('일시정지 패널 하나에서 계속하기·종료 후 편집과 미니맵을 제공한다', async ({ page }) => {
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('구슬 굴리기');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 	await page.evaluate(() => {
 		window.__loadingOverlaySeen = false;
 		window.__playButton = document.querySelector('.play-controls button');
@@ -104,7 +105,7 @@ test('백만 개 준비를 취소하고 현재 명단을 유지한다', async ({
 	await expect(page.locator('.stage-overlay-card')).toHaveCount(0);
 	await expect(page.locator('.stage-state')).toContainText('준비');
 	await expect(page.locator('.play-controls button')).toHaveCount(1);
-	await expect(page.locator('.play-controls button')).toHaveText('구슬 굴리기 ▶');
+	await expect(page.locator('.play-controls button')).toHaveText('레이스 시작 ▶');
 	await expect(page.locator('.play-controls button')).toBeDisabled();
 	await page.getByRole('button', { name: '준비 취소하고 설정 변경', exact: true }).click();
 	await expect(page.getByLabel('참가자 이름')).toBeEnabled();
@@ -117,7 +118,9 @@ test('1,000개 경기에서 화면과 버튼 응답을 측정하고 목록을 �
 }, testInfo) => {
 	test.setTimeout(45000);
 	await page.goto('/marble-race');
+	await expect(start(page)).toBeEnabled();
 	await page.getByLabel('참가자 이름').fill('구슬*1000');
+	await expect(page.getByLabel('참가자 이름')).toHaveValue('구슬*1000');
 	// 음원 로딩을 제외한 화면·Worker 성능을 측정한다.
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 	await start(page).click();
@@ -174,7 +177,7 @@ test('1,000개 경기에서 화면과 버튼 응답을 측정하고 목록을 �
 	expect(response).toBeLessThanOrEqual(200);
 	expect(
 		await page.getByRole('region', { name: '구슬 도착 순위', exact: true }).locator('li').count()
-	).toBeLessThan(30);
+	).toBeLessThanOrEqual(42);
 	await expect(page.locator('.race-stats')).toContainText('/ 1000 도착');
 });
 

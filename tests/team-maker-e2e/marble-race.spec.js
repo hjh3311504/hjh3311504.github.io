@@ -2,6 +2,7 @@ import { observeRace } from './helpers/observe-race.js';
 import { test, expect } from '@playwright/test';
 import { MAPS } from '../../src/lib/marble-race/catalog.js';
 import { SOUND_FILES } from '../../src/lib/marble-race/audio.js';
+import { SKILL_TYPES } from '../../src/lib/marble-race/skills.js';
 async function editSettings(page) {
 	if (await page.getByRole('button', { name: '준비 취소하고 설정 변경', exact: true }).count()) {
 		await page
@@ -37,10 +38,10 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 			page.locator('[aria-labelledby=block-library-title] .block-card button')
 		).toHaveCount(15);
 		await page.getByRole('button', { name: /^도각도각 키보드$/ }).click();
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		const expectedFiles = [
-			...new Set([...MAPS[0].types, 'pulse'].flatMap((type) => SOUND_FILES[type]))
+			...new Set([...MAPS[0].types, ...SKILL_TYPES].flatMap((type) => SOUND_FILES[type]))
 		].sort();
 		expect(requests.map((url) => new URL(url).pathname).sort()).toEqual(expectedFiles);
 		await page.waitForTimeout(6000);
@@ -48,29 +49,22 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await expect(page.locator('.stage-state')).toHaveText('일시정지');
 		const stats = await page.locator('.race-stats').innerText();
 		// 일시정지 중에도 미니맵 탐색과 카메라 보간은 가능하다. 물리 위치만 고정한다.
-		const positions = () =>
-			page
-				.locator('.race-minimap svg circle')
-				.evaluateAll((nodes) =>
-					nodes.map((node) => [node.getAttribute('cx'), node.getAttribute('cy')])
-				);
+		const positions = () => page.locator('.minimap-dots').evaluate((canvas) => canvas.toDataURL());
 		const pausedPositions = await positions();
 		await page.waitForTimeout(2200);
 		expect(await positions()).toEqual(pausedPositions);
 		await expect(page.locator('.race-stats')).toHaveText(stats, { useInnerText: true });
 		await editSettings(page);
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
-		expect(requests).toHaveLength(
-			new Set([...MAPS[0].types, 'pulse'].flatMap((type) => SOUND_FILES[type])).size
-		);
+		expect(requests).toHaveLength(expectedFiles.length);
 	});
 	test('다운로드 실패 후 재시도와 무음 시작을 제공한다', async ({ page }) => {
 		await page.route('**/audio/marble-race/*.wav', (route) =>
 			route.fulfill({ status: 503, body: '테스트 실패' })
 		);
 		await page.goto('/marble-race');
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.getByRole('button', { name: '소리 다시 준비', exact: true })).toBeVisible();
 		await page.getByRole('button', { name: '소리 없이 시작', exact: true }).click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
@@ -78,7 +72,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await editSettings(page);
 		await page.unroute('**/audio/marble-race/*.wav');
 		await page.getByRole('button', { name: '♪ 소리 꺼짐', exact: true }).click();
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	});
 	test('로딩 중 중복 시작을 막고 초기화하면 늦은 로딩이 경기를 시작하지 않는다', async ({
@@ -91,10 +85,10 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 			await route.continue();
 		});
 		await page.goto('/marble-race');
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('소리와 구슬을 준비하고 있어요.');
 		const control = page.locator('.play-controls button');
-		await expect(control).toHaveText('구슬 굴리기 ▶');
+		await expect(control).toHaveText('레이스 시작 ▶');
 		await expect(control).toBeDisabled();
 		await expect(control).toHaveCSS('opacity', '1');
 		await expect(control).toHaveCSS('min-width', '144px');
@@ -112,12 +106,12 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await page.goto('/marble-race');
 		await page.getByRole('button', { name: /^도각도각 키보드$/ }).click();
 		await expect(
-			page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first()
+			page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first()
 		).toBeEnabled();
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 			true
 		);
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 			true
@@ -128,7 +122,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		const speed = page.getByRole('button', { name: '경기 배속 전환', exact: true });
 		const canvas = page.getByRole('button', { name: /^구슬 경기 화면/ });
 		await expect(speed).toBeDisabled();
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		await canvas.click();
 		await expect(speed).toHaveText('2배속');
@@ -167,7 +161,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await speed.click();
 		await editSettings(page);
 		await expect(speed).toHaveText('1배속');
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(speed).toHaveText('1배속');
 	});
 	test('모바일 탭으로 배속을 바꾸고 다른 버튼은 배속을 바꾸지 않는다', async ({ browser }) => {
@@ -179,7 +173,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		try {
 			const page = await context.newPage();
 			await page.goto('http://127.0.0.1:4174/marble-race');
-			await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().tap();
+			await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().tap();
 			const speed = page.getByRole('button', { name: '경기 배속 전환', exact: true });
 			const canvas = page.getByRole('button', { name: /^구슬 경기 화면/ });
 			await expect(page.locator('.stage-state')).toHaveText('경기 중');
@@ -209,12 +203,12 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		});
 		await page.goto('/marble-race');
 		expect(await page.locator('main').ariaSnapshot()).toContain('구슬');
-		await page.locator('canvas').evaluate((canvas) => {
+		await page.locator('canvas[role="button"]').evaluate((canvas) => {
 			canvas.setAttribute('data-audio-diagnostics', '');
 			canvas.addEventListener('marble-audio', ({ detail }) => window.__audio.push(detail));
 		});
 		await page.getByLabel('참가자 이름').fill('구슬*30');
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	}
 	test('첫 화면 내 블록 충돌은 실제 오디오 재생으로 연결된다', async ({ page }) => {
 		await startObservedRace(page);
@@ -321,7 +315,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 	});
 	test('경기 중 화면 크기와 전체화면을 바꿔도 카메라와 소리가 멈추지 않는다', async ({ page }) => {
 		await page.goto('/marble-race');
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await page.getByRole('button', { name: '경기 배속 전환', exact: true }).click();
 		await page.waitForTimeout(1500);
 		await page.setViewportSize({ width: 390, height: 844 });
@@ -330,7 +324,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await page.waitForTimeout(1500);
 		expect(await page.locator('.race-stats').innerText()).not.toBe(before);
 		expect(
-			await page.locator('canvas').evaluate((canvas) => {
+			await page.locator('canvas[role="button"]').evaluate((canvas) => {
 				const t = canvas.getContext('2d').getTransform();
 				return [t.a, t.d, t.e, t.f].every(Number.isFinite);
 			})
@@ -358,7 +352,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 				await page.getByLabel('시작 순위').fill('1');
 				await page.getByLabel('끝 순위').fill('2');
 			}
-			await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+			await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 			await expect(page.locator('.stage-state')).toHaveText('경기 종료', { timeout: 155000 });
 			await expect(page.locator('.winner-names > span')).toHaveCount(count);
 			await expect(
@@ -428,7 +422,7 @@ test('뽁뽁이를 미리 듣고 비활성 재질 없이 경기한다', async ({
 		.poll(() => requests.filter((url) => url.endsWith('wrap-pop-ai-v1.wav')).length)
 		.toBe(1);
 	await page.getByRole('button', { name: '톡톡 나무공방', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	expect(requests.every((url) => !/\/(slime|sand|soap)[-]/.test(url))).toBe(true);
 	expect(requests.filter((url) => url.endsWith('wrap-pop-ai-v1.wav'))).toHaveLength(1);
@@ -444,11 +438,11 @@ test('물풍선은 제외하고 코르크·나무는 도감과 맵에서 같은 
 	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
 	const capsule = page.getByRole('button', { name: /물풍선 소리 미리듣기/ });
 	await expect(capsule).toHaveCount(0);
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	expect(requests.some((url) => /wood-[12]/.test(url))).toBe(false);
 	await editSettings(page);
-	await page.locator('canvas').evaluate((canvas) => {
+	await page.locator('canvas[role="button"]').evaluate((canvas) => {
 		canvas.setAttribute('data-audio-diagnostics', '');
 		window.__newBlockSounds = [];
 		window.__previewVoices = 0;
@@ -559,10 +553,10 @@ test('일반12종과 특수3종을 실제 경기 이미지로 표시하고 각 �
 		await page.getByRole('button', { name: map.name, exact: true }).click();
 		await expect(page.locator('.map-material').filter({ hasText: '포함' })).toHaveCount(4);
 		requests.length = 0;
-		await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		expect(requests.slice().sort()).toEqual(
-			[...new Set([...map.types, 'pulse'].flatMap((type) => SOUND_FILES[type]))].sort()
+			[...new Set([...map.types, ...SKILL_TYPES].flatMap((type) => SOUND_FILES[type]))].sort()
 		);
 	}
 	await editSettings(page);

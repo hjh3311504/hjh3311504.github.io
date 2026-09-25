@@ -1,7 +1,11 @@
 import { prepareRace, stepRace, STEP } from './physics.js';
 import { createDirector, FINALE_SPEED } from './director.js';
 import { createSnapshotEncoder } from './transport.js';
+import { createFrameBatch } from './frame-batch.js';
+const frames = createFrameBatch();
 let encode = createSnapshotEncoder();
+const ADVANCE_BUDGET_MS = 12;
+const MAX_ADVANCE_STEPS = 4;
 let race,
 	director,
 	cinematic,
@@ -13,7 +17,8 @@ self.onmessage = async ({ data }) => {
 			race = null;
 			encode = createSnapshotEncoder();
 			const iterator = prepareRace(data.participants, data.map, data.seed, {
-				skillsEnabled: data.skillsEnabled
+				skillsEnabled: data.skillsEnabled,
+				preview: Boolean(data.preview)
 			});
 			let result = iterator.next();
 			while (!result.done) {
@@ -23,32 +28,67 @@ self.onmessage = async ({ data }) => {
 				result = iterator.next();
 			}
 			race = result.value;
-			director = createDirector(data.mode, data.count, data.startRank);
-			cinematic = director.update(race);
+			director = data.preview ? null : createDirector(data.mode, data.count, data.startRank);
+			cinematic = director?.update(race) ?? null;
+			frames.reset(performance.now());
 			self.postMessage({ kind: 'ready', state: encode(race, [], cinematic, true) });
-		} else if (data.kind === 'advance' && race) {
+		} else if (data.kind === 'snapshot' && race && !race.preview) {
+			const snapshot = encode(race, frames.take(performance.now()), {
+				...cinematic,
+				newWinners: [],
+				finishedCelebration: false
+			});
+			self.postMessage({ kind: 'frame', state: snapshot }, [snapshot.marbleValues.buffer]);
+		} else if (data.kind === 'advance' && race && !race.preview) {
 			const events = [],
 				newWinners = [];
-			let remaining = Math.min(0.08, Math.max(0, data.seconds));
+			// 남은 시간은 호출자에게 돌려준다. 긴 계산 때문에 다음 위치 전달까지 늦추지 않는다.
+			const wasActive = cinematic.active;
+			let remaining = Number.isFinite(data.seconds) ? Math.max(0, data.seconds) : 0;
+			const started = performance.now();
+			let steps = 0;
 			// 한 요청 안에서도 연출이 끝나면 사용자가 선택한 배속으로 돌아간다.
-			let endedSlow = false;
-			while (remaining >= STEP / 2 && race.finished.length < race.marbles.length) {
+			let endedSlow = false,
+				advanced = false;
+			while (remaining + 1e-12 >= STEP / 2 && race.finished.length < race.marbles.length) {
 				const speed = cinematic.active ? FINALE_SPEED : data.speed;
 				if (remaining + 1e-12 < STEP / speed) break;
 				events.push(...stepRace(race));
-				remaining -= STEP / speed;
+				advanced = true;
+				remaining = Math.max(0, remaining - STEP / speed);
 				cinematic = director.update(race);
 				newWinners.push(...cinematic.newWinners);
 				if (cinematic.finishedCelebration) endedSlow = true;
+				if (++steps >= MAX_ADVANCE_STEPS || performance.now() - started >= ADVANCE_BUDGET_MS) break;
 			}
-			self.postMessage({
-				kind: 'frame',
-				state: {
-					...encode(race, events, cinematic),
-					cinematic: { ...cinematic, newWinners, finishedCelebration: endedSlow }
+			if (!advanced) {
+				self.postMessage({ kind: 'idle', unused: remaining });
+				return;
+			}
+			frames.add(events);
+			const now = performance.now();
+			const urgent =
+				data.flushState ||
+				wasActive !== cinematic.active ||
+				newWinners.length > 0 ||
+				endedSlow ||
+				race.finished.length === race.marbles.length;
+			if (!frames.ready(now, urgent)) {
+				self.postMessage({ kind: 'advanced', unused: remaining });
+				return;
+			}
+			const snapshot = encode(race, frames.take(now), cinematic);
+			self.postMessage(
+				{
+					kind: 'frame',
+					state: {
+						...snapshot,
+						cinematic: { ...cinematic, newWinners, finishedCelebration: endedSlow }
+					},
+					unused: remaining
 				},
-				unused: remaining
-			});
+				[snapshot.marbleValues.buffer]
+			);
 		}
 	} catch (error) {
 		self.postMessage({

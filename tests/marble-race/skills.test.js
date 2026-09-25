@@ -27,6 +27,7 @@ const marble = (id, x = 360, y = 100) => ({
 });
 
 test('파동은 범위 안 구슬만 바깥으로 밀고 위치·발사자·동결·도착 상태는 유지한다', () => {
+	assert.equal(PULSE_RADIUS, 180);
 	const skills = createSkills(47, true);
 	const source = marble(0);
 	const marbles = [
@@ -38,7 +39,7 @@ test('파동은 범위 안 구슬만 바깥으로 밀고 위치·발사자·동�
 		marble(5, 360 + PULSE_RADIUS),
 		{ ...marble(6, 370), finished: true },
 		{ ...marble(7, 370), held: { until: 10 } },
-		marble(8, 450)
+		marble(8, 360 + PULSE_RADIUS - 0.01)
 	];
 	const positions = marbles.map((m) => [m.x, m.y]);
 	firePulse(skills, source, marbles, 2);

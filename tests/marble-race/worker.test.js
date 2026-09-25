@@ -30,7 +30,7 @@ test('스킬 시작 설정을 유지하며 Worker와 직접 계산은0.25·1·2�
 				};
 				worker.on('message', receive);
 				worker.once('error', reject);
-				worker.postMessage(data);
+				worker.postMessage(data.kind === 'advance' ? { ...data, flushState: true } : data);
 			});
 		try {
 			await request({
@@ -76,6 +76,110 @@ test('스킬 시작 설정을 유지하며 Worker와 직접 계산은0.25·1·2�
 				result.state.finished,
 				direct.finished.map((m) => m.id)
 			);
+		} finally {
+			await worker.terminate();
+		}
+	}
+});
+
+test('Worker의 전체 미리보기는1000개를 전달하고 실제 경기 재준비에서 미리보기 상태를 지운다', async () => {
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	const worker = new Worker(
+		`const {parentPort}=require('node:worker_threads');global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+		{ eval: true }
+	);
+	const request = (data) =>
+		new Promise((resolve, reject) => {
+			const receive = (result) => {
+				if (result.kind === 'progress') return;
+				worker.off('message', receive);
+				result.kind === 'error' ? reject(Error(result.message)) : resolve(result.state);
+			};
+			worker.on('message', receive);
+			worker.postMessage(data.kind === 'advance' ? { ...data, flushState: true } : data);
+		});
+	try {
+		const prepare = {
+			kind: 'prepare',
+			participants: { entries: [{ name: '공', count: 1000 }], count: 1000 },
+			map: 'keyboard',
+			seed: 47,
+			mode: 'first',
+			count: 1
+		};
+		const preview = await request({ ...prepare, preview: true });
+		assert.equal(preview.preview, true);
+		assert.equal(preview.marbles.length, 1000);
+		assert.equal(preview.cinematic, null);
+		const full = await request(prepare);
+		assert.equal(full.preview, false);
+		assert.ok(full.blocks.length > preview.blocks.length);
+		const positions = (state) => state.marbles.map(({ id, x, y, color }) => ({ id, x, y, color }));
+		assert.deepEqual(positions(preview), positions(full));
+	} finally {
+		await worker.terminate();
+	}
+});
+
+test('Worker는 긴 계산을 나눠 전달하고 남은 시간을 모두 처리해도 배속별 결과가 같다', async () => {
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	for (const clockIncrement of [0, 8, 16]) {
+		const worker = new Worker(
+			`const {parentPort}=require('node:worker_threads');let clock=0;global.performance={now:()=>clock+=${clockIncrement}};global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+			{ eval: true }
+		);
+		let decode;
+		const request = (data) =>
+			new Promise((resolve, reject) => {
+				const receive = (result) => {
+					if (result.kind === 'progress') return;
+					worker.off('message', receive);
+					worker.off('error', reject);
+					if (result.kind === 'error') reject(Error(result.message));
+					else resolve({ ...result, state: decode(result.state) });
+				};
+				worker.on('message', receive);
+				worker.once('error', reject);
+				worker.postMessage(data.kind === 'advance' ? { ...data, flushState: true } : data);
+			});
+		try {
+			for (const speed of [0.25, 1, 2]) {
+				decode = createSnapshotDecoder();
+				await request({
+					kind: 'prepare',
+					participants: { entries: [{ name: '공', count: 10 }], count: 10 },
+					map: 'keyboard',
+					seed: 47,
+					mode: 'first',
+					count: 1,
+					skillsEnabled: true
+				});
+				const direct = createRace(Array(10).fill('공'), 'keyboard', 47, { skillsEnabled: true });
+				let remaining = 0.2,
+					result,
+					requests = 0;
+				while (remaining + 1e-12 >= STEP / speed) {
+					result = await request({ kind: 'advance', seconds: remaining, speed });
+					assert.equal(result.kind, 'frame');
+					assert.ok(result.unused < remaining);
+					remaining = result.unused;
+					if (++requests === 1) {
+						const expectedSteps = { 0: 4, 8: 2, 16: 1 }[clockIncrement];
+						assert.ok(Math.abs(result.state.time - expectedSteps * STEP) < 1e-12);
+					}
+					assert.ok(requests < 100);
+				}
+				for (let i = 0; i < Math.round((0.2 * speed) / STEP); i++) stepRace(direct);
+				assert.equal(result.state.time, direct.time);
+				assert.deepEqual(
+					result.state.marbles.map((m) => [m.x, m.y, m.vx, m.vy, m.finished]),
+					direct.marbles.map((m) => [m.x, m.y, m.vx, m.vy, m.finished])
+				);
+				const idle = await request({ kind: 'advance', seconds: remaining, speed });
+				assert.equal(idle.kind, 'idle');
+				assert.equal(idle.unused, remaining);
+				assert.equal(idle.state.time, result.state.time);
+			}
 		} finally {
 			await worker.terminate();
 		}

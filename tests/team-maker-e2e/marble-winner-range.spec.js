@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { screenRace } from './helpers/marble-screen-state.js';
-const start = (page) => page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first();
+const start = (page) => page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
 
 test('여러명 범위 입력을 검사하고 저장·새로고침·모바일에서 유지한다', async ({ page }) => {
 	await page.goto('/marble-race');

@@ -4,9 +4,9 @@ import { observeRace } from './helpers/observe-race.js';
 test('깨진 블록은3초 이후와 일시정지 재개 후에도 빈자리로 남는다', async ({ page }) => {
 	await observeRace(page);
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('구슬 굴리기');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect
 		.poll(() =>
 			page.evaluate(() => window.__raceState?.blocks.some((b) => b.tile && !b.alive) ?? false)

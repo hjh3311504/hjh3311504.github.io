@@ -92,7 +92,7 @@ test('경기 전체에 유효한 상대가 없으면 번개와 대기 시간을 
 	assert.equal(skills.cooldowns.size, 0);
 });
 
-test('번개 고정은 충돌과 정체 바람에도2초간 움직이지 않고 해제 뒤 중력으로 떨어진다', () => {
+test('회전바가 없는 곳의 번개 고정은 충돌과 정체 바람에도2초간 유지된다', () => {
 	const race = createRace(['시전자', '대상', '충돌 상대']);
 	race.blocks = [];
 	race.time = 10;
@@ -196,3 +196,49 @@ test('확률 발동은3종을 모두 사용하고 효과음 이벤트는 발동�
 	assert.equal(events.length, race.skills.serial);
 	assert.equal(new Set(events.map((e) => e.deviceId)).size, events.length);
 });
+
+test('번개 정지 중에도 회전바가 위치를 밀고 효과 종료 뒤 새 위치에서 떨어진다', () => {
+	const race = createRace(['대상', '시전자'], 'keyboard', 47);
+	const [target, source] = race.marbles;
+	const bar = race.blocks.find((b) => b.id === 'finale-bar');
+	bar.phase = 0;
+	Object.assign(target, { x: bar.x + 80, y: bar.y - 20, vx: 0, vy: 0 });
+	Object.assign(source, { x: target.x + 100, y: target.y - 100 });
+	fireLightning(race.skills, source, race.marbles, race.time);
+	source.finished = true;
+	const startY = target.y,
+		until = target.held.until;
+	stepRace(race);
+	assert.ok(target.y < startY, '위로 움직이는 바에 밀린다');
+	assert.equal(target.held.kind, 'lightning');
+	assert.equal(target.held.until, until, '바에 닿아도 정지 시간을 늘리거나 줄이지 않는다');
+	assert.deepEqual([target.held.x, target.held.y], [target.x, target.y]);
+	assert.deepEqual([target.vx, target.vy], [0, 0]);
+	assert.ok(race.finaleRotorContacts.has(target));
+	const decode = createSnapshotDecoder();
+	const encode = createSnapshotEncoder();
+	const snapshot = decode(structuredClone(encode(race, [], null, true)));
+	assert.deepEqual(snapshot.marbles[0].held, target.held);
+	assert.equal(snapshot.marbles[0].y, target.y);
+	bar.alive = false;
+	const pushedY = target.y;
+	while (race.time + STEP < until) stepRace(race);
+	assert.equal(target.y, pushedY, '바가 닿지 않을 때는 새 고정 위치를 유지한다');
+	while (target.held) stepRace(race);
+	assert.ok(target.y > pushedY);
+	assert.ok(target.vy > 0);
+});
+
+for (const count of [2, 1000])
+	test(`${count}개 경기의 얼음 고정은 회전바로 밀어내는 번개 예외에 포함하지 않는다`, () => {
+		const race = createRace(Array(count).fill('공'), 'keyboard', 47);
+		const m = race.marbles[0],
+			bar = race.blocks.find((b) => b.id === 'finale-bar');
+		bar.phase = 0;
+		Object.assign(m, { x: bar.x + 80, y: bar.y - 20, vx: 0, vy: 0 });
+		m.held = { kind: 'frost', x: m.x, y: m.y, until: 2 };
+		const position = [m.x, m.y];
+		stepRace(race);
+		assert.deepEqual([m.x, m.y], position);
+		assert.equal(race.finaleRotorContacts.has(m), false);
+	});

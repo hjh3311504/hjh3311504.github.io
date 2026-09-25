@@ -2,6 +2,7 @@
 	import { createTilePainter } from './tile-painter.js';
 	import { drawSpecialBlock } from './special-painter.js';
 	import { drawPulse } from './pulse-painter.js';
+	import { PULSE_RADIUS } from './skills.js';
 	import { drawSkillIcon } from './skill-icons.js';
 	import { SPECIAL_TYPES } from './catalog.js';
 
@@ -23,7 +24,7 @@
 			if (currentType === 'pulse') {
 				ctx.save();
 				ctx.translate(16, 16);
-				ctx.scale(0.16, 0.16);
+				ctx.scale(14 / PULSE_RADIUS, 14 / PULSE_RADIUS);
 				drawPulse(ctx, { x: 0, y: 0, color: '#428be6' }, 0.45);
 				ctx.fillStyle = '#428be6';
 				ctx.beginPath();

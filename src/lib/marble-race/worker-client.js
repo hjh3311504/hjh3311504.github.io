@@ -29,7 +29,8 @@ export function createWorkerClient() {
 			count,
 			onProgress,
 			startRank = 1,
-			skillsEnabled = false
+			skillsEnabled = false,
+			preview = false
 		) {
 			stop();
 			worker = new Worker(new URL('./race-worker.js', import.meta.url), { type: 'module' });
@@ -63,6 +64,7 @@ export function createWorkerClient() {
 			return (
 				await request({
 					kind: 'prepare',
+					preview,
 					participants: { entries: participants.entries, count: participants.count },
 					map,
 					seed,
@@ -72,6 +74,9 @@ export function createWorkerClient() {
 					skillsEnabled
 				})
 			).state;
+		},
+		snapshot() {
+			return request({ kind: 'snapshot' });
 		},
 		advance(seconds, speed) {
 			return request({ kind: 'advance', seconds, speed });

@@ -1,0 +1,82 @@
+import { test, expect } from '@playwright/test';
+import { observeRace } from './helpers/observe-race.js';
+
+for (const width of [1440, 390]) {
+	const count = width === 1440 ? 1000 : 100;
+	test(`${width}px·${count}개에서 화면10fps여도2배속 계산·60회 상태 전달을 유지하고 정지·재개·초기화를 지킨다`, async ({
+		page
+	}) => {
+		await page.setViewportSize({ width, height: 1000 });
+		await observeRace(page);
+		await page.addInitScript((count) => {
+			window.__frameCounts = { frames: 0, acknowledgements: 0 };
+			const NativeWorker = window.Worker;
+			window.Worker = class extends NativeWorker {
+				constructor(...args) {
+					super(...args);
+					this.addEventListener('message', ({ data }) => {
+						if (data.kind === 'frame') window.__frameCounts.frames++;
+						if (data.kind === 'advanced') window.__frameCounts.acknowledgements++;
+					});
+				}
+			};
+			// 화면 갱신과 물리 계산 요청이 묶여 있으면 최대0.33배속에 그친다.
+			window.requestAnimationFrame = (callback) =>
+				setTimeout(() => callback(performance.now()), 100);
+			window.cancelAnimationFrame = clearTimeout;
+			localStorage.setItem(
+				'lake.marble-race.v1',
+				JSON.stringify({
+					namesText: `공*${count}`,
+					mapId: 'keyboard',
+					mode: 'last',
+					soundEnabled: false,
+					skillsEnabled: true
+				})
+			);
+		}, count);
+		await page.goto('/marble-race');
+		expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
+		const start = page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
+		await start.click();
+		await expect(page.locator('.stage-state')).toHaveText('경기 중');
+		await page.getByRole('button', { name: '경기 배속 전환' }).click();
+		const measure = () =>
+			page.evaluate(async () => {
+				const began = performance.now(),
+					time = window.__raceState?.time ?? 0;
+				window.__frameCounts = { frames: 0, acknowledgements: 0 };
+				await new Promise((resolve) => setTimeout(resolve, 2000));
+				const seconds = (performance.now() - began) / 1000;
+				return {
+					speed: (window.__raceState.time - time) / seconds,
+					frameHz: window.__frameCounts.frames / seconds,
+					acknowledgements: window.__frameCounts.acknowledgements
+				};
+			});
+		const initial = await measure();
+		expect(initial.speed).toBeGreaterThan(1.8);
+		expect(initial.frameHz).toBeLessThanOrEqual(61);
+		expect(initial.acknowledgements).toBeGreaterThan(0);
+		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
+		await expect(page.locator('.stage-state')).toHaveText('일시정지');
+		// 정지 직전에 보낸 응답 한 개가 도착한 뒤에는 계산이 더 진행되지 않는다.
+		await page.waitForTimeout(150);
+		const paused = await page.evaluate(() => window.__raceState.time);
+		await page.waitForTimeout(500);
+		expect(await page.evaluate(() => window.__raceState.time)).toBe(paused);
+		await page
+			.getByRole('region', { name: '일시정지', exact: true })
+			.getByRole('button', { name: '계속하기 ▶', exact: true })
+			.click();
+		const resumed = await measure();
+		expect(resumed.speed).toBeGreaterThan(1.8);
+		expect(resumed.frameHz).toBeLessThanOrEqual(61);
+		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
+		await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
+		await expect(page.locator('.stage-state')).toHaveText('출발 준비');
+		await start.click();
+		await expect.poll(() => page.evaluate(() => window.__raceState.time)).toBeLessThan(1);
+		await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('1배속');
+	});
+}
