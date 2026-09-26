@@ -19,9 +19,9 @@ async function prepareWinners(page) {
 				clearInterval(this.mockTimer);
 				super.terminate();
 			}
-			postMessage(data) {
+			postMessage(data, ...rest) {
 				if (window.__mockMarbleStream(this, data)) return;
-				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
+				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data, ...rest);
 				const state = structuredClone(this.initialState);
 				state.initial = false;
 				state.blockChanges = [];

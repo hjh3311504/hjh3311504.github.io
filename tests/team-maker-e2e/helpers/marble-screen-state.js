@@ -19,13 +19,13 @@ export async function screenRace(page, { ranking = false } = {}) {
 				clearInterval(this.mockTimer);
 				super.terminate();
 			}
-			postMessage(data) {
+			postMessage(data, ...rest) {
 				if (window.__mockMarbleStream(this, data)) return;
 				if (data.kind === 'prepare') {
 					this.settings = { mode: data.mode, count: data.count, startRank: data.startRank ?? 1 };
 					window.__raceDrawSettings = this.settings;
 				}
-				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
+				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data, ...rest);
 				window.__raceRequestedSpeed = data.speed;
 				const state = structuredClone(this.initialState);
 				state.initial = false;

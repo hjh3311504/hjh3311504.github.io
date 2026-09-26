@@ -26,9 +26,9 @@ export async function observeRace(page, seed = 47) {
 						}
 					});
 				}
-				postMessage(data) {
+				postMessage(data, ...rest) {
 					if (data.kind === 'prepare') data = { ...data, seed };
-					return super.postMessage(data);
+					return super.postMessage(data, ...rest);
 				}
 			};
 		},

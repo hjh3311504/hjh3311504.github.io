@@ -19,9 +19,9 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 				clearInterval(this.mockTimer);
 				super.terminate();
 			}
-			postMessage(data) {
+			postMessage(data, ...rest) {
 				if (window.__mockMarbleStream(this, data)) return;
-				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
+				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data, ...rest);
 				const state = structuredClone(this.initialState);
 				const leader = window.__testLeader;
 				state.initial = false;

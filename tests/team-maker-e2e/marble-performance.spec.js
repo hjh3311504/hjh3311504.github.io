@@ -42,6 +42,7 @@ for (const [mobile, selectedSpeed] of [
 		);
 		await page.addInitScript(() => {
 			window.__paintFrames = [];
+			window.__renderTransfers = { sent: 0, retained: 0 };
 			const fill = CanvasRenderingContext2D.prototype.fillRect;
 			CanvasRenderingContext2D.prototype.fillRect = function (...args) {
 				if (
@@ -65,8 +66,17 @@ for (const [mobile, selectedSpeed] of [
 						if (data.unused != null) window.__performanceUnused = data.unused;
 					});
 				}
-				postMessage(data) {
-					return super.postMessage(data.kind === 'prepare' ? { ...data, seed: 47 } : data);
+				postMessage(data, ...rest) {
+					const buffer = data.kind === 'paint' ? data.state.marbleValues?.buffer : null;
+					const result = super.postMessage(
+						data.kind === 'prepare' ? { ...data, seed: 47 } : data,
+						...rest
+					);
+					if (buffer) {
+						window.__renderTransfers.sent++;
+						if (buffer.byteLength) window.__renderTransfers.retained++;
+					}
+					return result;
 				}
 			};
 		});
@@ -168,7 +178,10 @@ for (const [mobile, selectedSpeed] of [
 				})
 		);
 		expect(buttonMs).toBeLessThanOrEqual(200);
-		const report = { mobile, cpuSlowdown: mobile ? 4 : 1, samples, buttonMs };
+		const renderTransfers = await page.evaluate(() => window.__renderTransfers);
+		expect(renderTransfers.sent).toBeGreaterThan(0);
+		expect(renderTransfers.retained).toBe(0);
+		const report = { mobile, cpuSlowdown: mobile ? 4 : 1, samples, buttonMs, renderTransfers };
 		console.log('1000개 실제 그리기 성능', JSON.stringify(report));
 		await testInfo.attach('1000개 성능', {
 			body: JSON.stringify(report, null, 2),
