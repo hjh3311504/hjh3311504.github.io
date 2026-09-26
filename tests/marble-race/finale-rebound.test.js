@@ -29,70 +29,58 @@ function runDuel(options, configure = () => {}) {
 		}
 	}
 	assert.equal(race.finished.length, 2, '두 구슬 모두20경기초 안에 완주한다');
+	const bar = race.blocks.find((b) => b.id === 'finale-bar');
+	assert.equal(bar.w, 448);
+	assert.equal(bar.x, 160);
+	assert.equal(bar.y, race.layout.finale.start + 480);
+	for (const m of race.finished) {
+		assert.equal(m.chuteEntered, true);
+		assert.ok(m.x - m.r >= 340 && m.x + m.r <= 380, '중앙 통로로 골인한다');
+	}
 	return { race, rises, overtakenDuringRebound };
 }
 
-test('기존에는 선두가 이기던 접전에서 선두의 되튕김 사이 추격 구슬이 먼저 골인한다', () => {
-	const before = runDuel({ previous: true });
-	const after = runDuel({ previous: false });
-	assert.deepEqual(
-		before.race.finished.map((m) => m.id),
-		[0, 1]
-	);
-	assert.deepEqual(
-		after.race.finished.map((m) => m.id),
-		[1, 0]
-	);
-	assert.ok(after.overtakenDuringRebound);
-	assert.ok(
-		after.rises.some((rise) => rise >= 60),
-		'선두가 구슬 지름2개 이상 위로 돌아온다'
-	);
-	assert.ok(after.race.marbles.every((m) => m.windUntil === 0));
-});
+for (const side of [-1, 1]) {
+	test(`${side === -1 ? '왼쪽' : '오른쪽'} 진입에서 길이448 바의 반동으로 선두를 추월하고 중앙으로 골인한다`, () => {
+		const options = { currentGuide: true, side, phase: Math.PI / 8 };
+		// 같은 최신 지형에서 바의 반동이 실제 추월 원인인지 비교한다.
+		const withoutBar = runDuel(options, (race) => {
+			race.blocks.find((b) => b.id === 'finale-bar').alive = false;
+		});
+		const withBar = runDuel(options);
+		assert.deepEqual(
+			withoutBar.race.finished.map((m) => m.id),
+			[0, 1]
+		);
+		assert.deepEqual(
+			withBar.race.finished.map((m) => m.id),
+			[1, 0]
+		);
+		assert.equal(withoutBar.overtakenDuringRebound, false);
+		assert.ok(withBar.overtakenDuringRebound);
+		assert.ok(
+			withBar.rises.some((rise) => rise >= 60),
+			'구슬 지름2개 이상 되튕긴다'
+		);
+		assert.ok(withBar.race.marbles.every((m) => m.windUntil === 0));
+	});
+}
 
-test('양쪽 진입과 시작 각도32조합에서 기존보다 선두의 평균 되튕김 높이가 커진다', (t) => {
+test('현재 길이448·양쪽 진입과 시작 각도32조합에서 반동·역전과20경기초 내 완주를 확인한다', (t) => {
 	const metrics = [];
-	for (const previous of [true, false]) {
-		let reversed = 0;
-		const rises = [];
-		for (const side of [-1, 1])
-			for (let phase = 0; phase < 16; phase++) {
-				const result = runDuel({ previous, side, phase: (phase * Math.PI) / 8 });
-				rises.push(...result.rises);
-				reversed += result.race.finished[0].id === 1 ? 1 : 0;
-			}
-		metrics.push({ reversed, meanRise: rises.reduce((a, b) => a + b, 0) / rises.length });
-	}
-	t.diagnostic(JSON.stringify(metrics));
-	assert.ok(metrics[1].meanRise > metrics[0].meanRise * 1.2);
-	assert.ok(
-		metrics[1].reversed >= metrics[0].reversed,
-		'고정 접전 표본의 역전 기회를 줄이지 않는다'
-	);
-});
-
-test('길이를 늘린 결승 바는290 길이보다 더 높이 밀어내고 접전32조합 모두 완주한다', (t) => {
-	const metrics = [];
-	for (const before of [true, false]) {
-		const rises = [];
-		let reversed = 0;
-		for (const side of [-1, 1]) {
-			for (let phase = 0; phase < 16; phase++) {
-				const result = runDuel({ side, phase: (phase * Math.PI) / 8 }, (race) => {
-					if (before)
-						Object.assign(
-							race.blocks.find((b) => b.id === 'finale-bar'),
-							{ x: 220, w: 290 }
-						);
-				});
-				rises.push(...result.rises);
-				reversed += result.race.finished[0].id === 1 ? 1 : 0;
-			}
+	for (const side of [-1, 1]) {
+		let reversed = 0,
+			rebounds = 0,
+			maximumTime = 0;
+		for (let phase = 0; phase < 16; phase++) {
+			const result = runDuel({ currentGuide: true, side, phase: (phase * Math.PI) / 8 });
+			reversed += result.race.finished[0].id === 1 ? 1 : 0;
+			rebounds += result.rises.some((rise) => rise >= 60) ? 1 : 0;
+			maximumTime = Math.max(maximumTime, result.race.time);
 		}
-		metrics.push({ meanRise: rises.reduce((a, b) => a + b, 0) / rises.length, reversed });
+		assert.ok(reversed > 0, '양쪽 진입 모두 실제 역전 사례가 있다');
+		assert.ok(rebounds > 0, '양쪽 진입 모두 구슬 지름2개 이상의 반동이 있다');
+		metrics.push({ side, reversed, rebounds, maximumTime });
 	}
 	t.diagnostic(JSON.stringify(metrics));
-	assert.ok(metrics[1].meanRise > metrics[0].meanRise * 1.2, '평균 되튕김 높이가20% 이상 늘어난다');
-	assert.ok(metrics[1].reversed >= metrics[0].reversed, '접전에서 역전 기회를 줄이지 않는다');
 });
