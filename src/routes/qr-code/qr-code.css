@@ -280,8 +280,26 @@
 .qr-expanded .qr-preview-square {
 	width: min(440px, 100%);
 }
-body:has(.qr-expanded[open], .qr-print-settings[open]) {
+body:has(.qr-expanded[open], .qr-print-settings[open], .qr-save-image[open]) {
 	overflow: hidden;
+}
+.qr-save-content {
+	display: grid;
+	gap: var(--space-16);
+	min-height: 0;
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+.qr-save-content p {
+	margin: 0;
+}
+.qr-save-content img {
+	display: block;
+	width: 100%;
+	height: auto;
+	-webkit-touch-callout: default;
+	user-select: auto;
 }
 .qr-print {
 	display: none;

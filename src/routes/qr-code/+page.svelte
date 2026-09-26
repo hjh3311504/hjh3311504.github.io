@@ -1,5 +1,6 @@
 <script>
 	import QrDialogs from '$lib/qr-code/components/QrDialogs.svelte';
+	import QrSaveDialog from '$lib/qr-code/components/QrSaveDialog.svelte';
 	import QrGuide from '$lib/qr-code/components/QrGuide.svelte';
 	import QrPreviewSection from '$lib/qr-code/components/QrPreviewSection.svelte';
 	import QrBookmarksSection from '$lib/qr-code/components/QrBookmarksSection.svelte';
@@ -56,6 +57,8 @@
 	let busy = $state(false);
 	let error = $state('');
 	let outputError = $state('');
+	let outputStatus = $state('');
+	let saveDialog = $state();
 	let storageError = $state('');
 	let bookmarks = $state([]);
 	let expandedDialog = $state();
@@ -134,6 +137,7 @@
 		content;
 		title;
 		outputError = '';
+		outputStatus = '';
 	});
 
 	function persist(next) {
@@ -209,8 +213,16 @@
 	async function download(format) {
 		if (!qrReady || outputAction || (format === 'svg' && !svgReady)) return;
 		const snapshot = outputSnapshot();
-		outputAction = format;
+		outputStatus = '';
 		outputError = '';
+		const mobile =
+			/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+			(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+		if (format === 'png' && mobile) {
+			saveDialog.open(snapshot);
+			return;
+		}
+		outputAction = format;
 		try {
 			const blob = await createQrImage(snapshot.path, await snapshot.prepared, format);
 			if (disposed) return;
@@ -218,7 +230,7 @@
 			const timer = setTimeout(() => {
 				URL.revokeObjectURL(url);
 				downloadUrls.delete(url);
-			}, 1000);
+			}, 60_000);
 			downloadUrls.set(url, timer);
 			const link = document.createElement('a');
 			link.href = url;
@@ -235,13 +247,18 @@
 
 	async function copyImage() {
 		if (!qrReady || outputAction) return;
+		const snapshot = outputSnapshot();
+		outputStatus = '';
+		outputError = '';
 		if (!navigator.clipboard?.write || typeof ClipboardItem === 'undefined') {
-			outputError = '이 브라우저는 이미지 복사를 지원하지 않습니다. PNG 저장을 사용하세요.';
+			saveDialog.open(
+				snapshot,
+				undefined,
+				'이 브라우저는 이미지 복사를 지원하지 않습니다. 아래 이미지로 저장을 진행하세요.'
+			);
 			return;
 		}
-		const snapshot = outputSnapshot();
 		outputAction = 'copy';
-		outputError = '';
 		const blob = snapshot.prepared.then((prepared) =>
 			createQrImage(snapshot.path, prepared, 'png')
 		);
@@ -249,9 +266,20 @@
 		blob.catch(() => {});
 		try {
 			await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+			if (
+				!disposed &&
+				content === qr?.content &&
+				qr.path === snapshot.path &&
+				title === snapshot.title
+			)
+				outputStatus = '이미지를 복사했습니다.';
 		} catch {
 			if (!disposed)
-				outputError = '이미지를 복사하지 못했습니다. 복사 권한을 허용하거나 PNG 저장을 사용하세요.';
+				saveDialog.open(
+					snapshot,
+					blob,
+					'이미지를 복사하지 못했습니다. 아래 이미지로 저장을 진행하세요.'
+				);
 		} finally {
 			if (!disposed) outputAction = '';
 		}
@@ -349,6 +377,7 @@
 				{outputAction}
 				{busy}
 				{outputError}
+				{outputStatus}
 				{expandedDialog}
 				bind:retryVersion
 				{qrReady}
@@ -364,6 +393,7 @@
 		<QrGuide />
 		<ToolPageFooter />
 	</ToolPageLayout>
+	<QrSaveDialog bind:this={saveDialog} />
 	<QrDialogs
 		{title}
 		{qr}
