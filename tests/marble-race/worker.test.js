@@ -164,7 +164,10 @@ test('Worker는 긴 계산을 나눠 전달하고 남은 시간을 모두 처리
 					assert.ok(result.unused < remaining);
 					remaining = result.unused;
 					if (++requests === 1) {
-						const expectedSteps = { 0: 4, 8: 2, 16: 1 }[clockIncrement];
+						const expectedSteps = Math.min(
+							{ 0: 8, 8: 2, 16: 1 }[clockIncrement],
+							Math.round((0.2 * speed) / STEP)
+						);
 						assert.ok(Math.abs(result.state.time - expectedSteps * STEP) < 1e-12);
 					}
 					assert.ok(requests < 100);

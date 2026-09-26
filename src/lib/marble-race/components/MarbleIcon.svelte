@@ -22,7 +22,7 @@
 			drawMarble(ctx, marble, ctx.font);
 		};
 		draw();
-		void document.fonts.ready.then(draw);
+		if (document.fonts.status !== 'loaded') void document.fonts.ready.then(draw);
 		return () => {
 			disposed = true;
 		};

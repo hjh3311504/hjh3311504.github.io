@@ -39,16 +39,21 @@ for (const phase of [0, Math.PI * 1.5]) {
 				vy: 150
 			})
 		);
-		const display = createPresentation();
-		display.push(race, 0);
+		const displays = [4, 8].map((steps) => {
+			const display = createPresentation();
+			display.push(race, 0);
+			return { steps, display, maximum: 0 };
+		});
 		let maximum = 0,
 			shownMaximum = 0;
 		for (let step = 0; step < 12 * 120; step++) {
 			stepRace(race);
 			maximum = Math.max(maximum, maximumOverlap(race));
 			assert.ok(maximum <= 1, `경기 시각${race.time}, 실제 겹침${maximum}`);
-			// 2배속에서 약60회/초 전달되는 실제4단계 간격의 중간 화면을 확인한다.
-			if (step % 4 === 3) {
+			// 일반4단계와 요청 상한8단계 간격 모두에서 중간 화면을 확인한다.
+			for (const sample of displays) {
+				const { steps, display } = sample;
+				if (step % steps !== steps - 1) continue;
 				const now = race.time * 500;
 				display.push(race, now);
 				const physical = race.marbles.map((m) => [
@@ -58,8 +63,9 @@ for (const phase of [0, Math.PI * 1.5]) {
 					m.vy,
 					m.held ? { ...m.held } : null
 				]);
-				const frame = display.sample(race, now + 1000 / 120);
-				shownMaximum = Math.max(shownMaximum, maximumOverlap(frame));
+				const frame = display.sample(race, now + (steps * 1000) / 480);
+				sample.maximum = Math.max(sample.maximum, maximumOverlap(frame));
+				shownMaximum = Math.max(shownMaximum, sample.maximum);
 				assert.ok(shownMaximum <= 1, `경기 시각${race.time}, 표시 겹침${shownMaximum}`);
 				assert.deepEqual(
 					race.marbles.map((m) => [m.x, m.y, m.vx, m.vy, m.held ? { ...m.held } : null]),
@@ -70,6 +76,13 @@ for (const phase of [0, Math.PI * 1.5]) {
 		assert.ok(race.finished.length > 0);
 		assert.ok(race.skills.serial > 0);
 		assert.ok(race.finished.every((m) => m.chuteEntered));
-		t.diagnostic(JSON.stringify({ maximum, shownMaximum, finished: race.finished.length }));
+		t.diagnostic(
+			JSON.stringify({
+				maximum,
+				shownMaximum,
+				intervals: displays.map(({ steps, maximum }) => ({ steps, maximum })),
+				finished: race.finished.length
+			})
+		);
 	});
 }

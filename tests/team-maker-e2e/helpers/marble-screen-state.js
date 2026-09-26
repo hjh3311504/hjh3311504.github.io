@@ -1,7 +1,7 @@
 import { installMarbleWire } from './marble-wire.js';
-export async function screenRace(page) {
+export async function screenRace(page, { ranking = false } = {}) {
 	await installMarbleWire(page);
-	await page.addInitScript(() => {
+	await page.addInitScript((ranking) => {
 		window.__racePhase = 'running';
 		const NativeWorker = window.Worker;
 		window.Worker = class extends NativeWorker {
@@ -35,7 +35,17 @@ export async function screenRace(page) {
 				for (const m of state.marbles) {
 					m.finished = m.id < count;
 					m.y = state.layout.finish.y - 100;
-					if (window.__raceOverlapping) {
+					if (ranking) {
+						// 순위 화면 검사는 결승의 좁은 통로에1000개를 강제로 겹쳐 놓지 않는다.
+						const position =
+							window.__raceRankingSwap && (m.id === 499 || m.id === 500) ? 999 - m.id : m.id;
+						m.x = 25 + (position % 26) * 26;
+						m.y =
+							state.layout.finale.start -
+							100 -
+							Math.floor(position / 26) * 28 -
+							(position % 26) * 0.01;
+					} else if (window.__raceOverlapping) {
 						m.x = 350 + m.id * 10;
 						m.y = state.layout.finale.start + 300 + m.id * 10;
 					}
@@ -80,5 +90,5 @@ export async function screenRace(page) {
 				);
 			}
 		};
-	});
+	}, ranking);
 }

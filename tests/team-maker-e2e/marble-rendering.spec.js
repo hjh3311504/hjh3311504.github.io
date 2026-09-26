@@ -99,7 +99,7 @@ for (const width of [320, 390, 768, 1440]) {
 }
 
 test('추적 카드는 첫 칸을 유지하고 검색·교체·해제 시 실제 순위를 보존한다', async ({ page }) => {
-	await screenRace(page);
+	await screenRace(page, { ranking: true });
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('도착 순위');
 	await expect(start(page)).toBeEnabled();
@@ -115,8 +115,9 @@ test('추적 카드는 첫 칸을 유지하고 검색·교체·해제 시 실제
 		element.scrollTop = element.scrollHeight;
 	});
 	await expect(grid.locator('li').last()).toHaveAttribute('aria-posinset', '1000');
-	await cards.last().focus();
-	await cards.last().press('Enter');
+	const lastMarble = grid.getByRole('button', { name: /^1000등 .*1000번/ });
+	await lastMarble.focus();
+	await lastMarble.press('Enter');
 	await expect(cards.first()).toHaveAccessibleName(/^1000등 .*1000번/);
 	await expect(cards.first()).toHaveAttribute('aria-pressed', 'true');
 	await expect(cards.first()).toBeFocused();
@@ -130,7 +131,7 @@ test('추적 카드는 첫 칸을 유지하고 검색·교체·해제 시 실제
 		element.scrollTop = element.scrollHeight;
 	});
 	await expect(grid.locator('li').last()).toHaveAttribute('aria-posinset', '1000');
-	await cards.last().press('Space');
+	await lastMarble.press('Space');
 	await expect(cards.first()).toHaveAccessibleName(/^1000등 .*1000번/);
 	await expect(cards.first()).toHaveAttribute('aria-pressed', 'true');
 	await search.fill('500');
@@ -143,12 +144,12 @@ test('추적 카드는 첫 칸을 유지하고 검색·교체·해제 시 실제
 	await expect(cards.first()).toHaveAttribute('aria-pressed', 'true');
 	await expect(cards.nth(1)).toHaveAccessibleName(/^1등 .*1번/);
 	await page.evaluate(() => {
-		window.__raceOverlapping = true;
+		window.__raceRankingSwap = true;
 	});
 	await expect(cards.first()).toHaveAccessibleName(/^501등 .*500번/);
 	await expect(cards.first()).toHaveAttribute('aria-pressed', 'true');
 	await page.evaluate(() => {
-		window.__raceOverlapping = false;
+		window.__raceRankingSwap = false;
 		window.__racePhase = 'finished';
 		Object.defineProperty(navigator, 'clipboard', {
 			value: {

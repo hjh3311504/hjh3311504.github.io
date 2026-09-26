@@ -1,7 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-for (const mobile of [false, true]) {
-	test(`1000개 실제 경기의 ${mobile ? '모바일 크기·CPU4배 감속' : '데스크톱'} 화면과 조작 응답`, async ({
+for (const [mobile, selectedSpeed] of [
+	[false, 1],
+	[true, 1],
+	[false, 2],
+	[true, 2]
+]) {
+	test(`1000개 실제 경기의 ${mobile ? '모바일 크기·CPU4배 감속' : '데스크톱'} ${selectedSpeed}배속 화면과 조작 응답`, async ({
 		page
 	}, testInfo) => {
 		test.setTimeout(60000);
@@ -26,7 +31,11 @@ for (const mobile of [false, true]) {
 				constructor(...args) {
 					super(...args);
 					this.addEventListener('message', ({ data }) => {
-						if (data.kind === 'frame') window.__performanceRaceTime = data.state.time;
+						if (data.kind === 'frame') {
+							window.__performanceRaceTime = data.state.time;
+							window.__performanceCinematic = data.state.cinematic?.active;
+						}
+						if (data.unused != null) window.__performanceUnused = data.unused;
 					});
 				}
 				postMessage(data) {
@@ -44,6 +53,10 @@ for (const mobile of [false, true]) {
 		if (mobile) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
 		await start.click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
+		if (selectedSpeed === 2) {
+			await page.getByRole('button', { name: '경기 배속 전환' }).click();
+			await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('2배속');
+		}
 		await expect(page.locator('.race-stats')).toContainText('/ 1000 도착');
 		const samples = [];
 		for (const phase of ['출발', '진행']) {
@@ -60,13 +73,35 @@ for (const mobile of [false, true]) {
 					.sort((a, b) => a - b);
 				return {
 					fps: frames.length / seconds,
+					cinematicActive: window.__performanceCinematic,
+					unusedSeconds: window.__performanceUnused,
 					p95FrameMs: intervals[Math.floor(intervals.length * 0.95)],
 					raceSeconds: (window.__performanceRaceTime ?? 0) - raceStart,
 					realSeconds: seconds
 				};
 			});
-			samples.push({ phase, ...metrics });
+			const sample = {
+				selectedSpeed,
+				phase,
+				...metrics,
+				raceSpeed: metrics.raceSeconds / metrics.realSeconds
+			};
+			samples.push(sample);
+			// 기준 미달로 중단되어도 실제 경기 배속과 그리기 수치를 남긴다.
+			const report = { mobile, cpuSlowdown: mobile ? 4 : 1, ...sample };
+			console.log('1000개 성능 표본', JSON.stringify(report));
+			await testInfo.attach(`1000개 성능 ${phase}`, {
+				body: JSON.stringify(report, null, 2),
+				contentType: 'application/json'
+			});
 			expect(metrics.fps).toBeGreaterThanOrEqual(30);
+			if (selectedSpeed === 2) {
+				expect(metrics.cinematicActive).toBe(false);
+				// 수신 시점의 차이는 허용하되 출발 구간의 지속적인 계산 지연은 검출한다.
+				expect(sample.raceSpeed).toBeGreaterThanOrEqual(1.9);
+				expect(sample.raceSpeed).toBeLessThanOrEqual(2.1);
+				expect(metrics.unusedSeconds).toBeLessThanOrEqual(0.1);
+			}
 		}
 		const buttonMs = await page.evaluate(
 			() =>

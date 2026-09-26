@@ -45,11 +45,12 @@ export function createRenderer(canvas) {
 		return sprite;
 	}
 
-	function paintText(text, x, y, background = false) {
-		const key = `${ctx.font}:${ctx.fillStyle}:${background}:${textQuality}:${text}`;
+	function paintText(text, x, y, style, background = false) {
+		const key = `${style.font}:${style.color}:${background}:${textQuality}:${text}`;
 		let sprite = textSprites.get(key);
 		if (!sprite) {
-			const fontSize = Number(ctx.font.match(/([\d.]+)px/)[1]);
+			const fontSize = style.size;
+			ctx.font = style.font;
 			let width = Math.ceil(ctx.measureText(text).width) + (background ? 12 : 4),
 				height = background ? Math.ceil(fontSize) + 8 : Math.ceil(fontSize * 1.5) + 4;
 			const bitmap = document.createElement('canvas');
@@ -59,14 +60,14 @@ export function createRenderer(canvas) {
 			bitmap.height = Math.round(height * textQuality);
 			const brush = bitmap.getContext('2d');
 			brush.scale(textQuality, textQuality);
-			brush.font = ctx.font;
+			brush.font = style.font;
 			if (background) {
 				brush.fillStyle = '#101d2ce8';
 				brush.beginPath();
 				brush.roundRect(0, 0, width, height, 5);
 				brush.fill();
 			}
-			brush.fillStyle = ctx.fillStyle;
+			brush.fillStyle = style.color;
 			brush.textAlign = 'center';
 			const baseline = background ? fontSize + 4 : height - 4;
 			brush.fillText(text, width / 2, baseline);
@@ -579,17 +580,31 @@ export function createRenderer(canvas) {
 					!marble.finished && marble.y >= camera - 60 && marble.y <= camera + viewHeight + 60
 			)
 			.sort((a, b) => (a.id === Number(focusId)) - (b.id === Number(focusId)));
+		// 같은 글자 설정을 매 구슬마다 Canvas에 다시 지정하거나 읽지 않는다.
+		const labelStyles = [false, true].map((focus) => {
+			const size = Math.round(Math.max(14, (focus ? 18 : 14) / scale) * 2) / 2;
+			return {
+				size,
+				font: `${focus ? 800 : 600} ${size}px SUIT, sans-serif`,
+				color: focus ? '#ffffff' : '#dceaf3'
+			};
+		});
+		const numberStyle = {
+			font: numberFont,
+			size: Number(numberFont.match(/([\d.]+)px/)[1]),
+			color: '#142736'
+		};
 		// 이름표 위로 구슬·번호·추적 표식이 보이게 한다.
 		for (const marble of renderMarbles) {
 			const isFocus = marble.id === Number(focusId);
 			if (!overview || isFocus) {
-				const labelFont = Math.round(Math.max(14, (isFocus ? 18 : 14) / scale) * 2) / 2;
-				ctx.font = `${isFocus ? 800 : 600} ${labelFont}px SUIT, sans-serif`;
-				const key = `${ctx.font}:${marble.name}`;
+				const style = labelStyles[Number(isFocus)];
+				const key = `${style.font}:${marble.name}`;
 				let label = labels.get(key);
 				if (!label) {
 					const chars = [...marble.name],
 						name = chars.length > 9 ? chars.slice(0, 8).join('') + '…' : marble.name;
+					ctx.font = style.font;
 					label = { name, width: ctx.measureText(name).width + 12 };
 					// 확대 중의 연속 글자 크기로 캐시가 무한히 늘지 않게 한다.
 					if (labels.size > 4096) labels.clear();
@@ -597,8 +612,7 @@ export function createRenderer(canvas) {
 				}
 				const { name, width } = label;
 				const labelX = Math.max(width / 2 + 3, Math.min(WIDTH - width / 2 - 3, marble.x));
-				ctx.fillStyle = isFocus ? '#ffffff' : '#dceaf3';
-				paintText(name, labelX, marble.y + 21 + labelFont, true);
+				paintText(name, labelX, marble.y + 21 + style.size, style, true);
 			}
 		}
 		for (const marble of renderMarbles) {
@@ -631,7 +645,6 @@ export function createRenderer(canvas) {
 				sprite.width,
 				sprite.height
 			);
-			ctx.font = numberFont;
 			if (marble.held?.kind === 'lightning') drawElectricField(ctx, marble, race.time, reduced);
 			if (marble.held?.kind === 'frost') {
 				ctx.fillStyle = '#b2e9f780';
@@ -649,8 +662,7 @@ export function createRenderer(canvas) {
 				ctx.fill();
 				ctx.stroke();
 			}
-			ctx.fillStyle = '#142736';
-			if (marble.held) paintText(String(marble.id + 1), marble.x, marble.y + 4);
+			if (marble.held) paintText(String(marble.id + 1), marble.x, marble.y + 4, numberStyle);
 		}
 	}
 	return { render, addEvents };

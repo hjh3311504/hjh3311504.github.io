@@ -263,7 +263,7 @@ test('종료 뒤 기본·커스텀 맵 변경은 결과와 카메라를 초기�
 });
 
 test('1,000개 순위는 카드 행만 렌더링하고 검색·열 변경·추적을 지원한다', async ({ page }) => {
-	await screenRace(page);
+	await screenRace(page, { ranking: true });
 	await enter(page);
 	await page.getByLabel('참가자 이름').fill('이름이같은구슬*1000');
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();

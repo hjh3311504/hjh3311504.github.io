@@ -5,7 +5,9 @@ import { createFrameBatch } from './frame-batch.js';
 const frames = createFrameBatch();
 let encode = createSnapshotEncoder();
 const ADVANCE_BUDGET_MS = 12;
-const MAX_ADVANCE_STEPS = 4;
+// 2배속의4단계는 실제16.7ms뿐이다. 모바일 화면 작업으로 응답이 늦어져도
+// 12ms 계산 예산 안에서8단계까지 처리해 밀린 시간을 따라잡을 여유를 둔다.
+const MAX_ADVANCE_STEPS = 8;
 let race,
 	director,
 	cinematic,

@@ -92,6 +92,33 @@ test('Worker 상태를 묶어도 계산·이벤트가 보존되고 정지 시 �
 		const fresh = await request({ kind: 'snapshot' });
 		assert.equal(fresh.state.time, 0);
 		assert.deepEqual(fresh.state.events, []);
+		// 늘어난 요청 상한까지 묶어 계산해도 스킬·충돌 이벤트와 상태가 빠지지 않는다.
+		const restarted = createRace(Array(30).fill('공'), 'keyboard', 47, { skillsEnabled: true });
+		const groupedEvents = [];
+		for (let i = 0; i < 100; i++) {
+			for (let step = 0; step < 8; step++) groupedEvents.push(...stepRace(restarted));
+			const grouped = await request({ kind: 'advance', seconds: (8 * STEP) / 2, speed: 2 });
+			assert.equal(grouped.kind, 'advanced');
+			assert.ok(grouped.unused < 1e-12);
+		}
+		const grouped = (await request({ kind: 'snapshot' })).state;
+		assert.equal(grouped.time, restarted.time);
+		assert.deepEqual(grouped.events, groupedEvents);
+		assert.deepEqual(grouped.skillWaves, restarted.skills.waves);
+		assert.deepEqual(
+			[...grouped.marbleValues],
+			restarted.marbles.flatMap((m) => [
+				m.x,
+				m.y,
+				m.vx,
+				m.vy,
+				Number(m.finished),
+				m.finishTime ?? NaN,
+				m.windUntil,
+				m.windDirection
+			])
+		);
+		assert.deepEqual((await request({ kind: 'snapshot' })).state.events, []);
 	} finally {
 		await worker.terminate();
 	}
