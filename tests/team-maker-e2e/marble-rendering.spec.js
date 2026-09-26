@@ -9,6 +9,8 @@ test('1000개 구슬 그림을 복사하는 동안 같은 그림 페이지를 �
 	page
 }) => {
 	await page.addInitScript(() => {
+		// 미지원 브라우저에서도 기존 그림 페이지 재사용을 검증한다.
+		window.OffscreenCanvas = undefined;
 		window.__sourceChanges = 0;
 		window.__sourceReuses = 0;
 		let seen = new Map();

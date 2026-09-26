@@ -6,6 +6,8 @@ import { drawSpecialBlock } from './special-painter.js';
 import { WIDTH, blockAngle, gateOpen, arcStart, tilesInView } from './physics.js';
 
 export function createRenderer(canvas) {
+	const makeCanvas = () =>
+		canvas.ownerDocument?.createElement('canvas') ?? new OffscreenCanvas(1, 1);
 	const ctx = canvas.getContext('2d');
 	if (!ctx) throw new Error('이 브라우저에서는 경기 화면을 그릴 수 없어요.');
 	const drawTile = createTilePainter(ctx);
@@ -91,7 +93,7 @@ export function createRenderer(canvas) {
 	}
 
 	function createSpritePage(size = 1024) {
-		const bitmap = document.createElement('canvas');
+		const bitmap = makeCanvas();
 		bitmap.width = bitmap.height = size;
 		return { bitmap, brush: bitmap.getContext('2d'), x: 0, y: 0, rowHeight: 0 };
 	}
@@ -103,7 +105,7 @@ export function createRenderer(canvas) {
 			ctx.font = style.font;
 			let width = Math.ceil(ctx.measureText(text).width) + (background ? 12 : 4),
 				height = background ? Math.ceil(fontSize) + 8 : Math.ceil(fontSize * 1.5) + 4;
-			const bitmap = document.createElement('canvas');
+			const bitmap = makeCanvas();
 			width = Math.ceil(width * textQuality) / textQuality;
 			height = Math.ceil(height * textQuality) / textQuality;
 			bitmap.width = Math.round(width * textQuality);
@@ -154,7 +156,7 @@ export function createRenderer(canvas) {
 		const key = `${block.type}:${block.w}:${block.h}:${block.cornerRadius}`;
 		let sprite = tileSprites.get(key);
 		if (!sprite) {
-			const bitmap = document.createElement('canvas'),
+			const bitmap = makeCanvas(),
 				width = block.w + 4,
 				height = block.h + 4;
 			bitmap.width = width * 4;
@@ -485,17 +487,7 @@ export function createRenderer(canvas) {
 		particles = particles.slice(-240);
 	}
 
-	function render(
-		race,
-		{
-			focusId = -1,
-			overview = false,
-			skillsEnabled = false,
-			reduced = false,
-			view,
-			bounds = canvas.getBoundingClientRect()
-		} = {}
-	) {
+	function reset(race) {
 		if (oldRace !== (race.identity ?? race)) {
 			camera = 0;
 			particles = [];
@@ -511,8 +503,23 @@ export function createRenderer(canvas) {
 			indexBlocks(race.blocks);
 			oldRace = race.identity ?? race;
 		}
+	}
+
+	function render(
+		race,
+		{
+			focusId = -1,
+			overview = false,
+			skillsEnabled = false,
+			reduced = false,
+			view,
+			bounds = canvas.getBoundingClientRect(),
+			pixelRatio = globalThis.devicePixelRatio || 1
+		} = {}
+	) {
+		reset(race);
 		if (!bounds.width || !bounds.height) return;
-		const dpr = Math.min(window.devicePixelRatio || 1, 2);
+		const dpr = Math.min(pixelRatio, 2);
 		const pixelWidth = Math.round(bounds.width * dpr),
 			pixelHeight = Math.round(bounds.height * dpr);
 		if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
@@ -535,7 +542,7 @@ export function createRenderer(canvas) {
 		ctx.translate(0, -camera);
 		if (scale > 0.08) {
 			if (!gridPattern) {
-				const tile = document.createElement('canvas');
+				const tile = makeCanvas();
 				tile.width = tile.height = 128;
 				const brush = tile.getContext('2d');
 				brush.scale(4, 4);
@@ -769,5 +776,5 @@ export function createRenderer(canvas) {
 			if (marble.held) paintText(String(marble.id + 1), marble.x, marble.y + 4, numberStyle);
 		}
 	}
-	return { render, addEvents };
+	return { render, addEvents, reset };
 }

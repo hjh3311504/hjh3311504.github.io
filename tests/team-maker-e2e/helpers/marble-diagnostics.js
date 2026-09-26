@@ -59,6 +59,7 @@ function workerProbe() {
 		kind,
 		costs = {};
 	globalThis.__recordMarbleCost = (name, ms) => {
+		if (kind === 'paint' && name === 'decode') name = 'renderDecode';
 		const value = (costs[name] ??= { count: 0, ms: 0 });
 		value.count++;
 		value.ms += ms;
@@ -67,13 +68,24 @@ function workerProbe() {
 		started = performance.timeOrigin + performance.now();
 		sent = data.__profileSent;
 		kind = data.kind;
-		if (data.kind === 'advance') costs = {};
+		if (data.kind === 'advance' || data.kind === 'paint') costs = {};
 	});
 	const post = self.postMessage.bind(self);
 	self.postMessage = (data, ...args) => {
-		if (data.stream || (kind === 'advance' && ['frame', 'advanced', 'idle'].includes(data.kind))) {
+		if (
+			data.stream ||
+			data.kind === 'painted' ||
+			(kind === 'advance' && ['frame', 'advanced', 'idle'].includes(data.kind))
+		) {
 			const completed = performance.timeOrigin + performance.now();
-			data.__profile = { started, completed, sent, costs, stream: Boolean(data.stream) };
+			data.__profile = {
+				started,
+				completed,
+				sent,
+				costs,
+				stream: Boolean(data.stream),
+				painting: data.kind === 'painted'
+			};
 			costs = {};
 		}
 		return post(data, ...args);
@@ -86,7 +98,9 @@ export async function installMarbleDiagnostics(page) {
 		const response = await route.fetch();
 		const result = instrumentMarbleCode(await response.text());
 		for (const stage of result.stages) stages.add(stage);
-		const worker = /\/race-worker-[^/]+\.js$/.test(new URL(route.request().url()).pathname);
+		const worker = /\/(?:race|render)-worker-[^/]+\.js$/.test(
+			new URL(route.request().url()).pathname
+		);
 		await route.fulfill({
 			response,
 			body: (worker ? `(${workerProbe.toString()})();\n` : '') + result.source
@@ -95,6 +109,7 @@ export async function installMarbleDiagnostics(page) {
 	await page.addInitScript(() => {
 		window.__marbleCosts = {};
 		window.__recordMarbleCost = (name, ms) => {
+			if (name === 'encode') name = 'renderEncode';
 			const value = (window.__marbleCosts[name] ??= { count: 0, ms: 0, maximumMs: 0 });
 			value.count++;
 			value.ms += ms;
@@ -112,11 +127,11 @@ export async function installMarbleDiagnostics(page) {
 					const received = performance.timeOrigin + this.lastReceived;
 					const record = window.__recordMarbleCost;
 					if (!p.stream) {
-						record('workerRequest', p.completed - p.started);
-						record('inputQueue', p.started - p.sent);
-						record('roundTrip', received - p.sent);
+						record(p.painting ? 'renderRequest' : 'workerRequest', p.completed - p.started);
+						record(p.painting ? 'renderInputQueue' : 'inputQueue', p.started - p.sent);
+						record(p.painting ? 'renderRoundTrip' : 'roundTrip', received - p.sent);
 					}
-					record('outputQueue', received - p.completed);
+					record(p.painting ? 'renderOutputQueue' : 'outputQueue', received - p.completed);
 					for (const [name, value] of Object.entries(p.costs)) {
 						// 개별 단계의 평균·개수와 요청당 전체 계산을 구분한다.
 						const current = (window.__marbleCosts[name] ??= { count: 0, ms: 0 });
@@ -126,10 +141,13 @@ export async function installMarbleDiagnostics(page) {
 				});
 			}
 			postMessage(data, ...args) {
-				if (data.kind === 'advance') {
+				if (data.kind === 'advance' || data.kind === 'paint') {
 					const now = performance.now();
 					if (this.lastReceived)
-						window.__recordMarbleCost('nextRequestWait', now - this.lastReceived);
+						window.__recordMarbleCost(
+							data.kind === 'paint' ? 'nextRenderWait' : 'nextRequestWait',
+							now - this.lastReceived
+						);
 					data = { ...data, __profileSent: performance.timeOrigin + now };
 				}
 				return super.postMessage(data, ...args);

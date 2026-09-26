@@ -23,7 +23,7 @@
 	import { pinRankingItem } from '$lib/marble-race/ranking-order.js';
 	import { createPresentation } from '$lib/marble-race/presentation.js';
 	import { createDrawSchedule } from '$lib/marble-race/draw-schedule.js';
-	import { createRenderer } from '$lib/marble-race/renderer.js';
+	import { createDisplayRenderer } from '$lib/marble-race/display-renderer.js';
 	import { SKILL_TYPES } from '$lib/marble-race/skills.js';
 	import { createAudio } from '$lib/marble-race/audio.js';
 	import { createCamera } from '$lib/marble-race/camera.js';
@@ -233,7 +233,7 @@
 			}
 		}
 		if (focusChanged || cinematic?.newWinners?.length) synchronize();
-		renderer.addEvents(state.events ?? [], reduced);
+		renderer.addEvents(state.events ?? [], race.identity);
 		pendingAudioEvents.push(...(state.events ?? []));
 		if (race.finished.length === race.marbles.length && status === 'running') {
 			status = 'finished';
@@ -620,7 +620,7 @@
 		} = saved);
 		writer = createSettingsWriter(storage, (value) => (message = value));
 		try {
-			renderer = createRenderer(canvas);
+			renderer = createDisplayRenderer(canvas);
 			audio = createAudio({
 				onDiagnostic: (detail) => {
 					if (canvas.hasAttribute('data-audio-diagnostics'))
@@ -662,6 +662,7 @@
 			operation++;
 			client.stop();
 			cancelAnimationFrame(raf);
+			renderer.destroy();
 			clearTimeout(previewTimer);
 			clearTimeout(celebrationTimer);
 			writer.destroy();

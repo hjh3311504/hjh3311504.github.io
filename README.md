@@ -297,7 +297,7 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 | 톡톡 나무공방 · `crunch`     | 나무 → 코르크 → 찰칵 키보드 → 뽁뽁이 |
 | 뽁뽁 물놀이 · `soft`         | 물방울 → 개구리 → 오리 → 팝잇        |
 
-화면 조립은 `src/routes/marble-race/+page.svelte`, 설정은 `settings.js`, 맵·재질은 `catalog.js`, 물리는 `physics.js`, Worker 연결·증분 전송은 `worker-client.js`·`race-worker.js`·`transport.js`, 결승 연출은 `director.js`, 카메라·표시 보간·그림·음향은 `camera.js`·`presentation.js`·`renderer.js`·`audio.js`가 담당한다. 준비 목록의 지연 생성은 `preview-order.js`가 담당한다. 경기와 순위 카드의 번호 구슬은 `marble-painter.js`를 공유한다. 새 재사용 화면은 `src/lib/marble-race/components/`에 있다. 도감 이미지는 게임과 같은 `tile-painter.js`를 쓴다.
+화면 조립은 `src/routes/marble-race/+page.svelte`, 설정은 `settings.js`, 맵·재질은 `catalog.js`, 물리는 `physics.js`, Worker 연결·증분 전송은 `worker-client.js`·`race-worker.js`·`transport.js`, 결승 연출은 `director.js`, 카메라·표시 보간·그림·음향은 `camera.js`·`presentation.js`·`renderer.js`·`audio.js`가 담당한다. 200개 이상 실제 경기의 그림은 `display-renderer.js`·`render-worker.js`가 별도 Worker에서 만들며, 준비 화면·작은 경기·미지원 브라우저는 기존 Canvas 방식을 사용한다. 준비 목록의 지연 생성은 `preview-order.js`가 담당한다. 경기와 순위 카드의 번호 구슬은 `marble-painter.js`를 공유한다. 새 재사용 화면은 `src/lib/marble-race/components/`에 있다. 도감 이미지는 게임과 같은 `tile-painter.js`를 쓴다.
 
 이전 결승 원호·겹침 보정·전체 준비 화면의 결정과1000개 성능 분석은 [파동·결승 접촉·전체 미리보기 ADR](docs/adr/2026-09-22-파동-결승접촉-전체미리보기.md)에 기록했다.이전32회 보정의60개 밀집 검사에서는 겹침1 이하를 확인했지만, 당시1회 보정은 같은 한도를 보장하지 못했다.1000개를 결승에 모은 시험에서는 반복 접촉 계산으로 실제 경기 진행이 느려진다. 화면fps와 물리 상태 갱신·실제 경기 진행 속도를 함께 평가한다. 이전20° 벽·순위6열·전기 그림 재사용은 [스킬 그림 비용과 완만한 결승 ADR](docs/adr/2026-09-22-스킬-그림-비용과-완만한-결승.md)을 따른다. 이후 회전축의 왼쪽 이동과 스킬음 음량 절반 조정은 [왼쪽 회전바와 스킬음 ADR](docs/adr/2026-09-22-왼쪽-회전바와-스킬음.md)을 따른다.
 

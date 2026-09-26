@@ -63,7 +63,7 @@ export function drawElectricField(ctx, marble, time, reduced = false) {
 	if (!sprite) {
 		const size = (marble.r + 24) * 2;
 		const makeLayer = (bolts) => {
-			const bitmap = ctx.canvas.ownerDocument.createElement('canvas');
+			const bitmap = ctx.canvas.ownerDocument?.createElement('canvas') ?? new OffscreenCanvas(1, 1);
 			bitmap.width = bitmap.height = Math.ceil(size * quality);
 			const brush = bitmap.getContext('2d');
 			brush.scale(quality, quality);
