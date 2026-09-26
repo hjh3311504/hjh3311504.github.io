@@ -81,6 +81,18 @@ jobs:
           name: marble-diagnostics
           path: output/playwright/report/
           retention-days: 7
+      - name: Trace failed mobile performance
+        if: failure() && github.event_name == 'pull_request' && steps.marble-performance.outcome == 'failure'
+        env:
+          MARBLE_TRACE: '1'
+        run: npm run test:e2e:built -- tests/team-maker-e2e/marble-performance.spec.js --grep '모바일.*1배속' --retries=0
+      - name: Save mobile browser timeline
+        if: failure() && github.event_name == 'pull_request' && steps.marble-performance.outcome == 'failure'
+        uses: actions/upload-artifact@v7
+        with:
+          name: marble-mobile-trace
+          path: output/playwright/report/
+          retention-days: 7
       - name: Test remaining site in browser
         if: github.event_name == 'pull_request'
         run: npm run test:e2e:built -- --test-list-invert tests/team-maker-e2e/marble-priority.txt

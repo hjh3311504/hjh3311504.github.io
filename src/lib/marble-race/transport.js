@@ -55,12 +55,15 @@ export function createSnapshotEncoder() {
 		for (const [index, block] of race.blocks.entries()) {
 			const previous = previousBlocks[index];
 			let changes;
-			for (const key of blockKeys[index]) {
-				if (!Object.is(block[key], previous[key])) {
-					changes ??= {};
-					changes[key] = block[key];
+			if (blockKeys[index].length === DYNAMIC_BLOCK_KEYS.length)
+				changes = blockChangesFor(block, previous);
+			else
+				for (const key of blockKeys[index]) {
+					if (!Object.is(block[key], previous[key])) {
+						changes ??= {};
+						changes[key] = block[key];
+					}
 				}
-			}
 			if (changes) {
 				blockChanges.push({ index, changes });
 				Object.assign(previous, changes);
@@ -125,4 +128,19 @@ function packMarbles(marbles) {
 		if (m.held) heldMarbles.push([m.id, m.held]);
 	}
 	return { marbleValues, heldMarbles };
+}
+
+function blockChangesFor(block, previous) {
+	let changes;
+	if (!Object.is(block.x, previous.x)) (changes ??= {}).x = block.x;
+	if (!Object.is(block.y, previous.y)) (changes ??= {}).y = block.y;
+	if (!Object.is(block.h, previous.h)) (changes ??= {}).h = block.h;
+	if (!Object.is(block.hp, previous.hp)) (changes ??= {}).hp = block.hp;
+	if (!Object.is(block.alive, previous.alive)) (changes ??= {}).alive = block.alive;
+	if (!Object.is(block.flash, previous.flash)) (changes ??= {}).flash = block.flash;
+	if (!Object.is(block.respawnAt, previous.respawnAt)) (changes ??= {}).respawnAt = block.respawnAt;
+	if (!Object.is(block.breakCycle, previous.breakCycle))
+		(changes ??= {}).breakCycle = block.breakCycle;
+	if (!Object.is(block.tilt, previous.tilt)) (changes ??= {}).tilt = block.tilt;
+	return changes;
 }

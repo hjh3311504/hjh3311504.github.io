@@ -28,6 +28,11 @@ export function createRenderer(canvas) {
 		spriteFont,
 		spriteScale;
 	let labelFrames = [];
+	let blockLookup = new Map(),
+		firstBand,
+		lastBand,
+		bandBlocks = [],
+		recentTile;
 	function marbleSprite(marble, font, quality) {
 		if (font !== spriteFont || quality !== spriteScale) {
 			recentSprites = [];
@@ -135,6 +140,17 @@ export function createRenderer(canvas) {
 		);
 	}
 	function paintTile(block) {
+		if (
+			recentTile &&
+			recentTile.type === block.type &&
+			recentTile.w === block.w &&
+			recentTile.h === block.h &&
+			recentTile.corner === block.cornerRadius
+		) {
+			const s = recentTile.sprite;
+			ctx.drawImage(s.bitmap, block.x - s.width / 2, block.y - s.height / 2, s.width, s.height);
+			return;
+		}
 		const key = `${block.type}:${block.w}:${block.h}:${block.cornerRadius}`;
 		let sprite = tileSprites.get(key);
 		if (!sprite) {
@@ -150,6 +166,8 @@ export function createRenderer(canvas) {
 			sprite = { bitmap, width, height };
 			tileSprites.set(key, sprite);
 		}
+
+		recentTile = { type: block.type, w: block.w, h: block.h, corner: block.cornerRadius, sprite };
 		ctx.drawImage(
 			sprite.bitmap,
 			block.x - sprite.width / 2,
@@ -160,6 +178,9 @@ export function createRenderer(canvas) {
 	}
 
 	function indexBlocks(blocks) {
+		blockLookup = new Map(blocks.map((b) => [b.id, b]));
+		firstBand = lastBand = undefined;
+		bandBlocks = [];
 		blockBands = new Map();
 		for (const [order, block] of blocks.entries()) {
 			const extent = block.arc?.radius ?? Math.hypot(block.w, block.h) / 2;
@@ -176,10 +197,17 @@ export function createRenderer(canvas) {
 		}
 	}
 	function blocksInView(top, bottom) {
+		const first = Math.floor(top / 256),
+			last = Math.floor(bottom / 256);
+		if (first === firstBand && last === lastBand) return bandBlocks;
+		firstBand = first;
+		lastBand = last;
 		const visible = new Map();
 		for (let band = Math.floor(top / 256); band <= Math.floor(bottom / 256); band++)
 			for (const entry of blockBands.get(band) ?? []) visible.set(entry.order, entry.block);
-		return [...visible.entries()].sort((a, b) => a[0] - b[0]).map((entry) => entry[1]);
+		return (bandBlocks = [...visible.entries()]
+			.sort((a, b) => a[0] - b[0])
+			.map((entry) => entry[1]));
 	}
 
 	function rounded(x, y, w, h, radius = 7) {
@@ -579,7 +607,7 @@ export function createRenderer(canvas) {
 		}
 		ripples = ripples.filter((e) => e.life > 0);
 		for (const effect of impressions) {
-			const block = race.blocks.find((block) => block.id === effect.blockId);
+			const block = blockLookup.get(effect.blockId);
 			if (block?.tile) drawTile(block, Math.max(0, effect.life / 0.18));
 			effect.life -= dt;
 		}

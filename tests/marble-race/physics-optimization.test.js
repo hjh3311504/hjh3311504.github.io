@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+	contactDistance,
 	createRace,
 	stepRace,
 	createSpatialIndex,
@@ -194,4 +195,16 @@ test('200개 경기의 출발·결승 계산 중 빠른 구슬은 얇은 장애�
 			}
 			assert.ok(bounced);
 		}
+});
+
+test('두 좌표 거리 계산은 충돌 범위와 매우 작고 큰 값에서 기본 거리와 같다', () => {
+	for (const scale of [1e-300, 1e-100, 0.1, 1, 100, 1e100, 1e300])
+		for (let i = 0; i < 10000; i++) {
+			const x = Math.sin(i) * 26 * scale,
+				y = Math.cos(i * 7.1) * 26 * scale;
+			assert.equal(contactDistance(x, y), Math.hypot(x, y));
+		}
+	for (const x of [0, -0, Infinity, -Infinity, NaN])
+		for (const y of [0, -0, 13, Infinity, -Infinity, NaN])
+			assert.equal(contactDistance(x, y), Math.hypot(x, y));
 });

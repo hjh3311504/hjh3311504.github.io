@@ -2,6 +2,14 @@ import { test, expect } from '@playwright/test';
 import { cpus, totalmem } from 'node:os';
 import { installRequestDrivenWorker } from './helpers/marble-request-driven.js';
 import { installMarbleDiagnostics } from './helpers/marble-diagnostics.js';
+import { startMarbleTrace } from './helpers/marble-trace.js';
+
+const traces = new WeakMap();
+test.afterEach(async ({ page }, testInfo) => {
+	const finish = traces.get(page);
+	traces.delete(page);
+	if (finish) await finish(testInfo);
+});
 
 for (const [mobile, selectedSpeed] of [
 	[false, 1],
@@ -70,6 +78,7 @@ for (const [mobile, selectedSpeed] of [
 		await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 		const cdp = await page.context().newCDPSession(page);
 		if (mobile) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+		if (process.env.MARBLE_TRACE === '1') traces.set(page, await startMarbleTrace(cdp));
 		await start.click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
 		if (selectedSpeed === 2) {

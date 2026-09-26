@@ -123,3 +123,31 @@ test('통로의 둥근 모서리를 보간해도 벽 속에 표시하지 않고 
 	assert.equal(end.x, b.x);
 	assert.equal(end.y, b.y);
 });
+
+test('위치 기록을 줄여도 새 화면의 이름·색·속도·도착 정보와 고정 복사를 보존한다', () => {
+	const race = createRace(['가', '나'], 'keyboard', 47),
+		p = createPresentation(),
+		m = race.marbles[0];
+	p.push(race, 0);
+	Object.assign(m, {
+		name: '변경',
+		color: '#abcdef',
+		vx: 13,
+		vy: 22,
+		windUntil: 5,
+		windDirection: -1,
+		held: { kind: 'lightning', until: 2, x: m.x, y: m.y }
+	});
+	race.time = 0.01;
+	p.push(race, 20);
+	const shown = p.sample(race, 25).marbles[0];
+	assert.deepEqual(shown, m);
+	assert.notEqual(shown, m);
+	assert.notEqual(shown.held, m.held);
+	m.held.y += 100;
+	assert.notEqual(shown.held.y, m.held.y);
+	Object.assign(m, { finished: true, finishTime: 0.02, held: null });
+	race.time = 0.02;
+	p.push(race, 40);
+	assert.deepEqual(p.sample(race, 40).marbles[0], m);
+});

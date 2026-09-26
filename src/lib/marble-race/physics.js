@@ -331,7 +331,7 @@ export function createMap(
 }
 
 // 회전·왕복 장치의 전체 이동 범위도 격자에 등록한다.
-const CELL = 68;
+const CELL = 48;
 export function createSpatialIndex(blocks) {
 	const cells = new Map();
 	blocks.forEach((block, order) => {
@@ -609,7 +609,7 @@ export function collision(marble, block, time, geometry) {
 		py = clamp(ly, -halfH, halfH);
 	let nx = lx - px,
 		ny = ly - py;
-	const distance = nx === 0 ? Math.abs(ny) : ny === 0 ? Math.abs(nx) : Math.hypot(nx, ny);
+	const distance = nx === 0 ? Math.abs(ny) : ny === 0 ? Math.abs(nx) : contactDistance(nx, ny);
 	if (distance >= marble.r + corner) return null;
 	let depth = marble.r + corner - distance;
 	if (distance < 0.0001) {
@@ -980,7 +980,7 @@ function separateMarbles(race) {
 				dy = b.y - a.y;
 			const radius = a.r + b.r;
 			if (Math.abs(dx) >= radius || Math.abs(dy) >= radius) continue;
-			const distance = Math.hypot(dx, dy);
+			const distance = contactDistance(dx, dy);
 			if (distance >= a.r + b.r) continue;
 			const nx = distance > 0.001 ? dx / distance : 1,
 				ny = distance > 0.001 ? dy / distance : 0;
@@ -1238,22 +1238,24 @@ function moveMarbles(race, h, previous, damping, pulseDamping) {
 			if (marble.held.kind === 'lightning') marble.lastProgress = race.time;
 			marble.held = null;
 		}
-		for (const id of marble.ignored.keys()) {
-			const block = race.blocks.find((b) => b.id === id);
-			if (!block || !collision(marble, block, race.time)) marble.ignored.delete(id);
-		}
-		for (const id of marble.specialContacts) {
-			const block = race.blockLookup.get(id);
-			if (
-				!block?.alive ||
-				!collision(
-					{ x: marble.x, y: marble.y, r: marble.r + (block.type === 'frost' ? 12 : 2) },
-					block,
-					race.time
+		if (marble.ignored.size)
+			for (const id of marble.ignored.keys()) {
+				const block = race.blocks.find((b) => b.id === id);
+				if (!block || !collision(marble, block, race.time)) marble.ignored.delete(id);
+			}
+		if (marble.specialContacts.size)
+			for (const id of marble.specialContacts) {
+				const block = race.blockLookup.get(id);
+				if (
+					!block?.alive ||
+					!collision(
+						{ x: marble.x, y: marble.y, r: marble.r + (block.type === 'frost' ? 12 : 2) },
+						block,
+						race.time
+					)
 				)
-			)
-				marble.specialContacts.delete(id);
-		}
+					marble.specialContacts.delete(id);
+			}
 		if (marble.y > marble.bestY + 25) {
 			marble.bestY = marble.y;
 			marble.lastProgress = race.time;
@@ -1281,29 +1283,31 @@ function moveMarbles(race, h, previous, damping, pulseDamping) {
 	}
 }
 function recordProgress(race, part, divisions, previous, passages, h, dt, tickBefore) {
+	const firstLine = Math.min(...passages.map((p) => p.line));
 	const arrivals = [];
 	for (const marble of race.marbles) {
 		if (marble.finished) continue;
 		releasePinRest(race, marble);
 		const before = previous[marble.id];
-		for (const { id, key, line } of passages) {
-			if (before.y >= line || marble.y < line) continue;
-			let record = marble.scatterPassages.get(id);
-			if (!record) {
-				record = { contacts: [], entry: null, exit: null };
-				marble.scatterPassages.set(id, record);
+		if (marble.y >= firstLine)
+			for (const { id, key, line } of passages) {
+				if (before.y >= line || marble.y < line) continue;
+				let record = marble.scatterPassages.get(id);
+				if (!record) {
+					record = { contacts: [], entry: null, exit: null };
+					marble.scatterPassages.set(id, record);
+				}
+				if (record[key]) continue;
+				const fraction = (line - before.y) / (marble.y - before.y);
+				let rank = 1;
+				for (const other of race.marbles)
+					if (other.id !== marble.id && (other.finished || other.y > marble.y)) rank++;
+				record[key] = {
+					x: before.x + (marble.x - before.x) * fraction,
+					time: race.time - h + fraction * h,
+					rank
+				};
 			}
-			if (record[key]) continue;
-			const fraction = (line - before.y) / (marble.y - before.y);
-			let rank = 1;
-			for (const other of race.marbles)
-				if (other.id !== marble.id && (other.finished || other.y > marble.y)) rank++;
-			record[key] = {
-				x: before.x + (marble.x - before.x) * fraction,
-				time: race.time - h + fraction * h,
-				rank
-			};
-		}
 		if (marble.zoneEntries.size < race.zones.length)
 			for (const zone of race.zones)
 				if (marble.y >= zone.y - 29 && !marble.zoneEntries.has(zone.id)) {
@@ -1346,4 +1350,16 @@ function recordProgress(race, part, divisions, previous, passages, h, dt, tickBe
 	}
 	arrivals.sort((a, b) => a.finishTime - b.finishTime || a.id - b.id);
 	race.finished.push(...arrivals);
+}
+
+// 충돌의 두 좌표만 정규화해 거리 계산의 가변 인자 처리를 줄인다.
+// 큰 좌표의 제곱 넘침과 작은 좌표의 소실을 피하고 특수 값은 기본 함수에 맡긴다.
+export function contactDistance(x, y) {
+	const a = Math.abs(x),
+		b = Math.abs(y),
+		maximum = Math.max(a, b);
+	if (maximum === 0) return 0;
+	if (!Number.isFinite(maximum)) return Math.hypot(x, y);
+	const ratio = Math.min(a, b) / maximum;
+	return maximum * Math.sqrt(1 + ratio * ratio);
 }

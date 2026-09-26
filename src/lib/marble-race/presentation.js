@@ -10,6 +10,14 @@ export function createPresentation() {
 	let previous = [],
 		latest = [],
 		marbles = [];
+	function positions(race) {
+		return race.marbles.map((m) => ({
+			x: m.x,
+			y: m.y,
+			finished: m.finished,
+			held: m.held ? { ...m.held } : null
+		}));
+	}
 	function capture(race) {
 		return race.marbles.map((m) => ({ ...m, held: m.held ? { ...m.held } : null }));
 	}
@@ -24,8 +32,8 @@ export function createPresentation() {
 						race.marbles.filter((m) => m.y + m.r >= race.layout.finale.start).map((m) => m.id)
 					)
 				};
-				previous = latest = capture(race);
-				marbles = latest.map((m) => ({ ...m, held: m.held ? { ...m.held } : null }));
+				previous = latest = positions(race);
+				marbles = capture(race);
 				previousTime = latestTime = race.time;
 				duration = 0;
 				received = now;
@@ -34,13 +42,10 @@ export function createPresentation() {
 			if (race.time === latestTime) return;
 			previous = latest;
 			previousTime = latestTime;
-			latest = capture(race);
-			for (const m of latest)
+			latest = positions(race);
+			for (const m of race.marbles)
 				if (m.y + m.r >= race.layout.finale.start) boundary.finaleIds.add(m.id);
-			for (let id = 0; id < latest.length; id++) {
-				Object.assign(marbles[id], latest[id]);
-				marbles[id].held = latest[id].held ? { ...latest[id].held } : null;
-			}
+			marbles = capture(race);
 			latestTime = race.time;
 			duration = Math.min(80, Math.max(8, now - received));
 			received = now;
