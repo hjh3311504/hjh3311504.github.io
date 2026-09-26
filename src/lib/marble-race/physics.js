@@ -1107,14 +1107,12 @@ export function stepRace(race, dt = STEP) {
 	}
 	// 이동량을 반지름보다 작게 나눠 얇은 장치도 먼저 닿는 면에서 처리한다.
 	let speed2 = (race.skills.waves.some((wave) => wave.type === 'gust') ? GUST_SPEED : 430) ** 2;
-	let hasFinale = false;
 	for (const marble of race.marbles)
 		if (!marble.finished) {
 			speed2 = Math.max(speed2, marble.vx * marble.vx + marble.vy * marble.vy);
-			hasFinale ||= marble.finaleEntry != null || marble.y + marble.r >= race.layout.finale.start;
 		}
-	// 큰 경기의 결승에서는 이동 상한을8로 둔다. 반지름13보다 작으며 빠른 이동은 계속 나눈다.
-	const travel = race.marbles.length >= LARGE_RACE_SIZE && hasFinale ? 8 : 4;
+	// 200개 이상은 출발부터 이동 상한을8로 둔다. 반지름13보다 작으며 빠른 이동은 계속 나눈다.
+	const travel = race.marbles.length >= LARGE_RACE_SIZE ? 8 : 4;
 	const divisions = Math.max(1, Math.ceil(((Math.sqrt(speed2) + 500) * dt) / travel));
 	const h = dt / divisions;
 	const damping = Math.exp(-h * 1.5),
