@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  site-build:
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -28,25 +28,73 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Lint
-        if: github.event_name == 'pull_request'
-        run: npm run lint
-      - name: Check UI rules
-        if: github.event_name == 'pull_request'
-        run: npm run check:ui && npm run test:ui
-      - name: Check SvelteKit
-        if: github.event_name == 'pull_request'
-        run: npm run check
-      - name: Test site logic
-        if: github.event_name == 'pull_request'
-        run: npm test
-      - name: Install Playwright Chromium
-        if: github.event_name == 'pull_request'
-        run: npx playwright install --with-deps chromium
       - name: Build site
         run: npm run build
-      - name: Measure request-driven baseline on the same runner
+      - name: Verify site output
+        run: npm run verify:team-maker
+      - name: Configure GitHub Pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v6
+      - name: Upload GitHub Pages artifact
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: build
+      - name: Share PR site
         if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: pr-site
+          path: build/
+          if-no-files-found: error
+          retention-days: 1
+
+  checks:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Check UI rules
+        run: npm run check:ui && npm run test:ui
+      - name: Check SvelteKit
+        run: npm run check
+      - name: Test site logic
+        run: npm test
+      - name: Test browser shard planner
+        run: node --test tests/ci/*.test.js
+
+  marble-performance:
+    if: github.event_name == 'pull_request'
+    needs: site-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Download tested site
+        uses: actions/download-artifact@v8
+        with:
+          name: pr-site
+          path: build
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Measure request-driven baseline on the same runner
         continue-on-error: true
         env:
           MARBLE_REQUEST_DRIVEN: '1'
@@ -60,7 +108,6 @@ jobs:
           retention-days: 7
       - name: Test marble performance and scheduling
         id: marble-performance
-        if: github.event_name == 'pull_request'
         run: npm run test:e2e:built -- --test-list tests/team-maker-e2e/marble-priority.txt
       - name: Save performance test report
         if: always() && github.event_name == 'pull_request' && (steps.marble-performance.outcome == 'success' || steps.marble-performance.outcome == 'failure')
@@ -93,22 +140,69 @@ jobs:
           name: marble-mobile-trace
           path: output/playwright/report/
           retention-days: 7
-      - name: Test remaining site in browser
-        if: github.event_name == 'pull_request'
-        run: npm run test:e2e:built -- --test-list-invert tests/team-maker-e2e/marble-priority.txt
-      - name: Verify site output
-        run: npm run verify:team-maker
-      - name: Configure GitHub Pages
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        uses: actions/configure-pages@v6
-      - name: Upload GitHub Pages artifact
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v5
+
+  browser:
+    if: github.event_name == 'pull_request'
+    needs: site-build
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Download tested site
+        uses: actions/download-artifact@v8
+        with:
+          name: pr-site
           path: build
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Plan and verify browser shards
+        run: node scripts/plan_browser_shards.js
+      - name: Test site in browser
+        run: npm run test:e2e:built -- --test-list output/playwright/shards/${{ matrix.shard }}.txt
+      - name: Save browser test report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: browser-${{ matrix.shard }}
+          path: |
+            output/playwright/report/
+            output/playwright/shards/
+          retention-days: 7
+
+  # 기존 필수 검사 이름을 유지하고 실패·취소·예상 밖 생략을 성공으로 처리하지 않는다.
+  build:
+    if: always() && (github.event_name == 'pull_request' || github.ref == 'refs/heads/main')
+    needs: [site-build, checks, marble-performance, browser]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all checks
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SITE_RESULT: ${{ needs.site-build.result }}
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          PERFORMANCE_RESULT: ${{ needs.marble-performance.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+        run: |
+          test "$SITE_RESULT" = success
+          if [ "$EVENT_NAME" = pull_request ]; then
+            test "$CHECKS_RESULT" = success
+            test "$PERFORMANCE_RESULT" = success
+            test "$BROWSER_RESULT" = success
+          fi
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: always() && !cancelled() && needs.build.result == 'success' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
