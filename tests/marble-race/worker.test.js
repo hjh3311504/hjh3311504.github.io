@@ -165,7 +165,7 @@ test('Worker는 긴 계산을 나눠 전달하고 남은 시간을 모두 처리
 					remaining = result.unused;
 					if (++requests === 1) {
 						const expectedSteps = Math.min(
-							{ 0: 8, 8: 2, 16: 1 }[clockIncrement],
+							{ 0: 32, 8: 6, 16: 3 }[clockIncrement],
 							Math.round((0.2 * speed) / STEP)
 						);
 						assert.ok(Math.abs(result.state.time - expectedSteps * STEP) < 1e-12);
@@ -186,5 +186,65 @@ test('Worker는 긴 계산을 나눠 전달하고 남은 시간을 모두 처리
 		} finally {
 			await worker.terminate();
 		}
+	}
+});
+
+test('밀린 계산 중에도 필수 감속 시작과 당첨을 해당 물리 단계에서 즉시 전달한다', async () => {
+	const { createDirector } = await import('../../src/lib/marble-race/director.js');
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	const worker = new Worker(
+		`const {parentPort}=require('node:worker_threads');global.performance={now:()=>0};global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+		{ eval: true }
+	);
+	const request = (data) =>
+		new Promise((resolve, reject) => {
+			const receive = (result) => {
+				if (result.kind === 'progress') return;
+				worker.off('message', receive);
+				result.kind === 'error' ? reject(Error(result.message)) : resolve(result);
+			};
+			worker.on('message', receive);
+			worker.postMessage(data);
+		});
+	try {
+		await request({
+			kind: 'prepare',
+			participants: { entries: [{ name: '공', count: 2 }], count: 2 },
+			map: 'keyboard',
+			seed: 47,
+			mode: 'first',
+			count: 1,
+			skillsEnabled: false
+		});
+		const race = createRace(['공', '공'], 'keyboard', 47),
+			director = createDirector();
+		const checkpoints = [];
+		let previous = director.update(race);
+		for (let step = 0; step < 120 * 180 && !previous.complete; step++) {
+			stepRace(race);
+			const current = director.update(race);
+			if (current.active !== previous.active || current.newWinners.length)
+				checkpoints.push({
+					time: race.time,
+					active: current.active,
+					winners: current.newWinners.map((m) => m.id)
+				});
+			previous = current;
+		}
+		assert.equal(checkpoints.length, 2);
+		const received = [];
+		for (let i = 0; i < 2000 && received.length < checkpoints.length; i++) {
+			const result = await request({ kind: 'advance', seconds: 1, speed: 2 });
+			// 검사 시계를 고정해 일반 상태를 묶는다. 중요한 전환만 즉시 나온다.
+			if (result.kind === 'frame')
+				received.push({
+					time: result.state.time,
+					active: result.state.cinematic.active,
+					winners: result.state.cinematic.newWinners.map((m) => m.id)
+				});
+		}
+		assert.deepEqual(received, checkpoints);
+	} finally {
+		await worker.terminate();
 	}
 });

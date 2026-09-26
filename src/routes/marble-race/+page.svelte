@@ -278,8 +278,9 @@
 				void pause();
 				message = '소리가 멈춰 경기를 잠시 멈췄어요. 계속하기를 눌러 주세요.';
 			} else {
-				// 새로 지난 시간만 제한한다. Worker가 나눠 처리 중인 시간은 버리지 않는다.
-				const delta = Math.min(0.08, (now - lastPhysics) / 1000) + pendingSeconds;
+				// 긴 화면 작업 중 지난 시간도 보존한다. 숨김·정지는 별도 처리하며
+				// Worker가 계산 예산에 맞춰 나눠 처리한 나머지만 다시 요청한다.
+				const delta = Math.max(0, (now - lastPhysics) / 1000) + pendingSeconds;
 				// 계산할 시간이 모이면 화면 프레임을 기다리지 않고 다음 요청을 보낸다.
 				const minimum = STEP / (cinematic?.active ? 0.25 : speed);
 				if (delta + 1e-12 < minimum) {

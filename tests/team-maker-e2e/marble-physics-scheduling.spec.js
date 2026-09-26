@@ -80,3 +80,31 @@ for (const width of [1440, 390]) {
 		await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('1배속');
 	});
 }
+
+test('긴 화면 작업의500ms도 버리지 않고 실제2배속으로 따라잡는다', async ({ page }) => {
+	await observeRace(page, 47);
+	await page.goto('/marble-race');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
+	const start = page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
+	await expect(start).toBeEnabled();
+	await page.getByLabel('참가자 이름').fill('공*1000');
+	await page.getByRole('button', { name: '마지막', exact: true }).click();
+	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
+	await start.click();
+	await page.getByRole('button', { name: '경기 배속 전환' }).click();
+	await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('2배속');
+	const actual = await page.evaluate(async () => {
+		const start = performance.now(),
+			time = window.__raceState.time;
+		setTimeout(() => {
+			const until = performance.now() + 500;
+			while (performance.now() < until) {
+				/* 긴 화면 작업 재현 */
+			}
+		}, 100);
+		await new Promise((resolve) => setTimeout(resolve, 3000));
+		return (window.__raceState.time - time) / ((performance.now() - start) / 1000);
+	});
+	expect(actual).toBeGreaterThanOrEqual(1.9);
+	expect(actual).toBeLessThanOrEqual(2.1);
+});

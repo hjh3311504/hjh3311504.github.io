@@ -14,12 +14,26 @@ export async function observeMarbleText(page) {
 					top: t.d * (y - bounds.actualBoundingBoxAscent) + t.f,
 					bottom: t.d * (y + bounds.actualBoundingBoxDescent) + t.f
 				};
+				(this.canvas.__paintedTexts ??= []).push(this.canvas.__paintedText);
 			} else if (this.canvas.getAttribute('role') === 'button')
 				window.__onMarbleText?.(this, value, x, y);
 			return text.call(this, value, x, y, ...args);
 		};
 		CanvasRenderingContext2D.prototype.drawImage = function (bitmap, ...args) {
 			const label = bitmap.__paintedText;
+			if (args.length === 8 && this.canvas.getAttribute('role') === 'button') {
+				const [sx, sy, sw, sh, dx, dy, dw, dh] = args;
+				for (const text of bitmap.__paintedTexts ?? []) {
+					if (text.x < sx || text.x >= sx + sw || text.y < sy || text.y >= sy + sh) continue;
+					window.__onMarbleText?.(
+						this,
+						text.value,
+						dx + ((text.x - sx) * dw) / sw,
+						dy + ((text.y - sy) * dh) / sh,
+						{ top: text.top - sy, bottom: text.bottom - sy, height: sh, width: sw }
+					);
+				}
+			}
 			if (label && args.length === 4 && this.canvas.getAttribute('role') === 'button') {
 				window.__onMarbleText?.(
 					this,

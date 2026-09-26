@@ -22,11 +22,12 @@ export function createRenderer(canvas) {
 	let blockBands = new Map();
 	let gridPattern;
 	let textQuality = 1;
+	let spritePage;
 	function marbleSprite(marble, font, quality) {
 		const key = `${marble.color}:${marble.r}:${marble.id}:${font}:${quality}`;
 		if (sprites.has(key)) return sprites.get(key);
-		const bitmap = document.createElement('canvas');
-		const brush = bitmap.getContext('2d');
+		if (!spritePage) spritePage = createSpritePage();
+		let brush = spritePage.brush;
 		brush.font = font;
 		let width = Math.ceil(
 			Math.max((marble.r + 2) * 2, brush.measureText(String(marble.id + 1)).width + 4)
@@ -34,17 +35,42 @@ export function createRenderer(canvas) {
 		let height = Math.max((marble.r + 2) * 2, Number(font.match(/([\d.]+)px/)[1]) * 1.5 + 8);
 		width = Math.ceil(width * quality) / quality;
 		height = Math.ceil(height * quality) / quality;
-		bitmap.width = Math.round(width * quality);
-		bitmap.height = Math.round(height * quality);
+		const pixelWidth = Math.round(width * quality),
+			pixelHeight = Math.round(height * quality);
+		if (sprites.size >= 2048) {
+			sprites.clear();
+			spritePage = createSpritePage();
+		}
+		if (spritePage.x + pixelWidth > spritePage.bitmap.width) {
+			spritePage.x = 0;
+			spritePage.y += spritePage.rowHeight;
+			spritePage.rowHeight = 0;
+		}
+		if (
+			pixelWidth > spritePage.bitmap.width ||
+			spritePage.y + pixelHeight > spritePage.bitmap.height
+		)
+			spritePage = createSpritePage(Math.max(1024, pixelWidth, pixelHeight));
+		const { bitmap, x, y } = spritePage;
+		brush = spritePage.brush;
+		brush.save();
+		brush.translate(x, y);
 		brush.scale(quality, quality);
 		brush.translate(width / 2, height / 2);
 		drawMarble(brush, marble, font);
-		if (sprites.size >= 2048) sprites.clear();
-		const sprite = { bitmap, width, height };
+		brush.restore();
+		spritePage.x += pixelWidth;
+		spritePage.rowHeight = Math.max(spritePage.rowHeight, pixelHeight);
+		const sprite = { bitmap, x, y, pixelWidth, pixelHeight, width, height };
 		sprites.set(key, sprite);
 		return sprite;
 	}
 
+	function createSpritePage(size = 1024) {
+		const bitmap = document.createElement('canvas');
+		bitmap.width = bitmap.height = size;
+		return { bitmap, brush: bitmap.getContext('2d'), x: 0, y: 0, rowHeight: 0 };
+	}
 	function paintText(text, x, y, style, background = false) {
 		const key = `${style.font}:${style.color}:${background}:${textQuality}:${text}`;
 		let sprite = textSprites.get(key);
@@ -425,6 +451,7 @@ export function createRenderer(canvas) {
 			lastTime = 0;
 			labels.clear();
 			sprites.clear();
+			spritePage = null;
 			textSprites.clear();
 			indexBlocks(race.blocks);
 			oldRace = race.identity ?? race;
@@ -640,6 +667,10 @@ export function createRenderer(canvas) {
 			const sprite = marbleSprite(marble, numberFont, spriteQuality);
 			ctx.drawImage(
 				sprite.bitmap,
+				sprite.x,
+				sprite.y,
+				sprite.pixelWidth,
+				sprite.pixelHeight,
 				marble.x - sprite.width / 2,
 				marble.y - sprite.height / 2,
 				sprite.width,

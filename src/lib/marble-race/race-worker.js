@@ -8,6 +8,8 @@ const ADVANCE_BUDGET_MS = 12;
 // 2배속의4단계는 실제16.7ms뿐이다. 모바일 화면 작업으로 응답이 늦어져도
 // 12ms 계산 예산 안에서8단계까지 처리해 밀린 시간을 따라잡을 여유를 둔다.
 const MAX_ADVANCE_STEPS = 8;
+const CATCH_UP_BUDGET_MS = 48;
+const MAX_CATCH_UP_STEPS = 32;
 let race,
 	director,
 	cinematic,
@@ -47,6 +49,9 @@ self.onmessage = async ({ data }) => {
 			// 남은 시간은 호출자에게 돌려준다. 긴 계산 때문에 다음 위치 전달까지 늦추지 않는다.
 			const wasActive = cinematic.active;
 			let remaining = Number.isFinite(data.seconds) ? Math.max(0, data.seconds) : 0;
+			const catchingUp = remaining > 1 / 30;
+			const budget = catchingUp ? CATCH_UP_BUDGET_MS : ADVANCE_BUDGET_MS;
+			const maximumSteps = catchingUp ? MAX_CATCH_UP_STEPS : MAX_ADVANCE_STEPS;
 			const started = performance.now();
 			let steps = 0;
 			// 한 요청 안에서도 연출이 끝나면 사용자가 선택한 배속으로 돌아간다.
@@ -61,7 +66,9 @@ self.onmessage = async ({ data }) => {
 				cinematic = director.update(race);
 				newWinners.push(...cinematic.newWinners);
 				if (cinematic.finishedCelebration) endedSlow = true;
-				if (++steps >= MAX_ADVANCE_STEPS || performance.now() - started >= ADVANCE_BUDGET_MS) break;
+				// 따라잡는 중에도 필수 감속과 당첨 전환은 다음 상태까지 미루지 않는다.
+				if (wasActive !== cinematic.active || newWinners.length > 0 || endedSlow) break;
+				if (++steps >= maximumSteps || performance.now() - started >= budget) break;
 			}
 			if (!advanced) {
 				self.postMessage({ kind: 'idle', unused: remaining });

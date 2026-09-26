@@ -39,7 +39,7 @@ for (const phase of [0, Math.PI * 1.5]) {
 				vy: 150
 			})
 		);
-		const displays = [4, 8].map((steps) => {
+		const displays = [4, 8, 32].map((steps) => {
 			const display = createPresentation();
 			display.push(race, 0);
 			return { steps, display, maximum: 0 };
@@ -50,7 +50,7 @@ for (const phase of [0, Math.PI * 1.5]) {
 			stepRace(race);
 			maximum = Math.max(maximum, maximumOverlap(race));
 			assert.ok(maximum <= 1, `경기 시각${race.time}, 실제 겹침${maximum}`);
-			// 일반4단계와 요청 상한8단계 간격 모두에서 중간 화면을 확인한다.
+			// 일반4·8단계와 밀린 계산32단계 간격 모두에서 중간 화면을 확인한다.
 			for (const sample of displays) {
 				const { steps, display } = sample;
 				if (step % steps !== steps - 1) continue;
