@@ -241,16 +241,16 @@
 	position: relative;
 	height: 570px;
 }
-.canvas-wrap canvas {
+.canvas-wrap > canvas {
 	display: block;
 	width: 100%;
 	height: 100%;
 }
-.canvas-wrap canvas[aria-disabled='false'] {
+.canvas-wrap > canvas[aria-disabled='false'] {
 	cursor: pointer;
 	touch-action: manipulation;
 }
-.canvas-wrap canvas:focus-visible {
+.canvas-wrap > canvas:focus-visible {
 	outline: 2px solid var(--color-color-9);
 	outline-offset: -3px;
 }
@@ -844,7 +844,7 @@
 	height: auto;
 	position: relative;
 }
-.marble-page .canvas-wrap canvas {
+.marble-page .canvas-wrap > canvas {
 	width: 100%;
 	height: 620px;
 	display: block;
@@ -873,7 +873,7 @@
 	flex: 1;
 	min-height: 240px;
 }
-.marble-page .race-stage:fullscreen canvas {
+.marble-page .race-stage:fullscreen .canvas-wrap > canvas {
 	height: 100%;
 	position: absolute;
 	inset: 0;
@@ -925,7 +925,7 @@
 	.marble-page .stage-actions {
 		width: 100%;
 	}
-	.marble-page .canvas-wrap canvas {
+	.marble-page .canvas-wrap > canvas {
 		height: 480px;
 	}
 	.marble-page .stage-actions .ui-button {

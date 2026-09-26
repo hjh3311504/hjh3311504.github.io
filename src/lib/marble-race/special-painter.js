@@ -2,9 +2,9 @@ import { BLOCKS } from './catalog.js';
 import { drawCrackWax } from './wax-painter.js';
 
 // 블록 중심 좌표에서 그린다. 회전·위치와 파괴 상태는 호출자가 적용한다.
-export function drawSpecialBlock(ctx, block, time = 0, options = {}) {
+export function drawSpecialBlock(ctx, block, time = 0) {
 	if (block.type === 'butter') {
-		drawCrackWax(ctx, block, options);
+		drawCrackWax(ctx, block);
 		return;
 	}
 	const { type, w, h } = block;

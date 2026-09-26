@@ -2,6 +2,8 @@
 	import { createTilePainter } from './tile-painter.js';
 	import { drawSpecialBlock } from './special-painter.js';
 	import { drawPulse } from './pulse-painter.js';
+	import { PULSE_RADIUS } from './skills.js';
+	import { drawSkillIcon } from './skill-icons.js';
 	import { SPECIAL_TYPES } from './catalog.js';
 
 	let { type } = $props();
@@ -22,13 +24,15 @@
 			if (currentType === 'pulse') {
 				ctx.save();
 				ctx.translate(16, 16);
-				ctx.scale(0.16, 0.16);
+				ctx.scale(14 / PULSE_RADIUS, 14 / PULSE_RADIUS);
 				drawPulse(ctx, { x: 0, y: 0, color: '#428be6' }, 0.45);
 				ctx.fillStyle = '#428be6';
 				ctx.beginPath();
 				ctx.arc(0, 0, 26, 0, Math.PI * 2);
 				ctx.fill();
 				ctx.restore();
+			} else if (currentType === 'lightning' || currentType === 'gust') {
+				drawSkillIcon(ctx, currentType);
 			} else if (SPECIAL_TYPES.includes(currentType)) {
 				ctx.save();
 				ctx.translate(16, 16);
@@ -41,7 +45,7 @@
 				const scale = currentType === 'butter' ? 0.22 : 0.18;
 				ctx.scale(scale, scale);
 				if (currentType !== 'pond') ctx.rotate(Math.PI / 6);
-				drawSpecialBlock(ctx, { type: currentType, ...shape }, 0, { counter: false });
+				drawSpecialBlock(ctx, { type: currentType, ...shape });
 				ctx.restore();
 			} else {
 				drawTile({ type: currentType, x: 16, y: 16, w: 32, h: 32, cornerRadius: 10 });

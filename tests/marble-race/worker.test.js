@@ -30,7 +30,7 @@ test('스킬 시작 설정을 유지하며 Worker와 직접 계산은0.25·1·2�
 				};
 				worker.on('message', receive);
 				worker.once('error', reject);
-				worker.postMessage(data);
+				worker.postMessage(data.kind === 'advance' ? { ...data, flushState: true } : data);
 			});
 		try {
 			await request({
@@ -79,5 +79,231 @@ test('스킬 시작 설정을 유지하며 Worker와 직접 계산은0.25·1·2�
 		} finally {
 			await worker.terminate();
 		}
+	}
+});
+
+test('Worker의 전체 미리보기는1000개를 전달하고 실제 경기 재준비에서 미리보기 상태를 지운다', async () => {
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	const worker = new Worker(
+		`const {parentPort}=require('node:worker_threads');global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+		{ eval: true }
+	);
+	const request = (data) =>
+		new Promise((resolve, reject) => {
+			const receive = (result) => {
+				if (result.kind === 'progress') return;
+				worker.off('message', receive);
+				result.kind === 'error' ? reject(Error(result.message)) : resolve(result.state);
+			};
+			worker.on('message', receive);
+			worker.postMessage(data.kind === 'advance' ? { ...data, flushState: true } : data);
+		});
+	try {
+		const prepare = {
+			kind: 'prepare',
+			participants: { entries: [{ name: '공', count: 1000 }], count: 1000 },
+			map: 'keyboard',
+			seed: 47,
+			mode: 'first',
+			count: 1
+		};
+		const preview = await request({ ...prepare, preview: true });
+		assert.equal(preview.preview, true);
+		assert.equal(preview.marbles.length, 1000);
+		assert.equal(preview.cinematic, null);
+		const full = await request(prepare);
+		assert.equal(full.preview, false);
+		assert.ok(full.blocks.length > preview.blocks.length);
+		const positions = (state) => state.marbles.map(({ id, x, y, color }) => ({ id, x, y, color }));
+		assert.deepEqual(positions(preview), positions(full));
+	} finally {
+		await worker.terminate();
+	}
+});
+
+test('Worker는 긴 계산을 나눠 전달하고 남은 시간을 모두 처리해도 배속별 결과가 같다', async () => {
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	for (const clockIncrement of [0, 8, 16]) {
+		const worker = new Worker(
+			`const {parentPort}=require('node:worker_threads');let clock=0;global.performance={now:()=>clock+=${clockIncrement}};global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+			{ eval: true }
+		);
+		let decode;
+		const request = (data) =>
+			new Promise((resolve, reject) => {
+				const receive = (result) => {
+					if (result.kind === 'progress') return;
+					worker.off('message', receive);
+					worker.off('error', reject);
+					if (result.kind === 'error') reject(Error(result.message));
+					else resolve({ ...result, state: decode(result.state) });
+				};
+				worker.on('message', receive);
+				worker.once('error', reject);
+				worker.postMessage(data.kind === 'advance' ? { ...data, flushState: true } : data);
+			});
+		try {
+			for (const speed of [0.25, 1, 2]) {
+				decode = createSnapshotDecoder();
+				await request({
+					kind: 'prepare',
+					participants: { entries: [{ name: '공', count: 10 }], count: 10 },
+					map: 'keyboard',
+					seed: 47,
+					mode: 'first',
+					count: 1,
+					skillsEnabled: true
+				});
+				const direct = createRace(Array(10).fill('공'), 'keyboard', 47, { skillsEnabled: true });
+				let remaining = 0.2,
+					result,
+					requests = 0;
+				while (remaining + 1e-12 >= STEP / speed) {
+					result = await request({ kind: 'advance', seconds: remaining, speed });
+					assert.equal(result.kind, 'frame');
+					assert.ok(result.unused < remaining);
+					remaining = result.unused;
+					if (++requests === 1) {
+						const expectedSteps = Math.min(
+							{ 0: 32, 8: 6, 16: 3 }[clockIncrement],
+							Math.round((0.2 * speed) / STEP)
+						);
+						assert.ok(Math.abs(result.state.time - expectedSteps * STEP) < 1e-12);
+					}
+					assert.ok(requests < 100);
+				}
+				for (let i = 0; i < Math.round((0.2 * speed) / STEP); i++) stepRace(direct);
+				assert.equal(result.state.time, direct.time);
+				assert.deepEqual(
+					result.state.marbles.map((m) => [m.x, m.y, m.vx, m.vy, m.finished]),
+					direct.marbles.map((m) => [m.x, m.y, m.vx, m.vy, m.finished])
+				);
+				const idle = await request({ kind: 'advance', seconds: remaining, speed });
+				assert.equal(idle.kind, 'idle');
+				assert.equal(idle.unused, remaining);
+				assert.equal(idle.state.time, result.state.time);
+			}
+		} finally {
+			await worker.terminate();
+		}
+	}
+});
+
+test('밀린 계산 중에도 필수 감속 시작과 당첨을 해당 물리 단계에서 즉시 전달한다', async () => {
+	const { createDirector } = await import('../../src/lib/marble-race/director.js');
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	const worker = new Worker(
+		`const {parentPort}=require('node:worker_threads');global.performance={now:()=>0};global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+		{ eval: true }
+	);
+	const request = (data) =>
+		new Promise((resolve, reject) => {
+			const receive = (result) => {
+				if (result.kind === 'progress') return;
+				worker.off('message', receive);
+				result.kind === 'error' ? reject(Error(result.message)) : resolve(result);
+			};
+			worker.on('message', receive);
+			worker.postMessage(data);
+		});
+	try {
+		await request({
+			kind: 'prepare',
+			participants: { entries: [{ name: '공', count: 2 }], count: 2 },
+			map: 'keyboard',
+			seed: 47,
+			mode: 'first',
+			count: 1,
+			skillsEnabled: false
+		});
+		const race = createRace(['공', '공'], 'keyboard', 47),
+			director = createDirector();
+		const checkpoints = [];
+		let previous = director.update(race);
+		for (let step = 0; step < 120 * 180 && !previous.complete; step++) {
+			stepRace(race);
+			const current = director.update(race);
+			if (current.active !== previous.active || current.newWinners.length)
+				checkpoints.push({
+					time: race.time,
+					active: current.active,
+					winners: current.newWinners.map((m) => m.id)
+				});
+			previous = current;
+		}
+		assert.equal(checkpoints.length, 2);
+		const received = [];
+		for (let i = 0; i < 2000 && received.length < checkpoints.length; i++) {
+			const result = await request({ kind: 'advance', seconds: 1, speed: 2 });
+			// 검사 시계를 고정해 일반 상태를 묶는다. 중요한 전환만 즉시 나온다.
+			if (result.kind === 'frame')
+				received.push({
+					time: result.state.time,
+					active: result.state.cinematic.active,
+					winners: result.state.cinematic.newWinners.map((m) => m.id)
+				});
+		}
+		assert.deepEqual(received, checkpoints);
+	} finally {
+		await worker.terminate();
+	}
+});
+
+test('자율 Worker는 수신 확인 없이도 계산하며 정지·재개에서 시간과 모든 이벤트를 보존한다', async () => {
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	const worker = new Worker(
+		`const {parentPort}=require('node:worker_threads');global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+		{ eval: true }
+	);
+	const decode = createSnapshotDecoder(),
+		messages = [];
+	worker.on('message', (data) => {
+		if (data.kind !== 'progress') messages.push(data);
+	});
+	const waitFor = async (predicate) => {
+		const start = performance.now();
+		while (!messages.some(predicate)) {
+			assert.ok(performance.now() - start < 5000, 'Worker 응답');
+			await new Promise((r) => setTimeout(r, 5));
+		}
+		return messages.splice(messages.findIndex(predicate), 1)[0];
+	};
+	try {
+		worker.postMessage({
+			kind: 'prepare',
+			participants: { entries: [{ name: '공', count: 30 }], count: 30 },
+			map: 'keyboard',
+			seed: 47,
+			mode: 'last',
+			count: 1,
+			skillsEnabled: true
+		});
+		decode((await waitFor((m) => m.kind === 'ready')).state);
+		worker.postMessage({ kind: 'run', speed: 2 });
+		const first = await waitFor((m) => m.kind === 'frame');
+		decode(first.state);
+		// 첫 상태의 ack를 보내지 않는다. 화면이 막힌 동안에도 Worker가 계산해야 한다.
+		await new Promise((r) => setTimeout(r, 500));
+		assert.equal(messages.filter((m) => m.kind === 'frame').length, 0, '큰 상태는 쌓이지 않는다');
+		worker.postMessage({ kind: 'pause', requestId: 100 });
+		const paused = await waitFor((m) => m.reply === 100),
+			state = decode(paused.state);
+		assert.ok(state.time > 0.9);
+		const direct = createRace(Array(30).fill('공'), 'keyboard', 47, { skillsEnabled: true });
+		const events = [];
+		for (let i = 0; i < Math.round(state.time / STEP); i++) events.push(...stepRace(direct));
+		assert.deepEqual([...first.state.events, ...paused.state.events], events);
+		assert.deepEqual(
+			state.marbles.map((m) => [m.x, m.y, m.vx, m.vy]),
+			direct.marbles.map((m) => [m.x, m.y, m.vx, m.vy])
+		);
+		await new Promise((r) => setTimeout(r, 100));
+		assert.equal(messages.length, 0);
+		worker.postMessage({ kind: 'ack', serial: paused.serial });
+		worker.postMessage({ kind: 'run', speed: 2 });
+		const resumed = await waitFor((m) => m.kind === 'frame');
+		assert.ok(resumed.state.time - state.time < 0.15, '정지한100ms는 경기 시간에 더하지 않는다');
+	} finally {
+		await worker.terminate();
 	}
 });

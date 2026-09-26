@@ -1,4 +1,6 @@
+import { installMarbleWire } from './marble-wire.js';
 export async function observeRace(page, seed = 47) {
+	await installMarbleWire(page);
 	await page.addInitScript(
 		({ seed }) => {
 			const NativeWorker = window.Worker;
@@ -10,7 +12,8 @@ export async function observeRace(page, seed = 47) {
 							this.observed = structuredClone(data.state);
 						} else if (data.kind === 'frame' && this.observed) {
 							const state = this.observed;
-							for (const m of data.state.marbles) Object.assign(state.marbles[m.id], m);
+							for (const m of window.__readMarbleValues(data.state))
+								Object.assign(state.marbles[m.id], m);
 							for (const patch of data.state.blockChanges)
 								Object.assign(state.blocks[patch.index], patch.changes);
 							Object.assign(state, {
@@ -23,9 +26,9 @@ export async function observeRace(page, seed = 47) {
 						}
 					});
 				}
-				postMessage(data) {
+				postMessage(data, ...rest) {
 					if (data.kind === 'prepare') data = { ...data, seed };
-					return super.postMessage(data);
+					return super.postMessage(data, ...rest);
 				}
 			};
 		},

@@ -1,5 +1,7 @@
-export async function screenRace(page) {
-	await page.addInitScript(() => {
+import { installMarbleWire } from './marble-wire.js';
+export async function screenRace(page, { ranking = false } = {}) {
+	await installMarbleWire(page);
+	await page.addInitScript((ranking) => {
 		window.__racePhase = 'running';
 		const NativeWorker = window.Worker;
 		window.Worker = class extends NativeWorker {
@@ -13,17 +15,22 @@ export async function screenRace(page) {
 					}
 				});
 			}
-			postMessage(data) {
+			terminate() {
+				clearInterval(this.mockTimer);
+				super.terminate();
+			}
+			postMessage(data, ...rest) {
+				if (window.__mockMarbleStream(this, data)) return;
 				if (data.kind === 'prepare') {
 					this.settings = { mode: data.mode, count: data.count, startRank: data.startRank ?? 1 };
 					window.__raceDrawSettings = this.settings;
 				}
-				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
+				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data, ...rest);
 				window.__raceRequestedSpeed = data.speed;
 				const state = structuredClone(this.initialState);
 				state.initial = false;
 				state.blockChanges = [];
-				state.time = 30;
+				state.time = 30 + (this.frames = (this.frames ?? 0) + 1) / 120;
 				state.events = [];
 				const count =
 					window.__racePhase === 'finished'
@@ -33,7 +40,17 @@ export async function screenRace(page) {
 				for (const m of state.marbles) {
 					m.finished = m.id < count;
 					m.y = state.layout.finish.y - 100;
-					if (window.__raceOverlapping) {
+					if (ranking) {
+						// 순위 화면 검사는 결승의 좁은 통로에1000개를 강제로 겹쳐 놓지 않는다.
+						const position =
+							window.__raceRankingSwap && (m.id === 499 || m.id === 500) ? 999 - m.id : m.id;
+						m.x = 25 + (position % 26) * 26;
+						m.y =
+							state.layout.finale.start -
+							100 -
+							Math.floor(position / 26) * 28 -
+							(position % 26) * 0.01;
+					} else if (window.__raceOverlapping) {
 						m.x = 350 + m.id * 10;
 						m.y = state.layout.finale.start + 300 + m.id * 10;
 					}
@@ -66,16 +83,26 @@ export async function screenRace(page) {
 					const frame = window.__raceDisplayFrame;
 					state.time = frame.time;
 					state.marbles.forEach((marble, index) => Object.assign(marble, frame.marbles[index]));
-					state.cinematic = frame.cinematic;
+					state.cinematic = { ...frame.cinematic };
 					const index = state.blocks.findIndex((block) => block.id === 'finale-bar');
 					state.blockChanges = [{ index, changes: { phase: frame.phase } }];
 				}
+				window.__packMarbleState(state);
 				queueMicrotask(() =>
 					this.dispatchEvent(
-						new MessageEvent('message', { data: { kind: 'frame', state, unused: 0 } })
+						new MessageEvent('message', {
+							data: {
+								kind: 'frame',
+								state,
+								unused: 0,
+								stream: true,
+								serial: this.frames,
+								reply: data.requestId
+							}
+						})
 					)
 				);
 			}
 		};
-	});
+	}, ranking);
 }

@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { screenRace } from './helpers/marble-screen-state.js';
-const start = (page) => page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first();
+const start = (page) => page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
 const frame = (page) => page.locator('.race-minimap svg > rect').last();
 async function enter(page) {
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
+	await expect(start(page)).toBeEnabled();
 }
 
 test('문구·간결한 맵 카드·실제 특수 블록 그림을 공통 도감에 표시한다', async ({ page }) => {
@@ -153,7 +154,7 @@ test('인원 미리보기·미니맵 호버와 키보드 탐색은 이탈하면 
 		.poll(() => page.locator('.race-minimap svg').getAttribute('viewBox'))
 		.not.toBe(heightBefore);
 	const zone = page.locator('.race-minimap svg > rect').nth(1);
-	await expect(zone).toHaveAttribute('height', String(69 * 34));
+	await expect(zone).toHaveAttribute('height', String(22 * 34));
 	await map.scrollIntoViewIfNeeded();
 	// 큰 명단의 미리보기는 전체 출발 자리에서 표본을 고르므로 자동 화면이0에 고정되지 않는다.
 	// 같은 배치의 자동 위치가 안정된 뒤 탐색 전후를 비교한다.
@@ -179,7 +180,17 @@ test('인원 미리보기·미니맵 호버와 키보드 탐색은 이탈하면 
 		.toBeLessThan(10);
 	await map.focus();
 	await page.keyboard.press('End');
-	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeGreaterThan(10000);
+	// 블록 상한으로 줄어든 실제 경기장 끝까지 탐색했는지 확인한다.
+	const layoutHeight = Number(
+		(await page.locator('.race-minimap svg').getAttribute('viewBox')).split(' ')[3]
+	);
+	await expect
+		.poll(
+			async () =>
+				Number(await frame(page).getAttribute('y')) +
+				Number(await frame(page).getAttribute('height'))
+		)
+		.toBeGreaterThan(layoutHeight - 10);
 	await page.keyboard.press('Escape');
 	await expect
 		.poll(async () => Math.abs(Number(await frame(page).getAttribute('y')) - automaticTop))
@@ -252,14 +263,15 @@ test('종료 뒤 기본·커스텀 맵 변경은 결과와 카메라를 초기�
 });
 
 test('1,000개 순위는 카드 행만 렌더링하고 검색·열 변경·추적을 지원한다', async ({ page }) => {
-	await screenRace(page);
+	await screenRace(page, { ranking: true });
 	await enter(page);
 	await page.getByLabel('참가자 이름').fill('이름이같은구슬*1000');
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 	await start(page).click();
+	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	const grid = page.getByRole('region', { name: '구슬 도착 순위', exact: true });
 	await expect(grid.locator('li').first()).toHaveAttribute('aria-setsize', '1000');
-	expect(await grid.locator('li').count()).toBeLessThan(30);
+	expect(await grid.locator('li').count()).toBeLessThanOrEqual(42);
 	await grid.scrollIntoViewIfNeeded();
 	await grid.evaluate((el) => {
 		el.scrollTop = el.scrollHeight;

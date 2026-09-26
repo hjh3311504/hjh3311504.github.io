@@ -1,6 +1,8 @@
+import { installMarbleWire } from './helpers/marble-wire.js';
 import { test, expect } from '@playwright/test';
 
 async function prepareWinners(page) {
+	await installMarbleWire(page);
 	await page.addInitScript(() => {
 		window.__arrivals = [];
 		const NativeWorker = window.Worker;
@@ -13,12 +15,17 @@ async function prepareWinners(page) {
 					if (data.kind === 'ready') this.initialState = structuredClone(data.state);
 				});
 			}
-			postMessage(data) {
-				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
+			terminate() {
+				clearInterval(this.mockTimer);
+				super.terminate();
+			}
+			postMessage(data, ...rest) {
+				if (window.__mockMarbleStream(this, data)) return;
+				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data, ...rest);
 				const state = structuredClone(this.initialState);
 				state.initial = false;
 				state.blockChanges = [];
-				state.time = 30;
+				state.time = 30 + (this.frames = (this.frames ?? 0) + 1) / 120;
 				state.events = [];
 				state.finished = [...window.__arrivals];
 				state.marbles.forEach((m) => {
@@ -32,10 +39,18 @@ async function prepareWinners(page) {
 					focusId: 0,
 					newWinners: newWinners.map((id) => state.marbles[id])
 				};
+				window.__packMarbleState(state);
 				queueMicrotask(() =>
 					this.dispatchEvent(
 						new MessageEvent('message', {
-							data: { kind: 'frame', state, unused: 0 }
+							data: {
+								kind: 'frame',
+								state,
+								unused: 0,
+								stream: true,
+								serial: this.frames,
+								reply: data.requestId
+							}
 						})
 					)
 				);
@@ -43,13 +58,13 @@ async function prepareWinners(page) {
 		};
 	});
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('구슬 굴리기');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 	await page.getByLabel('참가자 이름').fill('첫당첨\n둘째당첨\n셋째당첨');
 	await page.getByRole('button', { name: '여러명', exact: true }).click();
 	await page.getByLabel('시작 순위').fill('1');
 	await page.getByLabel('끝 순위').fill('3');
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 }
 

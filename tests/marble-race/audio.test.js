@@ -86,7 +86,7 @@ function fixture(fetchFile, options = {}) {
 
 test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니다', () => {
 	assert.equal(BREAKABLE_TYPES.length, 19);
-	assert.equal(SOUND_TYPES.length, 25);
+	assert.equal(SOUND_TYPES.length, 27);
 	const hashes = new Set();
 	for (const files of Object.values(SOUND_FILES)) {
 		assert.ok(files.length === 1 || files.length === 2);
@@ -105,7 +105,9 @@ test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니�
 					file.includes('wax-crack-v1-') ||
 					file.includes('frost-freeze-v1') ||
 					file.includes('fanfare-tada') ||
-					file.includes('pulse-whoosh-deep')
+					file.includes('pulse-whoosh-deep') ||
+					file.includes('lightning-v1') ||
+					file.includes('gust-v1')
 					? 48000
 					: 24000
 			);
@@ -121,7 +123,7 @@ test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니�
 		hashes.add(pair.join(','));
 	}
 	assert.deepEqual(SOUND_FILES.rubber, SOUND_FILES.popit);
-	assert.equal(hashes.size, 23);
+	assert.equal(hashes.size, 25);
 });
 test('크랙 왁스는 파괴 전 충돌부터 두 음원을 교대하며 장치음과 함께 왁스3개까지 재생한다', async () => {
 	const { audio, context, sources, requests } = fixture();
@@ -944,41 +946,154 @@ test('모든 배속에서 장치3개와 일반음3개를 함께 재생하고 공
 	}
 });
 
-test('파동음은 미리듣기와 같은 파일이며 일반 충돌보다 먼저 재생하고28ms 간격을 지킨다', async () => {
-	const { audio, context, sources, requests } = fixture();
-	await audio.prepare(['pulse', 'thock']);
-	audio.setView({ top: 0, bottom: 800 });
-	assert.equal(requests.filter((url) => SOUND_FILES.pulse.includes(url)).length, 1);
-	assert.equal(audio.play('pulse', 360, true), true);
-	assert.equal(sources.at(-1).buffer, SOUND_FILES.pulse[0]);
-	audio.stop();
-	assert.equal(audio.play('thock'), true);
-	const previous = sources.at(-1).startTime;
-	context.currentTime += 0.005;
-	const pulse = { kind: 'skill', type: 'pulse', soundType: 'pulse', x: 360, y: 200 };
-	assert.equal(audio.playCollisions([{ type: 'thock', x: 360, y: 200 }, pulse]), true);
-	assert.equal(sources.at(-1).buffer, SOUND_FILES.pulse[0]);
-	assert.ok(sources.at(-1).startTime >= previous + 0.028);
-	assert.equal(audio.playCollisions([pulse]), false, '파동은 동시에1개만 재생한다');
-	audio.stop();
-	assert.equal(audio.playCollisions([{ ...pulse, y: 900 }]), false);
+test('스킬음은 미리듣기와 경기에서 절반 크기로 재생하며 동시 발동과 파일 공유를 유지한다', async () => {
+	const log = [];
+	const { audio, sources, requests, context } = fixture(undefined, {
+		onDiagnostic: (event) => log.push(event)
+	});
+	await audio.prepare(['pulse', 'lightning', 'gust']);
+	audio.setView({ left: 0, right: 720, top: 0, bottom: 800 });
+	const types = ['pulse', 'lightning', 'gust'];
+	for (const type of types) {
+		assert.ok(requests.includes(SOUND_FILES[type][0]));
+		assert.equal(audio.play(type, 360, true), true);
+	}
+	const events = Array.from({ length: 12 }, (_, id) => ({
+		kind: 'skill',
+		type: types[id % 3],
+		deviceId: `skill-${id}`,
+		x: 360,
+		y: 200
+	}));
+	assert.equal(audio.playCollisions(events), true);
+	assert.equal(sources.length, 15);
+	assert.ok(
+		log
+			.filter((event) => event.kind === 'played')
+			.every((event) => Math.abs(event.level - 0.28) < 1e-9)
+	);
+	assert.deepEqual(
+		sources.slice(3).map((s) => s.buffer),
+		events.map((e) => SOUND_FILES[e.type][0])
+	);
+	assert.ok(sources.every((s) => s.startTime === context.currentTime));
+	context.currentTime += 0.001;
+	assert.equal(audio.playCollisions(events), true, '200ms나 음원 종료를 기다리지 않는다');
+	assert.equal(sources.length, 27);
 	audio.setOptions(false, 0.45);
-	assert.equal(audio.playCollisions([pulse]), false);
+	assert.ok(sources.every((s) => s.stopped));
+	assert.equal(audio.playCollisions(events), false);
+	audio.setOptions(true, 0.45);
+	assert.equal(audio.playCollisions(events), true);
+	audio.stop();
+	assert.ok(sources.every((s) => s.stopped));
 	audio.destroy();
 });
 
-test('파동음은 전체6개가 차면 일반 소리를 줄여 교체하고 정지 시 예약도 정리한다', async () => {
+test('스킬은 일반음6개와28ms 제한을 공유하지 않으며 축하음도 스킬을 끊지 않는다', async () => {
 	const { audio, context, sources } = fixture();
-	await audio.prepare(['pulse', 'thock', 'popit']);
+	await audio.prepare(['pulse', 'thock', 'popit', 'fanfare']);
+	const pulse = { kind: 'skill', type: 'pulse', x: 360, y: 200 };
+	assert.equal(audio.playCollisions([pulse]), true);
 	for (const type of ['thock', 'thock', 'thock', 'popit', 'popit', 'popit']) {
 		context.currentTime += 0.04;
 		assert.equal(audio.play(type), true);
 	}
-	assert.equal(audio.playCollisions([{ kind: 'skill', type: 'pulse', x: 360, y: 200 }]), true);
-	assert.equal(sources[0].stopped, true);
-	assert.ok(sources.at(-1).startTime >= sources[0].stopTime);
-	assert.equal(sources.filter((source) => !source.stopped).length, 6);
+	context.currentTime += 0.001;
+	assert.equal(audio.playCollisions(Array.from({ length: 8 }, () => pulse)), true);
+	assert.ok(sources.every((s) => !s.stopped));
+	assert.equal(sources.length, 15);
+	assert.equal(sources.at(-1).startTime, context.currentTime);
+	assert.equal(audio.play('thock'), false, '일반음은 여전히6개 한도를 따른다');
+	assert.equal(audio.celebrate(), true);
+	assert.equal(sources[0].stopped, false, '먼저 재생된 스킬도 축하음 때문에 끊지 않는다');
+	assert.equal(sources[1].stopped, true, '일반음 한 자리만 교체한다');
+	assert.equal(sources.filter((s) => !s.stopped).length, 15);
 	audio.stop();
-	assert.ok(sources.every((source) => source.stopped));
+	assert.ok(sources.every((s) => s.stopped));
+	audio.destroy();
+});
+
+test('한 프레임의 여러 스킬과 일반 충돌음은 서로 생략시키지 않는다', async () => {
+	const { audio, context, sources } = fixture();
+	await audio.prepare(['pulse', 'gust', 'thock']);
+	const events = ['thock', 'pulse', 'pulse', 'gust'].map((type) => ({ type, x: 360, y: 200 }));
+	assert.equal(audio.playCollisions(events), true);
+	assert.equal(sources.length, 4);
+	assert.ok(sources.every((s) => s.startTime === context.currentTime));
+	assert.equal(audio.playCollisions(events), true);
+	assert.equal(sources.length, 7, '일반 충돌만28ms 제한에 걸린다');
+	audio.destroy();
+});
+
+test('스킬은 실제 화면과 겹치는 효과만 재생하며800높이와 바깥52 감쇠를 적용하지 않는다', async () => {
+	const log = [];
+	const { audio, context, sources } = fixture(undefined, { onDiagnostic: (e) => log.push(e) });
+	await audio.prepare(['pulse', 'lightning', 'gust', 'thock']);
+	audio.setView({
+		left: 100,
+		right: 500,
+		top: 400,
+		bottom: 1600,
+		audioTop: 400,
+		audioBottom: 1200
+	});
+	const cases = [
+		['pulse', 300, 1500, true], // 기존800높이 바깥도 실제 화면이면 재생
+		['pulse', 300, 1779, true],
+		['pulse', 300, 1780, false],
+		['pulse', -60, 300, false], // 원의 사각 모서리만 겹치는 경우 제외
+		['pulse', -79, 600, true],
+		['pulse', -80, 600, false],
+		['lightning', 300, 2200, true], // 낙뢰 끝이 밖이어도 번개 줄기가 보임
+		['lightning', 300, 400, false],
+		['lightning', 515, 900, true],
+		['lightning', 516, 900, false],
+		['gust', 300, 1839, true], // 바람 뿌리가 밖이어도 위쪽이 보임
+		['gust', 300, 1840, false],
+		['gust', 559, 900, true],
+		['gust', 560, 900, false]
+	];
+	for (const [type, x, y, visible] of cases) {
+		assert.equal(
+			audio.playCollisions([{ kind: 'skill', type, x, y }]),
+			visible,
+			`${type} ${x},${y}`
+		);
+		if (!visible) assert.equal(log.at(-1).reason, 'outside-view');
+	}
+	assert.equal(sources.length, cases.filter((c) => c[3]).length);
+	assert.equal(new Set(log.filter((e) => e.kind === 'played').map((e) => e.level)).size, 1);
+	assert.equal(
+		audio.playCollision({ type: 'thock', x: 300, y: 1500 }),
+		false,
+		'일반음은 기존 음향 범위를 유지한다'
+	);
+	assert.equal(audio.playCollision({ type: 'thock', x: 300, y: 1226 }), true);
+	context.currentTime += 0.03;
+	assert.equal(audio.playCollision({ type: 'thock', x: 300, y: 1252 }), false);
+	audio.destroy();
+});
+
+test('카메라 밖으로 벗어난 스킬음은 줄여 끄며 다시 보여도 지난 발동을 재생하지 않는다', async () => {
+	const { audio, context, sources } = fixture();
+	await audio.prepare(['pulse', 'gust', 'thock']);
+	const firstView = { top: 0, bottom: 800, left: 0, right: 720 };
+	audio.setView(firstView);
+	audio.playCollisions([{ kind: 'skill', type: 'gust', x: 360, y: 600 }]);
+	audio.play('pulse', 360, true);
+	audio.setView({ ...firstView, top: 700, bottom: 1500 });
+	assert.equal(sources[0].stopped, true);
+	assert.equal(sources[0].stopTime, context.currentTime + 0.012);
+	assert.equal(sources[1].stopped, false, '도감 미리듣기는 카메라 위치와 무관하다');
+	assert.equal(audio.playCollision({ type: 'thock', x: 360, y: 900 }), true);
+	assert.equal(
+		sources.at(-1).startTime,
+		context.currentTime,
+		'스킬 잔향 정리가 일반음을 지연시키지 않는다'
+	);
+	audio.setView(firstView);
+	assert.equal(audio.playCollisions([]), false);
+	assert.equal(sources.length, 3);
 	audio.destroy();
 });

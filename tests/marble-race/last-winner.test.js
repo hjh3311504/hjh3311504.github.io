@@ -50,7 +50,8 @@ test('마지막2개가 같은 계산에 골인해도 실제 교차 순서의 마
 			vx: 0,
 			vy: 400,
 			r: 0.1,
-			finaleEntry: 0
+			finaleEntry: 0,
+			chuteEntered: true
 		});
 	}
 	stepRace(race);

@@ -1,3 +1,4 @@
+import { installMarbleWire } from './helpers/marble-wire.js';
 import { test, expect } from '@playwright/test';
 
 test('유도 바 아래 핀52개와 연못3개·크랙 왁스 안내를 표시한다', async ({ page }) => {
@@ -67,6 +68,7 @@ test('유도 바 아래 핀52개와 연못3개·크랙 왁스 안내를 표시�
 
 test('0.25배속에서 후보를 크게 확대하고 미니맵과 같은 위치를 추적한다', async ({ page }) => {
 	test.setTimeout(180000);
+	await installMarbleWire(page);
 	await page.emulateMedia({ reducedMotion: 'no-preference' });
 	await page.addInitScript(() => {
 		const NativeWorker = window.Worker;
@@ -74,7 +76,11 @@ test('0.25배속에서 후보를 크게 확대하고 미니맵과 같은 위치�
 			constructor(...args) {
 				super(...args);
 				this.addEventListener('message', ({ data }) => {
-					if (data.kind === 'frame') window.__latestPinsFrame = data.state;
+					if (data.kind === 'frame')
+						window.__latestPinsFrame = {
+							...data.state,
+							marbles: window.__readMarbleValues(data.state)
+						};
 				});
 			}
 		};
@@ -84,12 +90,12 @@ test('0.25배속에서 후보를 크게 확대하고 미니맵과 같은 위치�
 		};
 	});
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('구슬 굴리기');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 	await page.getByLabel('참가자 이름').fill('구슬*30');
 	await page.getByRole('button', { name: '도각도각 키보드', exact: true }).click();
 	// 이 검사는 음향 출력 준비와 독립적으로 배속·카메라 동작을 확인한다.
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	const speed = page.getByRole('button', { name: '경기 배속 전환', exact: true });
 	await expect(speed).toBeEnabled();
 	await speed.click();
@@ -128,7 +134,7 @@ test('0.25배속에서 후보를 크게 확대하고 미니맵과 같은 위치�
 	expect(observed.miniLeft).toBeCloseTo(observed.left, 2);
 	await expect(speed).toHaveText('0.25배속');
 	await page.setViewportSize({ width: 390, height: 844 });
-	await page.locator('canvas').scrollIntoViewIfNeeded();
+	await page.locator('canvas[role="button"]').scrollIntoViewIfNeeded();
 	expect(await page.locator('.race-stage').ariaSnapshot()).toContain('0.25배속');
 	await page.getByRole('button', { name: '계속하기 ▶', exact: true }).first().click();
 	await expect(speed).toHaveText('0.25배속');

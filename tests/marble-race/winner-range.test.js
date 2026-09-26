@@ -141,7 +141,7 @@ test('같은 계산에 여러 순위가 도착해도 범위 안의 당첨만 한
 	assert.deepEqual(director.update(race).newWinners, []);
 });
 
-test('실제 Worker는 당첨 확정 프레임부터 선택한2배속을 복구하고 직접 계산과 일치한다', async () => {
+test('실제 Worker는 필수0.25배속 연출 뒤 선택한2배속을 복구하고 직접 계산·당첨 이벤트와 일치한다', async () => {
 	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
 	const worker = new Worker(
 		`const {parentPort}=require('node:worker_threads');global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
@@ -176,13 +176,20 @@ test('실제 Worker는 당첨 확정 프레임부터 선택한2배속을 복구�
 		const director = createDirector('multiple', 3, 4);
 		let expected = director.update(direct),
 			state,
-			sawRestoredSpeed = false;
+			sawRestoredSpeed = false,
+			sawCinematic = false;
 		const speed = 2;
 		const announced = [];
-		for (let frame = 0; frame < 4000; frame++) {
-			({ state } = await request({ kind: 'advance', seconds: 0.08, speed }));
+		for (let frame = 0; frame < 24000; frame++) {
+			const seconds = STEP / (expected.active ? FINALE_SPEED : speed);
+			({ state } = await request({
+				kind: 'advance',
+				seconds,
+				speed,
+				flushState: true
+			}));
 			const expectedWinners = [];
-			let remaining = 0.08;
+			let remaining = seconds;
 			while (remaining >= STEP / 2 && direct.finished.length < direct.marbles.length) {
 				const effectiveSpeed = expected.active ? FINALE_SPEED : speed;
 				if (remaining + 1e-12 < STEP / effectiveSpeed) break;
@@ -192,6 +199,7 @@ test('실제 Worker는 당첨 확정 프레임부터 선택한2배속을 복구�
 				expectedWinners.push(...expected.newWinners.map((m) => m.id));
 			}
 			assert.equal(state.time, direct.time, '결승 연출 전후에도 같은 실제 시간만큼 계산한다');
+			sawCinematic ||= state.cinematic.active;
 			assert.deepEqual(
 				state.cinematic.newWinners.map((m) => m.id),
 				expectedWinners
@@ -202,7 +210,8 @@ test('실제 Worker는 당첨 확정 프레임부터 선택한2배속을 복구�
 			if (state.cinematic.finishedCelebration) sawRestoredSpeed = true;
 			if (state.finished.length === 8) break;
 		}
-		assert.ok(sawRestoredSpeed, '결승 슬로모션이 종료되는 프레임을 검사한다');
+		assert.ok(sawCinematic, '결승 연출이 진행 중인 프레임도 검사한다');
+		assert.ok(sawRestoredSpeed, '결승 연출 종료 프레임도 검사한다');
 		assert.equal(state.finished.length, 8);
 		assert.deepEqual(announced, state.finished.slice(3, 6));
 		assert.equal(new Set(announced).size, 3);

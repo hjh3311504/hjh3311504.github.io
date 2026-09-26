@@ -31,7 +31,7 @@ test('배속 옆 자리섞기는 준비 배치만 바꾸고 실제 경기에서�
 	const shuffle = page.getByRole('button', { name: '자리섞기', exact: true });
 	await expect(shuffle).toBeEnabled();
 	await expect(page.locator('.speed-toggle + button')).toHaveText('자리섞기');
-	const canvas = page.locator('canvas');
+	const canvas = page.locator('canvas[role="button"]');
 	const before = await canvas.evaluate((el) => el.toDataURL());
 	await page.evaluate(() => {
 		window.__seatSeed = 999;
@@ -40,7 +40,7 @@ test('배속 옆 자리섞기는 준비 배치만 바꾸고 실제 경기에서�
 	await expect.poll(() => canvas.evaluate((el) => el.toDataURL())).not.toBe(before);
 	await expect(page.getByLabel('참가자 이름')).toHaveValue(DEFAULT_NAMES);
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
-	await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	await expect(shuffle).toBeDisabled();
 	const expected = createRace(Array(10).fill('구슬'), 'keyboard', 999).marbles.map(

@@ -11,7 +11,7 @@ for (const route of ['/', '/team-maker', '/qr-code', '/marble-race']) {
 			await page.evaluate(() => document.fonts.ready);
 			if (route === '/marble-race')
 				await expect(
-					page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first()
+					page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first()
 				).toBeEnabled();
 			for (const theme of ['light', 'dark']) {
 				await page.evaluate((theme) => {

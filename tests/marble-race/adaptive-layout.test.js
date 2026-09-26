@@ -10,7 +10,7 @@ import {
 } from '../../src/lib/marble-race/physics.js';
 import { MAPS } from '../../src/lib/marble-race/catalog.js';
 
-test('인원별 줄 수가 일반층·특수 구간·결승에 함께 반영되고30명은960개를 유지한다', () => {
+test('일반층은100개까지 늘고 이후22줄로 고정하며 실제 출발 공간을 유지한다', () => {
 	for (const map of MAPS)
 		for (const [count, rows] of [
 			[2, 4],
@@ -18,13 +18,17 @@ test('인원별 줄 수가 일반층·특수 구간·결승에 함께 반영되�
 			[20, 10],
 			[30, 12],
 			[60, 17],
+			[99, 22],
 			[100, 22],
-			[300, 38],
-			[1000, 69]
+			[101, 22],
+			[200, 22],
+			[300, 22],
+			[1000, 22]
 		]) {
 			const race = createRace(Array(count).fill('공'), map, 47);
 			assert.equal(tileRowsForCount(count), rows);
 			assert.equal(race.layout.tileRows, rows);
+			assert.ok(race.marbles.every((m) => m.y + m.r < race.zones[0].start));
 			assert.equal(race.blocks.filter((b) => b.tile).length, rows * 80);
 			for (const zone of race.zones) {
 				assert.equal(zone.rows, rows);
@@ -43,7 +47,7 @@ test('소수 구슬만 표시하는 미리보기에도 실제 인원의 전체 �
 	const preview = createRace(['가', '나'], 'keyboard', 47, { layoutCount: 1000 });
 	assert.equal(preview.marbles.length, 2);
 	assert.deepEqual(preview.layout, createRace(Array(1000).fill('공'), 'keyboard', 47).layout);
-	assert.equal(preview.blocks.filter((b) => b.tile).length, 5520);
+	assert.equal(preview.blocks.filter((b) => b.tile).length, 1760);
 });
 
 test('왁스는 중앙 방향으로 기울고 경사면 충돌로 압축된 뒤 재생성하지 않는다', () => {
@@ -85,7 +89,7 @@ test('왁스는 중앙 방향으로 기울고 경사면 충돌로 압축된 뒤 
 
 test('대규모 준비 화면은 전체 높이와 탐색한 구역의 실제 타일 위치를 유지한다', () => {
 	const race = createRace(['공', '공'], 'keyboard', 2, { layoutCount: 1000000, preview: true });
-	assert.equal(race.layout.tileRows, 2191);
+	assert.equal(race.layout.tileRows, 22);
 	assert.equal(race.blocks.filter((b) => b.tile).length, 0);
 	const zone = race.zones[2];
 	const tiles = [...tilesInView(race.layout, zone.y, zone.y + 100)];

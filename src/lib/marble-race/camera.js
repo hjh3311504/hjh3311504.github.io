@@ -48,9 +48,11 @@ export function createCamera() {
 			}
 			const base = Math.min(width / WIDTH, height / 680);
 			if (!(base > 0)) return view;
-			const selected = cinematic?.active
-				? race.marbles[cinematic.focusId]
-				: followedMarble(race, mode, focusId);
+			const selected =
+				cinematic?.active ||
+				(mode === 'last' && String(focusId) === '-1' && cinematic?.focusId != null)
+					? race.marbles[cinematic.focusId]
+					: followedMarble(race, mode, focusId);
 			const inspecting = Number.isFinite(inspectionY);
 			const target = inspecting ? inspectionY : (selected?.y ?? race.layout.finish.y);
 			if (wasInspecting && !inspecting) {
@@ -58,6 +60,7 @@ export function createCamera() {
 				finale = Boolean(cinematic?.active || target >= race.layout.finale.start);
 			}
 			wasInspecting = inspecting;
+			const lastTracking = !inspecting && mode === 'last';
 			const closeup = !inspecting && cinematic?.active && !reduced;
 			const desiredScale = closeup ? base * 2.4 : base;
 			const resized = width !== viewportWidth || height !== viewportHeight;
@@ -85,7 +88,7 @@ export function createCamera() {
 			if (!inspecting && (cinematic?.active || target >= race.layout.finale.start)) finale = true;
 			if (inspecting) goal = Math.max(0, Math.min(maxTop, target - span / 2));
 			else if (returning && !finale) goal = Math.max(0, Math.min(maxTop, target - span * 0.48));
-			else if (closeup) goal = Math.max(0, Math.min(maxTop, target - span * 0.48));
+			else if (closeup || lastTracking) goal = Math.max(0, Math.min(maxTop, target - span * 0.48));
 			else if (finale) goal = maxTop;
 			else if (target > top + span * 0.65)
 				goal = Math.max(goal, Math.min(maxTop, target - span * 0.48));
@@ -96,7 +99,7 @@ export function createCamera() {
 					maxTop,
 					(changed && !returning && !inspecting) || (resized && finale && !inspecting)
 						? goal
-						: closeup || inspecting || returning
+						: closeup || lastTracking || inspecting || returning
 							? next
 							: Math.max(top, next)
 				)

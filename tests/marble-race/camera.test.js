@@ -179,3 +179,27 @@ test('미니맵 탐색은 기본 배율과 해당 음향 범위를 사용하고 
 	assert.ok(camera.getView().top > race.layout.finale.start);
 	assert.ok(Math.abs(camera.getView().scale - 2.4) < 0.001);
 });
+
+test('마지막 후보는 결승 진입부터 기본 배율로 보이고 반동·당첨 뒤에도 추적한다', () => {
+	const race = createRace(Array(60).fill('공'));
+	const camera = createCamera();
+	const options = {
+		width: 720,
+		height: 450,
+		seconds: 1 / 60,
+		mode: 'last',
+		cinematic: { active: false, focusId: 59 }
+	};
+	race.marbles.forEach((m) => {
+		m.y = race.layout.finale.mouthY;
+	});
+	const last = race.marbles[59];
+	last.y = race.layout.finale.start + 15;
+	for (const offset of [15, -80, 200, 680]) {
+		last.y = race.layout.finale.start + offset;
+		for (let i = 0; i < 90; i++) camera.update(race, options);
+		const v = camera.getView();
+		assert.ok(last.y - last.r > v.top && last.y + last.r < v.bottom);
+		assert.equal(v.scale, Math.min(720 / 720, 450 / 680));
+	}
+});

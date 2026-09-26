@@ -25,7 +25,8 @@ test('증분 전송은 파괴·압축·복구와 구슬 상태를 원래 값 그
 		assert.equal(wire.blocks, undefined);
 		assert.equal(wire.layout, undefined);
 		assert.equal(wire.zones, undefined);
-		assert.equal(wire.marbles[0].name, undefined);
+		assert.equal(wire.marbles, undefined);
+		assert.ok(wire.marbleValues instanceof Float64Array);
 		state = decode(wire);
 		assert.deepEqual(state.blocks, race.blocks);
 	}
@@ -114,5 +115,28 @@ test('재시작 뒤 이전 Worker 응답은 새 경기 준비와 프레임을 �
 	} finally {
 		client.stop();
 		globalThis.Worker = NativeWorker;
+	}
+});
+
+test('빠른 블록 변경 비교는 모든 전송 항목과 특수 값·항목이 적은 블록을 보존한다', () => {
+	const keys = ['x', 'y', 'h', 'hp', 'alive', 'flash', 'respawnAt', 'breakCycle', 'tilt'];
+	for (const partial of [false, true]) {
+		const race = createRace(['가', '나'], 'keyboard', 47);
+		race.blocks = [partial ? { id: '부분', x: 10, alive: true } : race.blocks[0]];
+		const encode = createSnapshotEncoder(),
+			decode = createSnapshotDecoder();
+		decode(structuredClone(encode(race, [], null, true)));
+		for (const key of keys) {
+			if (!(key in race.blocks[0])) continue;
+			for (const value of [1, -0, NaN, undefined, null]) {
+				race.blocks[0][key] = value;
+				assert.deepEqual(decode(structuredClone(encode(race))).blocks, race.blocks);
+				assert.deepEqual(encode(race).blockChanges, []);
+			}
+		}
+		if (partial) {
+			race.blocks[0].h = 25;
+			assert.deepEqual(encode(race).blockChanges, []);
+		}
 	}
 });
