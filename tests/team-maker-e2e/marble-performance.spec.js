@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { installMarbleDiagnostics } from './helpers/marble-diagnostics.js';
 
 for (const [mobile, selectedSpeed] of [
 	[false, 1],
@@ -10,6 +11,8 @@ for (const [mobile, selectedSpeed] of [
 		page
 	}, testInfo) => {
 		test.setTimeout(60000);
+		const diagnostic = process.env.MARBLE_PROFILE === '1';
+		const profileStages = diagnostic ? await installMarbleDiagnostics(page) : null;
 		await page.setViewportSize(
 			mobile ? { width: 390, height: 844 } : { width: 1440, height: 1000 }
 		);
@@ -58,10 +61,13 @@ for (const [mobile, selectedSpeed] of [
 			await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('2배속');
 		}
 		await expect(page.locator('.race-stats')).toContainText('/ 1000 도착');
+		if (profileStages)
+			expect(profileStages()).toEqual(['decode', 'encode', 'physics', 'presentation', 'render']);
 		const samples = [];
 		for (const phase of ['출발', '진행']) {
 			const metrics = await page.evaluate(async () => {
 				window.__paintFrames = [];
+				window.__marbleCosts = {};
 				const realStart = performance.now(),
 					raceStart = window.__performanceRaceTime ?? 0;
 				await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -72,6 +78,12 @@ for (const [mobile, selectedSpeed] of [
 					.map((v, i) => v - frames[i])
 					.sort((a, b) => a - b);
 				return {
+					costs: Object.fromEntries(
+						Object.entries(window.__marbleCosts).map(([name, value]) => [
+							name,
+							{ ...value, meanMs: value.ms / value.count }
+						])
+					),
 					fps: frames.length / seconds,
 					cinematicActive: window.__performanceCinematic,
 					unusedSeconds: window.__performanceUnused,
@@ -88,19 +100,19 @@ for (const [mobile, selectedSpeed] of [
 			};
 			samples.push(sample);
 			// 기준 미달로 중단되어도 실제 경기 배속과 그리기 수치를 남긴다.
-			const report = { mobile, cpuSlowdown: mobile ? 4 : 1, ...sample };
+			const report = { diagnostic, mobile, cpuSlowdown: mobile ? 4 : 1, ...sample };
 			console.log('1000개 성능 표본', JSON.stringify(report));
 			await testInfo.attach(`1000개 성능 ${phase}`, {
 				body: JSON.stringify(report, null, 2),
 				contentType: 'application/json'
 			});
-			expect(metrics.fps).toBeGreaterThanOrEqual(30);
+			expect.soft(metrics.fps).toBeGreaterThanOrEqual(30);
 			if (selectedSpeed === 2) {
-				expect(metrics.cinematicActive).toBe(false);
+				expect.soft(metrics.cinematicActive).toBe(false);
 				// 수신 시점의 차이는 허용하되 출발 구간의 지속적인 계산 지연은 검출한다.
-				expect(sample.raceSpeed).toBeGreaterThanOrEqual(1.9);
-				expect(sample.raceSpeed).toBeLessThanOrEqual(2.1);
-				expect(metrics.unusedSeconds).toBeLessThanOrEqual(0.1);
+				expect.soft(sample.raceSpeed).toBeGreaterThanOrEqual(1.9);
+				expect.soft(sample.raceSpeed).toBeLessThanOrEqual(2.1);
+				expect.soft(metrics.unusedSeconds).toBeLessThanOrEqual(0.1);
 			}
 		}
 		const buttonMs = await page.evaluate(

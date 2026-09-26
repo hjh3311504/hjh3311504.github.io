@@ -3,7 +3,7 @@ import { observeRace } from './helpers/observe-race.js';
 
 for (const width of [1440, 390]) {
 	const count = width === 1440 ? 1000 : 100;
-	test(`${width}px·${count}개에서 화면10fps여도2배속 계산·60회 상태 전달을 유지하고 정지·재개·초기화를 지킨다`, async ({
+	test(`${width}px·${count}개에서 화면10fps여도2배속 계산·최대60회 상태 전달을 유지하고 정지·재개·초기화를 지킨다`, async ({
 		page
 	}) => {
 		await page.setViewportSize({ width, height: 1000 });
@@ -57,7 +57,9 @@ for (const width of [1440, 390]) {
 		const initial = await measure();
 		expect(initial.speed).toBeGreaterThan(1.8);
 		expect(initial.frameHz).toBeLessThanOrEqual(61);
-		expect(initial.acknowledgements).toBeGreaterThan(0);
+		// 계산이16.7ms 이상 걸리면 모든 응답이 상태를 담아도 정상이다.
+		// 생략 응답의 발생·이벤트 보존은 frame-batch.test.js의 고정 시계로 검사한다.
+		expect(initial.frameHz).toBeGreaterThan(0);
 		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 		await expect(page.locator('.stage-state')).toHaveText('일시정지');
 		// 정지 직전에 보낸 응답 한 개가 도착한 뒤에는 계산이 더 진행되지 않는다.
