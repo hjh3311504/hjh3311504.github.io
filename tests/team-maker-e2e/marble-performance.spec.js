@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { cpus, totalmem } from 'node:os';
 import { installMarbleDiagnostics } from './helpers/marble-diagnostics.js';
 
 for (const [mobile, selectedSpeed] of [
@@ -11,6 +12,18 @@ for (const [mobile, selectedSpeed] of [
 		page
 	}, testInfo) => {
 		test.setTimeout(60000);
+		const processors = cpus();
+		console.log(
+			'성능 검사 환경',
+			JSON.stringify({
+				platform: process.platform,
+				architecture: process.arch,
+				processor: processors[0]?.model,
+				processorCount: processors.length,
+				memoryBytes: totalmem(),
+				browser: page.context().browser()?.version()
+			})
+		);
 		const diagnostic = process.env.MARBLE_PROFILE === '1';
 		const profileStages = diagnostic ? await installMarbleDiagnostics(page) : null;
 		await page.setViewportSize(

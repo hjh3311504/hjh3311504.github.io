@@ -607,6 +607,11 @@ export function createRenderer(canvas) {
 					!marble.finished && marble.y >= camera - 60 && marble.y <= camera + viewHeight + 60
 			)
 			.sort((a, b) => (a.id === Number(focusId)) - (b.id === Number(focusId)));
+		// 그림 페이지를 모두 채운 뒤 화면에 복사한다. 그리는 도중 페이지를
+		// 바꾸면 같은 큰 이미지를 구슬마다 다시 전송할 수 있다.
+		const marbleSprites = renderMarbles.map((marble) =>
+			marbleSprite(marble, numberFont, spriteQuality)
+		);
 		// 같은 글자 설정을 매 구슬마다 Canvas에 다시 지정하거나 읽지 않는다.
 		const labelStyles = [false, true].map((focus) => {
 			const size = Math.round(Math.max(14, (focus ? 18 : 14) / scale) * 2) / 2;
@@ -642,7 +647,8 @@ export function createRenderer(canvas) {
 				paintText(name, labelX, marble.y + 21 + style.size, style, true);
 			}
 		}
-		for (const marble of renderMarbles) {
+		for (let index = 0; index < renderMarbles.length; index++) {
+			const marble = renderMarbles[index];
 			const isFocus = marble.id === Number(focusId);
 			if (isFocus) {
 				ctx.strokeStyle = isFocus ? '#ffffff' : '#7cf2ce';
@@ -664,7 +670,7 @@ export function createRenderer(canvas) {
 					]);
 				}
 			}
-			const sprite = marbleSprite(marble, numberFont, spriteQuality);
+			const sprite = marbleSprites[index];
 			ctx.drawImage(
 				sprite.bitmap,
 				sprite.x,

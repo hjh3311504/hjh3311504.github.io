@@ -5,6 +5,53 @@ import { createRace } from '../../src/lib/marble-race/physics.js';
 
 const start = (page) => page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
 
+test('1000개 구슬 그림을 복사하는 동안 같은 그림 페이지를 다시 수정하지 않는다', async ({
+	page
+}) => {
+	await page.addInitScript(() => {
+		window.__sourceChanges = 0;
+		window.__sourceReuses = 0;
+		let seen = new Map();
+		const text = CanvasRenderingContext2D.prototype.fillText;
+		const fill = CanvasRenderingContext2D.prototype.fillRect;
+		const draw = CanvasRenderingContext2D.prototype.drawImage;
+		CanvasRenderingContext2D.prototype.fillText = function (...args) {
+			this.canvas.__drawingRevision = (this.canvas.__drawingRevision ?? 0) + 1;
+			return text.apply(this, args);
+		};
+		CanvasRenderingContext2D.prototype.fillRect = function (...args) {
+			if (
+				this.canvas.getAttribute('role') === 'button' &&
+				args[0] === 0 &&
+				args[1] === 0 &&
+				this.fillStyle === '#101d2c'
+			)
+				seen = new Map();
+			return fill.apply(this, args);
+		};
+		CanvasRenderingContext2D.prototype.drawImage = function (bitmap, ...args) {
+			if (this.canvas.getAttribute('role') === 'button') {
+				const revision = bitmap.__drawingRevision ?? 0;
+				if (seen.has(bitmap)) {
+					window.__sourceReuses++;
+					if (seen.get(bitmap) !== revision) window.__sourceChanges++;
+				}
+				seen.set(bitmap, revision);
+			}
+			return draw.call(this, bitmap, ...args);
+		};
+	});
+	await page.goto('/marble-race');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
+	await expect(start(page)).toBeEnabled();
+	await page.getByLabel('참가자 이름').fill('공*1000');
+	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
+	await start(page).click();
+	await expect(page.locator('.stage-state')).toHaveText('경기 중');
+	await expect.poll(() => page.evaluate(() => window.__sourceReuses)).toBeGreaterThan(100);
+	expect(await page.evaluate(() => window.__sourceChanges)).toBe(0);
+});
+
 test('순위 열과 카드 높이가 바뀌어도 크기 알림이 반복되지 않는다', async ({ page }) => {
 	const errors = [];
 	page.on('pageerror', (error) => errors.push(error.message));
