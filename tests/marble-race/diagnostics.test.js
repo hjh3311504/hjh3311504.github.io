@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { instrumentMarbleCode } from '../team-maker-e2e/helpers/marble-diagnostics.js';
 
-test('압축 코드 계측은 다섯 계산 구간의 반환값과 예외를 보존한다', () => {
+test('압축 코드 계측은 여섯 계산 구간의 반환값과 예외를 보존한다', () => {
 	const original = `
 function step(dt) { if(dt<0)throw Error(\`물리 계산 간격은 1/60초 이하여야 합니다.\`); return dt*2; }
 const encode = value => { return {blockChanges:value}; };
@@ -11,9 +11,17 @@ const decode = value => { if(!value)throw Error('경기 준비 정보가 없어�
 function render(bounds = {getBoundingClientRect(){return 1}}) {return '출발'+bounds.getBoundingClientRect();}
 const display = {sample(value){return value+1}};
 function label(){return '출발'}
-({step,encode,decode,render,display,label});`;
+function pump(){const clock={takeStep(){return true}};return clock.takeStep();}
+({step,encode,decode,render,display,label,pump});`;
 	const result = instrumentMarbleCode(original);
-	assert.deepEqual(result.stages.sort(), ['decode', 'encode', 'physics', 'presentation', 'render']);
+	assert.deepEqual(result.stages.sort(), [
+		'decode',
+		'encode',
+		'physics',
+		'presentation',
+		'render',
+		'workerBatch'
+	]);
 	let now = 0;
 	const costs = [];
 	const functions = vm.runInNewContext(result.source, {
@@ -28,7 +36,8 @@ function label(){return '출발'}
 	assert.equal(functions.render(), '출발1');
 	assert.equal(functions.display.sample(5), 6);
 	assert.equal(functions.label(), '출발');
-	assert.equal(costs.length, 7);
+	assert.equal(functions.pump(), true);
+	assert.equal(costs.length, 8);
 	assert.ok(costs.every((cost) => cost.ms === 1));
 });
 

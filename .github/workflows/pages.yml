@@ -45,6 +45,19 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Build site
         run: npm run build
+      - name: Measure request-driven baseline on the same runner
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        env:
+          MARBLE_REQUEST_DRIVEN: '1'
+        run: npm run test:e2e:built -- tests/team-maker-e2e/marble-performance.spec.js --retries=0
+      - name: Save request-driven baseline
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: marble-request-driven-baseline
+          path: output/playwright/report/
+          retention-days: 7
       - name: Test marble performance and scheduling
         id: marble-performance
         if: github.event_name == 'pull_request'

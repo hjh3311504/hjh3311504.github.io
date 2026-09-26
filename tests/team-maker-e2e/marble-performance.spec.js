@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { cpus, totalmem } from 'node:os';
+import { installRequestDrivenWorker } from './helpers/marble-request-driven.js';
 import { installMarbleDiagnostics } from './helpers/marble-diagnostics.js';
 
 for (const [mobile, selectedSpeed] of [
@@ -24,6 +25,8 @@ for (const [mobile, selectedSpeed] of [
 				browser: page.context().browser()?.version()
 			})
 		);
+		const requestDriven = process.env.MARBLE_REQUEST_DRIVEN === '1';
+		if (requestDriven) await installRequestDrivenWorker(page);
 		const diagnostic = process.env.MARBLE_PROFILE === '1';
 		const profileStages = diagnostic ? await installMarbleDiagnostics(page) : null;
 		await page.setViewportSize(
@@ -75,7 +78,14 @@ for (const [mobile, selectedSpeed] of [
 		}
 		await expect(page.locator('.race-stats')).toContainText('/ 1000 도착');
 		if (profileStages)
-			expect(profileStages()).toEqual(['decode', 'encode', 'physics', 'presentation', 'render']);
+			expect(profileStages()).toEqual([
+				'decode',
+				'encode',
+				'physics',
+				'presentation',
+				'render',
+				'workerBatch'
+			]);
 		const samples = [];
 		for (const phase of ['출발', '진행']) {
 			const metrics = await page.evaluate(async () => {
@@ -113,7 +123,7 @@ for (const [mobile, selectedSpeed] of [
 			};
 			samples.push(sample);
 			// 기준 미달로 중단되어도 실제 경기 배속과 그리기 수치를 남긴다.
-			const report = { diagnostic, mobile, cpuSlowdown: mobile ? 4 : 1, ...sample };
+			const report = { requestDriven, diagnostic, mobile, cpuSlowdown: mobile ? 4 : 1, ...sample };
 			console.log('1000개 성능 표본', JSON.stringify(report));
 			await testInfo.attach(`1000개 성능 ${phase}`, {
 				body: JSON.stringify(report, null, 2),

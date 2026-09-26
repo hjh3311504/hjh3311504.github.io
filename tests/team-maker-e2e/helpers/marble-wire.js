@@ -1,6 +1,23 @@
 // 화면 대역도 실제 Worker와 같은 숫자 배열 형식을 사용한다.
 export async function installMarbleWire(page) {
 	await page.addInitScript(() => {
+		// 화면 전용 대역도 run/pause/ack 경계를 사용한다. 실제 물리는 별도 검사한다.
+		window.__mockMarbleStream = (worker, data) => {
+			if (data.kind === 'run') {
+				worker.mockSpeed = data.speed;
+				clearInterval(worker.mockTimer);
+				worker.mockTimer = setInterval(
+					() => worker.postMessage({ kind: 'advance', speed: worker.mockSpeed }),
+					17
+				);
+			} else if (data.kind === 'speed') worker.mockSpeed = data.speed;
+			else if (data.kind === 'pause') {
+				clearInterval(worker.mockTimer);
+				worker.postMessage({ kind: 'advance', speed: worker.mockSpeed, requestId: data.requestId });
+			} else if (data.kind !== 'ack') return false;
+			return true;
+		};
+
 		window.__packMarbleState = (state) => {
 			state.marbleValues = new Float64Array(state.marbles.length * 8);
 			state.heldMarbles = [];

@@ -29,6 +29,12 @@ export function instrumentMarbleCode(source) {
 			node.name.getText(file) === 'blockChanges'
 		)
 			mark(node, 'encode');
+		if (
+			ts.isCallExpression(node) &&
+			ts.isPropertyAccessExpression(node.expression) &&
+			node.expression.name.text === 'takeStep'
+		)
+			mark(node, 'workerBatch');
 		if (ts.isMethodDeclaration(node) && node.name.getText(file) === 'sample')
 			mark(node, 'presentation');
 		ts.forEachChild(node, visit);
@@ -61,13 +67,14 @@ function workerProbe() {
 		started = performance.timeOrigin + performance.now();
 		sent = data.__profileSent;
 		kind = data.kind;
-		costs = {};
+		if (data.kind === 'advance') costs = {};
 	});
 	const post = self.postMessage.bind(self);
 	self.postMessage = (data, ...args) => {
-		if (kind === 'advance' && ['frame', 'advanced', 'idle'].includes(data.kind)) {
+		if (data.stream || (kind === 'advance' && ['frame', 'advanced', 'idle'].includes(data.kind))) {
 			const completed = performance.timeOrigin + performance.now();
-			data.__profile = { started, completed, sent, costs };
+			data.__profile = { started, completed, sent, costs, stream: Boolean(data.stream) };
+			costs = {};
 		}
 		return post(data, ...args);
 	};
@@ -104,10 +111,12 @@ export async function installMarbleDiagnostics(page) {
 					this.lastReceived = performance.now();
 					const received = performance.timeOrigin + this.lastReceived;
 					const record = window.__recordMarbleCost;
-					record('workerRequest', p.completed - p.started);
-					record('inputQueue', p.started - p.sent);
+					if (!p.stream) {
+						record('workerRequest', p.completed - p.started);
+						record('inputQueue', p.started - p.sent);
+						record('roundTrip', received - p.sent);
+					}
 					record('outputQueue', received - p.completed);
-					record('roundTrip', received - p.sent);
 					for (const [name, value] of Object.entries(p.costs)) {
 						// 개별 단계의 평균·개수와 요청당 전체 계산을 구분한다.
 						const current = (window.__marbleCosts[name] ??= { count: 0, ms: 0 });

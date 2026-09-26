@@ -15,7 +15,12 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 					if (data.kind === 'ready') this.initialState = structuredClone(data.state);
 				});
 			}
+			terminate() {
+				clearInterval(this.mockTimer);
+				super.terminate();
+			}
 			postMessage(data) {
+				if (window.__mockMarbleStream(this, data)) return;
 				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
 				const state = structuredClone(this.initialState);
 				const leader = window.__testLeader;
@@ -32,7 +37,14 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 				queueMicrotask(() =>
 					this.dispatchEvent(
 						new MessageEvent('message', {
-							data: { kind: 'frame', state, unused: 0 }
+							data: {
+								kind: 'frame',
+								state,
+								unused: 0,
+								stream: true,
+								serial: this.frames,
+								reply: data.requestId
+							}
 						})
 					)
 				);

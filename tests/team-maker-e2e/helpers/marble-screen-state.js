@@ -15,7 +15,12 @@ export async function screenRace(page, { ranking = false } = {}) {
 					}
 				});
 			}
+			terminate() {
+				clearInterval(this.mockTimer);
+				super.terminate();
+			}
 			postMessage(data) {
+				if (window.__mockMarbleStream(this, data)) return;
 				if (data.kind === 'prepare') {
 					this.settings = { mode: data.mode, count: data.count, startRank: data.startRank ?? 1 };
 					window.__raceDrawSettings = this.settings;
@@ -85,7 +90,16 @@ export async function screenRace(page, { ranking = false } = {}) {
 				window.__packMarbleState(state);
 				queueMicrotask(() =>
 					this.dispatchEvent(
-						new MessageEvent('message', { data: { kind: 'frame', state, unused: 0 } })
+						new MessageEvent('message', {
+							data: {
+								kind: 'frame',
+								state,
+								unused: 0,
+								stream: true,
+								serial: this.frames,
+								reply: data.requestId
+							}
+						})
 					)
 				);
 			}

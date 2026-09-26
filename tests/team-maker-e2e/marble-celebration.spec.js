@@ -15,7 +15,12 @@ async function prepareWinners(page) {
 					if (data.kind === 'ready') this.initialState = structuredClone(data.state);
 				});
 			}
+			terminate() {
+				clearInterval(this.mockTimer);
+				super.terminate();
+			}
 			postMessage(data) {
+				if (window.__mockMarbleStream(this, data)) return;
 				if (data.kind !== 'advance' || !this.initialState) return super.postMessage(data);
 				const state = structuredClone(this.initialState);
 				state.initial = false;
@@ -38,7 +43,14 @@ async function prepareWinners(page) {
 				queueMicrotask(() =>
 					this.dispatchEvent(
 						new MessageEvent('message', {
-							data: { kind: 'frame', state, unused: 0 }
+							data: {
+								kind: 'frame',
+								state,
+								unused: 0,
+								stream: true,
+								serial: this.frames,
+								reply: data.requestId
+							}
 						})
 					)
 				);

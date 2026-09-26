@@ -1,8 +1,9 @@
 import { createSnapshotDecoder } from './transport.js';
-export function createWorkerClient() {
+export function createWorkerClient(onFrame, onError) {
 	let worker,
 		waiting,
-		alive = false;
+		alive = false,
+		requestSerial = 0;
 	function stop() {
 		alive = false;
 		worker?.terminate();
@@ -16,8 +17,9 @@ export function createWorkerClient() {
 				reject(new Error('경기 계산을 준비하지 못했어요.'));
 				return;
 			}
-			waiting = { resolve, reject };
-			worker.postMessage(message);
+			const requestId = ++requestSerial;
+			waiting = { resolve, reject, requestId };
+			worker.postMessage({ ...message, requestId });
 		});
 	}
 	return {
@@ -43,10 +45,31 @@ export function createWorkerClient() {
 					onProgress?.(data);
 					return;
 				}
+				if (data.stream) {
+					try {
+						// 수신 확인은 큰 상태 전달만 제어한다. 물리 계산은 이 응답을 기다리지 않는다.
+						currentWorker.postMessage({ kind: 'ack', serial: data.serial });
+						const result = { ...data, state: decode(data.state) };
+						onFrame?.(result.state);
+						if (waiting && data.reply === waiting.requestId) {
+							const p = waiting;
+							waiting = null;
+							p.resolve(result);
+						}
+					} catch (error) {
+						waiting?.reject(error);
+						waiting = null;
+						onError?.(error);
+					}
+					return;
+				}
 				const p = waiting;
 				waiting = null;
-				if (data.kind === 'error') p?.reject(new Error(data.message));
-				else {
+				if (data.kind === 'error') {
+					const error = new Error(data.message);
+					p?.reject(error);
+					onError?.(error);
+				} else {
 					try {
 						p?.resolve({ ...data, state: decode(data.state) });
 					} catch (error) {
@@ -74,6 +97,15 @@ export function createWorkerClient() {
 					skillsEnabled
 				})
 			).state;
+		},
+		run(speed) {
+			worker?.postMessage({ kind: 'run', speed });
+		},
+		setSpeed(speed) {
+			worker?.postMessage({ kind: 'speed', speed });
+		},
+		pause() {
+			return request({ kind: 'pause' });
 		},
 		snapshot() {
 			return request({ kind: 'snapshot' });

@@ -248,3 +248,62 @@ test('밀린 계산 중에도 필수 감속 시작과 당첨을 해당 물리 �
 		await worker.terminate();
 	}
 });
+
+test('자율 Worker는 수신 확인 없이도 계산하며 정지·재개에서 시간과 모든 이벤트를 보존한다', async () => {
+	const module = new URL('../../src/lib/marble-race/race-worker.js', import.meta.url).href;
+	const worker = new Worker(
+		`const {parentPort}=require('node:worker_threads');global.self={postMessage:data=>parentPort.postMessage(data)};import(${JSON.stringify(module)}).then(()=>parentPort.on('message',data=>self.onmessage({data})));`,
+		{ eval: true }
+	);
+	const decode = createSnapshotDecoder(),
+		messages = [];
+	worker.on('message', (data) => {
+		if (data.kind !== 'progress') messages.push(data);
+	});
+	const waitFor = async (predicate) => {
+		const start = performance.now();
+		while (!messages.some(predicate)) {
+			assert.ok(performance.now() - start < 5000, 'Worker 응답');
+			await new Promise((r) => setTimeout(r, 5));
+		}
+		return messages.splice(messages.findIndex(predicate), 1)[0];
+	};
+	try {
+		worker.postMessage({
+			kind: 'prepare',
+			participants: { entries: [{ name: '공', count: 30 }], count: 30 },
+			map: 'keyboard',
+			seed: 47,
+			mode: 'last',
+			count: 1,
+			skillsEnabled: true
+		});
+		decode((await waitFor((m) => m.kind === 'ready')).state);
+		worker.postMessage({ kind: 'run', speed: 2 });
+		const first = await waitFor((m) => m.kind === 'frame');
+		decode(first.state);
+		// 첫 상태의 ack를 보내지 않는다. 화면이 막힌 동안에도 Worker가 계산해야 한다.
+		await new Promise((r) => setTimeout(r, 500));
+		assert.equal(messages.filter((m) => m.kind === 'frame').length, 0, '큰 상태는 쌓이지 않는다');
+		worker.postMessage({ kind: 'pause', requestId: 100 });
+		const paused = await waitFor((m) => m.reply === 100),
+			state = decode(paused.state);
+		assert.ok(state.time > 0.9);
+		const direct = createRace(Array(30).fill('공'), 'keyboard', 47, { skillsEnabled: true });
+		const events = [];
+		for (let i = 0; i < Math.round(state.time / STEP); i++) events.push(...stepRace(direct));
+		assert.deepEqual([...first.state.events, ...paused.state.events], events);
+		assert.deepEqual(
+			state.marbles.map((m) => [m.x, m.y, m.vx, m.vy]),
+			direct.marbles.map((m) => [m.x, m.y, m.vx, m.vy])
+		);
+		await new Promise((r) => setTimeout(r, 100));
+		assert.equal(messages.length, 0);
+		worker.postMessage({ kind: 'ack', serial: paused.serial });
+		worker.postMessage({ kind: 'run', speed: 2 });
+		const resumed = await waitFor((m) => m.kind === 'frame');
+		assert.ok(resumed.state.time - state.time < 0.15, '정지한100ms는 경기 시간에 더하지 않는다');
+	} finally {
+		await worker.terminate();
+	}
+});

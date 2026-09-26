@@ -16,7 +16,7 @@
 		resolveMapId,
 		parseNames
 	} from '$lib/marble-race/catalog.js';
-	import { raceOrder, winners, butterHitCount, STEP } from '$lib/marble-race/physics.js';
+	import { raceOrder, winners, butterHitCount } from '$lib/marble-race/physics.js';
 
 	import { createWorkerClient } from '$lib/marble-race/worker-client.js';
 	import { createPreviewOrder } from '$lib/marble-race/preview-order.js';
@@ -92,20 +92,16 @@
 		raf = 0,
 		operation = 0,
 		previewTimer,
-		physicsTimer,
 		celebrationTimer,
-		workerBusy = false,
-		snapshotPending = false,
 		deferredFrame = null,
+		pauseRequest = Promise.resolve(),
 		previous = 0,
-		lastPhysics = 0,
 		lastSync = 0,
-		pendingSeconds = 0,
 		raceSeed = 2026;
 	let previewOperation = 0;
 	let previousRaceSettings;
 	const previewClient = createWorkerClient();
-	const client = createWorkerClient(),
+	const client = createWorkerClient(receiveLiveState, handleWorkerError),
 		camera = createCamera(),
 		presentation = createPresentation(),
 		shouldDraw = createDrawSchedule();
@@ -245,83 +241,37 @@
 			liveAnnouncement = `경기 종료. 당첨자 ${selectedWinners.map((m) => m.name).join(', ')}`;
 		}
 	}
-	function captureLatestState() {
-		if (workerBusy || !snapshotPending) return;
-		workerBusy = true;
-		const current = operation;
-		void client
-			.snapshot()
-			.then((result) => {
-				if (current !== operation) return;
-				snapshotPending = false;
-				if (status === 'running') acceptState(result.state);
-				else if (status === 'paused' || status === 'loading') deferredFrame = result.state;
-			})
-			.catch((error) => {
-				if (current === operation) {
-					status = 'paused';
-					message = error.message;
-				}
-			})
-			.finally(() => {
-				if (current === operation) {
-					workerBusy = false;
-					if (status === 'running') advancePhysics();
-				}
-			});
-	}
-	function advancePhysics() {
-		clearTimeout(physicsTimer);
-		if (status === 'running' && !workerBusy) {
-			const now = performance.now();
-			if (!audio.isReady()) {
-				void pause();
-				message = '소리가 멈춰 경기를 잠시 멈췄어요. 계속하기를 눌러 주세요.';
-			} else {
-				// 긴 화면 작업 중 지난 시간도 보존한다. 숨김·정지는 별도 처리하며
-				// Worker가 계산 예산에 맞춰 나눠 처리한 나머지만 다시 요청한다.
-				const delta = Math.max(0, (now - lastPhysics) / 1000) + pendingSeconds;
-				// 계산할 시간이 모이면 화면 프레임을 기다리지 않고 다음 요청을 보낸다.
-				const minimum = STEP / (cinematic?.active ? 0.25 : speed);
-				if (delta + 1e-12 < minimum) {
-					physicsTimer = setTimeout(
-						advancePhysics,
-						Math.max(1, Math.ceil((minimum - delta) * 1000))
-					);
-					return;
-				}
-				lastPhysics = now;
-				workerBusy = true;
-				const current = operation;
-				void client
-					.advance(delta, speed)
-					.then((result) => {
-						if (current !== operation) return;
-						pendingSeconds = result.unused ?? 0;
-						if (result.kind === 'advanced') {
-							snapshotPending = true;
-						} else if (result.kind === 'frame') {
-							snapshotPending = false;
-							if (status === 'running') acceptState(result.state);
-							else if (status === 'paused' || status === 'loading') deferredFrame = result.state;
-						}
-						// 화면 변경을 반영하는 작업이 시작되기 전에 다음 계산을 요청한다.
-						workerBusy = false;
-						if (status === 'running') advancePhysics();
-						else if (status === 'paused' || status === 'loading') captureLatestState();
-					})
-					.catch((error) => {
-						if (current === operation) {
-							workerBusy = false;
-							status = 'paused';
-							message = error.message;
-						}
-					});
-			}
+	function receiveLiveState(state) {
+		if (status === 'running') acceptState(state);
+		else if (status === 'paused' || status === 'loading') {
+			// 정지 직전 전환과 효과음은 마지막 위치 상태에 합쳐 한 번만 처리한다.
+			if (deferredFrame)
+				state = {
+					...state,
+					events: [...(deferredFrame.events ?? []), ...(state.events ?? [])],
+					cinematic: {
+						...state.cinematic,
+						newWinners: [
+							...(deferredFrame.cinematic?.newWinners ?? []),
+							...(state.cinematic?.newWinners ?? [])
+						],
+						finishedCelebration:
+							deferredFrame.cinematic?.finishedCelebration || state.cinematic?.finishedCelebration
+					}
+				};
+			deferredFrame = state;
 		}
+	}
+	function handleWorkerError(error) {
+		status = 'paused';
+		message = error.message;
 	}
 	function frame(now) {
 		raf = requestAnimationFrame(frame);
+		if (status === 'running' && !audio.isReady()) {
+			void pause();
+			message = '소리가 멈춰 경기를 잠시 멈췄어요. 계속하기를 눌러 주세요.';
+		}
 		if (!shouldDraw(now, race?.marbles.length ?? 0)) return;
 		const seconds = previous ? Math.min(0.08, (now - previous) / 1000) : 0;
 		previous = now;
@@ -332,12 +282,8 @@
 		draw(seconds);
 	}
 	function reset() {
-		clearTimeout(physicsTimer);
 		operation++;
 		client.stop();
-		workerBusy = false;
-		snapshotPending = false;
-		pendingSeconds = 0;
 		deferredFrame = null;
 		pendingAudioEvents = [];
 		audio?.cancelPreparation();
@@ -451,14 +397,10 @@
 			if (current !== operation) return;
 			cinematic = null;
 			speed = 1;
-			workerBusy = false;
-			snapshotPending = false;
-			pendingSeconds = 0;
 			status = document.hidden ? 'paused' : 'running';
 			acceptState(state);
-			lastPhysics = performance.now();
-			previous = lastPhysics;
-			advancePhysics();
+			previous = performance.now();
+			if (status === 'running') client.run(speed);
 			writer.flush();
 			liveAnnouncement = `${parsed.count}개의 구슬로 경기를 시작합니다. 당첨 기준은 ${modeLabel}입니다.`;
 		} catch (error) {
@@ -477,9 +419,11 @@
 	}
 	async function pause() {
 		if (status === 'running') {
-			clearTimeout(physicsTimer);
 			status = 'paused';
-			captureLatestState();
+			const current = operation;
+			pauseRequest = client.pause().catch((error) => {
+				if (current === operation) handleWorkerError(error);
+			});
 			pendingAudioEvents = [];
 			clearTimeout(celebrationTimer);
 			celebrating = false;
@@ -501,6 +445,7 @@
 		status = 'loading';
 		progress = '소리를 준비하고 있어요.';
 		const loaded = await audio.prepare(raceSoundTypes);
+		await pauseRequest;
 		if (current !== operation) return;
 		if (!loaded && soundEnabled) {
 			status = 'paused';
@@ -513,13 +458,13 @@
 			acceptState(deferredFrame);
 			deferredFrame = null;
 		}
-		lastPhysics = performance.now();
-		previous = lastPhysics;
-		advancePhysics();
+		previous = performance.now();
+		if (status === 'running') client.run(speed);
 	}
 	function toggleSpeed() {
 		if (status === 'running' && !cinematic?.active) {
 			speed = speed === 1 ? 2 : 1;
+			client.setSpeed(speed);
 			liveAnnouncement = `${speed}배속으로 전환했습니다.`;
 		}
 	}
@@ -717,7 +662,6 @@
 			operation++;
 			client.stop();
 			cancelAnimationFrame(raf);
-			clearTimeout(physicsTimer);
 			clearTimeout(previewTimer);
 			clearTimeout(celebrationTimer);
 			writer.destroy();
