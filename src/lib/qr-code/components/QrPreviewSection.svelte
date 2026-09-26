@@ -10,6 +10,7 @@
 		outputAction,
 		busy,
 		outputError,
+		outputStatus,
 		expandedDialog,
 		retryVersion = $bindable(),
 		qrReady,
@@ -71,8 +72,9 @@
 			onclick={openPrint}>인쇄</Button
 		>
 	</div>
-	{#if outputError || displayedTitle.svgError}
+	{#if outputError || outputStatus || displayedTitle.svgError}
 		<div class="qr-svg-notice">
+			{#if outputStatus}<p role="status">{outputStatus}</p>{/if}
 			{#if outputError}<p role="alert">{outputError}</p>{/if}
 			{#if displayedTitle.svgError}<p role="status">{displayedTitle.svgError}</p>{/if}
 			{#if displayedTitle.canRetrySvg}<Button
