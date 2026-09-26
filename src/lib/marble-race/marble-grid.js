@@ -4,12 +4,12 @@ export function createMarbleGrid() {
 	let heads = new Int32Array(0),
 		revisions = new Float64Array(0),
 		offset,
-		members = [];
+		members = [],
+		cache = [];
 	const next = [],
 		previous = [],
 		memberships = [],
 		byId = [],
-		cache = new Map(),
 		overflow = new Map();
 	const get = (key) => (key >= 0 && key < heads.length ? heads[key] : (overflow.get(key) ?? -1));
 	const set = (key, value) => {
@@ -21,7 +21,7 @@ export function createMarbleGrid() {
 			for (let x = -1; x <= 1; x++) {
 				const neighbor = key + y * 32 + x;
 				if (neighbor >= 0 && neighbor < revisions.length) revisions[neighbor]++;
-				else cache.delete(neighbor);
+				else delete cache[neighbor];
 			}
 	}
 	function remove(id) {
@@ -78,7 +78,7 @@ export function createMarbleGrid() {
 				revisions.fill(0);
 				memberships.fill(null);
 				overflow.clear();
-				cache.clear();
+				cache = [];
 				offset = newOffset;
 				if (!same) members = marbles.slice();
 			}
@@ -88,9 +88,9 @@ export function createMarbleGrid() {
 		nearby(m) {
 			const key = Math.floor(m.y / 32) * 32 + Math.floor(m.x / 32) - offset;
 			const revision = revisions[key] ?? 0;
-			let entry = cache.get(key);
+			let entry = cache[key];
 			if (entry?.revision === revision) return entry.ids;
-			if (!entry) cache.set(key, (entry = { ids: [] }));
+			if (!entry) cache[key] = entry = { ids: [] };
 			const ids = entry.ids;
 			ids.length = 0;
 			for (let y = -1; y <= 1; y++)

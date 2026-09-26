@@ -432,11 +432,16 @@ test('화면 밖 순위의 구슬 그림은 멈추고 스크롤로 보이면 최
 		window.__rankPaints = 0;
 		const fill = CanvasRenderingContext2D.prototype.fillText;
 		CanvasRenderingContext2D.prototype.fillText = function (...args) {
+			this.canvas.dataset.paintedNumber = String(args[0]);
+			return fill.apply(this, args);
+		};
+		const draw = CanvasRenderingContext2D.prototype.drawImage;
+		CanvasRenderingContext2D.prototype.drawImage = function (image, ...args) {
 			if (this.canvas.classList.contains('marble-icon')) {
 				window.__rankPaints++;
-				this.canvas.dataset.paintedNumber = String(args[0]);
+				this.canvas.dataset.paintedNumber = image.dataset.paintedNumber;
 			}
-			return fill.apply(this, args);
+			return draw.call(this, image, ...args);
 		};
 	});
 	await page.goto('/marble-race');
