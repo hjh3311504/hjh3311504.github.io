@@ -110,3 +110,33 @@ test('긴 화면 작업의500ms도 버리지 않고 실제2배속으로 따라�
 	expect(actual).toBeGreaterThanOrEqual(1.9);
 	expect(actual).toBeLessThanOrEqual(2.1);
 });
+
+test('경기 중 소리를 다시 준비할 때 Worker를 정지하고 준비 뒤 재개한다', async ({ page }) => {
+	await observeRace(page, 47);
+	await page.addInitScript(() => {
+		window.__clockCommands = [];
+		const NativeWorker = window.Worker;
+		window.Worker = class extends NativeWorker {
+			postMessage(data, ...args) {
+				if (['run', 'pause'].includes(data.kind)) window.__clockCommands.push(data.kind);
+				return super.postMessage(data, ...args);
+			}
+		};
+	});
+	await page.route('**/audio/marble-race/**', async (route) => {
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		await route.continue();
+	});
+	await page.goto('/marble-race');
+	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
+	const start = page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
+	await expect(start).toBeEnabled();
+	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
+	await start.click();
+	await expect(page.locator('.stage-state')).toHaveText('경기 중');
+	await page.getByRole('button', { name: '♪ 소리 꺼짐', exact: true }).click();
+	await expect
+		.poll(() => page.evaluate(() => window.__clockCommands))
+		.toEqual(['run', 'pause', 'run']);
+	await expect(page.locator('.stage-state')).toHaveText('경기 중');
+});

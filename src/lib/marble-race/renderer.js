@@ -23,9 +23,27 @@ export function createRenderer(canvas) {
 	let gridPattern;
 	let textQuality = 1;
 	let spritePage;
+	// 같은 글자 크기의 연속 프레임은 번호로 찾고 캐시 키 문자열을 다시 만들지 않는다.
+	let recentSprites = [],
+		spriteFont,
+		spriteScale;
+	let labelFrames = [];
 	function marbleSprite(marble, font, quality) {
+		if (font !== spriteFont || quality !== spriteScale) {
+			recentSprites = [];
+			spriteFont = font;
+			spriteScale = quality;
+		}
+		const recent = recentSprites[marble.id];
+		if (recent && recent.color === marble.color && recent.radius === marble.r) return recent.sprite;
+		const remember = (sprite) => {
+			if (marble.id < 2048)
+				recentSprites[marble.id] = { color: marble.color, radius: marble.r, sprite };
+			return sprite;
+		};
+
 		const key = `${marble.color}:${marble.r}:${marble.id}:${font}:${quality}`;
-		if (sprites.has(key)) return sprites.get(key);
+		if (sprites.has(key)) return remember(sprites.get(key));
 		if (!spritePage) spritePage = createSpritePage();
 		let brush = spritePage.brush;
 		brush.font = font;
@@ -39,6 +57,7 @@ export function createRenderer(canvas) {
 			pixelHeight = Math.round(height * quality);
 		if (sprites.size >= 2048) {
 			sprites.clear();
+			recentSprites = [];
 			spritePage = createSpritePage();
 		}
 		if (spritePage.x + pixelWidth > spritePage.bitmap.width) {
@@ -63,7 +82,7 @@ export function createRenderer(canvas) {
 		spritePage.rowHeight = Math.max(spritePage.rowHeight, pixelHeight);
 		const sprite = { bitmap, x, y, pixelWidth, pixelHeight, width, height };
 		sprites.set(key, sprite);
-		return sprite;
+		return remember(sprite);
 	}
 
 	function createSpritePage(size = 1024) {
@@ -71,7 +90,7 @@ export function createRenderer(canvas) {
 		bitmap.width = bitmap.height = size;
 		return { bitmap, brush: bitmap.getContext('2d'), x: 0, y: 0, rowHeight: 0 };
 	}
-	function paintText(text, x, y, style, background = false) {
+	function textSprite(text, style, background = false) {
 		const key = `${style.font}:${style.color}:${background}:${textQuality}:${text}`;
 		let sprite = textSprites.get(key);
 		if (!sprite) {
@@ -101,6 +120,12 @@ export function createRenderer(canvas) {
 			if (textSprites.size >= 2048) textSprites.clear();
 			textSprites.set(key, sprite);
 		}
+		return sprite;
+	}
+	function paintText(text, x, y, style, background = false) {
+		paintTextSprite(textSprite(text, style, background), x, y);
+	}
+	function paintTextSprite(sprite, x, y) {
 		ctx.drawImage(
 			sprite.bitmap,
 			x - sprite.width / 2,
@@ -450,7 +475,9 @@ export function createRenderer(canvas) {
 			ripples = [];
 			lastTime = 0;
 			labels.clear();
+			labelFrames = [];
 			sprites.clear();
+			recentSprites = [];
 			spritePage = null;
 			textSprites.clear();
 			indexBlocks(race.blocks);
@@ -626,25 +653,37 @@ export function createRenderer(canvas) {
 			size: Number(numberFont.match(/([\d.]+)px/)[1]),
 			color: '#142736'
 		};
+
+		for (let i = 0; i < labelStyles.length; i++) {
+			if (labelFrames[i]?.font !== labelStyles[i].font || labelFrames[i]?.quality !== textQuality)
+				labelFrames[i] = { font: labelStyles[i].font, quality: textQuality, values: new Map() };
+		}
 		// 이름표 위로 구슬·번호·추적 표식이 보이게 한다.
 		for (const marble of renderMarbles) {
 			const isFocus = marble.id === Number(focusId);
 			if (!overview || isFocus) {
 				const style = labelStyles[Number(isFocus)];
-				const key = `${style.font}:${marble.name}`;
-				let label = labels.get(key);
+				const labelFrame = labelFrames[Number(isFocus)].values;
+				let label = labelFrame.get(marble.name);
 				if (!label) {
-					const chars = [...marble.name],
-						name = chars.length > 9 ? chars.slice(0, 8).join('') + '…' : marble.name;
-					ctx.font = style.font;
-					label = { name, width: ctx.measureText(name).width + 12 };
-					// 확대 중의 연속 글자 크기로 캐시가 무한히 늘지 않게 한다.
-					if (labels.size > 4096) labels.clear();
-					labels.set(key, label);
+					const key = `${style.font}:${marble.name}`;
+					label = labels.get(key);
+					if (!label) {
+						const chars = [...marble.name],
+							name = chars.length > 9 ? chars.slice(0, 8).join('') + '…' : marble.name;
+						ctx.font = style.font;
+						label = { name, width: ctx.measureText(name).width + 12 };
+						// 확대 중의 연속 글자 크기로 캐시가 무한히 늘지 않게 한다.
+						if (labels.size > 4096) labels.clear();
+						labels.set(key, label);
+					}
+					label = { ...label, sprite: textSprite(label.name, style, true) };
+					if (labelFrame.size >= 2048) labelFrame.clear();
+					labelFrame.set(marble.name, label);
 				}
-				const { name, width } = label;
+				const { width } = label;
 				const labelX = Math.max(width / 2 + 3, Math.min(WIDTH - width / 2 - 3, marble.x));
-				paintText(name, labelX, marble.y + 21 + style.size, style, true);
+				paintTextSprite(label.sprite, labelX, marble.y + 21 + style.size);
 			}
 		}
 		for (let index = 0; index < renderMarbles.length; index++) {

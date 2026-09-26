@@ -6,6 +6,7 @@
 	let root;
 	let columns = $state(2);
 	let scroll = $state(0);
+	let visible = $state(false);
 	const rowHeight = 204;
 	const nameSegments = new Intl.Segmenter('ko', { granularity: 'grapheme' });
 	function displayName(name) {
@@ -25,6 +26,10 @@
 	);
 	$effect(() => {
 		let resizeFrame;
+		const visibility = new IntersectionObserver(([entry]) => {
+			visible = entry.isIntersecting;
+		});
+		visibility.observe(root);
 		const observer = new ResizeObserver(([entry]) => {
 			const next = 2 * Math.max(1, Math.min(3, Math.floor((entry.contentRect.width + 12) / 212)));
 			cancelAnimationFrame(resizeFrame);
@@ -33,6 +38,7 @@
 		});
 		observer.observe(root);
 		return () => {
+			visibility.disconnect();
 			observer.disconnect();
 			cancelAnimationFrame(resizeFrame);
 		};
@@ -97,7 +103,7 @@
 						>
 					</span>
 					<span class="rank-card-body">
-						<MarbleIcon id={marble.id} color={marble.color} />
+						<MarbleIcon id={marble.id} color={marble.color} active={visible} />
 						<span class="rank-card-name">{displayName(marble.name)}</span>
 					</span>
 					<span class="rank-card-progress" aria-hidden="true">
@@ -116,6 +122,7 @@
 
 <style>
 	.ranking-grid {
+		content-visibility: auto;
 		overflow: auto;
 		overscroll-behavior: contain;
 		margin-top: var(--space-12);

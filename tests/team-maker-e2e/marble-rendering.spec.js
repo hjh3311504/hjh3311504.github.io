@@ -425,3 +425,44 @@ for (const width of [1440, 390]) {
 		}
 	});
 }
+
+test('화면 밖 순위의 구슬 그림은 멈추고 스크롤로 보이면 최신 번호를 그린다', async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.addInitScript(() => {
+		window.__rankPaints = 0;
+		const fill = CanvasRenderingContext2D.prototype.fillText;
+		CanvasRenderingContext2D.prototype.fillText = function (...args) {
+			if (this.canvas.classList.contains('marble-icon')) {
+				window.__rankPaints++;
+				this.canvas.dataset.paintedNumber = String(args[0]);
+			}
+			return fill.apply(this, args);
+		};
+	});
+	await page.goto('/marble-race');
+	expect(await page.locator('main').ariaSnapshot()).toContain('도착 순위');
+	await expect(start(page)).toBeEnabled();
+	await page.getByLabel('참가자 이름').fill('공*1000');
+	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
+	await start(page).click();
+	await expect(page.locator('.stage-state')).toHaveText('경기 중');
+	const grid = page.getByRole('region', { name: '구슬 도착 순위', exact: true });
+	await page.evaluate(() => window.scrollTo(0, 0));
+	await expect.poll(async () => (await grid.boundingBox()).y).toBeGreaterThan(844);
+	await page.waitForTimeout(100);
+	await page.evaluate(() => (window.__rankPaints = 0));
+	await page.waitForTimeout(500);
+	expect(await page.evaluate(() => window.__rankPaints)).toBe(0);
+	await grid.scrollIntoViewIfNeeded();
+	await expect.poll(() => page.evaluate(() => window.__rankPaints)).toBeGreaterThan(0);
+	await expect
+		.poll(() =>
+			grid.evaluate((root) =>
+				[...root.querySelectorAll('.rank-card')].every((card) => {
+					const number = card.getAttribute('aria-label').match(/, (\d+)번/)[1];
+					return card.querySelector('canvas').dataset.paintedNumber === number;
+				})
+			)
+		)
+		.toBe(true);
+});

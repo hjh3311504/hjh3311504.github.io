@@ -1,8 +1,9 @@
 <script>
 	import { drawMarble } from '../marble-painter.js';
-	let { id, color } = $props();
+	let { id, color, active = true } = $props();
 	let canvas;
 	$effect(() => {
+		if (!active) return;
 		const marble = { id, color, r: 18 };
 		let disposed = false;
 		const draw = () => {

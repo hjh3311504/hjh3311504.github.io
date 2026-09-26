@@ -499,7 +499,7 @@
 		audio.setOptions(soundEnabled, volume / 100);
 		if (soundEnabled) {
 			if (status === 'running') {
-				status = 'paused';
+				await pause();
 				await resume();
 			} else await audio.prepare(raceSoundTypes);
 		}
