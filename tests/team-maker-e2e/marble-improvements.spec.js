@@ -146,6 +146,7 @@ test('모바일 맵은1열이며 내 맵 모달의 선택 상자와 이동 버�
 
 test('인원 미리보기·미니맵 호버와 키보드 탐색은 이탈하면 자동 복귀한다', async ({ page }) => {
 	await enter(page);
+	await page.getByRole('button', { name: '미니맵', exact: true }).click();
 	const map = page.locator('.minimap-control');
 	await expect(page.locator('.race-minimap')).toHaveCSS('width', '100px');
 	const heightBefore = await page.locator('.race-minimap svg').getAttribute('viewBox');
@@ -317,6 +318,7 @@ test('미니맵은 결승·일시정지·전체화면에서도 탐색하고 현�
 	});
 	const speed = page.getByRole('button', { name: '경기 배속 전환' });
 	await expect(speed).toHaveText('0.25배속');
+	await page.getByRole('button', { name: '미니맵', exact: true }).click();
 	const map = page.locator('.minimap-control');
 	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeGreaterThan(4000);
 	await map.focus();
@@ -327,10 +329,9 @@ test('미니맵은 결승·일시정지·전체화면에서도 탐색하고 현�
 	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeGreaterThan(4000);
 	await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 	await expect(page.locator('.stage-state')).toHaveText('일시정지');
-	await page.getByRole('button', { name: '전체 맵', exact: true }).click();
 	await map.focus();
 	await map.press('Home');
-	await expect(page.getByRole('button', { name: '전체 맵', exact: true })).toBeVisible();
+	await expect(page.getByRole('button', { name: '미니맵', exact: true })).toBeVisible();
 	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeLessThan(2);
 	await page.getByRole('button', { name: '경기장 전체화면', exact: true }).click();
 	await expect(page.getByRole('button', { name: '전체화면 닫기' })).toBeVisible();
@@ -350,6 +351,7 @@ test('모바일 미니맵은 터치 이동·해제·취소를 처리하며 어�
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.emulateMedia({ colorScheme: 'dark' });
 	await enter(page);
+	await page.getByRole('button', { name: '미니맵', exact: true }).click();
 	const map = page.locator('.minimap-control');
 	await map.scrollIntoViewIfNeeded();
 	await expect(page.locator('.race-minimap')).toHaveCSS('width', '64px');
@@ -432,6 +434,126 @@ test('결과 복사 토스트는 레이아웃을 밀지 않고 사라지며 전�
 	await page.getByRole('button', { name: '전체화면 닫기' }).click();
 	await page.getByRole('button', { name: '도각도각 키보드', exact: true }).click();
 	await expect(toast).toBeEmpty();
+});
+
+test('상단 미니맵과 스킬 버튼은 폭과 간격을 유지하며 미니맵을 꺼도 배속을 유지한다', async ({
+	page
+}) => {
+	await screenRace(page);
+	await enter(page);
+	const toggle = page.locator('.minimap-toggle');
+	const map = page.locator('.minimap-control');
+	await expect(toggle).toHaveAccessibleName('미니맵');
+	await expect(toggle).toHaveText('미니맵OFF');
+	await toggle.click();
+	await expect(toggle).toHaveText('미니맵ON');
+	await expect(page.getByRole('button', { name: '전체 맵', exact: true })).toHaveCount(0);
+	await expect(page.locator('.canvas-wrap .minimap-toggle')).toHaveCount(0);
+	await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+	const panelId = await toggle.getAttribute('aria-controls');
+	await expect(page.locator('.race-minimap')).toHaveAttribute('id', panelId);
+	await toggle.scrollIntoViewIfNeeded();
+	const position = await toggle.boundingBox();
+	await expect(toggle).toHaveCSS('gap', '4px');
+	const skills = page.getByRole('button', { name: '스킬 사용', exact: true });
+	await expect(skills).toHaveCSS('gap', '4px');
+	const skillSize = await skills.boundingBox();
+	await skills.click();
+	await expect(skills).toHaveText('스킬 사용OFF');
+	expect(await skills.boundingBox()).toEqual(skillSize);
+	await skills.click();
+	await expect(skills).toHaveText('스킬 사용ON');
+	await toggle.click();
+	await expect(map).toBeHidden();
+	await expect(toggle).toHaveText('미니맵OFF');
+	await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+	expect(await toggle.boundingBox()).toEqual(position);
+	await toggle.press('Enter');
+	await expect(map).toBeVisible();
+	await toggle.press('Space');
+	await expect(map).toBeHidden();
+	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
+	await start(page).click();
+	await expect(page.locator('.stage-state')).toHaveText('경기 중');
+	await toggle.click();
+	await map.focus();
+	await map.press('Home');
+	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeLessThan(2);
+	await toggle.click();
+	await expect(map).toBeHidden();
+	await expect(toggle).toBeFocused();
+	await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('1배속');
+	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeGreaterThan(4000);
+});
+
+test('작은 경기장은 미니맵을 접고 선택한 상태는 크기와 전체화면 전환에도 유지한다', async ({
+	page
+}) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await enter(page);
+	const toggle = page.locator('.minimap-toggle');
+	const map = page.locator('.minimap-control');
+	await expect(toggle).toHaveText('미니맵OFF');
+	await expect(map).toBeHidden();
+	await toggle.click();
+	await expect(map).toBeVisible();
+	await page.setViewportSize({ width: 1440, height: 1000 });
+	await expect(map).toBeVisible();
+	await toggle.click();
+	await page.setViewportSize({ width: 844, height: 390 });
+	await expect(map).toBeHidden();
+	await page.getByRole('button', { name: '경기장 전체화면', exact: true }).click();
+	await expect(page.getByRole('button', { name: '전체화면 닫기' })).toBeVisible();
+	await expect(map).toBeHidden();
+	await toggle.click();
+	await expect(map).toBeVisible();
+	const fits = await page.locator('.race-minimap').evaluate((el) => {
+		const panel = el.getBoundingClientRect();
+		const canvas = el.parentElement.getBoundingClientRect();
+		return (
+			panel.left >= canvas.left &&
+			panel.right <= canvas.right &&
+			panel.top >= canvas.top &&
+			panel.bottom <= canvas.bottom
+		);
+	});
+	expect(fits).toBe(true);
+	await page.getByRole('button', { name: '전체화면 닫기' }).click();
+	await page.setViewportSize({ width: 320, height: 740 });
+	await expect(map).toBeVisible();
+	expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('미니맵은 기본 OFF이고 ON/OFF를 저장해 다른 화면 크기에서도 복원한다', async ({ page }) => {
+	await enter(page);
+	const toggle = page.getByRole('button', { name: '미니맵', exact: true });
+	const map = page.locator('.minimap-control');
+	await expect(toggle).toHaveText('미니맵OFF');
+	await expect(map).toBeHidden();
+	await toggle.click();
+	await expect
+		.poll(() =>
+			page.evaluate(() => JSON.parse(localStorage.getItem('lake.marble-race.v1'))?.minimapEnabled)
+		)
+		.toBe(true);
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.reload();
+	await expect(toggle).toHaveText('미니맵ON');
+	await expect(map).toBeVisible();
+	await toggle.click();
+	await expect
+		.poll(() =>
+			page.evaluate(() => JSON.parse(localStorage.getItem('lake.marble-race.v1'))?.minimapEnabled)
+		)
+		.toBe(false);
+	await page.setViewportSize({ width: 1440, height: 390 });
+	await page.reload();
+	await expect(toggle).toHaveText('미니맵OFF');
+	await expect(map).toBeHidden();
+	await page.getByRole('button', { name: '경기장 전체화면', exact: true }).click();
+	await expect(map).toBeHidden();
+	await page.getByRole('button', { name: '전체화면 닫기' }).click();
+	await expect(map).toBeHidden();
 });
 
 test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 안내를 제공한다', async ({ page }) => {

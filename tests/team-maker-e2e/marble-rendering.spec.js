@@ -352,18 +352,17 @@ for (const width of [1440, 390]) {
 	});
 }
 
-test('1000개 전체 맵에서 번호 캐시가 잘리지 않고 화면 크기에 맞는 비트맵을 사용한다', async ({
-	page
-}) => {
+test('1000개 구슬 추적에서도 번호가 캐시 안에 잘리지 않고 표시된다', async ({ page }) => {
 	await observeMarbleText(page);
 	await page.addInitScript(() => {
 		window.__glyphChecks = [];
 		window.__onMarbleText = (ctx, text, x, y, bitmap) => {
-			if (/^\d+$/.test(text) && bitmap) window.__glyphChecks.push(bitmap);
+			if (/^\d+$/.test(text) && bitmap)
+				window.__glyphChecks.push({ ...bitmap, text: String(text) });
 		};
 	});
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('전체 맵');
+	expect(await page.locator('main').ariaSnapshot()).toContain('미니맵');
 	await expect(start(page)).toBeEnabled();
 	await page.getByLabel('참가자 이름').fill('공*1000');
 	await expect(
@@ -374,17 +373,17 @@ test('1000개 전체 맵에서 번호 캐시가 잘리지 않고 화면 크기�
 		.getByRole('region', { name: '구슬 도착 순위', exact: true })
 		.getByRole('button')
 		.click();
-	await page.getByRole('button', { name: '전체 맵', exact: true }).click();
 	await page.evaluate(() => {
 		window.__glyphChecks = [];
 	});
 	await expect.poll(() => page.evaluate(() => window.__glyphChecks.length)).toBeGreaterThan(0);
+	await expect
+		.poll(() => page.evaluate(() => window.__glyphChecks.some((item) => item.text === '1000')))
+		.toBe(true);
 	const checks = await page.evaluate(() => window.__glyphChecks);
 	for (const bitmap of checks) {
 		expect(bitmap.top).toBeGreaterThanOrEqual(0);
 		expect(bitmap.bottom).toBeLessThanOrEqual(bitmap.height);
-		expect(bitmap.width).toBeLessThan(128);
-		expect(bitmap.height).toBeLessThan(128);
 	}
 });
 

@@ -227,7 +227,10 @@
 	border-radius: 6px;
 	padding: var(--space-8) var(--space-8);
 }
-.skill-toggle-state {
+.stage-actions .state-toggle {
+	gap: var(--space-4);
+}
+.toggle-state {
 	display: inline-block;
 	width: 2.2em;
 	flex-shrink: 0;

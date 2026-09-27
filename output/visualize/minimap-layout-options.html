@@ -1,0 +1,119 @@
+<style>
+#minimap-layout-options { --game-bg:light-dark(#10212e,#0c1924); --game-panel:light-dark(#183345,#162d3e); --game-line:#476477; --game-text:#ecf4f8; --game-muted:#a6bdcc; --game-key:#d6c9ad; font-family:system-ui,sans-serif; color:light-dark(#243340,#e6edf2); }
+#minimap-layout-options .proposal { margin:0 0 24px; }
+#minimap-layout-options h3 { margin:0 0 12px; font-size:16px; font-weight:500; }
+#minimap-layout-options .stage { position:relative; height:280px; overflow:hidden; background:var(--game-bg); border-radius:12px; color:var(--game-text); }
+#minimap-layout-options .scene { position:absolute; inset:0; width:100%; height:100%; }
+#minimap-layout-options .readout { position:absolute; top:12px; right:16px; color:var(--game-muted); font-size:12px; }
+#minimap-layout-options .dock { position:absolute; bottom:12px; left:12px; z-index:2; }
+#minimap-layout-options .map { display:block; width:100%; height:156px; background:var(--game-panel); }
+#minimap-layout-options .toggle { display:flex; align-items:center; justify-content:center; width:44px; height:44px; padding:0; border:1px solid var(--game-line); background:var(--game-panel); color:var(--game-text); border-radius:10px; }
+#minimap-layout-options .toggle:hover { background:#24495f; }
+#minimap-layout-options .toggle svg { width:20px; height:20px; }
+#minimap-layout-options .toggle .close-icon { display:none; }
+#minimap-layout-options .is-open .toggle .map-icon { display:none; }
+#minimap-layout-options .is-open .toggle .close-icon { display:inline-flex; }
+#minimap-layout-options .dock:not(.is-open) .map-panel { display:none; }
+#minimap-layout-options .integrated .dock { border:1px solid var(--game-line); border-radius:10px; background:var(--game-panel); overflow:hidden; }
+#minimap-layout-options .integrated .dock.is-open { width:80px; }
+#minimap-layout-options .integrated .map-panel { padding:6px; }
+#minimap-layout-options .integrated .toggle { border:0; border-radius:0; }
+#minimap-layout-options .integrated .is-open .toggle { width:100%; border-top:1px solid var(--game-line); }
+#minimap-layout-options .edge .dock { left:0; display:flex; align-items:flex-end; }
+#minimap-layout-options .edge .toggle { border-radius:0 10px 10px 0; }
+#minimap-layout-options .edge .map-panel { width:80px; padding:6px; border:1px solid var(--game-line); border-radius:10px; margin-left:4px; order:1; }
+#minimap-layout-options .round .toggle { border-radius:50%; }
+#minimap-layout-options .round .map-panel { width:92px; padding:6px; border:1px solid var(--game-line); border-radius:12px; margin-bottom:8px; }
+#minimap-layout-options .round .map { height:128px; }
+#minimap-layout-options .map-panel { background:var(--game-panel); }
+@media (min-width:600px) { #minimap-layout-options .proposal { display:grid; grid-template-columns:160px minmax(0,1fr); gap:20px; align-items:start; } #minimap-layout-options h3 { margin-top:8px; } }
+</style>
+<div id="minimap-layout-options" aria-label="미니맵 배치 비교">
+  <section class="proposal integrated" data-option="integrated" aria-label="A 패널 통합형">
+    <h3>A · 패널 통합형</h3>
+    <div class="stage" aria-label="경기장과 패널 통합형 미니맵 시안">
+      <span class="readout">경기 중 · 1배속</span>
+      <div class="dock is-open">
+        <div class="map-panel" id="map-option-a"></div>
+        <button class="toggle cursor-interaction" type="button" aria-label="미니맵 숨기기" aria-expanded="true" aria-controls="map-option-a"><span class="map-icon"><i data-lucide="map" aria-hidden="true"></i></span><span class="close-icon"><i data-lucide="chevron-down" aria-hidden="true"></i></span></button>
+      </div>
+    </div>
+  </section>
+  <section class="proposal edge" data-option="edge" aria-label="B 가장자리 손잡이형">
+    <h3>B · 가장자리 손잡이형</h3>
+    <div class="stage" aria-label="경기장과 가장자리 손잡이형 미니맵 시안">
+      <span class="readout">경기 중 · 1배속</span>
+      <div class="dock is-open">
+        <div class="map-panel" id="map-option-b"></div>
+        <button class="toggle cursor-interaction" type="button" aria-label="미니맵 숨기기" aria-expanded="true" aria-controls="map-option-b"><span class="map-icon"><i data-lucide="map" aria-hidden="true"></i></span><span class="close-icon"><i data-lucide="chevron-left" aria-hidden="true"></i></span></button>
+      </div>
+    </div>
+  </section>
+  <section class="proposal round" data-option="round" aria-label="C 원형 버튼형">
+    <h3>C · 원형 버튼형</h3>
+    <div class="stage" aria-label="경기장과 원형 버튼형 미니맵 시안">
+      <span class="readout">경기 중 · 1배속</span>
+      <div class="dock is-open">
+        <div class="map-panel" id="map-option-c"></div>
+        <button class="toggle cursor-interaction" type="button" aria-label="미니맵 숨기기" aria-expanded="true" aria-controls="map-option-c"><span class="map-icon"><i data-lucide="map" aria-hidden="true"></i></span><span class="close-icon"><i data-lucide="chevron-down" aria-hidden="true"></i></span></button>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+(() => {
+ const root=document.getElementById('minimap-layout-options');
+ const state={ integrated:true, edge:true, round:true };
+ const NS='http://www.w3.org/2000/svg';
+ function shape(tag,attrs,parent) { const el=document.createElementNS(NS,tag); Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v))); parent.appendChild(el); return el; }
+ function drawStage(stage) {
+  const svg=shape('svg',{class:'scene',viewBox:'0 0 440 280',preserveAspectRatio:'xMidYMid slice','aria-hidden':'true'},stage);
+  stage.prepend(svg);
+  for(let x=20;x<440;x+=24) for(let y=16;y<280;y+=24) shape('circle',{cx:x,cy:y,r:0.7,fill:'#345164'},svg);
+  for(let row=0;row<5;row++) for(let col=0;col<15;col++) {
+   if((row*3+col*7)%9<2) continue;
+   shape('rect',{x:18+col*27+(row%2)*7,y:52+row*30,width:21,height:16,rx:4,fill:'var(--game-key)'},svg);
+   shape('rect',{x:22+col*27+(row%2)*7,y:55+row*30,width:13,height:10,rx:2,fill:'none',stroke:'#9b8e78','stroke-width':1},svg);
+  }
+  [[180,95,'#aab0ec'],[255,152,'#a4e0d1'],[316,205,'#e6c394'],[355,77,'#8abfdf']].forEach(([x,y,color],i)=>{
+   shape('circle',{cx:x,cy:y,r:11,fill:color},svg);
+   shape('circle',{cx:x-3,cy:y-3,r:3,fill:'#fff',opacity:0.55},svg);
+   const text=shape('text',{x,y:y+4,'text-anchor':'middle',fill:'#172a36','font-size':11},svg); text.textContent=String(i+1);
+  });
+  shape('path',{d:'M12 220 L130 278 M428 220 L310 278',fill:'none',stroke:'#587887','stroke-width':4},svg);
+ }
+ function drawMap(panel) {
+  const svg=shape('svg',{class:'map',viewBox:'0 0 70 156',preserveAspectRatio:'none',role:'img','aria-label':'전체 경기장과 현재 위치'},panel);
+  ['#9c987e','#739999','#798eaa','#a695b9'].forEach((color,row)=>{
+   for(let r=0;r<4;r++) for(let c=0;c<7;c++) shape('rect',{x:3+c*9,y:8+row*34+r*6,width:6,height:3,rx:1,fill:color},svg);
+  });
+  shape('rect',{x:2,y:39,width:66,height:28,rx:2,fill:'none',stroke:'#eaf4fa','stroke-width':1.5},svg);
+  [[18,46],[34,57],[52,48]].forEach(([cx,cy])=>shape('circle',{cx,cy,r:1.8,fill:'#d9eef8'},svg));
+ }
+ const proposals=[...root.querySelectorAll('.proposal')];
+ function restore(saved) {
+  const values=saved?.privateContent?.open;
+  if(values) Object.keys(state).forEach(key=>{if(typeof values[key]==='boolean') state[key]=values[key];});
+ }
+ function render(){
+  proposals.forEach(proposal=>{
+   const open=state[proposal.dataset.option];
+   proposal.querySelector('.dock').classList.toggle('is-open',open);
+   const button=proposal.querySelector('button');
+   button.setAttribute('aria-expanded',String(open));
+   button.setAttribute('aria-label',open?'미니맵 숨기기':'미니맵 보기');
+  });
+ }
+ proposals.forEach(proposal=>{
+  drawStage(proposal.querySelector('.stage'));
+  drawMap(proposal.querySelector('.map-panel'));
+  proposal.querySelector('button').addEventListener('click',()=>{
+   state[proposal.dataset.option]=!state[proposal.dataset.option];render();
+   window.openai?.setWidgetState?.({privateContent:{open:{...state}},modelContent:{비교안:['패널 통합형','가장자리 손잡이형','원형 버튼형']}})?.catch(()=>{});
+  });
+ });
+ restore(window.openai?.widgetState);render();
+ window.addEventListener('openai:set_globals',event=>{restore(event.detail?.globals?.widgetState);render();});
+ if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:render});tweak.addToggle(state,'integrated',{label:'A 펼치기'});tweak.addToggle(state,'edge',{label:'B 펼치기'});tweak.addToggle(state,'round',{label:'C 펼치기'});}
+})();
+</script>

@@ -12,10 +12,10 @@
 		status,
 		speed,
 		skillsEnabled,
+		minimapEnabled = $bindable(false),
 		ready,
 		copyNotice,
 		fatalError,
-		overview = $bindable(),
 		fullscreen,
 		reduced,
 		race,
@@ -52,6 +52,21 @@
 		inspectMap,
 		stopInspecting
 	} = $props();
+	let compactMinimap = $state(true);
+	let minimapToggle = $state();
+	const minimapId = $props.id();
+	$effect(() => {
+		if (!canvas) return;
+		const observer = new ResizeObserver(([entry]) => {
+			compactMinimap = entry.contentRect.width <= 600 || entry.contentRect.height <= 400;
+		});
+		observer.observe(canvas);
+		return () => observer.disconnect();
+	});
+	function toggleMinimap() {
+		minimapEnabled = !minimapEnabled;
+		minimapToggle?.focus();
+	}
 </script>
 
 <section class="race-stage" bind:this={stage} aria-label="구슬 경기장">
@@ -85,7 +100,7 @@
 				disabled={!ready || status !== 'ready' || Boolean(parsed.error || fatalError)}
 				>자리섞기</Button
 			><Button
-				class="skill-toggle"
+				class="skill-toggle state-toggle"
 				aria-label="스킬 사용"
 				aria-pressed={skillsEnabled}
 				title={status === 'ready'
@@ -93,9 +108,19 @@
 					: '경기를 종료하고 출발 준비 화면에서 변경해 주세요.'}
 				disabled={!ready || status !== 'ready'}
 				onclick={toggleSkills}
-				>스킬 사용 <span class="skill-toggle-state">{skillsEnabled ? 'ON' : 'OFF'}</span></Button
-			><Button aria-pressed={overview} onclick={() => (overview = !overview)}
-				>{overview ? '따라가기' : '전체 맵'}</Button
+			>
+				<span>스킬 사용</span><span class="toggle-state">{skillsEnabled ? 'ON' : 'OFF'}</span
+				></Button
+			><Button
+				class="minimap-toggle state-toggle"
+				bind:element={minimapToggle}
+				aria-label="미니맵"
+				aria-pressed={minimapEnabled}
+				aria-controls={minimapId}
+				disabled={!ready || !race}
+				onclick={toggleMinimap}
+				><span>미니맵</span><span class="toggle-state">{minimapEnabled ? 'ON' : 'OFF'}</span
+				></Button
 			><Button
 				onclick={toggleFullscreen}
 				aria-label={fullscreen ? '전체화면 닫기' : '경기장 전체화면'}
@@ -121,7 +146,9 @@
 		<RaceMinimap
 			race={displayRace ?? race}
 			{view}
-			{overview}
+			id={minimapId}
+			visible={minimapEnabled}
+			compact={compactMinimap}
 			oninspect={inspectMap}
 			onleave={stopInspecting}
 		/><WinnerPanel winners={selectedWinners} {celebrating} {reduced} />

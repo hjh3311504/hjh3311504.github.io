@@ -1,5 +1,5 @@
 <script>
-	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
+	import { Button, DisclosureSection, Surface } from '$lib/components/ui';
 	import { BLOCKS, ACTIVE_BLOCK_TYPES, SPECIAL_TYPES } from '../catalog.js';
 	import { SKILL_TYPES } from '../skills.js';
 	import BlockThumbnail from '../BlockThumbnail.svelte';
@@ -12,12 +12,8 @@
 	];
 </script>
 
-<Section variant="card" class="block-library library-panel" aria-labelledby="block-library-title">
-	<SectionHeader
-		title="도감"
-		titleId="block-library-title"
-		description="미리듣기와 경기에서 같은 소리를 사용해요."
-	/>
+<DisclosureSection title="도감" titleId="block-library-title" class="block-library library-panel">
+	<p class="library-description">미리듣기와 경기에서 같은 소리를 사용해요.</p>
 	<p class="library-legend">
 		<span class="inclusion-label">포함</span> 선택한 맵에 들어 있는 블록이에요.
 	</p>
@@ -55,12 +51,17 @@
 			</div>
 		</section>
 	{/each}
-</Section>
+</DisclosureSection>
 
 <style>
 	:global(.library-panel) {
-		padding: var(--space-28);
 		margin-top: var(--space-36);
+	}
+	.library-description {
+		margin: 0;
+		color: var(--ui-text-muted);
+		font-size: var(--font-size-14);
+		line-height: 1.6;
 	}
 	.library-group {
 		margin-top: var(--space-24);
@@ -156,10 +157,5 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-	}
-	@media (max-width: 760px) {
-		:global(.library-panel) {
-			padding: var(--space-20);
-		}
 	}
 </style>

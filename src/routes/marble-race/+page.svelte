@@ -59,13 +59,13 @@
 		loadingFrom = $state('ready'),
 		speed = $state(1),
 		skillsEnabled = $state(true),
+		minimapEnabled = $state(false),
 		ready = $state(false),
 		message = $state(''),
 		copyNotice = $state(null),
 		fatalError = $state(''),
 		audioFailed = $state(false),
 		focusId = $state('-1'),
-		overview = $state(false),
 		inspectionY = $state(null),
 		fullscreen = $state(false),
 		reduced = $state(false);
@@ -192,7 +192,6 @@
 		});
 		renderer.render(displayRace, {
 			focusId: cinematic?.active ? cinematic.focusId : focusId,
-			overview,
 			skillsEnabled,
 			reduced,
 			view,
@@ -292,7 +291,6 @@
 		speed = 1;
 		inspectionY = null;
 		focusId = '-1';
-		overview = false;
 		query = '';
 		message = '';
 		copyNotice = null;
@@ -545,7 +543,6 @@
 	}
 	function inspectMap(y) {
 		inspectionY = y;
-		overview = false;
 	}
 	function stopInspecting() {
 		inspectionY = null;
@@ -567,6 +564,7 @@
 			nth,
 			soundEnabled,
 			skillsEnabled,
+			minimapEnabled,
 			volume
 		};
 		if (ready) writer.schedule(settings, JSON.parse(JSON.stringify(customMaps)));
@@ -588,7 +586,6 @@
 	});
 	$effect(() => {
 		focusId;
-		overview;
 		if (ready && status !== 'running') untrack(() => draw());
 	});
 	onMount(() => {
@@ -614,6 +611,7 @@
 			nth,
 			soundEnabled,
 			skillsEnabled,
+			minimapEnabled,
 			volume,
 			customMaps,
 			message
@@ -739,10 +737,10 @@
 					{status}
 					{speed}
 					{skillsEnabled}
+					bind:minimapEnabled
 					{ready}
 					{copyNotice}
 					{fatalError}
-					bind:overview
 					{fullscreen}
 					{reduced}
 					{race}

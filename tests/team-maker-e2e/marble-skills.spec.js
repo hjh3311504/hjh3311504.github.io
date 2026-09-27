@@ -7,20 +7,20 @@ test('스킬은 준비 중에만 바꾸고 경기·일시정지 중에는 시작
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('스킬 사용');
 	const toggle = page.getByRole('button', { name: '스킬 사용', exact: true });
-	await expect(toggle).toHaveText('스킬 사용 ON');
+	await expect(toggle).toHaveText('스킬 사용ON');
 	await expect(toggle).toHaveAttribute('aria-pressed', 'true');
 	await toggle.click();
-	await expect(toggle).toHaveText('스킬 사용 OFF');
+	await expect(toggle).toHaveText('스킬 사용OFF');
 	await expect
 		.poll(() =>
 			page.evaluate(() => JSON.parse(localStorage.getItem('lake.marble-race.v1'))?.skillsEnabled)
 		)
 		.toBe(false);
 	await page.reload();
-	await expect(toggle).toHaveText('스킬 사용 OFF');
+	await expect(toggle).toHaveText('스킬 사용OFF');
 	await toggle.focus();
 	await page.keyboard.press('Space');
-	await expect(toggle).toHaveText('스킬 사용 ON');
+	await expect(toggle).toHaveText('스킬 사용ON');
 	await expect(toggle).toHaveAttribute('aria-pressed', 'true');
 	await expect
 		.poll(() =>
@@ -28,7 +28,7 @@ test('스킬은 준비 중에만 바꾸고 경기·일시정지 중에는 시작
 		)
 		.toBe(true);
 	await page.reload();
-	await expect(toggle).toHaveText('스킬 사용 ON');
+	await expect(toggle).toHaveText('스킬 사용ON');
 	await page.getByLabel('참가자 이름').fill('토끼*30');
 	await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
@@ -40,7 +40,7 @@ test('스킬은 준비 중에만 바꾸고 경기·일시정지 중에는 시작
 		.toBeGreaterThan(0);
 	await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('1배속');
 	await expect(toggle).toBeDisabled();
-	await expect(toggle).toHaveText('스킬 사용 ON');
+	await expect(toggle).toHaveText('스킬 사용ON');
 	await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 	await expect(toggle).toBeDisabled();
 	await page.setViewportSize({ width: 360, height: 844 });
@@ -54,14 +54,14 @@ test('스킬은 준비 중에만 바꾸고 경기·일시정지 중에는 시작
 	await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
 	await expect(toggle).toBeEnabled();
 	await toggle.click();
-	await expect(toggle).toHaveText('스킬 사용 OFF');
+	await expect(toggle).toHaveText('스킬 사용OFF');
 	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 	await expect(page.locator('.stage-state')).toHaveText('경기 중');
 	await expect(toggle).toBeDisabled();
 	await expect.poll(() => page.evaluate(() => window.__raceState?.time ?? 0)).toBeGreaterThan(3);
 	expect(await page.evaluate(() => window.__raceState.skillWaves)).toEqual([]);
 	await page.reload();
-	await expect(toggle).toHaveText('스킬 사용 OFF');
+	await expect(toggle).toHaveText('스킬 사용OFF');
 });
 
 test('도감의3종 스킬과 실제 발동에서 같은 효과음을 재생한다', async ({ page }) => {

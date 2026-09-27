@@ -37,7 +37,7 @@ for (const width of [320, 360, 390, 768, 1440]) {
 		await expectToolbarInside(page);
 		const skill = page.getByRole('button', { name: '스킬 사용', exact: true });
 		await skill.click();
-		await expect(skill).toHaveText('스킬 사용 OFF');
+		await expect(skill).toHaveText('스킬 사용OFF');
 		await expectToolbarInside(page);
 		await skill.click();
 		await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
@@ -104,8 +104,8 @@ test('겹친 이름표보다 구슬을 앞에 그리고 추적 이름은 이름�
 	// 미니맵은 입구 회전판1개를 실제 물리 배치대로 표시한다.
 	await expect(page.locator('.race-minimap rect[fill="#00e5ed"]')).toHaveCount(1);
 	await page.locator('.race-stage').screenshot({ path: '.context/marble-mobile-labels.png' });
-	await page.getByRole('button', { name: '전체 맵', exact: true }).click();
+	await page.getByRole('button', { name: '미니맵', exact: true }).click();
 	await expect
 		.poll(() => page.evaluate(() => window.__labelDraws?.filter((text) => text.startsWith('겹침'))))
-		.toEqual(['겹침둘']);
+		.toEqual(['겹침하나', '겹침셋', '겹침둘']);
 });

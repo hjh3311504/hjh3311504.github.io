@@ -1,8 +1,22 @@
 <script>
 	import { blockAngle, arcStart } from '../physics.js';
 	import { BLOCKS } from '../catalog.js';
-	let { race, view, overview = false, oninspect = () => {}, onleave = () => {} } = $props();
+	let {
+		race,
+		view,
+		id,
+		visible = true,
+		compact = false,
+		oninspect = () => {},
+		onleave = () => {}
+	} = $props();
 	let map = $state();
+	$effect(() => {
+		if (!visible) {
+			pressed = false;
+			onleave();
+		}
+	});
 	const blockGroups = new WeakMap();
 	let groups = $derived.by(() => {
 		if (!race) return { connectors: [], finale: [] };
@@ -29,7 +43,7 @@
 		return () => observer.disconnect();
 	});
 	$effect(() => {
-		if (!dots || !race || !dimensions.width || !dimensions.height) return;
+		if (!visible || !dots || !race || !dimensions.width || !dimensions.height) return;
 		view; // 표시 좌표가 갱신된 프레임에 구슬도 함께 그린다.
 		const ctx = dots.getContext('2d');
 		const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -100,7 +114,7 @@
 </script>
 
 {#if race}
-	<div class="race-minimap">
+	<div class="race-minimap" class:compact {id} hidden={!visible}>
 		<button
 			class="minimap-control"
 			bind:this={map}
@@ -182,27 +196,25 @@
 						/>
 					{/if}{/each}
 				<rect
-					x={overview ? 0 : Math.max(0, view.left)}
-					y={overview ? 0 : view.top}
-					width={overview ? 720 : Math.min(720, view.right) - Math.max(0, view.left)}
-					height={overview
-						? race.layout.height
-						: Math.min(race.layout.height, view.bottom) - view.top}
+					x={Math.max(0, view.left)}
+					y={view.top}
+					width={Math.min(720, view.right) - Math.max(0, view.left)}
+					height={Math.min(race.layout.height, view.bottom) - view.top}
 					fill="none"
 					stroke="white"
 					stroke-width="2"
 					vector-effect="non-scaling-stroke"
 				/>
 			</svg><canvas bind:this={dots} class="minimap-dots" aria-hidden="true"></canvas></button
-		><span aria-hidden="true">구역 탐색</span>
+		>
 	</div>
 {/if}
 
 <style>
 	.race-minimap {
 		position: absolute;
-		left: 10px;
-		bottom: 12px;
+		left: var(--space-12);
+		bottom: var(--space-12);
 		width: 100px;
 		height: min(300px, calc(100% - 24px));
 		pointer-events: auto;
@@ -212,11 +224,17 @@
 		padding: var(--space-4);
 		z-index: 2;
 	}
+	.race-minimap.compact {
+		left: var(--space-8);
+		bottom: var(--space-8);
+		width: 64px;
+		height: min(220px, calc(100% - 16px));
+	}
 	.minimap-control {
 		position: relative;
 		display: block;
 		width: 100%;
-		height: calc(100% - 20px);
+		height: 100%;
 		padding: 0;
 		border: 0;
 		background: transparent;
@@ -238,22 +256,5 @@
 		width: 100%;
 		height: 100%;
 		pointer-events: none;
-	}
-	span {
-		display: block;
-		text-align: center;
-		color: var(--color-white);
-		font-size: var(--font-size-12);
-	}
-	@media (max-width: 600px) {
-		.race-minimap {
-			width: 64px;
-			height: min(220px, calc(100% - 12px));
-			left: 5px;
-			bottom: 5px;
-		}
-		span {
-			font-size: var(--font-size-12);
-		}
 	}
 </style>

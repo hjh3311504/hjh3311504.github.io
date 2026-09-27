@@ -48,6 +48,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 		await expect(page.locator('.stage-state')).toHaveText('일시정지');
 		const stats = await page.locator('.race-stats').innerText();
+		await page.getByRole('button', { name: '미니맵', exact: true }).click();
 		// 일시정지 중에도 미니맵 탐색과 카메라 보간은 가능하다. 물리 위치만 고정한다.
 		const positions = () => page.locator('.minimap-dots').evaluate((canvas) => canvas.toDataURL());
 		const pausedPositions = await positions();
@@ -181,7 +182,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 			await expect(speed).toHaveText('2배속');
 			await canvas.tap();
 			await expect(speed).toHaveText('1배속');
-			await page.getByRole('button', { name: '전체 맵', exact: true }).tap();
+			await page.getByRole('button', { name: '미니맵', exact: true }).tap();
 			await expect(speed).toHaveText('1배속');
 			expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 				true
