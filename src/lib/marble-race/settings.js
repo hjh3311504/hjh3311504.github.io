@@ -46,6 +46,7 @@ export function readSettings(storage) {
 		nth: 1,
 		soundEnabled: true,
 		skillsEnabled: true,
+		minimapEnabled: false,
 		volume: 45
 	};
 	let customMaps = [],
@@ -66,6 +67,7 @@ export function readSettings(storage) {
 			defaults.rangeText =
 				typeof saved.rangeText === 'string' ? saved.rangeText : `1~${defaults.count}`;
 			if (typeof saved.skillsEnabled === 'boolean') defaults.skillsEnabled = saved.skillsEnabled;
+			if (typeof saved.minimapEnabled === 'boolean') defaults.minimapEnabled = saved.minimapEnabled;
 			if (typeof saved.soundEnabled === 'boolean') defaults.soundEnabled = saved.soundEnabled;
 			if (Number.isFinite(saved.volume)) defaults.volume = Math.max(0, Math.min(100, saved.volume));
 		}
