@@ -335,9 +335,9 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 
 ### ASMR 구슬 레이스 검색·공유 정보
 
-- 화면 이름은 **ASMR 구슬 레이스**, 검색 제목은 **ASMR 구슬 레이스 | 무료 구슬 추첨기·랜덤 뽑기**다.
+- 화면 이름은 **ASMR 구슬 레이스**, 검색 제목은 **ASMR 구슬 레이스 | 마블룰렛 방식의 무료 구슬 추첨기**다. [검색 문구와 본문 보강 결정](docs/adr/2026-09-28-구슬-추첨-검색-문구와-본문-보강.md)을 따른다.
 - 검색 설명·공유 정보·구조화 데이터와 가이드 내용은 `src/lib/marble-race/page-content.js`에서 관리한다. `RaceGuide.svelte`는 공용 `DisclosureSection`으로 사용법·당첨 방식·수업/방송 활용·FAQ를 표시한다.
-- 가이드는 JavaScript 실행 전의 정적 HTML에 포함한다. robots와 sitemap의 기존 공개 경로를 유지하며 검색·AI 답변에 노출될 순위나 시점은 보장하지 않는다.
+- 화면 소개·홈 카드·사용법·FAQ에 마블룰렛 방식의 구슬 추첨 용도를 설명한다. 앱 이름과 제작자 정보는 유지한다. 가이드는 JavaScript 실행 전의 정적 HTML에 포함한다. robots와 sitemap의 기존 공개 경로를 유지하며 검색·AI 답변에 노출될 순위나 시점은 보장하지 않는다.
 - 공유 이미지는 `scripts/generate_site_assets.js`에서 생성한다. 변경 뒤 `npm run generate:assets`와 build 검증을 실행한다.
 - 화면 읽기용 경기·당첨 안내는 경기장 내부에 둔다. `.marble-page .sr-only`가 적용되어 화면에는 숨겨지고 전체화면에서도 읽을 수 있다.
 

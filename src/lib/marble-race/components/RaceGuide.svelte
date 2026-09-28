@@ -1,15 +1,12 @@
 <script>
 	import { resolve } from '$app/paths';
 	import { DisclosureSection } from '$lib/components/ui';
-	import { guideSteps, drawMethods, faqs } from '../page-content.js';
+	import { guideIntro, guideSteps, drawMethods, faqs } from '../page-content.js';
 </script>
 
 <div class="marble-guide" data-testid="marble-race-guide">
 	<DisclosureSection title="ASMR 구슬 추첨기 사용법" titleId="marble-guide-title">
-		<p class="guide-intro">
-			ASMR 구슬 레이스는 이름을 넣고 블록이 깨지는 소리를 들으며 당첨자를 뽑는 무료 온라인
-			추첨기입니다. 수업 발표자 뽑기, 방송 이벤트, 모임의 순서 정하기에 활용할 수 있습니다.
-		</p>
+		<p class="guide-intro">{guideIntro}</p>
 		<ol class="guide-grid">
 			{#each guideSteps as step (step.title)}<li>
 					<h3>{step.title}</h3>
