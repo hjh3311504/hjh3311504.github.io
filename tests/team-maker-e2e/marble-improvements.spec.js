@@ -559,13 +559,17 @@ test('미니맵은 기본 OFF이고 ON/OFF를 저장해 다른 화면 크기에�
 test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 안내를 제공한다', async ({ page }) => {
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('ASMR 구슬 추첨기 사용법');
-	await expect(page).toHaveTitle('ASMR 구슬 레이스 | 무료 구슬 추첨기·랜덤 뽑기');
+	await expect(page).toHaveTitle('ASMR 구슬 레이스 | 마블룰렛 방식의 무료 구슬 추첨기');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('ASMR 구슬 레이스');
+	await expect(page.locator('.tool-page-header')).toContainText('마블룰렛 방식의 무료 구슬 추첨기');
 	await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
 		'content',
 		/marble-race-open-graph-1200x630.png$/
 	);
 	const guide = page.getByTestId('marble-race-guide');
+	await expect(
+		guide.getByRole('heading', { name: '마블룰렛 방식으로 이름을 추첨하려면 어떻게 하나요?' })
+	).toBeVisible();
 	await expect(guide.locator('details[open]')).toHaveCount(4);
 	await guide.getByText('자주 묻는 질문', { exact: true }).click();
 	await expect(
@@ -586,11 +590,23 @@ test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 
 	await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).click();
 	await expect(page.getByRole('region', { name: '일시정지', exact: true })).toBeVisible();
 	await expect(page.locator('.stage-state')).toHaveText('일시정지');
-	await page.setViewportSize({ width: 390, height: 844 });
 	await page.emulateMedia({ colorScheme: 'dark' });
-	await guide.scrollIntoViewIfNeeded();
-	await expect(guide).toBeVisible();
-	expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
-		true
-	);
+	for (const width of [320, 390, 1440]) {
+		await page.setViewportSize({ width, height: 844 });
+		await guide.scrollIntoViewIfNeeded();
+		await expect(guide).toBeVisible();
+		expect(
+			await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)
+		).toBe(true);
+		const clippedText = await page
+			.locator('.tool-page-header p, .guide-intro, .guide-faq h3, .guide-faq p')
+			.evaluateAll((elements) =>
+				elements.some(
+					(element) =>
+						element.scrollWidth > element.clientWidth ||
+						element.scrollHeight > element.clientHeight + 1
+				)
+			);
+		expect(clippedText).toBe(false);
+	}
 });

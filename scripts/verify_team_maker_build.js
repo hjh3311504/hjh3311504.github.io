@@ -5,6 +5,8 @@ import { verifyTeamMakerCss } from './verify_team_maker_css.js';
 import { publishedLicenses } from './licenses.js';
 import {
 	pageName,
+	pageDescription as marblePageDescription,
+	guideIntro as marbleGuideIntro,
 	seoTitle as marbleTitle,
 	seoDescription as marbleDescription,
 	pageUrl as marbleUrl,
@@ -462,7 +464,10 @@ for (const marker of [
 	`<title>${marbleTitle}</title>`,
 	`name="description" content="${marbleDescription}"`,
 	`property="og:title" content="${marbleTitle}"`,
+	`property="og:description" content="${marbleDescription}"`,
 	`property="og:image" content="${marbleImage}"`,
+	`name="twitter:title" content="${marbleTitle}"`,
+	`name="twitter:description" content="${marbleDescription}"`,
 	`name="twitter:card" content="summary_large_image"`,
 	`name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"`
 ]) {
@@ -472,6 +477,21 @@ const marbleJson = marbleHtml.match(/<script type="application\/ld\+json">([^<]+
 if (!marbleJson) throw new Error('ASMR 구슬 레이스 구조화 데이터가 없습니다.');
 const marbleGraph = JSON.parse(marbleJson[1])['@graph'];
 const marbleApp = marbleGraph.find((item) => item['@type'] === 'WebApplication');
+const marblePage = marbleGraph.find((item) => item['@type'] === 'WebPage');
+if (
+	marblePage?.url !== marbleUrl ||
+	marblePage?.name !== marbleTitle ||
+	marblePage?.description !== marbleDescription
+)
+	throw new Error('구슬 레이스 페이지 정보와 검색 정보가 일치하지 않습니다.');
+if (!marbleTitle.includes('마블룰렛') || !marbleDescription.includes('마블룰렛'))
+	throw new Error('구슬 추첨 검색 문구가 제목 또는 설명에 없습니다.');
+const marbleMain = marbleHtml.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
+for (const text of [marblePageDescription, marbleGuideIntro]) {
+	if (!marbleMain?.includes(text))
+		throw new Error(`정적 본문에 구슬 추첨 소개가 없습니다: ${text}`);
+}
+if (!homeHtml.includes('마블룰렛 방식')) throw new Error('홈에 구슬 추첨 용도 안내가 없습니다.');
 if (
 	marbleApp?.url !== marbleUrl ||
 	marbleApp?.name !== pageName ||

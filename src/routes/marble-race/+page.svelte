@@ -39,6 +39,7 @@
 	import RaceGuide from '$lib/marble-race/components/RaceGuide.svelte';
 	import {
 		pageName,
+		pageDescription,
 		seoTitle,
 		seoDescription,
 		pageUrl,
@@ -708,7 +709,7 @@
 		class="marble-page"
 		maxWidth="1550px"
 		title={pageName}
-		description="이름을 넣고 소리로 즐기는 무료 구슬 추첨기. 수업 발표자부터 방송 이벤트 당첨자까지 뽑아 보세요."
+		description={pageDescription}
 	>
 		<div class="marble-layout">
 			<RaceSettings
