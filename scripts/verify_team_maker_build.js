@@ -42,10 +42,7 @@ for (const file of requiredFiles) {
 }
 
 const removedOutputs = [
-	'build/blog.html',
-	'build/blog',
-	'build/rss.xml',
-	'build/team-maker',
+	'build/team-maker/index.html',
 	'build/images/features',
 	'build/images/sample-image.png',
 	'build/images/site-preview.png',

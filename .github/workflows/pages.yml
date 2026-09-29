@@ -29,6 +29,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build site
+        env:
+          # PR은 외부로 전송하지 않는 예약 도메인·가짜 ID로 수집 동작을 검사한다.
+          PUBLIC_GA_MEASUREMENT_ID: ${{ github.event_name == 'pull_request' && 'G-TEST000001' || vars.PUBLIC_GA_MEASUREMENT_ID }}
+          PUBLIC_ANALYTICS_ORIGIN: ${{ github.event_name == 'pull_request' && 'https://analytics.example' || vars.PUBLIC_ANALYTICS_ORIGIN }}
         run: npm run build
       - name: Verify site output
         run: npm run verify:team-maker
@@ -215,7 +219,7 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
-      - name: Check public tool URLs
+      - name: Check public site URLs
         env:
           ROOT_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
@@ -223,3 +227,6 @@ jobs:
           test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/team-maker")" = "200"
           test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/qr-code")" = "200"
           test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/marble-race")" = "200"
+          for route in blog rss.xml sitemap.xml; do
+            test "$(curl --fail --silent --show-error --retry 5 --retry-delay 5 --output /dev/null --write-out '%{http_code}' "${ROOT_URL%/}/$route")" = "200"
+          done

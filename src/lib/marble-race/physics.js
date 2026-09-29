@@ -308,6 +308,7 @@ export function createMap(
 					zoneId: 'finale',
 					soundType: 'rubber',
 					deviceId: 'finale-guide',
+					silent: true,
 					extendEnds: true,
 					friction: 0,
 					cornerRadius: 6
@@ -337,16 +338,28 @@ export function createSpatialIndex(blocks) {
 	blocks.forEach((block, order) => {
 		const radius =
 			Math.hypot(block.w, block.h) / 2 + (block.orbitRadius ?? 0) + (block.motion?.amplitude ?? 0);
+		// 고정 블록은 실제 회전된 사각형 범위만 등록한다. 대각선 길이를 양쪽 축에
+		// 쓰면 얇고 긴 블록에서 멀리 떨어진 구슬도 매 단계 충돌 후보를 검사한다.
+		const fixed =
+			block.type !== 'rotor' &&
+			block.type !== 'seesaw' &&
+			!block.arc &&
+			block.orbitRadius === undefined &&
+			!block.motion;
+		const c = Math.abs(Math.cos(block.angle)),
+			s = Math.abs(Math.sin(block.angle));
+		const extentX = fixed ? (c * block.w + s * block.h) / 2 + 1e-9 : radius,
+			extentY = fixed ? (s * block.w + c * block.h) / 2 + 1e-9 : radius;
 		const centerX = block.motion?.originX ?? block.pivotX ?? block.x,
 			centerY = block.pivotY ?? block.y;
 		for (
-			let y = Math.floor((centerY - radius) / CELL);
-			y <= Math.floor((centerY + radius) / CELL);
+			let y = Math.floor((centerY - extentY) / CELL);
+			y <= Math.floor((centerY + extentY) / CELL);
 			y++
 		)
 			for (
-				let x = Math.floor((centerX - radius) / CELL);
-				x <= Math.floor((centerX + radius) / CELL);
+				let x = Math.floor((centerX - extentX) / CELL);
+				x <= Math.floor((centerX + extentX) / CELL);
 				x++
 			) {
 				let row = cells.get(y);

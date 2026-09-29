@@ -1,0 +1,127 @@
+.blog-prose {
+	min-width: 0;
+	overflow-wrap: anywhere;
+	font-size: var(--font-size-18);
+	line-height: 1.9;
+}
+.blog-prose > * + * {
+	margin-top: var(--space-20);
+}
+.blog-prose :is(h2, h3, h4, h5, h6) {
+	margin-top: var(--space-40);
+	margin-bottom: var(--space-16);
+	line-height: 1.5;
+	scroll-margin-top: var(--space-72);
+}
+.blog-prose h2 {
+	font-size: var(--font-size-24);
+}
+.blog-prose h3 {
+	font-size: var(--font-size-20);
+}
+.blog-prose :is(h4, h5, h6) {
+	font-size: var(--font-size-18);
+}
+.blog-prose > :first-child {
+	margin-top: 0;
+}
+.blog-prose :is(ul, ol) {
+	padding-left: var(--space-24);
+}
+.blog-prose li + li {
+	margin-top: var(--space-8);
+}
+.blog-prose li > :is(ul, ol) {
+	margin-top: var(--space-8);
+}
+.blog-prose blockquote {
+	margin-left: 0;
+	margin-right: 0;
+	padding: var(--space-16) var(--space-20);
+	border-left: 4px solid var(--ui-border-strong);
+	background: var(--ui-surface-soft);
+	border-radius: 8px;
+}
+.blog-prose blockquote > :first-child {
+	margin-top: 0;
+}
+.blog-prose blockquote > :last-child {
+	margin-bottom: 0;
+}
+.blog-prose blockquote > * + * {
+	margin-top: var(--space-12);
+}
+.blog-prose img {
+	max-width: 100%;
+	height: auto;
+	margin-right: auto;
+	margin-left: auto;
+	border-radius: 8px;
+}
+.blog-prose figure {
+	width: 100%;
+	max-width: 400px;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: auto;
+}
+.blog-prose figure img {
+	width: 100%;
+}
+.blog-prose figcaption {
+	margin-top: var(--space-8);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.7;
+	text-align: center;
+}
+.blog-prose code {
+	font-size: var(--font-size-16);
+	background: var(--ui-surface-soft);
+	padding: var(--space-2) var(--space-4);
+	border-radius: 4px;
+}
+.blog-prose pre {
+	margin: 0;
+	padding: var(--space-20);
+	background: var(--ui-surface-soft);
+	overflow-x: visible;
+}
+.blog-prose pre code {
+	padding: 0;
+	white-space: pre;
+}
+.blog-prose .blog-table-scroll,
+.blog-prose .blog-code-scroll {
+	max-width: 100%;
+	overflow-x: auto;
+	border: 1px solid var(--ui-border);
+	border-radius: 8px;
+}
+.blog-prose table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--font-size-16);
+}
+.blog-prose :is(th, td) {
+	min-width: 160px;
+	padding: var(--space-12) var(--space-16);
+	text-align: left;
+	border-bottom: 1px solid var(--ui-border);
+}
+.blog-prose th {
+	background: var(--ui-surface-soft);
+}
+.blog-prose hr {
+	border: 0;
+	border-top: 1px solid var(--ui-border);
+}
+.blog-prose :is(a, [tabindex]):focus-visible {
+	outline: 2px solid var(--ui-focus);
+	outline-offset: 2px;
+}
+@media (max-width: 760px) {
+	.blog-prose {
+		font-size: var(--font-size-16);
+	}
+}

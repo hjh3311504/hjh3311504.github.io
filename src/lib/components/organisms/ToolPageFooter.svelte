@@ -1,9 +1,17 @@
 <script>
+	import { resolve } from '$app/paths';
+	let { showRss = false } = $props();
 	import PrivacyDialog from './PrivacyDialog.svelte';
 </script>
 
 <footer class="tool-page-footer">
-	<PrivacyDialog />
+	{#if showRss}
+		<div class="footer-links">
+			<PrivacyDialog /><a href={resolve('/rss.xml')} data-sveltekit-reload>RSS 구독</a>
+		</div>
+	{:else}
+		<PrivacyDialog />
+	{/if}
 	<span>© 2026 Lake's develog</span>
 </footer>
 
@@ -18,5 +26,22 @@
 		color: var(--shell-text-muted);
 		font-size: var(--font-size-12);
 		line-height: 1.7;
+	}
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-16);
+	}
+	.footer-links > a {
+		color: inherit;
+		text-decoration: underline;
+		text-decoration-color: currentColor;
+		text-decoration-thickness: auto;
+		text-underline-offset: 3px;
+	}
+	a:focus-visible {
+		outline: 2px solid var(--ui-focus);
+		outline-offset: 2px;
 	}
 </style>

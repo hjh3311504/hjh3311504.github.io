@@ -5,7 +5,6 @@ import { isSkillVisible } from './skill-visibility.js';
 const MAX_VOICES = 6;
 
 const soundVersion = {
-	clicky: 'v6',
 	typewriter: 'v5',
 	slime: 'v3',
 	sand: 'v5',

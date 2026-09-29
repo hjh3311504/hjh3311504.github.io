@@ -9,6 +9,7 @@ import {
 	SOUND_TYPES
 } from '../../src/lib/marble-race/catalog.js';
 import { SOUND_FILES, createAudio } from '../../src/lib/marble-race/audio.js';
+import { createRace, collision, hitBlock, blockAngle } from '../../src/lib/marble-race/physics.js';
 
 function fixture(fetchFile, options = {}) {
 	const sources = [],
@@ -85,8 +86,8 @@ function fixture(fetchFile, options = {}) {
 }
 
 test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니다', () => {
-	assert.equal(BREAKABLE_TYPES.length, 19);
-	assert.equal(SOUND_TYPES.length, 27);
+	assert.equal(BREAKABLE_TYPES.length, 18);
+	assert.equal(SOUND_TYPES.length, 26);
 	const hashes = new Set();
 	for (const files of Object.values(SOUND_FILES)) {
 		assert.ok(files.length === 1 || files.length === 2);
@@ -98,7 +99,6 @@ test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니�
 			assert.equal(
 				data.readUInt32LE(24),
 				file.includes('-v5-') ||
-					file.includes('clicky-v6-') ||
 					/thock[234]-v[1-6]/.test(file) ||
 					file.includes('-ai-') ||
 					file.includes('crack-A') ||
@@ -123,7 +123,7 @@ test('선택한 음원과 보존 음원은 유효한 WAV이며 무음이 아니�
 		hashes.add(pair.join(','));
 	}
 	assert.deepEqual(SOUND_FILES.rubber, SOUND_FILES.popit);
-	assert.equal(hashes.size, 25);
+	assert.equal(hashes.size, 24);
 });
 test('크랙 왁스는 파괴 전 충돌부터 두 음원을 교대하며 장치음과 함께 왁스3개까지 재생한다', async () => {
 	const { audio, context, sources, requests } = fixture();
@@ -178,30 +178,50 @@ test('장치 충돌은 팝잇 두 소리를 번갈아 쓰며 장치3개·100ms �
 	assert.equal(sources[4].buffer, SOUND_FILES.popit[0]);
 	audio.destroy();
 });
-test('무음 골인 통로 벽은 소리 후보나 동시 재생 자리를 차지하지 않는다', async () => {
+test('결승 경사벽·골인 통로는 충돌해도 무음이며 회전판 소리를 막지 않는다', async () => {
 	const { audio, sources } = fixture();
-	await audio.prepare(['rubber', 'butter']);
-	const pin = { type: 'rubber', soundType: 'rubber', x: 360, y: 100, silent: true, impact: 1000 };
-	assert.equal(audio.playCollision(pin), false);
-	assert.equal(audio.playCollisions([pin]), false);
+	await audio.prepare(['rubber']);
+	const race = createRace(['가', '나']);
+	const marble = race.marbles[0];
+	const collide = (id) => {
+		const block = race.blocks.find((block) => block.id === id);
+		const angle = blockAngle(block, race.time);
+		const nx = Math.sin(angle),
+			ny = -Math.cos(angle);
+		const distance = block.h / 2 + marble.r - 1;
+		Object.assign(marble, {
+			x: block.x + nx * distance,
+			y: block.y + ny * distance,
+			vx: -nx * 200,
+			vy: -ny * 200
+		});
+		marble.contacts.clear();
+		const hit = collision(marble, block, race.time);
+		assert.ok(hit, `${id}: 실제 충돌`);
+		hitBlock(race, marble, block, hit);
+		assert.ok(marble.vx * nx + marble.vy * ny >= 0, `${id}: 반동 유지`);
+		const event = race.events.at(-1);
+		assert.equal(event.blockId, id);
+		return event;
+	};
+	const walls = ['finale-guide--1', 'finale-guide-1', 'chute--1', 'chute-1'].map(collide);
+	for (const event of walls) assert.equal(audio.playCollision(event), false);
+	assert.equal(audio.playCollisions(walls), false);
 	assert.equal(sources.length, 0);
-	assert.equal(
-		audio.playCollisions([pin, { ...pin, type: 'butter', soundType: 'butter', silent: false }]),
-		true
-	);
+	assert.equal(audio.playCollisions([...walls, collide('finale-bar')]), true);
 	assert.equal(sources.length, 1);
-	assert.equal(sources[0].buffer, SOUND_FILES.butter[0]);
+	assert.equal(sources[0].buffer, SOUND_FILES.popit[0]);
 	audio.destroy();
 });
 test('선택한 재질만 불러오고 동시 요청과 재시작에서 캐시를 공유한다', async () => {
 	const { audio, requests } = fixture();
 	assert.deepEqual(
-		await Promise.all([audio.prepare(['thock', 'clicky']), audio.prepare(['thock'])]),
+		await Promise.all([audio.prepare(['thock', 'thock2']), audio.prepare(['thock'])]),
 		[true, true]
 	);
-	assert.deepEqual(requests, [...SOUND_FILES.thock, ...SOUND_FILES.clicky]);
-	await audio.prepare(['clicky']);
-	assert.deepEqual(requests, [...SOUND_FILES.thock, ...SOUND_FILES.clicky]);
+	assert.deepEqual(requests, [...SOUND_FILES.thock, ...SOUND_FILES.thock2]);
+	await audio.prepare(['thock2']);
+	assert.deepEqual(requests, [...SOUND_FILES.thock, ...SOUND_FILES.thock2]);
 	audio.destroy();
 });
 test('화면 범위의 충돌음을 재생하고 경계 전환만으로 잔향을 끊지 않는다', async () => {
@@ -274,7 +294,7 @@ test('미리듣기도 동시에3개를 넘게 재생하지 않는다', async () 
 });
 
 test('모든 활성 일반 블록은 재질당3개와28ms 간격을 따른다', async () => {
-	assert.equal(ACTIVE_BLOCK_TYPES.length, 12);
+	assert.equal(ACTIVE_BLOCK_TYPES.length, 11);
 	for (const type of ACTIVE_BLOCK_TYPES) {
 		const limit = 3;
 		const { audio, context, sources } = fixture();
@@ -350,8 +370,8 @@ test('질감·장치의 재생 간격은 경기 배속과 별개인 오디오 �
 });
 test('같은 프레임의 재질을 순환하고 생략된 충돌을 나중에 몰아서 재생하지 않는다', async () => {
 	const { audio, context, sources } = fixture();
-	await audio.prepare(['thock', 'clicky', 'typewriter', 'popit']);
-	const events = ['popit', 'thock', 'clicky'].flatMap((type) =>
+	await audio.prepare(['thock', 'thock2', 'typewriter', 'popit']);
+	const events = ['popit', 'thock', 'thock2'].flatMap((type) =>
 		Array.from({ length: 20 }, () => ({ type, x: 360, y: 400, impact: 100 }))
 	);
 	for (let i = 0; i < 6; i++) {
@@ -360,8 +380,15 @@ test('같은 프레임의 재질을 순환하고 생략된 충돌을 나중에 �
 		sources.at(-1).onended();
 	}
 	assert.deepEqual(
-		sources.map((s) => s.buffer.split('/').pop().split('-')[0]),
-		['thock', 'clicky', 'popit', 'thock', 'clicky', 'popit']
+		sources.map((source) => source.buffer),
+		[
+			SOUND_FILES.thock[0],
+			SOUND_FILES.thock2[0],
+			SOUND_FILES.popit[0],
+			SOUND_FILES.thock[1],
+			SOUND_FILES.thock2[1],
+			SOUND_FILES.popit[1]
+		]
 	);
 	context.currentTime = 1;
 	assert.equal(audio.playCollisions([]), false);
@@ -466,13 +493,9 @@ test('유지한 슬라임은 대부분의 구간에 눌림 질감이 이어진�
 		}
 });
 
-// 사용자가 고른 청축 B·타자기 A·샌드 A·왁뿌볼 B의 원본 후보 해시다.
-test('이전 승인 후보8개 파일은 다시 활성화할 수 있도록 보존한다', () => {
+// 사용자가 고른 타자기 A·샌드 A·왁뿌볼 B의 원본 후보 해시다.
+test('이전 승인 후보6개 파일은 다시 활성화할 수 있도록 보존한다', () => {
 	const approved = {
-		clicky: [
-			'7c1e10edd0576d9277f4a2f0ee7f02d1966d03dfcbca408966838619d80e972e',
-			'67d52eaf3ee79b57f957b64ae773e2d6fe00efe5d7f49e7f39d392cee8db03ad'
-		],
 		typewriter: [
 			'40814ea4848412f3aef4f2ef28fbf8931930a943bb0c928c596b0a6c905a904a',
 			'7ee761b53cfa2d7e6f98a7527092db55320d83a33dceda3e2d4ebc85a68b6489'
@@ -501,10 +524,6 @@ test('이전 승인 후보8개 파일은 다시 활성화할 수 있도록 보�
 });
 
 test('승인된 크랙 A 파일과 선택 키보드를 도감·경기에서 같은 경로로 불러온다', async () => {
-	assert.deepEqual(SOUND_FILES.clicky, [
-		'/audio/marble-race/clicky-v6-1.wav',
-		'/audio/marble-race/clicky-v6-2.wav'
-	]);
 	assert.deepEqual(SOUND_FILES.waxball, ['/audio/marble-race/waxball-crack-A.wav']);
 	const bytes = readFileSync(new URL('../../static' + SOUND_FILES.waxball[0], import.meta.url));
 	assert.equal(
@@ -512,37 +531,13 @@ test('승인된 크랙 A 파일과 선택 키보드를 도감·경기에서 같�
 		'23f9dbd1f186201661edc7fa7261572d5b818ba244e72cf9489ab692f25d1594'
 	);
 	const { audio, requests } = fixture();
-	await audio.prepare(['clicky', 'waxball', 'rubber']);
+	await audio.prepare(['thock2', 'waxball', 'rubber']);
 	assert.deepEqual(requests, [
-		...SOUND_FILES.clicky,
+		...SOUND_FILES.thock2,
 		...SOUND_FILES.waxball,
 		...SOUND_FILES.rubber
 	]);
 	audio.destroy();
-});
-
-test('찰칵 키보드는 C의 독립된 두 타건과 눌림·복귀 구간을 유지한다', () => {
-	const hashes = [
-		'4c710fe46206817e0d2b5bba0ddf359e294f1d44ae55d0976e014bdbf83d1dc8',
-		'81ec902b54a8f846a7a901f22fb6cc3b55cd3615743d3d3c1fb8a138e30ea245'
-	];
-	const levels = SOUND_FILES.clicky.map((file, index) => {
-		const data = readFileSync(new URL('../../static' + file, import.meta.url));
-		assert.equal(createHash('sha256').update(data).digest('hex'), hashes[index]);
-		assert.equal(data.readUInt16LE(22), 1);
-		const samples = Array.from(
-			{ length: (data.length - 44) / 2 },
-			(_, i) => data.readInt16LE(44 + i * 2) / 32768
-		);
-		assert.ok(Math.abs(samples.length / 48000 - [0.237, 0.251][index]) < 2 / 48000);
-		const rms = (values) =>
-			Math.sqrt(values.reduce((sum, value) => sum + value ** 2, 0) / values.length);
-		// 각 파일에 눌림과 복귀가 함께 남아야 한다.
-		assert.ok(rms(samples.slice(0, 2400)) > 0.02);
-		assert.ok(rms(samples.slice(3360, 5760)) > 0.02);
-		return rms(samples);
-	});
-	assert.ok(Math.abs(20 * Math.log10(levels[0] / levels[1])) < 2);
 });
 
 test('타자기는 선택 파일을 공유하고 길이를 유지한다', async () => {
@@ -831,10 +826,10 @@ test('서로 다른 재질·장치·미리듣기가 전체6개를 공유하고 �
 	const { audio, context, sources } = fixture(undefined, {
 		onDiagnostic: (event) => diagnostic.push(event)
 	});
-	await audio.prepare(['thock', 'clicky', 'popit', 'rubber', 'fanfare']);
-	for (const type of ['thock', 'thock', 'thock', 'clicky', 'clicky', 'rubber']) {
+	await audio.prepare(['thock', 'thock2', 'popit', 'rubber', 'fanfare']);
+	for (const type of ['thock', 'thock', 'thock', 'thock2', 'thock2', 'rubber']) {
 		context.currentTime += 0.1;
-		assert.equal(audio.play(type, 360, type === 'clicky'), true);
+		assert.equal(audio.play(type, 360, type === 'thock2'), true);
 	}
 	context.currentTime += 0.1;
 	assert.equal(audio.play('thock'), false);

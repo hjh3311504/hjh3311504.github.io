@@ -1,4 +1,7 @@
 <script>
+	import ProgramPosts from '$lib/blog/ProgramPosts.svelte';
+	export let data;
+
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
@@ -308,6 +311,7 @@
 					</div>
 				</DisclosureSection>
 			</div>
+			<ProgramPosts posts={data.blogPosts} />
 			<ToolPageFooter />
 		</ToolPageLayout>
 		<BulkAddDialog />

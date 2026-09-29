@@ -1,4 +1,7 @@
 <script>
+	import ProgramPosts from '$lib/blog/ProgramPosts.svelte';
+	let { data } = $props();
+
 	import QrDialogs from '$lib/qr-code/components/QrDialogs.svelte';
 	import QrSaveDialog from '$lib/qr-code/components/QrSaveDialog.svelte';
 	import QrGuide from '$lib/qr-code/components/QrGuide.svelte';
@@ -391,6 +394,7 @@
 			/>
 		</div>
 		<QrGuide />
+		<ProgramPosts posts={data.blogPosts} />
 		<ToolPageFooter />
 	</ToolPageLayout>
 	<QrSaveDialog bind:this={saveDialog} />

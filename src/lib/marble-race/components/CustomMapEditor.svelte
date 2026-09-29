@@ -6,12 +6,12 @@
 	let dialog = $state();
 	let editing = $state(null),
 		name = $state('내 맵'),
-		layers = $state(['thock', 'clicky', 'wood', 'popit']),
+		layers = $state(['thock', 'thock2', 'wood', 'popit']),
 		error = $state('');
 	function open(map) {
 		editing = map?.id ?? null;
 		name = map?.name ?? `내 맵 ${maps.length + 1}`;
-		layers = [...(map?.layers ?? ['thock', 'clicky', 'wood', 'popit'])];
+		layers = [...(map?.layers ?? ['thock', 'thock2', 'wood', 'popit'])];
 		error = '';
 		dialog.showModal();
 	}

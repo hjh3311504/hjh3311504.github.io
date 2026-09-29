@@ -156,6 +156,24 @@
 			{#if active === 'home'}<span class="current-badge">현재</span>{/if}
 		</Button>
 
+		<Button
+			class={active === 'blog' ? 'active' : ''}
+			href={resolve('/blog')}
+			variant="ghost"
+			aria-current={active === 'blog' ? 'page' : undefined}
+		>
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				aria-hidden="true"><path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5" /></svg
+			>
+			<span>블로그</span>{#if active === 'blog'}<span class="current-badge">현재</span>{/if}
+		</Button>
+
 		<div class="nav-group-label">프로젝트</div>
 		<div class="project-links">
 			<Button

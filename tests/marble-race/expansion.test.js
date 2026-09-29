@@ -327,11 +327,11 @@ test('도각 네 종류의 새 맵과 저장을 연결하고 도각4는 파괴 �
 	assert.equal(block.alive, false);
 });
 
-test('저장한 불씨 구역만 찰칵으로 바꾸고 맵 선택·명단·다른 구역을 보존한다', () => {
+test('저장한 불씨·찰칵 구역만 도각1로 바꾸고 맵 선택·명단·다른 구역을 보존한다', () => {
 	const oldMap = {
 		id: 'custom-ember',
 		name: '내 나무공방',
-		layers: ['wood', 'ember', 'cork', 'ember']
+		layers: ['wood', 'ember', 'cork', 'clicky']
 	};
 	const loaded = readSettings({
 		getItem: (key) =>
@@ -345,10 +345,11 @@ test('저장한 불씨 구역만 찰칵으로 바꾸고 맵 선택·명단·다�
 	assert.equal(loaded.mapId, oldMap.id);
 	assert.equal(loaded.volume, 35);
 	assert.equal(loaded.customMaps[0].name, oldMap.name);
-	assert.deepEqual(loaded.customMaps[0].layers, ['wood', 'clicky', 'cork', 'clicky']);
+	assert.deepEqual(loaded.customMaps[0].layers, ['wood', 'thock', 'cork', 'thock']);
 	assert.deepEqual(resolveMap(oldMap).layers, loaded.customMaps[0].layers);
 	assert.equal(oldMap.layers[1], 'ember');
 	const race = createRace(['토끼', '오리'], loaded.customMaps[0]);
-	assert.ok(race.blocks.every((block) => block.type !== 'ember'));
+	assert.ok(race.blocks.every((block) => !['ember', 'clicky'].includes(block.type)));
 	assert.equal(resolveMap(oldMap).types.includes('ember'), false);
+	assert.equal(resolveMap(oldMap).types.includes('clicky'), false);
 });

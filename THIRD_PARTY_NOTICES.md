@@ -18,6 +18,12 @@
 
 MIT 적용 제외는 해당 자료에 GPL을 새로 적용하거나 별도의 재사용 허락을 부여한다는 뜻이 아닙니다. 제외된 이미지·설계 자료를 따로 재사용하려면 해당 자료의 이용 조건을 확인하세요. 일반 문서에서 외부 자료를 인용한 부분에도 원저작자의 권리가 유지됩니다.
 
+## 블로그 사용 화면
+
+`static/images/blog/qr-code/`의 `input.png`, `preview.png`, `print.png`, `bookmarks.png`와 `static/images/blog/marble-race/`의 `participants.png`, `maps.png`, `draw.png`, `race.png`, `results.png`는2026-09-29 현재 사이트에서 직접 촬영한 사용 화면입니다. QR 코드에는 사이트의 공개 블로그 주소를, 구슬 레이스에는 가상 참가자6명을 사용했습니다. 각 기능 영역을 촬영했으며 도착 순위는 목록의 상단만 담았습니다. 화면의 자체 코드와 글꼴은 위 적용 조건을 따릅니다.
+
+`static/images/blog/team-maker/`의 `participants.png`, `settings.png`, `results.png`, `rules.png`, `rosters.png`는2026-09-29 현재 사이트에서 직접 촬영한 사용 화면입니다. 가상 참가자10명을 사용했습니다. 좁은 화면에서 다시 촬영했으며 참가자 입력과 배정 결과는 핵심 부분만 담았습니다. 화면의 자체 코드와 글꼴은 위 적용 조건을 따릅니다.
+
 ## 템플릿 이력
 
 이 저장소는 Matheus Fantinel의 [SvelteKit Static Blog Template](https://github.com/matfantinel/sveltekit-static-blog-template)에서 시작했습니다. 첫 commit `c0100a6`의 템플릿과 과거 버전은 당시의 GPLv3 및 개별 자료의 조건을 그대로 따릅니다. 원본 제작자가 현재 사이트를 운영하거나 보증한다는 뜻은 아닙니다.
@@ -67,9 +73,9 @@ QR 생성에는 [qrcode](https://github.com/soldair/node-qrcode)와 브라우저
 
 Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [구슬 레이스 음원 출처](docs/marble-audio-sources.md)에 기록한다. 정적 음원 폴더의 선택 JSON은 파일과 출처·라이선스·해시 정보를 제공한다.
 
-버터는 기존 왁뿌볼 파일, 젤리 연못은 기존 물풍선 파일을 재사용한다. 팡파레는 [Tada Fanfare A — plasterbrain / Freesound Community](https://pixabay.com/sound-effects/tada-fanfare-a-6313/)다.
+크랙 왁스와 젤리 연못의 현재 음원은 아래 직접 제작 확인 목록을 따른다. 팡파레는 [Tada Fanfare A — plasterbrain / Freesound Community](https://pixabay.com/sound-effects/tada-fanfare-a-6313/)다.
 
-찰칵 키보드 C의 `clicky-v6-1.wav`·`clicky-v6-2.wav`는 MattRuthSound의 [One Keypress 006](https://freesound.org/people/MattRuthSound/sounds/561699/)·[007](https://freesound.org/people/MattRuthSound/sounds/561698/)을 바탕으로 한 변형음이다. [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따르며 프로젝트 MIT 라이선스에 포함하지 않는다. 배포 음원의 `clicky-selection.json`에도 출처를 제공한다.
+찰칵 키보드 C의 `clicky-v6-1.wav`·`clicky-v6-2.wav`는 과거 버전에서 MattRuthSound의 [One Keypress 006](https://freesound.org/people/MattRuthSound/sounds/561699/)·[007](https://freesound.org/people/MattRuthSound/sounds/561698/)을 바탕으로 사용한 변형음이다. [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따르며 프로젝트 MIT 라이선스에 포함하지 않는다. 현재 찰칵 키보드 음원과 `clicky-selection.json`은 배포에서 제거했다. 이 고지는 과거 버전의 출처 기록으로 유지한다.
 
 ### 도각 키보드2 보존 음원
 
@@ -80,3 +86,7 @@ Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [�
 `thock4-v6-1.wav`·`thock4-v6-2.wav`는 dinamakan의 [Thocky Keyboard Sound Effect](https://pixabay.com/sound-effects/film-special-effects-thocky-keyboard-sound-effect-264568/)를 사용한다. 원음은 Pixabay Content License로 제공되며 프로젝트 MIT 라이선스와 구분한다.
 
 원형 파동의 `pulse-whoosh-deep-v2.wav`는 ksjsbwuil의 [Whoosh Deep Short](https://pixabay.com/sound-effects/technology-whoosh-deep-short-513923/)를 사용하며 Pixabay Content License를 따른다.
+
+### 직접 제작 확인 음원
+
+2026-09-28 제작자 Lake(hjh3311504)는 `thock3-v3-1.wav`·`thock3-v3-2.wav`·`thock2-v1.wav`·`thock3-v2.wav`·`wrap-pop-ai-v1.wav`·`asmr-lava-ai-v1.wav`·`wax-crack-v1-1.wav`·`wax-crack-v1-2.wav`·`frost-freeze-v1.wav`·`lightning-v1.wav`·`gust-v1.wav`의11개 파일을 직접 제작했다고 확인했다. 상세 대응은 [음원 출처](docs/marble-audio-sources.md)의 직접 제작 목록을 따른다. 이 확인만으로 프로젝트의 코드 MIT 범위를 음원까지 확장하거나 별도 재사용 허락을 새로 부여하지 않는다.

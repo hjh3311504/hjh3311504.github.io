@@ -9,12 +9,13 @@
 		"build": "vite build",
 		"postbuild": "npm run optimize-images",
 		"preview": "sirv build --dev",
-		"test": "npm run test:team-maker && node --test tests/qr-code/*.test.js && node --test tests/marble-race/*.test.js",
+		"test": "npm run test:analytics && npm run test:team-maker && node --test tests/qr-code/*.test.js && node --test tests/marble-race/*.test.js && npm run test:blog",
+		"test:analytics": "node --test tests/analytics/*.test.js",
 		"test:team-maker": "node --test tests/team-maker/*.test.js",
 		"pretest:e2e:team-maker": "npm run build",
 		"test:e2e:team-maker": "env -u NO_COLOR playwright test",
 		"test:e2e:built": "env -u NO_COLOR playwright test",
-		"verify:team-maker": "node scripts/verify_team_maker_build.js",
+		"verify:team-maker": "node scripts/verify_team_maker_build.js && npm run verify:blog",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
@@ -22,7 +23,9 @@
 		"optimize-images": "node scripts/optimize_images.js",
 		"test:marble-race": "node --test tests/marble-race/*.test.js",
 		"check:ui": "node scripts/check_ui.js",
-		"test:ui": "node --test tests/ui/*.test.js"
+		"test:ui": "node --test tests/ui/*.test.js",
+		"test:blog": "node --test tests/blog/*.test.js",
+		"verify:blog": "node scripts/verify_blog_build.js && node scripts/verify_blog_render.js"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
@@ -36,6 +39,7 @@
 		"eslint-plugin-svelte": "^3.23.0",
 		"globals": "^17.11.0",
 		"jsqr": "^1.4.0",
+		"markdown-it": "^14.3.2",
 		"postcss": "^8.5.28",
 		"postcss-value-parser": "^4.2.0",
 		"prettier": "^3.9.6",
@@ -46,7 +50,8 @@
 		"svelte-check": "^4.7.6",
 		"typescript": "^6.0.3",
 		"vite": "^8.2.2",
-		"wawoff2": "^2.0.1"
+		"wawoff2": "^2.0.1",
+		"yaml": "^2.9.1"
 	},
 	"type": "module",
 	"homepage": "https://hjh3311504.github.io",

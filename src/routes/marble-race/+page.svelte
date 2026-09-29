@@ -1,4 +1,7 @@
 <script>
+	import ProgramPosts from '$lib/blog/ProgramPosts.svelte';
+	let { data } = $props();
+
 	import RaceRanking from '$lib/marble-race/components/RaceRanking.svelte';
 	import RaceStage from '$lib/marble-race/components/RaceStage.svelte';
 	import RaceSettings from '$lib/marble-race/components/RaceSettings.svelte';
@@ -808,6 +811,7 @@
 			onpreview={previewSound}
 		/>
 		<RaceGuide />
+		<ProgramPosts posts={data.blogPosts} />
 		<ToolPageFooter />
 	</ToolPageLayout>
 </SiteShell>

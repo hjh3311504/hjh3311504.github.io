@@ -36,7 +36,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		await expect(page.getByRole('heading', { name: '도감' })).toBeVisible();
 		await expect(
 			page.locator('[aria-labelledby=block-library-title] .block-card button')
-		).toHaveCount(15);
+		).toHaveCount(14);
 		await page.getByRole('button', { name: /^도각도각 키보드$/ }).click();
 		await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 		await expect(page.locator('.stage-state')).toHaveText('경기 중');
@@ -252,7 +252,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		expect(result.played.wallTime - result.earliest.wallTime).toBeLessThan(80);
 		expect(result.played.event.time - result.earliest.event.time).toBeLessThanOrEqual(0.08);
 	});
-	test('실제 결승 장치 충돌은 팝잇 재생으로 연결된다', async ({ page }) => {
+	test('결승 경사벽은 무음이고 회전판 충돌은 팝잇 재생으로 연결된다', async ({ page }) => {
 		test.setTimeout(140000);
 		await startObservedRace(page);
 		await page.getByRole('button', { name: '경기 배속 전환', exact: true }).click();
@@ -280,6 +280,7 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 		});
 		expect(result.collided).toBe(true);
 		expect(result.started).toBe(true);
+		expect(result.played.event.blockId).toBe('finale-bar');
 		expect(SOUND_FILES.popit).toContain(result.played.file);
 	});
 	test('자동 카메라는 결승 연출 전까지 위로 돌아가지 않고 확대 비율을 유지한다', async ({
@@ -517,16 +518,12 @@ test('물풍선은 제외하고 코르크·나무는 도감과 맵에서 같은 
 		await page.getByRole('button', { name: new RegExp(`${name} 소리 미리듣기`) }).click();
 		await played(type);
 	}
-	await waitForPreviewEnd();
-	await page.getByRole('button', { name: /찰칵 키보드 소리 미리듣기/ }).click();
-	await played('clicky');
-	await expect
-		.poll(() => requests.filter((url) => /clicky-v6-[12]\.wav$/.test(url)).length)
-		.toBe(2);
+	await expect(page.getByRole('button', { name: /찰칵 키보드 소리 미리듣기/ })).toHaveCount(0);
+	expect(requests.some((url) => url.includes('clicky'))).toBe(false);
 	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 });
 
-test('일반12종과 특수3종을 실제 경기 이미지로 표시하고 각 맵의 음원만 준비한다', async ({
+test('일반11종과 특수3종을 실제 경기 이미지로 표시하고 각 맵의 음원만 준비한다', async ({
 	page
 }) => {
 	const requests = [];
@@ -540,7 +537,7 @@ test('일반12종과 특수3종을 실제 경기 이미지로 표시하고 각 �
 			'도감'
 		);
 		const pictures = page.locator('[aria-labelledby=block-library-title] .block-card img');
-		await expect(pictures).toHaveCount(15);
+		await expect(pictures).toHaveCount(14);
 		await expect
 			.poll(() =>
 				pictures.evaluateAll((images) =>
@@ -549,7 +546,7 @@ test('일반12종과 특수3종을 실제 경기 이미지로 표시하고 각 �
 			)
 			.toBe(true);
 		const sources = await pictures.evaluateAll((images) => images.map((img) => img.src));
-		expect(new Set(sources).size).toBe(15);
+		expect(new Set(sources).size).toBe(14);
 		expect(sources.every((src) => src.startsWith('data:image/png;base64,'))).toBe(true);
 		await page.getByRole('button', { name: map.name, exact: true }).click();
 		await expect(page.locator('.map-material').filter({ hasText: '포함' })).toHaveCount(4);

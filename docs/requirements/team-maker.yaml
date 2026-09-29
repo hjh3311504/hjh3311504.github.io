@@ -151,13 +151,13 @@
   design_status: approved
   design_ref: [screens/SCR-WEB-002.md]
 - id: REQ-WEB-020
-  text: 루트, 팀 메이커, QR 코드와 구슬 레이스 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용하며 아래쪽의 개선·버그 제보 링크로 통합 GitHub Issue 양식을 새 창에서 연다.
+  text: 루트, 팀 메이커, QR 코드, 구슬 레이스와 블로그 화면은 1201px 이상에서 왼쪽에 고정하고 고정 해제 시 drawer로 전환하는 공통 내비게이션을 사용하며 아래쪽의 개선·버그 제보 링크로 통합 GitHub Issue 양식을 새 창에서 연다.
   surface: [web]
   source: "사용자 확정 2026-09-01 > 데스크톱 고정 사이드바와 고정 해제 drawer; 사용자 요청·확정 2026-09-09 > 사이드바 하단의 통합 GitHub Issue 제보 양식; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
   kind: crud
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md, screens/SCR-WEB-005.md, screens/SCR-WEB-006.md]
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-021
   text: 공통 내비게이션은 현재 화면을 글과 모양으로 구분하고 drawer의 열기·닫기·초점 복귀를 포함한 모든 동작을 키보드와 보조 기술에 제공한다.
@@ -166,7 +166,7 @@
   kind: crud
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md, screens/SCR-WEB-005.md, screens/SCR-WEB-006.md]
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-022
   text: 공통 내비게이션은 1200px 이하에서 화면 위 햄버거 버튼으로 여는 왼쪽 drawer에 모든 이동 항목을 세로로 보여준다.
@@ -175,7 +175,7 @@
   kind: crud
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md, screens/SCR-WEB-005.md, screens/SCR-WEB-006.md]
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-023
   text: 팀이 2개면 `1팀승`·`2팀패`로 적고 3팀 이상이면 1등부터 순차로 순위를 지정하며 남은 팀이 하나면 자동으로 마지막 등수가 되고 팀 이름이 이미 보이는 결과 카드에서는 `1등`처럼 등수만, 기록 목록에서는 `1팀 1등`처럼 팀 이름과 함께 적는다.
@@ -214,13 +214,13 @@
   design_ref: [screens/SCR-WEB-001.md]
   examples_ref: policies/REQ-WEB-026.md
 - id: REQ-WEB-027
-  text: 개인정보처리방침은 홈·Team Maker·QR 코드·구슬 레이스 footer에서 여는 모달로 제공한다. 모든 footer는 개인정보처리방침 버튼 다음에 © 2026 Lake's develog를 표시하며 좁은 화면에서도 같은 순서로 줄바꿈한다. 모달은 운영자, 브라우저 저장 정보·기간·삭제 방법, 외부 서비스, 현재 광고 미실행과 향후 도입 시 방침 갱신, 문의와 적용일을 공개하며 키보드와 닫기 버튼·Escape·바깥 영역 클릭으로 닫을 수 있다. 광고를 실행하지 않는 현재 설정과 설명을 일치시킨다.
+  text: 모든 공개 페이지의 footer는 개인정보처리방침과 저작권을 순서대로 표시한다. 방침 모달은 저장·삭제·외부 서비스·광고 상태를 안내한다. GA4 방문 통계는 동의 후 운영 주소에서만 수집한다. 입력 내용은 전송하지 않고 통계 숫자는 공개하지 않는다.
   surface: [web]
-  source: "사용자 확정 2026-09-11 > 기존 화면 보강을 통한 애드센스 재심사 준비 계획 구현; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가; 사용자 구현 승인 2026-09-19 > 공통 footer 문구와 개인정보처리방침 순서 통일"
+  source: "사용자 확정 2026-09-11 > 기존 화면 보강을 통한 애드센스 재심사 준비 계획 구현; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가; 사용자 구현 승인 2026-09-19 > 공통 footer 문구와 개인정보처리방침 순서 통일; 사용자 구현 요청 2026-09-29 > GA4 방문 통계 수집과 개인정보 안내·동의 처리"
   kind: policy
   ui: true
   design_status: approved
-  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
+  design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md, screens/SCR-WEB-005.md, screens/SCR-WEB-006.md]
   examples_ref: policies/REQ-WEB-027.md
 - id: REQ-BUILD-001
   text: team-maker는 HTML, CSS, JavaScript를 우선 사용하며 무작위 섞기, 팀 분배, 순위·통계 집계와 돌림판 시점 계산 로직을 화면 코드와 분리한다.
@@ -253,18 +253,19 @@
   risk: medium
   adr: docs/adr/2026-09-05-Team-Maker-공개-URL은-마지막-슬래시-없이-사용.md
 - id: REQ-PAGES-003
-  text: GitHub Actions는 루트 사이트, team-maker, qr-code와 marble-race를 검사·빌드·배포하고 네 공개 주소가 정상인지 확인한다. PR에서는 lint·정적 검사·전체 단위 테스트·build1회·전체 브라우저 검사·정적 결과 검증을 수행한다. main push와 main 수동 실행은 build1회·정적 결과 검증·배포·공개 주소 확인만 수행한다. 다른 branch의 수동 실행은 배포하지 않는다. 전체 검사에 통과한 PR을 거쳐 머지하며 로컬에서는 변경 범위의 검사만 실행한다. 최신 build가 있으면 test:e2e:built로 재build 없이 브라우저를 검사한다.
+  text: GitHub Actions는 루트 사이트, team-maker, qr-code와 marble-race를 검사·빌드·배포하고 기존 도구와 블로그·RSS·sitemap의 공개 주소가 정상인지 확인한다. PR에서는 lint·정적 검사·전체 단위 테스트·build1회·전체 브라우저 검사·정적 결과 검증을 수행한다. main push와 main 수동 실행은 build1회·정적 결과 검증·배포·공개 주소 확인만 수행한다. 다른 branch의 수동 실행은 배포하지 않는다. 전체 검사에 통과한 PR을 거쳐 머지하며 로컬에서는 변경 범위의 검사만 실행한다. 최신 build가 있으면 test:e2e:built로 재build 없이 브라우저를 검사한다.
   surface: [pages]
   source: "승인된 제품 브리프 > 성공 기준; ADR 2026-08-30 루트 저장소를 monorepo로 사용; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가; 사용자 요청 2026-09-19 > 로컬·PR·머지 후 검사 중복 최적화"
   kind: structural
   risk: medium
   adr: docs/adr/2026-09-19-PR-검사와-배포-분리.md
 - id: REQ-PAGES-004
-  text: 정적 빌드는 /blog, /blog/<slug>와 /rss.xml을 생성하지 않고 sitemap에는 루트, Team Maker, QR 코드와 구슬 레이스 주소를 포함한다.
+  text: 정적 build는 /blog, 공개 글의 /blog/<slug>와 /rss.xml을 생성한다. 글은 마지막 슬래시 없이 build/blog/<slug>.html로 출력한다. sitemap은 기존 도구 주소와 블로그 목록·공개 글을 포함한다. 초안은 공개 산출물 전체에서 제외한다.
   surface: [pages]
-  source: "사용자 요청 2026-09-01 > 블로그 전체 삭제 후 재배포; 사용자 구현 요청 2026-09-11 > QR 코드 생성 페이지 추가; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
+  source: "사용자 구현 승인 2026-09-29 > 검토·보완한 블로그 전체 프롬프트대로 구현"
   kind: structural
   risk: medium
+  adr: docs/adr/2026-09-29-Markdown-블로그와-정적-게시.md
 - id: REQ-SEO-001
   text: Team Maker는 한국어 문서 언어, 실제 화면 기능과 일치하는 검색 제목·설명·canonical·소셜 공유 metadata와 WebApplication 구조화 데이터를 정적 HTML에 제공하며 H1은 하나만 사용한다. 오류 화면은 noindex로 제공하며 정적 404에는 홈 canonical을 넣지 않는다.
   surface: [pages]

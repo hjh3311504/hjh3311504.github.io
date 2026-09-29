@@ -14,7 +14,7 @@ try {
 		JSON.stringify({
 			hookSpecificOutput: {
 				hookEventName: event.hook_event_name ?? 'PostToolUse',
-				additionalContext: `UI 검사가 실행되지 않았습니다: ${error.message}\nnpm ci 뒤 npm run check:ui를 실행하고 원인을 해결하세요.`
+				additionalContext: `UI 검사가 실행되지 않았습니다: ${error.message}\n원인을 해결한 뒤 관련 UI 검사를 다시 실행하세요. 의존성 누락이 확인된 경우에만 패키지를 설치하세요.`
 			}
 		})
 	);

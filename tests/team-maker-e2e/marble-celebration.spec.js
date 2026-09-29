@@ -104,7 +104,7 @@ test('카드 종류별 배경·공통 테두리·파란 포커스·제목 간격
 		for (const card of cards) expect(card).toEqual(reference);
 		// 도감 안의 블록 카드만 미선택 맵 옵션과 같은 배경을 사용한다.
 		const blockCards = page.locator('.library-panel .block-card');
-		await expect(blockCards).toHaveCount(15);
+		await expect(blockCards).toHaveCount(14);
 		await expect
 			.poll(() =>
 				blockCards.evaluateAll((elements, reference) => {
