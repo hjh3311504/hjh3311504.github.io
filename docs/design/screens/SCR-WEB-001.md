@@ -4,7 +4,7 @@
 |---|---|
 | 화면 ID | `SCR-WEB-001` |
 | 화면 이름 | 팀 메이커 |
-| 연결 REQ | `REQ-UI-001`, `REQ-MARBLE-005`, `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`, `REQ-WEB-026`, `REQ-WEB-027`, `REQ-WEB-028` |
+| 연결 REQ | `REQ-UI-001`, `REQ-MARBLE-005`, `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`, `REQ-WEB-026`, `REQ-WEB-027`, `REQ-WEB-028`, `REQ-BLOG-005` |
 
 ## 목적
 
@@ -247,3 +247,7 @@
 ## 공통 방문 통계 선택 (2026-09-29)
 
 연결 REQ는 기존 `REQ-WEB-027`을 따른다. 운영 사이트의 통계 수집이 활성화된 경우, 첫 방문에 공통 Section과 같은 크기의 허용·거부 Button을 페이지 상단의 일반 문서 흐름으로 표시한다. 도구를 가리는 고정 배너와 통계 숫자는 추가하지 않는다. 미선택·거부 상태에서는 Google 태그를 요청하지 않는다. 개인정보처리방침 모달에 GA4 수집 항목·쿠키·보관 기준·철회 설명과 선택 변경 버튼을 제공한다. 모바일에서는 문구와 버튼이 줄바꿈하며 모달 본문은 기존 스크롤을 유지한다.
+
+## 블로그 연결 (2026-09-29)
+
+사용자 승인한 블로그 구현에 따라 공통 메뉴에 블로그를 추가한다. footer 앞에는 현재 프로그램의 공개 글이 있을 때만 소개·가이드·업데이트 링크를 제공한다. 초안은 표시하지 않는다. 기존 도구 DOM과 사용 흐름은 유지한다.

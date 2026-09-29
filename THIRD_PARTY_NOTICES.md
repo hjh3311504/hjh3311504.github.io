@@ -18,6 +18,12 @@
 
 MIT 적용 제외는 해당 자료에 GPL을 새로 적용하거나 별도의 재사용 허락을 부여한다는 뜻이 아닙니다. 제외된 이미지·설계 자료를 따로 재사용하려면 해당 자료의 이용 조건을 확인하세요. 일반 문서에서 외부 자료를 인용한 부분에도 원저작자의 권리가 유지됩니다.
 
+## 블로그 사용 화면
+
+`static/images/blog/qr-code/`의 `input.png`, `preview.png`, `print.png`, `bookmarks.png`와 `static/images/blog/marble-race/`의 `participants.png`, `maps.png`, `draw.png`, `race.png`, `results.png`는2026-09-29 현재 사이트에서 직접 촬영한 사용 화면입니다. QR 코드에는 사이트의 공개 블로그 주소를, 구슬 레이스에는 가상 참가자6명을 사용했습니다. 각 기능 영역을 촬영했으며 도착 순위는 목록의 상단만 담았습니다. 화면의 자체 코드와 글꼴은 위 적용 조건을 따릅니다.
+
+`static/images/blog/team-maker/`의 `participants.png`, `settings.png`, `results.png`, `rules.png`, `rosters.png`는2026-09-29 현재 사이트에서 직접 촬영한 사용 화면입니다. 가상 참가자10명을 사용했습니다. 좁은 화면에서 다시 촬영했으며 참가자 입력과 배정 결과는 핵심 부분만 담았습니다. 화면의 자체 코드와 글꼴은 위 적용 조건을 따릅니다.
+
 ## 템플릿 이력
 
 이 저장소는 Matheus Fantinel의 [SvelteKit Static Blog Template](https://github.com/matfantinel/sveltekit-static-blog-template)에서 시작했습니다. 첫 commit `c0100a6`의 템플릿과 과거 버전은 당시의 GPLv3 및 개별 자료의 조건을 그대로 따릅니다. 원본 제작자가 현재 사이트를 운영하거나 보증한다는 뜻은 아닙니다.

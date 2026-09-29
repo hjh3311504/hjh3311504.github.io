@@ -9,3 +9,5 @@ export { default as Section } from './Section.svelte';
 export { default as SectionHeader } from './SectionHeader.svelte';
 export { default as Surface } from './Surface.svelte';
 export { default as Toast } from './Toast.svelte';
+export { default as Pager } from './Pager.svelte';
+export { default as FilterList } from './FilterList.svelte';

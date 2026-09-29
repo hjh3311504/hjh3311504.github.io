@@ -11,6 +11,8 @@
 | 좁은 설정 카드                  | `Section`                         | `padding="compact"`                                               |
 | 섹션 제목·번호                  | `SectionHeader`                   | `title`, `titleId`, 번호가 있으면 `step`                          |
 | 일반·위험·링크 버튼             | `Button`                          | `variant`, `size`, `href` 사용                                    |
+| 페이지 이동                     | `Pager`                          | `currentPage`, `pageCount`, `pages`, `onchange`, `label`            |
+| 세로 필터 목록                  | `FilterList`                     | `items`, `value`, `onchange`, `labelledBy`, `disabled`             |
 | 아이콘 버튼                     | `IconButton`                      | `label` 필수                                                      |
 | 삭제 X 버튼                     | `RemoveRowButton`                 | `label`, `onclick` 사용                                           |
 | 모달                            | `Dialog`                          | `title`, `titleId`, `size="md\|wide\|large"`                      |
@@ -43,7 +45,24 @@
 
 `Dialog`는 native dialog를 유지한다. 열기는 연결한 element의 `showModal()`, 닫기는 기존 이벤트로 처리한다. 기본 너비는480px, `wide`는760px, `large`는1120px다. 화면보다 넓어지지 않는다. 본문만 스크롤하려면 `scroll="body"`를 지정하고 기존 본문 컨테이너에 `data-ui-dialog-body`를 붙인다. 기본 내부 여백24px·모바일16px, 제목22px, 제목과 설명8px, 본문 사이16px, 하단 버튼까지24px를 사용한다.
 
+`FormField`는 기본적으로 앞 입력 항목과16px 간격을 둔다. 부모 grid나 flex가 간격을 관리하는 가로 필터에서는 `spacing="none"`을 지정한다. 페이지에서 공통 내부 여백을 덮어쓰지 않는다.
+
 부모는 데이터와 동작을 관리한다. 하위 컴포넌트에는 값과 콜백을 전달한다. 양방향 입력이나 DOM 참조가 필요할 때만 `bind:`를 사용한다. 한 기능에만 쓰이는 요소는 그 기능 폴더에 둔다.
+
+### 본문·사이드바와 목록 공통 스타일
+
+`ui.css`에서 다음 배치를 관리한다. 블로그 목록의 카테고리와 글 상세의 목차가 같은 규칙을 사용한다.
+
+- `.ui-sidebar-layout`에 `data-sidebar="true"`를 지정하고 본문에 `.ui-sidebar-main`, 사이드바에 `.ui-sidebar-aside`를 붙인다. 1280px 이상에서 본문과240px 사이드바를24px 간격으로 배치한다. 좁은 화면은 DOM 순서대로 한 열이 된다.
+- 사이드바가 있는 화면의 작성 정보·버튼·footer에는 `.ui-content-width`와 `data-sidebar="true"`를 사용한다. 사이드바 너비는 `--ui-sidebar-width` 한 곳에서 관리한다. 사이드바가 없으면 속성을 false로 지정한다.
+- 긴 목차처럼 사이드바 안에서 스크롤해야 하면 `.ui-sidebar-aside`에 `data-scroll="true"`를 추가한다.
+- `.ui-content-stack`은24px 간격의 세로 배치, `.ui-action-row`는 양쪽 정렬과 줄바꿈이 가능한 버튼·정보 행, `.ui-meta`는 작성자·분류·날짜 등의 공통 표시다.
+
+`Pager`는 공통 Button을 사용하며 숫자에 `font-feature-settings: 'tnum'`을 적용한다. 표시할 페이지 번호와 선택 상태는 부모가 전달한다. 페이지 범위 계산과 URL 이동은 화면에서 관리한다.
+
+`FilterList`의 items는 `{ value, label, count? }` 형태다. 선택값은 value, 변경 콜백은 onchange, 제목 연결은 labelledBy로 전달한다. 빈 카테고리 숨김 같은 데이터 조건은 부모에서 처리한다. 컴포넌트 안에는 블로그 분류나 주소를 넣지 않는다.
+
+Markdown 본문은 `src/lib/blog/prose.css`, 글 카드와 프로그램 관련 글은 블로그 컴포넌트에서 관리한다. 글 내용에만 필요한 스타일을 공통 UI에 섞지 않는다.
 
 ## 스타일 기준
 

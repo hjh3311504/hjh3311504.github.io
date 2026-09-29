@@ -1,9 +1,19 @@
+import { publicPosts } from '$lib/server/blog.js';
+import { postPath } from '$lib/blog/catalog.js';
 import { siteBaseUrl } from '$lib/data/meta';
 
 export const prerender = true;
 
-export function GET() {
-	const pages = ['/', '/team-maker', '/qr-code', '/marble-race'].map((pathname) => ({ pathname }));
+export async function GET() {
+	const pages = ['/', '/team-maker', '/qr-code', '/marble-race', '/blog'].map((pathname) => ({
+		pathname
+	}));
+	pages.push(
+		...(await publicPosts()).map((post) => ({
+			pathname: postPath(post.slug),
+			lastModified: post.updatedAt || post.publishedAt
+		}))
+	);
 	const body = sitemap(pages);
 
 	return new Response(body, {
@@ -14,7 +24,7 @@ export function GET() {
 }
 
 /**
- * @param {{ pathname: string; lastModified?: string | Date }[]} pages
+ * @param {{ pathname: string; lastModified?: string }[]} pages
  */
 function sitemap(pages) {
 	const baseUrl = siteBaseUrl.replace(/\/+$/, '');
@@ -22,7 +32,7 @@ function sitemap(pages) {
 		.map(({ pathname, lastModified }) => {
 			const location = escapeXml(new URL(pathname, `${baseUrl}/`).href);
 			const lastmod = lastModified
-				? `\n    <lastmod>${new Date(lastModified).toISOString().slice(0, 10)}</lastmod>`
+				? `\n    <lastmod>${String(lastModified).slice(0, 10)}</lastmod>`
 				: '';
 
 			return `  <url>\n    <loc>${location}</loc>${lastmod}\n  </url>`;

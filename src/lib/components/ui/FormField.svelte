@@ -6,11 +6,12 @@
 		error = '',
 		helpId = `${id}-help`,
 		required = false,
+		spacing = 'stack',
 		children
 	} = $props();
 </script>
 
-<div class="ui-form-field">
+<div class="ui-form-field" data-spacing={spacing}>
 	<label for={id}
 		>{label}{#if required}<span class="ui-required" aria-label="필수"> *</span>{/if}</label
 	>
