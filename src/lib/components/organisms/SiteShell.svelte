@@ -4,6 +4,7 @@
 	import { Button, IconButton } from '$lib/components/ui';
 	import { theme } from '$lib/stores/theme.js';
 	import SiteNav from './SiteNav.svelte';
+	import AnalyticsConsent from '$lib/analytics/AnalyticsConsent.svelte';
 
 	export let active = 'home';
 	export let variant = 'home';
@@ -202,6 +203,7 @@
 			</header>
 		{/if}
 
+		<AnalyticsConsent clearMenu={floatingMenu} />
 		<slot />
 	</div>
 

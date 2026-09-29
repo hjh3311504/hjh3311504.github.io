@@ -1,5 +1,9 @@
 <script>
+	import { getContext } from 'svelte';
 	import { Button, Dialog } from '$lib/components/ui';
+	import { ANALYTICS_CONTEXT } from '$lib/analytics/tracker.js';
+
+	const analytics = getContext(ANALYTICS_CONTEXT);
 
 	let { triggerClass = '', triggerSuffix = '' } = $props();
 	let dialog = $state();
@@ -49,7 +53,7 @@
 	onclick={closeFromBackdrop}
 >
 	{#snippet descriptionContent()}
-		운영자: Lake · 적용일: <time datetime="2026-09-16">2026년 9월 16일</time>
+		운영자: Lake · 적용일: <time datetime="2026-09-29">2026년 9월 29일</time>
 	{/snippet}
 
 	<div class="privacy-content" data-ui-dialog-body>
@@ -82,12 +86,46 @@
 			>에서 확인하세요.
 		</p>
 
-		<h3>광고와 방문자 분석</h3>
+		<h3>방문 통계와 선택 변경</h3>
 		<p>
-			현재 Google 애드센스 광고 코드와 별도의 방문자 분석 코드를 실행하지 않습니다. 앞으로 Google
-			광고를 도입하면 Google 등 제3자가 광고 제공·측정을 위해 쿠키를 읽거나 저장하고, IP 주소나 기기
-			식별자 등을 사용할 수 있습니다. 광고를 시작하기 전에 실제 설정에 맞게 이 방침을 갱신하고
-			필요한 동의 절차를 마련하겠습니다.
+			방문 통계는 허용한 경우에만 Google Analytics 4로 수집합니다. 방문한 페이지, 쿠키 식별자,
+			브라우저·기기 정보와 대략적인 지역 등이 Google에 전달되거나 처리됩니다. 참가자 이름, QR 입력,
+			팀 구성과 브라우저에 저장된 도구 데이터는 보내지 않습니다. 페이지 주소의 검색 조건과 # 뒤의
+			내용은 제외하며 외부 유입 주소는 도메인까지만 사용합니다. 통계는 운영자만 확인합니다.
+		</p>
+		<p>
+			허용·거부 선택은 이 브라우저에 저장됩니다. 거부해도 도구를 사용할 수 있습니다. 쿠키는
+			기본적으로 마지막 방문부터 최대2년간 유지되며 브라우저에 따라 더 짧을 수 있습니다. 상세 분석
+			데이터는 2개월간 보관하도록 설정하며, 합산한 표준 통계는 별도 기준으로 보관됩니다. 허용을
+			철회하면 이후 수집을 중단하고 이 사이트의 분석 쿠키를 삭제합니다. 이미 수집된 통계는 자동
+			삭제되지 않습니다.
+			<a href="https://policies.google.com/technologies/partner-sites?hl=ko"
+				>Google의 파트너 사이트 데이터 이용 안내</a
+			>와 <a href="https://policies.google.com/privacy?hl=ko">Google 개인정보처리방침</a>을
+			확인하세요.
+		</p>
+		{#if analytics?.enabled}
+			<p aria-live="polite">
+				현재 선택: {analytics.consent === 'allowed'
+					? '방문 통계 허용'
+					: analytics.consent === 'denied'
+						? '방문 통계 거부'
+						: '아직 선택하지 않음'}
+			</p>
+			<div class="analytics-actions">
+				<Button size="sm" onclick={() => analytics.setConsent('denied')}>통계 거부</Button>
+				<Button size="sm" onclick={() => analytics.setConsent('allowed')}>통계 허용</Button>
+			</div>
+		{:else}
+			<p>현재 이 환경에서는 방문 통계를 수집하지 않습니다.</p>
+		{/if}
+
+		<h3>광고</h3>
+		<p>
+			현재 Google 애드센스 광고 코드는 실행하지 않습니다. 앞으로 Google 광고를 도입하면 Google 등
+			제3자가 광고 제공·측정을 위해 쿠키를 읽거나 저장하고, IP 주소나 기기 식별자 등을 사용할 수
+			있습니다. 광고를 시작하기 전에 실제 설정에 맞게 이 방침을 갱신하고 필요한 동의 절차를
+			마련하겠습니다.
 			<a href="https://policies.google.com/technologies/partner-sites?hl=ko"
 				>Google의 파트너 사이트 데이터 이용 안내</a
 			>를 참고하세요.
@@ -106,6 +144,12 @@
 </Dialog>
 
 <style>
+	.analytics-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-8);
+	}
+
 	:global(.privacy-trigger) {
 		min-height: auto;
 		padding: 0;
