@@ -169,7 +169,10 @@
 				fill="none"
 				stroke="currentColor"
 				stroke-width="2"
-				aria-hidden="true"><path d="M5 3h14v18H5zM8 7h8M8 11h8M8 15h5" /></svg
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+				><path d="M12 5v16M12 5C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1Z" /></svg
 			>
 			<span>블로그</span>{#if active === 'blog'}<span class="current-badge">현재</span>{/if}
 		</Button>

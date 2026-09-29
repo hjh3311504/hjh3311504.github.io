@@ -4,6 +4,9 @@
 	import PrivacyDialog from '$lib/components/organisms/PrivacyDialog.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
+	import { categories, formatDate } from '$lib/blog/catalog.js';
+
+	let { data } = $props();
 </script>
 
 <svelte:head>
@@ -29,11 +32,10 @@
 	<div class="home-stage">
 		<Surface as="main" variant="raised" class="home-card">
 			<Section class="home-intro" aria-labelledby="home-intro-title">
-				<div class="eyebrow">개발 기록</div>
 				<SectionHeader title="Lake's develog" titleId="home-intro-title" level={1} />
 				<p>
-					개발하며 만든 도구와 프로젝트를 여기에 모아 둡니다.<br />직접 쓰려고 만든 결과물을
-					아래에서 살펴볼 수 있습니다.
+					개발하며 만든 도구와 일상의 기록을 여기에 모아 둡니다.<br />직접 만든 도구를 사용하고,
+					블로그에서 경험과 생각을 읽어보세요.
 				</p>
 				<div class="intro-links">
 					<Button
@@ -56,6 +58,36 @@
 			<Section class="browse" aria-labelledby="browse-title">
 				<SectionHeader title="둘러보기" titleId="browse-title" />
 				<ul>
+					<li>
+						<Surface class="project-card" href={resolve('/blog')} variant="interactive">
+							<span class="project-icon blog-project-icon" aria-hidden="true">
+								<svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path
+										d="M12 5v16M12 5C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1Z"
+									/>
+								</svg>
+							</span>
+							<span class="project-copy">
+								<span class="project-title-row"
+									><span class="project-title">블로그</span><span class="project-kind">기록</span
+									></span
+								>
+								<span class="project-description"
+									>개발하며 얻은 경험과 생각,<br />일상의 이야기를 기록합니다.</span
+								>
+							</span>
+							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
+						</Surface>
+					</li>
 					<li>
 						<Surface class="project-card" href={resolve('/team-maker')} variant="interactive">
 							<span class="project-icon" aria-hidden="true">
@@ -154,6 +186,39 @@
 						</Surface>
 					</li>
 				</ul>
+			</Section>
+
+			<Section class="latest-posts" aria-labelledby="latest-posts-title">
+				<SectionHeader title="최신 블로그 글" titleId="latest-posts-title">
+					{#snippet actions()}<Button href={resolve('/blog')} variant="outline" size="sm"
+							>전체 글 보기</Button
+						>{/snippet}
+				</SectionHeader>
+				{#if data.latestPosts.length}
+					<ul class="latest-post-list">
+						{#each data.latestPosts as post (post.slug)}
+							<li>
+								<Section class="latest-post-card" padding="tight" gap="body">
+									<div class="ui-meta">
+										<span>{categories[post.category]}</span><time datetime={post.publishedAt}
+											>{formatDate(post.publishedAt)}</time
+										>
+									</div>
+									<SectionHeader>
+										{#snippet heading()}<h3>
+												<a href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a>
+											</h3>{/snippet}
+									</SectionHeader>
+									<p>{post.summary}</p>
+								</Section>
+							</li>
+						{/each}
+					</ul>
+				{:else}
+					<p class="latest-posts-empty">
+						첫 이야기를 준비하고 있어요. 새로운 글로 곧 찾아뵙겠습니다.
+					</p>
+				{/if}
 			</Section>
 
 			<Section class="home-guide" aria-labelledby="choose-tool-title">
@@ -260,7 +325,6 @@
 		gap: var(--space-12);
 	}
 
-	.eyebrow,
 	.project-kind {
 		color: var(--shell-text-muted);
 		font-size: var(--font-size-12);
@@ -398,6 +462,11 @@
 		box-shadow: 0 6px 16px -6px var(--color-box-shadow-7);
 	}
 
+	.blog-project-icon {
+		background: var(--color-background-8);
+		box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--color-background-8) 70%, transparent);
+	}
+
 	.qr-project-icon {
 		background: var(--color-background-2);
 		box-shadow: 0 6px 16px -6px var(--color-box-shadow-8);
@@ -457,6 +526,56 @@
 
 	:global(.privacy-footer-link) {
 		color: var(--shell-text-heading);
+	}
+
+	:global(.latest-posts) {
+		display: grid;
+		gap: var(--space-16);
+		padding-top: var(--space-24);
+		border-top: 1px solid var(--shell-hairline);
+	}
+
+	.latest-post-list {
+		display: grid;
+		gap: var(--space-16);
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	:global(.latest-post-card) {
+		background: var(--ui-surface-soft);
+		border-radius: 12px;
+	}
+
+	.latest-post-list h3 {
+		font-size: var(--font-size-20);
+		line-height: 1.5;
+		overflow-wrap: anywhere;
+	}
+
+	.latest-post-list a {
+		color: var(--shell-text-heading);
+		text-decoration: none;
+	}
+
+	.latest-post-list a:hover {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.latest-post-list a:focus-visible {
+		outline: 2px solid var(--shell-focus);
+		outline-offset: 2px;
+	}
+
+	.latest-post-list p,
+	.latest-posts-empty {
+		margin: 0;
+		color: var(--shell-text-muted);
+		line-height: 1.75;
+		word-break: keep-all;
+		overflow-wrap: anywhere;
 	}
 
 	:global(.home-guide) {

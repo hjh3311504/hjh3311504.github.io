@@ -10,7 +10,9 @@ QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/
 
 ## 공통 화면과 정적 자산
 
-홈은 `src/routes/+page.svelte`, 공통 오류 안내는 `src/lib/components/organisms/ErrorPage.svelte`에서 관리합니다. 정적 404와 SvelteKit 오류 화면이 같은 안내를 사용합니다. 공통 기본 CSS와 글꼴 선언은 `src/lib/styles/`에 있습니다. 글꼴은 사이트 안의 SUIT·SUITE 파일로 제공하며 외부 CDN에 요청하지 않습니다. Team Maker는 작은 글꼴을 먼저 받고 이름을 입력할 때 전체 글꼴로 보완합니다.
+개발 서버와 `localhost`·`127.*`·`[::1]`의 정적 preview에서는 탭 제목 앞에 `[로컬]`을 붙이고 favicon을 주황색으로 표시합니다. 내부 페이지 이동에도 유지됩니다. `theme-color`를 지원하는 브라우저에서는 브라우저 UI에도 주황색을 적용합니다. 일반 데스크톱 브라우저의 탭 배경색은 사이트에서 강제로 바꿀 수 없습니다. 실제 배포 주소의 제목·favicon·색상은 유지합니다. 구현은 `src/lib/local-preview.js`입니다.
+
+홈은 `src/routes/+page.svelte`, 최신 글 데이터는 `src/routes/+page.server.js`, 공통 오류 안내는 `src/lib/components/organisms/ErrorPage.svelte`에서 관리합니다. 정적 404와 SvelteKit 오류 화면이 같은 안내를 사용합니다. 공통 기본 CSS와 글꼴 선언은 `src/lib/styles/`에 있습니다. 글꼴은 사이트 안의 SUIT·SUITE 파일로 제공하며 외부 CDN에 요청하지 않습니다. Team Maker는 작은 글꼴을 먼저 받고 이름을 입력할 때 전체 글꼴로 보완합니다.
 
 홈·Team Maker·ASMR 구슬 레이스 공유 이미지는 1200×630 PNG입니다. `scripts/generate_site_assets.js`의 문구와 카드 배치를 수정한 뒤 아래 명령을 실행하세요. 생성에는 Playwright Chromium이 필요합니다. `static/favicon.svg`를 수정해도 같은 명령으로 PNG·ICO를 다시 만듭니다.
 
@@ -433,6 +435,8 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 현재 회전축과 경사는 [회전축 x160과 통로 밖 반동](docs/adr/2026-09-24-회전축160과-통로-밖-반동.md)을 따른다. 바 길이는448이며, 연장 범위와 마지막 구슬 완주 검증은 [회전바 길이448로 연장](docs/adr/2026-09-25-회전바-길이448로-연장.md)에 기록했다. 최신 충돌 계산 최적화와 측정 한계는 [구슬 충돌 이웃 재사용과 결승 계산 비용 축소](docs/adr/2026-09-25-구슬-충돌-이웃-재사용과-결승-계산-비용-축소.md)를 따른다.
 
 ## 블로그 운영
+
+홈의 둘러보기 맨 위에서 블로그로 이동할 수 있습니다. 블로그 아이콘은 회색빛 파란색 배경으로 구분합니다. 최신 블로그 글에는 공개 글을 게시일 내림차순으로 최대3개 표시합니다. 같은 날짜는 slug순으로 정렬합니다. 제목·요약·종류·게시일과 전체 글 링크를 제공하며, 공개 글이 없으면 준비 안내를 표시합니다. 새 글을 공개하고 다시 build·배포하면 홈 목록도 갱신됩니다.
 
 블로그 목록은 `/blog`, 글 상세는 `/blog/<slug>`, 구독 주소는 `/rss.xml`입니다. 마지막 슬래시는 사용하지 않습니다. 정적 결과는 `build/blog.html`, `build/blog/<slug>.html`, `build/rss.xml`입니다. SvelteKit의 페이지 이동용 `__data.json`도 글 목록·상세·도구별 폴더에 생성됩니다. 도구 HTML은 기존처럼 `build/team-maker.html` 등의 형태를 유지합니다. 기존 도구와 블로그 목록·공개 글을 같은 sitemap에 포함합니다.
 
