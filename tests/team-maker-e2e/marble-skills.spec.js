@@ -68,6 +68,7 @@ test('도감의3종 스킬과 실제 발동에서 같은 효과음을 재생한�
 	await observeRace(page, 47);
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
+	await page.locator('[aria-labelledby=block-library-title] summary').click();
 	await expect(
 		page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first()
 	).toBeEnabled();

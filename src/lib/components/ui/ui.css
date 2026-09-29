@@ -287,9 +287,6 @@
 	display: block;
 }
 
-.ui-disclosure-section {
-	padding: var(--space-24) var(--space-28);
-}
 .ui-disclosure > summary {
 	display: flex;
 	align-items: center;
@@ -328,12 +325,6 @@
 .ui-disclosure[open] > .ui-disclosure-content {
 	margin-top: var(--space-24);
 }
-@media (max-width: 760px) {
-	.ui-disclosure-section {
-		padding: var(--space-24);
-	}
-}
-
 /* 도구 페이지의 입력·선택 필드가 같은 색과 포커스를 사용한다. */
 .ui-field {
 	box-sizing: border-box;

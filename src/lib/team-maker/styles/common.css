@@ -54,16 +54,6 @@
 		display: none !important;
 	}
 
-	.app-shell {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-20);
-		width: calc(100% - 32px);
-		max-width: 640px;
-		margin: 0 auto;
-		padding: var(--space-40) 0 var(--space-72);
-	}
-
 	.storage-alert {
 		display: flex;
 		gap: var(--space-12);

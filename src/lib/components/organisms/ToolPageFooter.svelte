@@ -5,13 +5,10 @@
 </script>
 
 <footer class="tool-page-footer">
-	{#if showRss}
-		<div class="footer-links">
-			<PrivacyDialog /><a href={resolve('/rss.xml')} data-sveltekit-reload>RSS 구독</a>
-		</div>
-	{:else}
+	<div class="footer-links">
 		<PrivacyDialog />
-	{/if}
+		{#if showRss}<a href={resolve('/rss.xml')} data-sveltekit-reload>RSS 구독</a>{/if}
+	</div>
 	<span>© 2026 Lake's develog</span>
 </footer>
 
@@ -24,7 +21,9 @@
 		gap: var(--space-12);
 		margin-top: var(--space-32);
 		color: var(--shell-text-muted);
+		font-family: var(--site-body-font);
 		font-size: var(--font-size-12);
+		font-weight: 400;
 		line-height: 1.7;
 	}
 	.footer-links {
@@ -39,6 +38,7 @@
 		text-decoration-color: currentColor;
 		text-decoration-thickness: auto;
 		text-underline-offset: 3px;
+		white-space: nowrap;
 	}
 	a:focus-visible {
 		outline: 2px solid var(--ui-focus);

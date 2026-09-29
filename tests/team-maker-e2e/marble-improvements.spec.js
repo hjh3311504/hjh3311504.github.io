@@ -23,6 +23,8 @@ test('문구·간결한 맵 카드·실제 특수 블록 그림을 공통 도감
 	await page.getByRole('button', { name: '도각도각 키보드', exact: true }).click();
 	await expect(page.locator('.map-caption')).toHaveCount(0);
 	const library = page.locator('[aria-labelledby=block-library-title]');
+	await expect(library.locator('details')).not.toHaveAttribute('open');
+	await library.locator('summary').click();
 	await expect(library).toHaveAttribute('data-variant', 'card');
 	await expect(library).toHaveCSS('background-color', 'rgb(255, 255, 255)');
 	await expect(page.getByRole('region', { name: /^기본 블록/ }).locator('.block-card')).toHaveCount(
@@ -567,6 +569,9 @@ test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 
 		/marble-race-open-graph-1200x630.png$/
 	);
 	const guide = page.getByTestId('marble-race-guide');
+	await expect(page.locator('[data-ui-disclosure]')).toHaveCount(5);
+	await expect(page.locator('[data-ui-disclosure][open]')).toHaveCount(0);
+	for (const summary of await guide.locator('summary').all()) await summary.click();
 	await expect(
 		guide.getByRole('heading', { name: '마블룰렛 방식으로 이름을 추첨하려면 어떻게 하나요?' })
 	).toBeVisible();

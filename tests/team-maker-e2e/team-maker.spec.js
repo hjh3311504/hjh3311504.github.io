@@ -444,19 +444,22 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	}
 	await expect(guide.locator('.guide-steps > li')).toHaveCount(3);
 	await expect(guide.locator('.faq-item')).toHaveCount(6);
-	for (const faq of await guide.locator('.faq-item').all()) {
-		await expect(faq.getByRole('heading', { level: 3 })).toBeVisible();
-		await expect(faq.locator('p')).toBeVisible();
-	}
 	await expect(page.locator('footer').getByText("© 2026 Lake's develog")).toBeVisible();
 	const collapsibleSections = guide.locator('.seo-details');
 	await expect(collapsibleSections).toHaveCount(4);
 	for (const section of await collapsibleSections.all()) {
-		await expect(section).toHaveAttribute('open', '');
+		await expect(section).not.toHaveAttribute('open');
+		await expect(section.locator('.ui-disclosure-content')).toBeHidden();
 		await section.locator('summary').click();
-		await expect(section).not.toHaveAttribute('open', '');
-		await section.locator('summary').click();
 		await expect(section).toHaveAttribute('open', '');
+		await expect(section.locator('.ui-disclosure-content')).toBeVisible();
+		await section.locator('summary').click();
+		await expect(section).not.toHaveAttribute('open');
+		await section.locator('summary').click();
+	}
+	for (const faq of await guide.locator('.faq-item').all()) {
+		await expect(faq.getByRole('heading', { level: 3 })).toBeVisible();
+		await expect(faq.locator('p')).toBeVisible();
 	}
 	await expectNoHorizontalOverflow(page);
 
@@ -467,6 +470,8 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.reload();
 	await expect(guide).toBeVisible();
+	await expect(guide.locator('details[open]')).toHaveCount(0);
+	await guide.getByText('이럴 때 사용하세요', { exact: true }).click();
 	const mobileColumns = await guide
 		.locator('.use-case-grid')
 		.evaluate((element) =>

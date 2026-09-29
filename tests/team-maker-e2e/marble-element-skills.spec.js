@@ -10,6 +10,7 @@ for (const width of [1440, 390]) {
 		await page.emulateMedia({ reducedMotion: width === 390 ? 'reduce' : 'no-preference' });
 		await observeRace(page, 47);
 		await page.goto('/marble-race');
+		await page.locator('[aria-labelledby=block-library-title] summary').click();
 		expect(await page.locator('main').ariaSnapshot()).toContain('번개');
 		// 초기 설정 복원이 끝난 뒤 명단을 입력해야 기본 명단으로 덮어쓰이지 않는다.
 		await expect(

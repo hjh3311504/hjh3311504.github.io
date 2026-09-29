@@ -285,13 +285,32 @@ const collapsibleSectionCount = [...html.matchAll(/<details\b[^>]*>/g)]
 	.filter(
 		(tag) =>
 			/\bclass="[^"]*\bseo-details\b[^"]*"/.test(tag) &&
-			/(?:^|\s)open(?:=""|(?=\s|>))/.test(tag) &&
+			!/(?:^|\s)open(?:=|\s|>)/.test(tag) &&
 			/\bdata-ui-disclosure\b/.test(tag)
 	).length;
 if (collapsibleSectionCount !== 4) {
 	throw new Error(
-		`team-maker HTML의 기본 펼침 안내 섹션은 4개여야 합니다. 현재 ${collapsibleSectionCount}개입니다.`
+		`team-maker HTML의 기본 접힘 안내 섹션은 4개여야 합니다. 현재 ${collapsibleSectionCount}개입니다.`
 	);
+}
+
+// 접힌 본문도 검색로봇이 읽는 정적 HTML에 남아 있어야 한다.
+for (const [route, content, expectedCount] of [
+	['team-maker', html, 4],
+	['qr-code', qrHtml, 2],
+	['marble-race', marbleHtml, 5]
+]) {
+	const sections = [...content.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)].filter(
+		([, attributes]) => /\bdata-ui-disclosure\b/.test(attributes)
+	);
+	if (sections.length !== expectedCount)
+		throw new Error(`${route}: 접는 영역은 ${expectedCount}개여야 합니다.`);
+	for (const [, attributes, body] of sections) {
+		if (/(?:^|\s)open(?:=|\s|$)/.test(attributes))
+			throw new Error(`${route}: 접는 영역이 기본으로 펼쳐져 있습니다.`);
+		if (!/<p\b[^>]*>[^<]*\S/.test(body) && !/<li\b[^>]*>[^<]*\S/.test(body))
+			throw new Error(`${route}: 접힌 본문이 정적 HTML에 없습니다.`);
+	}
 }
 
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);

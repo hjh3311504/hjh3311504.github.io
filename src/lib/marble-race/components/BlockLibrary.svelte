@@ -54,9 +54,6 @@
 </DisclosureSection>
 
 <style>
-	:global(.library-panel) {
-		margin-top: var(--space-36);
-	}
 	.library-description {
 		margin: 0;
 		color: var(--ui-text-muted);
