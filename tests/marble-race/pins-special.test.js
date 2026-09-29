@@ -70,13 +70,19 @@ test('특수 구간은 유도 바·핀·특수 블록 순서이며 핀52개를 �
 	assert.equal(race.events.at(-1).silent, false);
 });
 
-test('유도 바·분산 핀·회전 바는 장치 충돌음을 내고 골인 통로 벽은 무음이다', () => {
+test('구간 유도 바·분산 핀·회전 바는 장치 충돌음을 내고 결승 경사벽·골인 통로 벽은 무음이다', () => {
 	const race = createRace(['가', '나']);
 	const devices = race.blocks.filter(
-		(b) => b.pin || b.id.includes('-guide-') || (b.zoneId === 'finale' && b.type === 'rotor')
+		(b) =>
+			b.pin ||
+			(b.id.includes('-guide-') && b.zoneId !== 'finale') ||
+			(b.zoneId === 'finale' && b.type === 'rotor')
 	);
-	assert.equal(devices.length, 61);
+	assert.equal(devices.length, 59);
 	assert.ok(devices.every((b) => !b.silent && b.soundType === 'rubber'));
+	const finaleGuides = race.blocks.filter((b) => b.id.startsWith('finale-guide-'));
+	assert.equal(finaleGuides.length, 2);
+	assert.ok(finaleGuides.every((b) => b.silent));
 	const chute = race.blocks.filter((b) => b.id.startsWith('chute-'));
 	assert.equal(chute.length, 2);
 	assert.ok(chute.every((b) => b.silent));
