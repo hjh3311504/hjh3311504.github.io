@@ -72,7 +72,7 @@ export async function runHook(root, event) {
 		if (!diagnostics.length) return {};
 		const reportFile = path.join(directory, `${session}-report.txt`);
 		await writeFile(reportFile, formatDiagnostics(diagnostics));
-		const message = `UI 수정 직후 검사: ${diagnostics.length}개 위반이 있습니다. 다음 수정에서 공통 컴포넌트·토큰으로 바로잡으세요.\n${formatDiagnostics(diagnostics.slice(0, 20))}${diagnostics.length > 20 ? `\n전체 결과: ${reportFile}` : ''}`;
+		const message = `UI 검사: ${diagnostics.length}개 위반이 있습니다. 작업 완료 전 공통 컴포넌트·토큰으로 바로잡으세요. 수정 순서는 작업 의존성에 맞추세요.\n${formatDiagnostics(diagnostics.slice(0, 20))}${diagnostics.length > 20 ? `\n전체 결과: ${reportFile}` : ''}`;
 		return {
 			hookSpecificOutput: {
 				hookEventName: event.hook_event_name ?? 'PostToolUse',

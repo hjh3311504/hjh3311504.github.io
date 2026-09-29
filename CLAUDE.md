@@ -1,126 +1,55 @@
 # hjh3311504.github.io — agent 작업 지침
 
-이 파일은 Codex, Claude Code와 기타 coding agent가 이 저장소에서 작업할 때 따르는 기본 지침이다.
+Codex, Claude Code와 기타 coding agent가 함께 사용하는 저장소 지침이다. `AGENTS.md`와 `CLAUDE.md`는 같은 내용으로 유지한다.
 
-## 응답 규칙
+## 작업과 응답
 
-- 모든 응답, 문서, commit 메시지는 자연스러운 한국어로 작성한다.
-- Git, PR, branch 같은 기술 용어는 영어 그대로 쓴다.
-- 주니어 개발자가 바로 이해할 수 있는 짧은 문장을 사용한다.
-- 숫자와 단위는 붙여 쓴다. 예: `5분`, `3개`.
+- 응답·문서·commit 메시지는 짧고 자연스러운 한국어로 쓴다. Git, PR 같은 기술 용어는 그대로 쓰고 숫자와 단위는 붙인다. 예: `5분`, `3개`.
+- 요청한 결과에 필요한 구현·수정·검증까지 진행한다. 이미 허용된 로컬 작업과 일상적인 구현 선택은 별도 승인 없이 처리한다. 답에 따라 결과나 권한 범위가 크게 달라질 때만 질문한다.
+- 작업에 필요한 파일과 문서만 읽는다. 계획·진행 설명은 작업 규모에 맞춘다. 모든 가정의 사전 보고나 작은 수정마다 별도 문서 작성을 요구하지 않는다.
+- 사용자 변경과 데이터를 보호한다. 비밀 키와 환경별 설정값을 코드에 넣지 않는다.
+- 작업 기준은 `origin/main`이다. 사용자가 요청하지 않은 amend·강제 push·PR merge·외부 게시는 하지 않는다.
 
-## 기술 스택
+## 프로젝트 정보
 
-- 언어: JavaScript 중심이며 일부 TypeScript를 사용한다.
-- 프레임워크: SvelteKit 2, Svelte 5.
-- build: Vite 8과 `@sveltejs/adapter-static`.
-- 패키지: npm과 `package-lock.json`.
-- 스타일: 공통 화면과 Team Maker 모두 CSS를 사용한다.
-- 단위 테스트: Node.js test runner — `npm test`.
-- 브라우저 테스트: Playwright — `npm run test:e2e:team-maker`.
-- 정적 검사: Svelte Check — `npm run check`.
-- lint와 포맷 검사: ESLint와 Prettier — `npm run lint`.
-- 배포: GitHub Actions가 `main` branch를 GitHub Pages에 배포한다.
+SvelteKit 2·Svelte 5·Vite 8·`@sveltejs/adapter-static`을 사용한다. JavaScript 중심이며 일부 TypeScript가 있다. 패키지는 npm과 `package-lock.json`으로 관리한다. `main`은 GitHub Actions를 통해 GitHub Pages에 배포된다.
 
-## 디렉터리 구조
+- 공개 route: `/`, `/team-maker`, `/qr-code`, `/marble-race`. 도구 route에는 마지막 슬래시가 없다.
+- 도구 build 결과: `build/team-maker.html`, `build/qr-code.html`, `build/marble-race.html`.
+- Team Maker 정적 자산: `/images/team-maker/`.
+- 참가자 데이터는 브라우저 `localStorage`에만 저장한다. 서버·로그인·비밀 키를 추가하지 않는다.
+- 글꼴은 `src/lib/styles/fonts.css`에서 로컬 파일로 제공한다. 외부 글꼴 CDN 없이 Team Maker의 작은 글꼴 우선 로딩을 유지한다.
+- `build/`, `.svelte-kit/`, `node_modules/`, `output/`은 생성 결과다. source처럼 직접 관리하지 않는다.
 
-| 경로                  | 역할                                |
-| --------------------- | ----------------------------------- |
-| `src/routes/`         | SvelteKit page와 endpoint           |
-| `src/lib/components/` | 공용 Svelte component               |
-| `src/lib/team-maker/` | Team Maker 화면 동작과 팀 배정 core |
-| `src/lib/styles/`     | 공통 기본 style과 로컬 글꼴         |
-| `static/`             | build에 그대로 포함할 정적 파일     |
-| `tests/`              | 단위 테스트와 Playwright E2E 테스트 |
-| `docs/requirements/`  | 요구사항 SSOT                       |
-| `docs/adr/`           | 주요 기술·제품 결정 기록            |
-| `docs/design/`        | 현재 UI 설계 문서와 최신 시안       |
-| `scripts/`            | build 결과와 문서를 검증하는 script |
-| `.github/workflows/`  | 검사와 GitHub Pages 배포 workflow   |
+## 작업별 참고 위치
 
-SSOT는 한 정보의 기준이 되는 단일 문서나 파일을 뜻한다.
+| 작업                    | 참고 위치와 주의점                                                                                                                   |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| route·build 변경        | `src/routes/`, `scripts/verify_team_maker_build.js`, 관련 REQ·ADR·README의 경로 설명도 맞춘다.                                       |
+| Team Maker 변경         | [README의 수정 위치](README.md#team-maker-수정-위치). 아래의 현재 구조 의존성을 확인한다.                                            |
+| 공통 UI·스타일 변경     | [컴포넌트와 스타일 기준](docs/frontend-ui.md)의 해당 부분. 토큰은 `src/lib/styles/tokens.css`다.                                     |
+| 요구사항·화면 설계 변경 | `docs/requirements/`, `docs/design/`. [설계 문서 관리](README.md#설계-문서-관리)에 연결 형식과 승인 상태를 설명한다.                 |
+| 중요한 결정 변경        | `docs/adr/`. 과거 ADR은 보존하고 새 결정으로 변경 이유를 남긴다.                                                                     |
+| favicon·OG 이미지 변경  | `static/favicon.svg`, `scripts/generate_site_assets.js` 수정 후 `npm run generate:assets`. 출처는 `THIRD_PARTY_NOTICES.md`를 따른다. |
 
-## 핵심 규칙
-
-1. 공개 route는 `/`, `/team-maker`, `/qr-code`, `/marble-race`다. 도구 route는 마지막 슬래시를 사용하지 않는다.
-2. 도구 정적 build 결과는 `build/team-maker.html`, `build/qr-code.html`, `build/marble-race.html`이다.
-3. Team Maker 정적 자산은 `/images/team-maker/` 경로를 사용한다.
-4. route와 build 형태를 바꾸면 관련 REQ, ADR, README와 검증 script를 함께 갱신한다.
-5. `docs/design/`에는 현재 `ia.md`, `screens/`, 최신 `handoff/`와 마지막 요청문 `claude-design-DSN.md`만 관리한다. 번호별 package·snapshot·manifest는 만들지 않는다. handoff는 새 전달본 전체로 교체하며 코드 수정마다 재생성하지 않는다.
-6. 과거 설계와 요청문은 Git의 이전 commit에서 확인한다. 과거 ADR 본문은 보존하고 변경 결정은 새 ADR에 남긴다. 마지막 Claude Design 요청문은 현재 설계와 구분하며 다음 실제 요청 때 같은 파일을 갱신한다.
-7. 참가자 데이터는 브라우저 `localStorage`에만 저장한다. 서버, 로그인, 비밀 키를 추가하지 않는다.
-8. `build/`, `.svelte-kit/`, `node_modules/`, `output/`은 생성 결과다. source처럼 직접 관리하지 않는다.
-9. `AGENTS.md`와 `CLAUDE.md`는 같은 내용을 유지한다. 한 파일을 바꾸면 다른 파일도 함께 바꾼다.
-10. 글꼴은 `src/lib/styles/fonts.css`에서 로컬 파일로 제공한다. 외부 글꼴 CDN을 추가하지 않는다. Team Maker의 작은 글꼴 우선 로딩을 유지한다.
-11. favicon과 OG 이미지의 원본은 `static/favicon.svg`와 `scripts/generate_site_assets.js`다. 변경 뒤 `npm run generate:assets`로 공개 이미지를 재생성한다. 라이선스와 출처는 `THIRD_PARTY_NOTICES.md`를 따른다.
-
-## Team Maker 기능 구조
-
-- 기능별 화면은 `src/lib/team-maker/components/`에 둔다. route는 검색 정보, 전체 배치와 `mountTeamMaker(pageRoot)` 연결을 담당한다.
-- 화면 component를 분리할 때 기존 HTML 계층, ID, class, data·접근성 속성을 보존하고 불필요한 wrapper를 추가하지 않는다. 모든 화면과 dialog는 `pageRoot` 안에 처음부터 렌더링한다.
-- JavaScript가 직접 내용을 채우는 컨테이너는 기존 방식으로 유지한다. 화면 component는 마크업을 담당하며 상태와 이벤트 처리는 기존 기능 JavaScript에 둔다.
-
-- `src/lib/team-maker/app.js`에서 기능을 만들고 연결한다. 기능 파일끼리 직접 import하지 않는다. 공통 계산과 도우미 파일은 import할 수 있다.
-- 저장 상태는 `getState()`로 접근하며 같은 객체를 유지한다. 저장은 전달받은 함수로 요청한다. 기능 하나만 쓰는 임시 상태는 해당 기능 안에 둔다.
-- 기능의 이벤트와 예약 작업은 `createLifetime()`으로 등록한다. 화면 종료 시 `destroy()`에서 예약 작업, dialog와 효과음을 정리한다.
-- Team Maker CSS 진입점의 import 순서는 기존 적용 순서를 보존한다. 여러 기능에 걸친 규칙은 `styles/common*.css`에 둔다.
-- 기능별 수정 위치와 연결 방법은 README의 Team Maker 수정 위치를 따른다.
-
-## 작업 규율
-
-- UI 요구사항의 `design_ref`는 `docs/design/` 기준 화면 경로 목록으로 적는다. 화면 문서의 `연결 REQ`와 양방향으로 일치시킨다. 공통 요구사항은 관련 화면을 모두 연결한다.
-- 설계 승인 사실은 관련 commit이나 PR 설명에 명시한다. commit 자체를 승인으로 간주하지 않는다.
-- 지시는 메모리가 아닌 문서에 남긴다. 반복해서 지켜야 할 규칙은 AGENTS.md, README, REQ, ADR 중 알맞은 곳에 기록한다.
-- 구현 전에 가정을 밝힌다. 해석에 따라 결과가 크게 달라지면 사용자에게 묻는다.
-- 여러 단계 작업은 먼저 짧은 계획과 검증 방법을 정리한다.
-- 증상을 숨기지 말고 원인을 찾아 고친다.
-- 비밀 키와 환경별 설정값을 코드에 넣지 않는다. 필요한 키 목록만 `.env.example`에 남긴다.
-- 함수나 화면 동작을 바꾸면 호출처, 테스트, 문서와 build 검증에 미치는 영향을 함께 확인한다.
-- 실패한 검사를 건너뛰거나 결과 파일을 손으로 덮어써서 통과시키지 않는다.
-- 사용자 변경과 관계없는 파일은 되돌리거나 정리하지 않는다.
-- UI를 브라우저로 검증할 때는 접근성 snapshot을 먼저 확인한다. 픽셀 결과가 중요할 때만 screenshot을 사용한다.
-
-## 프론트엔드 공통 규칙
-
-- UI 작업 전에 `docs/frontend-ui.md`의 컴포넌트 목록과 사용 예시를 확인한다. 새 페이지도 같은 규칙을 따른다.
-- 기존 컴포넌트 조합과 옵션 확장을 먼저 사용한다. 새 공통 요소가 필요하면 기존 요소로 해결되지 않는 이유를 남긴다.
-- 글자 크기·여백은 `src/lib/styles/tokens.css`의 토큰을 사용한다. 일반 UI 글자는 짝수 px, 여백은4px 단위이며 작은 보정만2px을 허용한다.
-- 공통 제목·번호·모달 내부 스타일을 페이지에서 덮어쓰지 않는다. 기본 간격은 공통 컴포넌트가 제공한다.
-- 수정 직후 hook이 전달한 UI 경고를 다음 수정에서 해결한다. 경고를 숨기려고 예외나 검사 범위를 넓히지 않는다.
-- hook이 활성화되지 않은 세션에서는 UI 수정 묶음 직후 `npm run check:ui -- 수정파일`을 실행한다. 작업 끝까지 검사를 미루지 않는다.
-- 검사 통과와 실제 화면 품질을 구분한다. 화면 단위 수정 뒤 접근성 snapshot, 모바일·데스크톱의 간격·겹침·잘림과 긴 문구를 확인한다.
-- hook 설정 작성만으로 실제 활성화됐다고 보고하지 않는다. Codex 신뢰 등록과 각 에이전트의 경고 전달 여부를 별도로 확인한다.
+Team Maker는 `app.js`가 기능을 연결하고 JavaScript가 `pageRoot` 안의 요소를 찾아 내용을 채운다. 현재 기능들은 `getState()`가 반환한 같은 객체를 보관한다. DOM 구조·선택자·렌더링 시점·상태 객체를 바꾸려면 이 의존성을 함께 수정해야 한다. 화면 종료 시 이벤트·예약 작업·dialog·효과음을 해제하는 동작도 유지한다. 단순 화면 수정에서 전체 구조를 다시 설계할 필요는 없다.
 
 ## 검증
 
-로컬에서는 변경 범위에 맞는 검사만 실행한다. PR 전에 전체 검사를 반복 실행하지 않는다. 전체 검사는 GitHub의 PR workflow에서 수행한다.
+변경이 영향을 주는 검사를 선택한다. 통과한 검사는 추가 변경·실패·해결되지 않은 우려가 있을 때만 다시 실행하거나 범위를 넓힌다. 실패를 숨기거나 검사 결과를 덮어쓰지 말고, 실행 결과와 미확인 사항을 구분해 보고한다.
 
-- 문서만 변경: 포맷·문서 연결·`git diff --check`를 확인한다.
-- 로직 변경: 관련 단위 테스트를 실행한다. 공통 로직이나 의존성 변경은 영향을 받는 검사 범위를 넓힌다.
-- Svelte·스타일 변경: 정적 검사와 관련 Playwright 검사를 실행한다. 화면 검증에 필요한 build는1회만 만든다.
-- workflow·build 설정 변경: workflow 문법·이벤트별 실행 조건·build·정적 결과 검증을 확인한다. 제품 동작을 바꾸지 않았다면 전체 경기 테스트를 로컬에서 반복하지 않는다.
-- 검사 실패·추가 변경·영향 범위가 불확실한 경우에만 검사를 넓히거나 다시 실행한다. 실행한 검사와 실행하지 않은 검사를 구분해 보고한다.
+| 변경                | 검증                                                                                                            |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 문서                | 변경 파일 포맷·링크와 `git diff --check`                                                                        |
+| 기능 로직           | `node --test tests/해당기능/관련파일.test.js`. 공통 로직·의존성 변경은 영향에 맞게 범위를 넓힌다.               |
+| Svelte·스타일       | `npm run check`, UI 규칙 검사, 변경한 동작·배치의 브라우저 확인. 접근성·모바일·긴 문구 등 관련 조건을 확인한다. |
+| UI 검사기·hook      | `npm run test:ui`                                                                                               |
+| workflow·build 설정 | 문법·이벤트 조건, 필요한 build와 정적 결과 검사                                                                 |
+| 요구사항·화면 연결  | 해당 REQ validator. UI 연결은 `python3 scripts/verify_ui_design.py docs/requirements docs/design --all`         |
+| 설계 validator      | `python3 -m unittest discover -s tests/design -p 'test_*.py'`                                                   |
 
-브라우저 검사는 다음 중 한 방식만 사용한다.
+UI hook이 변경 내용을 검사했다면 같은 내용의 수동 검사를 반복하지 않는다. hook이 없거나 검사 범위가 불확실하면 관련 수정 묶음을 마친 뒤 `npm run check:ui -- 수정파일`로 확인한다. 경고는 작업 완료 전 해결하고, 수정 순서는 작업 의존성에 맞춘다. hook 설정 파일만으로 실제 활성화를 단정하지 않는다.
 
-```shell
-# build가 없거나 제품 코드가 변경됐을 때: build1회와 관련 브라우저 검사
-npm run test:e2e:team-maker -- tests/team-maker-e2e/변경한기능.spec.js
+브라우저 자동 검사는 현재 코드의 build가 없으면 `npm run test:e2e:team-maker -- tests/team-maker-e2e/관련파일.spec.js`, 이미 있으면 `npm run test:e2e:built -- tests/team-maker-e2e/관련파일.spec.js`를 사용한다. 첫 명령은 build를 포함하므로 두 명령을 연달아 실행해 중복 build하지 않는다.
 
-# 같은 코드로 build를 이미 마쳤을 때: 재build 없이 관련 브라우저 검사
-npm run test:e2e:built -- tests/team-maker-e2e/변경한기능.spec.js
-```
-
-`test:e2e:built`는 최신 build가 있을 때만 사용한다. `npm run build` 직후 `npm run test:e2e:team-maker`를 호출해 중복 build하지 않는다.
-
-PR workflow는 lint·정적 검사·전체 단위 테스트·build1회·전체 브라우저 검사·정적 결과 검증을 수행한다. `main` push와 `main` 수동 배포는 build1회·정적 결과 검증·배포·공개 주소 확인만 수행한다. 전체 검사를 통과한 PR을 거쳐 머지하며, 배포 경로에서 생략한 검사를 통과했다고 보고하지 않는다.
-
-문서만 바꿔도 `git diff --check`를 실행한다. 요구사항을 바꾸면 해당 REQ validator도 실행한다. UI 요구사항이나 화면 문서의 연결을 바꾸면 `python3 scripts/verify_ui_design.py docs/requirements docs/design --all`을 실행한다. 해당 validator를 수정하면 `python3 -m unittest discover -s tests/design -p 'test_*.py'`도 실행한다.
-
-## Git과 PR
-
-- 작업 기준 branch는 `origin/main`이다.
-- 하나의 commit에는 서로 관련된 변경만 담는다.
-- commit 전에 `git diff`로 변경 범위와 생성 파일을 확인한다.
-- 사용자가 요청하지 않으면 기존 변경을 amend하거나 강제로 push하지 않는다.
-- 사용자가 요청하지 않으면 PR을 merge하지 않는다.
+전체 검사 명령과 PR·배포 workflow의 범위는 [README](README.md#검사와-build)를 참고한다. 로컬에서 전체 CI 검사를 의무적으로 반복하지 않는다.

@@ -2,9 +2,9 @@
 
 SvelteKit으로 만든 root 사이트, Team Maker, QR 코드와 구슬 레이스 도구를 한 저장소에서 관리합니다.
 
-## 공통 UI와 수정 직후 검사
+## 공통 UI와 검사
 
-새 페이지도 공통 컴포넌트와 토큰을 사용합니다. [컴포넌트 목록·사용 예시·hook 연결 안내](docs/frontend-ui.md)를 먼저 확인하세요. `npm run check:ui`는 전체 UI 규칙, `npm run test:ui`는 검사기와 hook을 검증합니다. Codex와 Claude Code는 수정 직후 같은 검사기로 피드백을 받으며 실제 활성화에는 각 환경의 hook 로딩·신뢰 확인이 필요합니다.
+새 페이지도 공통 컴포넌트와 토큰을 사용합니다. 컴포넌트를 선택하거나 스타일을 바꿀 때 [컴포넌트 목록·사용 예시](docs/frontend-ui.md)의 관련 부분을 참고하세요. `npm run check:ui`는 UI 규칙, `npm run test:ui`는 검사기와 hook을 검증합니다. 활성화된 hook은 변경 파일을 검사하므로 같은 내용의 수동 검사를 반복할 필요는 없습니다. hook 연결을 설치하거나 진단할 때만 해당 문서의 연결 절차를 확인하세요.
 
 QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/marble-race/components/`에서 기능별로 관리합니다. route는 상태·주요 동작·전체 배치를 담당합니다.
 
@@ -75,7 +75,7 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 | 참가자 통계                          | `PlayerStatsDialog.svelte`    | `history.js`                    |
 | 삭제 등 확인창                       | `ConfirmDialog.svelte`        | `dialogs.js`                    |
 
-화면 component는 기존 HTML 계층, ID, class, data·접근성 속성을 유지합니다. 추가 wrapper 없이 같은 위치에 렌더링하며, JavaScript가 내용을 채우는 목록·표·팀 카드·돌림판 컨테이너는 비워 둡니다. 상태와 이벤트는 기존 JavaScript에서 처리합니다. `TeamResultsSection`의 `assetsBase` prop은 결과 안내 이미지의 경로만 전달합니다.
+현재 화면 component는 마크업을, JavaScript는 상태·이벤트와 목록·표·팀 카드·돌림판의 내용을 담당합니다. JavaScript가 채우는 컨테이너는 비워 두며, 초기 연결에 필요한 화면과 dialog는 `pageRoot` 안에 렌더링합니다. HTML 계층이나 ID·class·data 속성을 바꿀 때는 이를 사용하는 선택자와 접근성 연결도 함께 맞춰야 합니다. `TeamResultsSection`의 `assetsBase` prop은 결과 안내 이미지의 경로를 전달합니다.
 
 ### 동작 수정 위치
 
@@ -97,9 +97,9 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 | 이벤트·타이머·화면 갱신 예약 해제                   | `lifecycle.js`    |
 | ID 생성과 작은 값 변환 함수                         | `utils.js`        |
 
-### 기능 연결 규칙
+### 현재 기능 연결 구조
 
-- `app.js`가 각 기능을 만들고 필요한 상태 접근 함수와 동작 함수를 전달합니다. 기능 파일끼리 직접 import하지 않습니다. 공통 계산과 도우미 파일은 import할 수 있습니다.
+- `app.js`가 각 기능을 만들고 필요한 상태 접근 함수와 동작 함수를 전달합니다. 기능 간 동작은 이 연결 지점에서 전달하고, 공통 계산과 도우미 파일은 직접 import하는 구조입니다.
 - `getState()`는 현재 화면이 사용하는 같은 저장 상태 객체를 반환합니다. 각 기능은 필요한 필드를 갱신하며 객체 전체를 교체하지 않습니다. 실제 저장은 전달받은 `persist()`나 `saveAndRender()`로 요청합니다.
 - 여러 기능이 함께 쓰는 임시 팀 결과와 순위는 `app.js`의 `runtime`에 둡니다. 한 기능만 쓰는 검색어, 선택 상태, 타이머와 효과음은 해당 기능 안에 둡니다.
 - 모든 기능을 만든 뒤 `connect()`로 이벤트를 연결합니다. 연결 전에는 다른 기능의 동작을 호출하지 않습니다.
@@ -120,7 +120,7 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 | `wheel*.css`              | 돌림판·축하 효과           |
 | `content.css`             | 검색 안내와 FAQ            |
 
-기존 적용 순서를 보존하기 위해 일부 기능은 보완 파일로 나누었습니다. 진입점의 import 순서를 임의로 바꾸지 마세요. 여러 기능에 걸친 공통 규칙은 `common*.css`에서 관리합니다. build 검증은 `src/lib/team-maker/` 아래의 JavaScript, Svelte와 CSS를 하위 폴더까지 모두 검사합니다.
+기존 적용 순서를 보존하기 위해 일부 기능은 보완 파일로 나누었습니다. import 순서를 바꾸면 같은 요소에 적용되는 CSS 우선순위도 확인하세요. 여러 기능에 걸친 공통 규칙은 `common*.css`에서 관리합니다. build 검증은 `src/lib/team-maker/` 아래의 JavaScript, Svelte와 CSS를 하위 폴더까지 모두 검사합니다.
 
 ## 설계 문서 관리
 
@@ -135,7 +135,7 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 
 현재 설계는 IA와 화면 문서에서 확인하고, 실제 동작은 코드와 브라우저에서 확인합니다. handoff와 마지막 요청문에는 과거 조건이 포함될 수 있습니다. 새 handoff를 받으면 기존 폴더 전체를 교체하세요. 파일을 덧붙여 이전 전달본의 파일을 남기지 마세요. 구현을 수정할 때마다 handoff를 다시 생성하지는 않습니다. 다음 Claude Design 요청은 같은 요청문 파일의 본문과 참조 경로를 검토해 갱신하세요.
 
-UI 요구사항의 `design_ref`는 `docs/design/` 기준 화면 경로 목록입니다. 화면이 1개여도 `[screens/SCR-WEB-001.md]`처럼 적습니다. 공통 요구사항은 관련 화면을 모두 연결하고, 각 화면 문서의 `연결 REQ`에도 같은 요구사항을 적습니다. `design_status`는 기존처럼 `pending`, `approved`, `deferred`를 사용합니다. 승인 사실은 관련 commit이나 PR 설명에 명시하세요. commit 자체가 승인을 뜻하지는 않습니다.
+UI 요구사항의 `design_ref`는 `docs/design/` 기준 화면 경로 목록입니다. 화면이 1개여도 `[screens/SCR-WEB-001.md]`처럼 적습니다. 공통 요구사항은 관련 화면을 모두 연결하고, 각 화면 문서의 `연결 REQ`에도 같은 요구사항을 적습니다. `design_status`는 기존처럼 `pending`, `approved`, `deferred`를 사용합니다. 승인 상태를 바꿀 때는 사용자 요청 등 실제 근거를 관련 commit이나 PR 설명에 남기세요. commit 자체가 승인을 뜻하지는 않습니다. 이 기록 절차가 이미 요청받은 구현에 별도 시안 승인을 요구하는 것은 아닙니다.
 
 설계 검사는 Python 3와 PyYAML이 필요합니다. PyYAML이 없다면 별도 Python 가상환경에 `python3 -m pip install pyyaml`로 설치하세요.
 
