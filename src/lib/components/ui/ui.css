@@ -359,6 +359,9 @@
 .ui-section[data-padding='compact'] {
 	padding: var(--space-16);
 }
+.ui-section[data-padding='tight'] {
+	padding: var(--space-12);
+}
 .ui-section[data-gap='body'] > * + * {
 	margin-top: var(--space-16);
 }

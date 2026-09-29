@@ -1,10 +1,11 @@
 <script>
-	import { setContext, onDestroy } from 'svelte';
+	import { setContext, onDestroy, onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 	import * as publicEnv from '$env/static/public';
 	import { ANALYTICS_CONTEXT, createAnalytics } from '$lib/analytics/tracker.js';
+	import { markLocalPreview } from '$lib/local-preview.js';
 	import '$lib/styles/fonts.css';
 	import '$lib/styles/tokens.css';
 	import '$lib/styles/site.css';
@@ -15,10 +16,10 @@
 	let tracker;
 	const analytics = $state({
 		enabled: false,
-		consent: 'unknown',
-		setConsent: (value) => tracker?.setConsent(value)
+		consent: 'unknown'
 	});
 	setContext(ANALYTICS_CONTEXT, analytics);
+	onMount(() => markLocalPreview({ window, document, dev }));
 
 	afterNavigate(() => {
 		tracker ??= createAnalytics({

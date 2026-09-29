@@ -559,7 +559,7 @@ test('미니맵은 기본 OFF이고 ON/OFF를 저장해 다른 화면 크기에�
 test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 안내를 제공한다', async ({ page }) => {
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('ASMR 구슬 추첨기 사용법');
-	await expect(page).toHaveTitle('ASMR 구슬 레이스 | 마블룰렛 방식의 무료 구슬 추첨기');
+	await expect(page).toHaveTitle('[로컬] ASMR 구슬 레이스 | 마블룰렛 방식의 무료 구슬 추첨기');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('ASMR 구슬 레이스');
 	await expect(page.locator('.tool-page-header')).toContainText('마블룰렛 방식의 무료 구슬 추첨기');
 	await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(

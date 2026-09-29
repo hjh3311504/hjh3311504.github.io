@@ -425,7 +425,7 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	await page.setViewportSize({ width: 1280, height: 900 });
 	await openTeamMaker(page);
 
-	await expect(page).toHaveTitle('무료 팀짜기·조짜기 프로그램 | 팀 메이커');
+	await expect(page).toHaveTitle('[로컬] 무료 팀짜기·조짜기 프로그램 | 팀 메이커');
 	await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
 	await expect(page.locator('h1')).toHaveCount(1);
 	await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(

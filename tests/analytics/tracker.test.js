@@ -44,6 +44,11 @@ function fixture(options = {}) {
 	});
 	return {
 		tracker,
+		changeStoredConsent(value) {
+			if (value) storage.set(CONSENT_KEY, value);
+			else storage.clear();
+			listeners.get('storage')({ key: value ? CONSENT_KEY : null });
+		},
 		window,
 		scripts,
 		storage,
@@ -73,9 +78,8 @@ test('ID·HTTPS 운영 주소·production이 모두 일치할 때만 수집한�
 		assert.equal(isAnalyticsEnabled({ ...valid, ...changed }), false);
 });
 
-test('선택 전·거부·미설정·개발 환경에서는 Google 스크립트도 요청하지 않는다', () => {
+test('거부·미설정·개발 환경에서는 Google 스크립트도 요청하지 않는다', () => {
 	for (const options of [
-		{},
 		{ consent: 'denied' },
 		{ consent: 'allowed', measurementId: '' },
 		{ consent: 'allowed', production: false }
@@ -88,10 +92,9 @@ test('선택 전·거부·미설정·개발 환경에서는 Google 스크립트�
 	}
 });
 
-test('허용 시 현재 페이지부터 집계하고 URL·제목·유입 정보에서 입력을 제외한다', () => {
+test('쿠키 없이 조회를 집계하며 URL·제목·유입 정보에서 입력을 제외한다', () => {
 	const f = fixture();
 	f.navigate('/team-maker?name=비밀#참가자');
-	f.tracker.setConsent('allowed');
 	assert.equal(f.scripts.length, 1);
 	assert.equal(f.scripts[0].referrerPolicy, 'no-referrer');
 	f.scripts[0].onload();
@@ -107,7 +110,6 @@ test('허용 시 현재 페이지부터 집계하고 URL·제목·유입 정보�
 	assert.equal(config.send_page_view, false);
 	assert.equal(config.allow_google_signals, false);
 	assert.equal(config.allow_ad_personalization_signals, false);
-	assert.equal(config.cookie_domain, 'none');
 	assert.equal(JSON.stringify(f.commands()).includes('비밀'), false);
 });
 
@@ -130,35 +132,31 @@ test('늦은 스크립트 로딩·반복 콜백·query·hash 이동은 중복 �
 	assert.equal(f.commands().filter(([command]) => command === 'config').length, 1);
 });
 
-test('로딩 중 철회하면 대기 중인 방문을 보내지 않는다', () => {
+test('이전 버전의 탭에서 거부하면 로딩 중 대기열과 이후 전송을 차단한다', () => {
 	const f = fixture({ consent: 'allowed' });
 	f.navigate('/');
-	f.tracker.setConsent('denied');
+	f.navigate('/qr-code');
+	f.changeStoredConsent('denied');
 	f.scripts[0].onload();
+	f.navigate('/team-maker');
 	assert.deepEqual(f.views(), []);
 	assert.equal(f.window[`ga-disable-${measurementId}`], true);
-	f.tracker.setConsent('allowed');
-	assert.equal(f.views().length, 1);
+	assert.equal(f.storage.get(CONSENT_KEY), 'denied');
 });
 
-test('철회하면 쿠키를 삭제하고 다른 탭의 거부·삭제도 적용한다', () => {
-	const f = fixture({ consent: 'allowed' });
+test('다른 탭의 거부·사이트 데이터 삭제를 반영하며 재개해도 쿠키를 허용하지 않는다', () => {
+	const f = fixture();
 	f.navigate('/');
 	f.scripts[0].onload();
-	f.tracker.setConsent('denied');
+	f.changeStoredConsent('denied');
 	f.navigate('/team-maker');
 	assert.equal(f.views().length, 1);
-	assert.equal(f.cookies.length, 2);
-	assert.ok(f.cookies.every((value) => value.includes('Max-Age=0')));
-	f.tracker.setConsent('allowed');
-	assert.equal(f.views().length, 2);
-	f.storage.set(CONSENT_KEY, 'denied');
-	f.listeners.get('storage')({ key: CONSENT_KEY });
 	assert.equal(f.state().consent, 'denied');
-	f.storage.clear();
-	f.listeners.get('storage')({ key: null });
+	f.changeStoredConsent(null);
 	assert.equal(f.state().consent, 'unknown');
-	assert.equal(f.window[`ga-disable-${measurementId}`], true);
+	assert.equal(f.window[`ga-disable-${measurementId}`], false);
+	assert.equal(f.views().length, 2);
+	assert.ok(!JSON.stringify(f.commands()).includes('granted'));
 });
 
 test('오류 화면과 임의 경로는 집계하지 않으며 정상 페이지 재진입은 집계한다', () => {
@@ -174,13 +172,9 @@ test('오류 화면과 임의 경로는 집계하지 않으며 정상 페이지 
 	assert.equal(JSON.stringify(f.commands()).includes('private-name'), false);
 });
 
-test('차단·저장 실패·종료 후에도 사이트 동작을 방해하지 않는다', () => {
+test('차단·종료 후에도 사이트 동작을 방해하지 않는다', () => {
 	const f = fixture();
-	f.window.localStorage.setItem = () => {
-		throw new Error('저장 차단');
-	};
 	f.navigate('/');
-	assert.doesNotThrow(() => f.tracker.setConsent('allowed'));
 	f.scripts[0].onerror();
 	for (let i = 0; i < 100; i++) f.navigate(i % 2 ? '/' : '/qr-code');
 	assert.deepEqual(f.views(), []);
@@ -189,4 +183,47 @@ test('차단·저장 실패·종료 후에도 사이트 동작을 방해하지 �
 	assert.equal(f.listeners.size, 0);
 	assert.equal(f.scripts[0].onload, null);
 	assert.equal(f.window[`ga-disable-${measurementId}`], true);
+});
+
+for (const consent of [undefined, 'allowed']) {
+	test(`${consent ?? '신규'} 방문은 태그 실행 전 쿠키 저장을 거부하고 기존 쿠키를 지운다`, () => {
+		const f = fixture({ consent });
+		assert.equal(f.cookies.length, 2);
+		assert.ok(f.cookies.every((value) => value.includes('Max-Age=0')));
+		f.navigate('/');
+		assert.deepEqual(f.commands()[0], [
+			'consent',
+			'default',
+			{
+				analytics_storage: 'denied',
+				ad_storage: 'denied',
+				ad_user_data: 'denied',
+				ad_personalization: 'denied'
+			}
+		]);
+		f.scripts[0].onload();
+		f.changeStoredConsent('allowed');
+		assert.equal(f.views().length, 1);
+		f.navigate('/qr-code');
+		assert.equal(f.views().length, 2);
+		assert.ok(!JSON.stringify(f.commands()).includes('granted'));
+	});
+}
+
+test('저장 공간을 읽을 수 없어도 쿠키 없는 측정으로 시작한다', () => {
+	const listeners = new Map();
+	const f = fixture({
+		window: {
+			location: new URL(origin),
+			localStorage: {
+				getItem() {
+					throw new Error('저장 차단');
+				}
+			},
+			addEventListener: (name, fn) => listeners.set(name, fn),
+			removeEventListener: (name) => listeners.delete(name)
+		}
+	});
+	assert.doesNotThrow(() => f.navigate('/'));
+	assert.equal(f.scripts.length, 1);
 });

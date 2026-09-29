@@ -19,7 +19,7 @@
 | 입력 항목                       | `FormField`와 `.ui-field`         | 제목·설명·오류는 FormField, 실제 값과 이벤트는 입력 요소에서 관리 |
 | 빈 상태·접는 안내               | `EmptyState`, `DisclosureSection` | 기존 props 사용                                                   |
 
-`Section`의 `padding`은 `none`·`compact`·`card`, `gap`은 `none`·`body`다. Team Maker의 기존 컨테이너에 여백이 있으면 기본값 `none`으로 중복 여백을 피한다. 새 카드에는 내부 간격이 포함된 예시를 우선 사용한다.
+`Section`의 `padding`은 `none`·`tight`·`compact`·`card`, `gap`은 `none`·`body`다. Team Maker의 기존 컨테이너에 여백이 있으면 기본값 `none`으로 중복 여백을 피한다. 새 카드에는 내부 간격이 포함된 예시를 우선 사용한다. 짧은 글 목록처럼 작은 카드에는 `padding="tight"`로12px 여백을 적용한다.
 
 ```svelte
 <script>
