@@ -7,6 +7,7 @@ test('마지막 방식은1개만 남을 때 당첨·팡파레를 실행하고 �
 	test.setTimeout(90000);
 	await observeRace(page, 47);
 	await page.goto('/marble-race');
+	await page.locator('[aria-labelledby=marble-methods-title] summary').click();
 	expect(await page.locator('main').ariaSnapshot()).toContain('골인하지 않은 구슬이 1개만 남으면');
 	await page.locator('canvas[role="button"]').evaluate((canvas) => {
 		window.__fanfares = [];

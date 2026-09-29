@@ -376,6 +376,7 @@ test('모바일 미니맵은 터치 이동·해제·취소를 처리하며 어�
 	await touch('touchCancel');
 	await expect.poll(async () => Number(await frame(page).getAttribute('y'))).toBeLessThan(2);
 	await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('1배속');
+	await page.locator('[aria-labelledby=block-library-title] summary').click();
 	const frost = page
 		.locator('.block-card')
 		.filter({ has: page.getByRole('heading', { name: '얼음 경사판', exact: true }) });
