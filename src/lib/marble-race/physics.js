@@ -308,6 +308,7 @@ export function createMap(
 					zoneId: 'finale',
 					soundType: 'rubber',
 					deviceId: 'finale-guide',
+					silent: true,
 					extendEnds: true,
 					friction: 0,
 					cornerRadius: 6

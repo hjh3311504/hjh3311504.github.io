@@ -116,15 +116,6 @@ export const BLOCKS = {
 		description: '키캡이 도각 눌려요.',
 		sound: '낮고 둥근 도각'
 	},
-	clicky: {
-		restitution: 0.63,
-		friction: 0.2,
-		name: '찰칵 키보드',
-		symbol: '⌨',
-		color: '#b8c9ed',
-		description: '키캡이 찰칵 울려요.',
-		sound: '선명한 찰칵'
-	},
 	switch: {
 		restitution: 0.61,
 		friction: 0.25,
@@ -234,7 +225,6 @@ export const BREAKABLE_TYPES = [
 	'thock2',
 	'thock3',
 	'thock4',
-	'clicky',
 	'typewriter',
 	'slime',
 	'sand',
@@ -310,7 +300,6 @@ export const ACTIVE_BLOCK_TYPES = [
 	'thock2',
 	'thock3',
 	'thock4',
-	'clicky',
 	'popit',
 	'wrap',
 	'cork',
@@ -353,10 +342,10 @@ export const SAVED_MAPS = [
 	{
 		id: 'crunch',
 		name: '톡톡 나무공방',
-		caption: '나무·코르크와 경쾌한 찰칵 소리',
+		caption: '나무·코르크와 둥근 도각 소리',
 		icon: '◇',
 		colors: ['#d6a06b', '#d5b183'],
-		layers: ['wood', 'cork', 'clicky', 'wrap']
+		layers: ['wood', 'cork', 'thock', 'wrap']
 	},
 	{
 		id: 'soft',
@@ -435,7 +424,7 @@ export function parseNames(text) {
 	};
 }
 export function migrateBlockType(type) {
-	if (type === 'ember') return 'clicky';
+	if (type === 'ember' || type === 'clicky') return 'thock';
 	return type === 'typewriter' ? 'thock2' : type;
 }
 export function resolveMap(value, customMaps = []) {

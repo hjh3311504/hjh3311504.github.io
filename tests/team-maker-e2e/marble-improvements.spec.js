@@ -26,7 +26,7 @@ test('문구·간결한 맵 카드·실제 특수 블록 그림을 공통 도감
 	await expect(library).toHaveAttribute('data-variant', 'card');
 	await expect(library).toHaveCSS('background-color', 'rgb(255, 255, 255)');
 	await expect(page.getByRole('region', { name: /^기본 블록/ }).locator('.block-card')).toHaveCount(
-		12
+		11
 	);
 	await expect(library.locator('.map-material')).toHaveCount(4);
 	await expect(library.locator('.map-material').first()).toHaveText('포함');
@@ -72,7 +72,7 @@ test('문구·간결한 맵 카드·실제 특수 블록 그림을 공통 도감
 				)
 			).toBe(true);
 		}
-		expect(await library.locator('.block-card p').count()).toBe(15);
+		expect(await library.locator('.block-card p').count()).toBe(14);
 		for (const label of await library.locator('.map-material').all()) {
 			const aligned = await label.evaluate((node) => {
 				const name = node.previousElementSibling.getBoundingClientRect();
@@ -571,6 +571,7 @@ test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 
 		guide.getByRole('heading', { name: '마블룰렛 방식으로 이름을 추첨하려면 어떻게 하나요?' })
 	).toBeVisible();
 	await expect(guide.locator('details[open]')).toHaveCount(4);
+	await expect(guide.getByText('효과음 출처', { exact: true })).toHaveCount(0);
 	await guide.getByText('자주 묻는 질문', { exact: true }).click();
 	await expect(
 		guide.getByRole('heading', { name: '무료로 쓸 수 있나요? 설치나 로그인이 필요한가요?' })

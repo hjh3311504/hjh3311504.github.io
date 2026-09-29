@@ -51,7 +51,7 @@ test('명단의 빈 줄을 제거하고 중복 이름은 별도 구슬로 유지
 	assert.ok(parseNames('가'.repeat(21) + ',나').error);
 	assert.equal(parseNames('😀'.repeat(20) + ',나').error, '');
 });
-test('활성3개 맵은 일반12종·재질4층·특수 구간3곳과 회전 판을 제공한다', () => {
+test('활성3개 맵은 일반11종·재질4층·특수 구간3곳과 회전 판을 제공한다', () => {
 	for (const map of MAPS) {
 		assert.ok(map.layers.every((type) => ACTIVE_BLOCK_TYPES.includes(type)));
 		assert.equal(new Set(map.layers).size, 4);
@@ -101,7 +101,6 @@ test('활성3개 맵은 일반12종·재질4층·특수 구간3곳과 회전 판
 		'thock2',
 		'thock3',
 		'thock4',
-		'clicky',
 		'popit',
 		'wrap',
 		'cork',
@@ -130,7 +129,7 @@ test('활성3개 맵은 일반12종·재질4층·특수 구간3곳과 회전 판
 		crunch: 'crunch'
 	}))
 		assert.equal(resolveMapId(id), expected);
-	assert.equal(BREAKABLE_TYPES.length, 19);
+	assert.equal(BREAKABLE_TYPES.length, 18);
 });
 test('도감과 보존 재질은 정면·옆면·모서리에서 접촉면에 맞게 반동하고 한 번만 깨진다', () => {
 	for (const type of BREAKABLE_TYPES)
@@ -165,7 +164,7 @@ test('같은 입사 속도에서 재질별 탄성과 마찰 차이가 나타난�
 	}
 	assert.ok(Math.abs(result.popit[1]) > Math.abs(result.waxball[1]));
 	assert.ok(Math.abs(result.waxball[1]) > Math.abs(result.slime[1]));
-	assert.ok(result.slime[0] < result.clicky[0]);
+	assert.ok(result.slime[0] < result.thock[0]);
 });
 test('점성 젤은 유지되며 천천히 내려간다', () => {
 	const { race, block, marble } = fixture('gel', { h: 100 });

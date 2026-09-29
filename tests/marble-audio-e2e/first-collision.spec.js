@@ -111,27 +111,21 @@ for (const [server, port] of [
 			}
 			async function start(speed = 1) {
 				await clear();
-				await page.getByRole('button', { name: '구슬 굴리기 ▶', exact: true }).first().click();
+				await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 				await expect(page.locator('.stage-state')).toHaveText('경기 중');
 				if (speed === 2)
 					await page.getByRole('button', { name: '경기 배속 전환', exact: true }).click();
 			}
 			await start();
 			await verify('새 진입 1배속');
-			await page
-				.getByRole('button', { name: '경기 종료하고 설정 변경', exact: true })
-				.first()
-				.click();
+			await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).first().click();
 			await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
 			await start(2);
 			await verify('재시작 2배속');
-			await page
-				.getByRole('button', { name: '경기 종료하고 설정 변경', exact: true })
-				.first()
-				.click();
+			await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).first().click();
 			await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
 			for (const [type, name] of [
-				['clicky', /찰칵 키보드 소리/],
+				['thock', /도각 키보드1 소리/],
 				['thock2', /도각 키보드2 소리/],
 				['wrap', /뽁뽁이 소리/]
 			]) {
@@ -159,7 +153,7 @@ for (const [server, port] of [
 			});
 			const frozen = await page.locator('.race-stats').innerText();
 			await page.getByRole('button', { name: '계속하기 ▶', exact: true }).last().click();
-			await expect(page.locator('.stage-state')).toHaveText('소리 준비 중');
+			await expect(page.locator('.stage-state')).toHaveText('소리를 준비하고 있어요.');
 			await page.waitForTimeout(250);
 			expect(await page.locator('.race-stats').innerText()).toBe(frozen);
 			await clear();

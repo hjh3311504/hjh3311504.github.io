@@ -67,9 +67,9 @@ QR 생성에는 [qrcode](https://github.com/soldair/node-qrcode)와 브라우저
 
 Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [구슬 레이스 음원 출처](docs/marble-audio-sources.md)에 기록한다. 정적 음원 폴더의 선택 JSON은 파일과 출처·라이선스·해시 정보를 제공한다.
 
-버터는 기존 왁뿌볼 파일, 젤리 연못은 기존 물풍선 파일을 재사용한다. 팡파레는 [Tada Fanfare A — plasterbrain / Freesound Community](https://pixabay.com/sound-effects/tada-fanfare-a-6313/)다.
+크랙 왁스와 젤리 연못의 현재 음원은 아래 직접 제작 확인 목록을 따른다. 팡파레는 [Tada Fanfare A — plasterbrain / Freesound Community](https://pixabay.com/sound-effects/tada-fanfare-a-6313/)다.
 
-찰칵 키보드 C의 `clicky-v6-1.wav`·`clicky-v6-2.wav`는 MattRuthSound의 [One Keypress 006](https://freesound.org/people/MattRuthSound/sounds/561699/)·[007](https://freesound.org/people/MattRuthSound/sounds/561698/)을 바탕으로 한 변형음이다. [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따르며 프로젝트 MIT 라이선스에 포함하지 않는다. 배포 음원의 `clicky-selection.json`에도 출처를 제공한다.
+찰칵 키보드 C의 `clicky-v6-1.wav`·`clicky-v6-2.wav`는 과거 버전에서 MattRuthSound의 [One Keypress 006](https://freesound.org/people/MattRuthSound/sounds/561699/)·[007](https://freesound.org/people/MattRuthSound/sounds/561698/)을 바탕으로 사용한 변형음이다. [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따르며 프로젝트 MIT 라이선스에 포함하지 않는다. 현재 찰칵 키보드 음원과 `clicky-selection.json`은 배포에서 제거했다. 이 고지는 과거 버전의 출처 기록으로 유지한다.
 
 ### 도각 키보드2 보존 음원
 
@@ -80,3 +80,7 @@ Pixabay 사용 파일과 보존 파일의 원음 제목·제작자·출처는 [�
 `thock4-v6-1.wav`·`thock4-v6-2.wav`는 dinamakan의 [Thocky Keyboard Sound Effect](https://pixabay.com/sound-effects/film-special-effects-thocky-keyboard-sound-effect-264568/)를 사용한다. 원음은 Pixabay Content License로 제공되며 프로젝트 MIT 라이선스와 구분한다.
 
 원형 파동의 `pulse-whoosh-deep-v2.wav`는 ksjsbwuil의 [Whoosh Deep Short](https://pixabay.com/sound-effects/technology-whoosh-deep-short-513923/)를 사용하며 Pixabay Content License를 따른다.
+
+### 직접 제작 확인 음원
+
+2026-09-28 제작자 Lake(hjh3311504)는 `thock3-v3-1.wav`·`thock3-v3-2.wav`·`thock2-v1.wav`·`thock3-v2.wav`·`wrap-pop-ai-v1.wav`·`asmr-lava-ai-v1.wav`·`wax-crack-v1-1.wav`·`wax-crack-v1-2.wav`·`frost-freeze-v1.wav`·`lightning-v1.wav`·`gust-v1.wav`의11개 파일을 직접 제작했다고 확인했다. 상세 대응은 [음원 출처](docs/marble-audio-sources.md)의 직접 제작 목록을 따른다. 이 확인만으로 프로젝트의 코드 MIT 범위를 음원까지 확장하거나 별도 재사용 허락을 새로 부여하지 않는다.

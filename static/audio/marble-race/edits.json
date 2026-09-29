@@ -73,42 +73,6 @@
 			]
 		}
 	],
-	"clicky": [
-		{
-			"file": "clicky-v5-1.wav",
-			"duration": 0.205,
-			"sha256": "7c1e10edd0576d9277f4a2f0ee7f02d1966d03dfcbca408966838619d80e972e",
-			"approvedChoice": "B",
-			"sampleRate": 48000,
-			"parts": [
-				{
-					"source": "blue",
-					"originalSha256": "d00fb0f0d99e369cb7f964b6b0b051361ee52ec2e032abb6aefd69559c274d6b",
-					"title": "Typing / Blue-switch",
-					"creator": "fzb (Freesound)",
-					"url": "https://pixabay.com/sound-effects/technology-typing-28154/",
-					"license": "Pixabay Content License"
-				}
-			]
-		},
-		{
-			"file": "clicky-v5-2.wav",
-			"duration": 0.205,
-			"sha256": "67d52eaf3ee79b57f957b64ae773e2d6fe00efe5d7f49e7f39d392cee8db03ad",
-			"approvedChoice": "B",
-			"sampleRate": 48000,
-			"parts": [
-				{
-					"source": "blue",
-					"originalSha256": "d00fb0f0d99e369cb7f964b6b0b051361ee52ec2e032abb6aefd69559c274d6b",
-					"title": "Typing / Blue-switch",
-					"creator": "fzb (Freesound)",
-					"url": "https://pixabay.com/sound-effects/technology-typing-28154/",
-					"license": "Pixabay Content License"
-				}
-			]
-		}
-	],
 	"typewriter": [
 		{
 			"file": "typewriter-v5-1.wav",
