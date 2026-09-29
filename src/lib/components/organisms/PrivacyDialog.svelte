@@ -86,19 +86,18 @@
 			>에서 확인하세요.
 		</p>
 
-		<h3>방문 통계와 선택 변경</h3>
+		<h3>방문 통계</h3>
 		<p>
-			방문 통계는 허용한 경우에만 Google Analytics 4로 수집합니다. 방문한 페이지, 쿠키 식별자,
-			브라우저·기기 정보와 대략적인 지역 등이 Google에 전달되거나 처리됩니다. 참가자 이름, QR 입력,
-			팀 구성과 브라우저에 저장된 도구 데이터는 보내지 않습니다. 페이지 주소의 검색 조건과 # 뒤의
-			내용은 제외하며 외부 유입 주소는 도메인까지만 사용합니다. 통계는 운영자만 확인합니다.
+			Google Analytics 4로 쿠키 없이 방문 통계를 수집합니다. 방문한 페이지와 브라우저·기기 정보 등이
+			Google에 전달되거나 처리됩니다. 분석 쿠키를 사용하지 않으며, 같은 사람의 재방문을 정확히
+			구분하지 못할 수 있습니다. 참가자 이름, QR 입력, 팀 구성과 브라우저에 저장된 도구 데이터는
+			보내지 않습니다. 페이지 주소의 검색 조건과 # 뒤의 내용은 제외하며 외부 유입 주소는
+			도메인까지만 사용합니다. 통계는 운영자만 확인합니다.
 		</p>
 		<p>
-			허용·거부 선택은 이 브라우저에 저장됩니다. 거부해도 도구를 사용할 수 있습니다. 쿠키는
-			기본적으로 마지막 방문부터 최대2년간 유지되며 브라우저에 따라 더 짧을 수 있습니다. 상세 분석
-			데이터는 2개월간 보관하도록 설정하며, 합산한 표준 통계는 별도 기준으로 보관됩니다. 허용을
-			철회하면 이후 수집을 중단하고 이 사이트의 분석 쿠키를 삭제합니다. 이미 수집된 통계는 자동
-			삭제되지 않습니다.
+			이전에 저장한 통계 거부 선택이 있으면 수집하지 않습니다. 이전에 허용했더라도 이제는 쿠키 없이
+			측정하며, 기존 분석 쿠키는 삭제합니다. 상세 분석 데이터는 2개월간 보관하도록 설정하며, 합산한
+			표준 통계는 별도 기준으로 보관됩니다. 이미 수집된 통계는 자동 삭제되지 않습니다.
 			<a href="https://policies.google.com/technologies/partner-sites?hl=ko"
 				>Google의 파트너 사이트 데이터 이용 안내</a
 			>와 <a href="https://policies.google.com/privacy?hl=ko">Google 개인정보처리방침</a>을
@@ -106,16 +105,10 @@
 		</p>
 		{#if analytics?.enabled}
 			<p aria-live="polite">
-				현재 선택: {analytics.consent === 'allowed'
-					? '방문 통계 허용'
-					: analytics.consent === 'denied'
-						? '방문 통계 거부'
-						: '아직 선택하지 않음'}
+				현재 상태: {analytics.consent === 'denied'
+					? '기존 거부 설정에 따라 수집하지 않음'
+					: '쿠키 없이 측정 중'}
 			</p>
-			<div class="analytics-actions">
-				<Button size="sm" onclick={() => analytics.setConsent('denied')}>통계 거부</Button>
-				<Button size="sm" onclick={() => analytics.setConsent('allowed')}>통계 허용</Button>
-			</div>
 		{:else}
 			<p>현재 이 환경에서는 방문 통계를 수집하지 않습니다.</p>
 		{/if}
@@ -144,12 +137,6 @@
 </Dialog>
 
 <style>
-	.analytics-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-8);
-	}
-
 	:global(.privacy-trigger) {
 		min-height: auto;
 		padding: 0;

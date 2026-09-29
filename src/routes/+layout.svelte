@@ -15,8 +15,7 @@
 	let tracker;
 	const analytics = $state({
 		enabled: false,
-		consent: 'unknown',
-		setConsent: (value) => tracker?.setConsent(value)
+		consent: 'unknown'
 	});
 	setContext(ANALYTICS_CONTEXT, analytics);
 

@@ -26,7 +26,8 @@ export function isAnalyticsEnabled({ measurementId = '', origin = '', production
 function readConsent(window) {
 	try {
 		const value = window.localStorage.getItem(CONSENT_KEY);
-		return ['allowed', 'denied'].includes(value) ? value : 'unknown';
+		// 이전 버전의 허용 기록도 이제 쿠키 없는 측정만 사용한다.
+		return value === 'denied' ? 'denied' : 'unknown';
 	} catch {
 		return 'unknown';
 	}
@@ -41,7 +42,7 @@ function referrerOrigin(value) {
 	}
 }
 
-// 환경과 동의를 확인한 뒤에만 Google 스크립트를 요청한다.
+// 쿠키 없는 측정만 사용하며 이전 버전에서 저장한 거부 선택은 유지한다.
 export function createAnalytics({ window, document, measurementId, origin, production, onChange }) {
 	const enabled = isAnalyticsEnabled({
 		measurementId,
@@ -69,7 +70,7 @@ export function createAnalytics({ window, document, measurementId, origin, produ
 	}
 
 	function canSend() {
-		return enabled && consent === 'allowed' && current && !failed && !destroyed;
+		return enabled && consent !== 'denied' && current && !failed && !destroyed;
 	}
 
 	function send(view) {
@@ -85,9 +86,6 @@ export function createAnalytics({ window, document, measurementId, origin, produ
 				send_page_view: false,
 				allow_google_signals: false,
 				allow_ad_personalization_signals: false,
-				cookie_domain: 'none',
-				cookie_path: '/',
-				cookie_flags: 'SameSite=Lax;Secure',
 				...pending[0]
 			});
 			initialized = true;
@@ -110,7 +108,7 @@ export function createAnalytics({ window, document, measurementId, origin, produ
 			window.dataLayer = window.dataLayer || [];
 			// 태그가 실행되기 전에 동의 기본값을 전달한다.
 			gtag('consent', 'default', {
-				analytics_storage: 'granted',
+				analytics_storage: 'denied',
 				ad_storage: 'denied',
 				ad_user_data: 'denied',
 				ad_personalization: 'denied'
@@ -142,17 +140,12 @@ export function createAnalytics({ window, document, measurementId, origin, produ
 	function applyConsent(value) {
 		consent = value;
 		if (enabled) {
-			window[disableKey] = consent !== 'allowed' || !current;
-			if (consent !== 'allowed') {
+			window[disableKey] = consent === 'denied' || !current;
+			if (consent === 'denied') {
 				pending = [];
 				previous = null;
-				clearCookies();
 			}
-			if (script) {
-				gtag('consent', 'update', {
-					analytics_storage: consent === 'allowed' ? 'granted' : 'denied'
-				});
-			}
+			clearCookies();
 		}
 		publish();
 		track();
@@ -163,7 +156,11 @@ export function createAnalytics({ window, document, measurementId, origin, produ
 	}
 
 	window.addEventListener('storage', onStorage);
-	if (enabled) window[disableKey] = true;
+	if (enabled) {
+		window[disableKey] = true;
+		// 이전 버전에서 허용해 생성한 분석 쿠키도 새 태그 실행 전에 삭제한다.
+		clearCookies();
+	}
 	publish();
 
 	return {
@@ -181,15 +178,6 @@ export function createAnalytics({ window, document, measurementId, origin, produ
 				return;
 			}
 			track();
-		},
-		setConsent(value) {
-			if (!['allowed', 'denied'].includes(value)) return;
-			try {
-				window.localStorage.setItem(CONSENT_KEY, value);
-			} catch {
-				// 저장 공간을 쓸 수 없어도 현재 페이지의 선택은 적용한다.
-			}
-			applyConsent(value);
 		},
 		destroy() {
 			destroyed = true;
