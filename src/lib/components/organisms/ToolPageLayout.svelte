@@ -33,8 +33,17 @@
 		}
 	}
 	.tool-page-layout[data-density='compact'] {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-20);
 		font-family: inherit;
 		width: calc(100% - 32px);
 		padding: var(--space-40) 0 var(--space-72);
+	}
+	.tool-page-layout[data-density='compact'] > :global(.tool-page-header) {
+		margin-bottom: calc(var(--space-32) - var(--space-20));
+	}
+	.tool-page-layout[data-density='compact'] > :global(.tool-page-footer) {
+		margin-top: calc(var(--space-32) - var(--space-20));
 	}
 </style>

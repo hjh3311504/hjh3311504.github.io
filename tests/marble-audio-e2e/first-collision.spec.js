@@ -124,6 +124,7 @@ for (const [server, port] of [
 			await verify('재시작 2배속');
 			await page.getByRole('button', { name: '일시정지 Ⅱ', exact: true }).first().click();
 			await page.getByRole('button', { name: '종료하고 설정 변경', exact: true }).click();
+			await page.locator('[aria-labelledby=block-library-title] summary').click();
 			for (const [type, name] of [
 				['thock', /도각 키보드1 소리/],
 				['thock2', /도각 키보드2 소리/],

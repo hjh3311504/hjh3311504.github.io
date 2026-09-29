@@ -413,6 +413,7 @@ test('뽁뽁이를 미리 듣고 비활성 재질 없이 경기한다', async ({
 	});
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
+	await page.locator('[aria-labelledby=block-library-title] summary').click();
 	for (const name of ['슬라임', '키네틱 샌드', '비누', '왁뿌볼', '물풍선'])
 		await expect(
 			page
@@ -438,6 +439,7 @@ test('물풍선은 제외하고 코르크·나무는 도감과 맵에서 같은 
 	await page.goto('/marble-race');
 	await page.getByRole('button', { name: '도각도각 키보드', exact: true }).click();
 	expect(await page.locator('main').ariaSnapshot()).toContain('도감');
+	await page.locator('[aria-labelledby=block-library-title] summary').click();
 	const capsule = page.getByRole('button', { name: /물풍선 소리 미리듣기/ });
 	await expect(capsule).toHaveCount(0);
 	await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
@@ -536,6 +538,7 @@ test('일반11종과 특수3종을 실제 경기 이미지로 표시하고 각 �
 		expect(await page.locator('[aria-labelledby=block-library-title]').ariaSnapshot()).toContain(
 			'도감'
 		);
+		await page.locator('[aria-labelledby=block-library-title] summary').click();
 		const pictures = page.locator('[aria-labelledby=block-library-title] .block-card img');
 		await expect(pictures).toHaveCount(14);
 		await expect

@@ -81,7 +81,6 @@
 	.marble-guide {
 		display: grid;
 		gap: var(--space-16);
-		margin-top: var(--space-32);
 	}
 	.guide-grid {
 		display: grid;

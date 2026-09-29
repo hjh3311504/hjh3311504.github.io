@@ -68,9 +68,14 @@ try {
 		!(await dataResponse.text()).includes(draft.slug),
 		'초안이 클라이언트 데이터에 포함됐습니다.'
 	);
-	const tool = await (await respond('/team-maker')).text();
-	assert.ok(tool.includes('/blog/public-check'), '도구에서 공개 글로 연결되지 않습니다.');
-	assert.ok(!tool.includes(draft.title), '도구에 초안이 표시됩니다.');
+	for (const route of ['/team-maker', '/qr-code', '/marble-race']) {
+		const response = await respond(route);
+		assert.equal(response.status, 200, `${route}: production 응답 실패`);
+		const tool = await response.text();
+		assert.ok(!tool.includes('program-posts'), `${route}: 삭제한 블로그 섹션이 표시됩니다.`);
+		assert.ok(!tool.includes('/blog/public-check'), `${route}: 관련 글 링크가 표시됩니다.`);
+		assert.ok(!tool.includes(draft.title), `${route}: 초안이 표시됩니다.`);
+	}
 	const note = { ...publicPost, slug: 'general-note', title: '일상의 기록', category: 'note' };
 	delete note.program;
 	await writeFile(
@@ -95,7 +100,7 @@ try {
 	// 검사 중 실제 배포 파일이 바뀌지 않았는지 읽기까지 확인한다.
 	assert.ok((await readFile(path.join(root, 'build/blog.html'), 'utf8')).includes('블로그'));
 	console.log(
-		'production 블로그 검사 통과: 공개 본문·entries·RSS·sitemap·초안404·빈 목록·도구 연결'
+		'production 블로그 검사 통과: 공개 본문·entries·RSS·sitemap·초안404·빈 목록·도구 블로그 섹션 제거'
 	);
 } finally {
 	process.chdir(root);

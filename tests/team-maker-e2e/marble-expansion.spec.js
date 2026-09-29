@@ -201,6 +201,7 @@ test('타자기를 도각2로 복구하고 도각3을 선택한 내 맵과 음�
 		);
 	});
 	await page.goto('/marble-race');
+	await page.locator('[aria-labelledby=block-library-title] summary').click();
 	expect(await page.locator('main').ariaSnapshot()).toContain('도각 키보드2');
 	await expect(page.getByLabel('참가자 이름')).toHaveValue('토끼*2');
 	await expect(page.getByRole('button', { name: '내 키보드', exact: true })).toHaveAttribute(

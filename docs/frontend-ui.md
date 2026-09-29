@@ -49,6 +49,12 @@
 
 부모는 데이터와 동작을 관리한다. 하위 컴포넌트에는 값과 콜백을 전달한다. 양방향 입력이나 DOM 참조가 필요할 때만 `bind:`를 사용한다. 한 기능에만 쓰이는 요소는 그 기능 폴더에 둔다.
 
+`DisclosureSection`은 기본적으로 접힌 상태로 시작한다. 처음부터 펼치려면 `open={true}`를 지정한다. 본문은 접힘 여부와 관계없이 정적 HTML에 포함하며, 브라우저의 `<details>`·`<summary>`로 열고 닫는다.
+
+접는 섹션도 `Section`의 `variant`와 `padding`을 사용한다. 기본값은 `variant="card" padding="card"`다. Team Maker에서는 기존 카드와 같은 `variant="raised" padding="none" class="card"`를 사용한다. `ToolPageLayout`의 제목 영역과 첫 섹션 사이는 모든 밀도에서32px다.
+
+프로젝트·블로그의 개인정보처리방침·저작권 표시는 `ToolPageFooter`로 통일한다. 본문과32px 간격을 두고 글자 크기는12px로 표시한다. 블로그 목록과 상세에는 `showRss`를 지정한다. 페이지에서 푸터의 글자나 구분선을 따로 덮어쓰지 않는다.
+
 ### 본문·사이드바와 목록 공통 스타일
 
 `ui.css`에서 다음 배치를 관리한다. 블로그 목록의 카테고리와 글 상세의 목차가 같은 규칙을 사용한다.

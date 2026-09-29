@@ -195,10 +195,6 @@ export async function publicPosts() {
 	return (await readPosts()).filter((post) => post.published).map(summarizePost);
 }
 
-export async function programPosts(program) {
-	return { blogPosts: (await publicPosts()).filter((post) => post.program === program) };
-}
-
 export function relatedPosts(posts, current) {
 	return posts
 		.filter(

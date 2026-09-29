@@ -1,7 +1,4 @@
 <script>
-	import ProgramPosts from '$lib/blog/ProgramPosts.svelte';
-	export let data;
-
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
@@ -173,9 +170,11 @@
 
 			<div class="seo-content" data-testid="team-maker-guide">
 				<DisclosureSection
+					variant="raised"
+					padding="none"
 					title="3단계로 팀 나누기"
 					titleId="how-to-title"
-					class="seo-section"
+					class="card seo-section"
 					detailsClass="seo-details"
 				>
 					<ol class="guide-steps">
@@ -201,9 +200,11 @@
 				</DisclosureSection>
 
 				<DisclosureSection
+					variant="raised"
+					padding="none"
 					title="이럴 때 사용하세요"
 					titleId="use-cases-title"
-					class="seo-section"
+					class="card seo-section"
 					detailsClass="seo-details"
 				>
 					<ul class="use-case-grid">
@@ -243,9 +244,11 @@
 				</DisclosureSection>
 
 				<DisclosureSection
+					variant="raised"
+					padding="none"
 					title="팀 메이커의 주요 기능"
 					titleId="features-title"
-					class="seo-section"
+					class="card seo-section"
 					detailsClass="seo-details"
 				>
 					<ul class="feature-list">
@@ -258,9 +261,11 @@
 				</DisclosureSection>
 
 				<DisclosureSection
+					variant="raised"
+					padding="none"
 					title="자주 묻는 질문"
 					titleId="faq-title"
-					class="seo-section faq-section"
+					class="card seo-section faq-section"
 					detailsClass="seo-details"
 				>
 					<div class="faq-list">
@@ -311,7 +316,6 @@
 					</div>
 				</DisclosureSection>
 			</div>
-			<ProgramPosts posts={data.blogPosts} />
 			<ToolPageFooter />
 		</ToolPageLayout>
 		<BulkAddDialog />

@@ -506,8 +506,10 @@
 	color: var(--color-color-18);
 	font-weight: 800;
 }
-.block-library {
-	margin-top: var(--space-36);
+.marble-guides {
+	display: grid;
+	gap: var(--space-16);
+	margin-top: var(--space-32);
 }
 .library-heading {
 	display: flex;
@@ -810,7 +812,7 @@
 	line-height: 1.6;
 }
 .marble-page .map-option strong,
-.marble-page .ui-button,
+.marble-page .ui-button:where(:not(.privacy-trigger)),
 .marble-page textarea,
 .marble-page input,
 .marble-page select {

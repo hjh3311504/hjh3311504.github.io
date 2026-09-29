@@ -92,7 +92,7 @@
 				{@render backLink()}
 			</div>
 		</article>
-		<div class="article-footer ui-content-width" data-sidebar={post.toc.length >= 3}>
+		<div class="ui-content-width" data-sidebar={post.toc.length >= 3}>
 			<ToolPageFooter showRss />
 		</div>
 	</ToolPageLayout>
@@ -130,10 +130,6 @@
 	}
 	.subheading {
 		margin-left: var(--space-16);
-	}
-	.article-footer {
-		margin-top: var(--space-24);
-		border-top: 1px solid var(--ui-border);
 	}
 	.back-link {
 		margin-left: auto;

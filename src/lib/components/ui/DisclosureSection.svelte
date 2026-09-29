@@ -4,8 +4,9 @@
 	let {
 		title,
 		titleId,
-		open = true,
+		open = false,
 		variant = 'card',
+		padding = 'card',
 		class: className = '',
 		detailsClass = '',
 		children = undefined,
@@ -16,6 +17,7 @@
 <Section
 	{...restProps}
 	{variant}
+	{padding}
 	class={['ui-disclosure-section', className].filter(Boolean).join(' ')}
 	aria-labelledby={titleId}
 	data-ui-disclosure-section
