@@ -11,8 +11,8 @@
 | 좁은 설정 카드                  | `Section`                         | `padding="compact"`                                               |
 | 섹션 제목·번호                  | `SectionHeader`                   | `title`, `titleId`, 번호가 있으면 `step`                          |
 | 일반·위험·링크 버튼             | `Button`                          | `variant`, `size`, `href` 사용                                    |
-| 페이지 이동                     | `Pager`                          | `currentPage`, `pageCount`, `pages`, `onchange`, `label`            |
-| 세로 필터 목록                  | `FilterList`                     | `items`, `value`, `onchange`, `labelledBy`, `disabled`             |
+| 페이지 이동                     | `Pager`                           | `currentPage`, `pageCount`, `pages`, `onchange`, `label`          |
+| 세로 필터 목록                  | `FilterList`                      | `items`, `value`, `onchange`, `labelledBy`, `disabled`            |
 | 아이콘 버튼                     | `IconButton`                      | `label` 필수                                                      |
 | 삭제 X 버튼                     | `RemoveRowButton`                 | `label`, `onclick` 사용                                           |
 | 모달                            | `Dialog`                          | `title`, `titleId`, `size="md\|wide\|large"`                      |
