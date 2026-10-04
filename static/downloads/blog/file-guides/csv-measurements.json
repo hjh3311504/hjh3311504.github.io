@@ -1,0 +1,47 @@
+{
+  "measuredAt": "2026-10-04",
+  "rows": [
+    [
+      "항목",
+      "수량",
+      "메모"
+    ],
+    [
+      "공책",
+      "12",
+      "가나다"
+    ],
+    [
+      "연필",
+      "3",
+      "쉼표, 포함"
+    ]
+  ],
+  "cp949ReadAsUtf8WithReplacement": "�׸�,����,�޸�\r\n��å,12,������\r\n����,3,\"��ǥ, ����\"\r\n",
+  "files": [
+    {
+      "file": "korean-utf8.csv",
+      "encoding": "utf-8",
+      "bytes": 70,
+      "firstBytes": "ed 95 ad eb aa a9 2c ec 88 98 eb 9f",
+      "rowsMatch": true,
+      "sha256": "39b36f6907fda3c2dbff54411f875eff11f2e65254818b063a3f9ceb1fa4f4eb"
+    },
+    {
+      "file": "korean-utf8-bom.csv",
+      "encoding": "utf-8-sig",
+      "bytes": 73,
+      "firstBytes": "ef bb bf ed 95 ad eb aa a9 2c ec 88",
+      "rowsMatch": true,
+      "sha256": "09808b291f378c0363c4d3a57ac0740be6eba8c55b3b0912faf6e173729a20b9"
+    },
+    {
+      "file": "korean-cp949.csv",
+      "encoding": "cp949",
+      "bytes": 53,
+      "firstBytes": "c7 d7 b8 f1 2c bc f6 b7 ae 2c b8 de",
+      "rowsMatch": true,
+      "sha256": "fdf20064e7618ca4fee26520551e70a7b72ae5ca76cabd3acf8da59bc9708f45"
+    }
+  ]
+}

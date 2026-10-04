@@ -6,6 +6,9 @@ on:
     branches:
       - main
   workflow_dispatch:
+  schedule:
+    # UTC 15:17 = 한국 시간 다음 날 00:17. 예약 글은 이 build부터 공개된다.
+    - cron: '17 15 * * *'
 
 permissions:
   contents: read

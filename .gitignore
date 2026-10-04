@@ -10,6 +10,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .jampack
 /output/playwright/
+/output/pdf/
 /.playwright-cli/
 __pycache__/
 

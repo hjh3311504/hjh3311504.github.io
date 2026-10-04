@@ -1,0 +1,26 @@
+{
+  "measuredAt": "2026-10-04",
+  "files": [
+    {
+      "file": "text-card.png",
+      "format": "png",
+      "bytes": 40662,
+      "firstBytes": "89 50 4e 47 0d 0a 1a 0a",
+      "sha256": "2473861771755e84f86c5d7d89ec93def17a26e0e9269aba3a55872dede2d8cb"
+    },
+    {
+      "file": "renamed-only.jpg",
+      "format": "png",
+      "bytes": 40662,
+      "firstBytes": "89 50 4e 47 0d 0a 1a 0a",
+      "sha256": "2473861771755e84f86c5d7d89ec93def17a26e0e9269aba3a55872dede2d8cb"
+    },
+    {
+      "file": "text-card-q90.jpg",
+      "format": "jpeg",
+      "bytes": 57334,
+      "firstBytes": "ff d8 ff db 00 43 00 03",
+      "sha256": "35d18e9492de5e05a83a2812801ec7ddb5e96d17a66b55409fa5aa934c59c306"
+    }
+  ]
+}

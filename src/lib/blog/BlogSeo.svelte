@@ -19,7 +19,7 @@
 	);
 	// 글 정보의 < 문자를 이스케이프해 JSON-LD의 script 종료를 막는다.
 	let jsonLd = $derived(
-		post?.published
+		post?.publicationStatus === 'published'
 			? `<script type="application/ld+json">${JSON.stringify(structuredPost(post)).replaceAll('<', '\\u003c')}<` +
 					'/script>'
 			: ''
@@ -31,11 +31,11 @@
 	<meta name="description" content={description} />
 	<meta
 		name="robots"
-		content={post && !post.published
+		content={post && post.publicationStatus !== 'published'
 			? 'noindex, nofollow'
 			: 'index, follow, max-image-preview:large'}
 	/>
-	{#if !post || post.published}<link rel="canonical" href={url} />{/if}
+	{#if !post || post.publicationStatus === 'published'}<link rel="canonical" href={url} />{/if}
 	<link
 		rel="alternate"
 		type="application/rss+xml"

@@ -15,17 +15,17 @@
   design_status: approved
   design_ref: [screens/SCR-WEB-006.md]
 - id: REQ-BLOG-003
-  text: content/blog의 Markdown을 서버 전용 코드에서 읽는다. 필수 정보·공개 여부·중복 slug·날짜·선택한 프로그램·종류·이미지 오류는 파일명과 원인을 표시하며 build를 실패시킨다. 날짜는 한국 시간으로 처리한다. 초안은 로컬에서만 미리 보고 배포 HTML·JavaScript·데이터·sitemap·RSS에서 제외한다. 주소는 제목과 독립적으로 유지한다.
+  text: content/blog의 Markdown을 서버 전용 코드에서 읽는다. 필수 정보·공개 여부·중복 slug·날짜·선택한 프로그램·종류·이미지 오류는 파일명과 원인을 표시하며 build를 실패시킨다. 날짜는 한국 시간으로 처리한다. published가 true이고 publishedAt이 오늘보다 늦은 글은 예약이며 공개일부터 build에 포함한다. false인 초안은 날짜가 지나도 공개하지 않는다. 초안·미래 예약은 로컬에서 상태와 날짜를 표시해 미리 보고 배포 HTML·JavaScript·데이터·sitemap·RSS에서 제외한다. 주소는 제목과 독립적으로 유지한다.
   surface: [pages]
   source: "사용자 구현 승인 2026-09-29 > 검토·보완한 블로그 전체 프롬프트대로 구현"
   kind: structural
-  adr: docs/adr/2026-09-29-Markdown-블로그와-정적-게시.md
+  adr: docs/adr/2026-10-04-블로그-날짜별-예약-공개.md
 - id: REQ-BLOG-004
-  text: 공개 글마다 entries로 정적 HTML을 생성한다. 본문·canonical·검색 설명·공유 정보·BlogPosting은 같은 글 정보를 사용한다. 대표 이미지가 없으면 사이트 공통 이미지를 사용한다. RSS·sitemap은 공개 글만 포함하며 기존 도구 주소를 유지한다. 검색 등록과 AI 추천을 보장하지 않는다. 새 분석 도구·추적 항목·로그인·댓글·예약 발행은 추가하지 않는다.
+  text: 공개 글마다 entries로 정적 HTML을 생성한다. 본문·canonical·검색 설명·공유 정보·BlogPosting은 같은 글 정보를 사용한다. 대표 이미지가 없으면 사이트 공통 이미지를 사용한다. RSS·sitemap·홈·관련 글은 공개 글만 포함하며 기존 도구 주소를 유지한다. 미래 예약 글의 직접 접근은404다. 매일 한국 시간00시17분에 GitHub Actions가 main을 다시 build·검증·배포한다. 예약 실행 지연·실패 시 다음 성공한 배포에서 기한이 지난 글을 공개하며 원문의 게시일은 유지한다. 기본 branch 반영과 Actions 활성화가 필요하다. 검색 등록과 AI 추천을 보장하지 않는다. 새 분석 도구·추적 항목·로그인·댓글은 추가하지 않는다.
   surface: [pages]
   source: "사용자 구현 승인 2026-09-29 > 검토·보완한 블로그 전체 프롬프트대로 구현"
   kind: structural
-  adr: docs/adr/2026-09-29-Markdown-블로그와-정적-게시.md
+  adr: docs/adr/2026-10-04-블로그-날짜별-예약-공개.md
 - id: REQ-BLOG-005
   text: 프로그램 화면은 해당 프로그램의 공개 글이 있을 때만 footer 앞에서 소개·사용 가이드·업데이트 글로 연결한다. 기존 기능과 저장·DOM 연결은 유지한다.
   surface: [web]
@@ -36,3 +36,5 @@
   design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md]
 
 # 2026-09-29 후속 사용자 요청: 일반 블로그 이름·설명, RSS footer 이동, 본문 홈 링크 제거, 팀 메이커 글1개 작성. program은 선택 항목이며 일반 글은 note 분류를 사용할 수 있다.
+
+# 2026-10-04 후속 사용자 승인: 서로 다른 등록일과 예약 공개. 예약 운영 결정은 docs/adr/2026-10-04-블로그-날짜별-예약-공개.md를 따른다. REQ-BLOG-001·002의 로컬 미리보기에도 예약 상태를 표시한다.

@@ -11,3 +11,5 @@ package-lock.json
 static/google*.html
 static/naver*.html
 static/favicons/site.webmanifest
+# 블로그 실험의 바이트·서명을 보존할 원본과 생성된 측정 자료
+static/downloads/blog/file-guides

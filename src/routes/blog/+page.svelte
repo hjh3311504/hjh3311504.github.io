@@ -114,11 +114,11 @@
 				{#if data.drafts.length}
 					<Section gap="body" aria-labelledby="drafts-title">
 						<SectionHeader
-							title="로컬 초안 미리보기"
+							title="로컬 초안·예약 미리보기"
 							titleId="drafts-title"
-							description="아래 글은 배포되지 않습니다. 공개 저장소에 올린 원문은 누구나 볼 수 있습니다."
+							description="초안은 공개되지 않으며 예약 글은 공개일 이후 배포됩니다. 공개 저장소의 원문은 누구나 볼 수 있습니다."
 						/>
-						<PostList posts={data.drafts} label="로컬 초안 목록" />
+						<PostList posts={data.drafts} label="로컬 초안·예약 목록" />
 					</Section>
 				{/if}
 			</section>

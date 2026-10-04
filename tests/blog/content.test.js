@@ -8,6 +8,8 @@ import {
 	parsePost,
 	readPosts,
 	publicEntries,
+	publicPaths,
+	isPublicPost,
 	relatedPosts,
 	summarizePost
 } from '../../src/lib/server/blog.js';
@@ -63,7 +65,6 @@ for (const [name, changes, message] of [
 	['객체 기본 속성 프로그램', { program: 'toString' }, /프로그램 ID/],
 	['없는 종류', { category: 'news' }, /글 종류/],
 	['잘못된 날짜', { publishedAt: '2026-02-30' }, /존재하지 않는 날짜/],
-	['미래 공개', { publishedAt: '2026-09-30' }, /미래 게시일/],
 	['역전된 수정일', { updatedAt: '2026-09-28' }, /게시일보다/],
 	['미래 수정일', { updatedAt: '2026-09-30' }, /미래 수정일/],
 	['없는 이미지', { image: '/images/missing.png', imageAlt: '예시' }, /이미지 파일/],
@@ -78,13 +79,44 @@ for (const [name, changes, message] of [
 	});
 }
 
-test('한국 시간 자정부터 공개하고 미래 초안은 미리 볼 수 있다', async () => {
-	await parsePost(source(), 'example.md', { now: new Date('2026-09-28T15:00:00Z') });
-	await assert.rejects(
-		parsePost(source(), 'example.md', { now: new Date('2026-09-28T14:59:59Z') }),
-		/미래 게시일/
+test('예약은 한국 시간 자정부터 공개되고 초안은 날짜가 지나도 공개되지 않는다', async () => {
+	for (const [time, expected] of [
+		['2026-09-28T14:59:59.999Z', 'scheduled'],
+		['2026-09-28T15:00:00.000Z', 'published'],
+		['2026-10-01T00:00:00.000Z', 'published']
+	]) {
+		const post = await parsePost(source(), 'example.md', { now: new Date(time) });
+		assert.equal(post.published, true, '원문의 승인 여부를 덮어쓰지 않는다.');
+		assert.equal(post.publicationStatus, expected);
+		assert.equal(isPublicPost(post), expected === 'published');
+		const draft = await parsePost(source({ published: false }), 'draft.md', {
+			now: new Date(time)
+		});
+		assert.equal(draft.publicationStatus, 'draft');
+		assert.equal(isPublicPost(draft), false);
+	}
+	assert.equal(
+		(await parse({ published: false, publishedAt: '2099-01-01' })).publicationStatus,
+		'draft'
 	);
-	assert.equal((await parse({ published: false, publishedAt: '2099-01-01' })).published, false);
+});
+
+test('예약 글은 경로·관련 글에서 제외되고 공개일부터 같은 본문과 날짜로 포함된다', async () => {
+	const scheduledSource = source({ slug: 'next', publishedAt: '2026-09-30' });
+	const scheduled = await parsePost(scheduledSource, 'next.md', { now });
+	const current = await parse({ slug: 'current' });
+	const posts = [current, scheduled];
+	assert.deepEqual(publicEntries(posts), [{ slug: 'current' }]);
+	assert.deepEqual(publicPaths(posts), ['/blog/current']);
+	assert.deepEqual(relatedPosts(posts, current), []);
+	assert.equal(summarizePost(scheduled).publicationStatus, 'scheduled');
+	const released = await parsePost(scheduledSource, 'next.md', {
+		now: new Date('2026-09-29T15:00:00Z')
+	});
+	assert.equal(released.html, scheduled.html);
+	assert.equal(released.publishedAt, '2026-09-30');
+	assert.deepEqual(publicEntries([current, released]), [{ slug: 'current' }, { slug: 'next' }]);
+	assert.equal(relatedPosts([current, released], current)[0].slug, 'next');
 });
 
 test('중복 YAML·빈 본문·본문 h1을 거절한다', async () => {
@@ -94,6 +126,33 @@ test('중복 YAML·빈 본문·본문 h1을 거절한다', async () => {
 	);
 	await assert.rejects(parse({}, ''), /본문이 비어/);
 	await assert.rejects(parse({}, '# 중복 페이지 제목'), /##부터/);
+});
+
+test('여러 예약일을 순서대로 공개하고 지나간 예약 취소는 계속 제외한다', async (t) => {
+	const directory = await mkdtemp(path.join(os.tmpdir(), 'blog-schedule-'));
+	t.after(() => rm(directory, { recursive: true, force: true }));
+	for (const day of ['05', '07', '09']) {
+		await writeFile(
+			path.join(directory, `day-${day}.md`),
+			source({ slug: `day-${day}`, publishedAt: `2026-10-${day}` })
+		);
+	}
+	await writeFile(
+		path.join(directory, 'cancelled.md'),
+		source({ slug: 'cancelled', publishedAt: '2026-10-01', published: false })
+	);
+	for (const [date, expected] of [
+		['2026-10-04T14:59:59Z', []],
+		['2026-10-04T15:00:00Z', ['day-05']],
+		['2026-10-06T15:00:00Z', ['day-07', 'day-05']],
+		['2026-10-10T15:00:00Z', ['day-09', 'day-07', 'day-05']]
+	]) {
+		const posts = await readPosts({ directory, now: new Date(date) });
+		assert.deepEqual(
+			publicEntries(posts).map(({ slug }) => slug),
+			expected
+		);
+	}
 });
 
 test('원시 HTML과 위험한 링크를 실행하지 않고 표·코드·일반 링크를 렌더링한다', async () => {

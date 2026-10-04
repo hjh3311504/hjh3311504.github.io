@@ -36,7 +36,9 @@
 		maxWidth={post.toc.length >= 3 ? '1200px' : '880px'}
 	>
 		<article class="blog-article ui-content-stack" aria-label={post.title}>
-			{#if !post.published}<p class="draft-notice" role="status">
+			{#if post.publicationStatus === 'scheduled'}<p class="draft-notice" role="status">
+					예약 미리보기 · {formatDate(post.publishedAt)} 공개 예정입니다.
+				</p>{:else if post.publicationStatus === 'draft'}<p class="draft-notice" role="status">
 					초안 미리보기 · 이 글은 배포되지 않습니다.
 				</p>{/if}
 			<div class="ui-action-row ui-content-width" data-sidebar={post.toc.length >= 3}>
@@ -45,7 +47,10 @@
 					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 					<a href={author.url} rel="author">{author.name}</a>
 					<span>{categories[post.category]}</span>
-					<span>게시 <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time></span>
+					<span
+						>{post.publicationStatus === 'scheduled' ? '공개 예정' : '게시'}
+						<time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time></span
+					>
 					{#if post.updatedAt}<span
 							>수정 <time datetime={post.updatedAt}>{formatDate(post.updatedAt)}</time></span
 						>{/if}

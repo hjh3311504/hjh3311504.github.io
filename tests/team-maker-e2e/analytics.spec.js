@@ -45,10 +45,13 @@ async function openAnalyticsSite(page, { blocked = false, path = '/', consent } 
 		);
 	await page.goto(`${origin}${path}`);
 	await expect(page.locator('main')).toBeVisible();
-	const notice = page.getByRole('region', { name: '방문 통계 안내' });
+	const notice = page.getByRole('region', { name: '방문 통계 안내', includeHidden: true });
 	if (consent !== 'denied') {
-		await expect(notice).toBeVisible();
-		expect(await notice.ariaSnapshot()).toContain('쿠키 없이');
+		if (page.viewportSize().width <= 1200) await expect(notice).toBeHidden();
+		else {
+			await expect(notice).toBeVisible();
+			expect(await notice.ariaSnapshot()).toContain('쿠키 없이');
+		}
 	} else await expect(notice).toHaveCount(0);
 	return { scripts, unexpected, notice };
 }
@@ -167,17 +170,16 @@ test('QR·구슬 레이스 직접 접속도 쿠키 없이 각각1회 집계한�
 	expect((await views(page))[0].page_location).toBe(`${origin}/marble-race`);
 });
 
-for (const width of [390, 1440]) {
-	test(`${width}px 화면에서 통계 안내와 긴 개인정보 안내가 잘리지 않는다`, async ({ page }) => {
+for (const width of [390, 1200, 1201, 1440]) {
+	test(`${width}px 화면에서 상단 통계 안내 표시와 개인정보 안내를 확인한다`, async ({ page }) => {
 		await page.setViewportSize({ width, height: 900 });
 		const { notice } = await openAnalyticsSite(page);
 		await expect(notice.getByRole('button')).toHaveCount(0);
-		await expect(notice.getByRole('link', { name: 'Google 데이터 이용 안내' })).toBeInViewport();
-		const menu = page.getByRole('button', { name: '메뉴 열기', exact: true });
-		if (await menu.isVisible()) {
-			const menuBox = await menu.boundingBox();
-			const noticeBox = await notice.boundingBox();
-			expect(noticeBox.y).toBeGreaterThanOrEqual(menuBox.y + menuBox.height);
+		await expect.poll(async () => (await views(page)).length).toBe(1);
+		if (width <= 1200) {
+			expect(await page.locator('.analytics-notice-container').boundingBox()).toBeNull();
+		} else {
+			await expect(notice.getByRole('link', { name: 'Google 데이터 이용 안내' })).toBeInViewport();
 		}
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 			true

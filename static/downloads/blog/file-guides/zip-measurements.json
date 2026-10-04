@@ -1,0 +1,45 @@
+{
+  "measuredAt": "2026-10-04",
+  "python": "3.13.1",
+  "zlib": "1.2.12",
+  "method": "DEFLATE",
+  "compressionLevel": 9,
+  "files": [
+    {
+      "source": "repeated-notes.txt",
+      "file": "repeated-notes.txt.zip",
+      "originalBytes": 81000,
+      "zipBytes": 511,
+      "reductionPercent": 99.4,
+      "restoredBytesMatch": true,
+      "sha256": "d7fd896a9f535bdf4fe14cca0a37fdb25ea258ac95e8dc660985c25e2b06d2c9"
+    },
+    {
+      "source": "text-card.png",
+      "file": "text-card.png.zip",
+      "originalBytes": 40662,
+      "zipBytes": 35887,
+      "reductionPercent": 11.7,
+      "restoredBytesMatch": true,
+      "sha256": "e73f0dc98fcb84f875992bf39ba2844547707a889e501aadec9af2b1558b0a9c"
+    },
+    {
+      "source": "resize-1600-q90.jpg",
+      "file": "resize-1600-q90.jpg.zip",
+      "originalBytes": 611150,
+      "zipBytes": 605947,
+      "reductionPercent": 0.9,
+      "restoredBytesMatch": true,
+      "sha256": "8dd185f66c22b4dc6691ae7e966e44e69f058d0b2339db63eb48cd77ad469128"
+    },
+    {
+      "source": "tiny-note.txt",
+      "file": "tiny-note.txt.zip",
+      "originalBytes": 6,
+      "zipBytes": 132,
+      "reductionPercent": -2100.0,
+      "restoredBytesMatch": true,
+      "sha256": "acfbd6de110ca0c0b5851525ee6f05d67dc36f0429e7890f7a92f1fff5cfd252"
+    }
+  ]
+}
