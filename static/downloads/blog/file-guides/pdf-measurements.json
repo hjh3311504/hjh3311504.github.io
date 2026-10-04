@@ -1,0 +1,22 @@
+{
+  "measuredAt": "2026-10-04",
+  "searchWord": "파일연습",
+  "files": [
+    {
+      "file": "searchable-text.pdf",
+      "bytes": 18846,
+      "pages": 1,
+      "containsSearchWord": true,
+      "extractedCharacters": 283,
+      "sha256": "8416eac04234f003a6efee322ca0b874bf7a6b2ff6d7268a3ad96dc10cc08ca6"
+    },
+    {
+      "file": "image-only.pdf",
+      "bytes": 85974,
+      "pages": 1,
+      "containsSearchWord": false,
+      "extractedCharacters": 0,
+      "sha256": "da32c2d200f21fba326906c9b88ad598b8b28136aa535ee3915aac1f05e730b3"
+    }
+  ]
+}

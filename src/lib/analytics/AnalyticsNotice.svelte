@@ -42,4 +42,10 @@
 		color: inherit;
 		text-decoration: underline;
 	}
+
+	@media (max-width: 1200px) {
+		.analytics-notice-container {
+			display: none;
+		}
+	}
 </style>

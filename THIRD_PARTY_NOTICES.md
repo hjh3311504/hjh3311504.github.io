@@ -24,6 +24,12 @@ MIT 적용 제외는 해당 자료에 GPL을 새로 적용하거나 별도의 �
 
 `static/images/blog/team-maker/`의 `participants.png`, `settings.png`, `results.png`, `rules.png`, `rosters.png`는2026-09-29 현재 사이트에서 직접 촬영한 사용 화면입니다. 가상 참가자10명을 사용했습니다. 좁은 화면에서 다시 촬영했으며 참가자 입력과 배정 결과는 핵심 부분만 담았습니다. 화면의 자체 코드와 글꼴은 위 적용 조건을 따릅니다.
 
+## 블로그 파일 비교 예제
+
+`static/images/blog/file-guides/`와 `static/downloads/blog/file-guides/`는 2026-10-04에 블로그의 파일·문서 문제 해결 글을 위해 자체 제작한 비교 자료입니다. 안내 카드와 합성 패턴은 `scripts/generate_blog_file_examples.js`, 가상의 주문서 PDF는 `scripts/generate_blog_pdf_examples.py`로 생성했습니다. 외부 사진·화면·개인정보는 사용하지 않았습니다. 자체 작성한 도형·문구·생성 코드는 위 MIT 적용 기준을 따릅니다.
+
+이미지의 글자와 PDF에 포함한 글꼴은 저장소의 SUIT에서 가져왔으며 SIL Open Font License 1.1을 따릅니다. 글꼴 원본의 권리는 유지합니다. CSV·텍스트·ZIP은 `scripts/generate_blog_data_examples.py`가 자체 작성한 연습 데이터와 위 이미지로 생성했습니다. `renamed-only.jpg`는 PNG의 이름만 바꾼 확장자 비교용 예제입니다. 측정 JSON은 생성한 파일의 크기와 검증 결과를 담습니다. 원본 예제는 `static/downloads/`에 보관해 사이트 이미지 최적화 과정의 영향을 받지 않도록 했습니다.
+
 ## 템플릿 이력
 
 이 저장소는 Matheus Fantinel의 [SvelteKit Static Blog Template](https://github.com/matfantinel/sveltekit-static-blog-template)에서 시작했습니다. 첫 commit `c0100a6`의 템플릿과 과거 버전은 당시의 GPLv3 및 개별 자료의 조건을 그대로 따릅니다. 원본 제작자가 현재 사이트를 운영하거나 보증한다는 뜻은 아닙니다.

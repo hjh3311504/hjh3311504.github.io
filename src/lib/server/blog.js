@@ -32,6 +32,20 @@ function dateValue(value, field, file) {
 	return value;
 }
 
+export function publicationStatus(post, now = new Date()) {
+	if (!post.published) return 'draft';
+	const today = new Intl.DateTimeFormat('en-CA', {
+		timeZone: 'Asia/Seoul',
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit'
+	}).format(now);
+	return post.publishedAt > today ? 'scheduled' : 'published';
+}
+
+// 서버에서 날짜를 판정한 결과만 사용한다. 방문자 기기의 시각으로 공개하지 않는다.
+export const isPublicPost = (post) => post.publicationStatus === 'published';
+
 async function validateImage(url, staticDir, file) {
 	if (
 		typeof url !== 'string' ||
@@ -90,8 +104,6 @@ export async function parsePost(
 		month: '2-digit',
 		day: '2-digit'
 	}).format(now);
-	if (data.published && data.publishedAt > today)
-		fail(file, '미래 게시일의 글은 공개할 수 없습니다.');
 	if (data.updatedAt !== undefined) {
 		dateValue(data.updatedAt, 'updatedAt', file);
 		if (data.updatedAt < data.publishedAt) fail(file, '수정일은 게시일보다 빠를 수 없습니다.');
@@ -161,10 +173,21 @@ export async function parsePost(
 	const fence = md.renderer.rules.fence;
 	md.renderer.rules.fence = (...args) =>
 		`<div class="blog-code-scroll" role="region" aria-label="코드 예시, 가로 스크롤" tabindex="0">${fence(...args)}</div>`;
-	return { ...data, file, body, html: md.renderer.render(tokens, md.options, {}), toc };
+	return {
+		...data,
+		publicationStatus: publicationStatus(data, now),
+		file,
+		body,
+		html: md.renderer.render(tokens, md.options, {}),
+		toc
+	};
 }
 
-export async function readPosts({ directory = path.resolve('content/blog'), staticDir, now } = {}) {
+export async function readPosts({
+	directory = path.resolve('content/blog'),
+	staticDir,
+	now = new Date()
+} = {}) {
 	let files;
 	try {
 		files = await readdir(directory);
@@ -188,18 +211,21 @@ export async function readPosts({ directory = path.resolve('content/blog'), stat
 }
 
 export function summarizePost(post) {
-	return Object.fromEntries(Object.entries(post).filter(([key]) => allowedFields.has(key)));
+	return {
+		...Object.fromEntries(Object.entries(post).filter(([key]) => allowedFields.has(key))),
+		publicationStatus: post.publicationStatus
+	};
 }
 
 export async function publicPosts() {
-	return (await readPosts()).filter((post) => post.published).map(summarizePost);
+	return (await readPosts()).filter(isPublicPost).map(summarizePost);
 }
 
 export function relatedPosts(posts, current) {
 	return posts
 		.filter(
 			(post) =>
-				post.published &&
+				isPublicPost(post) &&
 				post.slug !== current.slug &&
 				(current.program
 					? post.program === current.program
@@ -214,6 +240,5 @@ export function relatedPosts(posts, current) {
 		.map(summarizePost);
 }
 
-export const publicEntries = (posts) =>
-	posts.filter((post) => post.published).map(({ slug }) => ({ slug }));
+export const publicEntries = (posts) => posts.filter(isPublicPost).map(({ slug }) => ({ slug }));
 export const publicPaths = (posts) => publicEntries(posts).map(({ slug }) => postPath(slug));

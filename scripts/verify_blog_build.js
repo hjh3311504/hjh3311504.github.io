@@ -2,7 +2,7 @@ import { readFile, readdir, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
-import { readPosts } from '../src/lib/server/blog.js';
+import { readPosts, isPublicPost } from '../src/lib/server/blog.js';
 import { absoluteUrl, postPath, xmlEscape } from '../src/lib/blog/catalog.js';
 
 async function textFiles(directory) {
@@ -20,7 +20,7 @@ export async function verifyBlogBuild({ root = process.cwd() } = {}) {
 		directory: path.join(root, 'content/blog'),
 		staticDir: path.join(root, 'static')
 	});
-	const published = posts.filter((post) => post.published);
+	const published = posts.filter(isPublicPost);
 	const build = path.join(root, 'build');
 	const listing = await readFile(path.join(build, 'blog.html'), 'utf8');
 	const sitemap = await readFile(path.join(build, 'sitemap.xml'), 'utf8');
@@ -57,10 +57,10 @@ export async function verifyBlogBuild({ root = process.cwd() } = {}) {
 	const artifacts = await Promise.all(
 		(await textFiles(build)).map(async (file) => ({ file, text: await readFile(file, 'utf8') }))
 	);
-	for (const draft of posts.filter((post) => !post.published)) {
+	for (const draft of posts.filter((post) => !isPublicPost(post))) {
 		await assert.rejects(
 			access(path.join(build, `blog/${draft.slug}.html`)),
-			`${draft.slug}: 초안 HTML이 배포됩니다.`
+			`${draft.slug}: 초안·예약 HTML이 배포됩니다.`
 		);
 		const markers = [
 			postPath(draft.slug),
@@ -86,13 +86,13 @@ export async function verifyBlogBuild({ root = process.cwd() } = {}) {
 				];
 				assert.ok(
 					!variants.some((value) => text.includes(value)),
-					`${file}: 초안 ${draft.slug}의 내용이 포함됐습니다.`
+					`${file}: 초안·예약 ${draft.slug}의 내용이 포함됐습니다.`
 				);
 			}
 		}
 	}
 	console.log(
-		`블로그 정적 결과 검증 통과: 공개 ${published.length}개, 초안 ${posts.length - published.length}개 제외`
+		`블로그 정적 결과 검증 통과: 공개 ${published.length}개, 초안·예약 ${posts.length - published.length}개 제외`
 	);
 }
 

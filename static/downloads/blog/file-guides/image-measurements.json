@@ -1,0 +1,119 @@
+{
+  "measuredAt": "2026-10-04",
+  "versions": {
+    "aom": "3.15.0",
+    "archive": "3.8.9",
+    "cairo": "1.18.4",
+    "cgif": "0.5.3",
+    "exif": "0.6.26",
+    "expat": "2.8.3",
+    "ffi": "3.8.0",
+    "fontconfig": "2.18.3",
+    "freetype": "2.14.3",
+    "fribidi": "1.0.16",
+    "glib": "2.89.4",
+    "harfbuzz": "14.3.1",
+    "heif": "1.23.2",
+    "highway": "1.4.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.19.1",
+    "mozjpeg": "0826579",
+    "pango": "1.58.2",
+    "pixman": "0.46.4",
+    "png": "1.6.58",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.62.91",
+    "tiff": "4.7.2",
+    "uhdr": "2.0.2",
+    "vips": "8.18.6",
+    "webp": "1.6.0",
+    "xml2": "2.15.3",
+    "zlib-ng": "2.3.3",
+    "sharp": "0.35.4"
+  },
+  "pngRoundTripPixelsEqual": true,
+  "files": [
+    {
+      "file": "text-card.png",
+      "width": 1200,
+      "height": 800,
+      "bytes": 40662,
+      "sha256": "2473861771755e84f86c5d7d89ec93def17a26e0e9269aba3a55872dede2d8cb",
+      "format": "png",
+      "compressionLevel": 9
+    },
+    {
+      "file": "text-card-q90.jpg",
+      "width": 1200,
+      "height": 800,
+      "bytes": 57334,
+      "sha256": "35d18e9492de5e05a83a2812801ec7ddb5e96d17a66b55409fa5aa934c59c306",
+      "format": "jpeg",
+      "quality": 90,
+      "chromaSubsampling": "4:2:0"
+    },
+    {
+      "file": "text-card-q45.jpg",
+      "width": 1200,
+      "height": 800,
+      "bytes": 30450,
+      "sha256": "b3dc65b4003c8c25f7184696f7971b2d9bba819a8601fbb384d8ff1986e0d767",
+      "format": "jpeg",
+      "quality": 45,
+      "chromaSubsampling": "4:2:0"
+    },
+    {
+      "file": "resize-source.png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 3457465,
+      "sha256": "d4b61463659628826ff5ce66d8647dd55c29aed5672c184cbb3b02e43278dcd8",
+      "format": "png",
+      "patternSeed": 20261004
+    },
+    {
+      "file": "resize-1600-q90.jpg",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 611150,
+      "sha256": "5e66982ae1a04a77b6db546c1a409720344922bbf452e89a9ffdbc0a1cd1f93c",
+      "format": "jpeg",
+      "quality": 90,
+      "kernel": "lanczos3",
+      "chromaSubsampling": "4:2:0"
+    },
+    {
+      "file": "resize-1600-q60.jpg",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 247964,
+      "sha256": "5f4fb55d6a46ccb0e0a9cfd06703d9aba9d960819917d73a7ebc5f735e91de38",
+      "format": "jpeg",
+      "quality": 60,
+      "kernel": "lanczos3",
+      "chromaSubsampling": "4:2:0"
+    },
+    {
+      "file": "resize-800-q90.jpg",
+      "width": 800,
+      "height": 500,
+      "bytes": 116720,
+      "sha256": "aa56f1994228efb35b4b2b3c44487256680a4746f27de105720bf26d96c31503",
+      "format": "jpeg",
+      "quality": 90,
+      "kernel": "lanczos3",
+      "chromaSubsampling": "4:2:0"
+    },
+    {
+      "file": "resize-800-q60.jpg",
+      "width": 800,
+      "height": 500,
+      "bytes": 40578,
+      "sha256": "9e0b3c2d354361b39d74c4a67f7278dd7db115327acfb3c0d311ac1a3c9bff40",
+      "format": "jpeg",
+      "quality": 60,
+      "kernel": "lanczos3",
+      "chromaSubsampling": "4:2:0"
+    }
+  ]
+}

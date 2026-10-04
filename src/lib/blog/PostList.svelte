@@ -14,6 +14,8 @@
 						>{categories[post.category]}</span
 					>
 					<time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+					{#if post.publicationStatus === 'scheduled'}<span>공개 예정</span
+						>{:else if post.publicationStatus === 'draft'}<span>초안</span>{/if}
 				</div>
 				<SectionHeader>
 					{#snippet heading()}<h2>
