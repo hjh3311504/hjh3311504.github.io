@@ -153,8 +153,8 @@
 										>도구</span
 									></span
 								><span class="project-description"
-									>이름을 넣고 구슬을 굴리는 마블룰렛 방식.<br />소리와 함께 즐기는 무료 구슬
-									추첨기입니다.</span
+									>이름을 넣고 구슬레이스로 당첨자를 뽑아보세요.<br />소리와 함께 즐기는 무료
+									구슬추첨 도구입니다.</span
 								></span
 							>
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
@@ -233,9 +233,9 @@
 					</dd>
 					<dt>발표자나 당첨자 뽑기</dt>
 					<dd>
-						<a href={resolve('/marble-race')}>ASMR 구슬 레이스</a>는 마블룰렛 방식의 무료 구슬
-						추첨기입니다. 원하는 도착 순위를 고르고 경기 화면과 소리로 진행 과정을 함께 볼 수
-						있습니다.
+						<a href={resolve('/marble-race')}>ASMR 구슬 레이스</a>는 마블룰렛 방식으로 당첨자를 뽑는
+						무료 마블레이스입니다. 원하는 도착 순위를 고르고 경기 화면과 소리로 구슬추첨 과정을 함께
+						볼 수 있습니다.
 					</dd>
 					<dt>QR 코드로 링크 공유하기</dt>
 					<dd>

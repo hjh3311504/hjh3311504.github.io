@@ -485,6 +485,7 @@ for (const marker of [
 	`name="twitter:title" content="${marbleTitle}"`,
 	`name="twitter:description" content="${marbleDescription}"`,
 	`name="twitter:card" content="summary_large_image"`,
+	`<link rel="canonical" href="${marbleUrl}"`,
 	`name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"`
 ]) {
 	if (!marbleHtml.includes(marker)) throw new Error(`ASMR 구슬 레이스 검색 정보 누락: ${marker}`);
@@ -500,14 +501,36 @@ if (
 	marblePage?.description !== marbleDescription
 )
 	throw new Error('구슬 레이스 페이지 정보와 검색 정보가 일치하지 않습니다.');
-if (!marbleTitle.includes('마블룰렛') || !marbleDescription.includes('마블룰렛'))
-	throw new Error('구슬 추첨 검색 문구가 제목 또는 설명에 없습니다.');
 const marbleMain = marbleHtml.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
+const marbleMainText = marbleMain
+	?.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, '')
+	.replace(/<[^>]+>/g, ' ');
+const marbleSearchTerms = ['구슬레이스', '구슬추첨', '마블레이스'];
+for (const term of marbleSearchTerms) {
+	if (!marbleTitle.includes(term) || !marbleDescription.includes(term))
+		throw new Error(`구슬 레이스 검색 제목 또는 설명에 검색어가 없습니다: ${term}`);
+	if (!marbleMainText?.includes(term))
+		throw new Error(`구슬 레이스 정적 본문에 검색어가 없습니다: ${term}`);
+	if (!marbleApp?.alternateName?.includes(term))
+		throw new Error(`구슬 레이스 앱의 대체 이름에 검색어가 없습니다: ${term}`);
+}
+if (!marbleDescription.includes('마블룰렛') || !marbleMainText?.includes('마블룰렛'))
+	throw new Error('구슬 레이스 설명 또는 본문에 마블룰렛 방식 안내가 없습니다.');
 for (const text of [marblePageDescription, marbleGuideIntro]) {
 	if (!marbleMain?.includes(text))
 		throw new Error(`정적 본문에 구슬 추첨 소개가 없습니다: ${text}`);
 }
 if (!homeHtml.includes('마블룰렛 방식')) throw new Error('홈에 구슬 추첨 용도 안내가 없습니다.');
+const homeMarbleCard = homeHtml.match(
+	/<a\b[^>]*\bhref="(?:\.\/|\/)marble-race"[^>]*>([\s\S]*?)<\/a>/g
+);
+if (
+	!homeMarbleCard?.some((card) => {
+		const text = card.replace(/<[^>]+>/g, ' ');
+		return text.includes('구슬레이스') && text.includes('구슬추첨');
+	})
+)
+	throw new Error('홈의 구슬 레이스 카드에 구슬레이스·구슬추첨 안내가 없습니다.');
 if (
 	marbleApp?.url !== marbleUrl ||
 	marbleApp?.name !== pageName ||
