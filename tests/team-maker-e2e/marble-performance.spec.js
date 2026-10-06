@@ -4,6 +4,10 @@ import { installRequestDrivenWorker } from './helpers/marble-request-driven.js';
 import { installMarbleDiagnostics } from './helpers/marble-diagnostics.js';
 import { startMarbleTrace } from './helpers/marble-trace.js';
 
+// 녹화·Playwright 추적의 CPU 부하가 실제 경기 성능에 섞이지 않게 한다.
+// 실패 분석용 시간 기록은 MARBLE_PROFILE·MARBLE_TRACE로 별도 수집한다.
+test.use({ video: 'off', trace: 'off' });
+
 const traces = new WeakMap();
 test.afterEach(async ({ page }, testInfo) => {
 	const finish = traces.get(page);
