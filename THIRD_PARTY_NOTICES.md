@@ -75,12 +75,6 @@ QR 생성에는 [qrcode](https://github.com/soldair/node-qrcode)와 브라우저
 
 ## Team Maker 돌림판 음원
 
-`src/lib/team-maker/sounds/wheel-pin-v1.wav`는2026-10-06에 Agent Audio MCP의 Stable Audio 3 Medium으로 생성한 핀 충돌음입니다. 생성한2초 원본에서 첫55ms를 잘라 모노로 변환하고 시작·끝 음량을 짧게 줄였습니다. 생성 문구와 파일 해시는 같은 폴더의 `wheel-pin-v1.json`에 기록합니다. 음원에 코드의 MIT 라이선스를 새로 적용하지 않습니다.
-
-보존된 `wheel-pin-v2.wav`는 같은 날 같은 모델로 새로 생성한 부드러운 나무 타격음입니다. 원본의20~75ms 구간을 모노로 바꾸고1200Hz 저역 통과 필터를2회 적용했습니다. 시작3ms와 끝30ms의 음량을 부드럽게 줄였으며 평균 음량은 이전보다 약3dB 낮췄습니다. 상세 처리값·생성 문구·해시는 `wheel-pin-v2.json`에 기록합니다. 이전 버전과 같은 라이선스 구분을 유지합니다.
-
-보존된 `wheel-pin-v3.wav`는 첫 음원인 `wheel-pin-v1.wav`에서 고음만 조금 줄인 버전입니다.3500Hz를 중심으로 높은 주파수의 음량을3dB 낮추는 필터를 적용했습니다. 길이·재생 속도·전체 음량 배율은 바꾸지 않았습니다. 처리값과 원본·결과 해시는 `wheel-pin-v3.json`에 기록하며 같은 라이선스 구분을 유지합니다.
-
 돌림판에서 이전에 사용한 구슬 레이스의 ‘도각 키보드1’ 파일인 `static/audio/marble-race/thock-1.wav`와 `thock-2.wav`는 위 구슬 레이스 음원 안내와 [출처 기록](docs/marble-audio-sources.md)의 Pixabay 출처·라이선스 구분을 따릅니다.
 
 현재 재생하는 `src/lib/team-maker/sounds/wheel-pin-tuk.wav`는2026-10-06에 Agent Audio MCP의 Stable Audio 3 Medium으로 생성한 짧은 고무 타격음입니다.2초 원본의 첫70ms를 모노로 변환하고100Hz 고역 통과·2400Hz 저역 통과 필터와 시작·끝 음량 조절을 적용했습니다. 생성 문구·처리값·파일 해시는 같은 폴더의 `wheel-pin-tuk.json`에 기록합니다. 음원에 코드의 MIT 라이선스를 새로 적용하지 않습니다.
