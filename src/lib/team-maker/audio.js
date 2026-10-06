@@ -1,4 +1,7 @@
 import { createLifetime } from './lifecycle.js';
+import { calculateWheelSoundTimes } from './wheel-sound.js';
+
+const wheelPinUrl = new URL('./sounds/wheel-pin-tuk.wav', import.meta.url).href;
 
 export function createAudio({ getState, $, persist }) {
 	const lifetime = createLifetime();
@@ -6,6 +9,9 @@ export function createAudio({ getState, $, persist }) {
 	const state = getState();
 	let audioSources = new Set();
 	let audioContext = null;
+	let pinBufferPromise = null;
+	let wheelSpin = null;
+	let wheelSoundRequest = 0;
 	function renderSoundButton() {
 		const button = $('#sound-toggle-button');
 		button.setAttribute('aria-pressed', String(state.soundEnabled));
@@ -18,7 +24,7 @@ export function createAudio({ getState, $, persist }) {
 	}
 
 	function getAudioContext() {
-		if (!state.soundEnabled) return null;
+		if (!lifetime.active || !state.soundEnabled) return null;
 		try {
 			const AudioContext = window.AudioContext || window.webkitAudioContext;
 			if (!AudioContext) return null;
@@ -46,7 +52,8 @@ export function createAudio({ getState, $, persist }) {
 		);
 	}
 
-	function stopSounds() {
+	function stopAudioSources() {
+		wheelSoundRequest++;
 		for (const source of audioSources) {
 			try {
 				source.stop();
@@ -55,6 +62,90 @@ export function createAudio({ getState, $, persist }) {
 			}
 		}
 		audioSources.clear();
+	}
+
+	function stopSounds() {
+		wheelSpin = null;
+		stopAudioSources();
+	}
+
+	function loadPinBuffer(context) {
+		if (!pinBufferPromise) {
+			pinBufferPromise = fetch(wheelPinUrl)
+				.then(async (response) => {
+					if (!response.ok) throw new Error('돌림판 음원을 불러오지 못했습니다.');
+					return context.decodeAudioData(await response.arrayBuffer());
+				})
+				.catch(() => {
+					pinBufferPromise = null;
+					return null;
+				});
+		}
+		return pinBufferPromise;
+	}
+
+	function prepareWheelSound() {
+		const context = getAudioContext();
+		if (context) void loadPinBuffer(context);
+	}
+
+	async function scheduleWheelPins(spin) {
+		const request = ++wheelSoundRequest;
+		const context = getAudioContext();
+		if (!context || document.hidden) return;
+		try {
+			const [buffer] = await Promise.all([
+				loadPinBuffer(context),
+				spin.animation.ready,
+				context.resume()
+			]);
+			if (
+				!buffer ||
+				!lifetime.active ||
+				request !== wheelSoundRequest ||
+				wheelSpin !== spin ||
+				!state.soundEnabled ||
+				document.hidden ||
+				spin.animation.playState !== 'running'
+			)
+				return;
+			const elapsed = Number(spin.animation.currentTime);
+			const duration = Number(spin.animation.effect.getTiming().duration);
+			const times = calculateWheelSoundTimes(spin.fromRotation, spin.toRotation, duration);
+			const now = context.currentTime;
+			for (const time of times) {
+				// 로딩·음소거·탭 전환 중 지나간 핀을 한꺼번에 재생하지 않는다.
+				if (time < elapsed) continue;
+				const source = context.createBufferSource();
+				const gain = context.createGain();
+				source.buffer = buffer;
+				gain.gain.value = 0.5;
+				source.connect(gain).connect(context.destination);
+				trackAudioSource(source);
+				on(
+					source,
+					'ended',
+					() => {
+						source.disconnect();
+						gain.disconnect();
+					},
+					{ once: true }
+				);
+				source.start(now + (time - elapsed) / 1000);
+			}
+		} catch {
+			// 음원 로딩이나 오디오 실행 실패가 추첨을 막지 않게 한다.
+		}
+	}
+
+	function playWheelSpin(animation, fromRotation, toRotation) {
+		if (!animation) return;
+		const spin = { animation, fromRotation, toRotation };
+		wheelSpin = spin;
+		void scheduleWheelPins(spin);
+		void animation.finished.catch(() => {
+			if (wheelSpin === spin) stopSounds();
+		});
 	}
 
 	function playFanfare() {
@@ -119,10 +210,16 @@ export function createAudio({ getState, $, persist }) {
 	function connect() {
 		on($('#sound-toggle-button'), 'click', () => {
 			state.soundEnabled = !state.soundEnabled;
-			if (state.soundEnabled) getAudioContext();
-			else stopSounds();
+			if (state.soundEnabled) {
+				prepareWheelSound();
+				if (wheelSpin) void scheduleWheelPins(wheelSpin);
+			} else stopAudioSources();
 			persist();
 			renderSoundButton();
+		});
+		on(document, 'visibilitychange', () => {
+			if (document.hidden) stopAudioSources();
+			else if (wheelSpin) void scheduleWheelPins(wheelSpin);
 		});
 	}
 	function destroy() {
@@ -130,5 +227,13 @@ export function createAudio({ getState, $, persist }) {
 		void audioContext?.close().catch(() => {});
 		lifetime.destroy();
 	}
-	return { connect, destroy, getAudioContext, stopSounds, playFanfare, renderSoundButton };
+	return {
+		connect,
+		destroy,
+		prepareWheelSound,
+		playWheelSpin,
+		stopSounds,
+		playFanfare,
+		renderSoundButton
+	};
 }

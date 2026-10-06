@@ -14,7 +14,8 @@ export function createWheel({
 	syncPicksToHistory,
 	assetUrl,
 	rankOf,
-	getAudioContext,
+	prepareWheelSound,
+	playWheelSpin,
 	remainingMembers,
 	renderSoundButton,
 	showDialog,
@@ -61,6 +62,7 @@ export function createWheel({
 		$('#wheel-wrap')?.classList.remove('is-spinning');
 		$('#wheel-wrap')?.classList.remove('is-quick-finish');
 		$('#spin-wheel-button').disabled = false;
+		$('#clear-picks-button').disabled = false;
 		for (const button of root.querySelectorAll('#wheel-dialog [data-close-dialog]')) {
 			button.disabled = false;
 		}
@@ -85,6 +87,7 @@ export function createWheel({
 	}
 
 	function clearTeamPicks(teamId) {
+		if (runtime.wheelSpinning) return;
 		if (!runtime.picks[teamId]?.length) return;
 		delete runtime.picks[teamId];
 		syncPicksToHistory();
@@ -110,7 +113,7 @@ export function createWheel({
 	function openWheel(teamId) {
 		const team = runtime.teams.find((item) => item.id === teamId);
 		if (!team || rankOf(teamId) === null) return;
-		getAudioContext();
+		prepareWheelSound();
 		runtime.wheelTeamId = teamId;
 		runtime.wheelSpinning = false;
 		pendingWheelPick = null;
@@ -169,6 +172,7 @@ export function createWheel({
 		if (remaining.length === 0) spinButton.textContent = '모두 뽑음';
 		else spinButton.textContent = picks.length > 0 ? '다음 당첨자 뽑기' : '돌리기';
 		$('#clear-picks-button').hidden = picks.length === 0;
+		$('#clear-picks-button').disabled = false;
 		renderSoundButton();
 		showDialog($('#wheel-dialog'), '#spin-wheel-button');
 	}
@@ -250,6 +254,7 @@ export function createWheel({
 			pickedIndex
 		);
 		runtime.wheelSpinning = true;
+		$('#clear-picks-button').disabled = true;
 		pendingWheelPick = { teamId: team.id, picked: candidates[pickedIndex] };
 		const button = $('#spin-wheel-button');
 		button.disabled = false;
@@ -270,6 +275,13 @@ export function createWheel({
 		}
 		stopSounds();
 
+		if (!prefersReducedMotion()) {
+			const transition = wheel
+				.getAnimations()
+				.find((item) => item.transitionProperty === 'transform');
+			playWheelSpin(transition, previousRotation, wheelRotation);
+		}
+
 		clearTimeout(spinTimer);
 		spinTimer = setTimeout(() => {
 			finishWheelSpin();
@@ -280,6 +292,7 @@ export function createWheel({
 		if (!runtime.wheelSpinning || !pendingWheelPick) return;
 		clearTimeout(spinTimer);
 		spinTimer = null;
+		stopSounds();
 		const pending = pendingWheelPick;
 		pendingWheelPick = null;
 		const team = runtime.teams.find((item) => item.id === pending.teamId);
@@ -294,6 +307,7 @@ export function createWheel({
 
 		recordPick(team.id, pending.picked);
 		runtime.wheelSpinning = false;
+		$('#clear-picks-button').disabled = false;
 		$('#wheel-wrap').classList.remove('is-spinning');
 		for (const closeButton of root.querySelectorAll('#wheel-dialog [data-close-dialog]')) {
 			closeButton.disabled = false;

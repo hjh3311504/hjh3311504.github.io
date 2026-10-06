@@ -73,6 +73,12 @@ QR 생성에는 [qrcode](https://github.com/soldair/node-qrcode)와 브라우저
 
 제목은 기존 SUIT 전체 글꼴의 굵기 700을 사용합니다. `wawoff2`는 개발·build 단계에서 WOFF2 압축을 풀 때만 사용합니다. 글꼴 내용과 이름은 변경하지 않습니다. 생성되는 `.svelte-kit/qr-font/SUIT-Variable.ttf`와 build의 대응 글꼴 파일에도 기존 SUIT OFL 고지를 적용합니다. SVG는 글꼴 파일을 포함하지 않고 사용자가 입력한 제목의 도형만 담습니다.
 
+## Team Maker 돌림판 음원
+
+돌림판에서 이전에 사용한 구슬 레이스의 ‘도각 키보드1’ 파일인 `static/audio/marble-race/thock-1.wav`와 `thock-2.wav`는 위 구슬 레이스 음원 안내와 [출처 기록](docs/marble-audio-sources.md)의 Pixabay 출처·라이선스 구분을 따릅니다.
+
+현재 재생하는 `src/lib/team-maker/sounds/wheel-pin-tuk.wav`는2026-10-06에 Agent Audio MCP의 Stable Audio 3 Medium으로 생성한 짧은 고무 타격음입니다.2초 원본의 첫70ms를 모노로 변환하고100Hz 고역 통과·2400Hz 저역 통과 필터와 시작·끝 음량 조절을 적용했습니다. 생성 문구·처리값·파일 해시는 같은 폴더의 `wheel-pin-tuk.json`에 기록합니다. 음원에 코드의 MIT 라이선스를 새로 적용하지 않습니다.
+
 ## 구슬 레이스 음원
 
 `static/audio/marble-race/`의 외부 출처 음원 파일은 프로젝트 MIT 라이선스에 포함하지 않는다. Pixabay 출처는 Pixabay Content License를 따른다.
