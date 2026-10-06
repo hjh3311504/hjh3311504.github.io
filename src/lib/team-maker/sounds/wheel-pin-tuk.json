@@ -1,0 +1,28 @@
+{
+	"provider": "Agent Audio MCP",
+	"model": "stable-audio-3-medium",
+	"date": "2026-10-06",
+	"source_duration_seconds": 2,
+	"prompt": "A single tiny muted rubber tap, a compact low 'tuk'. One fingertip taps a firm silicone pad on a solid desk. Dry close microphone, rounded short attack, solid low-mid body, quick 60 millisecond decay into silence. Small tactile mechanical sound, neutral and understated. No hollow wooden resonance, no keyboard clack, no sharp high-frequency click, no metallic ringing, no bass boom, no reverb, no speech, no music. Exactly one isolated tap.",
+	"source_sha256": "acbe4e087e77bb2a879227214bbd6eb69a0b877fbafeefcbe3f6a3f427935f83",
+	"processing": {
+		"trim_start_seconds": 0,
+		"trim_end_seconds": 0.07,
+		"highpass_hz": 100,
+		"lowpass_hz": 2400,
+		"fade_in_seconds": 0.001,
+		"fade_out_start_seconds": 0.04,
+		"fade_out_seconds": 0.03,
+		"gain_db": 3.9003205203266127,
+		"channels": 1
+	},
+	"sha256": "154006cb105ddf1787bd41d8bfdbba8106d80b1f27b0f72da8f3f38345a70b0f",
+	"listening_review": false,
+	"verification": {
+		"duration_seconds": 0.07,
+		"sample_rate": 44100,
+		"rms_dbfs": -20.442996660450646,
+		"peak_dbfs": -3.7418144282383166,
+		"samples_at_or_above_full_scale": 0
+	}
+}
