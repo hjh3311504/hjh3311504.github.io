@@ -1,6 +1,6 @@
 <script>
 	import { setContext, onDestroy, onMount } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 	import * as publicEnv from '$env/static/public';
@@ -16,16 +16,25 @@
 	let tracker;
 	const analytics = $state({
 		enabled: false,
-		consent: 'unknown'
+		consent: 'unknown',
+		status: 'idle'
 	});
 	setContext(ANALYTICS_CONTEXT, analytics);
 	onMount(() => markLocalPreview({ window, document, dev }));
+
+	beforeNavigate(({ to, willUnload, cancel }) => {
+		if (to && !willUnload && tracker?.requiresDocumentNavigation(to.url)) {
+			cancel();
+			window.location.assign(to.url.href);
+		}
+	});
 
 	afterNavigate(() => {
 		tracker ??= createAnalytics({
 			window,
 			document,
-			measurementId: env.PUBLIC_GA_MEASUREMENT_ID ?? '',
+			token: env.PUBLIC_CF_WEB_ANALYTICS_TOKEN ?? '',
+			publicPaths: page.data.analyticsPublicPaths ?? [],
 			origin: env.PUBLIC_ANALYTICS_ORIGIN ?? '',
 			production: !dev,
 			onChange: (state) => Object.assign(analytics, state)

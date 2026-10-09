@@ -2,20 +2,26 @@ import { expect, test } from '@playwright/test';
 import { readFileSync, readdirSync } from 'node:fs';
 
 const origin = 'https://analytics.example';
+const token = '00000000000000000000000000000000';
 const consentKey = 'juno.develog.analytics-consent:v1';
+const beaconSelector = 'script[data-cf-beacon]';
 const fixtureConfigured = readdirSync('build/_app/immutable', { recursive: true })
 	.filter((file) => file.endsWith('.js'))
 	.some((file) => {
 		const source = readFileSync(`build/_app/immutable/${file}`, 'utf8');
-		return source.includes('G-TEST000001') && source.includes(origin);
+		return source.includes(token) && source.includes(origin);
 	});
 
-// 예약 도메인의 정적 파일만 로컬 서버로 연결한다. Google 요청은 항상 가로챈다.
-async function openAnalyticsSite(page, { blocked = false, path = '/', consent } = {}) {
-	if (process.env.CI) expect(fixtureConfigured, 'PR build의 가짜 GA4 설정').toBe(true);
-	test.skip(!fixtureConfigured, 'README의 가짜 GA4 설정으로 build하면 활성화 경로를 검사합니다.');
+// 외부 요청을 모두 가로챈다. 이 검사는 태그 연결 검증이며 Cloudflare 집계 검증이 아니다.
+async function openAnalyticsSite(page, { blocked = false, path = '/', consent, beaconPath } = {}) {
+	if (process.env.CI) expect(fixtureConfigured, 'PR build의 가짜 Cloudflare 설정').toBe(true);
+	test.skip(
+		!fixtureConfigured,
+		'README의 가짜 Cloudflare 설정으로 build해야 활성화 경로를 검사합니다.'
+	);
 	const scripts = [];
 	const unexpected = [];
+	const beacons = [];
 	await page.route('**/*', async (route) => {
 		const url = new URL(route.request().url());
 		if (url.origin === origin) {
@@ -23,14 +29,26 @@ async function openAnalyticsSite(page, { blocked = false, path = '/', consent } 
 				url: `http://127.0.0.1:4174${url.pathname}${url.search}`
 			});
 			await route.fulfill({ response });
-		} else if (url.hostname === 'www.googletagmanager.com') {
+		} else if (url.href === 'https://static.cloudflareinsights.com/beacon.min.js') {
 			scripts.push(url.href);
 			if (blocked) await route.abort('blockedbyclient');
 			else
 				await route.fulfill({
 					contentType: 'application/javascript',
-					body: '/* 외부 전송 없는 시험용 태그 */'
+					headers: { 'access-control-allow-origin': '*' },
+					...(beaconPath ? { path: beaconPath } : { body: '/* 외부 전송 없는 시험용 태그 */' })
 				});
+		} else if (beaconPath && url.href === 'https://cloudflareinsights.com/cdn-cgi/rum') {
+			const body = route.request().postData();
+			if (body) beacons.push(JSON.parse(body));
+			await route.fulfill({
+				status: 204,
+				headers: {
+					'access-control-allow-origin': origin,
+					'access-control-allow-credentials': 'true',
+					'access-control-allow-headers': 'content-type'
+				}
+			});
 		} else {
 			unexpected.push(url.href);
 			await route.abort();
@@ -45,148 +63,149 @@ async function openAnalyticsSite(page, { blocked = false, path = '/', consent } 
 		);
 	await page.goto(`${origin}${path}`);
 	await expect(page.locator('main')).toBeVisible();
-	const notice = page.getByRole('region', { name: '방문 통계 안내', includeHidden: true });
-	if (consent !== 'denied') {
-		if (page.viewportSize().width <= 1200) await expect(notice).toBeHidden();
-		else {
-			await expect(notice).toBeVisible();
-			expect(await notice.ariaSnapshot()).toContain('쿠키 없이');
-		}
-	} else await expect(notice).toHaveCount(0);
-	return { scripts, unexpected, notice };
+	return {
+		scripts,
+		beacons,
+		unexpected,
+		notice: page.getByRole('region', { name: '방문 통계 안내', includeHidden: true })
+	};
 }
 
-async function views(page) {
-	return page.evaluate(() =>
-		(window.dataLayer ?? []).filter((args) => args[0] === 'event').map((args) => args[2])
-	);
-}
+test('오류 페이지와 공개 페이지는 뒤로·앞으로 가기에도 문서를 공유하지 않는다', async ({
+	page
+}) => {
+	// 지정하면 공식 태그도 실행하되 수집 요청은 위에서 차단한다.
+	const beaconPath = process.env.CF_ANALYTICS_BEACON_PATH;
+	const { beacons, unexpected } = await openAnalyticsSite(page, { path: '/404.html', beaconPath });
+	await expect(page.getByRole('link', { name: '홈으로 이동' })).toBeVisible();
+	await page.evaluate(() => (window.__errorDocumentMarker = true));
+	await page.getByRole('link', { name: '홈으로 이동' }).click();
+	await expect(page).toHaveURL(`${origin}/`);
+	await expect(page.locator(beaconSelector)).toHaveCount(1);
+	expect(await page.evaluate(() => window.__errorDocumentMarker)).toBeUndefined();
+	if (beaconPath)
+		await expect
+			.poll(() => beacons.filter((event) => event.eventType === 1).length)
+			.toBeGreaterThan(0);
+	for (let round = 0; round < 2; round++) {
+		await page.goBack();
+		await expect(page).toHaveURL(`${origin}/404.html`);
+		await expect(page.getByRole('link', { name: '홈으로 이동' })).toBeVisible();
+		await expect(page.locator(beaconSelector)).toHaveCount(0);
+		await page.goForward();
+		await expect(page).toHaveURL(`${origin}/`);
+		await expect(page.locator(beaconSelector)).toHaveCount(1);
+	}
+	if (beaconPath) {
+		await page.goto('about:blank');
+		const pageViews = beacons.filter((event) => event.eventType === 1);
+		expect(pageViews.length).toBeGreaterThan(0);
+		expect(pageViews.every((event) => event.location === `${origin}/`)).toBe(true);
+	}
+	expect(unexpected).toEqual([]);
+});
 
-test('로컬 preview에서는 동의를 저장해도 통계를 요청하지 않는다', async ({ page }) => {
+test('로컬 preview에서는 외부 통계 태그를 요청하지 않는다', async ({ page }) => {
 	const external = [];
 	await page.route(
-		/https:\/\/(?:[^/]+\.)?(?:google-analytics|googletagmanager)\.com\//,
+		/https:\/\/(?:[^/]+\.)?(?:google-analytics|googletagmanager|cloudflareinsights)\.com\//,
 		(route) => {
 			external.push(route.request().url());
 			return route.abort();
 		}
 	);
-	await page.addInitScript((key) => localStorage.setItem(key, 'allowed'), consentKey);
 	await page.goto('/');
-	await expect(page.locator('main')).toBeVisible();
 	await page.locator('a[href="/team-maker"]').first().click();
 	await expect(page.locator('#person-name')).toBeVisible();
-	expect(await views(page)).toEqual([]);
+	await expect(page.locator(beaconSelector)).toHaveCount(0);
 	expect(external).toEqual([]);
 });
 
-test('선택 전부터 내부 이동·뒤로·앞으로·새로고침을 쿠키 없이 집계한다', async ({ page }) => {
-	const { notice, scripts, unexpected } = await openAnalyticsSite(page, {
-		path: '/?name=비밀#입력'
-	});
-	await expect.poll(async () => (await views(page)).length).toBe(1);
-	expect(scripts).toHaveLength(1);
-	expect(await notice.ariaSnapshot()).toContain('쿠키 없이');
-	const defaults = await page.evaluate(() => Array.from(window.dataLayer[0]));
-	expect(defaults).toEqual([
-		'consent',
-		'default',
-		{
-			analytics_storage: 'denied',
-			ad_storage: 'denied',
-			ad_user_data: 'denied',
-			ad_personalization: 'denied'
-		}
-	]);
-	await expect.poll(async () => (await views(page)).length).toBe(1);
-	await page.locator('a[href="/team-maker"]').first().click();
-	await expect.poll(async () => (await views(page)).length).toBe(2);
-	await page.goBack();
-	await expect.poll(async () => (await views(page)).length).toBe(3);
-	await page.goForward();
-	await expect.poll(async () => (await views(page)).length).toBe(4);
-	const events = await views(page);
-	expect(events.map((event) => event.page_location)).toEqual(
-		['/', '/team-maker', '/', '/team-maker'].map((path) => origin + path)
+test('동의 버튼 없이 공식 SPA 태그를 한 번만 연결하고 블로그까지 이동한다', async ({ page }) => {
+	const { scripts, unexpected } = await openAnalyticsSite(page, { path: '/?name=비밀#입력' });
+	await expect(page.locator(beaconSelector)).toHaveAttribute(
+		'data-cf-beacon',
+		JSON.stringify({ token, spa: true })
 	);
-	expect(JSON.stringify(events)).not.toContain('비밀');
+	await expect(page.locator(beaconSelector)).toHaveAttribute('type', 'module');
+	for (const path of ['/team-maker', '/blog']) {
+		await page.locator(`a[href="${path}"]`).first().click();
+		await expect(page).toHaveURL(origin + path);
+	}
+	const post = page.locator('main a[href^="/blog/"]').first();
+	const postPath = await post.getAttribute('href');
+	await post.click();
+	await expect(page).toHaveURL(origin + postPath);
+	await page.goBack();
+	await expect(page).toHaveURL(`${origin}/blog`);
+	await expect(page.locator(beaconSelector)).toHaveCount(1);
 	expect(scripts).toHaveLength(1);
-	await page.reload();
-	await expect.poll(async () => (await views(page)).length).toBe(1);
-	expect(scripts).toHaveLength(2);
 	expect(unexpected).toEqual([]);
+	expect(await page.evaluate(() => window.dataLayer)).toBeUndefined();
+	expect(await page.context().cookies(origin)).toEqual([]);
 });
 
-test('입력과 query·hash 변경은 추가 방문이나 입력 내용으로 전송하지 않는다', async ({ page }) => {
-	await openAnalyticsSite(page, { path: '/team-maker' });
-	await expect.poll(async () => (await views(page)).length).toBe(1);
-	await page.locator('#person-name').fill('비밀이름,두번째이름');
-	await page.locator('#add-person-form button[type="submit"]').click();
-	await expect(page.locator('#participant-list > li')).toHaveCount(2);
-	await page.evaluate(() => {
-		history.pushState({}, '', '/team-maker?name=비밀이름#이름');
-		window.dispatchEvent(new PopStateEvent('popstate'));
+for (const path of ['/qr-code', '/marble-race', '/blog', '/blog/team-maker-introduction']) {
+	test(`${path} 직접 진입과 새로고침마다 태그를 연결한다`, async ({ page }) => {
+		const { scripts } = await openAnalyticsSite(page, { path });
+		await expect.poll(() => scripts.length).toBe(1);
+		await page.reload();
+		await expect.poll(() => scripts.length).toBe(2);
+		await expect(page.locator(beaconSelector)).toHaveCount(1);
 	});
-	await expect(page).toHaveURL(/name=/);
-	expect(await views(page)).toHaveLength(1);
-	expect(JSON.stringify(await views(page))).not.toContain('비밀');
-});
+}
 
-test('기존 거부 방문자는 재접속해도 전송하지 않고 선택 버튼도 표시하지 않는다', async ({
-	page
-}) => {
+test('기존 거부 방문은 도구와 블로그에서 전송하지 않는다', async ({ page }) => {
 	const { scripts } = await openAnalyticsSite(page, { consent: 'denied' });
-	await page.reload();
+	await page.locator('a[href="/blog"]').first().click();
 	await page.locator('footer .privacy-trigger').click();
 	const dialog = page.getByRole('dialog', { name: '개인정보처리방침', exact: true });
-	expect(await dialog.ariaSnapshot()).toContain('기존 거부 설정에 따라 수집하지 않음');
+	await expect(dialog).toContainText('기존 거부 설정에 따라 수집하지 않음');
 	await expect(dialog.getByRole('button', { name: /^통계 (허용|거부)$/ })).toHaveCount(0);
 	expect(scripts).toHaveLength(0);
-	expect(await views(page)).toHaveLength(0);
-	await dialog.getByRole('button', { name: '개인정보처리방침 닫기', exact: true }).click();
-	await page.locator('a[href="/qr-code"]').first().click();
-	await expect(page).toHaveURL(`${origin}/qr-code`);
-	expect(await views(page)).toHaveLength(0);
-	expect(await page.evaluate((key) => localStorage.getItem(key), consentKey)).toBe('denied');
+	await expect(page.locator(beaconSelector)).toHaveCount(0);
 });
 
-test('Google 스크립트가 차단돼도 팀을 만들 수 있다', async ({ page }) => {
+test('공개 페이지에서 없는 글로 이동하면 태그가 없는 오류 문서를 연다', async ({ page }) => {
+	const { scripts } = await openAnalyticsSite(page);
+	await expect.poll(() => scripts.length).toBe(1);
+	await page.evaluate(() => {
+		const link = document.createElement('a');
+		link.href = '/blog/nonexistent-private-name';
+		link.textContent = '없는 글';
+		document.querySelector('main').append(link);
+	});
+	await page.getByRole('link', { name: '없는 글', exact: true }).click();
+	await expect(page).toHaveURL(`${origin}/blog/nonexistent-private-name`);
+	await expect(page.locator(beaconSelector)).toHaveCount(0);
+	expect(scripts).toHaveLength(1);
+});
+
+test('태그가 차단돼도 참가자 입력과 오류 안내가 작동한다', async ({ page }) => {
 	const errors = [];
 	page.on('pageerror', (error) => errors.push(error.message));
 	await openAnalyticsSite(page, { blocked: true, path: '/team-maker' });
 	await page.locator('#person-name').fill('가람,나래,다온,라온');
 	await page.locator('#add-person-form button[type="submit"]').click();
 	await expect(page.locator('#participant-list > li')).toHaveCount(4);
-	expect(await views(page)).toEqual([]);
+	await page.locator('footer .privacy-trigger').click();
+	await expect(page.getByRole('dialog')).toContainText('통계 스크립트를 불러오지 못함');
 	expect(errors).toEqual([]);
 });
 
-test('QR·구슬 레이스 직접 접속도 쿠키 없이 각각1회 집계한다', async ({ page }) => {
-	await openAnalyticsSite(page, { path: '/qr-code' });
-	await expect.poll(async () => (await views(page)).length).toBe(1);
-	expect((await views(page))[0].page_location).toBe(`${origin}/qr-code`);
-	await page.goto(`${origin}/marble-race`);
-	await expect.poll(async () => (await views(page)).length).toBe(1);
-	expect((await views(page))[0].page_location).toBe(`${origin}/marble-race`);
-});
-
 for (const width of [390, 1200, 1201, 1440]) {
-	test(`${width}px 화면에서 상단 통계 안내 표시와 개인정보 안내를 확인한다`, async ({ page }) => {
+	test(`${width}px 안내와 개인정보 모달을 확인한다`, async ({ page }) => {
 		await page.setViewportSize({ width, height: 900 });
 		const { notice } = await openAnalyticsSite(page);
-		await expect(notice.getByRole('button')).toHaveCount(0);
-		await expect.poll(async () => (await views(page)).length).toBe(1);
-		if (width <= 1200) {
-			expect(await page.locator('.analytics-notice-container').boundingBox()).toBeNull();
-		} else {
-			await expect(notice.getByRole('link', { name: 'Google 데이터 이용 안내' })).toBeInViewport();
-		}
+		if (width <= 1200) await expect(notice).toBeHidden();
+		else await expect(notice.getByRole('link', { name: 'Cloudflare 통계 안내' })).toBeInViewport();
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 			true
 		);
 		await page.locator('footer .privacy-trigger').click();
 		const dialog = page.getByRole('dialog', { name: '개인정보처리방침', exact: true });
-		expect(await dialog.ariaSnapshot()).toContain('방문 통계');
+		await expect(dialog).toContainText('Cloudflare Web Analytics');
+		await expect(dialog).toContainText('쿠키 없는 통계 태그 실행 중');
 		expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
 			true
 		);
@@ -194,32 +213,27 @@ for (const width of [390, 1200, 1201, 1440]) {
 	});
 }
 
+test('기존 허용 기록은 보존하고 GA 쿠키만 삭제한다', async ({ page, context }) => {
+	await context.addCookies([
+		{ name: '_ga', value: 'legacy', url: origin },
+		{ name: '_ga_OLD123', value: 'legacy', url: origin }
+	]);
+	await openAnalyticsSite(page, { consent: 'allowed' });
+	await expect(page.locator(beaconSelector)).toHaveCount(1);
+	expect((await context.cookies(origin)).filter((cookie) => cookie.name.startsWith('_ga'))).toEqual(
+		[]
+	);
+	expect(await page.evaluate((key) => localStorage.getItem(key), consentKey)).toBe('allowed');
+});
+
 test('통계 안내도 공통 어두운 테마를 따른다', async ({ page }) => {
 	await page.addInitScript(() => localStorage.setItem('juno.develog.theme', 'dark'));
 	const { notice } = await openAnalyticsSite(page);
-	expect(await notice.ariaSnapshot()).toContain('쿠키 없이');
+	await expect(notice).toContainText('Cloudflare Web Analytics');
 	expect(
 		await notice.evaluate((element) => {
 			const color = getComputedStyle(element).backgroundColor.match(/\d+/g).slice(0, 3).map(Number);
 			return Math.max(...color);
 		})
 	).toBeLessThan(100);
-});
-
-test('기존 허용 방문도 쿠키 없이 측정하고 이전 분석 쿠키를 삭제한다', async ({ page, context }) => {
-	await context.addCookies([
-		{ name: '_ga', value: 'legacy', url: origin },
-		{ name: '_ga_TEST000001', value: 'legacy', url: origin }
-	]);
-	const { notice } = await openAnalyticsSite(page, { consent: 'allowed' });
-	await expect.poll(async () => (await views(page)).length).toBe(1);
-	const commands = await page.evaluate(() => window.dataLayer.map((a) => Array.from(a)));
-	expect(commands[0][2].analytics_storage).toBe('denied');
-	expect(JSON.stringify(commands)).not.toContain('granted');
-	expect((await context.cookies(origin)).filter((c) => c.name.startsWith('_ga'))).toEqual([]);
-	await expect(notice.getByRole('button')).toHaveCount(0);
-	await page.locator('footer .privacy-trigger').click();
-	const dialog = page.getByRole('dialog', { name: '개인정보처리방침', exact: true });
-	expect(await dialog.ariaSnapshot()).toContain('쿠키 없이 측정 중');
-	await expect(dialog.getByRole('button', { name: /^통계 (허용|거부)$/ })).toHaveCount(0);
 });

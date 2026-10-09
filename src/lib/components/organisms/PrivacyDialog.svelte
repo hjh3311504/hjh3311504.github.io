@@ -53,7 +53,7 @@
 	onclick={closeFromBackdrop}
 >
 	{#snippet descriptionContent()}
-		운영자: Lake · 적용일: <time datetime="2026-09-29">2026년 9월 29일</time>
+		운영자: Lake · 적용일: <time datetime="2026-10-09">2026년 10월 9일</time>
 	{/snippet}
 
 	<div class="privacy-content" data-ui-dialog-body>
@@ -88,26 +88,31 @@
 
 		<h3>방문 통계</h3>
 		<p>
-			Google Analytics 4로 쿠키 없이 방문 통계를 수집합니다. 방문한 페이지와 브라우저·기기 정보 등이
-			Google에 전달되거나 처리됩니다. 분석 쿠키를 사용하지 않으며, 같은 사람의 재방문을 정확히
-			구분하지 못할 수 있습니다. 참가자 이름, QR 입력, 팀 구성과 브라우저에 저장된 도구 데이터는
-			보내지 않습니다. 페이지 주소의 검색 조건과 # 뒤의 내용은 제외하며 외부 유입 주소는
-			도메인까지만 사용합니다. 통계는 운영자만 확인합니다.
+			Cloudflare Web Analytics로 쿠키 없이 방문 횟수와 페이지 조회수를 수집합니다. 홈, 도구와 공개
+			블로그 페이지의 주소, 유입 주소, 브라우저·기기 정보와 페이지 성능 정보가 Cloudflare에
+			전달됩니다. 분석용 쿠키나 localStorage를 사용하지 않으며 같은 사람의 재방문을 구분하지
+			않습니다. 참가자 이름, QR 입력, 팀 구성과 브라우저에 저장된 도구 데이터는 보내지 않습니다.
+			공식 통계 태그는 페이지 주소와 유입 주소의 검색 조건과 # 뒤의 내용을 제외합니다. 통계는
+			Cloudflare 계정에 접근할 수 있는 운영자가 확인합니다.
 		</p>
 		<p>
-			이전에 저장한 통계 거부 선택이 있으면 수집하지 않습니다. 이전에 허용했더라도 이제는 쿠키 없이
-			측정하며, 기존 분석 쿠키는 삭제합니다. 상세 분석 데이터는 2개월간 보관하도록 설정하며, 합산한
-			표준 통계는 별도 기준으로 보관됩니다. 이미 수집된 통계는 자동 삭제되지 않습니다.
-			<a href="https://policies.google.com/technologies/partner-sites?hl=ko"
-				>Google의 파트너 사이트 데이터 이용 안내</a
-			>와 <a href="https://policies.google.com/privacy?hl=ko">Google 개인정보처리방침</a>을
+			동의 버튼은 표시하지 않습니다. 이전에 저장한 통계 거부 선택이 있으면 수집하지 않습니다. 이전
+			Google Analytics 수집은 중단하고 기존 분석 쿠키는 삭제합니다. Cloudflare에서 최근 6개월의
+			통계를 확인할 수 있으며, 이전에 수집된 Google 통계가 자동 삭제되지는 않습니다. 자세한 내용은 <a
+				href="https://www.cloudflare.com/web-analytics/">Cloudflare 통계 안내</a
+			>와
+			<a href="https://www.cloudflare.com/privacypolicy/">Cloudflare 개인정보처리방침</a>을
 			확인하세요.
 		</p>
 		{#if analytics?.enabled}
 			<p aria-live="polite">
 				현재 상태: {analytics.consent === 'denied'
 					? '기존 거부 설정에 따라 수집하지 않음'
-					: '쿠키 없이 측정 중'}
+					: analytics.status === 'blocked'
+						? '통계 스크립트를 불러오지 못함'
+						: analytics.status === 'active'
+							? '쿠키 없는 통계 태그 실행 중'
+							: '통계 태그 준비 중'}
 			</p>
 		{:else}
 			<p>현재 이 환경에서는 방문 통계를 수집하지 않습니다.</p>
