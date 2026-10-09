@@ -11,11 +11,9 @@
 	<div class="analytics-notice-container" class:clear-menu={clearMenu}>
 		<Section variant="card" padding="compact" gap="body" aria-label="방문 통계 안내">
 			<p class="analytics-notice">
-				Google Analytics로 쿠키 없이 방문 통계를 수집합니다. 도구에 입력한 내용은 보내지 않습니다.
-				자세한 내용은 아래 개인정보처리방침에서 확인할 수 있습니다.
-				<a href="https://policies.google.com/technologies/partner-sites?hl=ko"
-					>Google 데이터 이용 안내</a
-				>
+				Cloudflare Web Analytics로 쿠키 없이 방문 통계를 수집합니다. 도구에 입력한 내용은 보내지
+				않습니다. 자세한 내용은 아래 개인정보처리방침에서 확인할 수 있습니다.
+				<a href="https://www.cloudflare.com/web-analytics/">Cloudflare 통계 안내</a>
 			</p>
 		</Section>
 	</div>

@@ -33,8 +33,8 @@ jobs:
         run: npm ci
       - name: Build site
         env:
-          # PR은 외부로 전송하지 않는 예약 도메인·가짜 ID로 수집 동작을 검사한다.
-          PUBLIC_GA_MEASUREMENT_ID: ${{ github.event_name == 'pull_request' && 'G-TEST000001' || vars.PUBLIC_GA_MEASUREMENT_ID }}
+          # PR은 외부로 전송하지 않는 예약 도메인·가짜 토큰로 수집 동작을 검사한다.
+          PUBLIC_CF_WEB_ANALYTICS_TOKEN: ${{ github.event_name == 'pull_request' && '00000000000000000000000000000000' || vars.PUBLIC_CF_WEB_ANALYTICS_TOKEN }}
           PUBLIC_ANALYTICS_ORIGIN: ${{ github.event_name == 'pull_request' && 'https://analytics.example' || vars.PUBLIC_ANALYTICS_ORIGIN }}
         run: npm run build
       - name: Verify site output

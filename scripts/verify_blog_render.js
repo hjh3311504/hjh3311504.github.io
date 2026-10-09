@@ -118,7 +118,11 @@ try {
 		assert.equal(response.status, 200, `${route}: production 응답 실패`);
 		const tool = await response.text();
 		assert.ok(!tool.includes('program-posts'), `${route}: 삭제한 블로그 섹션이 표시됩니다.`);
-		assert.ok(!tool.includes('/blog/public-check'), `${route}: 관련 글 링크가 표시됩니다.`);
+		// 분석용 공개 경로 목록은 화면 링크가 아니다. 실제 href만 검사한다.
+		assert.ok(
+			!/href=["'][^"']*blog\/public-check["']/.test(tool),
+			`${route}: 관련 글 링크가 표시됩니다.`
+		);
 		assert.ok(!tool.includes(draft.title), `${route}: 초안이 표시됩니다.`);
 	}
 	const note = { ...publicPost, slug: 'general-note', title: '일상의 기록', category: 'note' };

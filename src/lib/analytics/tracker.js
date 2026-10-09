@@ -1,15 +1,11 @@
 export const CONSENT_KEY = 'juno.develog.analytics-consent:v1';
 export const ANALYTICS_CONTEXT = 'site-analytics';
+export const BEACON_SRC = 'https://static.cloudflareinsights.com/beacon.min.js';
 
-const pageTitles = new Map([
-	['/', "Lake's develog"],
-	['/team-maker', '팀 메이커'],
-	['/qr-code', 'QR 코드 만들기'],
-	['/marble-race', 'ASMR 구슬 레이스']
-]);
+export const basePaths = ['/', '/team-maker', '/qr-code', '/marble-race', '/blog'];
 
-export function isAnalyticsEnabled({ measurementId = '', origin = '', production, location }) {
-	if (!production || !/^G-[A-Z0-9]+$/.test(measurementId)) return false;
+export function isAnalyticsEnabled({ token = '', origin = '', production, location }) {
+	if (!production || !/^[a-f0-9]{32}$/i.test(token)) return false;
 	try {
 		const url = new URL(origin);
 		return (
@@ -25,164 +21,96 @@ export function isAnalyticsEnabled({ measurementId = '', origin = '', production
 
 function readConsent(window) {
 	try {
-		const value = window.localStorage.getItem(CONSENT_KEY);
-		// 이전 버전의 허용 기록도 이제 쿠키 없는 측정만 사용한다.
-		return value === 'denied' ? 'denied' : 'unknown';
+		return window.localStorage.getItem(CONSENT_KEY) === 'denied' ? 'denied' : 'unknown';
 	} catch {
 		return 'unknown';
 	}
 }
 
-function referrerOrigin(value) {
-	try {
-		const url = new URL(value);
-		return ['http:', 'https:'].includes(url.protocol) ? `${url.origin}/` : '';
-	} catch {
-		return '';
-	}
-}
-
-// 쿠키 없는 측정만 사용하며 이전 버전에서 저장한 거부 선택은 유지한다.
-export function createAnalytics({ window, document, measurementId, origin, production, onChange }) {
-	const enabled = isAnalyticsEnabled({
-		measurementId,
-		origin,
-		production,
-		location: window.location
-	});
+// 공식 beacon이 첫 조회와 SPA 이동을 측정한다. 별도의 조회 요청을 만들지 않는다.
+export function createAnalytics({
+	window,
+	document,
+	token,
+	origin,
+	production,
+	publicPaths = [],
+	onChange
+}) {
+	const configured = isAnalyticsEnabled({ token, origin, production, location: window.location });
+	const paths = new Set([...basePaths, ...publicPaths]);
 	let consent = readConsent(window);
-	let current = null;
-	let previous = null;
+	let eligible = false;
 	let script;
-	let loaded = false;
-	let initialized = false;
-	let failed = false;
+	let status = 'idle';
 	let destroyed = false;
-	let pending = [];
-	const disableKey = `ga-disable-${measurementId}`;
 
-	function gtag() {
-		window.dataLayer.push(arguments);
+	function isPublic(url) {
+		return url.origin === origin && paths.has(url.pathname);
 	}
 
 	function publish() {
-		onChange({ enabled: enabled && Boolean(current), consent });
-	}
-
-	function canSend() {
-		return enabled && consent !== 'denied' && current && !failed && !destroyed;
-	}
-
-	function send(view) {
-		// 자동 이벤트도 정제된 페이지 정보만 사용하도록 기본값을 함께 갱신한다.
-		gtag('set', view);
-		gtag('event', 'page_view', { ...view, send_to: measurementId });
-	}
-
-	function flush() {
-		if (!loaded || !canSend()) return;
-		if (!initialized) {
-			gtag('config', measurementId, {
-				send_page_view: false,
-				allow_google_signals: false,
-				allow_ad_personalization_signals: false,
-				...pending[0]
-			});
-			initialized = true;
-		}
-		for (const view of pending) send(view);
-		pending = [];
-	}
-
-	function track() {
-		if (!canSend() || previous?.page_location === current.page_location) return;
-		window[disableKey] = false;
-		const view = {
-			...current,
-			page_referrer: previous?.page_location ?? referrerOrigin(document.referrer)
-		};
-		previous = view;
-		// 로딩이 끝나지 않는 차단 환경에서도 대기열이 계속 늘어나지 않게 한다.
-		pending = [...pending.slice(-49), view];
-		if (!script) {
-			window.dataLayer = window.dataLayer || [];
-			// 태그가 실행되기 전에 동의 기본값을 전달한다.
-			gtag('consent', 'default', {
-				analytics_storage: 'denied',
-				ad_storage: 'denied',
-				ad_user_data: 'denied',
-				ad_personalization: 'denied'
-			});
-			gtag('js', new Date());
-			script = document.createElement('script');
-			script.async = true;
-			script.referrerPolicy = 'no-referrer';
-			script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-			script.onload = () => {
-				loaded = true;
-				flush();
-			};
-			script.onerror = () => {
-				failed = true;
-				pending = [];
-			};
-			document.head.appendChild(script);
-		}
-		flush();
-	}
-
-	function clearCookies() {
-		for (const name of ['_ga', `_ga_${measurementId.slice(2)}`]) {
-			document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax; Secure`;
-		}
-	}
-
-	function applyConsent(value) {
-		consent = value;
-		if (enabled) {
-			window[disableKey] = consent === 'denied' || !current;
-			if (consent === 'denied') {
-				pending = [];
-				previous = null;
-			}
-			clearCookies();
-		}
-		publish();
-		track();
+		onChange({ enabled: configured && eligible, consent, status });
 	}
 
 	function onStorage(event) {
-		if (event.key === CONSENT_KEY || event.key === null) applyConsent(readConsent(window));
+		if (event.key !== CONSENT_KEY && event.key !== null) return;
+		const next = readConsent(window);
+		if (next === consent) return;
+		consent = next;
+		publish();
+		// 공식 beacon에는 종료 API가 없다. 문서를 새로 열어 이전 태그도 종료한다.
+		if (configured) window.location.reload();
 	}
 
 	window.addEventListener('storage', onStorage);
-	if (enabled) {
-		window[disableKey] = true;
-		// 이전 버전에서 허용해 생성한 분석 쿠키도 새 태그 실행 전에 삭제한다.
-		clearCookies();
+	if (configured) {
+		// 이전 GA4 쿠키만 정리한다. 도구 데이터와 기존 거부 선택은 보존한다.
+		for (const cookie of document.cookie.split(';')) {
+			const name = cookie.split('=')[0].trim();
+			if (!/^_ga(?:_[A-Z0-9]+)?$/.test(name)) continue;
+			const expired = `${name}=; Max-Age=0; Path=/; SameSite=Lax; Secure`;
+			document.cookie = expired;
+			document.cookie = `${expired}; Domain=${window.location.hostname}`;
+		}
 	}
 	publish();
 
 	return {
-		navigate(url, status = 200) {
-			const title = pageTitles.get(url.pathname);
-			current =
-				url.origin === origin && title && status < 400
-					? { page_location: `${origin}${url.pathname}`, page_title: title }
-					: null;
+		// 양방향으로 문서를 나눈다. 같은 문서의 뒤로 가기는 beforeNavigate보다
+		// beacon이 먼저 감지하므로, 제외 경로에서 태그를 시작해서도 안 된다.
+		requiresDocumentNavigation(url) {
+			return configured && consent !== 'denied' && eligible !== isPublic(url);
+		},
+		navigate(url, pageStatus = 200) {
+			if (destroyed) return;
+			eligible = isPublic(url) && pageStatus < 400;
 			publish();
-			if (!current) {
-				previous = null;
-				pending = [];
-				if (enabled) window[disableKey] = true;
+			if (!configured || consent === 'denied') return;
+			if (!eligible) {
+				if (script) window.location.reload();
 				return;
 			}
-			track();
+			if (script) return;
+			status = 'loading';
+			script = document.createElement('script');
+			script.type = 'module';
+			script.src = BEACON_SRC;
+			script.referrerPolicy = 'strict-origin';
+			script.setAttribute('data-cf-beacon', JSON.stringify({ token, spa: true }));
+			script.onload = () => {
+				status = 'active';
+				publish();
+			};
+			script.onerror = () => {
+				status = 'blocked';
+				publish();
+			};
+			document.head.appendChild(script);
+			publish();
 		},
 		destroy() {
 			destroyed = true;
-			pending = [];
-			if (enabled) window[disableKey] = true;
 			window.removeEventListener('storage', onStorage);
 			if (script) {
 				script.onload = null;
