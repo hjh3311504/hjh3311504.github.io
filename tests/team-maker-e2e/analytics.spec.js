@@ -66,8 +66,7 @@ async function openAnalyticsSite(page, { blocked = false, path = '/', consent, b
 	return {
 		scripts,
 		beacons,
-		unexpected,
-		notice: page.getByRole('region', { name: '방문 통계 안내', includeHidden: true })
+		unexpected
 	};
 }
 
@@ -194,11 +193,12 @@ test('태그가 차단돼도 참가자 입력과 오류 안내가 작동한다',
 });
 
 for (const width of [390, 1200, 1201, 1440]) {
-	test(`${width}px 안내와 개인정보 모달을 확인한다`, async ({ page }) => {
+	test(`${width}px 상단 통계 안내 없이 개인정보 모달을 확인한다`, async ({ page }) => {
 		await page.setViewportSize({ width, height: 900 });
-		const { notice } = await openAnalyticsSite(page);
-		if (width <= 1200) await expect(notice).toBeHidden();
-		else await expect(notice.getByRole('link', { name: 'Cloudflare 통계 안내' })).toBeInViewport();
+		await openAnalyticsSite(page);
+		await expect(
+			page.getByRole('region', { name: '방문 통계 안내', includeHidden: true })
+		).toHaveCount(0);
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 			true
 		);
@@ -224,16 +224,4 @@ test('기존 허용 기록은 보존하고 GA 쿠키만 삭제한다', async ({ 
 		[]
 	);
 	expect(await page.evaluate((key) => localStorage.getItem(key), consentKey)).toBe('allowed');
-});
-
-test('통계 안내도 공통 어두운 테마를 따른다', async ({ page }) => {
-	await page.addInitScript(() => localStorage.setItem('juno.develog.theme', 'dark'));
-	const { notice } = await openAnalyticsSite(page);
-	await expect(notice).toContainText('Cloudflare Web Analytics');
-	expect(
-		await notice.evaluate((element) => {
-			const color = getComputedStyle(element).backgroundColor.match(/\d+/g).slice(0, 3).map(Number);
-			return Math.max(...color);
-		})
-	).toBeLessThan(100);
 });
