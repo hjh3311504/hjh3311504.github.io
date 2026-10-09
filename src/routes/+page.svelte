@@ -55,6 +55,41 @@
 				</div>
 			</Section>
 
+			<Section class="latest-posts" aria-labelledby="latest-posts-title">
+				<SectionHeader title="최신 블로그 글" titleId="latest-posts-title">
+					{#snippet actions()}<Button href={resolve('/blog')} variant="outline" size="sm"
+							>전체 글 보기</Button
+						>{/snippet}
+				</SectionHeader>
+				{#if data.latestPosts.length}
+					<ul class="latest-post-list">
+						{#each data.latestPosts as post (post.slug)}
+							<li>
+								<Section class="latest-post-card" padding="tight" gap="body">
+									<div class="ui-meta">
+										<span>{categories[post.category]}</span><time datetime={post.publishedAt}
+											>{formatDate(post.publishedAt)}</time
+										>
+									</div>
+									<div class="latest-post-copy">
+										<SectionHeader>
+											{#snippet heading()}<h3>
+													<a href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a>
+												</h3>{/snippet}
+										</SectionHeader>
+										<p>{post.summary}</p>
+									</div>
+								</Section>
+							</li>
+						{/each}
+					</ul>
+				{:else}
+					<p class="latest-posts-empty">
+						첫 이야기를 준비하고 있어요. 새로운 글로 곧 찾아뵙겠습니다.
+					</p>
+				{/if}
+			</Section>
+
 			<Section class="browse" aria-labelledby="browse-title">
 				<SectionHeader title="둘러보기" titleId="browse-title" />
 				<ul>
@@ -188,39 +223,6 @@
 				</ul>
 			</Section>
 
-			<Section class="latest-posts" aria-labelledby="latest-posts-title">
-				<SectionHeader title="최신 블로그 글" titleId="latest-posts-title">
-					{#snippet actions()}<Button href={resolve('/blog')} variant="outline" size="sm"
-							>전체 글 보기</Button
-						>{/snippet}
-				</SectionHeader>
-				{#if data.latestPosts.length}
-					<ul class="latest-post-list">
-						{#each data.latestPosts as post (post.slug)}
-							<li>
-								<Section class="latest-post-card" padding="tight" gap="body">
-									<div class="ui-meta">
-										<span>{categories[post.category]}</span><time datetime={post.publishedAt}
-											>{formatDate(post.publishedAt)}</time
-										>
-									</div>
-									<SectionHeader>
-										{#snippet heading()}<h3>
-												<a href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a>
-											</h3>{/snippet}
-									</SectionHeader>
-									<p>{post.summary}</p>
-								</Section>
-							</li>
-						{/each}
-					</ul>
-				{:else}
-					<p class="latest-posts-empty">
-						첫 이야기를 준비하고 있어요. 새로운 글로 곧 찾아뵙겠습니다.
-					</p>
-				{/if}
-			</Section>
-
 			<Section class="home-guide" aria-labelledby="choose-tool-title">
 				<SectionHeader title="어떤 도구를 쓰면 될까요?" titleId="choose-tool-title" />
 				<p>모임을 준비할 때는 나눌 대상과 필요한 결과에 따라 도구를 고르세요.</p>
@@ -289,7 +291,7 @@
 		flex: 1 1 auto;
 		justify-content: center;
 		width: 100%;
-		padding: var(--space-80) var(--space-40);
+		padding: var(--space-40);
 		font-family:
 			'SUIT',
 			'SUIT Full',
@@ -304,7 +306,7 @@
 	:global(.home-card) {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-28);
+		gap: var(--space-24);
 		width: 100%;
 		max-width: 720px;
 		padding: var(--space-24);
@@ -322,7 +324,7 @@
 	:global(.home-intro) {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-12);
+		gap: var(--space-8);
 	}
 
 	.project-kind {
@@ -361,7 +363,6 @@
 		display: flex;
 		align-items: center;
 		gap: var(--space-8);
-		margin-top: var(--space-8);
 	}
 
 	:global(.github-link) {
@@ -548,9 +549,16 @@
 		border-radius: 12px;
 	}
 
+	.latest-post-copy {
+		display: grid;
+		gap: var(--space-8);
+		min-width: 0;
+	}
+
 	.latest-post-list h3 {
 		font-size: var(--font-size-20);
 		line-height: 1.5;
+		word-break: keep-all;
 		overflow-wrap: anywhere;
 	}
 
@@ -576,6 +584,16 @@
 		line-height: 1.75;
 		word-break: keep-all;
 		overflow-wrap: anywhere;
+	}
+
+	.latest-post-list p {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		overflow: hidden;
+		font-size: var(--font-size-14);
+		line-height: 1.5;
 	}
 
 	:global(.home-guide) {
@@ -647,12 +665,12 @@
 	}
 	@media (max-width: 1024px) {
 		.home-stage {
-			padding: var(--space-64) var(--space-32) var(--space-80);
+			padding: var(--space-32) var(--space-32) var(--space-64);
 		}
 	}
 	@media (max-width: 760px) {
 		.home-stage {
-			padding: var(--space-40) var(--space-16) var(--space-60);
+			padding: var(--space-40) var(--space-16);
 		}
 		:global(.home-card) {
 			padding: var(--space-16);

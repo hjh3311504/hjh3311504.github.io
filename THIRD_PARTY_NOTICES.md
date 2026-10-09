@@ -30,6 +30,8 @@ MIT 적용 제외는 해당 자료에 GPL을 새로 적용하거나 별도의 �
 
 이미지의 글자와 PDF에 포함한 글꼴은 저장소의 SUIT에서 가져왔으며 SIL Open Font License 1.1을 따릅니다. 글꼴 원본의 권리는 유지합니다. CSV·텍스트·ZIP은 `scripts/generate_blog_data_examples.py`가 자체 작성한 연습 데이터와 위 이미지로 생성했습니다. `renamed-only.jpg`는 PNG의 이름만 바꾼 확장자 비교용 예제입니다. 측정 JSON은 생성한 파일의 크기와 검증 결과를 담습니다. 원본 예제는 `static/downloads/`에 보관해 사이트 이미지 최적화 과정의 영향을 받지 않도록 했습니다.
 
+2026-10-09에는 `static/downloads/blog/qr-readability/`, `browser-storage/`, `csv-columns/`와 `static/images/blog/qr-readability/`, `browser-storage/`에 문제 해결 글의 자체 비교 자료를 추가했습니다. QR은 공개 도구 주소를 담고, CSV와 저장 화면은 가상 명단을 사용합니다. 생성·재현 방법은 `scripts/README-blog-troubleshooting-examples.md`에 있습니다. 비교 그림의 SUIT 글꼴과 사이트 화면의 글꼴·아이콘은 기존 고지를 따릅니다.
+
 ## 템플릿 이력
 
 이 저장소는 Matheus Fantinel의 [SvelteKit Static Blog Template](https://github.com/matfantinel/sveltekit-static-blog-template)에서 시작했습니다. 첫 commit `c0100a6`의 템플릿과 과거 버전은 당시의 GPLv3 및 개별 자료의 조건을 그대로 따릅니다. 원본 제작자가 현재 사이트를 운영하거나 보증한다는 뜻은 아닙니다.

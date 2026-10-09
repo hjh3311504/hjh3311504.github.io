@@ -1,0 +1,55 @@
+{
+  "measuredAt": "2026-10-09T03:00:59.269Z",
+  "browser": "153.0.8010.55",
+  "origin": "http://127.0.0.1:4175",
+  "method": "Playwright isolated non-persistent browser contexts; no real user profile; localStorage cleared through Chromium DevTools Protocol",
+  "names": [
+    "가람",
+    "나래",
+    "다온"
+  ],
+  "rosterName": "블로그 실험 명단",
+  "cases": {
+    "saved": {
+      "visibleParticipants": 3,
+      "storedParticipants": 3,
+      "rosters": 1
+    },
+    "reloaded": {
+      "visibleParticipants": 3,
+      "storedParticipants": 3,
+      "rosters": 1
+    },
+    "sameContext": {
+      "visibleParticipants": 3,
+      "storedParticipants": 3,
+      "rosters": 1
+    },
+    "isolated": {
+      "visibleParticipants": 0,
+      "storedParticipants": 0,
+      "rosters": 0
+    },
+    "originalUnchanged": {
+      "visibleParticipants": 3,
+      "storedParticipants": 3,
+      "rosters": 1
+    },
+    "deleted": {
+      "visibleParticipants": 0,
+      "storedParticipants": 0,
+      "rosters": 0
+    },
+    "afterPrivateContextClose": {
+      "visibleParticipants": 0,
+      "storedParticipants": 0,
+      "rosters": 0
+    }
+  },
+  "limitations": [
+    "No regular browser process restart tested",
+    "No physical second device tested",
+    "No Chrome settings UI operated",
+    "No deleted data recovery tested"
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "measuredAt": "2026-10-09T02:53:52.472728+00:00",
+  "python": "3.13.1",
+  "method": "Python csv.reader; no Excel or Google Sheets UI tested",
+  "originalRows": [
+    [
+      "이름",
+      "수량",
+      "메모"
+    ],
+    [
+      "가람",
+      "2",
+      "공책, 연필"
+    ],
+    [
+      "나래",
+      "1",
+      "제목은 \"준비물\""
+    ],
+    [
+      "다온",
+      "3",
+      "첫째 줄\n둘째 줄"
+    ]
+  ],
+  "files": [
+    {
+      "file": "correct.csv",
+      "encoding": "UTF-8 without BOM",
+      "delimiter": ",",
+      "bytes": 119,
+      "physicalLines": 5,
+      "parsedRowsIncludingHeader": 4,
+      "columnsByRow": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "matchesOriginal": true,
+      "parsed": [
+        [
+          "이름",
+          "수량",
+          "메모"
+        ],
+        [
+          "가람",
+          "2",
+          "공책, 연필"
+        ],
+        [
+          "나래",
+          "1",
+          "제목은 \"준비물\""
+        ],
+        [
+          "다온",
+          "3",
+          "첫째 줄\n둘째 줄"
+        ]
+      ],
+      "sha256": "52a60a6c075290ffdebdd77d29e570c72a8e3c79eb8c6baccf27dd76140932ee"
+    },
+    {
+      "file": "unquoted.csv",
+      "encoding": "UTF-8 without BOM",
+      "delimiter": ",",
+      "bytes": 111,
+      "physicalLines": 5,
+      "parsedRowsIncludingHeader": 5,
+      "columnsByRow": [
+        3,
+        4,
+        3,
+        3,
+        1
+      ],
+      "matchesOriginal": false,
+      "parsed": [
+        [
+          "이름",
+          "수량",
+          "메모"
+        ],
+        [
+          "가람",
+          "2",
+          "공책",
+          " 연필"
+        ],
+        [
+          "나래",
+          "1",
+          "제목은 \"준비물\""
+        ],
+        [
+          "다온",
+          "3",
+          "첫째 줄"
+        ],
+        [
+          "둘째 줄"
+        ]
+      ],
+      "sha256": "de62c2b0574b7b0319460b1325e81bc3457dcd11eb3c77c0573bf1d21fc9ee91"
+    },
+    {
+      "file": "semicolon.csv",
+      "encoding": "UTF-8 without BOM",
+      "delimiter": ";",
+      "bytes": 117,
+      "physicalLines": 5,
+      "parsedRowsIncludingHeader": 4,
+      "columnsByRow": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "matchesOriginal": true,
+      "parsed": [
+        [
+          "이름",
+          "수량",
+          "메모"
+        ],
+        [
+          "가람",
+          "2",
+          "공책, 연필"
+        ],
+        [
+          "나래",
+          "1",
+          "제목은 \"준비물\""
+        ],
+        [
+          "다온",
+          "3",
+          "첫째 줄\n둘째 줄"
+        ]
+      ],
+      "sha256": "1da1ab99e74fcbc3e3b269cf0336d8223d4c86ba51d6c7dd0a087a3dbcf893fd"
+    }
+  ],
+  "semicolonReadWithComma": [
+    [
+      "이름;수량;메모"
+    ],
+    [
+      "가람;2;공책",
+      " 연필"
+    ],
+    [
+      "나래;1;\"제목은 \"\"준비물\"\"\""
+    ],
+    [
+      "다온;3;\"첫째 줄"
+    ],
+    [
+      "둘째 줄\""
+    ]
+  ],
+  "correctCsvSplitNaively": [
+    [
+      "이름",
+      "수량",
+      "메모"
+    ],
+    [
+      "가람",
+      "2",
+      "\"공책",
+      " 연필\""
+    ],
+    [
+      "나래",
+      "1",
+      "\"제목은 \"\"준비물\"\"\""
+    ],
+    [
+      "다온",
+      "3",
+      "\"첫째 줄"
+    ],
+    [
+      "둘째 줄\""
+    ]
+  ]
+}
