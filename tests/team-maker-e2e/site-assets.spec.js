@@ -58,6 +58,22 @@ test('기존 테마 설정을 복원하고 잘못된 값과 저장 차단도 처
 	await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'light');
 });
 
+test('앱 JavaScript 실행 전에도 저장한 테마의 색을 사용한다', async ({ page }) => {
+	// 앱 번들을 막아 head의 테마 복원 스크립트만 실행된 첫 화면을 확인한다.
+	await page.route('**/_app/**/*.js', (route) => route.abort());
+	await page.goto('/404');
+	for (const [saved, system, expected] of [
+		['light', 'dark', 'light'],
+		['dark', 'light', 'dark']
+	]) {
+		await page.emulateMedia({ colorScheme: system });
+		await page.evaluate((value) => localStorage.setItem('juno.develog.theme', value), saved);
+		await page.reload();
+		await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'auto');
+		await expect(page.locator('.site-shell')).toHaveCSS('color-scheme', expected);
+	}
+});
+
 test('정적 404는 JavaScript 없이도 안내와 홈 링크를 제공한다', async ({ browser, baseURL }) => {
 	const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
 	try {

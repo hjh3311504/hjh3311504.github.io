@@ -89,7 +89,7 @@ html.team-maker-dialog-open body {
 		sans-serif;
 }
 
-.site-shell[data-theme='dark'] .team-maker-page {
+html[data-theme='dark'] .site-shell .team-maker-page {
 	color-scheme: dark;
 	--canvas: var(--color-canvas-dark);
 	--surface: var(--color-shell-surface);
@@ -125,7 +125,7 @@ html.team-maker-dialog-open body {
 }
 
 @media (prefers-color-scheme: dark) {
-	.site-shell[data-theme='auto'] .team-maker-page {
+	html[data-theme='auto'] .site-shell .team-maker-page {
 		color-scheme: dark;
 		--canvas: var(--color-canvas-dark);
 		--surface: var(--color-shell-surface);
