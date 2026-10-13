@@ -1,0 +1,90 @@
+{
+  "measuredAt": "2026-10-13T14:20:47.225Z",
+  "platform": {
+    "system": "darwin",
+    "release": "25.6.0"
+  },
+  "python": "3.13.1",
+  "chromium": "151.0.7922.34",
+  "method": "Actual files served by Python SimpleHTTPRequestHandler; unmodified directory listing in Chromium",
+  "viewport": {
+    "width": 360,
+    "height": 300,
+    "deviceScaleFactor": 2
+  },
+  "archive": {
+    "file": "filename-examples.zip",
+    "bytes": 3406,
+    "sha256": "0e99549f6ab14770a46464e6ab2c97a1b223236d87f4513f385010bf4055d29d"
+  },
+  "cases": [
+    {
+      "directory": "unpadded",
+      "createdNames": [
+        "meeting-1.txt",
+        "meeting-2.txt",
+        "meeting-3.txt",
+        "meeting-9.txt",
+        "meeting-10.txt",
+        "meeting-11.txt"
+      ],
+      "displayedNames": [
+        "meeting-1.txt",
+        "meeting-10.txt",
+        "meeting-11.txt",
+        "meeting-2.txt",
+        "meeting-3.txt",
+        "meeting-9.txt"
+      ],
+      "screenshot": "unpadded.png"
+    },
+    {
+      "directory": "padded",
+      "createdNames": [
+        "meeting-01.txt",
+        "meeting-02.txt",
+        "meeting-03.txt",
+        "meeting-09.txt",
+        "meeting-10.txt",
+        "meeting-11.txt"
+      ],
+      "displayedNames": [
+        "meeting-01.txt",
+        "meeting-02.txt",
+        "meeting-03.txt",
+        "meeting-09.txt",
+        "meeting-10.txt",
+        "meeting-11.txt"
+      ],
+      "screenshot": "padded.png"
+    },
+    {
+      "directory": "unpadded-dates",
+      "createdNames": [
+        "2026-2-09-notes.txt",
+        "2026-10-01-notes.txt",
+        "2026-9-30-notes.txt"
+      ],
+      "displayedNames": [
+        "2026-10-01-notes.txt",
+        "2026-2-09-notes.txt",
+        "2026-9-30-notes.txt"
+      ],
+      "screenshot": "unpadded-dates.png"
+    },
+    {
+      "directory": "padded-dates",
+      "createdNames": [
+        "2026-02-09-notes.txt",
+        "2026-10-01-notes.txt",
+        "2026-09-30-notes.txt"
+      ],
+      "displayedNames": [
+        "2026-02-09-notes.txt",
+        "2026-09-30-notes.txt",
+        "2026-10-01-notes.txt"
+      ],
+      "screenshot": "padded-dates.png"
+    }
+  ]
+}

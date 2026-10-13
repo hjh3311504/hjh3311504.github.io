@@ -1,0 +1,30 @@
+기호 &를 그대로 넣음
+https://example.invalid/join?group=R&D
+group = R
+
+기호 &를 인코딩함
+https://example.invalid/join?group=R%26D
+group = R&D
+
+기호 +를 그대로 넣음
+https://example.invalid/join?group=A+B
+group = A B
+
+기호 +를 인코딩함
+https://example.invalid/join?group=A%2BB
+group = A+B
+
+기호 #를 그대로 넣음
+https://example.invalid/join?room=Room#2
+room = Room
+
+기호 #를 인코딩함
+https://example.invalid/join?room=Room%232
+room = Room#2
+
+URLSearchParams로 만든 주소
+https://example.invalid/join?group=A%2BB&room=%EC%97%B0%EC%8A%B5%EC%8B%A4+%232
+
+이미 변환한 값을 다시 넣은 주소
+https://example.invalid/join?group=A%252BB
+group = A%2BB

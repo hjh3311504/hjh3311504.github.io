@@ -1,0 +1,64 @@
+{
+  "measuredAt": "2026-10-13T14:16:22.929Z",
+  "node": "v24.11.0",
+  "sharp": {
+    "aom": "3.15.0",
+    "archive": "3.8.9",
+    "cairo": "1.18.4",
+    "cgif": "0.5.3",
+    "exif": "0.6.26",
+    "expat": "2.8.3",
+    "ffi": "3.8.0",
+    "fontconfig": "2.18.3",
+    "freetype": "2.14.3",
+    "fribidi": "1.0.16",
+    "glib": "2.89.4",
+    "harfbuzz": "14.3.1",
+    "heif": "1.23.2",
+    "highway": "1.4.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.19.1",
+    "mozjpeg": "0826579",
+    "pango": "1.58.2",
+    "pixman": "0.46.4",
+    "png": "1.6.58",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.62.91",
+    "tiff": "4.7.2",
+    "uhdr": "2.0.2",
+    "vips": "8.18.6",
+    "webp": "1.6.0",
+    "xml2": "2.15.3",
+    "zlib-ng": "2.3.3",
+    "sharp": "0.35.4"
+  },
+  "qrcode": "1.5.4",
+  "jsqr": "1.4.0",
+  "method": "Synthetic arrow; stored pixels rotated 270 degrees; EXIF Orientation 6; sharp autoOrient",
+  "files": [
+    {
+      "file": "orientation-6.jpg",
+      "bytes": 9033,
+      "sha256": "38935deb0d373c736d00fe9414c7fbfa25d71413b88d6bcba7475fd5e14c441a",
+      "storedWidth": 360,
+      "storedHeight": 240,
+      "orientation": 6
+    },
+    {
+      "file": "orientation-removed.jpg",
+      "bytes": 9170,
+      "sha256": "0a9d98b3829542b7e47cb12f3b09eabc5073f0adca4ac06f4dca38d179b98ded",
+      "storedWidth": 360,
+      "storedHeight": 240,
+      "orientation": null
+    },
+    {
+      "file": "pixels-upright.jpg",
+      "bytes": 9142,
+      "sha256": "c89c573c1aff387e8abb69246839cd12e37b3e97232027128c6e280ba9b9d848",
+      "storedWidth": 240,
+      "storedHeight": 360,
+      "orientation": null
+    }
+  ]
+}
