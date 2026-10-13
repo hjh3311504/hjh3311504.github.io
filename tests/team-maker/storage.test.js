@@ -143,3 +143,46 @@ test('저장 실패 뒤에도 현재 데이터를 유지하고 다시 저장할 
 	assert.equal(storage.saveState(state), true);
 	assert.deepEqual(JSON.parse(value), state);
 });
+
+test('손상 데이터를 백업하지 못하면 원본을 지키려고 저장하지 않는다', () => {
+	const values = new Map([[STORAGE_KEY, '{broken']]);
+	let failures = 0;
+	const storage = createStorage({
+		getStorage: () => ({
+			getItem: (key) => values.get(key) ?? null,
+			setItem: (key, value) => {
+				if (key === BACKUP_KEY) throw new Error('용량 초과');
+				values.set(key, value);
+			}
+		}),
+		onFailure: () => failures++
+	});
+	assert.deepEqual(storage.loadState(), defaultState());
+	assert.equal(storage.saveState(defaultState()), false);
+	assert.equal(values.get(STORAGE_KEY), '{broken');
+	assert.equal(failures, 2);
+});
+
+test('다른 탭의 저장·삭제만 읽고 다른 키와 저장소는 무시한다', () => {
+	const area = {};
+	const storage = createStorage({ getStorage: () => area });
+	const saved = JSON.stringify({ ...defaultState(), soundEnabled: false });
+	assert.equal(
+		storage.readChange({ key: STORAGE_KEY, newValue: saved, storageArea: area }).soundEnabled,
+		false
+	);
+	assert.deepEqual(
+		storage.readChange({ key: STORAGE_KEY, newValue: null, storageArea: area }),
+		defaultState()
+	);
+	assert.deepEqual(
+		storage.readChange({ key: null, newValue: null, storageArea: area }),
+		defaultState()
+	);
+	assert.equal(storage.readChange({ key: 'other', newValue: saved, storageArea: area }), null);
+	assert.equal(storage.readChange({ key: STORAGE_KEY, newValue: saved, storageArea: {} }), null);
+	assert.equal(
+		storage.readChange({ key: STORAGE_KEY, newValue: '{broken', storageArea: area }),
+		null
+	);
+});

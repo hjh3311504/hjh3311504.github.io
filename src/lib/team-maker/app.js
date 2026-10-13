@@ -46,22 +46,53 @@ export function mountTeamMaker(root) {
 		persist();
 		render();
 	}
+	// 팀 결과에 영향을 주는 값만 고른다. 객체 key 순서가 달라도 같은 설정으로 본다.
+	function setupKey(value) {
+		return JSON.stringify([
+			value.participants.map(({ id, name, included, column, columnOrder }) => [
+				id,
+				name,
+				included,
+				column,
+				columnOrder
+			]),
+			value.rules.map(({ id, type, participantIds }) => [id, type, participantIds]),
+			value.mode,
+			value.teamCount,
+			value.teamSize
+		]);
+	}
+	let resultCleanupPending = false;
+	function clearOutdatedResult() {
+		resultCleanupPending = false;
+		dialogs.closeDialog($('#wheel-dialog'));
+		results.clearResult();
+	}
 	// 다른 탭의 저장을 같은 상태 객체에 반영해, 이 탭이 오래된 상태로 덮어쓰지 않게 합니다.
 	function syncFromOtherTab(event) {
 		const next = storage.readChange(event);
 		if (!next) return;
-		const setupChanged = ['participants', 'rules', 'mode', 'teamCount', 'teamSize'].some(
-			(key) => JSON.stringify(state[key]) !== JSON.stringify(next[key])
-		);
+		const setupChanged = setupKey(state) !== setupKey(next);
 		Object.assign(state, next);
 		const resultEntryRemoved =
 			runtime.lastHistoryId && !state.history.some((entry) => entry.id === runtime.lastHistoryId);
-		// 돌림판이 도는 중에는 결과를 지우지 않고 다음 변경 때 정리합니다.
-		if ((setupChanged || resultEntryRemoved) && !runtime.wheelSpinning) {
-			dialogs.closeDialog($('#wheel-dialog'));
-			results.clearResult();
+		let resultCleared = false;
+		if (setupChanged || resultEntryRemoved) {
+			// 돌림판이 도는 중에는 결과를 지우지 않고 돌림판을 닫을 때 정리합니다.
+			if (runtime.wheelSpinning) resultCleanupPending = true;
+			else {
+				clearOutdatedResult();
+				resultCleared = true;
+			}
 		}
-		render();
+		showStorageFailure();
+		participants.renderParticipants();
+		participants.renderRules();
+		participants.renderSettings();
+		participants.syncRulePicker();
+		// 팀 이름을 고치는 중이면 입력칸을 지우지 않도록 결과를 다시 그리지 않습니다.
+		if (resultCleared || !$('#team-grid [data-team-name-input]')) results.renderResults();
+		history.renderTodayHistory();
 		audio.renderSoundButton();
 		if ($('#history-dialog').open) history.renderHistoryDialog();
 	}
@@ -163,6 +194,11 @@ export function mountTeamMaker(root) {
 	for (const feature of features) feature.connect();
 	const lifetime = createLifetime();
 	lifetime.on(window, 'storage', syncFromOtherTab);
+	lifetime.on($('#wheel-dialog'), 'close', () => {
+		if (!resultCleanupPending) return;
+		clearOutdatedResult();
+		render();
+	});
 	render();
 	let destroyed = false;
 	return () => {

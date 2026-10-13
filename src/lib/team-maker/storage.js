@@ -142,6 +142,7 @@ export function createStorage({
 	getStorage = () => globalThis.localStorage,
 	onFailure = () => {}
 } = {}) {
+	let keepCorrupted = false;
 	function loadState() {
 		let saved;
 		try {
@@ -158,12 +159,18 @@ export function createStorage({
 			try {
 				getStorage().setItem(BACKUP_KEY, saved);
 			} catch {
+				// 백업하지 못하면 원본을 지키기 위해 이 화면에서는 저장하지 않는다.
+				keepCorrupted = true;
 				onFailure();
 			}
 			return defaultState();
 		}
 	}
 	function saveState(state) {
+		if (keepCorrupted) {
+			onFailure();
+			return false;
+		}
 		try {
 			getStorage().setItem(STORAGE_KEY, JSON.stringify(state));
 			return true;
@@ -173,10 +180,12 @@ export function createStorage({
 		}
 	}
 	// 다른 탭이 저장한 상태만 읽는다. 다른 키나 읽을 수 없는 값은 무시한다.
+	// 다른 탭이 저장소를 비우거나 이 키를 지우면 빈 상태로 맞춘다.
 	function readChange(event) {
-		if (event.key !== STORAGE_KEY || typeof event.newValue !== 'string') return null;
+		if (event.key !== null && event.key !== STORAGE_KEY) return null;
 		try {
 			if (event.storageArea !== getStorage()) return null;
+			if (event.newValue === null) return defaultState();
 			return sanitizeState(JSON.parse(event.newValue));
 		} catch {
 			return null;

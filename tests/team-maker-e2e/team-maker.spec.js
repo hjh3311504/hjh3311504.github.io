@@ -1303,3 +1303,58 @@ test('참가자와 규칙 체크박스를 키보드로 바꿔도 포커스를 �
 	await expect(ruleCheckbox).toBeFocused();
 	await expect(dialog.getByText('두 명 이상 골라 주세요.')).toBeVisible();
 });
+
+test('다른 탭의 동기화가 결과·입력 중인 이름·규칙 선택을 망가뜨리지 않는다', async ({ page }) => {
+	const other = await page.context().newPage();
+	await openTeamMaker(page);
+	await openTeamMaker(other);
+	const saveFromOther = (change) =>
+		other.evaluate((change) => {
+			const state = JSON.parse(localStorage.getItem('team-maker:v1'));
+			if (change === 'sound') state.soundEnabled = !state.soundEnabled;
+			if (change === 'remove-last') state.participants.pop();
+			localStorage.setItem('team-maker:v1', JSON.stringify(state));
+		}, change);
+
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+
+	// 설정과 무관한 저장은 팀 결과를 지우지 않는다.
+	await saveFromOther('sound');
+	await expect(page.locator('#sound-toggle-button')).toHaveAttribute('aria-pressed', 'false');
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+
+	// 팀 이름과 참가자 이름을 고치는 중인 값은 동기화로 사라지지 않는다.
+	await page.getByRole('button', { name: '1팀 이름 수정' }).click();
+	const teamInput = page.getByRole('textbox', { name: '1팀 새 이름' });
+	await teamInput.fill('번개팀');
+	await saveFromOther('sound');
+	await expect(teamInput).toHaveValue('번개팀');
+	await teamInput.press('Enter');
+	await expect(page.getByRole('button', { name: '번개팀 이름 수정' })).toBeVisible();
+
+	const nameInput = page.getByRole('textbox', { name: '1번째 참가자 이름' });
+	await nameInput.fill('가람');
+	await saveFromOther('sound');
+	await expect(nameInput).toHaveValue('가람');
+	await expect(nameInput).toBeFocused();
+	await nameInput.press('Tab');
+	await expect(page.getByRole('checkbox', { name: '가람 참가 해제' })).toHaveCount(1);
+
+	// 열린 규칙 고르기 목록에서 다른 탭이 지운 참가자를 뺀다.
+	await page.getByRole('button', { name: '같은 팀 지정' }).click();
+	const dialog = page.getByRole('dialog', { name: '같은 팀으로 지정' });
+	await dialog.getByRole('checkbox', { name: '가람', exact: true }).check();
+	await dialog.getByRole('checkbox', { name: '라희', exact: true }).check();
+	await expect(dialog.getByText('2명 선택')).toBeVisible();
+	await saveFromOther('remove-last');
+	await expect(dialog.getByRole('checkbox', { name: '라희', exact: true })).toHaveCount(0);
+	await expect(dialog.getByText('두 명 이상 골라 주세요.')).toBeVisible();
+	await expect(dialog.getByRole('button', { name: '규칙 추가' })).toBeDisabled();
+
+	// 다른 탭이 저장소를 비우면 이 탭도 빈 상태가 된다.
+	await other.evaluate(() => localStorage.clear());
+	await expect(page.getByRole('heading', { name: /참가자 입력 \(0명\)/ })).toBeVisible();
+	await other.close();
+});

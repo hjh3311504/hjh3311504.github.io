@@ -31,6 +31,7 @@ export function createParticipants({
 	const leavingRules = new Set();
 	let checkboxAnimationKey = null;
 	let ruleSelection = new Set();
+	let checkboxAnimationSerial = 0;
 	const enteringRules = new Set();
 	const lifetime = createLifetime();
 	const { on, setTimeout, clearTimeout } = lifetime;
@@ -38,11 +39,21 @@ export function createParticipants({
 	let checkboxAnimationTimer = null;
 	const participantLayoutQuery = window.matchMedia('(max-width: 640px)');
 
+	// 행을 다시 쓰므로 class를 지웠다 붙여야 같은 체크박스를 다시 눌러도 효과가 재생된다.
+	function playCheckboxAnimation(checkbox) {
+		if (checkbox.dataset.animationSerial === String(checkboxAnimationSerial)) return;
+		checkbox.dataset.animationSerial = String(checkboxAnimationSerial);
+		checkbox.classList.remove('is-animating');
+		void checkbox.offsetWidth;
+		checkbox.classList.add('is-animating');
+	}
+
 	const useFullParticipantFont = () => root.classList.add('team-maker-font-expanded');
 
 	function markCheckboxAnimation(key) {
 		clearTimeout(checkboxAnimationTimer);
 		checkboxAnimationKey = key;
+		checkboxAnimationSerial += 1;
 		checkboxAnimationTimer = setTimeout(() => {
 			checkboxAnimationKey = null;
 			checkboxAnimationTimer = null;
@@ -88,19 +99,27 @@ export function createParticipants({
 	function updateParticipantRow(row, participant, displayNumber) {
 		const [checkbox, number, input, removeButton] = row.children;
 		row.dataset.included = String(participant.included);
+		// 행을 다시 쓰므로 끝난 위치 이동 효과의 inline 스타일이 다음 동작에 남지 않게 지운다.
+		const moving = row
+			.getAnimations()
+			.some((animation) => animation.transitionProperty === 'transform');
+		if (!row.dataset.removalMovement && !moving) {
+			row.style.removeProperty('transition');
+			row.style.removeProperty('transform');
+		}
 		row.classList.toggle('is-entering', enteringParticipants.has(participant.id));
 		row.classList.toggle('is-leaving', leavingParticipants.has(participant.id));
 		checkbox.checked = participant.included;
-		checkbox.classList.toggle(
-			'is-animating',
-			checkboxAnimationKey === `participant:${participant.id}`
-		);
+		if (checkboxAnimationKey === `participant:${participant.id}`) playCheckboxAnimation(checkbox);
 		checkbox.setAttribute(
 			'aria-label',
 			`${participant.name} 참가 ${participant.included ? '해제' : '선택'}`
 		);
 		number.textContent = String(displayNumber);
-		if (input.value !== participant.name) input.value = participant.name;
+		// 이름은 입력칸을 벗어날 때 저장된다. 고치는 중인 값은 이름이 바뀐 경우에만 덮어쓴다.
+		const editing = input.value !== input.dataset.renderedName;
+		if (!editing || participant.name !== input.dataset.renderedName) input.value = participant.name;
+		input.dataset.renderedName = participant.name;
 		input.setAttribute('aria-label', `${displayNumber}번째 참가자 이름`);
 		removeButton.setAttribute('aria-label', `${participant.name} 삭제`);
 		removeButton.disabled = removingParticipantId !== null;
@@ -477,7 +496,7 @@ export function createParticipants({
 			else ruleSelection.delete(id);
 			markCheckboxAnimation(`rule:${id}`);
 			// 목록을 다시 만들지 않아야 대화상자 안의 포커스가 유지된다.
-			event.target.classList.add('is-animating');
+			playCheckboxAnimation(event.target);
 			renderRulePickerStatus();
 		});
 
@@ -529,5 +548,22 @@ export function createParticipants({
 	function destroy() {
 		lifetime.destroy();
 	}
-	return { connect, destroy, renderParticipants, renderRules, renderSettings, currentSetup };
+	function syncRulePicker() {
+		if (!$('#rule-dialog').open) return;
+		const includedIds = new Set(
+			state.participants.filter((item) => item.included).map((item) => item.id)
+		);
+		ruleSelection = new Set([...ruleSelection].filter((id) => includedIds.has(id)));
+		renderRulePicker();
+	}
+
+	return {
+		connect,
+		destroy,
+		renderParticipants,
+		renderRules,
+		renderSettings,
+		currentSetup,
+		syncRulePicker
+	};
 }
