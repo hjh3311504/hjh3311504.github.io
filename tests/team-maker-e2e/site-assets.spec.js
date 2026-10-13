@@ -71,3 +71,19 @@ test('정적 404는 JavaScript 없이도 안내와 홈 링크를 제공한다', 
 		await context.close();
 	}
 });
+
+test('하위 경로의 404도 사이트 루트의 자산을 불러온다', async ({ page }) => {
+	// GitHub Pages는 없는 하위 주소에도 루트의 404.html을 그대로 응답한다.
+	await page.route('**/blog/missing-post', async (route) => {
+		const response = await route.fetch({ url: new URL('/404', route.request().url()).href });
+		await route.fulfill({ response, status: 404 });
+	});
+	const assetRequests = [];
+	page.on('request', (request) => {
+		if (request.url().includes('/_app/')) assetRequests.push(new URL(request.url()).pathname);
+	});
+	await page.goto('/blog/missing-post');
+	await expect(page.getByRole('heading', { name: '페이지를 찾을 수 없습니다' })).toBeVisible();
+	expect(assetRequests.length).toBeGreaterThan(0);
+	expect(assetRequests.filter((pathname) => !pathname.startsWith('/_app/'))).toEqual([]);
+});
