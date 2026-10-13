@@ -1251,3 +1251,29 @@ for (const theme of ['light', 'dark']) {
 		await expect(page.getByRole('button', { name: /2등 기록$/ })).toHaveCount(0);
 	});
 }
+
+test('다른 탭의 저장을 반영해 서로의 기록을 덮어쓰지 않는다', async ({ page }) => {
+	const other = await page.context().newPage();
+	await openTeamMaker(page);
+	await openTeamMaker(other);
+
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await expect(other.getByRole('heading', { name: /참가자 입력 \(4명\)/ })).toBeVisible();
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await page
+		.getByRole('button', { name: /승리 기록$/ })
+		.first()
+		.click();
+	await expect(other.locator('#today-history-list .history-summary-row')).toHaveCount(1);
+
+	// 다른 탭에서 저장해도 앞 탭의 승리 기록이 남아야 한다.
+	await other.getByRole('button', { name: '일괄 추가' }).click();
+	const dialog = other.getByRole('dialog', { name: '참가자 일괄 추가' });
+	await dialog.getByRole('textbox', { name: '추가할 참가자 이름' }).fill('마루');
+	await dialog.getByRole('button', { name: '명단에 1명 추가' }).click();
+	await expect(other.getByRole('heading', { name: /참가자 입력 \(5명\)/ })).toBeVisible();
+	await page.reload();
+	await expect(page.getByRole('heading', { name: /참가자 입력 \(5명\)/ })).toBeVisible();
+	await expect(page.locator('#today-history-list .history-summary-row')).toHaveCount(1);
+	await other.close();
+});

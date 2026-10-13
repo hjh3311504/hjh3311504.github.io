@@ -1,3 +1,4 @@
+import { createLifetime } from './lifecycle.js';
 import { createStorage } from './storage.js';
 import { createUi } from './ui.js';
 import { createParticipants } from './participants.js';
@@ -44,6 +45,25 @@ export function mountTeamMaker(root) {
 		if (clearTeams) results.clearResult();
 		persist();
 		render();
+	}
+	// 다른 탭의 저장을 같은 상태 객체에 반영해, 이 탭이 오래된 상태로 덮어쓰지 않게 합니다.
+	function syncFromOtherTab(event) {
+		const next = storage.readChange(event);
+		if (!next) return;
+		const setupChanged = ['participants', 'rules', 'mode', 'teamCount', 'teamSize'].some(
+			(key) => JSON.stringify(state[key]) !== JSON.stringify(next[key])
+		);
+		Object.assign(state, next);
+		const resultEntryRemoved =
+			runtime.lastHistoryId && !state.history.some((entry) => entry.id === runtime.lastHistoryId);
+		// 돌림판이 도는 중에는 결과를 지우지 않고 다음 변경 때 정리합니다.
+		if ((setupChanged || resultEntryRemoved) && !runtime.wheelSpinning) {
+			dialogs.closeDialog($('#wheel-dialog'));
+			results.clearResult();
+		}
+		render();
+		audio.renderSoundButton();
+		if ($('#history-dialog').open) history.renderHistoryDialog();
 	}
 	function render() {
 		showStorageFailure();
@@ -141,11 +161,14 @@ export function mountTeamMaker(root) {
 	});
 	const features = [ui, participants, results, dialogs, rosters, history, wheel, audio];
 	for (const feature of features) feature.connect();
+	const lifetime = createLifetime();
+	lifetime.on(window, 'storage', syncFromOtherTab);
 	render();
 	let destroyed = false;
 	return () => {
 		if (destroyed) return;
 		destroyed = true;
+		lifetime.destroy();
 		for (const feature of [...features].reverse()) feature.destroy();
 	};
 }

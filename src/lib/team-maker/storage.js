@@ -172,5 +172,15 @@ export function createStorage({
 			return false;
 		}
 	}
-	return { loadState, saveState };
+	// 다른 탭이 저장한 상태만 읽는다. 다른 키나 읽을 수 없는 값은 무시한다.
+	function readChange(event) {
+		if (event.key !== STORAGE_KEY || typeof event.newValue !== 'string') return null;
+		try {
+			if (event.storageArea !== getStorage()) return null;
+			return sanitizeState(JSON.parse(event.newValue));
+		} catch {
+			return null;
+		}
+	}
+	return { loadState, saveState, readChange };
 }
