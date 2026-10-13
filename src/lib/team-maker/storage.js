@@ -8,6 +8,8 @@ import {
 import { clamp, createId } from './utils.js';
 
 export const STORAGE_KEY = 'team-maker:v1';
+// 읽을 수 없는 저장 데이터의 원본을 보관한다. 가장 최근에 발견한 손상 데이터만 남긴다.
+export const BACKUP_KEY = 'team-maker:v1:corrupted';
 
 export function defaultState() {
 	return {
@@ -141,11 +143,23 @@ export function createStorage({
 	onFailure = () => {}
 } = {}) {
 	function loadState() {
+		let saved;
 		try {
-			const saved = getStorage().getItem(STORAGE_KEY);
-			return saved ? sanitizeState(JSON.parse(saved)) : defaultState();
+			saved = getStorage().getItem(STORAGE_KEY);
 		} catch {
 			onFailure();
+			return defaultState();
+		}
+		if (!saved) return defaultState();
+		try {
+			return sanitizeState(JSON.parse(saved));
+		} catch {
+			// 다음 저장이 손상된 원본을 덮어쓰기 전에 복구용으로 따로 남긴다.
+			try {
+				getStorage().setItem(BACKUP_KEY, saved);
+			} catch {
+				onFailure();
+			}
 			return defaultState();
 		}
 	}

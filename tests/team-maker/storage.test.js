@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createStorage, defaultState, STORAGE_KEY } from '../../src/lib/team-maker/storage.js';
+import {
+	BACKUP_KEY,
+	createStorage,
+	defaultState,
+	STORAGE_KEY
+} from '../../src/lib/team-maker/storage.js';
 
 function memoryStorage(saved = null) {
 	let value = saved;
@@ -30,12 +35,22 @@ test('저장 데이터가 없으면 서로 독립된 빈 상태를 만든다', (
 	assert.deepEqual(storage.failures, []);
 });
 
-test('손상된 JSON과 저장소 접근 오류를 알리고 기본값으로 시작한다', () => {
-	const storage = memoryStorage('{broken');
-	assert.deepEqual(storage.loadState(), defaultState());
-	assert.equal(storage.failures.length, 1);
-	assert.equal(storage.saved(), '{broken');
+test('손상된 JSON은 원본을 백업하고 저장소 접근 오류만 알린다', () => {
+	const values = new Map([[STORAGE_KEY, '{broken']]);
 	let failures = 0;
+	const storage = createStorage({
+		getStorage: () => ({
+			getItem: (key) => values.get(key) ?? null,
+			setItem: (key, value) => values.set(key, value)
+		}),
+		onFailure: () => failures++
+	});
+	assert.deepEqual(storage.loadState(), defaultState());
+	assert.equal(failures, 0, '저장소는 정상이므로 저장 실패 안내를 띄우지 않는다.');
+	assert.equal(values.get(BACKUP_KEY), '{broken');
+	storage.saveState(defaultState());
+	assert.equal(values.get(BACKUP_KEY), '{broken', '다음 저장 뒤에도 원본을 보관한다.');
+	failures = 0;
 	const blocked = createStorage({
 		getStorage: () => {
 			throw new Error('저장소 접근 차단');
