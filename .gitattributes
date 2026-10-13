@@ -1,0 +1,2 @@
+# 비교 예제의 줄바꿈과 파일 해시를 운영체제에 관계없이 보존한다.
+/static/downloads/blog/file-hash/*.txt -text

@@ -32,6 +32,10 @@ MIT 적용 제외는 해당 자료에 GPL을 새로 적용하거나 별도의 �
 
 2026-10-09에는 `static/downloads/blog/qr-readability/`, `browser-storage/`, `csv-columns/`와 `static/images/blog/qr-readability/`, `browser-storage/`에 문제 해결 글의 자체 비교 자료를 추가했습니다. QR은 공개 도구 주소를 담고, CSV와 저장 화면은 가상 명단을 사용합니다. 생성·재현 방법은 `scripts/README-blog-troubleshooting-examples.md`에 있습니다. 비교 그림의 SUIT 글꼴과 사이트 화면의 글꼴·아이콘은 기존 고지를 따릅니다.
 
+2026-10-13에는 `static/downloads/blog/`의 `file-hash/`, `filename-order/`, `png-transparency/`, `image-orientation/`, `url-characters/`, `qr-url-length/`, `team-rule-conflicts/`에 직접 만든 파일·도형·가상 명단·주소 비교 자료를 추가했습니다. `static/images/blog/png-transparency/`, `image-orientation/`, `qr-url-length/`의 비교 그림도 같은 자료로 생성했습니다. 외부 사진은 사용하지 않았으며 자체 도형·문구·생성 코드는 위 MIT 적용 기준을 따릅니다. 비교 그림과 `upright-source.svg`, 방향 비교 JPG에 사용한 SUIT 글자 모양은 기존 OFL 고지를 유지합니다.
+
+`static/images/blog/filename-order/`는 자체 연습 파일을 Python의 기본 파일 목록으로 열어 Chromium에서 직접 촬영한 화면입니다. Python은 [PSF 라이선스](https://docs.python.org/3/license.html)를 따르며 원프로그램의 권리는 유지합니다. ZIP에는 자체 연습 파일만 담았습니다. 생성·검증 방법은 `scripts/README-blog-workflow-examples.md`에 있습니다.
+
 ## 템플릿 이력
 
 이 저장소는 Matheus Fantinel의 [SvelteKit Static Blog Template](https://github.com/matfantinel/sveltekit-static-blog-template)에서 시작했습니다. 첫 commit `c0100a6`의 템플릿과 과거 버전은 당시의 GPLv3 및 개별 자료의 조건을 그대로 따릅니다. 원본 제작자가 현재 사이트를 운영하거나 보증한다는 뜻은 아닙니다.

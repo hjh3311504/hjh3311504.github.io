@@ -1,0 +1,523 @@
+{
+  "measuredAt": "2026-10-13T14:16:22.929Z",
+  "node": "v24.11.0",
+  "sharp": {
+    "aom": "3.15.0",
+    "archive": "3.8.9",
+    "cairo": "1.18.4",
+    "cgif": "0.5.3",
+    "exif": "0.6.26",
+    "expat": "2.8.3",
+    "ffi": "3.8.0",
+    "fontconfig": "2.18.3",
+    "freetype": "2.14.3",
+    "fribidi": "1.0.16",
+    "glib": "2.89.4",
+    "harfbuzz": "14.3.1",
+    "heif": "1.23.2",
+    "highway": "1.4.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.19.1",
+    "mozjpeg": "0826579",
+    "pango": "1.58.2",
+    "pixman": "0.46.4",
+    "png": "1.6.58",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.62.91",
+    "tiff": "4.7.2",
+    "uhdr": "2.0.2",
+    "vips": "8.18.6",
+    "webp": "1.6.0",
+    "xml2": "2.15.3",
+    "zlib-ng": "2.3.3",
+    "sharp": "0.35.4"
+  },
+  "qrcode": "1.5.4",
+  "jsqr": "1.4.0",
+  "method": "Repository makeTeams; synthetic participants; fixed random=0.5 for reproducibility; not an odds measurement",
+  "cases": [
+    {
+      "name": "이어진 같은 팀 규칙과 다른 팀 규칙 충돌",
+      "teamCount": 2,
+      "rules": [
+        {
+          "type": "together",
+          "participantIds": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "together",
+          "participantIds": [
+            2,
+            3
+          ]
+        },
+        {
+          "type": "apart",
+          "participantIds": [
+            1,
+            3
+          ]
+        }
+      ],
+      "expected": "RULE_CONFLICT",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        }
+      ],
+      "result": {
+        "status": "RULE_CONFLICT",
+        "message": "같은 팀 규칙과 다른 팀 규칙이 서로 충돌합니다. 규칙을 확인해 주세요."
+      }
+    },
+    {
+      "name": "충돌하는 다른 팀 규칙 제거",
+      "teamCount": 2,
+      "rules": [
+        {
+          "type": "together",
+          "participantIds": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "together",
+          "participantIds": [
+            2,
+            3
+          ]
+        }
+      ],
+      "expected": "ok",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        }
+      ],
+      "result": {
+        "status": "ok",
+        "teams": [
+          [
+            "가람",
+            "나래",
+            "다온"
+          ],
+          [
+            "라온",
+            "바다",
+            "마루"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "서로 다른 팀3명을2팀에 배정",
+      "teamCount": 2,
+      "rules": [
+        {
+          "type": "apart",
+          "participantIds": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "expected": "NOT_ENOUGH_TEAMS_FOR_APART_RULE",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        }
+      ],
+      "result": {
+        "status": "NOT_ENOUGH_TEAMS_FOR_APART_RULE",
+        "message": "서로 다른 팀으로 나눌 참가자보다 팀 수가 적습니다. 팀 수나 규칙을 고쳐 주세요."
+      }
+    },
+    {
+      "name": "팀 수를3팀으로 변경",
+      "teamCount": 3,
+      "rules": [
+        {
+          "type": "apart",
+          "participantIds": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "expected": "ok",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        }
+      ],
+      "result": {
+        "status": "ok",
+        "teams": [
+          [
+            "가람",
+            "바다"
+          ],
+          [
+            "나래",
+            "마루"
+          ],
+          [
+            "다온",
+            "라온"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "같은 팀4명을 정원3명에 배정",
+      "teamCount": 2,
+      "rules": [
+        {
+          "type": "together",
+          "participantIds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "expected": "TOGETHER_GROUP_TOO_LARGE",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        }
+      ],
+      "result": {
+        "status": "TOGETHER_GROUP_TOO_LARGE",
+        "message": "같은 팀으로 지정한 인원이 한 팀 정원(3명)보다 많습니다."
+      }
+    },
+    {
+      "name": "같은 팀 묶음을3명으로 수정",
+      "teamCount": 2,
+      "rules": [
+        {
+          "type": "together",
+          "participantIds": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "expected": "ok",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        }
+      ],
+      "result": {
+        "status": "ok",
+        "teams": [
+          [
+            "가람",
+            "나래",
+            "다온"
+          ],
+          [
+            "라온",
+            "바다",
+            "마루"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "10명을3팀으로 나누며4명 묶음2개 지정",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        },
+        {
+          "id": 7,
+          "name": "사라"
+        },
+        {
+          "id": 8,
+          "name": "아라"
+        },
+        {
+          "id": 9,
+          "name": "자람"
+        },
+        {
+          "id": 10,
+          "name": "하람"
+        }
+      ],
+      "teamCount": 3,
+      "rules": [
+        {
+          "type": "together",
+          "participantIds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "type": "together",
+          "participantIds": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "expected": "NO_VALID_ASSIGNMENT",
+      "result": {
+        "status": "NO_VALID_ASSIGNMENT",
+        "message": "현재 규칙으로 고르게 나눌 수 없습니다. 규칙이나 팀 수를 고쳐 주세요."
+      }
+    },
+    {
+      "name": "두 번째 묶음을3명으로 수정",
+      "participants": [
+        {
+          "id": 1,
+          "name": "가람"
+        },
+        {
+          "id": 2,
+          "name": "나래"
+        },
+        {
+          "id": 3,
+          "name": "다온"
+        },
+        {
+          "id": 4,
+          "name": "라온"
+        },
+        {
+          "id": 5,
+          "name": "마루"
+        },
+        {
+          "id": 6,
+          "name": "바다"
+        },
+        {
+          "id": 7,
+          "name": "사라"
+        },
+        {
+          "id": 8,
+          "name": "아라"
+        },
+        {
+          "id": 9,
+          "name": "자람"
+        },
+        {
+          "id": 10,
+          "name": "하람"
+        }
+      ],
+      "teamCount": 3,
+      "rules": [
+        {
+          "type": "together",
+          "participantIds": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "type": "together",
+          "participantIds": [
+            5,
+            6,
+            7
+          ]
+        }
+      ],
+      "expected": "ok",
+      "result": {
+        "status": "ok",
+        "teams": [
+          [
+            "가람",
+            "다온",
+            "라온",
+            "나래"
+          ],
+          [
+            "마루",
+            "바다",
+            "사라"
+          ],
+          [
+            "아라",
+            "하람",
+            "자람"
+          ]
+        ]
+      }
+    }
+  ]
+}

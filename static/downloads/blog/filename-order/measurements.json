@@ -1,0 +1,98 @@
+{
+  "measuredAt": "2026-10-13T14:16:22.929Z",
+  "node": "v24.11.0",
+  "sharp": {
+    "aom": "3.15.0",
+    "archive": "3.8.9",
+    "cairo": "1.18.4",
+    "cgif": "0.5.3",
+    "exif": "0.6.26",
+    "expat": "2.8.3",
+    "ffi": "3.8.0",
+    "fontconfig": "2.18.3",
+    "freetype": "2.14.3",
+    "fribidi": "1.0.16",
+    "glib": "2.89.4",
+    "harfbuzz": "14.3.1",
+    "heif": "1.23.2",
+    "highway": "1.4.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.19.1",
+    "mozjpeg": "0826579",
+    "pango": "1.58.2",
+    "pixman": "0.46.4",
+    "png": "1.6.58",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.62.91",
+    "tiff": "4.7.2",
+    "uhdr": "2.0.2",
+    "vips": "8.18.6",
+    "webp": "1.6.0",
+    "xml2": "2.15.3",
+    "zlib-ng": "2.3.3",
+    "sharp": "0.35.4"
+  },
+  "qrcode": "1.5.4",
+  "jsqr": "1.4.0",
+  "method": "JavaScript Array.sort and Intl.Collator en numeric",
+  "input": [
+    "meeting-1.txt",
+    "meeting-2.txt",
+    "meeting-3.txt",
+    "meeting-9.txt",
+    "meeting-10.txt",
+    "meeting-11.txt"
+  ],
+  "paddedInput": [
+    "meeting-01.txt",
+    "meeting-02.txt",
+    "meeting-03.txt",
+    "meeting-09.txt",
+    "meeting-10.txt",
+    "meeting-11.txt"
+  ],
+  "dateInput": [
+    "2026-2-09-notes.txt",
+    "2026-10-01-notes.txt",
+    "2026-9-30-notes.txt"
+  ],
+  "paddedDateInput": [
+    "2026-02-09-notes.txt",
+    "2026-10-01-notes.txt",
+    "2026-09-30-notes.txt"
+  ],
+  "textOrder": [
+    "meeting-1.txt",
+    "meeting-10.txt",
+    "meeting-11.txt",
+    "meeting-2.txt",
+    "meeting-3.txt",
+    "meeting-9.txt"
+  ],
+  "numericOrder": [
+    "meeting-1.txt",
+    "meeting-2.txt",
+    "meeting-3.txt",
+    "meeting-9.txt",
+    "meeting-10.txt",
+    "meeting-11.txt"
+  ],
+  "paddedTextOrder": [
+    "meeting-01.txt",
+    "meeting-02.txt",
+    "meeting-03.txt",
+    "meeting-09.txt",
+    "meeting-10.txt",
+    "meeting-11.txt"
+  ],
+  "unpaddedDateOrder": [
+    "2026-10-01-notes.txt",
+    "2026-2-09-notes.txt",
+    "2026-9-30-notes.txt"
+  ],
+  "paddedDateOrder": [
+    "2026-02-09-notes.txt",
+    "2026-09-30-notes.txt",
+    "2026-10-01-notes.txt"
+  ]
+}

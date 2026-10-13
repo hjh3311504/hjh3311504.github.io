@@ -1,0 +1,27 @@
+{
+  "measuredAt": "2026-10-13T14:12:08.686746+00:00",
+  "platform": "macOS 26.6.2",
+  "exiftool": "13.59",
+  "method": "ExifTool Perl distribution; read-only -Orientation and -Orientation -n -j",
+  "source": "https://sourceforge.net/projects/exiftool/files/Image-ExifTool-13.59.tar.gz/download",
+  "files": [
+    {
+      "file": "orientation-6.jpg",
+      "sha256": "38935deb0d373c736d00fe9414c7fbfa25d71413b88d6bcba7475fd5e14c441a",
+      "output": "Orientation                     : Rotate 90 CW",
+      "numericOrientation": 6
+    },
+    {
+      "file": "orientation-removed.jpg",
+      "sha256": "0a9d98b3829542b7e47cb12f3b09eabc5073f0adca4ac06f4dca38d179b98ded",
+      "output": "",
+      "numericOrientation": null
+    },
+    {
+      "file": "pixels-upright.jpg",
+      "sha256": "c89c573c1aff387e8abb69246839cd12e37b3e97232027128c6e280ba9b9d848",
+      "output": "",
+      "numericOrientation": null
+    }
+  ]
+}

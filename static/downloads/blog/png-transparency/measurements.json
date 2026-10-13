@@ -1,0 +1,96 @@
+{
+  "measuredAt": "2026-10-13T14:16:22.929Z",
+  "node": "v24.11.0",
+  "sharp": {
+    "aom": "3.15.0",
+    "archive": "3.8.9",
+    "cairo": "1.18.4",
+    "cgif": "0.5.3",
+    "exif": "0.6.26",
+    "expat": "2.8.3",
+    "ffi": "3.8.0",
+    "fontconfig": "2.18.3",
+    "freetype": "2.14.3",
+    "fribidi": "1.0.16",
+    "glib": "2.89.4",
+    "harfbuzz": "14.3.1",
+    "heif": "1.23.2",
+    "highway": "1.4.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.19.1",
+    "mozjpeg": "0826579",
+    "pango": "1.58.2",
+    "pixman": "0.46.4",
+    "png": "1.6.58",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.62.91",
+    "tiff": "4.7.2",
+    "uhdr": "2.0.2",
+    "vips": "8.18.6",
+    "webp": "1.6.0",
+    "xml2": "2.15.3",
+    "zlib-ng": "2.3.3",
+    "sharp": "0.35.4"
+  },
+  "qrcode": "1.5.4",
+  "jsqr": "1.4.0",
+  "method": "Synthetic SVG; explicit background flattening; decoded RGBA",
+  "files": [
+    {
+      "file": "transparent.png",
+      "bytes": 5125,
+      "sha256": "ba978588cd325f4fc0feac1f32b7600c23761d96e33b77999dc039c7d866adb6",
+      "width": 320,
+      "height": 200,
+      "nonOpaquePixels": 50988,
+      "cornerRgba": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "white-background.jpg",
+      "bytes": 5828,
+      "sha256": "b3bf6c48b9c48e443f30e75dcb6a25c8b503d36895febbaf21f0cf404632629f",
+      "width": 320,
+      "height": 200,
+      "nonOpaquePixels": 0,
+      "cornerRgba": [
+        255,
+        255,
+        255,
+        255
+      ]
+    },
+    {
+      "file": "dark-background.jpg",
+      "bytes": 5334,
+      "sha256": "52814df637d2ef37e238e45cabfdc5f09a42fe11d4be196b7c4c7204857d71df",
+      "width": 320,
+      "height": 200,
+      "nonOpaquePixels": 0,
+      "cornerRgba": [
+        24,
+        51,
+        72,
+        255
+      ]
+    },
+    {
+      "file": "jpg-back-to-png.png",
+      "bytes": 28429,
+      "sha256": "1ae0303a5011b81189ce6350f3e7dada48c992aea61c491b98bac4b602f000db",
+      "width": 320,
+      "height": 200,
+      "nonOpaquePixels": 0,
+      "cornerRgba": [
+        255,
+        255,
+        255,
+        255
+      ]
+    }
+  ]
+}

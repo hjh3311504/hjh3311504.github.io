@@ -1,0 +1,64 @@
+{
+  "measuredAt": "2026-10-13T14:16:22.929Z",
+  "node": "v24.11.0",
+  "sharp": {
+    "aom": "3.15.0",
+    "archive": "3.8.9",
+    "cairo": "1.18.4",
+    "cgif": "0.5.3",
+    "exif": "0.6.26",
+    "expat": "2.8.3",
+    "ffi": "3.8.0",
+    "fontconfig": "2.18.3",
+    "freetype": "2.14.3",
+    "fribidi": "1.0.16",
+    "glib": "2.89.4",
+    "harfbuzz": "14.3.1",
+    "heif": "1.23.2",
+    "highway": "1.4.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.19.1",
+    "mozjpeg": "0826579",
+    "pango": "1.58.2",
+    "pixman": "0.46.4",
+    "png": "1.6.58",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.62.91",
+    "tiff": "4.7.2",
+    "uhdr": "2.0.2",
+    "vips": "8.18.6",
+    "webp": "1.6.0",
+    "xml2": "2.15.3",
+    "zlib-ng": "2.3.3",
+    "sharp": "0.35.4"
+  },
+  "qrcode": "1.5.4",
+  "jsqr": "1.4.0",
+  "method": "Node crypto SHA-256 and Buffer.equals",
+  "files": [
+    {
+      "file": "original.txt",
+      "bytes": 40,
+      "sha256": "fc4000b674fcd472afe1cdf4ec4730d5dc0b4af99a7768eecc4a3f725190f59d",
+      "sameBytesAsOriginal": true
+    },
+    {
+      "file": "renamed-copy.txt",
+      "bytes": 40,
+      "sha256": "fc4000b674fcd472afe1cdf4ec4730d5dc0b4af99a7768eecc4a3f725190f59d",
+      "sameBytesAsOriginal": true
+    },
+    {
+      "file": "edited-time.txt",
+      "bytes": 40,
+      "sha256": "8c7e6f1514e8dfb3a47fbc01500f3aca4aea76d928988192a678c40733f8f850",
+      "sameBytesAsOriginal": false
+    },
+    {
+      "file": "windows-newlines.txt",
+      "bytes": 42,
+      "sha256": "458ced09a4294edb6b3046bd5d32a34d95ed6a87797c91bf8edab080611b0a81",
+      "sameBytesAsOriginal": false
+    }
+  ]
+}
