@@ -107,7 +107,10 @@ export async function parsePost(
 	if (data.updatedAt !== undefined) {
 		dateValue(data.updatedAt, 'updatedAt', file);
 		if (data.updatedAt < data.publishedAt) fail(file, '수정일은 게시일보다 빠를 수 없습니다.');
-		if (data.published && data.updatedAt > today) fail(file, '미래 수정일을 사용할 수 없습니다.');
+		// 예약 글은 게시일까지의 수정일을 허용한다. 게시일 뒤의 수정일은 아직 오지 않은 날짜다.
+		const latestDate = data.publishedAt > today ? data.publishedAt : today;
+		if (data.published && data.updatedAt > latestDate)
+			fail(file, '미래 수정일을 사용할 수 없습니다.');
 	}
 	if (data.releaseDate !== undefined) dateValue(data.releaseDate, 'releaseDate', file);
 	if (data.version !== undefined && (typeof data.version !== 'string' || !data.version.trim()))

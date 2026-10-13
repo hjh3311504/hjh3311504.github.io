@@ -67,6 +67,11 @@ for (const [name, changes, message] of [
 	['잘못된 날짜', { publishedAt: '2026-02-30' }, /존재하지 않는 날짜/],
 	['역전된 수정일', { updatedAt: '2026-09-28' }, /게시일보다/],
 	['미래 수정일', { updatedAt: '2026-09-30' }, /미래 수정일/],
+	[
+		'예약 게시일 뒤의 수정일',
+		{ publishedAt: '2026-10-01', updatedAt: '2026-10-02' },
+		/미래 수정일/
+	],
 	['없는 이미지', { image: '/images/missing.png', imageAlt: '예시' }, /이미지 파일/],
 	['경로를 벗어난 이미지', { image: '/images/../favicon.svg', imageAlt: '예시' }, /로컬 경로/],
 	['메타 정보 오타', { publshed: false }, /알 수 없는 글 정보/]
@@ -78,6 +83,12 @@ for (const [name, changes, message] of [
 		);
 	});
 }
+
+test('예약 글은 게시일과 같은 수정일을 쓸 수 있다', async () => {
+	const post = await parse({ publishedAt: '2026-10-01', updatedAt: '2026-10-01' });
+	assert.equal(post.publicationStatus, 'scheduled');
+	assert.equal(post.updatedAt, '2026-10-01');
+});
 
 test('예약은 한국 시간 자정부터 공개되고 초안은 날짜가 지나도 공개되지 않는다', async () => {
 	for (const [time, expected] of [
