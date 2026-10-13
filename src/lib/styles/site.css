@@ -54,7 +54,7 @@ h5,
 h6 {
 	font-family: var(--site-title-font);
 }
-/* 전체 글꼴의 자동 보완은 홈·오류 화면에만 적용한다. Team Maker는 입력할 때 보완한다. */
+/* 전체 글꼴의 자동 보완은 Team Maker 밖의 모든 화면에 적용한다. Team Maker는 입력할 때 보완한다. */
 .site-shell:not(.team-maker) {
 	--site-body-font: 'SUIT', 'SUIT Full', system-ui, sans-serif;
 	--site-title-font: 'SUITE', 'SUITE Full', 'SUIT', sans-serif;

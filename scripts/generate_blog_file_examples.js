@@ -191,7 +191,11 @@ await compare(
 	'같은 영역을 같은 표시 크기로 비교'
 );
 await sharp(png).resize(900).png().toFile(path.join(images, 'text-card-preview.png'));
-await sharp(pattern).resize(900).png().toFile(path.join(images, 'resize-source-preview.png'));
+// 화질 비교 글이므로 미리보기도 픽셀을 바꾸지 않는 무손실 압축만 사용한다.
+await sharp(pattern)
+	.resize(900)
+	.png({ compressionLevel: 9, adaptiveFiltering: true })
+	.toFile(path.join(images, 'resize-source-preview.png'));
 const manifest = {
 	measuredAt: '2026-10-04',
 	versions: sharp.versions,
