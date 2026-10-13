@@ -185,8 +185,11 @@ export function createStorage({
 		if (event.key !== null && event.key !== STORAGE_KEY) return null;
 		try {
 			if (event.storageArea !== getStorage()) return null;
-			if (event.newValue === null) return defaultState();
-			return sanitizeState(JSON.parse(event.newValue));
+			const next =
+				event.newValue === null ? defaultState() : sanitizeState(JSON.parse(event.newValue));
+			// 다른 탭이 손상 원본을 정상 값으로 바꿨으므로 더 지킬 원본이 없다.
+			keepCorrupted = false;
+			return next;
 		} catch {
 			return null;
 		}

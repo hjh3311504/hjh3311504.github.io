@@ -46,7 +46,8 @@ export function mountTeamMaker(root) {
 		persist();
 		render();
 	}
-	// 팀 결과에 영향을 주는 값만 고른다. 객체 key 순서가 달라도 같은 설정으로 본다.
+	// 결과를 지워야 하는 값만 고른다. 객체 key 순서가 달라도 같은 설정으로 본다.
+	// 팀 수와 나누기 방식은 이 탭에서 바꿀 때처럼 결과를 유지한다.
 	function setupKey(value) {
 		return JSON.stringify([
 			value.participants.map(({ id, name, included, column, columnOrder }) => [
@@ -56,10 +57,7 @@ export function mountTeamMaker(root) {
 				column,
 				columnOrder
 			]),
-			value.rules.map(({ id, type, participantIds }) => [id, type, participantIds]),
-			value.mode,
-			value.teamCount,
-			value.teamSize
+			value.rules.map(({ id, type, participantIds }) => [id, type, participantIds])
 		]);
 	}
 	let resultCleanupPending = false;

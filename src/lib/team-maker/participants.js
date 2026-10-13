@@ -31,6 +31,7 @@ export function createParticipants({
 	const leavingRules = new Set();
 	let checkboxAnimationKey = null;
 	let ruleSelection = new Set();
+	let renderedRulePickerKey = '';
 	let checkboxAnimationSerial = 0;
 	const enteringRules = new Set();
 	const lifetime = createLifetime();
@@ -100,10 +101,7 @@ export function createParticipants({
 		const [checkbox, number, input, removeButton] = row.children;
 		row.dataset.included = String(participant.included);
 		// 행을 다시 쓰므로 끝난 위치 이동 효과의 inline 스타일이 다음 동작에 남지 않게 지운다.
-		const moving = row
-			.getAnimations()
-			.some((animation) => animation.transitionProperty === 'transform');
-		if (!row.dataset.removalMovement && !moving) {
+		if (!row.dataset.removalMovement && row.dataset.flipping === undefined) {
 			row.style.removeProperty('transition');
 			row.style.removeProperty('transform');
 		}
@@ -317,6 +315,7 @@ export function createParticipants({
 	}
 
 	function renderRulePicker() {
+		renderedRulePickerKey = rulePickerKey();
 		const list = $('#rule-picker-list');
 		list.replaceChildren();
 		for (const participant of state.participants.filter((item) => item.included)) {
@@ -415,6 +414,10 @@ export function createParticipants({
 				if (!name) {
 					event.target.value = participant.name;
 					$('#result-live').textContent = '참가자 이름은 비울 수 없습니다.';
+					return;
+				}
+				if (name === participant.name) {
+					event.target.value = participant.name;
 					return;
 				}
 				participant.name = name;
@@ -548,13 +551,29 @@ export function createParticipants({
 	function destroy() {
 		lifetime.destroy();
 	}
+	const rulePickerKey = () =>
+		JSON.stringify(
+			state.participants.filter((item) => item.included).map((item) => [item.id, item.name])
+		);
+	// 다른 탭의 변경으로 참가 대상이 바뀐 경우에만 목록을 다시 그리고 포커스를 되돌린다.
 	function syncRulePicker() {
-		if (!$('#rule-dialog').open) return;
+		if (!$('#rule-dialog').open || rulePickerKey() === renderedRulePickerKey) return;
+		const list = $('#rule-picker-list');
+		const checkboxes = [...list.querySelectorAll('[data-rule-pick]')];
+		const focusedIndex = checkboxes.indexOf(document.activeElement);
+		const focusedId = checkboxes[focusedIndex]?.dataset.rulePick;
 		const includedIds = new Set(
 			state.participants.filter((item) => item.included).map((item) => item.id)
 		);
 		ruleSelection = new Set([...ruleSelection].filter((id) => includedIds.has(id)));
 		renderRulePicker();
+		if (focusedIndex === -1) return;
+		const next = [...list.querySelectorAll('[data-rule-pick]')];
+		const target =
+			next.find((checkbox) => checkbox.dataset.rulePick === focusedId) ??
+			next[Math.min(focusedIndex, next.length - 1)] ??
+			$('#rule-dialog').querySelector('button:not(:disabled)');
+		target?.focus();
 	}
 
 	return {

@@ -186,3 +186,22 @@ test('다른 탭의 저장·삭제만 읽고 다른 키와 저장소는 무시�
 		null
 	);
 });
+
+test('다른 탭이 손상 원본을 정상 값으로 바꾸면 저장을 다시 허용한다', () => {
+	const values = new Map([[STORAGE_KEY, '{broken']]);
+	const area = {
+		getItem: (key) => values.get(key) ?? null,
+		setItem: (key, value) => {
+			if (key === BACKUP_KEY) throw new Error('용량 초과');
+			values.set(key, value);
+		}
+	};
+	const storage = createStorage({ getStorage: () => area });
+	storage.loadState();
+	assert.equal(storage.saveState(defaultState()), false);
+	const saved = JSON.stringify(defaultState());
+	values.set(STORAGE_KEY, saved);
+	storage.readChange({ key: STORAGE_KEY, newValue: saved, storageArea: area });
+	assert.equal(storage.saveState({ ...defaultState(), soundEnabled: false }), true);
+	assert.equal(JSON.parse(values.get(STORAGE_KEY)).soundEnabled, false);
+});
