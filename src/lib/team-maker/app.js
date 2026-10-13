@@ -1,3 +1,4 @@
+import { createLifetime } from './lifecycle.js';
 import { createStorage } from './storage.js';
 import { createUi } from './ui.js';
 import { createParticipants } from './participants.js';
@@ -44,6 +45,54 @@ export function mountTeamMaker(root) {
 		if (clearTeams) results.clearResult();
 		persist();
 		render();
+	}
+	// 결과를 지워야 하는 값만 고른다. 객체 key 순서가 달라도 같은 설정으로 본다.
+	// 팀 수와 나누기 방식은 이 탭에서 바꿀 때처럼 결과를 유지한다.
+	function setupKey(value) {
+		return JSON.stringify([
+			value.participants.map(({ id, name, included, column, columnOrder }) => [
+				id,
+				name,
+				included,
+				column,
+				columnOrder
+			]),
+			value.rules.map(({ id, type, participantIds }) => [id, type, participantIds])
+		]);
+	}
+	let resultCleanupPending = false;
+	function clearOutdatedResult() {
+		resultCleanupPending = false;
+		dialogs.closeDialog($('#wheel-dialog'));
+		results.clearResult();
+	}
+	// 다른 탭의 저장을 같은 상태 객체에 반영해, 이 탭이 오래된 상태로 덮어쓰지 않게 합니다.
+	function syncFromOtherTab(event) {
+		const next = storage.readChange(event);
+		if (!next) return;
+		const setupChanged = setupKey(state) !== setupKey(next);
+		Object.assign(state, next);
+		const resultEntryRemoved =
+			runtime.lastHistoryId && !state.history.some((entry) => entry.id === runtime.lastHistoryId);
+		let resultCleared = false;
+		if (setupChanged || resultEntryRemoved) {
+			// 돌림판이 도는 중에는 결과를 지우지 않고 돌림판을 닫을 때 정리합니다.
+			if (runtime.wheelSpinning) resultCleanupPending = true;
+			else {
+				clearOutdatedResult();
+				resultCleared = true;
+			}
+		}
+		showStorageFailure();
+		participants.renderParticipants();
+		participants.renderRules();
+		participants.renderSettings();
+		participants.syncRulePicker();
+		// 팀 이름을 고치는 중이면 입력칸을 지우지 않도록 결과를 다시 그리지 않습니다.
+		if (resultCleared || !$('#team-grid [data-team-name-input]')) results.renderResults();
+		history.renderTodayHistory();
+		audio.renderSoundButton();
+		if ($('#history-dialog').open) history.renderHistoryDialog();
 	}
 	function render() {
 		showStorageFailure();
@@ -141,11 +190,19 @@ export function mountTeamMaker(root) {
 	});
 	const features = [ui, participants, results, dialogs, rosters, history, wheel, audio];
 	for (const feature of features) feature.connect();
+	const lifetime = createLifetime();
+	lifetime.on(window, 'storage', syncFromOtherTab);
+	lifetime.on($('#wheel-dialog'), 'close', () => {
+		if (!resultCleanupPending) return;
+		clearOutdatedResult();
+		render();
+	});
 	render();
 	let destroyed = false;
 	return () => {
 		if (destroyed) return;
 		destroyed = true;
+		lifetime.destroy();
 		for (const feature of [...features].reverse()) feature.destroy();
 	};
 }

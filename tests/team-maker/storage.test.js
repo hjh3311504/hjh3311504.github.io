@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createStorage, defaultState, STORAGE_KEY } from '../../src/lib/team-maker/storage.js';
+import {
+	BACKUP_KEY,
+	createStorage,
+	defaultState,
+	STORAGE_KEY
+} from '../../src/lib/team-maker/storage.js';
 
 function memoryStorage(saved = null) {
 	let value = saved;
@@ -30,12 +35,22 @@ test('저장 데이터가 없으면 서로 독립된 빈 상태를 만든다', (
 	assert.deepEqual(storage.failures, []);
 });
 
-test('손상된 JSON과 저장소 접근 오류를 알리고 기본값으로 시작한다', () => {
-	const storage = memoryStorage('{broken');
-	assert.deepEqual(storage.loadState(), defaultState());
-	assert.equal(storage.failures.length, 1);
-	assert.equal(storage.saved(), '{broken');
+test('손상된 JSON은 원본을 백업하고 저장소 접근 오류만 알린다', () => {
+	const values = new Map([[STORAGE_KEY, '{broken']]);
 	let failures = 0;
+	const storage = createStorage({
+		getStorage: () => ({
+			getItem: (key) => values.get(key) ?? null,
+			setItem: (key, value) => values.set(key, value)
+		}),
+		onFailure: () => failures++
+	});
+	assert.deepEqual(storage.loadState(), defaultState());
+	assert.equal(failures, 0, '저장소는 정상이므로 저장 실패 안내를 띄우지 않는다.');
+	assert.equal(values.get(BACKUP_KEY), '{broken');
+	storage.saveState(defaultState());
+	assert.equal(values.get(BACKUP_KEY), '{broken', '다음 저장 뒤에도 원본을 보관한다.');
+	failures = 0;
 	const blocked = createStorage({
 		getStorage: () => {
 			throw new Error('저장소 접근 차단');
@@ -127,4 +142,66 @@ test('저장 실패 뒤에도 현재 데이터를 유지하고 다시 저장할 
 	blocked = false;
 	assert.equal(storage.saveState(state), true);
 	assert.deepEqual(JSON.parse(value), state);
+});
+
+test('손상 데이터를 백업하지 못하면 원본을 지키려고 저장하지 않는다', () => {
+	const values = new Map([[STORAGE_KEY, '{broken']]);
+	let failures = 0;
+	const storage = createStorage({
+		getStorage: () => ({
+			getItem: (key) => values.get(key) ?? null,
+			setItem: (key, value) => {
+				if (key === BACKUP_KEY) throw new Error('용량 초과');
+				values.set(key, value);
+			}
+		}),
+		onFailure: () => failures++
+	});
+	assert.deepEqual(storage.loadState(), defaultState());
+	assert.equal(storage.saveState(defaultState()), false);
+	assert.equal(values.get(STORAGE_KEY), '{broken');
+	assert.equal(failures, 2);
+});
+
+test('다른 탭의 저장·삭제만 읽고 다른 키와 저장소는 무시한다', () => {
+	const area = {};
+	const storage = createStorage({ getStorage: () => area });
+	const saved = JSON.stringify({ ...defaultState(), soundEnabled: false });
+	assert.equal(
+		storage.readChange({ key: STORAGE_KEY, newValue: saved, storageArea: area }).soundEnabled,
+		false
+	);
+	assert.deepEqual(
+		storage.readChange({ key: STORAGE_KEY, newValue: null, storageArea: area }),
+		defaultState()
+	);
+	assert.deepEqual(
+		storage.readChange({ key: null, newValue: null, storageArea: area }),
+		defaultState()
+	);
+	assert.equal(storage.readChange({ key: 'other', newValue: saved, storageArea: area }), null);
+	assert.equal(storage.readChange({ key: STORAGE_KEY, newValue: saved, storageArea: {} }), null);
+	assert.equal(
+		storage.readChange({ key: STORAGE_KEY, newValue: '{broken', storageArea: area }),
+		null
+	);
+});
+
+test('다른 탭이 손상 원본을 정상 값으로 바꾸면 저장을 다시 허용한다', () => {
+	const values = new Map([[STORAGE_KEY, '{broken']]);
+	const area = {
+		getItem: (key) => values.get(key) ?? null,
+		setItem: (key, value) => {
+			if (key === BACKUP_KEY) throw new Error('용량 초과');
+			values.set(key, value);
+		}
+	};
+	const storage = createStorage({ getStorage: () => area });
+	storage.loadState();
+	assert.equal(storage.saveState(defaultState()), false);
+	const saved = JSON.stringify(defaultState());
+	values.set(STORAGE_KEY, saved);
+	storage.readChange({ key: STORAGE_KEY, newValue: saved, storageArea: area });
+	assert.equal(storage.saveState({ ...defaultState(), soundEnabled: false }), true);
+	assert.equal(JSON.parse(values.get(STORAGE_KEY)).soundEnabled, false);
 });

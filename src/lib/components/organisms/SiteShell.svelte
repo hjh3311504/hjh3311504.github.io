@@ -298,7 +298,7 @@
 		--shell-menu-shadow: none;
 	}
 
-	.site-shell[data-theme='dark'] {
+	:global(html[data-theme='dark']) .site-shell {
 		--shell-canvas: var(--color-canvas-dark);
 		--shell-surface: var(--color-shell-surface);
 		--shell-surface-soft: var(--color-shell-surface-soft-2);
@@ -326,7 +326,7 @@
 			background-color: var(--color-canvas-dark);
 		}
 
-		.site-shell[data-theme='auto'] {
+		:global(html[data-theme='auto']) .site-shell {
 			--shell-canvas: var(--color-canvas-dark);
 			--shell-surface: var(--color-shell-surface);
 			--shell-surface-soft: var(--color-shell-surface-soft-2);

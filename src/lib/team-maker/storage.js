@@ -8,6 +8,8 @@ import {
 import { clamp, createId } from './utils.js';
 
 export const STORAGE_KEY = 'team-maker:v1';
+// 읽을 수 없는 저장 데이터의 원본을 보관한다. 가장 최근에 발견한 손상 데이터만 남긴다.
+export const BACKUP_KEY = 'team-maker:v1:corrupted';
 
 export function defaultState() {
 	return {
@@ -140,16 +142,35 @@ export function createStorage({
 	getStorage = () => globalThis.localStorage,
 	onFailure = () => {}
 } = {}) {
+	let keepCorrupted = false;
 	function loadState() {
+		let saved;
 		try {
-			const saved = getStorage().getItem(STORAGE_KEY);
-			return saved ? sanitizeState(JSON.parse(saved)) : defaultState();
+			saved = getStorage().getItem(STORAGE_KEY);
 		} catch {
 			onFailure();
 			return defaultState();
 		}
+		if (!saved) return defaultState();
+		try {
+			return sanitizeState(JSON.parse(saved));
+		} catch {
+			// 다음 저장이 손상된 원본을 덮어쓰기 전에 복구용으로 따로 남긴다.
+			try {
+				getStorage().setItem(BACKUP_KEY, saved);
+			} catch {
+				// 백업하지 못하면 원본을 지키기 위해 이 화면에서는 저장하지 않는다.
+				keepCorrupted = true;
+				onFailure();
+			}
+			return defaultState();
+		}
 	}
 	function saveState(state) {
+		if (keepCorrupted) {
+			onFailure();
+			return false;
+		}
 		try {
 			getStorage().setItem(STORAGE_KEY, JSON.stringify(state));
 			return true;
@@ -158,5 +179,20 @@ export function createStorage({
 			return false;
 		}
 	}
-	return { loadState, saveState };
+	// 다른 탭이 저장한 상태만 읽는다. 다른 키나 읽을 수 없는 값은 무시한다.
+	// 다른 탭이 저장소를 비우거나 이 키를 지우면 빈 상태로 맞춘다.
+	function readChange(event) {
+		if (event.key !== null && event.key !== STORAGE_KEY) return null;
+		try {
+			if (event.storageArea !== getStorage()) return null;
+			const next =
+				event.newValue === null ? defaultState() : sanitizeState(JSON.parse(event.newValue));
+			// 다른 탭이 손상 원본을 정상 값으로 바꿨으므로 더 지킬 원본이 없다.
+			keepCorrupted = false;
+			return next;
+		} catch {
+			return null;
+		}
+	}
+	return { loadState, saveState, readChange };
 }

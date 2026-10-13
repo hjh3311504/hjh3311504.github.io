@@ -58,6 +58,15 @@ async function expectKeyboardFocus(page, button) {
 
 async function expectHover(page, button, colors) {
 	await expectKeyboardFocus(page, button);
+	// 승리 카드처럼 버튼을 감싼 요소가 움직이는 중에 hover하면 끝난 뒤 마우스 밖으로 벗어난다.
+	await page.evaluate(() =>
+		Promise.all(
+			document
+				.getAnimations()
+				.filter((animation) => animation.effect?.getComputedTiming().endTime !== Infinity)
+				.map((animation) => animation.finished.catch(() => {}))
+		)
+	);
 	await button.hover();
 	await settle(button);
 	for (const [property, value] of Object.entries(colors)) {

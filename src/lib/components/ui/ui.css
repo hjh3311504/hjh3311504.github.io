@@ -217,7 +217,7 @@
 	border-color: var(--danger-line, var(--row-remove-border, var(--color-ui-danger-border)));
 }
 
-.site-shell[data-theme='dark'] {
+html[data-theme='dark'] .site-shell {
 	--row-remove-color: var(--color-row-remove-color);
 	--row-remove-danger: var(--color-row-remove-danger);
 	--row-remove-background: var(--color-row-remove-background);
@@ -225,7 +225,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	.site-shell[data-theme='auto'] {
+	html[data-theme='auto'] .site-shell {
 		--row-remove-color: var(--color-row-remove-color);
 		--row-remove-danger: var(--color-row-remove-danger);
 		--row-remove-background: var(--color-row-remove-background);

@@ -1251,3 +1251,166 @@ for (const theme of ['light', 'dark']) {
 		await expect(page.getByRole('button', { name: /2등 기록$/ })).toHaveCount(0);
 	});
 }
+
+test('다른 탭의 저장을 반영해 서로의 기록을 덮어쓰지 않는다', async ({ page }) => {
+	const other = await page.context().newPage();
+	await openTeamMaker(page);
+	await openTeamMaker(other);
+
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await expect(other.getByRole('heading', { name: /참가자 입력 \(4명\)/ })).toBeVisible();
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await page
+		.getByRole('button', { name: /승리 기록$/ })
+		.first()
+		.click();
+	await expect(other.locator('#today-history-list .history-summary-row')).toHaveCount(1);
+
+	// 다른 탭에서 저장해도 앞 탭의 승리 기록이 남아야 한다.
+	await other.getByRole('button', { name: '일괄 추가' }).click();
+	const dialog = other.getByRole('dialog', { name: '참가자 일괄 추가' });
+	await dialog.getByRole('textbox', { name: '추가할 참가자 이름' }).fill('마루');
+	await dialog.getByRole('button', { name: '명단에 1명 추가' }).click();
+	await expect(other.getByRole('heading', { name: /참가자 입력 \(5명\)/ })).toBeVisible();
+	await page.reload();
+	await expect(page.getByRole('heading', { name: /참가자 입력 \(5명\)/ })).toBeVisible();
+	await expect(page.locator('#today-history-list .history-summary-row')).toHaveCount(1);
+	await other.close();
+});
+
+test('참가자와 규칙 체크박스를 키보드로 바꿔도 포커스를 유지한다', async ({ page }) => {
+	await openTeamMaker(page);
+	await addParticipants(page, ['가영', '나연', '다현']);
+
+	const checkbox = page.getByRole('checkbox', { name: '나연 참가 해제' });
+	await checkbox.focus();
+	await page.keyboard.press('Space');
+	const unchecked = page.getByRole('checkbox', { name: '나연 참가 선택' });
+	await expect(unchecked).not.toBeChecked();
+	await expect(unchecked).toBeFocused();
+
+	const nameInput = page.getByRole('textbox', { name: '1번째 참가자 이름' });
+	await nameInput.fill('가람');
+	await page.keyboard.press('Tab');
+	await expect(page.getByRole('button', { name: '가람 삭제' })).toBeFocused();
+
+	await page.getByRole('button', { name: '같은 팀 지정' }).click();
+	const dialog = page.getByRole('dialog', { name: '같은 팀으로 지정' });
+	const ruleCheckbox = dialog.getByRole('checkbox', { name: '가람', exact: true });
+	await ruleCheckbox.focus();
+	await page.keyboard.press('Space');
+	await expect(ruleCheckbox).toBeChecked();
+	await expect(ruleCheckbox).toBeFocused();
+	await expect(dialog.getByText('두 명 이상 골라 주세요.')).toBeVisible();
+});
+
+async function openTwoTabs(page) {
+	const other = await page.context().newPage();
+	await openTeamMaker(page);
+	await openTeamMaker(other);
+	let soundEnabled = true;
+	// 다른 탭에서 저장하고, 이 탭에 반영된 것을 효과음 버튼 상태로 확인한다.
+	const saveFromOther = async (change) => {
+		soundEnabled = !soundEnabled;
+		await other.evaluate(
+			({ change, soundEnabled }) => {
+				const state = JSON.parse(localStorage.getItem('team-maker:v1'));
+				state.soundEnabled = soundEnabled;
+				if (change === 'remove-last') state.participants.pop();
+				if (change === 'team-count') state.teamCount = 3;
+				localStorage.setItem('team-maker:v1', JSON.stringify(state));
+			},
+			{ change, soundEnabled }
+		);
+		await expect(page.locator('#sound-toggle-button')).toHaveAttribute(
+			'aria-pressed',
+			String(soundEnabled)
+		);
+	};
+	return { other, saveFromOther };
+}
+
+test('다른 탭의 동기화가 결과·입력 중인 이름·규칙 선택을 망가뜨리지 않는다', async ({ page }) => {
+	const { other, saveFromOther } = await openTwoTabs(page);
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+
+	// 결과와 무관한 저장과 팀 수 변경은 이 탭에서 바꿀 때처럼 팀 결과를 지우지 않는다.
+	await saveFromOther('sound');
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+	await saveFromOther('team-count');
+	await expect(page.locator('#split-value')).toHaveText('3');
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+
+	// 팀 이름과 참가자 이름을 고치는 중인 값은 동기화로 사라지지 않는다.
+	await page.getByRole('button', { name: '1팀 이름 수정' }).click();
+	const teamInput = page.getByRole('textbox', { name: '1팀 새 이름' });
+	await teamInput.fill('번개팀');
+	await saveFromOther('sound');
+	await expect(teamInput).toHaveValue('번개팀');
+	await teamInput.press('Enter');
+	await expect(page.getByRole('button', { name: '번개팀 이름 수정' })).toBeVisible();
+
+	const nameInput = page.getByRole('textbox', { name: '1번째 참가자 이름' });
+	await nameInput.fill('가람');
+	await saveFromOther('sound');
+	await expect(nameInput).toHaveValue('가람');
+	await expect(nameInput).toBeFocused();
+	await nameInput.press('Tab');
+	await expect(page.getByRole('checkbox', { name: '가람 참가 해제' })).toHaveCount(1);
+
+	// 공백만 덧붙인 이름은 입력칸만 정리하고 결과는 유지한다.
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await nameInput.fill('가람  ');
+	await nameInput.press('Tab');
+	await expect(nameInput).toHaveValue('가람');
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(3);
+
+	// 열린 규칙 고르기 목록은 무관한 저장에 포커스를 유지하고, 지워진 참가자만 뺀다.
+	await page.getByRole('button', { name: '같은 팀 지정' }).click();
+	const dialog = page.getByRole('dialog', { name: '같은 팀으로 지정' });
+	await dialog.getByRole('checkbox', { name: '가람', exact: true }).check();
+	const lastCheckbox = dialog.getByRole('checkbox', { name: '라희', exact: true });
+	await lastCheckbox.focus();
+	await page.keyboard.press('Space');
+	await expect(dialog.getByText('2명 선택')).toBeVisible();
+	await saveFromOther('sound');
+	await expect(lastCheckbox).toBeFocused();
+	await saveFromOther('remove-last');
+	await expect(lastCheckbox).toHaveCount(0);
+	await expect(dialog.getByRole('checkbox', { name: '다현', exact: true })).toBeFocused();
+	await expect(dialog.getByText('두 명 이상 골라 주세요.')).toBeVisible();
+	await expect(dialog.getByRole('button', { name: '규칙 추가' })).toBeDisabled();
+
+	// 다른 탭이 저장소를 비우면 이 탭도 빈 상태가 된다.
+	await other.evaluate(() => localStorage.clear());
+	await expect(page.getByRole('heading', { name: /참가자 입력 \(0명\)/ })).toBeVisible();
+	await other.close();
+});
+
+test('돌림판이 도는 중의 동기화는 돌림판을 닫을 때 결과를 정리한다', async ({ page }) => {
+	const { other, saveFromOther } = await openTwoTabs(page);
+	await addParticipants(page, ['가영', '나연', '다현', '라희']);
+	await page.getByRole('button', { name: '팀 만들기' }).click();
+	await page
+		.getByRole('button', { name: /승리 기록$/ })
+		.first()
+		.click();
+	await page.locator('.draw-button').first().click();
+	await page.locator('#spin-wheel-button').click();
+	await expect(page.locator('#wheel-result')).toHaveText('돌리는 중…');
+
+	await saveFromOther('remove-last');
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+	// 돌림판은 6.6초 동안 돈다.
+	await expect(page.locator('#wheel-result')).toHaveAttribute('data-picked', 'true', {
+		timeout: 10_000
+	});
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(2);
+
+	await page.locator('#wheel-close-button').click();
+	await expect(page.locator('#wheel-dialog')).toBeHidden();
+	await expect(page.locator('#team-grid .team-card')).toHaveCount(0);
+	await other.close();
+});

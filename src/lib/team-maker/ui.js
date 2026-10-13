@@ -37,9 +37,12 @@ export function createUi({ root, prefersReducedMotion }) {
 			}
 			element.style.transition = 'none';
 			element.style.transform = `translate(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px)`;
+			// 다시 그리는 쪽이 진행 중인 이동의 inline 스타일을 지우지 않도록 표시한다.
+			element.dataset.flipping = '';
 			requestAnimationFrame(() => {
 				element.style.transition = 'transform 300ms cubic-bezier(0.2, 0, 0.2, 1)';
 				element.style.transform = '';
+				setTimeout(() => delete element.dataset.flipping, 320);
 			});
 		}
 		return movementDuration;
