@@ -46,6 +46,10 @@ export function createParticipants({
 		checkboxAnimationTimer = setTimeout(() => {
 			checkboxAnimationKey = null;
 			checkboxAnimationTimer = null;
+			// 행을 다시 쓰므로 표시를 직접 지워야 다음에 눌렀을 때 효과가 다시 재생된다.
+			for (const checkbox of root.querySelectorAll('.team-maker-checkbox.is-animating')) {
+				checkbox.classList.remove('is-animating');
+			}
 		}, 220);
 	}
 
@@ -57,9 +61,53 @@ export function createParticipants({
 		return [...counts.values()].reduce((sum, count) => sum + Math.max(0, count - 1), 0);
 	}
 
+	function createParticipantRow(participant) {
+		const row = document.createElement('li');
+		row.className = 'participant-row';
+		row.dataset.participantRow = participant.id;
+		row.dataset.flip = `participant-${participant.id}`;
+		const checkbox = document.createElement('input');
+		checkbox.type = 'checkbox';
+		checkbox.className = 'team-maker-checkbox';
+		checkbox.dataset.participantToggle = participant.id;
+
+		const number = document.createElement('span');
+		number.className = 'participant-number';
+		number.setAttribute('aria-hidden', 'true');
+
+		const input = document.createElement('input');
+		input.type = 'text';
+		input.className = 'participant-name';
+		input.dataset.participantName = participant.id;
+
+		const removeButton = createRemoveButton('', { participantRemove: participant.id });
+		row.append(checkbox, number, input, removeButton);
+		return row;
+	}
+
+	function updateParticipantRow(row, participant, displayNumber) {
+		const [checkbox, number, input, removeButton] = row.children;
+		row.dataset.included = String(participant.included);
+		row.classList.toggle('is-entering', enteringParticipants.has(participant.id));
+		row.classList.toggle('is-leaving', leavingParticipants.has(participant.id));
+		checkbox.checked = participant.included;
+		checkbox.classList.toggle(
+			'is-animating',
+			checkboxAnimationKey === `participant:${participant.id}`
+		);
+		checkbox.setAttribute(
+			'aria-label',
+			`${participant.name} 참가 ${participant.included ? '해제' : '선택'}`
+		);
+		number.textContent = String(displayNumber);
+		if (input.value !== participant.name) input.value = participant.name;
+		input.setAttribute('aria-label', `${displayNumber}번째 참가자 이름`);
+		removeButton.setAttribute('aria-label', `${participant.name} 삭제`);
+		removeButton.disabled = removingParticipantId !== null;
+	}
+
 	function renderParticipants() {
 		const list = $('#participant-list');
-		list.replaceChildren();
 		const includedCount = state.participants.filter((participant) => participant.included).length;
 		const participantCount = state.participants.length;
 		$('#participant-count').textContent =
@@ -81,47 +129,17 @@ export function createParticipants({
 		const displayedParticipants = participantLayoutQuery.matches
 			? state.participants
 			: orderParticipantsForColumns(state.participants);
+		// 같은 참가자의 행은 다시 쓰고 내용만 바꿔, 체크박스나 이름 입력의 포커스를 유지한다.
+		const existingRows = new Map(
+			[...list.children].map((row) => [row.dataset.participantRow, row])
+		);
 		for (const [index, participant] of displayedParticipants.entries()) {
-			const displayNumber = index + 1;
-			const row = document.createElement('li');
-			row.className = 'participant-row';
-			row.dataset.flip = `participant-${participant.id}`;
-			row.dataset.included = String(participant.included);
-			row.classList.toggle('is-entering', enteringParticipants.has(participant.id));
-			row.classList.toggle('is-leaving', leavingParticipants.has(participant.id));
-			const checkbox = document.createElement('input');
-			checkbox.type = 'checkbox';
-			checkbox.className = 'team-maker-checkbox';
-			checkbox.checked = participant.included;
-			checkbox.classList.toggle(
-				'is-animating',
-				checkboxAnimationKey === `participant:${participant.id}`
-			);
-			checkbox.dataset.participantToggle = participant.id;
-			checkbox.setAttribute(
-				'aria-label',
-				`${participant.name} 참가 ${participant.included ? '해제' : '선택'}`
-			);
-
-			const number = document.createElement('span');
-			number.className = 'participant-number';
-			number.setAttribute('aria-hidden', 'true');
-			number.textContent = String(displayNumber);
-
-			const input = document.createElement('input');
-			input.type = 'text';
-			input.className = 'participant-name';
-			input.value = participant.name;
-			input.dataset.participantName = participant.id;
-			input.setAttribute('aria-label', `${displayNumber}번째 참가자 이름`);
-
-			const removeButton = createRemoveButton(`${participant.name} 삭제`, {
-				participantRemove: participant.id
-			});
-			removeButton.disabled = removingParticipantId !== null;
-			row.append(checkbox, number, input, removeButton);
-			list.append(row);
+			const row = existingRows.get(participant.id) ?? createParticipantRow(participant);
+			existingRows.delete(participant.id);
+			updateParticipantRow(row, participant, index + 1);
+			if (list.children[index] !== row) list.insertBefore(row, list.children[index] ?? null);
 		}
+		for (const row of existingRows.values()) row.remove();
 
 		const help = $('#participant-help');
 		const duplicates = duplicateCount();
@@ -298,6 +316,10 @@ export function createParticipants({
 			row.append(checkbox, label);
 			list.append(row);
 		}
+		renderRulePickerStatus();
+	}
+
+	function renderRulePickerStatus() {
 		const count = ruleSelection.size;
 		$('#rule-picker-note').textContent = count < 2 ? '두 명 이상 골라 주세요.' : `${count}명 선택`;
 		$('#rule-picker-note').classList.toggle('error-text', count < 2);
@@ -454,7 +476,9 @@ export function createParticipants({
 			if (event.target.checked) ruleSelection.add(id);
 			else ruleSelection.delete(id);
 			markCheckboxAnimation(`rule:${id}`);
-			renderRulePicker();
+			// 목록을 다시 만들지 않아야 대화상자 안의 포커스가 유지된다.
+			event.target.classList.add('is-animating');
+			renderRulePickerStatus();
 		});
 
 		on($('#save-rule-button'), 'click', () => {

@@ -1277,3 +1277,29 @@ test('다른 탭의 저장을 반영해 서로의 기록을 덮어쓰지 않는�
 	await expect(page.locator('#today-history-list .history-summary-row')).toHaveCount(1);
 	await other.close();
 });
+
+test('참가자와 규칙 체크박스를 키보드로 바꿔도 포커스를 유지한다', async ({ page }) => {
+	await openTeamMaker(page);
+	await addParticipants(page, ['가영', '나연', '다현']);
+
+	const checkbox = page.getByRole('checkbox', { name: '나연 참가 해제' });
+	await checkbox.focus();
+	await page.keyboard.press('Space');
+	const unchecked = page.getByRole('checkbox', { name: '나연 참가 선택' });
+	await expect(unchecked).not.toBeChecked();
+	await expect(unchecked).toBeFocused();
+
+	const nameInput = page.getByRole('textbox', { name: '1번째 참가자 이름' });
+	await nameInput.fill('가람');
+	await page.keyboard.press('Tab');
+	await expect(page.getByRole('button', { name: '가람 삭제' })).toBeFocused();
+
+	await page.getByRole('button', { name: '같은 팀 지정' }).click();
+	const dialog = page.getByRole('dialog', { name: '같은 팀으로 지정' });
+	const ruleCheckbox = dialog.getByRole('checkbox', { name: '가람', exact: true });
+	await ruleCheckbox.focus();
+	await page.keyboard.press('Space');
+	await expect(ruleCheckbox).toBeChecked();
+	await expect(ruleCheckbox).toBeFocused();
+	await expect(dialog.getByText('두 명 이상 골라 주세요.')).toBeVisible();
+});
