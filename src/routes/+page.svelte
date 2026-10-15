@@ -1,7 +1,6 @@
 <script>
 	import { description, image, keywords, title, siteBaseUrl } from '$lib/data/meta.js';
 	import { resolve } from '$app/paths';
-	import PrivacyDialog from '$lib/components/organisms/PrivacyDialog.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
 	import { categories, formatDate } from '$lib/blog/catalog.js';
@@ -34,8 +33,8 @@
 			<Section class="home-intro" aria-labelledby="home-intro-title">
 				<SectionHeader title="Lake's develog" titleId="home-intro-title" level={1} />
 				<p>
-					개발하며 만든 도구와 일상의 기록을 여기에 모아 둡니다.<br />직접 만든 도구를 사용하고,
-					블로그에서 경험과 생각을 읽어보세요.
+					파일·이미지·데이터를 다루다 막히는 문제를 직접 실험해 정리합니다.<br />설치 없이 쓰는 무료
+					도구와 함께, 확인 순서를 따라 문제를 해결해 보세요.
 				</p>
 				<div class="intro-links">
 					<Button
@@ -255,9 +254,9 @@
 			<Section class="home-guide" aria-labelledby="site-author-title">
 				<SectionHeader title="만든 사람과 문의" titleId="site-author-title" />
 				<p>
-					운영자 Lake가 직접 쓰려고 만든 도구를 공개하는 공간입니다. 설치나 로그인 없이 사용할 수
-					있도록 브라우저에서 입력과 계산을 처리합니다. 각 도구 아래에서 사용 예제와 저장 방식,
-					기능의 한계를 확인하세요.
+					운영자 Lake가 혼자 만들고 관리합니다. 가이드 글은 직접 만든 예제 파일로 결과를 확인한 뒤
+					쓰고, 예제 파일과 측정값을 함께 공개합니다. 도구는 설치나 로그인 없이 브라우저에서 입력과
+					계산을 처리합니다.
 				</p>
 				<p>
 					<a href="https://github.com/hjh3311504/hjh3311504.github.io">공개 소스와 변경 기록</a>에서
@@ -265,19 +264,17 @@
 					<a
 						href="https://github.com/hjh3311504/hjh3311504.github.io/blob/main/THIRD_PARTY_NOTICES.md"
 						>출처·라이선스 목록</a
-					>에 구분해 적었습니다.
-				</p>
-				<p>
-					사용 중 불편하거나 잘못된 안내를 발견하면 <a
-						href="https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml"
-						>개선·버그 제보</a
-					>로 알려 주세요. GitHub 계정이 필요하며 제보 내용은 공개됩니다. 실제 참가자 명단 대신 가상
-					이름으로 상황을 설명해 주세요.
+					>에 구분해 적었습니다. 글을 쓰는 방식과 이메일 문의 방법은
+					<a href={resolve('/about')}>소개와 문의</a>에서 확인하세요.
 				</p>
 			</Section>
 
 			<footer>
-				<PrivacyDialog triggerClass="privacy-footer-link" /><span>© 2026 Lake's develog</span>
+				<div class="footer-links">
+					<a href={resolve('/about')}>소개·문의</a>
+					<a href={resolve('/privacy')}>개인정보처리방침</a>
+				</div>
+				<span>© 2026 Lake's develog</span>
 			</footer>
 		</Surface>
 	</div>
@@ -525,8 +522,16 @@
 			0 8px 18px -8px var(--color-box-shadow-11);
 	}
 
-	:global(.privacy-footer-link) {
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-16);
+	}
+
+	.footer-links a {
 		color: var(--shell-text-heading);
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
 	:global(.latest-posts) {

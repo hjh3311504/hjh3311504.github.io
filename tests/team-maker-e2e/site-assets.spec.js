@@ -1,10 +1,15 @@
 import { expect, test } from '@playwright/test';
+import { isAdsenseRequest } from './helpers/adsense.js';
 
 test('홈·팀 메이커·404와 페이지 이동에서 외부 글꼴을 요청하지 않는다', async ({ page }) => {
 	const externalRequests = [];
 	page.on('request', (request) => {
 		const url = new URL(request.url());
-		if (url.protocol.startsWith('http') && !['localhost', '127.0.0.1'].includes(url.hostname)) {
+		if (
+			url.protocol.startsWith('http') &&
+			!['localhost', '127.0.0.1'].includes(url.hostname) &&
+			!isAdsenseRequest(url.href)
+		) {
 			externalRequests.push(url.href);
 		}
 	});
@@ -26,9 +31,9 @@ test('홈·팀 메이커·404와 페이지 이동에서 외부 글꼴을 요청�
 		true
 	);
 	await page.locator('a[href="/"]').first().click();
-	await page.locator('footer .privacy-trigger').click();
-	await expect(page.getByRole('dialog')).toContainText('GitHub Pages');
-	await expect(page.getByRole('dialog')).not.toContainText('jsDelivr');
+	await page.locator('footer a[href="/privacy"]').click();
+	await expect(page.locator('main')).toContainText('GitHub Pages');
+	await expect(page.locator('main')).not.toContainText('jsDelivr');
 	expect(externalRequests).toEqual([]);
 });
 

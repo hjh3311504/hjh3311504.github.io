@@ -3,7 +3,7 @@
 </script>
 
 <div class="qr-guide">
-	<DisclosureSection title="QR 코드, 이렇게 사용하세요" titleId="qr-guide-title">
+	<DisclosureSection open title="QR 코드, 이렇게 사용하세요" titleId="qr-guide-title">
 		<p class="qr-guide-intro">
 			모임 신청 주소를 작은 안내지 12장으로 나누는 예제입니다. 먼저 신청서나 안내 페이지를 만들고,
 			다른 사람도 열 수 있는 공유 주소를 준비하세요.
@@ -40,7 +40,7 @@
 			</li>
 		</ol>
 	</DisclosureSection>
-	<DisclosureSection title="자주 묻는 질문" titleId="qr-faq-title">
+	<DisclosureSection open title="자주 묻는 질문" titleId="qr-faq-title">
 		<div class="qr-faq">
 			<article>
 				<h3>유효기간이나 주소 변경은 어떻게 되나요?</h3>

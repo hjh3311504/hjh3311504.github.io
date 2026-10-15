@@ -1,9 +1,11 @@
 import { expect, test } from '@playwright/test';
+import { isAdsenseRequest, stubAdsense } from './helpers/adsense.js';
 
 const TEAM_MAKER_PATH = '/team-maker';
 const browserErrors = new WeakMap();
 
 test.beforeEach(async ({ page }) => {
+	await stubAdsense(page);
 	const errors = [];
 	browserErrors.set(page, errors);
 	page.on('console', (message) => {
@@ -230,26 +232,9 @@ test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색
 		'https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml'
 	);
 	await expect(page.getByRole('link', { name: 'Blog', exact: true })).toHaveCount(0);
-	const homePrivacyButton = page.locator('footer .privacy-trigger');
-	await homePrivacyButton.click();
-	const homePrivacyDialog = page.getByRole('dialog', { name: '개인정보처리방침' });
-	await expect(homePrivacyDialog).toBeVisible();
-	await expect(homePrivacyDialog).toHaveCSS('overflow-y', 'hidden');
-	await expect(homePrivacyDialog.locator('.privacy-content')).toHaveCSS('overflow-y', 'auto');
-	const privacyPosition = await homePrivacyDialog.evaluate((dialog) => {
-		const bounds = dialog.getBoundingClientRect();
-		return {
-			dialogX: bounds.left + bounds.width / 2,
-			dialogY: bounds.top + bounds.height / 2,
-			viewportX: window.innerWidth / 2,
-			viewportY: window.innerHeight / 2
-		};
-	});
-	expect(Math.abs(privacyPosition.dialogX - privacyPosition.viewportX)).toBeLessThanOrEqual(1);
-	expect(Math.abs(privacyPosition.dialogY - privacyPosition.viewportY)).toBeLessThanOrEqual(1);
-	await homePrivacyDialog.getByRole('button', { name: '개인정보처리방침 닫기' }).click();
-	await expect(homePrivacyDialog).not.toBeVisible();
-	await expect(homePrivacyButton).toBeFocused();
+	await expect(
+		page.locator('footer').getByRole('link', { name: '개인정보처리방침', exact: true })
+	).toHaveAttribute('href', '/privacy');
 	await page.getByRole('button', { name: '테마 변경, 현재 자동' }).click();
 	await expect(page.locator('.site-shell')).toHaveAttribute('data-theme', 'light');
 	await page.getByRole('button', { name: '테마 변경, 현재 밝게' }).click();
@@ -404,7 +389,9 @@ test('SvelteKit 하위 route에서 기본 화면과 내부 자원을 불러오�
 		([path, status]) => path.includes('/_app/immutable/') && status === 200
 	);
 	expect(svelteAssets.length).toBeGreaterThan(0);
-	const externalRequests = requests.filter((url) => url.origin !== 'http://127.0.0.1:4174');
+	const externalRequests = requests.filter(
+		(url) => url.origin !== 'http://127.0.0.1:4174' && !isAdsenseRequest(url.href)
+	);
 	expect(externalRequests.map((url) => url.href)).toEqual([]);
 
 	const initialFontRequests = requests
@@ -448,14 +435,13 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	const collapsibleSections = guide.locator('.seo-details');
 	await expect(collapsibleSections).toHaveCount(4);
 	for (const section of await collapsibleSections.all()) {
-		await expect(section).not.toHaveAttribute('open');
-		await expect(section.locator('.ui-disclosure-content')).toBeHidden();
-		await section.locator('summary').click();
 		await expect(section).toHaveAttribute('open', '');
 		await expect(section.locator('.ui-disclosure-content')).toBeVisible();
 		await section.locator('summary').click();
 		await expect(section).not.toHaveAttribute('open');
+		await expect(section.locator('.ui-disclosure-content')).toBeHidden();
 		await section.locator('summary').click();
+		await expect(section).toHaveAttribute('open', '');
 	}
 	for (const faq of await guide.locator('.faq-item').all()) {
 		await expect(faq.getByRole('heading', { level: 3 })).toBeVisible();
@@ -470,8 +456,7 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	await page.setViewportSize({ width: 390, height: 844 });
 	await page.reload();
 	await expect(guide).toBeVisible();
-	await expect(guide.locator('details[open]')).toHaveCount(0);
-	await guide.getByText('이럴 때 사용하세요', { exact: true }).click();
+	await expect(guide.locator('details[open]')).toHaveCount(4);
 	const mobileColumns = await guide
 		.locator('.use-case-grid')
 		.evaluate((element) =>
@@ -480,17 +465,11 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	expect(mobileColumns).toHaveLength(1);
 	await expectNoHorizontalOverflow(page);
 
-	const privacyButton = page.locator('footer .privacy-trigger');
-	await privacyButton.focus();
+	const privacyLink = page.locator('footer a[href="/privacy"]');
+	await privacyLink.focus();
 	await page.keyboard.press('Enter');
-	const privacyDialog = page.getByRole('dialog', { name: '개인정보처리방침' });
-	await expect(privacyDialog).toBeVisible();
-	await expect(privacyDialog).toHaveCSS('overflow-y', 'hidden');
-	await expect(privacyDialog.locator('.privacy-content')).toHaveCSS('overflow-y', 'auto');
-	await expect(privacyDialog).toContainText('브라우저에 저장하는 정보');
-	await privacyDialog.getByRole('button', { name: '개인정보처리방침 닫기' }).click();
-	await expect(privacyDialog).not.toBeVisible();
-	await expect(privacyButton).toBeFocused();
+	await expect(page).toHaveURL(/\/privacy$/);
+	await expect(page.locator('main')).toContainText('브라우저에 저장하는 정보');
 	await expectNoHorizontalOverflow(page);
 });
 

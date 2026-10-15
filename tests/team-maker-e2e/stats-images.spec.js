@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { stubAdsense } from './helpers/adsense.js';
 
 const statImage = /\/stat-(win|pick|lose)\.(webp|png)$/;
 
@@ -32,6 +33,7 @@ for (const fallback of [false, true]) {
 	test(`통계 아이콘은 ${fallback ? 'WebP 해독 실패 시 PNG와 마스크로 전환한다' : 'WebP를 요청하고 PNG는 요청하지 않는다'}`, async ({
 		page
 	}) => {
+		await stubAdsense(page);
 		const errors = [];
 		page.on('pageerror', (error) => errors.push(error.message));
 		page.on('console', (message) => {

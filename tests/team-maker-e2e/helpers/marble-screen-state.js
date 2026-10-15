@@ -9,6 +9,7 @@ export async function screenRace(page, { ranking = false } = {}) {
 				super(...args);
 				this.addEventListener('message', ({ data }) => {
 					if (data.kind === 'ready') {
+						window.__marbleReadyCount = (window.__marbleReadyCount ?? 0) + 1;
 						this.initialState = structuredClone(data.state);
 						this.announced = new Set();
 						this.wasActive = false;

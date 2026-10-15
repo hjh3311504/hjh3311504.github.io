@@ -177,6 +177,26 @@
 			<span>블로그</span>{#if active === 'blog'}<span class="current-badge">현재</span>{/if}
 		</Button>
 
+		<Button
+			class={active === 'about' ? 'active' : ''}
+			href={resolve('/about')}
+			variant="ghost"
+			aria-current={active === 'about' ? 'page' : undefined}
+		>
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></svg
+			>
+			<span>소개·문의</span>{#if active === 'about'}<span class="current-badge">현재</span>{/if}
+		</Button>
+
 		<div class="nav-group-label">프로젝트</div>
 		<div class="project-links">
 			<Button

@@ -5,7 +5,7 @@
 </script>
 
 <div class="marble-guide" data-testid="marble-race-guide">
-	<DisclosureSection title="마블레이스로 구슬추첨하는 방법" titleId="marble-guide-title">
+	<DisclosureSection open title="마블레이스로 구슬추첨하는 방법" titleId="marble-guide-title">
 		<p class="guide-intro">{guideIntro}</p>
 		<ol class="guide-grid">
 			{#each guideSteps as step (step.title)}<li>
@@ -14,7 +14,7 @@
 				</li>{/each}
 		</ol>
 	</DisclosureSection>
-	<DisclosureSection title="4가지 당첨 방식" titleId="marble-methods-title">
+	<DisclosureSection open title="4가지 당첨 방식" titleId="marble-methods-title">
 		<div class="guide-grid guide-methods">
 			{#each drawMethods as method (method.title)}<article>
 					<h3>{method.title}</h3>
@@ -22,7 +22,7 @@
 				</article>{/each}
 		</div>
 	</DisclosureSection>
-	<DisclosureSection title="수업·방송에서 이렇게 활용하세요" titleId="marble-uses-title">
+	<DisclosureSection open title="수업·방송에서 이렇게 활용하세요" titleId="marble-uses-title">
 		<p class="guide-intro">
 			다음은 가상 참가자 10명 중 4~6번째로 도착한 3명을 뽑는 예제입니다. 한 사람에게 구슬 1개씩을
 			배정합니다.
@@ -67,7 +67,7 @@
 			보여주려면 <a href={resolve('/qr-code')}>QR 코드 만들기</a>를 이용하세요.
 		</p>
 	</DisclosureSection>
-	<DisclosureSection title="자주 묻는 질문" titleId="marble-faq-title">
+	<DisclosureSection open title="자주 묻는 질문" titleId="marble-faq-title">
 		<div class="guide-faq">
 			{#each faqs as faq (faq.question)}<article>
 					<h3>{faq.question}</h3>

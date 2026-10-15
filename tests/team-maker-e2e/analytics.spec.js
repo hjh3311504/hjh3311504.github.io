@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync, readdirSync } from 'node:fs';
+import { isAdsenseRequest } from './helpers/adsense.js';
 
 const origin = 'https://analytics.example';
 const token = '00000000000000000000000000000000';
@@ -49,6 +50,8 @@ async function openAnalyticsSite(page, { blocked = false, path = '/', consent, b
 					'access-control-allow-headers': 'content-type'
 				}
 			});
+		} else if (isAdsenseRequest(url.href)) {
+			await route.abort('blockedbyclient');
 		} else {
 			unexpected.push(url.href);
 			await route.abort();
@@ -157,10 +160,10 @@ for (const path of ['/qr-code', '/marble-race', '/blog', '/blog/team-maker-intro
 test('기존 거부 방문은 도구와 블로그에서 전송하지 않는다', async ({ page }) => {
 	const { scripts } = await openAnalyticsSite(page, { consent: 'denied' });
 	await page.locator('a[href="/blog"]').first().click();
-	await page.locator('footer .privacy-trigger').click();
-	const dialog = page.getByRole('dialog', { name: '개인정보처리방침', exact: true });
-	await expect(dialog).toContainText('기존 거부 설정에 따라 수집하지 않음');
-	await expect(dialog.getByRole('button', { name: /^통계 (허용|거부)$/ })).toHaveCount(0);
+	await page.locator('footer a[href="/privacy"]').click();
+	const policy = page.locator('main');
+	await expect(policy).toContainText('기존 거부 설정에 따라 수집하지 않음');
+	await expect(policy.getByRole('button', { name: /^통계 (허용|거부)$/ })).toHaveCount(0);
 	expect(scripts).toHaveLength(0);
 	await expect(page.locator(beaconSelector)).toHaveCount(0);
 });
@@ -187,13 +190,13 @@ test('태그가 차단돼도 참가자 입력과 오류 안내가 작동한다',
 	await page.locator('#person-name').fill('가람,나래,다온,라온');
 	await page.locator('#add-person-form button[type="submit"]').click();
 	await expect(page.locator('#participant-list > li')).toHaveCount(4);
-	await page.locator('footer .privacy-trigger').click();
-	await expect(page.getByRole('dialog')).toContainText('통계 스크립트를 불러오지 못함');
+	await page.locator('footer a[href="/privacy"]').click();
+	await expect(page.locator('main')).toContainText('통계 스크립트를 불러오지 못함');
 	expect(errors).toEqual([]);
 });
 
 for (const width of [390, 1200, 1201, 1440]) {
-	test(`${width}px 상단 통계 안내 없이 개인정보 모달을 확인한다`, async ({ page }) => {
+	test(`${width}px 상단 통계 안내 없이 개인정보처리방침을 확인한다`, async ({ page }) => {
 		await page.setViewportSize({ width, height: 900 });
 		await openAnalyticsSite(page);
 		await expect(
@@ -202,14 +205,14 @@ for (const width of [390, 1200, 1201, 1440]) {
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 			true
 		);
-		await page.locator('footer .privacy-trigger').click();
-		const dialog = page.getByRole('dialog', { name: '개인정보처리방침', exact: true });
-		await expect(dialog).toContainText('Cloudflare Web Analytics');
-		await expect(dialog).toContainText('쿠키 없는 통계 태그 실행 중');
-		expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
+		await page.locator('footer a[href="/privacy"]').click();
+		const policy = page.locator('main');
+		await expect(policy).toContainText('Cloudflare Web Analytics');
+		await expect(policy).toContainText('쿠키 없는 통계 태그 실행 중');
+		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
 			true
 		);
-		await expect(dialog.getByRole('button', { name: /^통계 (허용|거부)$/ })).toHaveCount(0);
+		await expect(policy.getByRole('button', { name: /^통계 (허용|거부)$/ })).toHaveCount(0);
 	});
 }
 

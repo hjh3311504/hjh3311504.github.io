@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 for (const route of ['/', '/team-maker', '/qr-code', '/marble-race']) {
 	for (const width of [320, 390, 1440]) {
-		test(`${route} ${width}px에서 공통 글자·여백·모달 기준을 지킨다`, async ({ page }) => {
+		test(`${route} ${width}px에서 공통 글자·여백 기준을 지킨다`, async ({ page }) => {
 			await page.setViewportSize({ width, height: 1000 });
 			const errors = [];
 			page.on('pageerror', (error) => errors.push(error.message));
@@ -45,25 +45,13 @@ for (const route of ['/', '/team-maker', '/qr-code', '/marble-race']) {
 					await expect(badge).toHaveCSS('font-size', '14px');
 					await expect(badge.locator('..')).toHaveCSS('gap', '12px');
 				}
-				const trigger = page
+				const privacyLink = page
 					.locator('footer')
-					.getByRole('button', { name: '개인정보처리방침', exact: true });
-				await trigger.click();
-				const dialog = page.getByRole('dialog', { name: '개인정보처리방침', exact: true });
-				expect(await dialog.ariaSnapshot()).toContain('브라우저에 저장하는 정보');
-				await expect(dialog).toHaveCSS('padding', width <= 760 ? '16px' : '24px');
-				await expect(dialog).toHaveCSS('gap', '16px');
-				await expect(dialog.getByRole('heading', { level: 2 })).toHaveCSS('font-size', '22px');
-				const bounds = await dialog.boundingBox();
+					.getByRole('link', { name: '개인정보처리방침', exact: true });
+				await privacyLink.scrollIntoViewIfNeeded();
+				const bounds = await privacyLink.boundingBox();
 				expect(bounds.x).toBeGreaterThanOrEqual(0);
 				expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
-				await page.keyboard.press('Tab');
-				expect(await dialog.evaluate((element) => element.contains(document.activeElement))).toBe(
-					true
-				);
-				await page.keyboard.press('Escape');
-				await expect(dialog).not.toBeVisible();
-				await expect(trigger).toBeFocused();
 			}
 			expect(errors).toEqual([]);
 		});

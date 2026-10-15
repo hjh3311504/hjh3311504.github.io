@@ -43,7 +43,7 @@
 				</p>{/if}
 			<div class="ui-action-row ui-content-width" data-sidebar={post.toc.length >= 3}>
 				<div class="article-meta ui-meta">
-					<!-- 작성자 프로필은 공통 설정의 외부 HTTPS 주소다. -->
+					<!-- 작성자 프로필은 공통 설정의 소개 페이지 절대 주소다. -->
 					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 					<a href={author.url} rel="author">{author.name}</a>
 					<span>{categories[post.category]}</span>
