@@ -43,7 +43,7 @@ function finish(race) {
 	}
 	assert.ok(m.finished, JSON.stringify({ time: race.time, x: m.x, y: m.y, vx: m.vx, vy: m.vy }));
 	assert.equal(m.chuteEntered, true);
-	assert.ok(m.x - m.r >= 340 && m.x + m.r <= 380);
+	assert.ok(m.x - m.r >= race.layout.finish.left && m.x + m.r <= race.layout.finish.right);
 	return race.time;
 }
 test('길이448 고정·새 경사와 회전축에서 마지막 구슬3456조합은1회전 이내 중앙으로 완주한다', (t) => {
@@ -116,7 +116,7 @@ for (const count of [2, 1000]) {
 			}
 			assert.ok(m.finished, `회전각 ${phase}/64에서 반복 반동 없이 완주한다`);
 			assert.equal(m.chuteEntered, true);
-			assert.ok(m.x - m.r >= 340 && m.x + m.r <= 380);
+			assert.ok(m.x - m.r >= race.layout.finish.left && m.x + m.r <= race.layout.finish.right);
 			if (outside) {
 				ejected++;
 				assert.ok(reentered, '밀려난 뒤 통로에 다시 들어와야 골인한다');

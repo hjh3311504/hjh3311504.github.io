@@ -10,16 +10,15 @@ export function drawSpecialBlock(ctx, block, time = 0) {
 	const { type, w, h } = block;
 	ctx.save();
 	if (type === 'pond') ctx.globalAlpha *= 0.7;
-	const gradient = ctx.createLinearGradient(0, -h / 2, 0, h / 2);
-	gradient.addColorStop(0, BLOCKS[type].color);
-	gradient.addColorStop(1, `${BLOCKS[type].color}b0`);
-	ctx.fillStyle = gradient;
-	ctx.strokeStyle = '#ffffff55';
-	ctx.lineWidth = 1.5;
+	const radius = block.cornerRadius ?? 8;
+	ctx.fillStyle = '#0000001a';
 	ctx.beginPath();
-	ctx.roundRect(-w / 2, -h / 2, w, h, block.cornerRadius ?? 8);
+	ctx.roundRect(-w / 2, -h / 2 + 2, w, h, radius);
 	ctx.fill();
-	ctx.stroke();
+	ctx.fillStyle = BLOCKS[type].color;
+	ctx.beginPath();
+	ctx.roundRect(-w / 2, -h / 2, w, h, radius);
+	ctx.fill();
 	ctx.strokeStyle = type === 'frost' ? '#f0fcff' : '#ffffff9a';
 	ctx.lineWidth = type === 'frost' ? 2 : 1.3;
 	if (type === 'frost') {

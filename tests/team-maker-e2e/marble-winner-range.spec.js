@@ -115,7 +115,11 @@ for (const selectedSpeed of [1, 2]) {
 				}
 			});
 		});
-		await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+		// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+		await expect(
+			page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
+		).toBeVisible();
+		await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 		await page.getByRole('button', { name: '결과 복사', exact: true }).first().click();
 		await expect
 			.poll(() => page.evaluate(() => window.__copied?.split('\n\n')[0]))

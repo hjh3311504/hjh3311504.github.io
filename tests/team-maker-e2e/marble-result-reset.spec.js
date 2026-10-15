@@ -21,13 +21,28 @@ for (const width of [1440, 390]) {
 			await page.evaluate(() => {
 				window.__racePhase = 'finished';
 			});
-			await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+			// 종료하면 출발 준비로 돌아가고 결과 창은 그대로 남는다.
+			await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 			await expect(
 				page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
 			).toBeVisible();
+			await expect(page.locator('.winner-panel')).toBeVisible();
+			await expect(page.getByRole('button', { name: '자리섞기', exact: true })).toBeEnabled();
+			await expect(page.getByRole('button', { name: '스킬 사용', exact: true })).toBeEnabled();
 			// 경기 종료만으로 결과를 지우거나 음량 변경을 새 경기로 취급하지 않는다.
 			await page.getByRole('slider', { name: '소리 크기', exact: true }).fill('30');
-			await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+			// 다음 경기를 위한 자리섞기·스킬 전환도 결과 창을 지우지 않는다.
+			const skills = page.getByRole('button', { name: '스킬 사용', exact: true });
+			const skillState = await skills.getAttribute('aria-pressed');
+			await page.getByRole('button', { name: '자리섞기', exact: true }).click();
+			await skills.click();
+			await expect(skills).not.toHaveAttribute('aria-pressed', skillState);
+			await skills.click();
+			await expect(skills).toHaveAttribute('aria-pressed', skillState);
+			await expect(
+				page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
+			).toBeVisible();
+			await expect(page.locator('.winner-panel')).toBeVisible();
 		};
 		const ready = async () => {
 			await expect(page.locator('.stage-state')).toHaveText('출발 준비');

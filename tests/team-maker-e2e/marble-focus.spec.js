@@ -1,10 +1,14 @@
 import { installMarbleWire } from './helpers/marble-wire.js';
 import { test, expect } from '@playwright/test';
+import { ARENA_THEMES } from '../../src/lib/marble-race/arena-theme.js';
+
+// 추적 표식은 테마별 고리 색으로 그린다.
+const FOCUS_RINGS = Object.values(ARENA_THEMES).map((theme) => theme.focusRing);
 
 test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라간다', async ({ page }) => {
 	await installMarbleWire(page);
 	await page.emulateMedia({ reducedMotion: 'no-preference' });
-	await page.addInitScript(() => {
+	await page.addInitScript((rings) => {
 		window.__testLeader = 0;
 		const NativeWorker = window.Worker;
 		// 화면 전달 경계에서 재현 가능한 두 후보 상태를 제공한다. 후보 판정은 단위 검사에서 검증한다.
@@ -63,7 +67,7 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 		};
 		CanvasRenderingContext2D.prototype.stroke = function (...args) {
 			const ring = this.__lastArc;
-			if (ring?.radius === 18 && this.strokeStyle === '#ffffff' && this.canvas.isConnected) {
+			if (ring?.radius === 21 && rings.includes(this.strokeStyle) && this.canvas.isConnected) {
 				const t = this.getTransform();
 				const observation = {
 					id: ring.x === 260 ? 0 : 1,
@@ -82,7 +86,7 @@ test('결승 선두 표식은 즉시 바꾸고 카메라는 부드럽게 따라�
 			}
 			return originalStroke.apply(this, args);
 		};
-	});
+	}, FOCUS_RINGS);
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 	await expect(

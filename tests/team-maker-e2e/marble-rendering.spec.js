@@ -2,13 +2,17 @@ import { observeMarbleText } from './helpers/marble-paint.js';
 import { test, expect } from '@playwright/test';
 import { screenRace } from './helpers/marble-screen-state.js';
 import { createRace } from '../../src/lib/marble-race/physics.js';
+import { ARENA_THEMES } from '../../src/lib/marble-race/arena-theme.js';
+
+// 경기장 Canvas의 새 프레임은 테마별 배경 채우기로 시작한다.
+const ARENA_BACKGROUNDS = Object.values(ARENA_THEMES).map((theme) => theme.background);
 
 const start = (page) => page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();
 
 test('1000개 구슬 그림을 복사하는 동안 같은 그림 페이지를 다시 수정하지 않는다', async ({
 	page
 }) => {
-	await page.addInitScript(() => {
+	await page.addInitScript((backgrounds) => {
 		// 미지원 브라우저에서도 기존 그림 페이지 재사용을 검증한다.
 		window.OffscreenCanvas = undefined;
 		window.__sourceChanges = 0;
@@ -26,7 +30,7 @@ test('1000개 구슬 그림을 복사하는 동안 같은 그림 페이지를 �
 				this.canvas.getAttribute('role') === 'button' &&
 				args[0] === 0 &&
 				args[1] === 0 &&
-				this.fillStyle === '#101d2c'
+				backgrounds.includes(this.fillStyle)
 			)
 				seen = new Map();
 			return fill.apply(this, args);
@@ -42,7 +46,7 @@ test('1000개 구슬 그림을 복사하는 동안 같은 그림 페이지를 �
 			}
 			return draw.call(this, bitmap, ...args);
 		};
-	});
+	}, ARENA_BACKGROUNDS);
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 	await expect(start(page)).toBeEnabled();
@@ -209,8 +213,12 @@ test('추적 카드는 첫 칸을 유지하고 검색·교체·해제 시 실제
 			configurable: true
 		});
 	});
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
-	await expect(cards.first()).toHaveAccessibleName(/^500등 .*500번, 도착/);
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible();
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
+	// 출발 준비로 돌아가면 추적도 풀리고 최종 순위를1등부터 보여준다.
+	await expect(cards.first()).toHaveAccessibleName(/^1등 .*1번, 도착/);
+	await expect(grid.locator('[aria-pressed="true"]')).toHaveCount(0);
 	await page.getByRole('button', { name: '결과 복사', exact: true }).first().click();
 	await expect
 		.poll(() => page.evaluate(() => window.__copied?.split('전체 도착 순위\n')[1]?.split('\n')[0]))
@@ -259,7 +267,9 @@ test('티켓 이름은8자 뒤에 점3개를 붙이고 전체 이름과 결합 �
 		});
 	});
 	await start(page).click();
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible();
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 	await expect(grid.locator('.rank-card-status')).toHaveText(['✓ 도착', '✓ 도착', '✓ 도착']);
 	await page.getByRole('button', { name: '결과 복사', exact: true }).first().click();
 	for (const name of names)
@@ -407,7 +417,14 @@ for (const width of [1440, 390]) {
 					window.__racePhase = 'finished';
 				});
 			}
-			await expect(page.locator('.stage-state')).toHaveText(state);
+			// 경기가 끝나면 결과를 남긴 채 출발 준비로 돌아간다.
+			if (state === '경기 종료')
+				await expect(
+					page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
+				).toBeVisible();
+			await expect(page.locator('.stage-state')).toHaveText(
+				state === '경기 종료' ? '출발 준비' : state
+			);
 			await expect(second).toBeVisible();
 			await second.click();
 			await expect(selected).toHaveCount(1);
@@ -472,3 +489,31 @@ test('화면 밖 순위의 구슬 그림은 멈추고 스크롤로 보이면 최
 		)
 		.toBe(true);
 });
+
+for (const count of [10, 300]) {
+	test(`구슬 ${count}개 경기는 선택한 테마로 그리고 경기 중 테마를 바꾸면 바로 다시 그린다`, async ({
+		page
+	}) => {
+		await page.addInitScript(() => localStorage.setItem('juno.develog.theme', 'light'));
+		await page.setViewportSize({ width: 1440, height: 1000 });
+		await page.goto('/marble-race');
+		await expect(start(page)).toBeEnabled();
+		await page.getByLabel('참가자 이름').fill(`공*${count}`);
+		await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
+		await start(page).click();
+		await expect(page.locator('.stage-state')).toHaveText('경기 중');
+		// 왼쪽 위 모서리는 레일 바깥이라 배경색만 보인다.
+		const corner = () =>
+			page.evaluate(() => {
+				const canvas = document.querySelector('.canvas-wrap > canvas');
+				const [r, g, b] = canvas.getContext('2d').getImageData(2, 2, 1, 1).data;
+				return '#' + [r, g, b].map((value) => value.toString(16).padStart(2, '0')).join('');
+			});
+		await expect.poll(corner).toBe(ARENA_THEMES.light.background);
+		// 테마 버튼은 light → dark 순서로 바뀐다.
+		await page.getByRole('button', { name: '테마 변경, 현재 밝게' }).click();
+		await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+		await expect.poll(corner).toBe(ARENA_THEMES.dark.background);
+		await expect(page.locator('.stage-state')).toHaveText('경기 중');
+	});
+}

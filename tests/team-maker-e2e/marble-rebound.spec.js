@@ -4,6 +4,7 @@ import { stepRace } from '../../src/lib/marble-race/physics.js';
 import { fireLightning } from '../../src/lib/marble-race/skills.js';
 import { createDirector } from '../../src/lib/marble-race/director.js';
 import { screenRace } from './helpers/marble-screen-state.js';
+import { ARENA_THEMES } from '../../src/lib/marble-race/arena-theme.js';
 
 for (const width of [1440, 390]) {
 	for (const lightning of [false, true]) {
@@ -54,7 +55,7 @@ for (const width of [1440, 390]) {
 			await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 			await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
 			await expect(page.getByRole('button', { name: '경기 배속 전환' })).toHaveText('0.25배속');
-			const plate = page.locator('.race-minimap rect[fill="#00e5ed"]');
+			const plate = page.locator(`.race-minimap rect[fill="${ARENA_THEMES.light.finaleRotor}"]`);
 			await expect(plate).toHaveCount(1);
 			await expect(plate).toHaveAttribute('width', '448');
 			await expect(plate).toHaveAttribute('x', String(race.layout.finale.rotor.x - 224));

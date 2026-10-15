@@ -18,6 +18,7 @@
 		fatalError,
 		fullscreen,
 		reduced,
+		arenaTheme = 'light',
 		race,
 		displayRace = null,
 		selectedWinners,
@@ -31,6 +32,7 @@
 		celebrationWinners,
 		liveAnnouncement,
 		raceModeLabel,
+		showResult = false,
 		canvas = $bindable(),
 		stage = $bindable(),
 		parsed,
@@ -83,9 +85,7 @@
 						? '경기 중'
 						: status === 'paused'
 							? '일시정지'
-							: status === 'finished'
-								? '경기 종료'
-								: '출발 준비'}</span
+							: '출발 준비'}</span
 			>
 		</div>
 		<div class="stage-actions">
@@ -149,10 +149,22 @@
 			id={minimapId}
 			visible={minimapEnabled}
 			compact={compactMinimap}
+			theme={arenaTheme}
 			oninspect={inspectMap}
 			onleave={stopInspecting}
 		/><WinnerPanel winners={selectedWinners} {celebrating} {reduced} />
-		{#if status === 'ready'}<StageOverlay title="누가 당첨될까요?"
+		{#if status === 'ready' && showResult}<StageOverlay title="축하합니다!"
+				><p>{raceModeLabel} 당첨</p>
+				{#if selectedWinners.length <= 6}<div class="winner-names">
+						{#each selectedWinners as winner (winner.id)}<span
+								>{winner.name} <small>{winner.id + 1}번</small></span
+							>{/each}
+					</div>{:else}<p>
+						{selectedWinners.length}명 당첨 · 목록에서 확인하세요.
+					</p>{/if}{#snippet actions()}<Button variant="primary" onclick={() => start()}
+						>한 번 더 굴리기 ↻</Button
+					><Button onclick={copyResult}>결과 복사</Button>{/snippet}</StageOverlay
+			>{:else if status === 'ready'}<StageOverlay title="누가 당첨될까요?"
 				><p>{parsed.count.toLocaleString()}개의 구슬 · {modeLabel}</p>
 				{#snippet actions()}<Button
 						variant="primary"
@@ -169,18 +181,6 @@
 						>계속하기 ▶</Button
 					><Button variant="danger" onclick={confirmEdit}>종료하고 설정 변경</Button
 					>{/snippet}</StageOverlay
-			>{/if}
-		{#if status === 'finished'}<StageOverlay title="축하합니다!"
-				><p>{raceModeLabel} 당첨</p>
-				{#if selectedWinners.length <= 6}<div class="winner-names">
-						{#each selectedWinners as winner (winner.id)}<span
-								>{winner.name} <small>{winner.id + 1}번</small></span
-							>{/each}
-					</div>{:else}<p>
-						{selectedWinners.length}명 당첨 · 목록에서 확인하세요.
-					</p>{/if}{#snippet actions()}<Button variant="primary" onclick={() => start()}
-						>한 번 더 굴리기 ↻</Button
-					><Button onclick={copyResult}>결과 복사</Button>{/snippet}</StageOverlay
 			>{/if}
 		{#if fatalError}<StageOverlay title={fatalError} />{/if}
 	</div>
@@ -217,16 +217,12 @@
 					? '계속하기 ▶'
 					: controlStatus === 'running'
 						? '일시정지 Ⅱ'
-						: controlStatus === 'finished'
-							? '다시 시작 ↻'
-							: '레이스 시작 ▶'}</Button
+						: '레이스 시작 ▶'}</Button
 			>
 		</div>
 	</div>
 	<div class="race-stats">
-		<span
-			>{arrived} / {busy || status === 'finished' ? race?.marbles.length : parsed.count} 도착</span
-		><span
+		<span>{arrived} / {busy ? race?.marbles.length : parsed.count} 도착</span><span
 			>{Math.floor(elapsed / 60)
 				.toString()
 				.padStart(2, '0')}:{Math.floor(elapsed % 60)

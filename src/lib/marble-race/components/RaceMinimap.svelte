@@ -1,16 +1,19 @@
 <script>
 	import { blockAngle, arcStart } from '../physics.js';
 	import { BLOCKS } from '../catalog.js';
+	import { arenaPalette } from '../arena-theme.js';
 	let {
 		race,
 		view,
 		id,
 		visible = true,
 		compact = false,
+		theme = 'light',
 		oninspect = () => {},
 		onleave = () => {}
 	} = $props();
 	let map = $state();
+	let palette = $derived(arenaPalette(theme));
 	$effect(() => {
 		if (!visible) {
 			pressed = false;
@@ -60,7 +63,7 @@
 			if (m.finished) continue;
 			ctx.fillStyle = m.color;
 			ctx.beginPath();
-			ctx.arc(m.x, m.y, 14, 0, Math.PI * 2);
+			ctx.arc(m.x, m.y, m.r + 1, 0, Math.PI * 2);
 			ctx.fill();
 		}
 	});
@@ -150,7 +153,7 @@
 				role="img"
 				aria-label="흰색 사각형이 현재 보고 있는 위치입니다"
 			>
-				<rect width="720" height={race.layout.height} fill="#0a1520" />
+				<rect width="720" height={race.layout.height} fill={palette.minimapBackground} />
 				{#each race.zones as zone (zone.id)}<rect
 						x="12"
 						y={zone.start}
@@ -174,7 +177,7 @@
 						width={block.w}
 						height={block.h}
 						rx={block.cornerRadius ?? 0}
-						fill={BLOCKS[block.type]?.color ?? '#adc7db'}
+						fill={BLOCKS[block.type]?.color ?? palette.wall}
 						transform={`rotate(${(block.angle * 180) / Math.PI} ${block.x} ${block.y})`}
 					/>
 				{/each}
@@ -182,7 +185,7 @@
 					{#if block.arc}<path
 							d={arcPath(block)}
 							fill="none"
-							stroke="#edffff"
+							stroke={palette.finaleWall}
 							stroke-width={block.arc.thickness}
 							stroke-linecap="round"
 						/>{:else}<rect
@@ -191,20 +194,21 @@
 							width={block.w}
 							height={block.h}
 							rx={block.cornerRadius ?? 0}
-							fill={block.type === 'rotor' ? '#00e5ed' : '#edffff'}
+							fill={block.type === 'rotor' ? palette.finaleRotor : palette.finaleWall}
 							transform={`rotate(${(blockAngle(block, race.time) * 180) / Math.PI} ${block.x} ${block.y})`}
 						/>
 					{/if}{/each}
-				<rect
-					x={Math.max(0, view.left)}
-					y={view.top}
-					width={Math.min(720, view.right) - Math.max(0, view.left)}
-					height={Math.min(race.layout.height, view.bottom) - view.top}
-					fill="none"
-					stroke="white"
-					stroke-width="2"
-					vector-effect="non-scaling-stroke"
-				/>
+				<!-- 밝은 경기장에서도 흰 테두리가 보이도록 어두운 바깥선을 함께 그린다. -->
+				{#each [{ stroke: '#1f2d3a99', width: 4 }, { stroke: 'white', width: 2 }] as line (line.width)}<rect
+						x={Math.max(0, view.left)}
+						y={view.top}
+						width={Math.min(720, view.right) - Math.max(0, view.left)}
+						height={Math.min(race.layout.height, view.bottom) - view.top}
+						fill="none"
+						stroke={line.stroke}
+						stroke-width={line.width}
+						vector-effect="non-scaling-stroke"
+					/>{/each}
 			</svg><canvas bind:this={dots} class="minimap-dots" aria-hidden="true"></canvas></button
 		>
 	</div>
@@ -218,8 +222,8 @@
 		width: 100px;
 		height: min(300px, calc(100% - 24px));
 		pointer-events: auto;
-		background: var(--color-background-25);
-		border: 1px solid var(--color-border-8);
+		background: var(--arena-minimap-surface);
+		border: 1px solid var(--arena-border);
 		border-radius: 8px;
 		padding: var(--space-4);
 		z-index: 2;

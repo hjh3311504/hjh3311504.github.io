@@ -1,11 +1,12 @@
 import { createRace, makeBlock } from '../../../src/lib/marble-race/physics.js';
 
-// 선두가30만큼 앞선 같은 진입 상태를 사용해 입구 배치의 차이만 비교한다.
+// 선두가 gap만큼 앞선 같은 진입 상태를 사용해 입구 배치의 차이만 비교한다.
 export function createFinaleDuel({
 	previous = false,
 	phase = Math.PI / 8,
 	side = -1,
-	currentGuide = false
+	currentGuide = false,
+	gap = 30
 } = {}) {
 	const race = createRace(['선두', '추격'], 'keyboard', 47);
 	// 과거 회전바 비교는 당시 직선 지형·진입 위치를 고정한다.
@@ -29,7 +30,7 @@ export function createFinaleDuel({
 	race.marbles.forEach((marble, index) =>
 		Object.assign(marble, {
 			x: 360 + side * (index === 0 ? -35 : 35),
-			y: race.layout.finale.mouthY - ((index === 0 ? 45 : 75) + (currentGuide ? 100 : 0)),
+			y: race.layout.finale.mouthY - ((index === 0 ? 45 : 45 + gap) + (currentGuide ? 100 : 0)),
 			vx: 0,
 			vy: 150,
 			finaleEntry: 0

@@ -18,9 +18,10 @@ function surface() {
 			scale() {},
 			translate() {},
 			measureText: (text) => ({ width: text.length * 8 }),
-			createRadialGradient: () => ({ addColorStop() {} }),
+			createLinearGradient: () => ({ addColorStop() {} }),
 			beginPath() {},
 			arc() {},
+			ellipse() {},
 			fill() {},
 			fillText(text) {
 				result.number = text;

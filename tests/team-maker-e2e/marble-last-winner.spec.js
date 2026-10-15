@@ -42,7 +42,11 @@ test('마지막 방식은1개만 남을 때 당첨·팡파레를 실행하고 �
 		'2배속'
 	);
 	const selected = await page.locator('.winner-panel').innerText();
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료', { timeout: 15000 });
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible({
+		timeout: 15000
+	});
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 	await expect(page.locator('.winner-panel')).toHaveText(selected, { useInnerText: true });
 	expect(await page.evaluate(() => window.__fanfares.length)).toBe(1);
 	const finalWidth = await page.evaluate(

@@ -21,6 +21,11 @@
 	let mediaQuery;
 	let locked = false;
 	let lockY = 0;
+	// 떠 있는 메뉴 버튼은 아래로 스크롤하면 숨기고 위로 올리면 다시 보여 준다.
+	let menuHidden = false;
+	let lastScrollY = 0;
+	const menuRevealTop = 64;
+	const menuScrollStep = 8;
 
 	$: sidebarMode = wide && pinned;
 	$: floatingMenu = !sidebarMode && !(variant === 'team-maker' && !wide);
@@ -111,6 +116,19 @@
 			touchAction: ''
 		});
 		window.scrollTo(0, lockY);
+		lastScrollY = lockY;
+	}
+
+	function handleScroll() {
+		if (locked) return;
+		// iOS 바운스처럼 범위를 넘었다 돌아오는 값은 실제 스크롤 범위로 자른다.
+		const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+		const y = Math.min(Math.max(window.scrollY, 0), maxY);
+		if (y <= menuRevealTop) menuHidden = false;
+		else if (y > lastScrollY + menuScrollStep) menuHidden = true;
+		else if (y < lastScrollY - menuScrollStep) menuHidden = false;
+		else return;
+		lastScrollY = y;
 	}
 
 	$: if (browser) {
@@ -132,10 +150,13 @@
 		updateWidth();
 		mediaQuery.addEventListener?.('change', updateWidth);
 		window.addEventListener('keydown', handleKeydown);
+		lastScrollY = window.scrollY;
+		window.addEventListener('scroll', handleScroll, { passive: true });
 
 		return () => {
 			mediaQuery?.removeEventListener?.('change', updateWidth);
 			window.removeEventListener('keydown', handleKeydown);
+			window.removeEventListener('scroll', handleScroll);
 		};
 	});
 
@@ -150,7 +171,7 @@
 	{/if}
 
 	{#if floatingMenu}
-		<div class="floating-menu">
+		<div class="floating-menu" class:hidden={menuHidden && !drawerOpen}>
 			<IconButton
 				bind:element={floatingMenuButton}
 				onclick={openDrawer}
@@ -374,6 +395,19 @@
 		top: 8px;
 		left: 8px;
 		z-index: 30;
+		transition: transform 0.2s ease;
+	}
+
+	/* 키보드 초점이 들어오면 숨김 상태에서도 다시 보여 준다. */
+	.floating-menu.hidden:not(:focus-within) {
+		transform: translateY(-72px);
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.floating-menu {
+			transition: none;
+		}
 	}
 
 	.floating-menu :global(button),

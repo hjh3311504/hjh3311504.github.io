@@ -1,5 +1,6 @@
 import { drawSkill, drawElectricField } from './skill-painter.js';
 import { drawMarble } from './marble-painter.js';
+import { arenaPalette } from './arena-theme.js';
 import { BLOCKS } from './catalog.js';
 import { createTilePainter } from './tile-painter.js';
 import { drawSpecialBlock } from './special-painter.js';
@@ -22,7 +23,8 @@ export function createRenderer(canvas) {
 	const sprites = new Map(),
 		labels = new Map();
 	let blockBands = new Map();
-	let gridPattern;
+	let palette = arenaPalette(),
+		paletteName;
 	let textQuality = 1;
 	let spritePage;
 	// 같은 글자 크기의 연속 프레임은 번호로 찾고 캐시 키 문자열을 다시 만들지 않는다.
@@ -98,7 +100,7 @@ export function createRenderer(canvas) {
 		return { bitmap, brush: bitmap.getContext('2d'), x: 0, y: 0, rowHeight: 0 };
 	}
 	function textSprite(text, style, background = false) {
-		const key = `${style.font}:${style.color}:${background}:${textQuality}:${text}`;
+		const key = `${style.font}:${style.color}:${background && paletteName}:${textQuality}:${text}`;
 		let sprite = textSprites.get(key);
 		if (!sprite) {
 			const fontSize = style.size;
@@ -114,10 +116,14 @@ export function createRenderer(canvas) {
 			brush.scale(textQuality, textQuality);
 			brush.font = style.font;
 			if (background) {
-				brush.fillStyle = '#101d2ce8';
+				// 이름표는 테마 색의 둥근 알약 모양이다.
+				brush.fillStyle = palette.labelBackground;
+				brush.strokeStyle = palette.labelBorder;
+				brush.lineWidth = 1;
 				brush.beginPath();
-				brush.roundRect(0, 0, width, height, 5);
+				brush.roundRect(0.5, 0.5, width - 1, height - 1, (height - 1) / 2);
 				brush.fill();
+				brush.stroke();
 			}
 			brush.fillStyle = style.color;
 			brush.textAlign = 'center';
@@ -226,7 +232,7 @@ export function createRenderer(canvas) {
 		if (block.arc) {
 			const start = arcStart(block, race.time);
 			ctx.strokeStyle =
-				block.zoneId === 'finale' ? '#edffff' : block.arc.period ? '#b8a7ed' : '#657d91';
+				block.zoneId === 'finale' ? palette.finaleWall : block.arc.period ? '#b8a7ed' : palette.arc;
 			ctx.lineWidth = block.arc.thickness;
 			ctx.lineCap = 'round';
 			ctx.beginPath();
@@ -275,8 +281,8 @@ export function createRenderer(canvas) {
 		const { type, w, h } = block;
 		const definition =
 			block.zoneId === 'finale'
-				? { color: type === 'rotor' ? '#00e5ed' : '#edffff' }
-				: (BLOCKS[type] ?? { color: '#657d91' });
+				? { color: type === 'rotor' ? palette.finaleRotor : palette.finaleWall }
+				: (BLOCKS[type] ?? { color: palette.wall });
 		ctx.save();
 		ctx.translate(block.x, block.y);
 		ctx.rotate(blockAngle(block, race.time));
@@ -287,8 +293,6 @@ export function createRenderer(canvas) {
 		ctx.strokeStyle = definition.color;
 		ctx.lineWidth = 1.5;
 		if (block.zoneId === 'finale' && type === 'rotor') {
-			ctx.shadowColor = '#00e5ed';
-			ctx.shadowBlur = 12;
 			rounded(-w / 2, -h / 2, w, h, block.cornerRadius);
 			ctx.fill();
 		} else if (['butter', 'frost', 'pond'].includes(type)) {
@@ -348,15 +352,15 @@ export function createRenderer(canvas) {
 				[w / 2, -h / 2 + pulse * 9]
 			]);
 		} else {
-			const gradient = ctx.createLinearGradient(0, -h / 2, 0, h / 2);
-			gradient.addColorStop(0, definition.color);
-			gradient.addColorStop(1, `${definition.color}b0`);
-			ctx.fillStyle = gradient;
-			rounded(-w / 2, -h / 2, w, h, block.cornerRadius ?? (type === 'gel' ? 14 : 6));
+			// 테두리 선 없이 단색 면과 옅은 아래 그림자로 그린다.
+			const radius = block.cornerRadius ?? (type === 'gel' ? 14 : 6);
+			ctx.fillStyle = '#0000001a';
+			rounded(-w / 2, -h / 2 + 2, w, h, radius);
 			ctx.fill();
-			ctx.strokeStyle = '#ffffff55';
-			ctx.stroke();
-			ctx.strokeStyle = '#172a3b65';
+			ctx.fillStyle = definition.color;
+			rounded(-w / 2, -h / 2, w, h, radius);
+			ctx.fill();
+			ctx.strokeStyle = '#3b4a5a4d';
 			ctx.lineWidth = 1.3;
 			if (type === 'wood') {
 				line([
@@ -425,13 +429,14 @@ export function createRenderer(canvas) {
 						[x - 4, 5]
 					]);
 			} else if ((type === 'rotor' && block.pivotX === undefined) || type === 'seesaw') {
-				ctx.fillStyle = '#1d3147';
+				ctx.fillStyle = '#3b4a5a';
 				ctx.beginPath();
 				ctx.arc(0, 0, 4, 0, Math.PI * 2);
 				ctx.fill();
 			}
 		}
-		if (pulse > 0 && block.flash > 0) {
+		// 결승 벽·회전판은 부딪혀도 번쩍이지 않는다.
+		if (pulse > 0 && block.flash > 0 && block.zoneId !== 'finale') {
 			ctx.globalAlpha = pulse * 0.35;
 			ctx.fillStyle = '#ffffff';
 			rounded(-w / 2, -h / 2, w, h);
@@ -513,11 +518,18 @@ export function createRenderer(canvas) {
 			skillsEnabled = false,
 			reduced = false,
 			view,
+			theme = 'light',
 			bounds = canvas.getBoundingClientRect(),
 			pixelRatio = globalThis.devicePixelRatio || 1
 		} = {}
 	) {
 		reset(race);
+		if (theme !== paletteName) {
+			// 이름표 그림은 배경색을 품고 있으므로 테마가 바뀌면 다시 만든다.
+			paletteName = theme;
+			palette = arenaPalette(theme);
+			labelFrames = [];
+		}
 		if (!bounds.width || !bounds.height) return;
 		const dpr = Math.min(pixelRatio, 2);
 		const pixelWidth = Math.round(bounds.width * dpr),
@@ -535,30 +547,12 @@ export function createRenderer(canvas) {
 		const dt = Math.max(0, Math.min(0.05, race.time - lastTime));
 		lastTime = race.time;
 		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-		ctx.fillStyle = '#101d2c';
+		ctx.fillStyle = palette.background;
 		ctx.fillRect(0, 0, bounds.width, bounds.height);
 		ctx.translate(overview ? (bounds.width - WIDTH * scale) / 2 : -view.left * scale, 0);
 		ctx.scale(scale, scale);
 		ctx.translate(0, -camera);
-		if (scale > 0.08) {
-			if (!gridPattern) {
-				const tile = makeCanvas();
-				tile.width = tile.height = 128;
-				const brush = tile.getContext('2d');
-				brush.scale(4, 4);
-				brush.fillStyle = '#294051';
-				for (const y of [0, 32]) {
-					brush.beginPath();
-					brush.arc(24, y, 1, 0, Math.PI * 2);
-					brush.fill();
-				}
-				gridPattern = ctx.createPattern(tile, 'repeat');
-				gridPattern.setTransform(new DOMMatrix().scale(0.25));
-			}
-			ctx.fillStyle = gridPattern;
-			ctx.fillRect(12, camera, WIDTH - 24, viewHeight);
-		}
-		ctx.strokeStyle = '#385062';
+		ctx.strokeStyle = palette.rail;
 		ctx.lineWidth = 2;
 		line([
 			[12, camera],
@@ -570,7 +564,7 @@ export function createRenderer(canvas) {
 		]);
 		ctx.textAlign = 'left';
 		ctx.font = `600 ${14 / scale}px SUIT, sans-serif`;
-		ctx.fillStyle = '#8fa7b9';
+		ctx.fillStyle = palette.text;
 		ctx.fillText('출발', 28, 24);
 
 		if (race.preview) {
@@ -595,7 +589,7 @@ export function createRenderer(canvas) {
 		}
 		for (const effect of ripples) {
 			ctx.save();
-			ctx.strokeStyle = '#e7fffc';
+			ctx.strokeStyle = palette.ripple;
 			ctx.globalAlpha = effect.life / 0.6;
 			ctx.lineWidth = 2;
 			ctx.beginPath();
@@ -620,12 +614,18 @@ export function createRenderer(canvas) {
 		}
 		impressions = impressions.filter((effect) => effect.life > 0);
 
-		for (let x = race.layout.finish.left; x < race.layout.finish.right; x += 10) {
-			ctx.fillStyle = Math.floor(x / 10) % 2 ? '#83d8c4' : '#294858';
-			ctx.fillRect(x, finishY, 10, 10);
-		}
+		// 체크무늬 대신 둥근 끝의 단색 리본으로 도착선을 표시한다.
+		ctx.fillStyle = palette.finishLine;
+		rounded(
+			race.layout.finish.left,
+			finishY,
+			race.layout.finish.right - race.layout.finish.left,
+			10,
+			5
+		);
+		ctx.fill();
 		ctx.font = '700 18px SUIT, sans-serif';
-		ctx.fillStyle = '#b9e4dc';
+		ctx.fillStyle = palette.text;
 		ctx.textAlign = 'center';
 		ctx.fillText('도착', WIDTH / 2, finishY + 38);
 		for (const particle of particles) {
@@ -659,7 +659,7 @@ export function createRenderer(canvas) {
 				});
 			}
 		}
-		const numberFont = `800 ${Math.round(Math.max(10, 8 / scale) * 2) / 2}px SUIT, sans-serif`;
+		const numberFont = `800 ${Math.round(Math.max(12, 8 / scale) * 2) / 2}px SUIT, sans-serif`;
 		// 전체 맵에서도 글자를 자르거나 거대한 비트맵을 만들지 않는다.
 		const spriteQuality = 2 ** Math.ceil(Math.log2(scale * dpr));
 		textQuality = spriteQuality;
@@ -680,7 +680,7 @@ export function createRenderer(canvas) {
 			return {
 				size,
 				font: `${focus ? 800 : 600} ${size}px SUIT, sans-serif`,
-				color: focus ? '#ffffff' : '#dceaf3'
+				color: focus ? palette.focusLabelText : palette.labelText
 			};
 		});
 		const numberStyle = {
@@ -718,15 +718,15 @@ export function createRenderer(canvas) {
 				}
 				const { width } = label;
 				const labelX = Math.max(width / 2 + 3, Math.min(WIDTH - width / 2 - 3, marble.x));
-				paintTextSprite(label.sprite, labelX, marble.y + 21 + style.size);
+				paintTextSprite(label.sprite, labelX, marble.y + marble.r + 8 + style.size);
 			}
 		}
 		for (let index = 0; index < renderMarbles.length; index++) {
 			const marble = renderMarbles[index];
 			const isFocus = marble.id === Number(focusId);
 			if (isFocus) {
-				ctx.strokeStyle = isFocus ? '#ffffff' : '#7cf2ce';
-				ctx.lineWidth = 2;
+				ctx.strokeStyle = palette.focusRing;
+				ctx.lineWidth = 2.5;
 				ctx.beginPath();
 				ctx.arc(marble.x, marble.y, marble.r + 5, 0, Math.PI * 2);
 				ctx.stroke();
@@ -759,7 +759,7 @@ export function createRenderer(canvas) {
 			if (marble.held?.kind === 'lightning') drawElectricField(ctx, marble, race.time, reduced);
 			if (marble.held?.kind === 'frost') {
 				ctx.fillStyle = '#b2e9f780';
-				ctx.strokeStyle = '#e4faff';
+				ctx.strokeStyle = palette.frozenRing;
 				ctx.lineWidth = 2;
 				ctx.beginPath();
 				for (let i = 0; i < 6; i++) {

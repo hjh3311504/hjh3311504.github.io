@@ -172,12 +172,73 @@
 	font-weight: 800;
 }
 .race-stage {
+	/* 경기장 색은 사이트 테마를 따른다. Canvas 색은 arena-theme.js와 맞춘다. */
+	--arena-bg: var(--color-arena-light-bg);
+	--arena-surface: var(--color-arena-light-surface);
+	--arena-surface-soft: var(--color-arena-light-surface-soft);
+	--arena-text: var(--color-arena-light-text);
+	--arena-muted: var(--color-arena-light-muted);
+	--arena-border: var(--color-arena-light-border);
+	--arena-primary: var(--color-arena-light-primary);
+	--arena-primary-hover: var(--color-arena-light-primary-hover);
+	--arena-on-primary: var(--color-white);
+	--arena-accent: var(--color-arena-light-accent);
+	--arena-accent-soft: var(--color-arena-light-accent-soft);
+	--arena-minimap-surface: var(--color-arena-light-minimap);
+	--arena-shadow: var(--color-arena-light-shadow);
+	--arena-celebration: var(--color-arena-light-celebration);
+	/* 경기장 안의 공용 버튼·카드도 같은 색을 사용한다. */
+	--ui-canvas: var(--arena-bg);
+	--ui-surface: var(--arena-surface);
+	--ui-surface-soft: var(--arena-surface-soft);
+	--ui-text: var(--arena-text);
+	--ui-text-muted: var(--arena-muted);
+	--ui-border: var(--arena-border);
+	--ui-border-strong: var(--arena-border);
+	--ui-primary: var(--arena-primary);
+	--ui-primary-hover: var(--arena-primary-hover);
+	--ui-on-primary: var(--arena-on-primary);
+	--ui-focus: var(--arena-primary);
 	overflow: hidden;
-	border: 1px solid var(--color-border-2);
+	border: 1px solid var(--arena-border);
 	border-radius: 17px;
-	background: var(--color-background-7);
-	color: var(--color-color-6);
-	box-shadow: 0 12px 35px -20px var(--color-box-shadow-13);
+	background: var(--arena-surface);
+	color: var(--arena-text);
+	box-shadow: 0 12px 35px -20px var(--arena-shadow);
+}
+html[data-theme='dark'] .race-stage {
+	--arena-bg: var(--color-arena-dark-bg);
+	--arena-surface: var(--color-arena-dark-surface);
+	--arena-surface-soft: var(--color-arena-dark-surface-soft);
+	--arena-text: var(--color-arena-dark-text);
+	--arena-muted: var(--color-arena-dark-muted);
+	--arena-border: var(--color-arena-dark-border);
+	--arena-primary: var(--color-arena-dark-primary);
+	--arena-primary-hover: var(--color-arena-dark-primary-hover);
+	--arena-on-primary: var(--color-arena-dark-on-primary);
+	--arena-accent: var(--color-arena-dark-accent);
+	--arena-accent-soft: var(--color-arena-dark-accent-soft);
+	--arena-minimap-surface: var(--color-arena-dark-minimap);
+	--arena-shadow: var(--color-arena-dark-shadow);
+	--arena-celebration: var(--color-border-9);
+}
+@media (prefers-color-scheme: dark) {
+	html[data-theme='auto'] .race-stage {
+		--arena-bg: var(--color-arena-dark-bg);
+		--arena-surface: var(--color-arena-dark-surface);
+		--arena-surface-soft: var(--color-arena-dark-surface-soft);
+		--arena-text: var(--color-arena-dark-text);
+		--arena-muted: var(--color-arena-dark-muted);
+		--arena-border: var(--color-arena-dark-border);
+		--arena-primary: var(--color-arena-dark-primary);
+		--arena-primary-hover: var(--color-arena-dark-primary-hover);
+		--arena-on-primary: var(--color-arena-dark-on-primary);
+		--arena-accent: var(--color-arena-dark-accent);
+		--arena-accent-soft: var(--color-arena-dark-accent-soft);
+		--arena-minimap-surface: var(--color-arena-dark-minimap);
+		--arena-shadow: var(--color-arena-dark-shadow);
+		--arena-celebration: var(--color-border-9);
+	}
 }
 .stage-toolbar {
 	min-height: 55px;
@@ -186,7 +247,7 @@
 	justify-content: space-between;
 	gap: var(--space-12);
 	padding: var(--space-12) var(--space-16);
-	border-bottom: 1px solid var(--color-border-bottom);
+	border-bottom: 1px solid var(--arena-border);
 }
 .stage-title {
 	display: flex;
@@ -199,7 +260,7 @@
 	font-weight: 700;
 }
 .stage-state {
-	color: var(--color-color-7);
+	color: var(--arena-muted);
 	font-size: var(--font-size-10);
 }
 .status-dot {
@@ -221,10 +282,10 @@
 }
 .stage-actions button {
 	font-size: var(--font-size-10);
-	color: var(--color-color-8);
-	background: var(--color-background-10);
-	border: 1px solid var(--color-border-3);
-	border-radius: 6px;
+	color: var(--arena-text);
+	background: var(--arena-surface);
+	border: 1px solid var(--arena-border);
+	border-radius: 8px;
 	padding: var(--space-8) var(--space-8);
 }
 .stage-actions .state-toggle {
@@ -237,12 +298,14 @@
 	text-align: center;
 }
 .stage-actions button[aria-pressed='true'] {
-	color: var(--color-color-9);
-	border-color: var(--color-border-color);
+	color: var(--arena-accent);
+	border-color: var(--arena-accent);
+	background: var(--arena-accent-soft);
 }
 .canvas-wrap {
 	position: relative;
 	height: 570px;
+	background: var(--arena-bg);
 }
 .canvas-wrap > canvas {
 	display: block;
@@ -254,55 +317,17 @@
 	touch-action: manipulation;
 }
 .canvas-wrap > canvas:focus-visible {
-	outline: 2px solid var(--color-color-9);
+	outline: 2px solid var(--arena-primary);
 	outline-offset: -3px;
-}
-.stage-intro {
-	position: absolute;
-	left: 50%;
-	top: 100px;
-	transform: translateX(-50%);
-	width: max-content;
-	max-width: 92%;
-	padding: var(--space-24) var(--space-32);
-	text-align: center;
-	background: var(--color-background-11);
-	border: 1px solid var(--color-border-4);
-	border-radius: 15px;
-	box-shadow: 0 10px 55px var(--color-box-shadow-15);
-	pointer-events: none;
-}
-.intro-orbit {
-	display: block;
-	font-size: var(--font-size-30);
-	color: var(--color-color-10);
-	text-shadow: 0 0 25px var(--color-text-shadow);
-	margin-bottom: var(--space-8);
-}
-.stage-intro strong {
-	display: block;
-	font-size: var(--font-size-18);
-}
-.stage-intro p {
-	font-size: var(--font-size-12);
-	color: var(--color-color-11);
-	margin: var(--space-8) 0 var(--space-20);
-}
-.stage-intro > span:last-child {
-	font-size: var(--font-size-10);
-	padding: var(--space-8) var(--space-12);
-	background: var(--color-background-12);
-	border-radius: 20px;
-	color: var(--color-color-12);
 }
 .race-controls {
 	padding: var(--space-16) var(--space-16);
-	border-top: 1px solid var(--color-border-bottom);
+	border-top: 1px solid var(--arena-border);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--space-12);
-	background: var(--color-background-13);
+	background: var(--arena-surface);
 }
 .sound-controls {
 	display: flex;
@@ -317,7 +342,7 @@
 	flex-shrink: 0;
 	background: none;
 	border: 0;
-	color: var(--color-color-13);
+	color: var(--arena-text);
 	font-size: var(--font-size-12);
 	white-space: nowrap;
 	padding: var(--space-8) var(--space-12);
@@ -338,59 +363,15 @@
 	align-items: center;
 	gap: var(--space-8);
 }
-.race-primary {
-	color: var(--color-color-14);
-	background: var(--color-background-14);
-	border: 1px solid var(--color-border-5);
-	border-radius: 9px;
-	font-size: var(--font-size-12);
-	font-weight: 800;
-	padding: var(--space-12) var(--space-20);
-	white-space: nowrap;
-}
-.race-primary:hover:not(:disabled) {
-	background: var(--color-background-15);
-}
-.race-secondary {
-	color: var(--color-color-13);
-	background: transparent;
-	border: 1px solid var(--color-border-6);
-	border-radius: 8px;
-	padding: var(--space-12);
-	font-size: var(--font-size-12);
-}
 .race-stats {
 	display: flex;
 	justify-content: space-between;
 	padding: var(--space-8) var(--space-20);
-	background: var(--color-background-16);
-	color: var(--color-color-15);
+	border-top: 1px solid var(--arena-border);
+	background: var(--arena-surface-soft);
+	color: var(--arena-muted);
 	font-size: var(--font-size-10);
 	font-variant-numeric: tabular-nums;
-}
-.pause-overlay,
-.finish-overlay {
-	position: absolute;
-	inset: 0;
-	background: var(--color-background-17);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	gap: var(--space-20);
-	padding: var(--space-24);
-}
-.pause-overlay > strong {
-	font-size: var(--font-size-24);
-}
-.finish-overlay h2 {
-	font-size: var(--font-size-34);
-	letter-spacing: -1px;
-	margin: 0;
-}
-.result-eyebrow {
-	color: var(--color-color-16);
-	font-size: var(--font-size-12);
 }
 .winner-names {
 	margin-top: var(--space-16);
@@ -423,7 +404,7 @@
 .winner-names small {
 	font-size: var(--font-size-14);
 	font-weight: 400;
-	color: var(--color-color-17);
+	color: var(--ui-text-muted);
 	white-space: nowrap;
 }
 .race-feedback {
@@ -750,9 +731,6 @@
 	.block-grid {
 		gap: var(--space-8);
 	}
-	.stage-intro {
-		padding: var(--space-20);
-	}
 }
 @media (max-width: 370px) {
 	.race-settings {
@@ -778,9 +756,6 @@
 	}
 	.follow-control select {
 		max-width: 130px;
-	}
-	.race-primary {
-		padding: var(--space-12) var(--space-12);
 	}
 	.sound-controls input {
 		width: 48px;
@@ -871,7 +846,7 @@
 .marble-page .race-stage:fullscreen {
 	display: flex;
 	flex-direction: column;
-	background: var(--color-background-7);
+	background: var(--arena-surface);
 	overflow: auto;
 }
 .marble-page .race-stage:fullscreen .canvas-wrap {

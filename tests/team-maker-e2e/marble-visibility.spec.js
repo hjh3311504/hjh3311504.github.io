@@ -1,6 +1,10 @@
 import { observeMarbleText } from './helpers/marble-paint.js';
 import { test, expect } from '@playwright/test';
 import { screenRace } from './helpers/marble-screen-state.js';
+import { ARENA_THEMES } from '../../src/lib/marble-race/arena-theme.js';
+
+// 경기장 Canvas의 새 프레임은 테마별 배경 채우기로 시작한다.
+const ARENA_BACKGROUNDS = Object.values(ARENA_THEMES).map((theme) => theme.background);
 
 async function expectToolbarInside(page) {
 	const toolbar = page.locator('.stage-actions');
@@ -67,12 +71,17 @@ test('겹친 이름표보다 구슬을 앞에 그리고 추적 이름은 이름�
 	await page.emulateMedia({ reducedMotion: 'no-preference' });
 	await screenRace(page);
 	await observeMarbleText(page);
-	await page.addInitScript(() => {
+	await page.addInitScript((backgrounds) => {
 		window.__raceOverlapping = true;
 		window.__racePhase = 'finale';
 		const fillRect = CanvasRenderingContext2D.prototype.fillRect;
 		CanvasRenderingContext2D.prototype.fillRect = function (...args) {
-			if (this.canvas.isConnected && args[0] === 0 && args[1] === 0 && this.fillStyle === '#101d2c')
+			if (
+				this.canvas.isConnected &&
+				args[0] === 0 &&
+				args[1] === 0 &&
+				backgrounds.includes(this.fillStyle)
+			)
 				window.__labelDraws = [];
 			return fillRect.apply(this, args);
 		};
@@ -82,7 +91,7 @@ test('겹친 이름표보다 구슬을 앞에 그리고 추적 이름은 이름�
 				window.__labelDraws.push(String(text));
 			}
 		};
-	});
+	}, ARENA_BACKGROUNDS);
 	await page.goto('/marble-race');
 	expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 	await expect(
@@ -102,7 +111,9 @@ test('겹친 이름표보다 구슬을 앞에 그리고 추적 이름은 이름�
 		.poll(() => page.evaluate(() => window.__labelDraws))
 		.toEqual(['겹침하나', '겹침셋', '겹침둘', '1', '3', '2']);
 	// 미니맵은 입구 회전판1개를 실제 물리 배치대로 표시한다.
-	await expect(page.locator('.race-minimap rect[fill="#00e5ed"]')).toHaveCount(1);
+	await expect(
+		page.locator(`.race-minimap rect[fill="${ARENA_THEMES.light.finaleRotor}"]`)
+	).toHaveCount(1);
 	await page.locator('.race-stage').screenshot({ path: '.context/marble-mobile-labels.png' });
 	await page.getByRole('button', { name: '미니맵', exact: true }).click();
 	await expect

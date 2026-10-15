@@ -202,4 +202,32 @@
 	--color-background-31: #84b5ec;
 	--color-box-shadow-32: rgb(28 30 38 / 14%);
 	--color-text-shadow-2: rgb(255 255 255 / 45%);
+	/* 구슬 레이스 경기장: 밝은 테마 */
+	--color-arena-light-bg: #f4f8fb;
+	--color-arena-light-surface: #fffdfc;
+	--color-arena-light-surface-soft: #f6f9fb;
+	--color-arena-light-text: #334155;
+	--color-arena-light-muted: #5b6b80;
+	--color-arena-light-border: #d8e1e8;
+	--color-arena-light-primary: #1f6ae0;
+	--color-arena-light-primary-hover: #1959bd;
+	--color-arena-light-accent: #1b7d66;
+	--color-arena-light-accent-soft: #e8f6f1;
+	--color-arena-light-minimap: rgb(255 255 255 / 85%);
+	--color-arena-light-shadow: rgb(51 65 85 / 16%);
+	--color-arena-light-celebration: #b07a00;
+	/* 구슬 레이스 경기장: 어두운 테마 */
+	--color-arena-dark-bg: #28333e;
+	--color-arena-dark-surface: #303e4a;
+	--color-arena-dark-surface-soft: #2c3944;
+	--color-arena-dark-text: #f0f4f7;
+	--color-arena-dark-muted: #b4c0ca;
+	--color-arena-dark-border: #5a6a78;
+	--color-arena-dark-primary: #75a7f3;
+	--color-arena-dark-primary-hover: #8db7f6;
+	--color-arena-dark-on-primary: #10202f;
+	--color-arena-dark-accent: #8fe0cb;
+	--color-arena-dark-accent-soft: rgb(106 201 178 / 15%);
+	--color-arena-dark-minimap: rgb(31 41 50 / 85%);
+	--color-arena-dark-shadow: rgb(0 0 0 / 35%);
 }

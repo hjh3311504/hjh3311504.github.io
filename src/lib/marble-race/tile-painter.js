@@ -21,25 +21,21 @@ export function createTilePainter(ctx) {
 			ctx.translate(0, (1 - fade) * 8);
 			ctx.scale(1 + (1 - fade) * 0.15, Math.max(0.2, fade));
 		}
+		// 선 대신 둥근 모서리와 아래 그림자로 블록의 높이를 표현한다.
+		const radius = Math.max(block.cornerRadius ?? 3, 6);
+		ctx.fillStyle = '#0000001f';
+		rounded(-w / 2, -h / 2 + 2, w, h, radius);
+		ctx.fill();
 		ctx.fillStyle = color;
-		rounded(-w / 2, -h / 2, w, h, block.cornerRadius ?? 3);
+		rounded(-w / 2, -h / 2, w, h, radius);
 		ctx.fill();
 		ctx.clip();
-		ctx.strokeStyle = '#ffffff70';
+		ctx.fillStyle = '#ffffff38';
+		rounded(-w / 2 + 2, -h / 2 + 2, w - 4, h * 0.55, radius - 2);
+		ctx.fill();
 		ctx.lineWidth = 1;
-		line([
-			[-14, 12],
-			[-14, -14],
-			[13, -14]
-		]);
-		ctx.strokeStyle = '#11263855';
-		line([
-			[-13, 15],
-			[15, 15],
-			[15, -13]
-		]);
-		ctx.strokeStyle = '#253b5266';
-		ctx.fillStyle = '#253b5266';
+		ctx.strokeStyle = '#3b4a5a4d';
+		ctx.fillStyle = '#3b4a5a4d';
 		const circle = (x, y, r, fill = true) => {
 			ctx.beginPath();
 			ctx.arc(x, y, r, 0, Math.PI * 2);
@@ -180,18 +176,13 @@ export function createTilePainter(ctx) {
 				[10, 12]
 			]);
 		} else if (['thock', 'thock2', 'thock3', 'thock4'].includes(type)) {
-			ctx.fillStyle = '#ffffff77';
-			rounded(-11, -12, 22, 21, 4);
+			ctx.fillStyle = '#ffffff4d';
+			rounded(-10, -11, 20, 19, 5);
 			ctx.fill();
-			ctx.stroke();
-			ctx.fillStyle = '#36435b';
+			ctx.fillStyle = '#3d4756';
 			ctx.textAlign = 'center';
 			ctx.font = '700 12px SUIT, sans-serif';
 			ctx.fillText({ thock: '1', thock2: '2', thock3: '3', thock4: '4' }[type], 0, 3);
-			line([
-				[-8, 11],
-				[8, 11]
-			]);
 		} else if (type === 'switch') {
 			ctx.fillStyle = '#465563';
 			rounded(-8, -12, 16, 24, 3);

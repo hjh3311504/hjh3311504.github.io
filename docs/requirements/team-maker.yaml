@@ -169,9 +169,9 @@
   design_ref: [screens/SCR-WEB-001.md, screens/SCR-WEB-002.md, screens/SCR-WEB-003.md, screens/SCR-WEB-004.md, screens/SCR-WEB-005.md, screens/SCR-WEB-006.md]
   adr: docs/adr/2026-09-01-공통-내비게이션은-고정-사이드바와-드로워를-함께-사용.md
 - id: REQ-WEB-022
-  text: 공통 내비게이션은 1200px 이하에서 화면 위 햄버거 버튼으로 여는 왼쪽 drawer에 모든 이동 항목을 세로로 보여준다.
+  text: 공통 내비게이션은 1200px 이하에서 화면 위 햄버거 버튼으로 여는 왼쪽 drawer에 모든 이동 항목을 세로로 보여준다. 떠 있는 햄버거 버튼은 아래로 스크롤하면 숨기고 위로 스크롤·맨 위 도착·키보드 초점에서 다시 보여준다.
   surface: [web]
-  source: "사용자 확정 2026-09-01 > 모바일 햄버거와 drawer; 사용자 선택 2026-09-02 > DSN-005 현재 구현 기준 재동결; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가"
+  source: "사용자 확정 2026-09-01 > 모바일 햄버거와 drawer; 사용자 선택 2026-09-02 > DSN-005 현재 구현 기준 재동결; 사용자 구현 요청 2026-09-16 > 구슬 레이스 새 페이지와 14종 블록 추가; 사용자 선택 2026-10-15 > 아래로 스크롤하면 떠 있는 메뉴 버튼 숨기기"
   kind: crud
   ui: true
   design_status: approved

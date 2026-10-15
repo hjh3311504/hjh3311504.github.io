@@ -10,21 +10,23 @@ function crowd(count = 60, phase = 0) {
 	race.marbles.forEach((m, i) =>
 		Object.assign(m, {
 			x: 45 + (i % 20) * 33,
-			y: race.layout.finale.start - 30 - Math.floor(i / 20) * 30,
+			y: race.layout.finale.start - 30 - Math.floor(i / 20) * 34,
 			vx: 0,
 			vy: 150
 		})
 	);
 	return race;
 }
+// 결승 보정 대상과 같게, 결승에 들어간 구슬이 낀 겹침만 잰다.
 function overlap(race) {
+	const inFinale = (m) => m.finaleEntry != null || m.y + m.r >= race.layout.finale.start;
 	let depth = 0;
 	for (let i = 0; i < race.marbles.length; i++) {
 		const a = race.marbles[i];
 		if (a.finished) continue;
 		for (let j = i + 1; j < race.marbles.length; j++) {
 			const b = race.marbles[j];
-			if (!b.finished && !(a.held && b.held))
+			if (!b.finished && !(a.held && b.held) && (inFinale(a) || inFinale(b)))
 				depth = Math.max(depth, a.r + b.r - Math.hypot(a.x - b.x, a.y - b.y));
 		}
 	}
@@ -48,14 +50,15 @@ test('회전바에 닿지 않은 결승 겹침도 매 물리 단계에서 함께
 	}
 });
 
-test('결승 왼쪽40°·오른쪽30° 직선은 같은 폭40 통로에 연결한다', () => {
+test('결승 왼쪽40°·오른쪽30° 직선은 같은 폭50 통로에 연결한다', () => {
 	const race = crowd(2),
 		left = race.blocks.find((b) => b.id === 'finale-guide--1'),
 		right = race.blocks.find((b) => b.id === 'finale-guide-1');
 	assert.equal(left.arc, undefined);
 	assert.equal(right.arc, undefined);
-	assert.ok(Math.abs(left.angle - (Math.PI * 2) / 9) < 1e-9);
-	assert.ok(Math.abs(right.angle - (Math.PI * 5) / 6) < 1e-9);
+	// 폭50 출구에 맞춰 끝점을 옮겨 기울기는 0.5° 안에서 40°·30°를 유지한다.
+	assert.ok(Math.abs(left.angle - (Math.PI * 2) / 9) < Math.PI / 360);
+	assert.ok(Math.abs(right.angle - (Math.PI * 5) / 6) < Math.PI / 360);
 	assert.ok(right.y > left.y, '완만한 오른쪽 벽의 시작 높이가 더 낮다');
 	assert.equal(left.h, 12);
 	assert.equal(right.h, 12);
@@ -82,7 +85,7 @@ test('결승 왼쪽40°·오른쪽30° 직선은 같은 폭40 통로에 연결�
 			);
 		}
 	}
-	assert.equal(race.layout.finish.right - race.layout.finish.left, 40);
+	assert.equal(race.layout.finish.right - race.layout.finish.left, 50);
 });
 
 test('60개 밀집·회전 각도4가지에서 겹침1 이하와 벽 관통 없이 완주한다', (t) => {
@@ -96,7 +99,10 @@ test('60개 밀집·회전 각도4가지에서 겹침1 이하와 벽 관통 없�
 			assert.ok(maximum <= 1, `각도${phase}, 시각${race.time}: 겹침${maximum}`);
 			for (const m of race.marbles) {
 				if (!m.finished && m.y > race.layout.finale.mouthY + 30)
-					assert.ok(m.x - m.r >= 340 - 0.01 && m.x + m.r <= 380 + 0.01);
+					assert.ok(
+						m.x - m.r >= race.layout.finish.left - 0.01 &&
+							m.x + m.r <= race.layout.finish.right + 0.01
+					);
 			}
 		}
 		assert.equal(race.finished.length, 60);

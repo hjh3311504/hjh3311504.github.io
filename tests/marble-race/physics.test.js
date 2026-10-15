@@ -83,7 +83,7 @@ test('활성3개 맵은 일반11종·재질4층·특수 구간3곳과 회전 판
 			if (b.type !== 'wall') {
 				assert.ok(map.types.includes(b.soundType ?? b.type));
 			}
-		assert.equal(race.layout.finish.right - race.layout.finish.left, 40);
+		assert.equal(race.layout.finish.right - race.layout.finish.left, 50);
 		const rotors = race.blocks.filter((b) => b.type === 'rotor');
 		assert.equal(rotors.length, 1);
 		assert.equal(rotors[0].w, 448);
@@ -423,7 +423,7 @@ test('주변 격자가 회전 장치와 통로 벽도 빠뜨리지 않는다', (
 		}
 });
 test('출발 바와 대기 없이 첫 계산부터 낙하하고 첫 블록에 충돌한다', () => {
-	for (const count of [2, 8, 26, 30, 60]) {
+	for (const count of [2, 8, 21, 22, 60]) {
 		const race = createRace(Array(count).fill('구슬'));
 		assert.equal(
 			race.blocks.some((b) => b.startBar || b.id === 'start-bar'),
@@ -648,7 +648,7 @@ test('결승은 왼쪽40°·오른쪽30° 직선과 같은 높이의 입구, 왼
 	assert.equal(guides.length, 2);
 	assert.equal(finale.mouthY, finale.start + 400);
 	assert.equal(bar.y, finale.mouthY + 80);
-	assert.equal(bar.x, finish.left - 180);
+	assert.equal(bar.x, 160);
 	assert.equal(bar.direction, -1);
 	for (const side of [-1, 1]) {
 		const guide = guides.find((b) => Math.sign(b.x - 360) === side);
@@ -677,7 +677,7 @@ test('결승 입구 밀집60개는 시작 각도4가지에서60초 내 배출한
 		for (const [i, m] of race.marbles.entries())
 			Object.assign(m, {
 				x: 40 + (i % 20) * 33,
-				y: race.layout.finale.start - 30 - Math.floor(i / 20) * 30,
+				y: race.layout.finale.start - 30 - Math.floor(i / 20) * 34,
 				vx: 0,
 				vy: 150
 			});

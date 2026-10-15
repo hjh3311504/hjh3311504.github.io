@@ -1,0 +1,13 @@
+import { chromium } from '@playwright/test';
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+await page.goto('http://localhost:5299/marble-race');
+await page.waitForTimeout(1200);
+const y = await page.locator('.race-stage').evaluate((el) => el.getBoundingClientRect().top + scrollY);
+await page.mouse.wheel(0, y);
+await page.waitForTimeout(800);
+await page.screenshot({ path: 'output/marble-visual/review/after-scroll-down.png' });
+await page.mouse.wheel(0, -150);
+await page.waitForTimeout(800);
+await page.screenshot({ path: 'output/marble-visual/review/after-scroll-up.png' });
+await browser.close();
