@@ -34,12 +34,13 @@
 	});
 	onMount(() => markLocalPreview({ window, document, dev }));
 
-	beforeNavigate(({ to, willUnload, cancel }) => {
+	const leavesAds = (url) => adsLoaded && adsenseExcludedPaths.includes(url.pathname);
+
+	beforeNavigate(({ to, type, willUnload, cancel }) => {
 		if (
 			to &&
 			!willUnload &&
-			(tracker?.requiresDocumentNavigation(to.url) ||
-				(adsLoaded && adsenseExcludedPaths.includes(to.url.pathname)))
+			(tracker?.requiresDocumentNavigation(to.url) || (type !== 'popstate' && leavesAds(to.url)))
 		) {
 			cancel();
 			window.location.assign(to.url.href);
@@ -47,6 +48,11 @@
 	});
 
 	afterNavigate(() => {
+		// 뒤로·앞으로 가기는 취소하면 주소 복구와 이동이 겹치므로, 도착한 뒤 새로 불러온다.
+		if (leavesAds(page.url)) {
+			window.location.reload();
+			return;
+		}
 		tracker ??= createAnalytics({
 			window,
 			document,

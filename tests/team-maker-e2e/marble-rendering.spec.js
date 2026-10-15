@@ -408,20 +408,27 @@ for (const width of [1440, 390]) {
 		const grid = page.getByRole('region', { name: '구슬 도착 순위', exact: true });
 		const selected = grid.locator('[aria-pressed="true"]');
 		const second = grid.getByRole('button', { name: /둘째구슬, 2번/ });
+		let readyCount = 0;
 		for (const state of ['출발 준비', '경기 중', '경기 종료']) {
 			if (state === '경기 중') {
 				await page.getByRole('button', { name: '♫ 소리 켜짐', exact: true }).click();
 				await start(page).click();
 			} else if (state === '경기 종료') {
-				await page.evaluate(() => {
+				readyCount = await page.evaluate(() => {
 					window.__racePhase = 'finished';
+					return window.__marbleReadyCount ?? 0;
 				});
 			}
 			// 경기가 끝나면 결과를 남긴 채 출발 준비로 돌아간다.
-			if (state === '경기 종료')
+			if (state === '경기 종료') {
 				await expect(
 					page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
 				).toBeVisible();
+				// 새 출발 미리보기가 도착하면 순위 목록을 다시 만든다. 그 뒤에 포커스를 검사한다.
+				await expect
+					.poll(() => page.evaluate(() => window.__marbleReadyCount ?? 0))
+					.toBeGreaterThan(readyCount);
+			}
 			await expect(page.locator('.stage-state')).toHaveText(
 				state === '경기 종료' ? '출발 준비' : state
 			);
