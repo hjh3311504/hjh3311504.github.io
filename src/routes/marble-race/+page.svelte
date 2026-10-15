@@ -27,6 +27,7 @@
 	import { SKILL_TYPES } from '$lib/marble-race/skills.js';
 	import { createAudio } from '$lib/marble-race/audio.js';
 	import { createCamera } from '$lib/marble-race/camera.js';
+	import { watchArenaTheme } from '$lib/marble-race/arena-theme.js';
 	import {
 		DEFAULT_NAMES,
 		readSettings,
@@ -69,7 +70,8 @@
 		focusId = $state('-1'),
 		inspectionY = $state(null),
 		fullscreen = $state(false),
-		reduced = $state(false);
+		reduced = $state(false),
+		arenaTheme = $state('light');
 	let displayRace = $state.raw(null);
 	let race = $state.raw(null),
 		order = $state.raw([]),
@@ -84,6 +86,7 @@
 		celebrationWinners = $state.raw([]),
 		liveAnnouncement = $state(''),
 		raceModeLabel = $state(''),
+		showResult = $state(false),
 		query = $state('');
 	let canvas = $state(),
 		stage = $state();
@@ -137,7 +140,7 @@
 	);
 	let previewEntries = $derived((parsed.error ? parseNames(DEFAULT_NAMES) : parsed).entries);
 	let matchingOrder = $derived(
-		race?.preview
+		race?.preview && !showResult
 			? createPreviewOrder(previewEntries, query)
 			: query.trim()
 				? order.filter((m) => m.name.includes(query.trim()) || String(m.id + 1) === query.trim())
@@ -146,7 +149,7 @@
 	let trackedMarble = $derived(
 		focusId === '-1'
 			? undefined
-			: race?.preview
+			: race?.preview && !showResult
 				? createPreviewOrder(previewEntries).slice(Number(focusId), Number(focusId) + 1)[0]
 				: order.find((marble) => String(marble.id) === focusId)
 	);
@@ -166,12 +169,11 @@
 			rank: i + 1,
 			progress: Math.min(100, Math.max(0, (m.y / race.layout.finish.y) * 100))
 		}));
-		if (status !== 'finished' || !selectedWinners.length)
-			selectedWinners = winners(race, mode, drawCount, drawStart).map((m) => ({
-				id: m.id,
-				name: m.name,
-				color: m.color
-			}));
+		selectedWinners = winners(race, mode, drawCount, drawStart).map((m) => ({
+			id: m.id,
+			name: m.name,
+			color: m.color
+		}));
 	}
 	function draw(seconds = 0) {
 		if (!race || !renderer) return;
@@ -196,6 +198,7 @@
 			skillsEnabled,
 			reduced,
 			view,
+			theme: arenaTheme,
 			bounds
 		});
 		if (pendingAudioEvents.length) {
@@ -236,10 +239,31 @@
 		renderer.addEvents(state.events ?? [], race.identity);
 		pendingAudioEvents.push(...(state.events ?? []));
 		if (race.finished.length === race.marbles.length && status === 'running') {
-			status = 'finished';
 			synchronize();
 			liveAnnouncement = `경기 종료. 당첨자 ${selectedWinners.map((m) => m.name).join(', ')}`;
+			returnToStart();
 		}
+	}
+	// 경기가 끝나면 결과 창·당첨 목록·도착 순위는 남기고 경기장만 출발 전 화면으로 되돌린다.
+	// 자리섞기와 스킬 사용을 바로 바꿀 수 있게 하고, 당첨 축하 연출은 끊지 않는다.
+	function returnToStart() {
+		operation++;
+		client.stop();
+		deferredFrame = null;
+		showResult = true;
+		status = 'ready';
+		raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
+		speed = 1;
+		inspectionY = null;
+		focusId = '-1';
+		cinematic = null;
+		preparePreview();
+	}
+	// 설정이 바뀌면 이전 경기 결과는 새 설정과 맞지 않으므로 지운다.
+	function clearResult() {
+		showResult = false;
+		selectedWinners = [];
+		copyNotice = null;
 	}
 	function receiveLiveState(state) {
 		if (status === 'running') acceptState(state);
@@ -299,7 +323,7 @@
 		audioFailed = false;
 		clearTimeout(celebrationTimer);
 		celebrating = false;
-		selectedWinners = [];
+		clearResult();
 		liveAnnouncement = '';
 		preparePreview();
 	}
@@ -353,7 +377,7 @@
 	async function start(withoutSound = false) {
 		if (!ready || busy || parsed.error || countError || fatalError) return;
 		cancelPreview();
-		if (status === 'finished') raceSeed = crypto.getRandomValues(new Uint32Array(1))[0];
+		showResult = false;
 		clearTimeout(celebrationTimer);
 		celebrating = false;
 		celebrationWinners = [];
@@ -539,8 +563,8 @@
 	function selectMap(id) {
 		if (busy || mapId === id) return;
 		mapId = id;
-		if (status === 'finished') reset();
-		else preparePreview();
+		if (showResult) clearResult();
+		preparePreview();
 	}
 	function inspectMap(y) {
 		inspectionY = y;
@@ -553,7 +577,7 @@
 		const before = JSON.stringify(selectedMap);
 		customMaps = value;
 		mapId = resolveMapId(mapId, value);
-		if (status === 'finished' && before !== JSON.stringify(resolveMap(mapId, value))) reset();
+		if (showResult && before !== JSON.stringify(resolveMap(mapId, value))) clearResult();
 	}
 	$effect(() => {
 		const settings = {
@@ -576,8 +600,8 @@
 		const changed = previousRaceSettings !== undefined && previousRaceSettings !== settings;
 		previousRaceSettings = settings;
 		if (!ready || busy) return;
-		if (changed && status === 'finished') untrack(reset);
-		else if (status === 'ready') {
+		if (changed && showResult) untrack(clearResult);
+		if (status === 'ready') {
 			cancelPreview();
 			previewTimer = setTimeout(preparePreview, 200);
 		}
@@ -647,6 +671,10 @@
 		});
 		canvasBounds = canvas.getBoundingClientRect();
 		resize.observe(canvas);
+		const stopTheme = watchArenaTheme((value) => {
+			arenaTheme = value;
+			draw();
+		});
 		media.addEventListener('change', onMotion);
 		document.addEventListener('visibilitychange', onVisibility);
 		document.addEventListener('fullscreenchange', onFull);
@@ -667,6 +695,7 @@
 			writer.destroy();
 			audio.destroy();
 			resize.disconnect();
+			stopTheme();
 			media.removeEventListener('change', onMotion);
 			document.removeEventListener('visibilitychange', onVisibility);
 			document.removeEventListener('fullscreenchange', onFull);
@@ -744,6 +773,7 @@
 					{fatalError}
 					{fullscreen}
 					{reduced}
+					{arenaTheme}
 					{race}
 					{displayRace}
 					{selectedWinners}
@@ -757,6 +787,7 @@
 					{celebrationWinners}
 					{liveAnnouncement}
 					{raceModeLabel}
+					{showResult}
 					bind:canvas
 					bind:stage
 					{parsed}
@@ -787,7 +818,7 @@
 						>
 					</div>{/if}
 				<RaceRanking
-					{status}
+					{showResult}
 					{focusId}
 					onselect={(id) => {
 						inspectionY = null;

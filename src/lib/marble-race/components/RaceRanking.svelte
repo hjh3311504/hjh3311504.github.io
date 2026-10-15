@@ -3,7 +3,7 @@
 	import { Section, SectionHeader } from '$lib/components/ui';
 	import RankingGrid from '$lib/marble-race/components/RankingGrid.svelte';
 	let {
-		status,
+		showResult = false,
 		focusId,
 		onselect,
 		race,
@@ -17,7 +17,7 @@
 <Section variant="card" padding="compact" class="race-panel"
 	><SectionHeader class="panel-title" title="도착 순위"
 		>{#snippet actions()}
-			{#if status === 'finished'}<Button onclick={copyResult}>결과 복사</Button>{/if}
+			{#if showResult}<Button onclick={copyResult}>결과 복사</Button>{/if}
 		{/snippet}</SectionHeader
 	>
 	<label for="marble-search">구슬 찾기</label><input

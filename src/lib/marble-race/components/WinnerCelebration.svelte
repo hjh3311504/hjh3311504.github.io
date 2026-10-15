@@ -42,10 +42,10 @@
 		left: 50%;
 		width: min(440px, 90%);
 		padding: var(--space-20) var(--space-20);
-		border: 1px solid var(--color-border-9);
+		border: 1px solid var(--arena-celebration, var(--color-border-9));
 		border-radius: 18px;
-		background: var(--color-background-24);
-		color: var(--color-white);
+		background: var(--ui-surface);
+		color: var(--ui-text);
 		box-shadow:
 			0 8px 40px var(--color-box-shadow-19),
 			0 0 28px var(--color-box-shadow-20);
@@ -70,7 +70,7 @@
 		overflow-wrap: anywhere;
 	}
 	.winner-star {
-		color: var(--color-border-9);
+		color: var(--arena-celebration, var(--color-border-9));
 		font-size: var(--font-size-32);
 	}
 	.confetti {

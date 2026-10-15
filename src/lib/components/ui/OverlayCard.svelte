@@ -19,12 +19,12 @@
 		max-height: 100%;
 		padding: var(--space-24);
 		overflow-y: auto;
-		background: var(--color-background-24);
-		color: var(--color-white);
-		border: 1px solid var(--color-border-7);
+		background: var(--ui-surface);
+		color: var(--ui-text);
+		border: 1px solid var(--ui-border);
 		border-radius: 18px;
 		text-align: center;
-		box-shadow: 0 12px 36px var(--color-box-shadow-16);
+		box-shadow: 0 12px 36px var(--color-box-shadow-18);
 		font-size: var(--font-size-16);
 		line-height: 1.55;
 		word-break: keep-all;

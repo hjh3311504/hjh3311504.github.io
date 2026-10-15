@@ -3,6 +3,10 @@ import { cpus, totalmem } from 'node:os';
 import { installRequestDrivenWorker } from './helpers/marble-request-driven.js';
 import { installMarbleDiagnostics } from './helpers/marble-diagnostics.js';
 import { startMarbleTrace } from './helpers/marble-trace.js';
+import { ARENA_THEMES } from '../../src/lib/marble-race/arena-theme.js';
+
+// 경기장 Canvas의 새 프레임은 테마별 배경 채우기로 시작한다.
+const ARENA_BACKGROUNDS = Object.values(ARENA_THEMES).map((theme) => theme.background);
 
 // 녹화·Playwright 추적의 CPU 부하가 실제 경기 성능에 섞이지 않게 한다.
 // 실패 분석용 시간 기록은 MARBLE_PROFILE·MARBLE_TRACE로 별도 수집한다.
@@ -44,7 +48,7 @@ for (const [mobile, selectedSpeed] of [
 		await page.setViewportSize(
 			mobile ? { width: 390, height: 844 } : { width: 1440, height: 1000 }
 		);
-		await page.addInitScript(() => {
+		await page.addInitScript((backgrounds) => {
 			window.__paintFrames = [];
 			window.__renderTransfers = { sent: 0, retained: 0 };
 			const fill = CanvasRenderingContext2D.prototype.fillRect;
@@ -53,7 +57,7 @@ for (const [mobile, selectedSpeed] of [
 					this.canvas.getAttribute('role') === 'button' &&
 					args[0] === 0 &&
 					args[1] === 0 &&
-					this.fillStyle === '#101d2c'
+					backgrounds.includes(this.fillStyle)
 				)
 					window.__paintFrames.push(performance.now());
 				return fill.apply(this, args);
@@ -83,7 +87,7 @@ for (const [mobile, selectedSpeed] of [
 					return result;
 				}
 			};
-		});
+		}, ARENA_BACKGROUNDS);
 		await page.goto('/marble-race');
 		expect(await page.locator('main').ariaSnapshot()).toContain('레이스 시작');
 		const start = page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first();

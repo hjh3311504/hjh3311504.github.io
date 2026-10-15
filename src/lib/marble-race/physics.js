@@ -17,7 +17,9 @@ const BLOCK_RESPAWN_ENABLED = false;
 export const RESPAWN_DELAY = 3;
 const FINALE_HEIGHT = 740;
 export const STEP = 1 / 120;
-const RADIUS = 13;
+const RADIUS = 16;
+// 출발 줄은 지름32 구슬이 겹치지 않도록 한 줄에 최대21개를 둔다.
+const START_COLUMNS = 21;
 const MARBLE_RESTITUTION = 0.8;
 const LARGE_RACE_SIZE = 200;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -69,7 +71,7 @@ export function createLayout(mapId, participantCount = 30) {
 	const tileRows = tileRowsForCount(participantCount);
 	const zones = [],
 		connectors = [];
-	let y = Math.max(FIRST_LAYER_Y, 70 + (Math.ceil(participantCount / 26) - 1) * 40 + 90);
+	let y = Math.max(FIRST_LAYER_Y, 70 + (Math.ceil(participantCount / START_COLUMNS) - 1) * 40 + 90);
 	for (const [index, type] of map.layers.entries()) {
 		const zone = {
 			id: `layer-${index}`,
@@ -119,7 +121,7 @@ export function createLayout(mapId, participantCount = 30) {
 			mouthY: y + 400,
 			rotor: { x: 160, y: y + 480 }
 		},
-		finish: { y: y + FINALE_HEIGHT - 30, left: 340, right: 380 },
+		finish: { y: y + FINALE_HEIGHT - 30, left: 335, right: 385 },
 		height: y + FINALE_HEIGHT
 	};
 }
@@ -289,7 +291,7 @@ export function createMap(
 		})
 	);
 	for (const side of [-1, 1]) {
-		// 왼쪽40°·오른쪽30°의 안쪽 면을 폭40 출구에 연결한다.
+		// 왼쪽 약40°·오른쪽 약30°의 안쪽 면을 지름32 구슬이 지나는 폭50 출구에 연결한다.
 		const y = side === -1 ? layout.finale.guideStartY : layout.finale.rightGuideStartY;
 		const mouthY = layout.finale.mouthY;
 		const slope = 328 / (mouthY - y);
@@ -301,7 +303,7 @@ export function createMap(
 				`finale-guide-${side}`,
 				360 + side * (348 + offsetX),
 				y + offsetY,
-				360 + side * 26,
+				360 + side * 31,
 				joinY,
 				12,
 				{
@@ -316,7 +318,7 @@ export function createMap(
 			)
 		);
 		blocks.push(
-			wallBetween(`chute-${side}`, 360 + side * 26, joinY, 360 + side * 26, layout.height, 12, {
+			wallBetween(`chute-${side}`, 360 + side * 31, joinY, 360 + side * 31, layout.height, 12, {
 				zoneId: 'finale',
 				soundType: 'rubber',
 				deviceId: 'finale-chute',
@@ -440,7 +442,7 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1, options =
 		blocks = createMap(mapId, random, layout, options);
 	const positions = [];
 	const total = options.layoutCount ?? names.length;
-	const columns = Math.min(26, total);
+	const columns = Math.min(START_COLUMNS, total);
 	// 필요한 자리만 뽑아 큰 명단의 미리보기도 실제 경기와 같은 배치를 사용한다.
 	const remainingSlots = new Map();
 	for (let i = 0; i < names.length; i++) {
@@ -451,7 +453,7 @@ export function* prepareRace(participants, mapId = 'crunch', seed = 1, options =
 		const row = Math.floor(slot / columns),
 			col = slot % columns;
 		const rowCount = Math.min(columns, total - row * columns);
-		const inset = columns <= 24 ? 60 : 25;
+		const inset = columns <= 19 ? 60 : 25;
 		positions.push({
 			x: rowCount === 1 ? WIDTH / 2 : inset + (col * (WIDTH - 2 * inset)) / (rowCount - 1),
 			y: 70 + row * 40,

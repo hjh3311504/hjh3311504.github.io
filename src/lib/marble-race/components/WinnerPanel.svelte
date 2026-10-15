@@ -19,13 +19,13 @@
 		right: 10px;
 		bottom: 12px;
 		width: min(230px, 58%);
-		border: 1px solid var(--color-border-10);
-		background: var(--color-background-26);
-		color: var(--color-white);
+		border: 1px solid var(--ui-border);
+		background: var(--ui-surface);
+		color: var(--ui-text);
 		border-radius: 12px;
 		z-index: 3;
 		padding: var(--space-12);
-		box-shadow: 0 6px 24px var(--color-box-shadow-21);
+		box-shadow: 0 6px 24px var(--color-box-shadow-18);
 	}
 	strong {
 		font-size: var(--font-size-16);

@@ -355,7 +355,11 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 				await page.getByLabel('끝 순위').fill('2');
 			}
 			await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
-			await expect(page.locator('.stage-state')).toHaveText('경기 종료', { timeout: 155000 });
+			// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+			await expect(
+				page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
+			).toBeVisible({ timeout: 155000 });
+			await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 			await expect(page.locator('.winner-names > span')).toHaveCount(count);
 			await expect(
 				page.getByRole('region', { name: '구슬 도착 순위', exact: true }).locator('li')

@@ -174,7 +174,9 @@ test('모바일 동작 줄이기에서는 마지막 도착 후에도 이름을 �
 	await expect(effect).toContainText('첫당첨 · 둘째당첨 외1명');
 	await expect(effect.locator('.confetti')).toHaveCount(0);
 	await expect(effect.locator('.winner-banner')).toHaveCSS('animation-name', 'none');
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible();
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 	await expect(page.locator('.winner-panel')).toContainText('셋째당첨');
 	await effect.scrollIntoViewIfNeeded();
 	await page.screenshot({ path: 'output/playwright/marble-winner-mobile.png' });

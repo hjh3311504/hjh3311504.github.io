@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { createRace } from '../../src/lib/marble-race/physics.js';
 const positions = (race) => race.marbles.map(({ id, x, y }) => ({ id, x, y }));
 
-test('한 줄에26개까지 배치하고 나머지도 최소한의 줄로 겹치지 않게 놓는다', () => {
-	for (const count of [2, 10, 26, 27, 30, 60]) {
+test('한 줄에21개까지 배치하고 나머지도 최소한의 줄로 겹치지 않게 놓는다', () => {
+	for (const count of [2, 10, 21, 22, 30, 60]) {
 		const race = createRace(Array(count).fill('구슬'), 'keyboard', 47);
 		const rows = new Map();
 		for (const marble of race.marbles) {
@@ -13,10 +13,10 @@ test('한 줄에26개까지 배치하고 나머지도 최소한의 줄로 겹치
 			assert.ok(marble.x >= 25 && marble.x <= 695);
 			assert.ok(marble.y + marble.r < race.zones[0].start);
 		}
-		assert.equal(rows.size, Math.ceil(count / 26));
+		assert.equal(rows.size, Math.ceil(count / 21));
 		for (const [y, row] of [...rows].sort(([a], [b]) => a - b)) {
 			const rowIndex = (y - 70) / 40;
-			assert.equal(row.length, Math.min(26, count - rowIndex * 26));
+			assert.equal(row.length, Math.min(21, count - rowIndex * 21));
 		}
 		for (const [i, a] of race.marbles.entries())
 			for (const b of race.marbles.slice(i + 1))

@@ -216,7 +216,9 @@ test('종료 뒤 기본·커스텀 맵 변경은 결과와 카메라를 초기�
 	await page.evaluate(() => {
 		window.__racePhase = 'finished';
 	});
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible();
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 	await expect(page.locator('.winner-names')).toHaveCSS('margin-top', '16px');
 	await page.getByRole('button', { name: '뽁뽁 물놀이', exact: true }).click();
 	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
@@ -232,7 +234,9 @@ test('종료 뒤 기본·커스텀 맵 변경은 결과와 카메라를 초기�
 	await page.evaluate(() => {
 		window.__racePhase = 'finished';
 	});
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible();
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 	await page.getByRole('button', { name: /내 맵 만들기/ }).click();
 	const dialog = page.getByRole('dialog', { name: '내 맵 만들기' });
 	await dialog.getByLabel('맵 이름').fill('아주 긴 이름도 한 줄로 확인하는 커스텀 맵');
@@ -247,7 +251,11 @@ test('종료 뒤 기본·커스텀 맵 변경은 결과와 카메라를 초기�
 		await page.evaluate(() => {
 			window.__racePhase = 'finished';
 		});
-		await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+		// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+		await expect(
+			page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
+		).toBeVisible();
+		await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 		await page
 			.locator('.custom-map-row')
 			.getByRole('button', { name: action, exact: true })
@@ -304,7 +312,9 @@ test('1,000개 순위는 카드 행만 렌더링하고 검색·열 변경·추�
 		});
 		window.__racePhase = 'finished';
 	});
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible();
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 	await page.getByRole('button', { name: '결과 복사', exact: true }).first().click();
 	await expect.poll(() => page.evaluate(() => window.__copied?.includes('1000등'))).toBe(true);
 });
@@ -403,7 +413,9 @@ test('결과 복사 토스트는 레이아웃을 밀지 않고 사라지며 전�
 	await page.evaluate(() => {
 		window.__racePhase = 'finished';
 	});
-	await expect(page.locator('.stage-state')).toHaveText('경기 종료');
+	// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
+	await expect(page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })).toBeVisible();
+	await expect(page.locator('.stage-state')).toHaveText('출발 준비');
 	const copy = page.getByRole('button', { name: '결과 복사', exact: true }).first();
 	await copy.scrollIntoViewIfNeeded();
 	const layout = () =>

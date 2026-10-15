@@ -1,5 +1,6 @@
 import { createRenderer } from './renderer.js';
 import { createSnapshotEncoder } from './transport.js';
+import { arenaPalette } from './arena-theme.js';
 
 // 큰 경기는 완성된 그림만 받아 화면에 붙인다. 물리 시간과 효과음은 이 작업을 기다리지 않는다.
 export function createDisplayRenderer(
@@ -73,7 +74,7 @@ export function createDisplayRenderer(
 						canvas.height = bitmap.height;
 					}
 					ctx.setTransform(1, 0, 0, 1, 0, 0);
-					ctx.fillStyle = '#101d2c';
+					ctx.fillStyle = arenaPalette(latest.options.theme).background;
 					ctx.fillRect(0, 0, canvas.width, canvas.height);
 					ctx.drawImage(bitmap, 0, 0);
 				}

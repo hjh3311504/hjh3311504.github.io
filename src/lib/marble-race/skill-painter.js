@@ -68,7 +68,8 @@ export function drawElectricField(ctx, marble, time, reduced = false) {
 			const brush = bitmap.getContext('2d');
 			brush.scale(quality, quality);
 			brush.translate(size / 2, size / 2);
-			brush.strokeStyle = '#ffffff';
+			// 밝은 경기장과 어두운 경기장에서 모두 보이는 파란 전기선이다.
+			brush.strokeStyle = '#5b8def';
 			brush.lineWidth = 2;
 			brush.shadowColor = '#c2dbff';
 			brush.shadowBlur = reduced ? 0 : 7 * quality;
