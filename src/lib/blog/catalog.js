@@ -1,8 +1,9 @@
 import { siteBaseUrl, image } from '../data/meta.js';
 
 export const blogTitle = '블로그';
-export const blogDescription = '경험과 생각, 일상의 이야기를 기록합니다.';
-export const author = { name: 'Lake', url: 'https://github.com/hjh3311504' };
+export const blogDescription =
+	'파일·이미지·데이터를 다루다 막히는 문제를 직접 실험해 정리하고, 도구 사용법을 소개합니다.';
+export const author = { name: 'Lake', url: `${siteBaseUrl}/about` };
 export const programs = {
 	'team-maker': { name: '팀 메이커', href: '/team-maker' },
 	'qr-code': { name: 'QR 코드 만들기', href: '/qr-code' },

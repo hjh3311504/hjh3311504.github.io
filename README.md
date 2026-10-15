@@ -204,7 +204,7 @@ build 후 `scripts/optimize_images.js`가 PNG·JPEG 원본에서 WebP와 AVIF를
 | `main` 수동 실행           | `main` push와 동일                                                         | 실행 |
 | 다른 branch 수동 실행      | 실행하지 않음                                                              | 없음 |
 
-전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/blog`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
+전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/blog`, `/about`, `/privacy`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
 
 PR에서는 `site-build`가 정적 파일을1회 만들고, `checks`가 lint·정적 검사·전체 단위 테스트를 병렬로 실행합니다. 브라우저 검사는 같은 build 파일을 내려받습니다. 성능·시간 보존 검사는 전용 실행 환경에서 실행하고, 일반 브라우저 검사는4개 환경에 나눕니다. 각 환경 안에서는 기존처럼 검사1개씩 실행합니다.
 
@@ -278,18 +278,21 @@ CF_ANALYTICS_BEACON_PATH=/tmp/cloudflare-beacon.js npm run test:e2e:built -- tes
 
 공식 근거: [설치](https://developers.cloudflare.com/web-analytics/get-started/), [SPA 측정](https://developers.cloudflare.com/web-analytics/get-started/web-analytics-spa/), [집계 기준](https://developers.cloudflare.com/web-analytics/data-metrics/high-level-metrics/), [보관·쿼리 제외·제한](https://developers.cloudflare.com/web-analytics/faq/).
 
-## 광고를 나중에 추가할 때
+## 광고 코드
 
-홈, Team Maker와 오류 화면에서 광고 스크립트를 실행하지 않습니다. 실제 광고는 현재 범위에 없습니다. 광고를 추가하려면 디자인 승인을 다시 받은 뒤 `src/routes/team-maker/+page.svelte`의 `AD_SLOT_TOP` 주석 위치에 코드를 넣으세요.
+`src/routes/+layout.svelte`가 공개 페이지의 `<head>`에 AdSense 코드를 넣습니다. 게시자 ID는 `src/lib/data/meta.js`의 `adsenseClient`이며 `static/ads.txt`와 같아야 합니다. 대상은 방문 통계의 공개 경로(`src/lib/analytics/tracker.js`의 `basePaths`와 공개 글)입니다. `/privacy`(`adsenseExcludedPaths`), 404·오류 화면, 초안·예약 글과 개발 서버에는 넣지 않습니다. `/privacy`는 Google CMP 동의 메시지에 연결하므로 광고 코드를 두면 안 됩니다. `npm run verify:team-maker`가 이 조건을 검사합니다.
 
-사이트 등록은 이 GitHub Pages root 도메인을 기준으로 진행하세요. `ads.txt`가 필요하면 `static/ads.txt`에 추가하세요. 이 파일은 `/ads.txt`로 배포되므로 Team Maker만이 아니라 root 사이트 전체에 영향을 줍니다.
+승인 전에는 수동 광고 칸을 만들지 않습니다. 승인 뒤 광고 위치는 AdSense의 자동 광고 설정이나 별도 디자인 승인으로 정하세요. 브라우저 검사는 `tests/team-maker-e2e/helpers/adsense.js`로 AdSense 요청을 막거나 빈 응답으로 바꿉니다.
+
+사이트 등록은 이 GitHub Pages root 도메인을 기준으로 진행하세요. `static/ads.txt`는 `/ads.txt`로 배포되므로 root 사이트 전체에 영향을 줍니다.
 
 ## 애드센스 재심사 준비
 
-홈 footer와 Team Maker 안내 마지막은 개인정보처리방침 모달을 엽니다.
+모든 공개 페이지 footer는 `/about`(소개·문의)과 `/privacy`(개인정보처리방침)로 연결합니다. 결정 배경은 [ADR](docs/adr/2026-10-15-AdSense-재심사-신뢰-페이지와-광고-코드.md)과 [콘텐츠 점검 기록](docs/adsense-content-review.md)에 있습니다.
 
-- 개인정보 처리 방식을 바꾸면 홈의 방침과 적용일, `REQ-WEB-027`을 함께 갱신하세요. 광고 도입 전 실제 데이터 처리와 필요한 동의 절차도 반영하세요.
-- 소유권 확인에는 기존 `/ads.txt`를 사용할 수 있습니다. `pub-3102141816876720`이 실제 애드센스 계정의 게시자 ID인지 확인하세요. 파일 공개와 계정의 확인 완료는 별개입니다.
+- 개인정보 처리 방식을 바꾸면 `src/routes/privacy/+page.svelte`의 방침과 적용일, `REQ-WEB-027`을 함께 갱신하세요.
+- `pub-3102141816876720`이 실제 애드센스 계정의 게시자 ID인지 확인하세요. 유럽 등 동의가 필요한 지역의 동의 창은 AdSense의 ‘개인정보 보호 및 메시지’에서 Google CMP로 켜세요.
+- 재심사는 새 글과 바뀐 페이지가 Search Console에서 색인된 뒤 요청하세요. 거절 직후 바로 다시 요청하지 마세요.
 - 정적 404는 `noindex`이며 홈 canonical을 포함하지 않습니다. GitHub Pages의 `/404` 직접 요청은 HTTP 200일 수 있으므로 배포 후 존재하지 않는 주소의 HTTP 404도 확인하세요.
 - 재심사 전에 배포본의 안내·개인정보처리방침 링크·오류 화면 광고 제외와 애드센스의 실제 반려 문구·소유권 확인 상태를 대조하세요. Google Search Console에서는 정상 URL의 수집 상태를 확인하세요.
 

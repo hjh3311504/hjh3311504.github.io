@@ -2,7 +2,20 @@ export const CONSENT_KEY = 'juno.develog.analytics-consent:v1';
 export const ANALYTICS_CONTEXT = 'site-analytics';
 export const BEACON_SRC = 'https://static.cloudflareinsights.com/beacon.min.js';
 
-export const basePaths = ['/', '/team-maker', '/qr-code', '/marble-race', '/blog'];
+export const basePaths = [
+	'/',
+	'/team-maker',
+	'/qr-code',
+	'/marble-race',
+	'/blog',
+	'/about',
+	'/privacy'
+];
+
+// 광고 코드도 같은 공개 경로에만 넣는다. 오류 화면과 초안·예약 글은 제외된다.
+export function isPublicPath(pathname, publicPaths = []) {
+	return basePaths.includes(pathname) || publicPaths.includes(pathname);
+}
 
 export function isAnalyticsEnabled({ token = '', origin = '', production, location }) {
 	if (!production || !/^[a-f0-9]{32}$/i.test(token)) return false;

@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
+import { stubAdsense } from './helpers/adsense.js';
 
 const browserErrors = new WeakMap();
 test.beforeEach(async ({ page }) => {
+	await stubAdsense(page);
 	const errors = [];
 	browserErrors.set(page, errors);
 	page.on('console', (message) => {

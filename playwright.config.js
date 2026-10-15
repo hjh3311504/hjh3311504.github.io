@@ -26,7 +26,11 @@ export default defineConfig({
 			name: 'chromium',
 			use: {
 				...devices['Desktop Chrome'],
-				viewport: { width: 1440, height: 1000 }
+				viewport: { width: 1440, height: 1000 },
+				// 공개 페이지의 AdSense 코드가 검사 중 실제 Google 서버에 연결하지 않게 한다.
+				launchOptions: {
+					args: ['--host-resolver-rules=MAP pagead2.googlesyndication.com ~NOTFOUND']
+				}
 			}
 		}
 	],

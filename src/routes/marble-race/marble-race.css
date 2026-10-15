@@ -787,7 +787,7 @@ html[data-theme='dark'] .race-stage {
 	line-height: 1.6;
 }
 .marble-page .map-option strong,
-.marble-page .ui-button:where(:not(.privacy-trigger)),
+.marble-page .ui-button,
 .marble-page textarea,
 .marble-page input,
 .marble-page select {

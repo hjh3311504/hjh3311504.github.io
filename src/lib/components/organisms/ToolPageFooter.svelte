@@ -1,12 +1,12 @@
 <script>
 	import { resolve } from '$app/paths';
 	let { showRss = false } = $props();
-	import PrivacyDialog from './PrivacyDialog.svelte';
 </script>
 
 <footer class="tool-page-footer">
 	<div class="footer-links">
-		<PrivacyDialog />
+		<a href={resolve('/about')}>소개·문의</a>
+		<a href={resolve('/privacy')}>개인정보처리방침</a>
 		{#if showRss}<a href={resolve('/rss.xml')} data-sveltekit-reload>RSS 구독</a>{/if}
 	</div>
 	<span>© 2026 Lake's develog</span>

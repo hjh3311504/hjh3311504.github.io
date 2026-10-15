@@ -147,8 +147,6 @@
 			title="무료 팀짜기·조짜기"
 			description="팀 메이커는 스포츠·게임·모임 참가자를 무작위로 고르게 나누는 온라인 팀 배정 도구입니다."
 		>
-			<!-- AD_SLOT_TOP: 실제 광고는 별도 디자인 승인 뒤 이 위치에 추가합니다. -->
-
 			<div id="storage-alert" class="storage-alert" role="alert" hidden>
 				<span class="alert-mark" aria-hidden="true">!</span>
 				<div>
@@ -174,6 +172,7 @@
 					padding="none"
 					title="3단계로 팀 나누기"
 					titleId="how-to-title"
+					open
 					class="card seo-section"
 					detailsClass="seo-details"
 				>
@@ -204,6 +203,7 @@
 					padding="none"
 					title="이럴 때 사용하세요"
 					titleId="use-cases-title"
+					open
 					class="card seo-section"
 					detailsClass="seo-details"
 				>
@@ -248,6 +248,7 @@
 					padding="none"
 					title="팀 메이커의 주요 기능"
 					titleId="features-title"
+					open
 					class="card seo-section"
 					detailsClass="seo-details"
 				>
@@ -265,6 +266,7 @@
 					padding="none"
 					title="자주 묻는 질문"
 					titleId="faq-title"
+					open
 					class="card seo-section faq-section"
 					detailsClass="seo-details"
 				>

@@ -585,8 +585,8 @@ test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 
 	);
 	const guide = page.getByTestId('marble-race-guide');
 	await expect(page.locator('[data-ui-disclosure]')).toHaveCount(5);
-	await expect(page.locator('[data-ui-disclosure][open]')).toHaveCount(0);
-	for (const summary of await guide.locator('summary').all()) await summary.click();
+	// 사용 안내 4개는 기본으로 펼치고 도감만 접어 둔다.
+	await expect(page.locator('[data-ui-disclosure][open]')).toHaveCount(4);
 	await expect(
 		guide.getByRole('heading', { name: '구슬추첨으로 당첨자를 뽑으려면 어떻게 하나요?' })
 	).toBeVisible();

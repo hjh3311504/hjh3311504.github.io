@@ -28,6 +28,8 @@ const requiredFiles = [
 	'build/qr-code.html',
 	'build/marble-race.html',
 	'build/team-maker.html',
+	'build/about.html',
+	'build/privacy.html',
 	'build/images/team-maker/favicon.svg',
 	'build/images/team-maker-open-graph-1200x630.png'
 ];
@@ -63,9 +65,22 @@ const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
 const marbleHtml = await readFile(path.join(root, 'build/marble-race.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
+const aboutHtml = await readFile(path.join(root, 'build/about.html'), 'utf8');
+const privacyHtml = await readFile(path.join(root, 'build/privacy.html'), 'utf8');
+const adsenseScript =
+	/<script\b[^>]*\bsrc=["']https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-(\d+)["']/i;
+const adsTxt = await readFile(path.join(root, 'build/ads.txt'), 'utf8');
+const adsTxtPublisher = adsTxt.match(/^google\.com,\s*pub-(\d+),\s*DIRECT/m)?.[1];
+if (!adsTxtPublisher) throw new Error('ads.txt에서 Google 게시자 ID를 찾지 못했습니다.');
 // 활용 안내는 JavaScript를 실행하지 않아도 정적 본문에서 읽을 수 있어야 합니다.
 for (const [name, document, phrases] of [
 	['홈', homeHtml, ['어떤 도구를 쓰면 될까요?', '만든 사람과 문의', '출처·라이선스 목록']],
+	['소개', aboutHtml, ['글을 쓰는 방식', '도구를 만드는 방식', '문의', 'hjh3311504@gmail.com']],
+	[
+		'개인정보처리방침',
+		privacyHtml,
+		['브라우저에 저장하는 정보', '광고와 쿠키', 'Google 광고 설정']
+	],
 	[
 		'Team Maker',
 		html,
@@ -105,12 +120,15 @@ for (const [name, document, phrases] of [
 		}
 	}
 }
-// 광고 미실행 방침은 존재하지 않는 URL에 쓰이는 정적 404에도 적용합니다.
+// 공개 페이지에는 ads.txt와 같은 게시자 ID의 AdSense 코드가 있어야 합니다.
+// 정적 404와 동의 메시지에 연결하는 개인정보처리방침에는 광고 코드가 없어야 합니다.
 for (const [name, document] of [
 	['홈', homeHtml],
 	['Team Maker', html],
 	['QR 코드', qrHtml],
 	['구슬 레이스', marbleHtml],
+	['소개', aboutHtml],
+	['개인정보처리방침', privacyHtml],
 	['404', notFoundHtml]
 ]) {
 	if (
@@ -121,8 +139,19 @@ for (const [name, document] of [
 		throw new Error(`${name} HTML에 템플릿 또는 외부 글꼴의 흔적이 남아 있습니다.`);
 	}
 	if (!document.includes('favicon.svg')) throw new Error(`${name} HTML에 Lake favicon이 없습니다.`);
-	if (/<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle|googlesyndication)/i.test(document)) {
-		throw new Error(`${name} HTML에 광고 스크립트가 남아 있습니다.`);
+	if (name === '404' || name === '개인정보처리방침') {
+		if (/<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle|googlesyndication)/i.test(document)) {
+			throw new Error(`${name} HTML에 광고 스크립트가 있습니다.`);
+		}
+	} else {
+		const publisher = document.match(adsenseScript)?.[1];
+		if (!publisher) throw new Error(`${name} HTML에 AdSense 코드가 없습니다.`);
+		if (publisher !== adsTxtPublisher) {
+			throw new Error(`${name} HTML의 AdSense 게시자 ID가 ads.txt와 다릅니다.`);
+		}
+		if ((document.match(/adsbygoogle\.js/g)?.length ?? 0) !== 1) {
+			throw new Error(`${name} HTML에 AdSense 코드가 여러 번 들어 있습니다.`);
+		}
 	}
 }
 for (const [name, document] of [
@@ -164,11 +193,30 @@ if (!/<meta\s+name="robots"\s+content="noindex"/.test(notFoundHtml)) {
 if (/<link\b[^>]*\brel="canonical"/.test(notFoundHtml)) {
 	throw new Error('404 HTML에 canonical을 지정하면 안 됩니다.');
 }
-if (!homeHtml.includes('id="privacy-dialog"') || !homeHtml.includes('개인정보처리방침')) {
-	throw new Error('홈의 개인정보처리방침 모달이나 여는 버튼이 없습니다.');
+for (const [name, document] of [
+	['홈', homeHtml],
+	['Team Maker', html],
+	['QR 코드', qrHtml],
+	['구슬 레이스', marbleHtml],
+	['소개', aboutHtml],
+	['개인정보처리방침', privacyHtml]
+]) {
+	if (!/href="\/privacy"/.test(document) || !/href="\/about"/.test(document)) {
+		throw new Error(`${name} HTML에 소개나 개인정보처리방침 링크가 없습니다.`);
+	}
 }
-if (!html.includes('id="privacy-dialog"') || !html.includes('개인정보처리방침')) {
-	throw new Error('Team Maker의 개인정보처리방침 모달이나 여는 버튼이 없습니다.');
+for (const [name, document, pathname] of [
+	['소개', aboutHtml, 'about'],
+	['개인정보처리방침', privacyHtml, 'privacy']
+]) {
+	if ((document.match(/<h1\b/g)?.length ?? 0) !== 1)
+		throw new Error(`${name}의 h1은 1개여야 합니다.`);
+	if (!document.includes(`<link rel="canonical" href="https://hjh3311504.github.io/${pathname}"`)) {
+		throw new Error(`${name} HTML의 canonical 주소가 올바르지 않습니다.`);
+	}
+	if (/<meta\s+name="robots"\s+content="noindex/.test(document)) {
+		throw new Error(`${name} HTML에 noindex가 있으면 안 됩니다.`);
+	}
 }
 const page = await readFile(path.join(root, 'src/routes/team-maker/+page.svelte'), 'utf8');
 const app = await readFile(path.join(root, 'src/lib/team-maker/app.js'), 'utf8');
@@ -254,9 +302,9 @@ if (!notFoundHtml.includes('data-ui-button')) {
 const uiDialogTags = [...html.matchAll(/<dialog\b[^>]*\bdata-ui-dialog\b[^>]*>/g)].map(
 	(match) => match[0]
 );
-if (uiDialogTags.length !== 8) {
+if (uiDialogTags.length !== 7) {
 	throw new Error(
-		`Team Maker의 공통 Dialog는 8개여야 합니다. 현재 ${uiDialogTags.length}개입니다.`
+		`Team Maker의 공통 Dialog는 7개여야 합니다. 현재 ${uiDialogTags.length}개입니다.`
 	);
 }
 if (
@@ -280,36 +328,41 @@ if (faqCount !== 6) {
 	throw new Error(`team-maker HTML의 FAQ는 6개여야 합니다. 현재 ${faqCount}개입니다.`);
 }
 
-const collapsibleSectionCount = [...html.matchAll(/<details\b[^>]*>/g)]
+const openGuideSectionCount = [...html.matchAll(/<details\b[^>]*>/g)]
 	.map((match) => match[0])
 	.filter(
 		(tag) =>
 			/\bclass="[^"]*\bseo-details\b[^"]*"/.test(tag) &&
-			!/(?:^|\s)open(?:=|\s|>)/.test(tag) &&
+			/(?:^|\s)open(?:=|\s|>)/.test(tag) &&
 			/\bdata-ui-disclosure\b/.test(tag)
 	).length;
-if (collapsibleSectionCount !== 4) {
+if (openGuideSectionCount !== 4) {
 	throw new Error(
-		`team-maker HTML의 기본 접힘 안내 섹션은 4개여야 합니다. 현재 ${collapsibleSectionCount}개입니다.`
+		`team-maker HTML의 기본 펼침 안내 섹션은 4개여야 합니다. 현재 ${openGuideSectionCount}개입니다.`
 	);
 }
 
-// 접힌 본문도 검색로봇이 읽는 정적 HTML에 남아 있어야 한다.
-for (const [route, content, expectedCount] of [
-	['team-maker', html, 4],
-	['qr-code', qrHtml, 2],
-	['marble-race', marbleHtml, 5]
+// 사용 안내는 기본으로 펼치고, 구슬 레이스 도감만 접힌 상태로 둔다. 본문은 모두 정적 HTML에 있어야 한다.
+for (const [route, content, expectedCount, expectedOpen] of [
+	['team-maker', html, 4, 4],
+	['qr-code', qrHtml, 2, 2],
+	['marble-race', marbleHtml, 5, 4]
 ]) {
 	const sections = [...content.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)].filter(
 		([, attributes]) => /\bdata-ui-disclosure\b/.test(attributes)
 	);
 	if (sections.length !== expectedCount)
 		throw new Error(`${route}: 접는 영역은 ${expectedCount}개여야 합니다.`);
-	for (const [, attributes, body] of sections) {
-		if (/(?:^|\s)open(?:=|\s|$)/.test(attributes))
-			throw new Error(`${route}: 접는 영역이 기본으로 펼쳐져 있습니다.`);
+	const openCount = sections.filter(([, attributes]) =>
+		/(?:^|\s)open(?:=|\s|$)/.test(attributes)
+	).length;
+	if (openCount !== expectedOpen)
+		throw new Error(
+			`${route}: 기본으로 펼친 안내는 ${expectedOpen}개여야 합니다. 현재 ${openCount}개입니다.`
+		);
+	for (const [, , body] of sections) {
 		if (!/<p\b[^>]*>[^<]*\S/.test(body) && !/<li\b[^>]*>[^<]*\S/.test(body))
-			throw new Error(`${route}: 접힌 본문이 정적 HTML에 없습니다.`);
+			throw new Error(`${route}: 안내 본문이 정적 HTML에 없습니다.`);
 	}
 }
 
@@ -357,7 +410,9 @@ const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
 for (const reference of new Set(localReferences)) {
 	const cleanReference = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
 	const routeName = cleanReference.replace(/^(?:\.\/|\/)/, '');
-	const isToolPage = ['team-maker', 'qr-code', 'marble-race'].includes(routeName);
+	const isToolPage = ['team-maker', 'qr-code', 'marble-race', 'about', 'privacy'].includes(
+		routeName
+	);
 	const absolutePath = isToolPage
 		? path.join(root, `build/${routeName}.html`)
 		: cleanReference.startsWith('/')
@@ -431,7 +486,6 @@ for (const marker of [
 	'id="qr-content"',
 	'id="qr-guide-title"',
 	'id="qr-faq-title"',
-	'id="privacy-dialog"',
 	'PNG 저장',
 	'SVG 저장',
 	'data-ui-section',
@@ -442,6 +496,10 @@ for (const marker of [
 ]) {
 	if (!qrHtml.includes(marker))
 		throw new Error(`QR 코드 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+for (const pathname of ['about', 'privacy']) {
+	if (!sitemapHtml.includes(`<loc>https://hjh3311504.github.io/${pathname}</loc>`))
+		throw new Error(`sitemap에 /${pathname} 주소가 없습니다.`);
 }
 if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/qr-code</loc>'))
 	throw new Error('sitemap에 QR 코드 주소가 없습니다.');
@@ -459,7 +517,6 @@ for (const marker of [
 	'첫번째',
 	'마지막',
 	'여러명',
-	'id="privacy-dialog"',
 	'href="https://hjh3311504.github.io/marble-race"'
 ]) {
 	if (!marbleHtml.includes(marker))
