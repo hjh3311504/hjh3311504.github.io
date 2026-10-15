@@ -1,0 +1,27 @@
+{
+  "testedAt": "2026-10-15",
+  "system": "macOS 26.6.2",
+  "exiftoolVersion": "13.55",
+  "coordinateNote": "합성 JPEG에 명령으로 입력한 예시 좌표. 실제 촬영 위치가 아님.",
+  "procedure": "exiftool '-gps*=' -o sample-without-gps.jpg sample-with-gps.jpg",
+  "files": [
+    {
+      "file": "sample-with-gps.jpg",
+      "sizeBytes": 1359,
+      "sha256": "2382e6c2ad93ebc17830c323eb496953c6370eac1e2d163bac4d57dea7e80e31",
+      "fileType": "JPEG",
+      "width": 80,
+      "height": 60,
+      "gpsPosition": "37 deg 33' 59.40\" N, 126 deg 58' 40.80\" E"
+    },
+    {
+      "file": "sample-without-gps.jpg",
+      "sizeBytes": 1233,
+      "sha256": "f0bf829c732a50b76037bcf979f460c0f17704b2336ed82bb08fae233e0a4c98",
+      "fileType": "JPEG",
+      "width": 80,
+      "height": 60,
+      "gpsPosition": null
+    }
+  ]
+}
