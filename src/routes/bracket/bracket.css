@@ -1,0 +1,960 @@
+.bracket-notice {
+	margin: 0 0 var(--space-24);
+	padding: var(--space-12) var(--space-16);
+	border: 1px solid var(--shell-hairline);
+	border-radius: var(--ui-radius-sm);
+	background: var(--shell-nav-wash);
+	color: var(--shell-text-body);
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+.bracket-setup {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+	align-items: start;
+	gap: var(--space-24);
+}
+.bracket-panel {
+	min-width: 0;
+}
+/* 설정·대진표·사용 안내 영역 사이 간격 */
+.bracket-board-root,
+.bracket-guide {
+	margin-top: var(--space-24);
+}
+.bracket-note {
+	margin: 0;
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+.bracket-team-count {
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	white-space: nowrap;
+}
+.bracket-help {
+	margin: 0;
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+}
+.bracket-sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+.bracket-clear-button:not(:disabled) {
+	color: var(--color-ui-danger);
+	border-color: var(--color-ui-danger-border);
+}
+.bracket-clear-button:not(:disabled):hover {
+	color: var(--color-ui-danger);
+	background: var(--color-ui-danger-soft);
+	border-color: var(--color-ui-danger-border);
+}
+
+/* 새 팀 입력 */
+.bracket-add-form {
+	display: flex;
+	gap: var(--space-8);
+}
+.bracket-add-form .ui-field {
+	flex: 1;
+	min-width: 0;
+	min-height: 44px;
+	padding: 0 var(--space-12);
+}
+.bracket-add-form > .ui-button {
+	flex: none;
+	min-height: 44px;
+	white-space: nowrap;
+}
+.bracket-add-error {
+	margin-top: calc(var(--space-8) * -1);
+}
+
+/* 팀 목록: Team Maker 참가자 행처럼 테두리가 있는 행이다. */
+.bracket-team-list {
+	position: relative;
+	display: grid;
+	align-content: start;
+	gap: var(--space-8);
+	/* ui-exception spacing: 팀원 없는 행 8개(행 54px, 간격 8px)까지 보이고 나머지는 목록 안에서 스크롤한다. */
+	max-height: 488px;
+	margin: 0;
+	padding: var(--space-2);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+	list-style: none;
+}
+.bracket-team-list.is-sorting {
+	user-select: none;
+}
+.bracket-team-row {
+	display: grid;
+	grid-template-columns: auto 24px minmax(0, 1fr) auto;
+	align-items: start;
+	gap: var(--space-4);
+	padding: var(--space-4) var(--space-4) var(--space-4) 0;
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+	transition:
+		border-color 160ms ease,
+		box-shadow 160ms ease;
+}
+.bracket-team-row:focus-within {
+	border-color: var(--ui-border-strong);
+}
+.bracket-team-row.is-dragging {
+	position: relative;
+	z-index: 1;
+	border-color: var(--shell-nav-accent);
+	box-shadow: var(--ui-shadow);
+}
+.bracket-team-row > .bracket-team-handle {
+	width: 32px;
+	height: 44px;
+	cursor: grab;
+	color: var(--shell-text-muted);
+	touch-action: none;
+}
+.bracket-team-row.is-dragging > .bracket-team-handle {
+	cursor: grabbing;
+	color: var(--shell-nav-accent);
+}
+.bracket-team-number {
+	display: grid;
+	place-items: center;
+	height: 44px;
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	font-variant-numeric: tabular-nums;
+	font-weight: 700;
+}
+.bracket-team-field {
+	display: grid;
+	gap: var(--space-4);
+	min-width: 0;
+}
+.bracket-team-field .ui-field {
+	width: 100%;
+	min-height: 44px;
+	padding: 0 var(--space-12);
+	border-color: transparent;
+	background: transparent;
+}
+.bracket-team-field .ui-field:hover,
+.bracket-team-field .ui-field:focus,
+.bracket-team-field .ui-field[aria-invalid='true'] {
+	border-color: var(--ui-border-strong);
+	background: var(--ui-surface);
+}
+.bracket-team-field .ui-field-help,
+.bracket-team-members {
+	padding: 0 var(--space-12) var(--space-4);
+}
+.bracket-team-row > .remove-row-button {
+	margin-top: var(--space-4);
+}
+.bracket-team-members {
+	margin: 0;
+	overflow: hidden;
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.5;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* 선택 항목 */
+.bracket-choice-group {
+	display: grid;
+	gap: var(--space-8);
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.bracket-choice-group legend {
+	margin-bottom: var(--space-8);
+	padding: 0;
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-14);
+	font-weight: 700;
+}
+.bracket-order {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.bracket-choice {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--space-12);
+	padding: var(--space-12) var(--space-16);
+	border: 1px solid var(--shell-hairline);
+	border-radius: var(--ui-radius-sm);
+	color: var(--shell-text-body);
+	font-size: var(--font-size-14);
+	line-height: 1.5;
+	cursor: pointer;
+}
+.bracket-choice:has(:checked) {
+	border-color: var(--shell-focus);
+	background: var(--shell-nav-wash);
+}
+.bracket-choice input {
+	margin: var(--space-4) 0 0;
+	accent-color: var(--shell-nav-accent);
+}
+.bracket-choice input:focus-visible {
+	outline: 2px solid var(--shell-focus);
+	outline-offset: 4px;
+}
+.bracket-choice span {
+	display: grid;
+	gap: var(--space-2);
+	font-weight: 700;
+}
+.bracket-choice small {
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-12);
+	font-weight: 400;
+}
+.bracket-summary {
+	margin: 0;
+	padding: var(--space-12) var(--space-16);
+	border-radius: var(--ui-radius-sm);
+	background: var(--shell-surface-soft);
+	color: var(--shell-text-body);
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+}
+.bracket-summary strong {
+	color: var(--shell-text-heading);
+}
+.bracket-bulk-text {
+	width: 100%;
+	min-height: 200px;
+	resize: vertical;
+	line-height: 1.6;
+}
+
+/* 대진표 영역 */
+.bracket-board {
+	min-width: 0;
+	scroll-margin-top: var(--space-16);
+}
+.bracket-board-actions {
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+.bracket-board-heading {
+	display: grid;
+	gap: var(--space-4);
+	min-width: 0;
+}
+.bracket-board-name {
+	margin: 0;
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-20);
+	font-weight: 800;
+	line-height: 1.4;
+	overflow-wrap: anywhere;
+}
+.bracket-status {
+	margin: 0;
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-16);
+	font-weight: 600;
+	line-height: 1.6;
+}
+.bracket-board-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-4) var(--space-16);
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+}
+.bracket-progress {
+	display: grid;
+	grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+	border: 1px solid color-mix(in srgb, var(--shell-nav-accent), transparent 70%);
+	border-radius: var(--ui-radius-md);
+	background: color-mix(in srgb, var(--shell-nav-wash), transparent 40%);
+}
+/* 왼쪽 `전체 진행`과 오른쪽 `다음 경기` 줄, 그 아래 두 번째 줄의 높이를 서로 맞춘다. */
+.bracket-progress-overall,
+.bracket-progress-side {
+	display: grid;
+	grid-template-rows: auto minmax(36px, auto);
+	align-content: start;
+	align-items: center;
+	gap: var(--space-4);
+	min-width: 0;
+	padding: var(--space-12) var(--space-20);
+}
+.bracket-progress-side {
+	border-left: 1px solid color-mix(in srgb, var(--shell-nav-accent), transparent 75%);
+}
+.bracket-progress-title {
+	margin: 0;
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.5;
+}
+.bracket-progress-side > .bracket-progress-title {
+	color: var(--shell-nav-accent);
+	font-weight: 600;
+}
+.bracket-progress-line {
+	display: flex;
+	align-items: center;
+	gap: var(--space-16);
+	min-width: 0;
+}
+.bracket-progress-count {
+	flex: none;
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-16);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	line-height: 1.5;
+}
+.bracket-progress-bar {
+	flex: 1;
+	min-width: 48px;
+	height: 8px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--shell-text-muted), transparent 82%);
+}
+.bracket-progress-bar > span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--shell-nav-accent);
+	transition: width 240ms ease;
+}
+.bracket-progress-percent {
+	flex: none;
+	min-width: 4ch;
+	color: var(--shell-nav-accent);
+	font-size: var(--font-size-22);
+	font-variant-numeric: tabular-nums;
+	font-weight: 800;
+	line-height: 1.2;
+	text-align: right;
+}
+.bracket-progress-match {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-8);
+	min-width: 0;
+}
+.bracket-progress-teams {
+	/* 좁으면 이동 버튼을 다음 줄로 내려 팀 이름 자리를 확보한다. */
+	flex: 1 1 6em;
+	min-width: 0;
+	margin: 0;
+	overflow: hidden;
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-18);
+	font-weight: 800;
+	line-height: 1.4;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.bracket-progress-vs {
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	font-weight: 600;
+}
+.bracket-progress-go.ui-button {
+	flex: none;
+	gap: var(--space-4);
+	color: var(--shell-nav-accent);
+	font-weight: 700;
+}
+.bracket-progress-champion {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+}
+.bracket-progress-trophy {
+	flex: none;
+	width: 28px;
+	height: 28px;
+	fill: none;
+	stroke: var(--shell-nav-accent);
+	stroke-width: 2.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.bracket-board-tools {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-8) var(--space-16);
+}
+.bracket-zoom {
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+}
+.bracket-zoom-value {
+	min-width: 5ch;
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-14);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	text-align: center;
+}
+.bracket-board-hint {
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+	margin: 0 0 0 auto;
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+}
+.bracket-button-icon {
+	flex: none;
+	width: 16px;
+	height: 16px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.bracket-tabs {
+	display: flex;
+	gap: var(--space-8);
+	overflow-x: auto;
+	padding-bottom: var(--space-4);
+}
+.bracket-tabs .ui-button {
+	flex: none;
+}
+.bracket-scroller {
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	padding: var(--space-4) var(--space-4) var(--space-12);
+}
+.bracket-board-fullscreen {
+	overflow: auto;
+	padding: var(--space-24);
+	background: var(--shell-page-background);
+}
+.bracket-board-fullscreen .bracket-board {
+	min-height: 100%;
+}
+
+/* 대진표 그림. 좌표는 layout.js가 계산한다. */
+.bracket-view {
+	position: relative;
+	flex: none;
+	margin: 0 auto;
+}
+.bracket-lines {
+	position: absolute;
+	inset: 0;
+	overflow: visible;
+	fill: none;
+	stroke: var(--ui-border-strong);
+	stroke-width: 2;
+}
+.bracket-lines .bracket-line-done {
+	stroke: var(--shell-nav-accent);
+	stroke-width: 3;
+}
+.bracket-round-label {
+	position: absolute;
+	top: 0;
+	display: grid;
+	place-items: center;
+	box-sizing: border-box;
+	width: var(--bracket-card-width);
+	height: 36px;
+	border-radius: var(--ui-radius-sm);
+	background: var(--ui-surface-soft);
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-14);
+	font-weight: 700;
+}
+
+/* 경기 카드: 경기 이름 줄 아래에 둥근 팀 칸 2개를 둔다. 높이는 layout.js의 cardHeightFor와 같다. */
+.bracket-match {
+	position: absolute;
+	display: grid;
+	grid-template-rows: var(--bracket-card-header) var(--bracket-row-height) var(--bracket-row-height);
+	row-gap: var(--space-4);
+	box-sizing: border-box;
+	width: var(--bracket-card-width);
+	height: var(--bracket-card-height);
+	padding: 0 var(--space-8) var(--space-8);
+	border: 1px solid var(--ui-border-strong);
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+	box-shadow: var(--ui-shadow);
+}
+.bracket-match-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-8);
+	/* ui-exception spacing: 카드 머리줄 높이에서 아래 간격을 빼 글자를 가운데 둔다. */
+	margin-bottom: -4px;
+	padding: 0 var(--space-4);
+}
+.bracket-match-title {
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+	font-weight: 700;
+}
+.bracket-match-badge {
+	padding: 0 var(--space-8);
+	border-radius: 999px;
+	background: var(--shell-nav-wash);
+	color: var(--shell-nav-accent);
+	font-size: var(--font-size-12);
+	font-weight: 700;
+	line-height: 20px;
+}
+.bracket-match-bye {
+	border-style: dashed;
+	box-shadow: none;
+}
+.bracket-match-next {
+	border-color: var(--shell-nav-accent);
+	box-shadow: 0 0 0 1px var(--shell-nav-accent);
+}
+.bracket-match-focus {
+	outline: 3px solid color-mix(in srgb, var(--shell-nav-accent), transparent 50%);
+	outline-offset: 3px;
+}
+.bracket-side,
+.bracket-side.ui-button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-8);
+	box-sizing: border-box;
+	width: 100%;
+	height: var(--bracket-row-height);
+	min-height: 0;
+	padding: 0 var(--space-8) 0 var(--space-12);
+	border: 0;
+	border-radius: var(--ui-radius-sm);
+	background: var(--ui-surface-soft);
+	color: var(--ui-text);
+	font-weight: 400;
+	text-align: left;
+}
+.bracket-side.ui-button:not(:disabled):hover {
+	background: var(--shell-row-hover);
+}
+.bracket-side.ui-button:focus-visible {
+	position: relative;
+	z-index: 1;
+}
+.bracket-side-text {
+	display: grid;
+	gap: var(--space-2);
+	min-width: 0;
+}
+.bracket-side-name {
+	display: -webkit-box;
+	overflow: hidden;
+	font-size: var(--font-size-14);
+	font-weight: 700;
+	line-height: 1.4;
+	overflow-wrap: anywhere;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+}
+.bracket-side-members {
+	overflow: hidden;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+	line-height: 1.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.bracket-view-members .bracket-side-name,
+.bracket-side-empty .bracket-side-name,
+.bracket-side-bye .bracket-side-name {
+	-webkit-line-clamp: 1;
+	line-clamp: 1;
+}
+.bracket-side-won,
+.bracket-side-won.ui-button,
+.bracket-side-won.ui-button:not(:disabled):hover {
+	background: var(--shell-nav-wash);
+	color: var(--shell-text-heading);
+}
+.bracket-side-lost .bracket-side-name {
+	color: var(--ui-text-muted);
+	font-weight: 400;
+	text-decoration: line-through;
+}
+.bracket-side-empty,
+.bracket-side-bye {
+	color: var(--ui-text-muted);
+}
+.bracket-side-bye {
+	background: transparent;
+}
+.bracket-side-empty .bracket-side-name,
+.bracket-side-bye .bracket-side-name {
+	font-size: var(--font-size-12);
+	font-weight: 600;
+}
+
+/* 글자 위주 카드: 70% 미만으로 줄었을 때 카드 제목·보조 줄을 숨기고 같은 카드 크기 안에서 팀 이름을 키운다. */
+.bracket-view-text-first .bracket-match {
+	grid-template-rows: 1fr 1fr;
+	padding-top: var(--space-8);
+}
+.bracket-view-text-first .bracket-match-head,
+.bracket-view-text-first .bracket-side-members {
+	display: none;
+}
+.bracket-view-text-first .bracket-side,
+.bracket-view-text-first .bracket-side.ui-button {
+	height: 100%;
+	padding-left: var(--space-16);
+}
+.bracket-view-text-first .bracket-side-name,
+.bracket-view-text-first .bracket-side-empty .bracket-side-name,
+.bracket-view-text-first .bracket-side-bye .bracket-side-name {
+	font-size: var(--font-size-24);
+	line-height: 1.3;
+	-webkit-line-clamp: 1;
+	line-clamp: 1;
+}
+.bracket-view-text-first .bracket-pick {
+	width: 28px;
+	height: 28px;
+	border-width: 3px;
+}
+.bracket-view-text-first .bracket-pick svg {
+	width: 20px;
+	height: 20px;
+}
+.bracket-view-text-first .bracket-round-label {
+	font-size: var(--font-size-22);
+}
+.bracket-view-text-first .bracket-champion-label {
+	display: none;
+}
+.bracket-view-text-first .bracket-champion-name {
+	font-size: var(--font-size-24);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* 승자 선택 표시: 빈 원, 고르면 파란 원과 체크 */
+.bracket-pick {
+	display: grid;
+	flex: none;
+	place-items: center;
+	box-sizing: border-box;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--ui-border-strong);
+	border-radius: 50%;
+}
+.bracket-pick-on {
+	border-color: var(--shell-nav-accent);
+	background: var(--shell-nav-accent);
+}
+.bracket-pick svg {
+	width: 14px;
+	height: 14px;
+	fill: none;
+	stroke: var(--color-white);
+	stroke-width: 3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.bracket-side.ui-button:not(:disabled):hover .bracket-pick:not(.bracket-pick-on) {
+	border-color: var(--shell-nav-accent);
+}
+
+.bracket-champion {
+	position: absolute;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: var(--space-8);
+	box-sizing: border-box;
+	width: var(--bracket-card-width);
+	padding: var(--space-12);
+	border: 1px dashed var(--ui-border-strong);
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+	color: var(--ui-text-muted);
+	text-align: center;
+}
+.bracket-champion-decided {
+	border: 2px solid var(--shell-nav-accent);
+	background: var(--shell-nav-wash);
+	color: var(--shell-text-heading);
+}
+.bracket-trophy {
+	width: 40px;
+	height: 40px;
+	fill: none;
+	stroke: var(--shell-nav-accent);
+	stroke-width: 2.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.bracket-champion-name {
+	box-sizing: border-box;
+	width: 100%;
+	padding: var(--space-4) var(--space-12);
+	border-radius: var(--ui-radius-sm);
+	background: var(--ui-surface-soft);
+	font-size: var(--font-size-16);
+	font-weight: 800;
+	line-height: 1.4;
+	overflow-wrap: anywhere;
+}
+.bracket-champion-decided .bracket-champion-name {
+	background: var(--ui-surface);
+}
+.bracket-champion-label {
+	font-size: var(--font-size-12);
+	font-weight: 700;
+}
+
+/* 사용 방법 */
+.bracket-guide {
+	display: grid;
+	gap: var(--space-16);
+}
+.bracket-guide-steps {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--space-24);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.bracket-guide-steps h3,
+.bracket-faq h3 {
+	margin: 0 0 var(--space-8);
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-16);
+	line-height: 1.5;
+}
+.bracket-guide-steps p,
+.bracket-faq p,
+.bracket-guide-intro {
+	margin: 0;
+	color: var(--shell-text-body);
+	font-size: var(--font-size-14);
+	line-height: 1.7;
+}
+.bracket-guide-intro + .bracket-example,
+.bracket-example + .bracket-guide-intro {
+	margin-top: var(--space-16);
+}
+.bracket-example {
+	width: 100%;
+	border-collapse: collapse;
+	color: var(--shell-text-body);
+	font-size: var(--font-size-14);
+	line-height: 1.5;
+}
+.bracket-example caption {
+	margin-bottom: var(--space-8);
+	color: var(--shell-text-muted);
+	font-size: var(--font-size-12);
+	text-align: left;
+}
+.bracket-example th,
+.bracket-example td {
+	padding: var(--space-8) var(--space-12);
+	border-bottom: 1px solid var(--shell-hairline);
+	text-align: left;
+	vertical-align: top;
+}
+.bracket-example th {
+	color: var(--shell-text-heading);
+	font-size: var(--font-size-12);
+}
+.bracket-faq {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--space-24);
+}
+.bracket-print {
+	display: none;
+}
+
+@media (max-width: 960px) {
+	.bracket-setup {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.bracket-scroller {
+		scroll-snap-type: x mandatory;
+		scroll-padding-left: var(--space-4);
+	}
+	.bracket-scroller .bracket-view {
+		margin: 0;
+	}
+	.bracket-scroller .bracket-match,
+	.bracket-scroller .bracket-champion,
+	.bracket-scroller .bracket-round-label {
+		scroll-snap-align: start;
+	}
+}
+@media (max-width: 760px) {
+	.bracket-progress {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.bracket-progress-overall,
+	.bracket-progress-side {
+		padding: var(--space-12) var(--space-16);
+	}
+	.bracket-progress-side {
+		border-top: 1px solid color-mix(in srgb, var(--shell-nav-accent), transparent 75%);
+		border-left: 0;
+	}
+	.bracket-progress-line {
+		flex-wrap: wrap;
+		gap: var(--space-4) var(--space-12);
+	}
+	.bracket-progress-count {
+		flex-basis: 100%;
+	}
+	.bracket-board-hint {
+		margin-left: 0;
+	}
+	.bracket-guide-steps,
+	.bracket-faq {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.bracket-setup,
+	.bracket-guide-steps,
+	.bracket-faq {
+		gap: var(--space-20);
+	}
+	.bracket-board-fullscreen {
+		padding: var(--space-8);
+	}
+	.bracket-example th,
+	.bracket-example td {
+		padding: var(--space-8);
+	}
+}
+@media (max-width: 420px) {
+	.bracket-order {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.bracket-scroller {
+		scroll-behavior: auto;
+	}
+	.bracket-progress-bar > span {
+		transition: none;
+	}
+}
+
+@media print {
+	@page bracket {
+		size: A4 landscape;
+		/* ui-exception spacing: 인쇄 치수 또는 그림의 비율에 맞춘 공간 계산을 유지한다. */
+		margin: 10mm;
+	}
+	html:has(.site-shell.bracket),
+	body:has(.site-shell.bracket) {
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		margin: 0 !important;
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		padding: 0 !important;
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		background: var(--color-white) !important;
+		color-scheme: light;
+	}
+	body:has(.site-shell.bracket),
+	body:has(.site-shell.bracket) .site-shell {
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		background: var(--color-white) !important;
+	}
+	.site-shell.bracket > :not(.bracket-print, .shell-content) {
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		display: none !important;
+	}
+	.site-shell.bracket {
+		display: block;
+		min-height: 0;
+	}
+	.site-shell.bracket .shell-content {
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		display: block !important;
+		min-height: 0;
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		margin: 0 !important;
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		padding: 0 !important;
+	}
+	.site-shell.bracket .shell-content > :not(.bracket-print) {
+		/* ui-exception important: 인쇄 화면에서 일반 표시 규칙을 확실히 해제한다. */
+		display: none !important;
+	}
+	/* 화면과 같은 카드·색으로 인쇄한다. 어두운 테마를 쓰더라도 종이에는 밝은 테마 색을 쓴다. */
+	.bracket-print {
+		--shell-surface: var(--color-white);
+		--shell-surface-soft: var(--color-canvas-light);
+		--shell-hairline: var(--color-shell-hairline);
+		--shell-text-heading: var(--color-shell-text-heading);
+		--shell-text-body: var(--color-text-light);
+		--shell-text-muted: var(--color-shell-text-muted);
+		--shell-nav-accent: var(--color-primary);
+		--shell-nav-wash: var(--color-shell-nav-wash);
+		--ui-surface: var(--shell-surface);
+		--ui-surface-soft: var(--shell-surface-soft);
+		--ui-text: var(--shell-text-body);
+		--ui-text-muted: var(--shell-text-muted);
+		--ui-border: var(--shell-hairline);
+		--ui-border-strong: color-mix(in srgb, var(--shell-text-muted), transparent 65%);
+		page: bracket;
+		display: grid;
+		gap: var(--space-16);
+		break-inside: avoid;
+		color: var(--shell-text-body);
+		print-color-adjust: exact;
+		-webkit-print-color-adjust: exact;
+	}
+	.bracket-print-view .bracket-view {
+		zoom: var(--bracket-print-zoom);
+		margin: 0 auto;
+	}
+
+	/* 흐린 그림자는 PDF에 그림으로 들어가 일부 뷰어에서 회색 상자로 보인다. */
+	.bracket-print .bracket-match {
+		box-shadow: none;
+	}
+}

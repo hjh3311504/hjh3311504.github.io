@@ -5,11 +5,18 @@ import { siteBaseUrl } from '$lib/data/meta';
 export const prerender = true;
 
 export async function GET() {
-	const pages = ['/', '/team-maker', '/qr-code', '/marble-race', '/blog', '/about', '/privacy'].map(
-		(pathname) => ({
-			pathname
-		})
-	);
+	const pages = [
+		'/',
+		'/team-maker',
+		'/qr-code',
+		'/marble-race',
+		'/bracket',
+		'/blog',
+		'/about',
+		'/privacy'
+	].map((pathname) => ({
+		pathname
+	}));
 	pages.push(
 		...(await publicPosts()).map((post) => ({
 			pathname: postPath(post.slug),

@@ -8,6 +8,7 @@ export const keywords = [
 	'QR 코드 만들기',
 	'팀 메이커',
 	'팀짜기',
+	'대진표 만들기',
 	'구슬 추첨'
 ];
 export const description =

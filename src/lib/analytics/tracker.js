@@ -7,6 +7,7 @@ export const basePaths = [
 	'/team-maker',
 	'/qr-code',
 	'/marble-race',
+	'/bracket',
 	'/blog',
 	'/about',
 	'/privacy'

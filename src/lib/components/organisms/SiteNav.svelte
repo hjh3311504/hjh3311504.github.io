@@ -263,6 +263,26 @@
 				<span>QR 코드</span>
 				{#if active === 'qr-code'}<span class="current-badge">현재</span>{/if}
 			</Button>
+			<Button
+				class={active === 'bracket' ? 'active' : ''}
+				href={resolve('/bracket')}
+				variant="ghost"
+				aria-current={active === 'bracket' ? 'page' : undefined}
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					aria-hidden="true"><path d="M3 5h5v6h4M3 19h5v-6M12 12h4M16 8h5v8h-5" /></svg
+				>
+				<span>대진표</span>
+				{#if active === 'bracket'}<span class="current-badge">현재</span>{/if}
+			</Button>
 		</div>
 	</nav>
 

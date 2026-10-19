@@ -14,8 +14,8 @@ Codex, Claude Code와 기타 coding agent가 함께 사용하는 저장소 지�
 
 SvelteKit 2·Svelte 5·Vite 8·`@sveltejs/adapter-static`을 사용한다. JavaScript 중심이며 일부 TypeScript가 있다. 패키지는 npm과 `package-lock.json`으로 관리한다. `main`은 GitHub Actions를 통해 GitHub Pages에 배포된다.
 
-- 공개 route: `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/blog`, `/blog/[slug]`, `/about`, `/privacy`. 도구·블로그·소개·방침 route에는 마지막 슬래시가 없다.
-- 도구 build 결과: `build/team-maker.html`, `build/qr-code.html`, `build/marble-race.html`.
+- 공개 route: `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/blog`, `/blog/[slug]`, `/about`, `/privacy`. 도구·블로그·소개·방침 route에는 마지막 슬래시가 없다.
+- 도구 build 결과: `build/team-maker.html`, `build/qr-code.html`, `build/marble-race.html`, `build/bracket.html`.
 - 블로그 글은 `content/blog/*.md`에서 관리한다. 공개 글만 정적 HTML·sitemap·RSS에 포함하고 초안은 로컬에서만 미리 본다. 작성·검증 방법은 README의 블로그 운영을 따른다.
 - Team Maker 정적 자산: `/images/team-maker/`.
 - 참가자 데이터는 브라우저 `localStorage`에만 저장한다. 서버·로그인·비밀 키를 추가하지 않는다.

@@ -9,7 +9,7 @@ import { createHistory } from './history.js';
 import { createWheel } from './wheel.js';
 import { createAudio } from './audio.js';
 
-export function mountTeamMaker(root) {
+export function mountTeamMaker(root, { openBracket = () => {} } = {}) {
 	if (!root) throw new Error('Team Maker를 연결할 요소가 없습니다.');
 	const $ = (selector) => root.querySelector(selector);
 	const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -131,7 +131,8 @@ export function mountTeamMaker(root) {
 		undoRank: (...args) => history.undoRank(...args),
 		recordRank: (...args) => history.recordRank(...args),
 		renameTeam: (...args) => history.renameTeam(...args),
-		openWheel: (...args) => wheel.openWheel(...args)
+		openWheel: (...args) => wheel.openWheel(...args),
+		openBracket
 	});
 	const dialogs = createDialogs({
 		root,
