@@ -128,7 +128,14 @@ export function createRenderer(canvas) {
 			brush.fillStyle = style.color;
 			brush.textAlign = 'center';
 			const baseline = background ? fontSize + 4 : height - 4;
-			brush.fillText(text, width / 2, baseline);
+			let textY = baseline;
+			if (background) {
+				// 이름표끼리 기준선이 같도록 이름이 아닌 한글 글자 높이로 세로 가운데를 맞춘다.
+				const { actualBoundingBoxAscent: ascent = 0, actualBoundingBoxDescent: descent = 0 } =
+					brush.measureText('가');
+				if (ascent + descent > 0) textY = height / 2 + (ascent - descent) / 2;
+			}
+			brush.fillText(text, width / 2, textY);
 			sprite = { bitmap, width, height, baseline };
 			if (textSprites.size >= 2048) textSprites.clear();
 			textSprites.set(key, sprite);

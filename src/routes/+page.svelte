@@ -165,6 +165,36 @@
 						</Surface>
 					</li>
 					<li>
+						<Surface class="project-card" href={resolve('/bracket')} variant="interactive">
+							<span class="project-icon bracket-project-icon" aria-hidden="true"
+								><svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><path d="M3 3h5v6H3" /><path d="M3 15h5v6H3" /><path
+										d="M8 6h7v12H8M15 12h6"
+									/></svg
+								></span
+							>
+							<span class="project-copy"
+								><span class="project-title-row"
+									><span class="project-title">대진표 만들기</span><span class="project-kind"
+										>도구</span
+									></span
+								><span class="project-description"
+									>2~32팀 토너먼트 대진표를 만들고<br />이긴 팀을 눌러 우승까지 기록하는 무료
+									도구입니다.</span
+								></span
+							>
+							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
+						</Surface>
+					</li>
+					<li>
 						<Surface class="project-card" href={resolve('/marble-race')} variant="interactive">
 							<span class="project-icon marble-project-icon" aria-hidden="true"
 								><svg
@@ -214,33 +244,6 @@
 									></span
 								><span class="project-description"
 									>주소와 텍스트를 QR 코드로 만들고<br />저장·복사·인쇄하는 무료 도구입니다.</span
-								></span
-							>
-							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
-						</Surface>
-					</li>
-					<li>
-						<Surface class="project-card" href={resolve('/bracket')} variant="interactive">
-							<span class="project-icon bracket-project-icon" aria-hidden="true"
-								><svg
-									width="26"
-									height="26"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"><path d="M3 5h5v6h4M3 19h5v-6M12 12h4M16 8h5v8h-5" /></svg
-								></span
-							>
-							<span class="project-copy"
-								><span class="project-title-row"
-									><span class="project-title">대진표 만들기</span><span class="project-kind"
-										>도구</span
-									></span
-								><span class="project-description"
-									>2~32팀 토너먼트 대진표를 만들고<br />이긴 팀을 눌러 우승까지 기록하는 무료
-									도구입니다.</span
 								></span
 							>
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
