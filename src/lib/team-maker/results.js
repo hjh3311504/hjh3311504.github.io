@@ -1,5 +1,7 @@
 import { createLifetime } from './lifecycle.js';
 import { formatTeamResultLabel, formatTeamsText, makeTeams, rankOfTeam } from './core.js';
+import { MAX_TEAMS, MIN_TEAMS } from '$lib/bracket/bracket.js';
+import { writeImport } from '$lib/bracket/storage.js';
 
 export function createResults({
 	getState,
@@ -12,7 +14,8 @@ export function createResults({
 	undoRank,
 	recordRank,
 	renameTeam,
-	openWheel
+	openWheel,
+	openBracket
 }) {
 	let resultError = '';
 	const lifetime = createLifetime();
@@ -57,6 +60,7 @@ export function createResults({
 		const undo = $('#undo-win-button');
 		undo.hidden = runtime.ranking.length === 0 || !runtime.lastHistoryId;
 		undo.textContent = runtime.teams.length === 2 ? '승리 취소' : '순위 취소';
+		renderBracketButton();
 
 		const empty = $('#result-empty');
 		empty.hidden = hasTeams;
@@ -186,6 +190,44 @@ export function createResults({
 
 		renderPickedSection();
 		$('#result-live').textContent = runtime.resultMessage;
+	}
+
+	// 대진표는 2~32팀만 만들 수 있다. 안 되는 이유는 버튼 아래에 보여 준다.
+	function bracketBlockReason() {
+		const count = runtime.teams.length;
+		if (count < MIN_TEAMS) return '대진표는 2팀 이상일 때 만들 수 있습니다.';
+		if (count > MAX_TEAMS)
+			return `대진표는 ${MAX_TEAMS}팀까지 만들 수 있습니다. 지금은 ${count}팀입니다.`;
+		return '';
+	}
+
+	function renderBracketButton(message = '') {
+		const button = $('#bracket-button');
+		const note = $('#bracket-button-note');
+		const reason = runtime.teams.length ? bracketBlockReason() : '';
+		const text = message || reason;
+		button.disabled = Boolean(reason);
+		note.textContent = text;
+		note.hidden = !text;
+		if (text) button.setAttribute('aria-describedby', note.id);
+		else button.removeAttribute('aria-describedby');
+	}
+
+	function sendToBracket() {
+		if (bracketBlockReason()) return;
+		try {
+			writeImport(
+				localStorage,
+				runtime.teams.map((team) => ({
+					name: team.name,
+					members: team.members.map((member) => member.name)
+				}))
+			);
+		} catch {
+			renderBracketButton('브라우저 저장 공간을 쓸 수 없어 대진표로 보내지 못했습니다.');
+			return;
+		}
+		openBracket();
 	}
 
 	function beginTeamNameEdit(teamId) {
@@ -372,6 +414,8 @@ export function createResults({
 		on($('#undo-win-button'), 'click', undoRank);
 
 		on($('#copy-result-button'), 'click', copyResultText);
+
+		on($('#bracket-button'), 'click', sendToBracket);
 
 		on($('#team-grid'), 'click', (event) => {
 			const nameButton = event.target.closest('[data-edit-team-name]');

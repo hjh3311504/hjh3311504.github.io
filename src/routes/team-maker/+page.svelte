@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
@@ -98,7 +99,7 @@
 
 	let pageRoot;
 
-	onMount(() => mountTeamMaker(pageRoot));
+	onMount(() => mountTeamMaker(pageRoot, { openBracket: () => goto(resolve('/bracket')) }));
 </script>
 
 <svelte:head>

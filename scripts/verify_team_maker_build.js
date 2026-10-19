@@ -27,6 +27,7 @@ const requiredFiles = [
 	'build/index.html',
 	'build/qr-code.html',
 	'build/marble-race.html',
+	'build/bracket.html',
 	'build/team-maker.html',
 	'build/about.html',
 	'build/privacy.html',
@@ -64,6 +65,7 @@ const html = await readFile(path.join(root, 'build/team-maker.html'), 'utf8');
 const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
 const marbleHtml = await readFile(path.join(root, 'build/marble-race.html'), 'utf8');
+const bracketHtml = await readFile(path.join(root, 'build/bracket.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 const aboutHtml = await readFile(path.join(root, 'build/about.html'), 'utf8');
 const privacyHtml = await readFile(path.join(root, 'build/privacy.html'), 'utf8');
@@ -107,6 +109,11 @@ for (const [name, document, phrases] of [
 			'모든 참가자의 당첨 확률이 같다고 보장하지 않습니다',
 			'페이지를 떠나기 전에 남겨 두세요'
 		]
+	],
+	[
+		'대진표',
+		bracketHtml,
+		['6팀 입력 순서 배치의 라운드별 경기', '부전승은 누가 받나요?', '17팀 이상도 되나요?']
 	]
 ]) {
 	const bodyText = document
@@ -127,6 +134,7 @@ for (const [name, document] of [
 	['Team Maker', html],
 	['QR 코드', qrHtml],
 	['구슬 레이스', marbleHtml],
+	['대진표', bracketHtml],
 	['소개', aboutHtml],
 	['개인정보처리방침', privacyHtml],
 	['404', notFoundHtml]
@@ -198,6 +206,7 @@ for (const [name, document] of [
 	['Team Maker', html],
 	['QR 코드', qrHtml],
 	['구슬 레이스', marbleHtml],
+	['대진표', bracketHtml],
 	['소개', aboutHtml],
 	['개인정보처리방침', privacyHtml]
 ]) {
@@ -346,7 +355,8 @@ if (openGuideSectionCount !== 4) {
 for (const [route, content, expectedCount, expectedOpen] of [
 	['team-maker', html, 4, 4],
 	['qr-code', qrHtml, 2, 2],
-	['marble-race', marbleHtml, 5, 4]
+	['marble-race', marbleHtml, 5, 4],
+	['bracket', bracketHtml, 3, 3]
 ]) {
 	const sections = [...content.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)].filter(
 		([, attributes]) => /\bdata-ui-disclosure\b/.test(attributes)
@@ -410,9 +420,14 @@ const localReferences = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)]
 for (const reference of new Set(localReferences)) {
 	const cleanReference = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
 	const routeName = cleanReference.replace(/^(?:\.\/|\/)/, '');
-	const isToolPage = ['team-maker', 'qr-code', 'marble-race', 'about', 'privacy'].includes(
-		routeName
-	);
+	const isToolPage = [
+		'team-maker',
+		'qr-code',
+		'marble-race',
+		'bracket',
+		'about',
+		'privacy'
+	].includes(routeName);
 	const absolutePath = isToolPage
 		? path.join(root, `build/${routeName}.html`)
 		: cleanReference.startsWith('/')
@@ -437,7 +452,7 @@ if (!productSource.includes("from './core.js'")) {
 	throw new Error('화면 코드가 분리된 팀 배정 로직을 불러오지 않습니다.');
 }
 if (
-	!app.includes('export function mountTeamMaker(root)') ||
+	!app.includes('export function mountTeamMaker(root, ') ||
 	!page.includes("from '$lib/team-maker/app.js'")
 ) {
 	throw new Error('SvelteKit route가 Team Maker 화면 module을 불러오지 않습니다.');
@@ -505,6 +520,34 @@ if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/qr-code</loc>'))
 	throw new Error('sitemap에 QR 코드 주소가 없습니다.');
 if ((qrHtml.match(/<h1\b/g)?.length ?? 0) !== 1) throw new Error('QR 코드의 h1은 1개여야 합니다.');
 console.log('QR 코드 정적 페이지와 sitemap 검증 통과');
+
+for (const marker of [
+	'대진표 만들기',
+	'id="bracket-guide-title"',
+	'id="bracket-example-title"',
+	'id="bracket-faq-title"',
+	'data-ui-section',
+	'data-ui-empty-state',
+	'<link rel="canonical" href="https://hjh3311504.github.io/bracket"'
+]) {
+	if (!bracketHtml.includes(marker))
+		throw new Error(`대진표 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+// 대진표 안과 인쇄용 사본에는 광고 영역을 두지 않는다.
+if (/<ins\b[^>]*adsbygoogle/i.test(bracketHtml))
+	throw new Error('대진표 HTML에 광고 영역이 있습니다.');
+if ((bracketHtml.match(/<h1\b/g)?.length ?? 0) !== 1)
+	throw new Error('대진표의 h1은 1개여야 합니다.');
+if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/bracket</loc>'))
+	throw new Error('sitemap에 대진표 주소가 없습니다.');
+for (const [name, document] of [
+	['홈', homeHtml],
+	['Team Maker', html]
+]) {
+	if (!/href="(?:\.\/|\/)bracket"/.test(document))
+		throw new Error(`${name} HTML에 대진표 링크가 없습니다.`);
+}
+console.log('대진표 정적 페이지와 sitemap 검증 통과');
 
 for (const marker of [
 	pageName,

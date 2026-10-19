@@ -19,6 +19,9 @@
 			<Button id="copy-result-button" class="utility-button" variant="outline" size="sm"
 				>명단 복사</Button
 			>
+			<Button id="bracket-button" class="utility-button" variant="outline" size="sm"
+				>대진표 만들기</Button
+			>
 			<Button
 				id="reshuffle-button"
 				class="utility-button reshuffle-button"
@@ -27,6 +30,7 @@
 			>
 		{/snippet}
 	</SectionHeader>
+	<p id="bracket-button-note" class="bracket-button-note" hidden></p>
 	<p id="result-live" class="sr-only" role="status" aria-live="polite"></p>
 	<EmptyState id="result-empty" class="result-empty" role="status">
 		<span

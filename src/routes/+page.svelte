@@ -219,6 +219,33 @@
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
 						</Surface>
 					</li>
+					<li>
+						<Surface class="project-card" href={resolve('/bracket')} variant="interactive">
+							<span class="project-icon bracket-project-icon" aria-hidden="true"
+								><svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"><path d="M3 5h5v6h4M3 19h5v-6M12 12h4M16 8h5v8h-5" /></svg
+								></span
+							>
+							<span class="project-copy"
+								><span class="project-title-row"
+									><span class="project-title">대진표 만들기</span><span class="project-kind"
+										>도구</span
+									></span
+								><span class="project-description"
+									>2~32팀 토너먼트 대진표를 만들고<br />이긴 팀을 눌러 우승까지 기록하는 무료
+									도구입니다.</span
+								></span
+							>
+							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
+						</Surface>
+					</li>
 				</ul>
 			</Section>
 
@@ -244,10 +271,17 @@
 						주소를 QR 이미지로 바꿉니다. 제목을 붙여 저장하거나 한 장에 여러 개 인쇄할 수 있습니다.
 						신청서 자체를 만드는 도구는 아닙니다.
 					</dd>
+					<dt>팀끼리 토너먼트 경기하기</dt>
+					<dd>
+						<a href={resolve('/bracket')}>대진표 만들기</a>는 2~32팀의 토너먼트 대진표를 만듭니다.
+						팀 수가 맞지 않으면 부전승을 자동으로 배치합니다. 이긴 팀을 눌러 우승까지 기록하고
+						전체화면이나 A4 인쇄로 보여 줄 수 있습니다.
+					</dd>
 				</dl>
 				<p>
 					예를 들어 모임 신청 주소는 QR로 나누고, 모인 참가자는 팀 메이커로 배정한 뒤, 발표 순서는
-					구슬 레이스로 정할 수 있습니다. 도구 사이에 입력한 명단이 자동으로 전달되지는 않습니다.
+					구슬 레이스로 정할 수 있습니다. 팀 메이커 결과의 ‘대진표 만들기’를 누르면 나눈 팀이
+					대진표로 넘어갑니다. 그 밖의 도구 사이에는 입력한 명단이 자동으로 전달되지 않습니다.
 				</p>
 			</Section>
 
@@ -468,6 +502,11 @@
 	.qr-project-icon {
 		background: var(--color-background-2);
 		box-shadow: 0 6px 16px -6px var(--color-box-shadow-8);
+	}
+
+	.bracket-project-icon {
+		background: var(--color-orange);
+		box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--color-orange) 70%, transparent);
 	}
 
 	.marble-project-icon {

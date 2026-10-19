@@ -1,12 +1,12 @@
 # hjh3311504.github.io
 
-SvelteKit으로 만든 root 사이트, Team Maker, QR 코드·구슬 레이스 도구와 Markdown 블로그를 한 저장소에서 관리합니다.
+SvelteKit으로 만든 root 사이트, Team Maker, QR 코드·구슬 레이스·대진표 도구와 Markdown 블로그를 한 저장소에서 관리합니다.
 
 ## 공통 UI와 검사
 
 새 페이지도 공통 컴포넌트와 토큰을 사용합니다. 컴포넌트를 선택하거나 스타일을 바꿀 때 [컴포넌트 목록·사용 예시](docs/frontend-ui.md)의 관련 부분을 참고하세요. `npm run check:ui`는 UI 규칙, `npm run test:ui`는 검사기와 hook을 검증합니다. 활성화된 hook은 변경 파일을 검사하므로 같은 내용의 수동 검사를 반복할 필요는 없습니다. hook 연결을 설치하거나 진단할 때만 해당 문서의 연결 절차를 확인하세요.
 
-QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/marble-race/components/`에서 기능별로 관리합니다. route는 상태·주요 동작·전체 배치를 담당합니다.
+QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/marble-race/components/`, 대진표 화면은 `src/lib/bracket/components/`에서 기능별로 관리합니다. route는 상태·주요 동작·전체 배치를 담당합니다.
 
 ## 공통 화면과 정적 자산
 
@@ -83,21 +83,21 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 
 아래 JavaScript 파일은 모두 `src/lib/team-maker/` 안에 있습니다.
 
-| 수정할 내용                                         | 파일              |
-| --------------------------------------------------- | ----------------- |
-| 초기 상태, 기능 연결, 저장 후 전체 갱신, 화면 종료  | `app.js`          |
-| 저장 데이터 정리, 복원과 저장 오류                  | `storage.js`      |
-| 참가자 입력·삭제, 배정 규칙, 팀 수 설정             | `participants.js` |
-| 팀 생성·결과 표시, 팀 이름 수정, 결과 복사          | `results.js`      |
-| 명단 저장·불러오기·삭제                             | `rosters.js`      |
-| 순위 기록·취소, 팀 이름·당첨 기록 반영, 참가자 통계 | `history.js`      |
-| 돌림판, 당첨자 추가·삭제, 축하 효과                 | `wheel.js`        |
-| 효과음 생성·중지, 소리 설정                         | `audio.js`        |
-| dialog 열기·닫기, 확인창, 스크롤 잠금               | `dialogs.js`      |
-| 화면 없이 실행하는 팀 배정·순위·통계 계산           | `core.js`         |
-| 동적 버튼과 화면 이동 효과                          | `ui.js`           |
-| 이벤트·타이머·화면 갱신 예약 해제                   | `lifecycle.js`    |
-| ID 생성과 작은 값 변환 함수                         | `utils.js`        |
+| 수정할 내용                                                 | 파일              |
+| ----------------------------------------------------------- | ----------------- |
+| 초기 상태, 기능 연결, 저장 후 전체 갱신, 화면 종료          | `app.js`          |
+| 저장 데이터 정리, 복원과 저장 오류                          | `storage.js`      |
+| 참가자 입력·삭제, 배정 규칙, 팀 수 설정                     | `participants.js` |
+| 팀 생성·결과 표시, 팀 이름 수정, 결과 복사, 대진표로 보내기 | `results.js`      |
+| 명단 저장·불러오기·삭제                                     | `rosters.js`      |
+| 순위 기록·취소, 팀 이름·당첨 기록 반영, 참가자 통계         | `history.js`      |
+| 돌림판, 당첨자 추가·삭제, 축하 효과                         | `wheel.js`        |
+| 효과음 생성·중지, 소리 설정                                 | `audio.js`        |
+| dialog 열기·닫기, 확인창, 스크롤 잠금                       | `dialogs.js`      |
+| 화면 없이 실행하는 팀 배정·순위·통계 계산                   | `core.js`         |
+| 동적 버튼과 화면 이동 효과                                  | `ui.js`           |
+| 이벤트·타이머·화면 갱신 예약 해제                           | `lifecycle.js`    |
+| ID 생성과 작은 값 변환 함수                                 | `utils.js`        |
 
 ### 현재 기능 연결 구조
 
@@ -107,7 +107,7 @@ Team Maker의 전체 배치는 `src/routes/team-maker/+page.svelte`에 있습니
 - 모든 기능을 만든 뒤 `connect()`로 이벤트를 연결합니다. 연결 전에는 다른 기능의 동작을 호출하지 않습니다.
 - 돌림판 회전음은 둘레의 가상 핀24개가 상단을 지나는 시각에 맞춥니다. `wheel-sound.js`가 CSS와 같은 감속 곡선으로 통과 시각을 계산합니다. 최소 약41.67ms 간격으로 일부 핀을 골라 초당 최대24회 재생합니다. 다음 재생 간격이 이전보다 짧아지지 않도록 핀을 고르고, 마지막 핀도 이 규칙을 유지해 재생합니다. `audio.js`는 실제 transition의 현재 시각에 맞춰70ms 길이의 짧은 ‘툭’ 음원(`wheel-pin-tuk.wav`)을 예약합니다. 음소거·바로 뽑기·화면 종료 시 예약도 중지하며, 소리를 다시 켜면 남은 핀부터 이어집니다. 동작 줄이기 설정에서는 회전음을 생략합니다.
 - 예약 작업과 이벤트는 기능마다 만든 `createLifetime()`을 통해 등록합니다. `destroy()`에서 예약 작업을 취소하고, dialog와 효과음처럼 별도 정리가 필요한 자원도 해제합니다. 비동기 작업을 기다린 뒤에는 `lifetime.active`로 화면이 아직 열려 있는지 확인합니다.
-- `mountTeamMaker(root)`는 기존처럼 화면 종료 함수를 반환합니다. Svelte의 `onMount`가 이 함수를 받아 route를 떠날 때 실행합니다.
+- `mountTeamMaker(root, { openBracket })`는 기존처럼 화면 종료 함수를 반환합니다. Svelte의 `onMount`가 이 함수를 받아 route를 떠날 때 실행합니다. `openBracket`은 결과의 ‘대진표 만들기’가 팀을 넘긴 뒤 `/bracket`으로 이동하는 함수입니다.
 
 ### 스타일 수정 위치
 
@@ -204,7 +204,7 @@ build 후 `scripts/optimize_images.js`가 PNG·JPEG 원본에서 WebP와 AVIF를
 | `main` 수동 실행           | `main` push와 동일                                                         | 실행 |
 | 다른 branch 수동 실행      | 실행하지 않음                                                              | 없음 |
 
-전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/blog`, `/about`, `/privacy`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
+전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/blog`, `/about`, `/privacy`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
 
 PR에서는 `site-build`가 정적 파일을1회 만들고, `checks`가 lint·정적 검사·전체 단위 테스트를 병렬로 실행합니다. 브라우저 검사는 같은 build 파일을 내려받습니다. 성능·시간 보존 검사는 전용 실행 환경에서 실행하고, 일반 브라우저 검사는4개 환경에 나눕니다. 각 환경 안에서는 기존처럼 검사1개씩 실행합니다.
 
@@ -220,7 +220,7 @@ GitHub 저장소의 **Settings → Pages → Build and deployment → Source**�
 
 ## Team Maker 데이터
 
-참가자, 설정, 저장 명단과 승패 기록은 현재 브라우저의 `localStorage`에만 저장됩니다. 생성된 팀 결과는 새로고침 뒤 복구하지 않습니다. 제품 코드는 참가자 데이터를 외부 서버로 보내지 않습니다.
+참가자, 설정, 저장 명단과 승패 기록은 현재 브라우저의 `localStorage`에만 저장됩니다. 생성된 팀 결과는 새로고침 뒤 복구하지 않습니다. 결과를 대진표로 보낼 때만 팀 이름과 팀원 이름을 `lake.bracket.import.v1`에 잠깐 저장하고, 대진표 화면이 읽은 즉시 지웁니다. 제품 코드는 참가자 데이터를 외부 서버로 보내지 않습니다.
 
 ## 방문 통계 수집
 
@@ -336,6 +336,25 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 `fontkit`의 WOFF2 가변 글꼴 오류를 피하기 위해 Vite 설정에서 `scripts/prepare_qr_font.js`를 실행합니다. 기존 SUIT WOFF2를 `.svelte-kit/qr-font/SUIT-Variable.ttf`로 풀며 글꼴 내용은 바꾸지 않습니다. 이 생성 파일은 Git에 추가하지 않습니다. 개발 서버와 build에서 자동 생성합니다. 글꼴 원본을 바꾸면 개발 서버를 다시 시작하세요.
 
 `src/lib/qr-code/title.js`는 제목 준비·지원 검사, `title-input.js`는 10자 입력·복원 검증, `title-layout.js`는 한 줄 제목 상태, `image-layout.js`는 출력 크기·좌표, `title-outline.js`는 SUIT 윤곽선, `font-loader.js`는 지연 로딩·캐시·재시도를 담당합니다. `QrPreview.svelte`는 QR 경로와 제목 문자열을 따로 받습니다. `createQrImage(qrPath, preparedTitle, format)`은 준비된 상태로 선택한 형식의 Blob만 반환하며 QR을 다시 계산하지 않습니다. QR 안내와 Team Maker 하단 안내의 접기·펼치기 디자인은 공통 `ui.css`에서 관리합니다. 기본 마커를 숨기고 CSS 삼각형과 제목을 세로 가운데 맞추며 간격은 12px입니다.
+
+## 대진표 만들기
+
+공개 주소는 `/bracket`, 로컬 주소는 `http://localhost:5173/bracket`입니다. 정적 결과는 `build/bracket.html`입니다. 홈·공통 메뉴·sitemap에서 연결하고, Team Maker 결과의 ‘대진표 만들기’ 버튼으로도 들어옵니다. 요구사항은 [REQ-BRACKET](docs/requirements/bracket.yaml), 화면은 [SCR-WEB-008](docs/design/screens/SCR-WEB-008.md)을 따릅니다.
+
+- 화면 상태·저장·가져오기·인쇄 사본: `src/routes/bracket/+page.svelte`
+- 스타일과 인쇄 규칙: `src/routes/bracket/bracket.css`
+- 시드 배치·부전승·승자 기록과 결과 정리: `src/lib/bracket/bracket.js`
+- 팀 이름 검사·여러 팀 붙여넣기·순서 이동: `src/lib/bracket/teams.js`
+- 팀 입력·끌어서 순서 바꾸기: `src/lib/bracket/components/BracketTeamsSection.svelte`
+- 저장 복원과 Team Maker 가져오기: `src/lib/bracket/storage.js`
+- 카드·연결선 좌표: `src/lib/bracket/layout.js`
+- 화면 영역: `src/lib/bracket/components/`
+- 2팀부터 32팀까지 단일 토너먼트만 지원합니다. 961px 이상 화면은 대진표 섹션이 창 높이에 들어오도록 최소 50%까지 줄이고, 50%에서 200%까지 확대·축소할 수 있습니다. 70% 미만에서는 카드 제목과 보조 줄을 숨기고 팀 이름을 키운 글자 위주 카드로 보입니다. 인쇄는 A4 가로 1장에 맞춥니다. 이때 한 방향과 가운데 결승에서 만나는 좌우 대칭 중 덜 줄여도 되는 배치를 고릅니다. 입력 순서가 시드입니다. 남은 팀 수가 홀수인 라운드마다 1팀만 부전승을 받고, 같은 팀은 연속으로 받지 않습니다. 6팀이면 8강 경기 3개, 4강 경기 1개와 부전승 1개, 결승 순서입니다. 전체 경기 수는 팀 수에서 1을 뺀 값입니다.
+- 대진표는 만든 시점의 팀 목록 사본을 가집니다. 팀 목록을 바꾸면 ‘대진표 다시 만들기’를 안내합니다. 앞 경기 승자를 바꾸거나 취소하면 결승까지 이어진 경로의 결과만 확인 후 지웁니다.
+- `lake.bracket.v1`에 입력 중인 팀 목록과 대진표 1개를 저장합니다. 변경 200ms 뒤 저장하고, 화면을 떠나거나 숨길 때 남은 변경을 바로 저장합니다. 저장 값이 손상되면 안내하고 새로 시작합니다.
+- 인쇄는 화면과 같은 카드·색으로 만든 별도 사본을 A4 가로 1장(여백 10mm)에 맞춥니다. 어두운 테마에서도 밝은 색으로 출력합니다. 배율은 대진표 크기로 미리 계산하므로 인쇄 이벤트에 의존하지 않습니다. 인쇄 사본과 대진표 영역에는 광고를 넣지 않습니다.
+- 960px 이하에서는 라운드 탭과 가로 스크롤로 열을 이동합니다. 전체화면은 대진표 영역만 띄웁니다.
+- 브라우저 검사는 `tests/team-maker-e2e/bracket.spec.js`, 단위 테스트는 `tests/bracket/`에 있습니다.
 
 ## ASMR 구슬 레이스
 
@@ -470,7 +489,7 @@ published: false
 ---
 ```
 
-블로그는 경험·생각·일상 등 주제를 제한하지 않습니다. `program`은 선택 항목입니다. 관련 프로그램이 있을 때만 `team-maker`, `qr-code`, `marble-race` 중 하나를 지정하세요. 글 종류는 `introduction`(프로그램 소개), `guide`(사용 가이드), `update`(업데이트), `note`(기록)입니다. 일반 글은 `program`을 생략하고 `category: note`로 작성할 수 있습니다. 작성자는 현재 사이트 운영자인 Lake를 공통으로 사용합니다. 업데이트에는 실제 적용일 `releaseDate: '2026-09-29'`와 존재하는 버전 `version: '1.2.0'`을 선택적으로 넣을 수 있습니다. 버전이 없다면 생략하세요.
+블로그는 경험·생각·일상 등 주제를 제한하지 않습니다. `program`은 선택 항목입니다. 관련 프로그램이 있을 때만 `team-maker`, `qr-code`, `marble-race`, `bracket` 중 하나를 지정하세요. 글 종류는 `introduction`(프로그램 소개), `guide`(사용 가이드), `update`(업데이트), `note`(기록)입니다. 일반 글은 `program`을 생략하고 `category: note`로 작성할 수 있습니다. 작성자는 현재 사이트 운영자인 Lake를 공통으로 사용합니다. 업데이트에는 실제 적용일 `releaseDate: '2026-09-29'`와 존재하는 버전 `version: '1.2.0'`을 선택적으로 넣을 수 있습니다. 버전이 없다면 생략하세요.
 
 날짜는 따옴표로 감싼 `YYYY-MM-DD` 형식이며 한국 시간 자정을 기준으로 판정합니다. `published: true`는 공개 승인, `publishedAt`은 공개일입니다. 미래 날짜라면 예약 상태로 두었다가 공개일 이후 build부터 포함합니다. `published: false`는 날짜가 지나도 초안입니다. 수정일은 게시일보다 빠를 수 없고 실제 수정일만 작성합니다. build가 날짜를 덮어쓰지 않습니다.
 

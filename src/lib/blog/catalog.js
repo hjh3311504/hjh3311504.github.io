@@ -7,7 +7,8 @@ export const author = { name: 'Lake', url: `${siteBaseUrl}/about` };
 export const programs = {
 	'team-maker': { name: '팀 메이커', href: '/team-maker' },
 	'qr-code': { name: 'QR 코드 만들기', href: '/qr-code' },
-	'marble-race': { name: 'ASMR 구슬 레이스', href: '/marble-race' }
+	'marble-race': { name: 'ASMR 구슬 레이스', href: '/marble-race' },
+	bracket: { name: '대진표 만들기', href: '/bracket' }
 };
 export const categories = {
 	introduction: '프로그램 소개',

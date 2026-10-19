@@ -71,8 +71,8 @@
 					<li>
 						도구: 참가자를 여러 팀으로 나누는 <a href={resolve('/team-maker')}>팀 메이커</a>, 구슬
 						경주로 당첨자를 뽑는 <a href={resolve('/marble-race')}>ASMR 구슬 레이스</a>, 주소와
-						텍스트를 QR 이미지로 바꾸는 <a href={resolve('/qr-code')}>QR 코드 만들기</a>를
-						제공합니다.
+						텍스트를 QR 이미지로 바꾸는 <a href={resolve('/qr-code')}>QR 코드 만들기</a>, 팀끼리
+						겨루는 토너먼트를 기록하는 <a href={resolve('/bracket')}>대진표 만들기</a>를 제공합니다.
 					</li>
 				</ul>
 
