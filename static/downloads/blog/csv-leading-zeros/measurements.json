@@ -2,12 +2,12 @@
   "testedAt": "2026-10-19",
   "application": "LibreOffice Calc",
   "version": "26.2.5.2 cd7284b4cbbfeb507e630c1aac019f4157393acb",
-  "method": "soffice --headless --convert-to xlsx --outdir out codes.csv 실행 후 xl/worksheets/sheet1.xml의 셀 형식과 값을 확인",
+  "method": "soffice --headless --convert-to xlsx --outdir out codes.csv 실행 후 xl/worksheets/sheet1.xml의 셀 데이터 종류와 값을 확인",
   "importMode": "headless 기본 CSV 변환; 대화상자 설정은 지정하지 않음",
   "input": ["00123", "12345678901234567890"],
   "output": [
-    { "cell": "A2", "type": "n", "value": "123" },
-    { "cell": "A3", "type": "n", "value": "1.23456789012346E+019" }
+    { "cell": "A2", "dataType": "numeric", "value": "123" },
+    { "cell": "A3", "dataType": "numeric", "value": "1.23456789012346E+019" }
   ],
   "limitations": [
     "이 결과는 이 환경에서 LibreOffice Calc로 한 번 실행한 관측값입니다.",
