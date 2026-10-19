@@ -1,0 +1,17 @@
+{
+  "testedAt": "2026-10-19",
+  "application": "LibreOffice Calc",
+  "version": "26.2.5.2 cd7284b4cbbfeb507e630c1aac019f4157393acb",
+  "method": "soffice --headless --convert-to xlsx --outdir out codes.csv 실행 후 xl/worksheets/sheet1.xml의 셀 형식과 값을 확인",
+  "importMode": "headless 기본 CSV 변환; 대화상자 설정은 지정하지 않음",
+  "input": ["00123", "12345678901234567890"],
+  "output": [
+    { "cell": "A2", "type": "n", "value": "123" },
+    { "cell": "A3", "type": "n", "value": "1.23456789012346E+019" }
+  ],
+  "limitations": [
+    "이 결과는 이 환경에서 LibreOffice Calc로 한 번 실행한 관측값입니다.",
+    "대화형 가져오기 창에서 열 형식과 숫자 감지 설정을 직접 조정한 결과가 아닙니다.",
+    "Excel 동작은 실험하지 않았으며 Microsoft 공식 안내를 참고했습니다."
+  ]
+}
