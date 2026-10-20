@@ -1,2 +1,4 @@
 # 비교 예제의 줄바꿈과 파일 해시를 운영체제에 관계없이 보존한다.
 /static/downloads/blog/file-hash/*.txt -text
+# 빈 줄까지 측정 대상인 바이트 예제는 텍스트 diff·자동 변환에서 제외한다.
+/static/downloads/blog/line-endings/*.txt -text -diff
