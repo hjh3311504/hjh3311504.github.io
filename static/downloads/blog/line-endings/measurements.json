@@ -1,0 +1,115 @@
+{
+  "measuredAt": "2026-10-20T00:05:07.731615+00:00",
+  "python": "3.13.1",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "encoding": "UTF-8 without BOM; ASCII-only example codes",
+  "normalization": "CRLF -> LF only; preserves final newline and blank lines",
+  "results": [
+    {
+      "file": "lf.txt",
+      "bytes": 12,
+      "crlf": 0,
+      "lfWithoutCr": 3,
+      "standaloneCr": 0,
+      "endsWithNewline": true,
+      "splitlines": [
+        "A01",
+        "B02",
+        "C03"
+      ],
+      "naiveSplit": [
+        "A01",
+        "B02",
+        "C03",
+        ""
+      ],
+      "normalizedEqualsLf": true,
+      "sha256": "5b955c1af658136d2f57f95825c083cc2e277f6212119febc0daf36fb9045ca6"
+    },
+    {
+      "file": "crlf.txt",
+      "bytes": 15,
+      "crlf": 3,
+      "lfWithoutCr": 0,
+      "standaloneCr": 0,
+      "endsWithNewline": true,
+      "splitlines": [
+        "A01",
+        "B02",
+        "C03"
+      ],
+      "naiveSplit": [
+        "A01\r",
+        "B02\r",
+        "C03\r",
+        ""
+      ],
+      "normalizedEqualsLf": true,
+      "sha256": "c9ef831dbfb7712f8453fc8b9f3f26dda6dc3593d781328d729d759a6e9a1881"
+    },
+    {
+      "file": "mixed.txt",
+      "bytes": 13,
+      "crlf": 1,
+      "lfWithoutCr": 2,
+      "standaloneCr": 0,
+      "endsWithNewline": true,
+      "splitlines": [
+        "A01",
+        "B02",
+        "C03"
+      ],
+      "naiveSplit": [
+        "A01\r",
+        "B02",
+        "C03",
+        ""
+      ],
+      "normalizedEqualsLf": true,
+      "sha256": "556e54725ac926e4614906ae9ba5c8362c4cc110374fa7afbe895dea14df4268"
+    },
+    {
+      "file": "no-final-newline.txt",
+      "bytes": 11,
+      "crlf": 0,
+      "lfWithoutCr": 2,
+      "standaloneCr": 0,
+      "endsWithNewline": false,
+      "splitlines": [
+        "A01",
+        "B02",
+        "C03"
+      ],
+      "naiveSplit": [
+        "A01",
+        "B02",
+        "C03"
+      ],
+      "normalizedEqualsLf": false,
+      "sha256": "c31e8978b6f561b2af0a8cf7fbeef935ee36471a37fe1a122bcb79896a11d106"
+    },
+    {
+      "file": "extra-blank-line.txt",
+      "bytes": 13,
+      "crlf": 0,
+      "lfWithoutCr": 4,
+      "standaloneCr": 0,
+      "endsWithNewline": true,
+      "splitlines": [
+        "A01",
+        "B02",
+        "C03",
+        ""
+      ],
+      "naiveSplit": [
+        "A01",
+        "B02",
+        "C03",
+        "",
+        ""
+      ],
+      "normalizedEqualsLf": false,
+      "sha256": "8fbf5e8392f6980965f8f3e42ac0e07fc6664cb7b1da6b409e47308a28706ab3"
+    }
+  ]
+}
