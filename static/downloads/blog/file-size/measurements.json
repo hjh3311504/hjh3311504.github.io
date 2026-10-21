@@ -1,0 +1,40 @@
+{
+  "measuredAt": "2026-10-21T00:20:48.728Z",
+  "node": "v24.11.0",
+  "chromium": "151.0.7922.34",
+  "platform": "darwin/arm64",
+  "input": "ASCII A (0x41) repeated; no newline; local file input only; no upload",
+  "limit": "Local comparison only; not the policy of any upload service",
+  "results": [
+    {
+      "file": "sample-999999.txt",
+      "bytes": 999999,
+      "MB": "0.999999",
+      "MiB": "0.953673",
+      "roundedMB": "1.00",
+      "atMostOneMB": true,
+      "belowOneMB": true,
+      "sha256": "3484c59d89be223cad20500598dbf262e82195121b599d1d24cef55e9709d024"
+    },
+    {
+      "file": "sample-1000000.txt",
+      "bytes": 1000000,
+      "MB": "1.000000",
+      "MiB": "0.953674",
+      "roundedMB": "1.00",
+      "atMostOneMB": true,
+      "belowOneMB": false,
+      "sha256": "e23c0cda5bcdecddec446b54439995c7260c8cdcf2953eec9f5cdb6948e5898d"
+    },
+    {
+      "file": "sample-1048576.txt",
+      "bytes": 1048576,
+      "MB": "1.048576",
+      "MiB": "1.000000",
+      "roundedMB": "1.05",
+      "atMostOneMB": false,
+      "belowOneMB": false,
+      "sha256": "4e29ad18ab9f42d7c233500771a39d7c852b200baf328fd00fbbe3fecea1eb56"
+    }
+  ]
+}
