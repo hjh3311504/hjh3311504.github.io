@@ -270,7 +270,10 @@ test('32팀이면 팀 목록은 일정 높이까지만 보이고 안에서 스�
 	await expect
 		.poll(() => list.evaluate((element) => element.scrollTop), { timeout: 5000 })
 		.toBeGreaterThan(400);
-	await page.waitForTimeout(800);
+	// 자동 스크롤은 화면 갱신마다 진행되므로 고정 시간 대신 실제 도착 위치를 기다린다.
+	await expect
+		.poll(async () => (await namesNow()).indexOf('팀1'), { timeout: 5000 })
+		.toBeGreaterThanOrEqual(28);
 	await page.mouse.up();
 	expect((await namesNow()).indexOf('팀1')).toBeGreaterThanOrEqual(28);
 });

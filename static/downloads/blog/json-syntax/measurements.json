@@ -1,0 +1,124 @@
+{
+  "measuredAt": "2026-10-22T00:02:57.169Z",
+  "node": "v24.11.0",
+  "chromium": "151.0.7922.34",
+  "platform": "darwin/arm64",
+  "method": "UTF-8 files without BOM; JSON.parse of saved text in Node.js and Chromium",
+  "limit": "Syntax only; not validation of any application settings or VS Code GUI",
+  "repairsChecked": 5,
+  "results": [
+    {
+      "file": "valid.json",
+      "bytes": 44,
+      "sha256": "b79db15f04011b4b218a38db461c49c19fee22c3b816c76fbdc1959190946a98",
+      "node": {
+        "valid": true,
+        "value": {
+          "name": "오후 모임",
+          "count": 3
+        }
+      },
+      "chromium": {
+        "valid": true,
+        "value": {
+          "name": "오후 모임",
+          "count": 3
+        }
+      }
+    },
+    {
+      "file": "compact.json",
+      "bytes": 35,
+      "sha256": "600daf3fdb32e9bcd47f8fd7bbd71058167d0d9994ed0774019cd24aa07eb565",
+      "node": {
+        "valid": true,
+        "value": {
+          "name": "오후 모임",
+          "count": 3
+        }
+      },
+      "chromium": {
+        "valid": true,
+        "value": {
+          "name": "오후 모임",
+          "count": 3
+        }
+      }
+    },
+    {
+      "file": "trailing-comma.json",
+      "bytes": 36,
+      "sha256": "784272d9bd737261ea1dfe57f424db140b6781c8c0f644473cbef582b7bd86c1",
+      "node": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected double-quoted property name in JSON at position 26 (line 1 column 27)"
+      },
+      "chromium": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected double-quoted property name in JSON at position 26 (line 1 column 27)"
+      }
+    },
+    {
+      "file": "single-quotes.json",
+      "bytes": 35,
+      "sha256": "d1d9fe14a2d62b5f9046ddf9f85bfad04603a5a965499bee8349ff7120af352c",
+      "node": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      },
+      "chromium": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      }
+    },
+    {
+      "file": "comment.json",
+      "bytes": 54,
+      "sha256": "81f1fcfd4d4673e0ee25d65954f39ad35475ffb3af49a052e9f753a544b92f48",
+      "node": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected double-quoted property name in JSON at position 16 (line 1 column 17)"
+      },
+      "chromium": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected double-quoted property name in JSON at position 16 (line 1 column 17)"
+      }
+    },
+    {
+      "file": "missing-comma.json",
+      "bytes": 35,
+      "sha256": "de14e494b2a965275669482594a0d13181cad701e34706f11df90a55af2f74e9",
+      "node": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected ',' or '}' after property value in JSON at position 16 (line 1 column 17)"
+      },
+      "chromium": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected ',' or '}' after property value in JSON at position 16 (line 1 column 17)"
+      }
+    },
+    {
+      "file": "curly-quotes.json",
+      "bytes": 47,
+      "sha256": "d8d87c255caab924d143ed29c0345394e6804928e606b19b48b29b24b882e40d",
+      "node": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      },
+      "chromium": {
+        "valid": false,
+        "error": "SyntaxError",
+        "message": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      }
+    }
+  ]
+}
