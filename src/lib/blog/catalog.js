@@ -1,4 +1,4 @@
-import { siteBaseUrl, image } from '../data/meta.js';
+import { siteBaseUrl, image, imageAlt } from '../data/meta.js';
 
 export const blogTitle = '블로그';
 export const blogDescription =
@@ -10,11 +10,13 @@ export const programs = {
 	'marble-race': { name: 'ASMR 구슬 레이스', href: '/marble-race' },
 	bracket: { name: '대진표 만들기', href: '/bracket' }
 };
+// 글을 주제별로 묶습니다. 도구 글은 소개와 활용으로 나누고, 가이드는 다루는 대상으로 나눕니다.
 export const categories = {
-	introduction: '프로그램 소개',
-	guide: '사용 가이드',
-	update: '업데이트',
-	note: '기록'
+	introduction: '도구 소개',
+	tool: '도구 활용',
+	image: '이미지·사진',
+	data: '데이터·텍스트',
+	file: '파일·링크'
 };
 export const postPath = (slug) => `/blog/${slug}`;
 export const absoluteUrl = (pathname) => new URL(pathname, `${siteBaseUrl}/`).href;
@@ -24,7 +26,7 @@ export const formatDate = (date) => date.replaceAll('-', '. ');
 export function postImage(post) {
 	return {
 		url: post.image ? absoluteUrl(post.image) : image,
-		alt: post.imageAlt || 'Lake의 개발 도구와 프로젝트를 소개하는 사이트'
+		alt: post.imageAlt || imageAlt
 	};
 }
 

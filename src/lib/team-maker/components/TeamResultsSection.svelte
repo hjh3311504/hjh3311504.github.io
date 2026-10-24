@@ -35,7 +35,7 @@
 	<EmptyState id="result-empty" class="result-empty" role="status">
 		<span
 			class="result-empty-mark"
-			style={`--result-empty-mark-image: url('${assetsBase}/stat-people.png')`}
+			style={`--result-empty-mark-image: url('${assetsBase}/stat-people.svg')`}
 			aria-hidden="true"
 		></span>
 		<strong>아직 만든 팀이 없습니다</strong>

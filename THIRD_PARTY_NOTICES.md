@@ -12,11 +12,17 @@
 | `static/images/site-open-graph-1200x630.png`, `static/images/team-maker-open-graph-1200x630.png`, `static/images/marble-race-open-graph-1200x630.png` | 자체 생성 script로 만든 공유 이미지이며 MIT를 적용합니다.                                            |
 | `src/lib/team-maker/fonts/`와 설계 전달본의 SUIT·SUITE 글꼴                                                                                           | SIL Open Font License 1.1                                                                            |
 | 홈의 GitHub 아이콘                                                                                                                                    | Bootstrap Icons의 MIT와 원저작권 고지                                                                |
-| `static/images/team-maker/`의 기존 이미지·SVG                                                                                                         | 이번 MIT 적용 범위에서 제외합니다. 기존 자료의 권리는 변경하지 않습니다.                             |
+| `static/images/team-maker/`의 SVG                                                                                                                     | 2026-10-25에 직접 좌표를 정해 작성한 도형10개와 단순 도형의 `favicon.svg`에 MIT를 적용합니다.        |
 | `docs/design/handoff/`, `docs/design/claude-design-DSN.md`                                                                                            | 보존용 설계 자료·요청문입니다. 이번 MIT 적용 범위에서 제외하며 포함된 외부 자료의 조건을 유지합니다. |
 | npm 패키지와 외부 라이선스 원문                                                                                                                       | 각 저작권자의 라이선스를 유지합니다.                                                                 |
 
 MIT 적용 제외는 해당 자료에 GPL을 새로 적용하거나 별도의 재사용 허락을 부여한다는 뜻이 아닙니다. 제외된 이미지·설계 자료를 따로 재사용하려면 해당 자료의 이용 조건을 확인하세요. 일반 문서에서 외부 자료를 인용한 부분에도 원저작자의 권리가 유지됩니다.
+
+## Team Maker SVG
+
+2026-10-25에 출처 기록이 없던 PNG10개를 직접 작성한 SVG로 교체했습니다. 대상은 `laurel-1.svg`·`laurel-2.svg`·`laurel-3.svg`, `confetti.svg`, `stat-days.svg`·`stat-games.svg`·`stat-people.svg`·`stat-win.svg`·`stat-pick.svg`·`stat-lose.svg`입니다. 외부 아이콘 path나 글꼴 윤곽선을 사용하지 않고 path·rect·circle·ellipse의 좌표를 직접 정했습니다. 기존 `favicon.svg`는 사각형과 T자 path의 단순 도형이라 유지했습니다.
+
+SVG 원본 코드는 `static/images/team-maker/*.svg` 파일 자체에 있습니다. 정적 build에서는 변환 없이 `build/images/team-maker/*.svg`로 복사되며, 공개 경로는 `/images/team-maker/*.svg`입니다. HTML·CSS에서 이 파일을 이미지 또는 mask로 참조합니다. WebP·AVIF 변환 대상에는 포함하지 않습니다.
 
 ## 블로그 사용 화면
 

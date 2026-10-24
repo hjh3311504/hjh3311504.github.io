@@ -125,7 +125,7 @@ try {
 		);
 		assert.ok(!tool.includes(draft.title), `${route}: 초안이 표시됩니다.`);
 	}
-	const note = { ...publicPost, slug: 'general-note', title: '일상의 기록', category: 'note' };
+	const note = { ...publicPost, slug: 'general-note', title: '파일 정리 기록', category: 'file' };
 	delete note.program;
 	await writeFile(
 		path.join(directory, 'note.md'),

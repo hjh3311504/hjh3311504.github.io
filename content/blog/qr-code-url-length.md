@@ -3,7 +3,7 @@ slug: qr-code-url-length
 title: '긴 주소를 QR 코드로 만들면 왜 더 촘촘해질까?'
 summary: '주소 길이를 36·125·285바이트로 바꾸고 QR의 칸 수를 비교했습니다. 같은 크기로 인쇄할 때 달라지는 한 칸의 크기와 배포 전 확인 순서를 설명합니다.'
 program: qr-code
-category: guide
+category: tool
 publishedAt: '2026-10-20'
 published: true
 ---

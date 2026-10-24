@@ -2,7 +2,7 @@
 slug: csv-columns-and-quotes
 title: 'CSV에서 열이 밀리는 이유: 쉼표·따옴표·줄바꿈 구분하기'
 summary: '쉼표와 줄바꿈이 들어간 가상 명단을 CSV로 저장했습니다. 정상 파일과 따옴표가 빠진 파일을 비교하고, 표가 어긋났을 때 확인할 순서를 설명합니다.'
-category: guide
+category: data
 publishedAt: '2026-10-13'
 published: true
 ---

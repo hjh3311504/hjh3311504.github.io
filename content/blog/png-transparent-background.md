@@ -2,7 +2,7 @@
 slug: png-transparent-background
 title: '투명 PNG에 흰 배경이 생겼을 때 확인할 순서'
 summary: '같은 도형을 투명 PNG와 배경색을 넣은 JPG로 저장했습니다. 흰 사각형이 생기는 이유와 PNG로 다시 저장해도 투명해지지 않는 이유를 비교합니다.'
-category: guide
+category: image
 publishedAt: '2026-10-15'
 published: true
 ---

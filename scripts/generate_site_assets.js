@@ -71,7 +71,7 @@ const pages = [
 	{
 		name: 'site',
 		title: "Lake's develog",
-		body: `<div class="copy home"><p class="eyebrow">개발 도구와 프로젝트</p><h1>Lake’s<br>develog</h1><p class="description">직접 만들고 사용한 도구를<br>한곳에 모았습니다.</p></div><div class="preview"><div class="preview-heading">둘러보기 <span class="count">PROJECTS</span></div><section class="project"><div class="project-icon">↗</div><h2>팀 메이커</h2><p>스포츠·게임·모임 참가자를<br>고르게 나누는 무료 도구</p><span class="open">도구 열기 →</span></section></div>`,
+		body: `<div class="copy home"><p class="eyebrow">모임 도구와 파일 가이드</p><h1>Lake’s<br>develog</h1><p class="description">모임·수업에 쓰는 무료 도구와<br>직접 실험한 파일·데이터 가이드</p></div><div class="preview"><div class="preview-heading">둘러보기 <span class="count">도구와 가이드</span></div><section class="project"><div class="project-icon">↗</div><h2>팀 메이커</h2><p>스포츠·게임·모임 참가자를<br>고르게 나누는 무료 도구</p><span class="open">도구 열기 →</span></section></div>`,
 		url: 'hjh3311504.github.io'
 	}
 ];

@@ -4,7 +4,7 @@ import { blogListing } from '../../src/lib/blog/listing.js';
 
 const posts = Array.from({ length: 43 }, (_, index) => ({
 	slug: `post-${index}`,
-	category: index < 13 ? 'guide' : 'note'
+	category: index < 13 ? 'image' : 'file'
 }));
 
 test('페이지를 이동해도 글이 빠지거나 중복되지 않는다', () => {
@@ -17,15 +17,15 @@ test('페이지를 이동해도 글이 빠지거나 중복되지 않는다', () 
 });
 
 test('카테고리별로 페이지를 나누고 범위를 벗어나면 마지막 페이지를 표시한다', () => {
-	const listing = blogListing(posts, 'guide', '8');
+	const listing = blogListing(posts, 'image', '8');
 	assert.equal(listing.total, 13);
 	assert.equal(listing.currentPage, 3);
 	assert.deepEqual(listing.posts, [posts[12]]);
-	assert.deepEqual(blogListing(posts, 'guide').posts, posts.slice(0, 6));
+	assert.deepEqual(blogListing(posts, 'image').posts, posts.slice(0, 6));
 });
 
 test('빈 카테고리와 잘못된 URL 값을 안전하게 처리한다', () => {
-	assert.deepEqual(blogListing(posts, 'update').posts, []);
+	assert.deepEqual(blogListing(posts, 'data').posts, []);
 	assert.equal(blogListing([], '', '99').currentPage, 1);
 	for (const value of ['0', '-1', '1.5', 'NaN', 'Infinity', '']) {
 		assert.equal(blogListing(posts, '', value).currentPage, 1);

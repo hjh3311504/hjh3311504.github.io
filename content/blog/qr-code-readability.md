@@ -3,7 +3,7 @@ slug: qr-code-readability
 title: 'QR 코드가 안 읽힐 때: 여백과 이미지 크기부터 확인하세요'
 summary: '같은 주소로 만든 QR 이미지4개를 비교했습니다. 여백 제거, 작은 크기로 축소, 다시 확대했을 때의 해독 결과와 수정 순서를 정리했습니다.'
 program: qr-code
-category: guide
+category: tool
 publishedAt: '2026-10-11'
 published: true
 ---

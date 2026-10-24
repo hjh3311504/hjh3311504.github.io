@@ -2,7 +2,7 @@
 slug: url-special-characters
 title: '공유 링크의 &, +, # 때문에 값이 달라질 때'
 summary: 'R&D, A+B, Room#2를 주소에 넣고 실제로 읽히는 값을 비교했습니다. 공유 주소를 복사할 때와 코드로 만들 때 각각 확인할 점을 설명합니다.'
-category: guide
+category: file
 publishedAt: '2026-10-18'
 published: true
 ---

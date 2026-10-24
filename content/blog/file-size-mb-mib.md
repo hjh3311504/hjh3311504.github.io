@@ -2,7 +2,7 @@
 slug: file-size-mb-mib
 title: '1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기'
 summary: '실제 파일3개를 만들고 바이트 수와 브라우저가 읽은 크기를 비교했습니다. 반올림 표시와 용량 단위를 구분하고 업로드 제한을 확인하는 방법을 안내합니다.'
-category: note
+category: file
 publishedAt: '2026-10-24'
 published: true
 ---

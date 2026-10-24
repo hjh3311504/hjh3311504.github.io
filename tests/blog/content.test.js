@@ -63,7 +63,10 @@ for (const [name, changes, message] of [
 	['잘못된 주소', { slug: '../escape' }, /slug/],
 	['없는 프로그램', { program: 'missing' }, /프로그램 ID/],
 	['객체 기본 속성 프로그램', { program: 'toString' }, /프로그램 ID/],
-	['없는 종류', { category: 'news' }, /글 종류/],
+	['없는 주제', { category: 'news' }, /글 주제/],
+	['없앤 분류 guide', { category: 'guide' }, /글 주제/],
+	['없앤 분류 update', { category: 'update' }, /글 주제/],
+	['없앤 분류 note', { category: 'note' }, /글 주제/],
 	['잘못된 날짜', { publishedAt: '2026-02-30' }, /존재하지 않는 날짜/],
 	['역전된 수정일', { updatedAt: '2026-09-28' }, /게시일보다/],
 	['미래 수정일', { updatedAt: '2026-09-30' }, /미래 수정일/],
@@ -225,7 +228,7 @@ test('빈 폴더·초안만 있는 폴더·공개 글 정렬·중복 slug를 검
 });
 
 test('관련 글은 공개한 같은 프로그램 글만 사용하고 소개를 먼저 보여준다', async () => {
-	const current = await parse({ slug: 'current', category: 'update' });
+	const current = await parse({ slug: 'current', category: 'tool' });
 	const intro = await parse({ slug: 'intro', publishedAt: '2026-09-28' });
 	const draft = await parse({ slug: 'draft', published: false });
 	const other = await parse({ slug: 'other', program: 'qr-code' });
@@ -235,9 +238,9 @@ test('관련 글은 공개한 같은 프로그램 글만 사용하고 소개를 
 	);
 });
 
-test('프로그램 연결 없이 일반 기록을 작성하고 같은 종류의 글을 연결한다', async () => {
-	const note = await parse({ slug: 'note', program: undefined, category: 'note' });
-	const other = await parse({ slug: 'other-note', program: undefined, category: 'note' });
+test('프로그램 연결 없이 가이드를 작성하고 같은 주제의 글을 연결한다', async () => {
+	const note = await parse({ slug: 'note', program: undefined, category: 'file' });
+	const other = await parse({ slug: 'other-note', program: undefined, category: 'file' });
 	const tool = await parse({ slug: 'tool' });
 	assert.equal(note.program, undefined);
 	assert.deepEqual(

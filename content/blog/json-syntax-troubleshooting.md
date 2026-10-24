@@ -2,7 +2,7 @@
 slug: json-syntax-troubleshooting
 title: 'JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기'
 summary: '직접 만든 JSON 예제7개로 문법 오류를 비교했습니다. 마지막 쉼표와 빠진 쉼표를 구분하고, JSON과 주석을 허용하는 설정 파일의 차이를 확인하세요.'
-category: note
+category: data
 publishedAt: '2026-10-25'
 published: true
 ---

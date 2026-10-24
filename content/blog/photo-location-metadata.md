@@ -2,7 +2,7 @@
 slug: photo-location-metadata
 title: '사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법'
 summary: '가짜 좌표를 넣은 JPEG에서 GPS 정보를 읽고 복사본에서 지웠습니다. 원본을 보존하면서 사진에 남은 위치 정보를 확인하는 순서를 안내합니다.'
-category: guide
+category: image
 publishedAt: '2026-10-21'
 published: true
 ---

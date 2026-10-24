@@ -2,7 +2,7 @@
 slug: pdf-text-search-troubleshooting
 title: 'PDF에서 글자가 검색되지 않는 이유와 확인 방법'
 summary: '화면에는 같은 글자가 보이지만 검색 결과는 다를 수 있습니다. 직접 만든 PDF2개로 차이를 확인하고 원인에 맞는 해결 순서를 알아보세요.'
-category: guide
+category: file
 publishedAt: '2026-10-07'
 published: true
 ---

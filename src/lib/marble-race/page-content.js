@@ -1,13 +1,13 @@
 import { siteBaseUrl } from '../data/meta.js';
 
 export const pageName = 'ASMR 구슬 레이스';
-export const seoTitle = 'ASMR 구슬레이스 | 무료 구슬추첨·마블레이스';
+export const seoTitle = 'ASMR 구슬 레이스 | 이름 적힌 구슬로 뽑는 무료 추첨 도구';
 export const seoDescription =
-	'이름을 넣고 구슬레이스로 당첨자를 뽑아보세요. 설치·로그인 없이 즐기는 무료 ASMR 마블레이스입니다. 마블룰렛 방식의 구슬추첨으로 수업 발표자, 모임 순서, 방송 이벤트 당첨자를 정할 수 있습니다.';
+	'참가자 이름을 구슬에 붙여 굴리고 결승선 도착 순서로 당첨자를 정하는 무료 추첨 도구입니다. 블록 충돌음을 들으며 수업 발표자, 모임 순서, 방송 이벤트 당첨자를 정할 수 있습니다. 설치나 로그인은 필요 없습니다.';
 export const pageDescription =
-	'이름을 넣고 구슬레이스로 당첨자를 뽑아보세요. 소리와 함께 즐기는 무료 마블레이스입니다.';
+	'이름이 적힌 구슬을 굴려 도착 순서로 당첨자를 뽑아 보세요. 소리와 함께 보는 무료 추첨 도구입니다.';
 export const guideIntro =
-	'ASMR 구슬 레이스는 참가자 이름을 구슬에 붙여 굴리는 마블룰렛 방식의 무료 온라인 추첨기입니다. 구슬이 블록과 장애물을 지나가는 동안 충돌음을 듣고 도착 순위를 확인할 수 있습니다. 설치나 로그인 없이 구슬추첨으로 수업 발표자, 방송 이벤트 당첨자, 모임 순서를 정해보세요.';
+	'ASMR 구슬 레이스는 참가자 이름을 구슬에 붙여 굴리고, 결승선에 도착한 순서로 당첨자를 정하는 무료 추첨 도구입니다. 구슬이 블록과 장애물을 지나가는 동안 충돌음을 듣고 도착 순위를 확인할 수 있습니다. 설치나 로그인 없이 수업 발표자, 방송 이벤트 당첨자, 모임 순서를 정해 보세요.';
 export const pageUrl = `${siteBaseUrl}/marble-race`;
 export const shareImage = `${siteBaseUrl}/images/marble-race-open-graph-1200x630.png`;
 export const shareImageAlt = 'ASMR 구슬 레이스 — 키보드 블록과 이름이 적힌 구슬을 표현한 그림';
@@ -40,7 +40,7 @@ export const drawMethods = [
 ];
 export const faqs = [
 	{
-		question: '구슬추첨으로 당첨자를 뽑으려면 어떻게 하나요?',
+		question: '구슬로 당첨자를 뽑으려면 어떻게 하나요?',
 		answer:
 			'ASMR 구슬 레이스에서 참가자 이름을 줄바꿈이나 쉼표로 나눠 입력하세요. 맵과 당첨 방식을 고른 뒤 레이스 시작을 누르면 이름이 적힌 구슬이 내려갑니다. 첫번째·마지막·여러명·n번째 중 선택한 기준으로 당첨자를 정합니다. 여러명은 시작 순위와 끝 순위 사이의 구슬을 뽑습니다.'
 	},
@@ -114,13 +114,7 @@ export const structuredData = {
 			'@type': 'WebApplication',
 			'@id': `${pageUrl}#application`,
 			name: pageName,
-			alternateName: [
-				'ASMR Marble Race',
-				'ASMR 구슬 추첨기',
-				'구슬레이스',
-				'구슬추첨',
-				'마블레이스'
-			],
+			alternateName: ['ASMR 구슬 추첨기'],
 			url: pageUrl,
 			description: seoDescription,
 			applicationCategory: 'EntertainmentApplication',

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="2 3 60 56.6">
+<!-- 2026-10-25 자체 작성, MIT. 직접 정한 좌표의 단순 도형. -->
+<path d="M28 54C8 48 7 28 17 12m19 42C56 48 57 28 47 12" fill="none" stroke="#c79a35" stroke-width="2" stroke-linecap="round"/>
+<g fill="#e2bb5b"><ellipse cx="15" cy="15" rx="3" ry="6" transform="rotate(-28 15 15)"/><ellipse cx="49" cy="15" rx="3" ry="6" transform="rotate(28 49 15)"/><ellipse cx="11" cy="24" rx="3" ry="6" transform="rotate(-48 11 24)"/><ellipse cx="53" cy="24" rx="3" ry="6" transform="rotate(48 53 24)"/><ellipse cx="11" cy="34" rx="3" ry="6" transform="rotate(-65 11 34)"/><ellipse cx="53" cy="34" rx="3" ry="6" transform="rotate(65 53 34)"/><ellipse cx="15" cy="43" rx="3" ry="6" transform="rotate(-48 15 43)"/><ellipse cx="49" cy="43" rx="3" ry="6" transform="rotate(48 49 43)"/><ellipse cx="23" cy="50" rx="3" ry="6" transform="rotate(-65 23 50)"/><ellipse cx="41" cy="50" rx="3" ry="6" transform="rotate(65 41 50)"/></g>
+<path d="m28 25 5-4v23m-6 0h12" fill="none" stroke="#c79a35" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

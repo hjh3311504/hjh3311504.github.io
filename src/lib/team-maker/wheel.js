@@ -99,7 +99,7 @@ export function createWheel({
 		eyebrow.className = 'wheel-outcome-eyebrow';
 		const icon = document.createElement('img');
 		icon.className = 'wheel-outcome-icon';
-		icon.src = assetUrl('confetti.png');
+		icon.src = assetUrl('confetti.svg');
 		icon.alt = '';
 		icon.width = 19;
 		icon.height = 20;

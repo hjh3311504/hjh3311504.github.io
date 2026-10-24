@@ -2,7 +2,7 @@
 slug: filename-sorting
 title: '파일 이름이 1, 10, 2 순서로 보일 때: 번호와 날짜 붙이는 방법'
 summary: '실제 파일을 만들어 로컬 파일 공유 화면의 순서를 확인했습니다. 번호와 날짜 자릿수를 맞추기 전후의 화면, 예제 ZIP, 다시 확인할 방법을 제공합니다.'
-category: guide
+category: file
 publishedAt: '2026-10-19'
 published: true
 ---

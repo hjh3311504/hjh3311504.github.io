@@ -2,7 +2,7 @@
 slug: file-hash-comparison
 title: '파일 이름과 용량이 같은데 내용도 같을까? SHA-256으로 비교하기'
 summary: '이름만 바꾼 파일, 시각을 고친 파일, 줄바꿈만 바꾼 파일을 비교했습니다. 다운로드 예제와 Windows·Mac 명령으로 같은 파일인지 확인해 보세요.'
-category: guide
+category: file
 publishedAt: '2026-10-14'
 published: true
 ---

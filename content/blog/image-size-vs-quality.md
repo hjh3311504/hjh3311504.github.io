@@ -2,7 +2,7 @@
 slug: image-size-vs-quality
 title: '이미지 용량 줄이기: 크기 축소와 화질 조절의 차이'
 summary: '이미지 크기와 JPG 품질을 따로 바꿔 파일4개의 용량을 측정했습니다. 작은 글자를 지키면서 용량을 줄이는 순서를 설명합니다.'
-category: guide
+category: image
 publishedAt: '2026-10-06'
 published: true
 ---

@@ -12,9 +12,10 @@ export const keywords = [
 	'구슬 추첨'
 ];
 export const description =
-	'파일·이미지·데이터 문제를 직접 실험해 정리한 가이드와 설치 없이 쓰는 무료 브라우저 도구를 제공합니다.';
+	'모임·수업에서 쓰는 무료 브라우저 도구와, 파일·이미지·데이터 문제를 직접 실험해 정리한 가이드를 제공합니다.';
 export const title = "Lake's develog";
 export const image = `${siteBaseUrl}/images/site-open-graph-1200x630.png`;
+export const imageAlt = "모임·수업 도구와 파일·데이터 가이드를 소개하는 Lake's develog";
 // 문의 이메일과 AdSense 게시자 ID는 공개 정보입니다. 게시자 ID는 static/ads.txt와 같아야 합니다.
 export const contactEmail = 'hjh3311504@gmail.com';
 export const adsenseClient = 'ca-pub-3102141816876720';

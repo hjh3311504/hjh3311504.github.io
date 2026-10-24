@@ -956,7 +956,7 @@ test('당첨자를 뺀 나머지에서 다시 뽑고 모두 뽑으면 멈춘다'
 	await expect(wheelDialog.locator('.wheel-outcome-eyebrow')).toHaveText('1번째 당첨자');
 	await expect(wheelDialog.locator('.wheel-outcome-icon')).toHaveAttribute(
 		'src',
-		/\/confetti\.png$/
+		/\/confetti\.svg$/
 	);
 	await expect(picked.locator('.picked-row')).toHaveCount(1);
 	const singlePickLayout = await picked.evaluate((container) => ({
