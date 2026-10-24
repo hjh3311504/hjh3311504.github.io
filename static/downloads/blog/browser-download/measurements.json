@@ -1,0 +1,65 @@
+{
+  "measuredAt": "2026-10-24T00:07:20.834Z",
+  "node": "v24.11.0",
+  "chromium": "151.0.7922.34",
+  "platform": "darwin/arm64",
+  "method": "Headless Chromium; link clicks on two 127.0.0.1 servers with different ports; identical UTF-8 text bytes",
+  "limit": "Not a test of Chrome context menus, Android, iOS, Safari, login pages, or blocked downloads",
+  "original": {
+    "file": "meeting.txt",
+    "bytes": 51,
+    "sha256": "d1e5b7d022569c7e6b1ea9f436d6b7019bbca60f84c4ad1ed5f625c1d156e577"
+  },
+  "results": [
+    {
+      "id": "inline",
+      "origin": "same-origin",
+      "path": "/inline/meeting.txt",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Content-Disposition": "inline"
+      },
+      "behavior": "display",
+      "displayedText": "오후 모임 준비물\n공책 1권\n연필 2자루\n",
+      "downloadCount": 0
+    },
+    {
+      "id": "attachment",
+      "origin": "same-origin",
+      "path": "/attachment/meeting.txt",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Content-Disposition": "attachment; filename=\"meeting.txt\""
+      },
+      "behavior": "download",
+      "suggestedFilename": "meeting.txt",
+      "bytes": 51,
+      "sha256": "d1e5b7d022569c7e6b1ea9f436d6b7019bbca60f84c4ad1ed5f625c1d156e577"
+    },
+    {
+      "id": "same-origin",
+      "origin": "same-origin",
+      "path": "/inline/meeting.txt",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Content-Disposition": "inline"
+      },
+      "behavior": "download",
+      "suggestedFilename": "link-copy.txt",
+      "bytes": 51,
+      "sha256": "d1e5b7d022569c7e6b1ea9f436d6b7019bbca60f84c4ad1ed5f625c1d156e577"
+    },
+    {
+      "id": "cross-origin",
+      "origin": "other-origin",
+      "path": "/meeting.txt",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Content-Disposition": "inline"
+      },
+      "behavior": "display",
+      "displayedText": "오후 모임 준비물\n공책 1권\n연필 2자루\n",
+      "downloadCount": 0
+    }
+  ]
+}
