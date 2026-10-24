@@ -9,14 +9,12 @@
 		dateTime,
 		author
 	} from './catalog.js';
-	import { image } from '$lib/data/meta.js';
+	import { image, imageAlt } from '$lib/data/meta.js';
 	let { post = undefined } = $props();
 	let title = $derived(post?.title || blogTitle);
 	let description = $derived(post?.summary || blogDescription);
 	let url = $derived(absoluteUrl(post ? postPath(post.slug) : '/blog'));
-	let share = $derived(
-		post ? postImage(post) : { url: image, alt: 'Lake의 개발 도구와 프로젝트를 소개하는 사이트' }
-	);
+	let share = $derived(post ? postImage(post) : { url: image, alt: imageAlt });
 	// 글 정보의 < 문자를 이스케이프해 JSON-LD의 script 종료를 막는다.
 	let jsonLd = $derived(
 		post?.publicationStatus === 'published'

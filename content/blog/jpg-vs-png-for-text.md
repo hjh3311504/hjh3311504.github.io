@@ -2,7 +2,7 @@
 slug: jpg-vs-png-for-text
 title: 'JPG와 PNG, 글자가 들어간 이미지는 무엇으로 저장할까?'
 summary: '같은 안내 카드를 PNG와 JPG로 저장해 글자 테두리와 파일 용량을 비교했습니다. 원본 파일을 열어 차이를 직접 확인할 수 있습니다.'
-category: guide
+category: image
 publishedAt: '2026-10-05'
 published: true
 ---

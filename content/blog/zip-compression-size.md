@@ -2,7 +2,7 @@
 slug: zip-compression-size
 title: 'ZIP으로 압축해도 용량이 줄지 않는 이유: 파일4개 비교'
 summary: '반복 문장, PNG, JPG, 작은 텍스트를 각각 ZIP으로 묶었습니다. 압축이 잘되는 경우와 오히려 용량이 늘어나는 경우를 실측값으로 설명합니다.'
-category: guide
+category: file
 publishedAt: '2026-10-10'
 published: true
 ---

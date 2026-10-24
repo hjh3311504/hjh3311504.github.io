@@ -573,11 +573,11 @@ test('미니맵은 기본 OFF이고 ON/OFF를 저장해 다른 화면 크기에�
 
 test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 안내를 제공한다', async ({ page }) => {
 	await page.goto('/marble-race');
-	expect(await page.locator('main').ariaSnapshot()).toContain('마블레이스로 구슬추첨하는 방법');
-	await expect(page).toHaveTitle('[로컬] ASMR 구슬레이스 | 무료 구슬추첨·마블레이스');
+	expect(await page.locator('main').ariaSnapshot()).toContain('구슬 레이스로 당첨자 뽑는 방법');
+	await expect(page).toHaveTitle('[로컬] ASMR 구슬 레이스 | 이름 적힌 구슬로 뽑는 무료 추첨 도구');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('ASMR 구슬 레이스');
 	await expect(page.locator('.tool-page-header')).toContainText(
-		'이름을 넣고 구슬레이스로 당첨자를 뽑아보세요. 소리와 함께 즐기는 무료 마블레이스입니다.'
+		'이름이 적힌 구슬을 굴려 도착 순서로 당첨자를 뽑아 보세요. 소리와 함께 보는 무료 추첨 도구입니다.'
 	);
 	await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
 		'content',
@@ -588,7 +588,7 @@ test('ASMR 검색 정보·공용 가이드와 화면에 보이지 않는 경기 
 	// 사용 안내 4개는 기본으로 펼치고 도감만 접어 둔다.
 	await expect(page.locator('[data-ui-disclosure][open]')).toHaveCount(4);
 	await expect(
-		guide.getByRole('heading', { name: '구슬추첨으로 당첨자를 뽑으려면 어떻게 하나요?' })
+		guide.getByRole('heading', { name: '구슬로 당첨자를 뽑으려면 어떻게 하나요?' })
 	).toBeVisible();
 	await expect(guide.locator('details[open]')).toHaveCount(4);
 	await expect(guide.getByText('효과음 출처', { exact: true })).toHaveCount(0);

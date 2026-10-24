@@ -1,5 +1,5 @@
 <script>
-	import { description, image, keywords, title, siteBaseUrl } from '$lib/data/meta.js';
+	import { description, image, imageAlt, keywords, title, siteBaseUrl } from '$lib/data/meta.js';
 	import { resolve } from '$app/paths';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
@@ -19,12 +19,12 @@
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:image:type" content="image/png" />
-	<meta property="og:image:alt" content="Lake의 개발 도구와 프로젝트를 소개하는 사이트" />
+	<meta property="og:image:alt" content={imageAlt} />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={image} />
-	<meta name="twitter:image:alt" content="Lake의 개발 도구와 프로젝트를 소개하는 사이트" />
+	<meta name="twitter:image:alt" content={imageAlt} />
 </svelte:head>
 
 <SiteShell active="home" variant="home">
@@ -33,8 +33,8 @@
 			<Section class="home-intro" aria-labelledby="home-intro-title">
 				<SectionHeader title="Lake's develog" titleId="home-intro-title" level={1} />
 				<p>
-					파일·이미지·데이터를 다루다 막히는 문제를 직접 실험해 정리합니다.<br />설치 없이 쓰는 무료
-					도구와 함께, 확인 순서를 따라 문제를 해결해 보세요.
+					모임과 수업에서 쓰는 무료 도구를 만들고,<br />파일·이미지·데이터를 다루다 막히는 문제를
+					직접 실험해 정리합니다.
 				</p>
 				<div class="intro-links">
 					<Button
@@ -112,11 +112,11 @@
 							</span>
 							<span class="project-copy">
 								<span class="project-title-row"
-									><span class="project-title">블로그</span><span class="project-kind">기록</span
+									><span class="project-title">블로그</span><span class="project-kind">가이드</span
 									></span
 								>
 								<span class="project-description"
-									>개발하며 얻은 경험과 생각,<br />일상의 이야기를 기록합니다.</span
+									>파일·이미지·데이터 문제를 직접 실험하고<br />확인 순서로 정리한 글입니다.</span
 								>
 							</span>
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
@@ -217,8 +217,8 @@
 										>도구</span
 									></span
 								><span class="project-description"
-									>이름을 넣고 구슬레이스로 당첨자를 뽑아보세요.<br />소리와 함께 즐기는 무료
-									구슬추첨 도구입니다.</span
+									>이름이 적힌 구슬을 굴려 당첨자를 뽑아 보세요.<br />소리와 함께 보는 무료 추첨
+									도구입니다.</span
 								></span
 							>
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
@@ -264,9 +264,9 @@
 					</dd>
 					<dt>발표자나 당첨자 뽑기</dt>
 					<dd>
-						<a href={resolve('/marble-race')}>ASMR 구슬 레이스</a>는 마블룰렛 방식으로 당첨자를 뽑는
-						무료 마블레이스입니다. 원하는 도착 순위를 고르고 경기 화면과 소리로 구슬추첨 과정을 함께
-						볼 수 있습니다.
+						<a href={resolve('/marble-race')}>ASMR 구슬 레이스</a>는 이름이 적힌 구슬을 굴려 결승선
+						도착 순서로 당첨자를 뽑습니다. 원하는 도착 순위를 고르고 경기 화면과 소리로 추첨 과정을
+						함께 볼 수 있습니다.
 					</dd>
 					<dt>QR 코드로 링크 공유하기</dt>
 					<dd>

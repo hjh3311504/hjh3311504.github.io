@@ -2,7 +2,7 @@
 slug: csv-leading-zeros
 title: 'CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기'
 summary: '00123 같은 코드와 16자리 이상 숫자를 CSV에서 스프레드시트로 가져올 때 바뀌는 이유와, 열을 텍스트로 보존하는 방법을 정리했습니다.'
-category: guide
+category: data
 publishedAt: '2026-10-22'
 published: true
 ---

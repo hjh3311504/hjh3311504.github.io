@@ -95,7 +95,7 @@ export async function parsePost(
 	)
 		fail(file, `없는 프로그램 ID: ${data.program}`);
 	if (!Object.hasOwn(categories, data.category))
-		fail(file, `허용하지 않은 글 종류: ${data.category}`);
+		fail(file, `허용하지 않은 글 주제: ${data.category}`);
 	if (typeof data.published !== 'boolean') fail(file, 'published는 true 또는 false를 명시하세요.');
 	dateValue(data.publishedAt, 'publishedAt', file);
 	const today = new Intl.DateTimeFormat('en-CA', {

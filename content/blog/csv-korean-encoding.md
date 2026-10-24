@@ -2,7 +2,7 @@
 slug: csv-korean-encoding
 title: 'CSV 파일의 한글이 깨질 때: 저장 방식부터 확인하세요'
 summary: '같은 표를 UTF-8, BOM을 넣은 UTF-8, CP949로 저장했습니다. 예제3개로 한글 깨짐의 원인과 다시 불러오는 순서를 확인하세요.'
-category: guide
+category: data
 publishedAt: '2026-10-08'
 published: true
 ---

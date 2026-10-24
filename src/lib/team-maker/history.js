@@ -31,7 +31,6 @@ export function createHistory({
 	root,
 	showDialog
 }) {
-	const statsImageFallbacks = new WeakMap();
 	let historySort = 'wins';
 	let historySearch = '';
 	const enteringHistory = new Set();
@@ -421,12 +420,12 @@ export function createHistory({
 		const facts = $('#history-overview-facts');
 		facts.replaceChildren();
 		const factList = [
-			{ label: '전체 경기', value: `${stats.matchCount}경기`, icon: 'stat-games.png' },
-			{ label: '기록 일수', value: `${days}일`, icon: 'stat-days.png', tone: 'green' },
+			{ label: '전체 경기', value: `${stats.matchCount}경기`, icon: 'stat-games.svg' },
+			{ label: '기록 일수', value: `${days}일`, icon: 'stat-days.svg', tone: 'green' },
 			{
 				label: '참가자',
 				value: `${stats.players.length}명`,
-				icon: 'stat-people.png',
+				icon: 'stat-people.svg',
 				tone: 'violet'
 			}
 		];
@@ -486,7 +485,7 @@ export function createHistory({
 			item.dataset.rank = String(group.place);
 			const laurel = document.createElement('img');
 			laurel.className = 'podium-laurel';
-			laurel.src = assetUrl(`laurel-${group.place}.png`);
+			laurel.src = assetUrl(`laurel-${group.place}.svg`);
 			laurel.alt = group.players.length > 1 ? `공동 ${group.place}위` : `${group.place}위`;
 			let name;
 			if (group.players.length === 1) {
@@ -615,20 +614,20 @@ export function createHistory({
 		const leaders = $('#player-stats-leaders');
 		leaders.replaceChildren();
 		const groups = [
-			{ label: '최다 승리', unit: '승', items: stats.topWins, tone: 'win', icon: 'stat-win.png' },
+			{ label: '최다 승리', unit: '승', items: stats.topWins, tone: 'win', icon: 'stat-win.svg' },
 			{
 				label: '최다 당첨',
 				unit: '번',
 				items: stats.topPicks,
 				tone: 'pick',
-				icon: 'stat-pick.png'
+				icon: 'stat-pick.svg'
 			},
 			{
 				label: '최다 패배',
 				unit: '패',
 				items: stats.topLosses,
 				tone: 'lose',
-				icon: 'stat-lose.png'
+				icon: 'stat-lose.svg'
 			}
 		];
 		for (const group of groups) {
@@ -641,10 +640,7 @@ export function createHistory({
 			const icon = document.createElement('span');
 			icon.className = 'stats-leader-icon';
 			const image = document.createElement('img');
-			const imageUrl = assetUrl(
-				import.meta.env.DEV ? group.icon : group.icon.replace(/\.png$/, '.webp')
-			);
-			if (!import.meta.env.DEV) statsImageFallbacks.set(image, assetUrl(group.icon));
+			const imageUrl = assetUrl(group.icon);
 			icon.style.setProperty('--stats-leader-icon-image', `url("${imageUrl}")`);
 			image.src = imageUrl;
 			image.alt = '';
@@ -743,7 +739,7 @@ export function createHistory({
 			if (player.place <= 3) {
 				const image = document.createElement('img');
 				image.className = 'rank-laurel';
-				image.src = assetUrl(`laurel-${player.place}.png`);
+				image.src = assetUrl(`laurel-${player.place}.svg`);
 				image.alt = shared ? `공동 ${player.place}위` : `${player.place}위`;
 				rank.append(image);
 			} else {
@@ -770,21 +766,6 @@ export function createHistory({
 		}
 	}
 	function connect() {
-		// error는 버블링하지 않으므로 캡처 단계에서 처리합니다.
-		on(
-			root,
-			'error',
-			(event) => {
-				const image = event.target;
-				const fallbackUrl = statsImageFallbacks.get(image);
-				if (!fallbackUrl) return;
-				statsImageFallbacks.delete(image);
-				image.parentElement.style.setProperty('--stats-leader-icon-image', `url("${fallbackUrl}")`);
-				image.src = fallbackUrl;
-			},
-			true
-		);
-
 		on($('#open-player-stats-button'), 'click', () => {
 			renderPlayerStats();
 			showDialog($('#player-stats-dialog'), '.dialog-close');

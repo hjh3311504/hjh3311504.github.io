@@ -605,32 +605,40 @@ const marbleMain = marbleHtml.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
 const marbleMainText = marbleMain
 	?.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, '')
 	.replace(/<[^>]+>/g, ' ');
-const marbleSearchTerms = ['구슬레이스', '구슬추첨', '마블레이스'];
-for (const term of marbleSearchTerms) {
-	if (!marbleTitle.includes(term) || !marbleDescription.includes(term))
-		throw new Error(`구슬 레이스 검색 제목 또는 설명에 검색어가 없습니다: ${term}`);
+// 앱 이름 뒤의 제목과 설명·본문이 실제 용도(구슬 도착 순서로 당첨자 결정)를 설명해야 합니다.
+if (!marbleTitle.split('|')[1]?.includes('추첨'))
+	throw new Error('구슬 레이스 검색 제목에 앱 이름 외의 추첨 용도 안내가 없습니다.');
+for (const term of ['당첨자', '도착']) {
+	if (!marbleDescription.includes(term))
+		throw new Error(`구슬 레이스 검색 설명에 용도 안내가 없습니다: ${term}`);
 	if (!marbleMainText?.includes(term))
-		throw new Error(`구슬 레이스 정적 본문에 검색어가 없습니다: ${term}`);
-	if (!marbleApp?.alternateName?.includes(term))
-		throw new Error(`구슬 레이스 앱의 대체 이름에 검색어가 없습니다: ${term}`);
+		throw new Error(`구슬 레이스 정적 본문에 용도 안내가 없습니다: ${term}`);
 }
-if (!marbleDescription.includes('마블룰렛') || !marbleMainText?.includes('마블룰렛'))
-	throw new Error('구슬 레이스 설명 또는 본문에 마블룰렛 방식 안내가 없습니다.');
+// 다른 서비스 이름을 검색어로 쓰면 그 서비스를 베낀 페이지로 보일 수 있습니다.
+// 공개 HTML과 RSS 전체에서 한글·영어 표기를 모두 확인합니다.
+const otherServiceName = /마블\s?룰렛|마블\s?레이스|marble\s?(?:roulette|race)/i;
+const publicTextFiles = (await readdir(path.join(root, 'build'), { recursive: true })).filter(
+	(file) => /\.(?:html|xml)$/.test(file) && !file.startsWith('licenses')
+);
+for (const file of publicTextFiles) {
+	const text = await readFile(path.join(root, 'build', file), 'utf8');
+	const match = text.match(otherServiceName);
+	if (match) throw new Error(`${file}에 다른 서비스 이름을 썼습니다: ${match[0]}`);
+}
 for (const text of [marblePageDescription, marbleGuideIntro]) {
 	if (!marbleMain?.includes(text))
 		throw new Error(`정적 본문에 구슬 추첨 소개가 없습니다: ${text}`);
 }
-if (!homeHtml.includes('마블룰렛 방식')) throw new Error('홈에 구슬 추첨 용도 안내가 없습니다.');
 const homeMarbleCard = homeHtml.match(
 	/<a\b[^>]*\bhref="(?:\.\/|\/)marble-race"[^>]*>([\s\S]*?)<\/a>/g
 );
 if (
 	!homeMarbleCard?.some((card) => {
 		const text = card.replace(/<[^>]+>/g, ' ');
-		return text.includes('구슬레이스') && text.includes('구슬추첨');
+		return text.includes('구슬') && text.includes('당첨자');
 	})
 )
-	throw new Error('홈의 구슬 레이스 카드에 구슬레이스·구슬추첨 안내가 없습니다.');
+	throw new Error('홈의 구슬 레이스 카드에 구슬 추첨 용도 안내가 없습니다.');
 if (
 	marbleApp?.url !== marbleUrl ||
 	marbleApp?.name !== pageName ||

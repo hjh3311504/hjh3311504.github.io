@@ -2,7 +2,7 @@
 slug: image-orientation-metadata
 title: '사진을 올렸더니 옆으로 돌아간다면: 회전 정보와 픽셀 방향 확인하기'
 summary: '위쪽을 가리키는 그림으로 회전 정보가 있는 파일과 없는 파일을 비교했습니다. 사진의 부가 정보를 지우기 전에 방향부터 맞춰야 하는 이유를 설명합니다.'
-category: guide
+category: image
 publishedAt: '2026-10-17'
 published: true
 ---

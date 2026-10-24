@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- 2026-10-25 자체 작성, MIT. 직접 정한 좌표의 단순 도형. -->
+<path d="M12 18h40v9a5 5 0 0 0 0 10v9H12v-9a5 5 0 0 0 0-10Zm26 4v5h3v-5Zm0 8v5h3v-5Zm0 8v4h3v-4Z" fill="#7d8790" fill-rule="evenodd"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- 2026-10-25 자체 작성, MIT. 직접 정한 좌표의 단순 도형. -->
+<path d="m12 20 11 10 9-17 9 17 11-10-5 29H17Z" fill="#3f91d3"/>
+<path d="M18 43h28v7H18Z" fill="#276caa"/>
+<g fill="#71b8e9"><circle cx="12" cy="18" r="3"/><circle cx="32" cy="12" r="3"/><circle cx="52" cy="18" r="3"/></g>
+<path d="m32 30 4 5-4 5-4-5Z" fill="#d6edfc"/>
+</svg>

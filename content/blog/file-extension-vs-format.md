@@ -2,7 +2,7 @@
 slug: file-extension-vs-format
 title: '파일 확장자만 바꾸면 형식도 바뀔까? PNG로 확인해 봤습니다'
 summary: 'PNG의 이름만 JPG로 바꾼 파일과 실제 변환한 JPG를 비교했습니다. 파일이 열리는 것과 형식이 바뀌는 것이 다른 이유를 설명합니다.'
-category: guide
+category: file
 publishedAt: '2026-10-09'
 published: true
 ---

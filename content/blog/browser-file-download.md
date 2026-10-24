@@ -2,7 +2,7 @@
 slug: browser-file-download
 title: '파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기'
 summary: '같은 텍스트 파일을 여는 링크4가지를 Chromium에서 비교했습니다. PC와 Android Chrome에서 파일을 저장하는 순서와 웹페이지를 잘못 저장했을 때 확인할 점을 정리합니다.'
-category: note
+category: file
 publishedAt: '2026-10-26'
 published: true
 ---

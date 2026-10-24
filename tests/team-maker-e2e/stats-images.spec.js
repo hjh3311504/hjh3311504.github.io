@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { stubAdsense } from './helpers/adsense.js';
 
-const statImage = /\/stat-(win|pick|lose)\.(webp|png)$/;
+const statImage = /\/stat-(win|pick|lose)\.[^/]+$/;
 
 async function openStats(page) {
 	await page.addInitScript(() => {
@@ -29,10 +29,9 @@ async function openStats(page) {
 	return page.getByRole('dialog', { name: '참가자 통계', exact: true });
 }
 
-for (const fallback of [false, true]) {
-	test(`통계 아이콘은 ${fallback ? 'WebP 해독 실패 시 PNG와 마스크로 전환한다' : 'WebP를 요청하고 PNG는 요청하지 않는다'}`, async ({
-		page
-	}) => {
+for (const width of [1440, 390]) {
+	test(`통계 SVG와 당첨 마스크를 ${width}px 화면에서 표시한다`, async ({ page }) => {
+		await page.setViewportSize({ width, height: 1000 });
 		await stubAdsense(page);
 		const errors = [];
 		page.on('pageerror', (error) => errors.push(error.message));
@@ -43,18 +42,12 @@ for (const fallback of [false, true]) {
 		page.on('request', (request) => {
 			if (statImage.test(request.url())) requests.push(request.url());
 		});
-		if (fallback) {
-			// HTTP 오류 대신 해독할 수 없는 이미지를 전달해 기존 오류 검사를 유지합니다.
-			await page.route(/\/stat-(win|pick|lose)\.webp$/, (route) =>
-				route.fulfill({ contentType: 'image/webp', body: 'invalid image' })
-			);
-		}
 		const dialog = await openStats(page);
 		const images = dialog.locator('.stats-leader-icon img');
 		await expect(images).toHaveCount(3);
 		for (let index = 0; index < 3; index++) {
 			const image = images.nth(index);
-			await expect(image).toHaveAttribute('src', new RegExp(`\\.${fallback ? 'png' : 'webp'}$`));
+			await expect(image).toHaveAttribute('src', /\.svg$/);
 			await expect
 				.poll(() => image.evaluate((img) => img.complete && img.naturalWidth > 0))
 				.toBe(true);
@@ -63,31 +56,41 @@ for (const fallback of [false, true]) {
 				height: getComputedStyle(img).height,
 				fit: getComputedStyle(img).objectFit,
 				mask: img.parentElement.style.getPropertyValue('--stats-leader-icon-image'),
-				src: img.getAttribute('src')
+				src: img.getAttribute('src'),
+				background: getComputedStyle(img.parentElement).backgroundColor,
+				parentWidth: img.parentElement.getBoundingClientRect().width,
+				parentHeight: img.parentElement.getBoundingClientRect().height
 			}));
-			expect(layout).toMatchObject({ width: '50px', height: '50px', fit: 'contain' });
+			expect(layout).toMatchObject({
+				width: '50px',
+				height: '50px',
+				fit: 'contain',
+				parentWidth: 52,
+				parentHeight: 52
+			});
 			expect(layout.mask).toBe(`url("${layout.src}")`);
-			if (fallback) {
-				// PNG까지 실패해도 다시 대체 요청을 만들지 않습니다.
-				await image.dispatchEvent('error');
-				await expect(image).toHaveAttribute('src', layout.src);
-			}
+			expect(layout.background).not.toBe('rgba(0, 0, 0, 0)');
 		}
-		expect(new Set(requests.filter((url) => url.endsWith('.webp')))).toHaveProperty('size', 3);
-		expect(new Set(requests.filter((url) => url.endsWith('.png')))).toHaveProperty(
-			'size',
-			fallback ? 3 : 0
+		const names = requests.map((url) => url.split('/').pop());
+		expect([...new Set(names)].sort()).toEqual(['stat-lose.svg', 'stat-pick.svg', 'stat-win.svg']);
+		const pickMask = await images.nth(1).evaluate((img) => {
+			const style = getComputedStyle(img.parentElement, '::before');
+			return { image: style.maskImage, color: style.backgroundColor };
+		});
+		expect(pickMask.image).toContain('stat-pick.svg');
+		// CSS 변수를 실제 색으로 계산해 초록 마스크가 유지되는지 확인합니다.
+		const green = await dialog.evaluate((element) => {
+			const probe = document.createElement('span');
+			probe.style.color = 'var(--green)';
+			element.append(probe);
+			const color = getComputedStyle(probe).color;
+			probe.remove();
+			return color;
+		});
+		expect(pickMask.color).toBe(green);
+		expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+			width
 		);
-		// 당첨 아이콘은 img와 CSS 마스크가 같은 파일을 각각 요청합니다.
-		const names = ['stat-win', 'stat-pick', 'stat-pick', 'stat-lose'];
-		const expected = names.map((name) => `${name}.webp`);
-		if (fallback) expected.push(...names.map((name) => `${name}.png`));
-		expect(requests.map((url) => url.split('/').pop()).sort()).toEqual(expected.sort());
-		expect(
-			await images
-				.nth(1)
-				.evaluate((img) => getComputedStyle(img.parentElement, '::before').maskImage)
-		).toContain(`stat-pick.${fallback ? 'png' : 'webp'}`);
 		expect(errors).toEqual([]);
 	});
 }

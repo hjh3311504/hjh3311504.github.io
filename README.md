@@ -189,9 +189,9 @@ npm run test:e2e:built -- tests/team-maker-e2e/navigation.spec.js
 
 ## 통계 이미지 처리
 
-build 후 `scripts/optimize_images.js`가 PNG·JPEG 원본에서 WebP와 AVIF를 생성합니다. 참가자 통계의 `stat-win`, `stat-pick`, `stat-lose` 3개 아이콘은 production에서 생성된 WebP를 사용합니다. 개발 서버는 원본 PNG를 사용합니다.
+build 후 `scripts/optimize_images.js`가 PNG·JPEG 원본에서 WebP와 AVIF를 생성합니다. Team Maker의 월계관·통계·축하 아이콘은 2026-10-25부터 직접 작성한 SVG(`static/images/team-maker/*.svg`)라서 변환하지 않고 개발 서버와 production에서 같은 파일을 사용합니다. 경로는 `assetUrl()`로 만듭니다.
 
-최소 지원 브라우저 버전이 정해져 있지 않으므로 WebP 로드·해독 실패 시 PNG로 한 번만 대체합니다. 이미지와 당첨 아이콘의 CSS 마스크를 함께 전환하며 경로는 `assetUrl()`로 만듭니다. 원본 PNG와 기존 변환 품질 설정은 유지합니다. E2E 테스트는 WebP 요청, PNG 대체와 마스크 경로를 확인합니다.
+SVG의 viewBox 비율은 이전 PNG와 같게 맞춰 기존 CSS 크기에서 배치가 바뀌지 않게 합니다. 당첨 아이콘은 같은 SVG를 CSS 마스크로 사용합니다. E2E 테스트는 SVG 요청과 마스크 경로를 확인합니다.
 
 ## 배포
 
@@ -418,9 +418,9 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 
 ### ASMR 구슬 레이스 검색·공유 정보
 
-- 화면 이름은 **ASMR 구슬 레이스**, 검색 제목은 **ASMR 구슬 레이스 | 마블룰렛 방식의 무료 구슬 추첨기**다. [검색 문구와 본문 보강 결정](docs/adr/2026-09-28-구슬-추첨-검색-문구와-본문-보강.md)을 따른다.
+- 화면 이름은 **ASMR 구슬 레이스**, 검색 제목은 **ASMR 구슬 레이스 | 이름 적힌 구슬로 뽑는 무료 추첨 도구**다. [다른 서비스명 제거 결정](docs/adr/2026-10-25-AdSense-재심사-다른-서비스명과-블로그-주제-분류.md)을 따른다.
 - 검색 설명·공유 정보·구조화 데이터와 가이드 내용은 `src/lib/marble-race/page-content.js`에서 관리한다. `RaceGuide.svelte`는 공용 `DisclosureSection`으로 사용법·당첨 방식·수업/방송 활용·FAQ를 표시한다.
-- 화면 소개·홈 카드·사용법·FAQ에 마블룰렛 방식의 구슬 추첨 용도를 설명한다. 앱 이름과 제작자 정보는 유지한다. 가이드는 JavaScript 실행 전의 정적 HTML에 포함한다. robots와 sitemap의 기존 공개 경로를 유지하며 검색·AI 답변에 노출될 순위나 시점은 보장하지 않는다.
+- 화면 소개·홈 카드·사용법·FAQ에 이름이 적힌 구슬을 굴려 도착 순서로 당첨자를 정하는 용도를 설명한다. 다른 서비스 이름을 검색어로 쓰지 않으며 `npm run verify:team-maker`가 홈과 구슬 레이스 HTML에서 확인한다. 앱 이름과 제작자 정보는 유지한다. 가이드는 JavaScript 실행 전의 정적 HTML에 포함한다. robots와 sitemap의 기존 공개 경로를 유지하며 검색·AI 답변에 노출될 순위나 시점은 보장하지 않는다.
 - 공유 이미지는 `scripts/generate_site_assets.js`에서 생성한다. 변경 뒤 `npm run generate:assets`와 build 검증을 실행한다.
 - 화면 읽기용 경기·당첨 안내는 경기장 내부에 둔다. `.marble-page .sr-only`가 적용되어 화면에는 숨겨지고 전체화면에서도 읽을 수 있다.
 
@@ -462,7 +462,7 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 
 블로그 목록은 `/blog`, 글 상세는 `/blog/<slug>`, 구독 주소는 `/rss.xml`입니다. 마지막 슬래시는 사용하지 않습니다. 정적 결과는 `build/blog.html`, `build/blog/<slug>.html`, `build/rss.xml`입니다. SvelteKit의 페이지 이동용 `__data.json`도 글 목록·상세·도구별 폴더에 생성됩니다. 도구 HTML은 기존처럼 `build/team-maker.html` 등의 형태를 유지합니다. 기존 도구와 블로그 목록·공개 글을 같은 sitemap에 포함합니다.
 
-글은 `content/blog/*.md`에 작성합니다. 저장소 파일을 서버 전용 코드가 build할 때 읽으므로 운영 서버와 관리자 화면은 필요하지 않습니다. `markdown-it`과 `yaml`은 글을 해석하는 개발 의존성이며 브라우저에 포함하지 않습니다. 프로그램 이름과 사용 주소, 글 종류, 작성자는 `src/lib/blog/catalog.js`, 검증과 본문 변환은 `src/lib/server/blog.js`에서 관리합니다.
+글은 `content/blog/*.md`에 작성합니다. 저장소 파일을 서버 전용 코드가 build할 때 읽으므로 운영 서버와 관리자 화면은 필요하지 않습니다. `markdown-it`과 `yaml`은 글을 해석하는 개발 의존성이며 브라우저에 포함하지 않습니다. 프로그램 이름과 사용 주소, 글 주제, 작성자는 `src/lib/blog/catalog.js`, 검증과 본문 변환은 `src/lib/server/blog.js`에서 관리합니다.
 
 ### 새 글 작성과 초안 미리보기
 
@@ -489,7 +489,7 @@ published: false
 ---
 ```
 
-블로그는 경험·생각·일상 등 주제를 제한하지 않습니다. `program`은 선택 항목입니다. 관련 프로그램이 있을 때만 `team-maker`, `qr-code`, `marble-race`, `bracket` 중 하나를 지정하세요. 글 종류는 `introduction`(프로그램 소개), `guide`(사용 가이드), `update`(업데이트), `note`(기록)입니다. 일반 글은 `program`을 생략하고 `category: note`로 작성할 수 있습니다. 작성자는 현재 사이트 운영자인 Lake를 공통으로 사용합니다. 업데이트에는 실제 적용일 `releaseDate: '2026-09-29'`와 존재하는 버전 `version: '1.2.0'`을 선택적으로 넣을 수 있습니다. 버전이 없다면 생략하세요.
+블로그는 도구 사용법과 파일·이미지·데이터 문제 해결 가이드를 다룹니다. `program`은 선택 항목입니다. 관련 프로그램이 있을 때만 `team-maker`, `qr-code`, `marble-race`, `bracket` 중 하나를 지정하세요. `category`는 글의 주제입니다. `introduction`(도구 소개), `tool`(도구 활용), `image`(이미지·사진), `data`(데이터·텍스트), `file`(파일·링크) 중 하나를 고르세요. 프로그램과 관계없는 가이드는 `program`을 생략하고 다루는 대상에 맞는 주제를 지정합니다. 주제를 나눈 이유는 [AdSense 재심사 결정](docs/adr/2026-10-25-AdSense-재심사-다른-서비스명과-블로그-주제-분류.md)에 있습니다. 작성자는 현재 사이트 운영자인 Lake를 공통으로 사용합니다. 기능 변경을 알리는 글에는 실제 적용일 `releaseDate: '2026-09-29'`와 존재하는 버전 `version: '1.2.0'`을 선택적으로 넣을 수 있습니다. 버전이 없다면 생략하세요.
 
 날짜는 따옴표로 감싼 `YYYY-MM-DD` 형식이며 한국 시간 자정을 기준으로 판정합니다. `published: true`는 공개 승인, `publishedAt`은 공개일입니다. 미래 날짜라면 예약 상태로 두었다가 공개일 이후 build부터 포함합니다. `published: false`는 날짜가 지나도 초안입니다. 수정일은 게시일보다 빠를 수 없고 실제 수정일만 작성합니다. build가 날짜를 덮어쓰지 않습니다.
 
@@ -520,13 +520,13 @@ GitHub Actions는 실행이 지연되거나 누락될 수 있습니다. 실제 �
 
 이미지만 있는 문단에는 `![이미지 설명](/images/blog/파일명.png "이미지 아래 캡션")`처럼 캡션을 붙일 수 있습니다. 캡션은 이미지 아래에 작은 글씨로 표시합니다. 문장 안에 들어간 이미지의 설명은 기존 도움말로 유지합니다.
 
-프로그램을 지정한 글에서만 관련 프로그램으로 연결합니다. 같은 프로그램의 공개 글은 자동으로 연결되며 일반 글은 같은 종류의 일반 글로 연결됩니다. 소개 글을 먼저 보여주고 나머지는 최신순으로 최대4개 표시합니다. 프로그램 화면에는 해당 프로그램의 공개 글이 있을 때만 관련 글 영역이 나타납니다.
+프로그램을 지정한 글에서만 관련 프로그램으로 연결합니다. 같은 프로그램의 공개 글은 자동으로 연결되며 프로그램이 없는 글은 같은 주제의 글로 연결됩니다. 소개 글을 먼저 보여주고 나머지는 최신순으로 최대4개 표시합니다. 프로그램 화면에는 해당 프로그램의 공개 글이 있을 때만 관련 글 영역이 나타납니다.
 
-### 글 종류별 작성 예시
+### 글 형태별 작성 예시
 
 아래는 구조 예시입니다. 대괄호 내용을 실제 확인한 사실로 바꾸세요. 검증하지 않은 기능·성능·가격·사용자 수·후기는 공개하지 마세요.
 
-프로그램 소개 (`category: introduction`):
+도구 소개 (`category: introduction`):
 
 ```markdown
 ## 어떤 상황에서 필요한가요?
@@ -542,7 +542,7 @@ GitHub Actions는 실행이 지연되거나 누락될 수 있습니다. 실제 �
 [확인한 사용 조건·저장 방식·제한]
 ```
 
-사용 가이드 (`category: guide`):
+도구 활용과 문제 해결 가이드 (`category: tool`, `image`, `data`, `file`):
 
 ```markdown
 ## 준비하기
@@ -559,7 +559,7 @@ GitHub Actions는 실행이 지연되거나 누락될 수 있습니다. 실제 �
 [예상 결과와 실수하기 쉬운 부분]
 ```
 
-업데이트 (`category: update`):
+기능 변경 안내 (도구 글이면 `category: tool`):
 
 ```markdown
 ## 무엇이 바뀌었나요?

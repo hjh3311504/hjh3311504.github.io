@@ -3,7 +3,7 @@ slug: browser-local-storage
 title: '브라우저에 저장한 내용이 사라졌다면: 저장 위치부터 확인하세요'
 summary: '가상 명단3명으로 새로고침, 다른 임시 브라우저 환경, 저장 데이터 삭제를 비교했습니다. 브라우저 저장과 파일 보관의 차이, 내용이 안 보일 때의 확인 순서를 설명합니다.'
 program: team-maker
-category: guide
+category: tool
 publishedAt: '2026-10-12'
 published: true
 ---

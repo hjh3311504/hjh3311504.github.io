@@ -5,7 +5,7 @@
 </script>
 
 <div class="marble-guide" data-testid="marble-race-guide">
-	<DisclosureSection open title="마블레이스로 구슬추첨하는 방법" titleId="marble-guide-title">
+	<DisclosureSection open title="구슬 레이스로 당첨자 뽑는 방법" titleId="marble-guide-title">
 		<p class="guide-intro">{guideIntro}</p>
 		<ol class="guide-grid">
 			{#each guideSteps as step (step.title)}<li>

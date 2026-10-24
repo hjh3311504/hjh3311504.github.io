@@ -2,7 +2,7 @@
 slug: text-file-line-endings
 title: '텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기'
 summary: '같은 코드 3줄을 줄바꿈만 바꿔 저장했습니다. 섞인 줄바꿈, 마지막 줄바꿈, 빈 줄을 구분하고 복사본에서 고치는 방법을 설명합니다.'
-category: guide
+category: data
 publishedAt: '2026-10-23'
 published: true
 ---

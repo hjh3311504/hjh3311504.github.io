@@ -3,7 +3,7 @@ slug: team-maker-rule-conflicts
 title: '팀 메이커에서 배정이 안 될 때: 같은 팀·다른 팀 규칙 풀어보기'
 summary: '가상 참가자 6명과 10명으로 배정 실패 4가지를 재현했습니다. 규칙 충돌, 부족한 팀 수, 같은 팀 묶음과 정원이 맞지 않는 경우를 구분하고 수정하는 방법입니다.'
 program: team-maker
-category: guide
+category: tool
 publishedAt: '2026-10-16'
 published: true
 ---
