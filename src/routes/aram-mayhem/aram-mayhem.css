@@ -31,11 +31,8 @@ html[data-theme='dark'] .aram-page {
 }
 
 /* 챔피언 고르기 */
-.aram-search {
-	width: 100%;
-	margin-bottom: var(--space-12);
-}
 .aram-roles {
+	margin-top: var(--space-12);
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--space-8);

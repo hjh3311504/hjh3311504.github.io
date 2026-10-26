@@ -1,5 +1,5 @@
 <script>
-	import { Button, EmptyState } from '$lib/components/ui';
+	import { Button, EmptyState, FormField } from '$lib/components/ui';
 	import { ALL_ROLES, filterChampions, roleOptions } from '../guide.js';
 
 	let { champions, selectedId, onselect } = $props();
@@ -10,14 +10,19 @@
 </script>
 
 <div class="aram-picker">
-	<input
-		class="ui-field aram-search"
-		type="search"
-		placeholder="챔피언 이름 검색"
-		aria-label="챔피언 이름 검색"
-		autocomplete="off"
-		bind:value={query}
-	/>
+	<FormField id="aram-search" label="챔피언 이름 검색" spacing="none">
+		{#snippet children({ describedBy })}
+			<input
+				class="ui-field"
+				id="aram-search"
+				type="search"
+				placeholder="예: 티모"
+				autocomplete="off"
+				aria-describedby={describedBy}
+				bind:value={query}
+			/>
+		{/snippet}
+	</FormField>
 	<div class="aram-roles" role="group" aria-label="역할로 거르기">
 		{#each roles as option (option)}
 			<Button

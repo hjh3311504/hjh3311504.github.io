@@ -14,13 +14,13 @@
 
 ## 화면 구성
 
-공용 SiteShell·ToolPageHeader·Button·EmptyState·DisclosureSection·ToolPageFooter와 `.ui-field`를 사용한다. 위에서 아래로 다음 순서다.
+공용 SiteShell·ToolPageHeader·Button·EmptyState·DisclosureSection·ToolPageFooter·FormField와 `.ui-field`를 사용한다. 위에서 아래로 다음 순서다.
 
 1. 공통 내비게이션과 `칼바람 아수라장` 현재 위치 표시
 2. ToolPageHeader: 제목 `칼바람 아수라장 증강 가이드`, 설명 `챔피언을 고르면 어떤 증강을 노리고, 무엇을 사고, 어떻게 싸우면 되는지 알려드려요.`
 3. 패치 표시: `26.21 패치 기준 · 챔피언 31명`
 4. 챔피언 고르기
-   - 이름 검색 입력
+   - 이름 검색 입력: FormField의 보이는 label `챔피언 이름 검색`과 예시 placeholder `예: 티모`
    - 역할 버튼: 전체와 가이드에 있는 역할. 고른 역할은 soft 버튼과 `aria-pressed`
    - 챔피언 아이콘 목록: 가나다순, 76px 이상 칸의 자동 줄바꿈 격자. 고른 챔피언은 파란 테두리
    - 검색 결과가 없으면 EmptyState `찾는 챔피언이 아직 가이드에 없어요.`
