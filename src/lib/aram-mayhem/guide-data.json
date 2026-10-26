@@ -1,0 +1,5325 @@
+{
+	"patch": "26.21",
+	"dataDragonVersion": "16.21.1",
+	"champions": [
+		{
+			"id": "garen",
+			"nameKo": "가렌",
+			"roles": ["전사"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/garen.webp",
+			"skills": {
+				"E": {
+					"name": "심판",
+					"icon": "/images/aram-mayhem/skills/garen-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "치명타",
+					"core": ["발걸음 분쇄기", "유령 무희", "무한의 대검"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "도미닉 경의 인사",
+							"whenKo": "적의 방어력이 높을 때"
+						},
+						{
+							"item": "필멸자의 운명",
+							"whenKo": "적 회복이 강할 때"
+						},
+						{
+							"item": "스테락의 도전",
+							"whenKo": "적에게 붙은 뒤 큰 피해를 한꺼번에 받아 버티기 어려울 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "검무로 E 확정 적중",
+					"level": "strong",
+					"augmentIds": ["blade-waltz"],
+					"required": ["blade-waltz"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "을 쓰면서 "
+						},
+						{
+							"t": "aug",
+							"v": "검무",
+							"id": "blade-waltz"
+						},
+						{
+							"t": "text",
+							"v": "를 사용하면 무적 상태로 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "을 확정으로 맞힐 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["blunt-force", "goliath", "thread-the-needle", "leg-day"],
+			"avoid": ["overflow"]
+		},
+		{
+			"id": "ryze",
+			"nameKo": "라이즈",
+			"roles": ["마법사", "전사"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/ryze.webp",
+			"skills": {
+				"Q": {
+					"name": "과부하",
+					"icon": "/images/aram-mayhem/skills/ryze-q.webp"
+				},
+				"E": {
+					"name": "주문 전이",
+					"icon": "/images/aram-mayhem/skills/ryze-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["영겁의 지팡이", "대천사의 지팡이", "라바돈의 죽음모자"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "균열 생성기",
+							"whenKo": "적과 오래 싸우며 회복이 필요할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "얼어붙은 심장",
+							"whenKo": "적에 평타로 싸우는 챔피언이 많을 때"
+						},
+						{
+							"item": "실체화 장비",
+							"whenKo": "마나가 넉넉해 짧은 교전에서 스킬을 몰아 쓰고 싶을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-mind-to-matter-adapt",
+					"trigger": ["mind-to-matter", "adapt"],
+					"core": [
+						"영겁의 지팡이",
+						"대천사의 지팡이",
+						"지배자의 피갑옷",
+						"마나무네",
+						"라바돈의 죽음모자"
+					],
+					"boots": "탐욕의 군화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-overflow",
+					"trigger": ["overflow"],
+					"core": ["영겁의 지팡이", "대천사의 지팡이", "혹한의 손길"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 더 높여 피해를 키우고 싶을 때"
+						},
+						{
+							"item": "균열 생성기",
+							"whenKo": "적과 오래 싸우며 회복이 필요할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "얼어붙은 심장",
+							"whenKo": "적에 평타로 싸우는 챔피언이 많을 때"
+						},
+						{
+							"item": "실체화 장비",
+							"whenKo": "마나가 넉넉해 짧은 교전에서 스킬을 몰아 쓰고 싶을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-overflow-adapt",
+					"trigger": ["overflow", "adapt"],
+					"core": ["영겁의 지팡이", "대천사의 지팡이", "무라마나"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 더 높여 피해를 키우고 싶을 때"
+						},
+						{
+							"item": "균열 생성기",
+							"whenKo": "적과 오래 싸우며 회복이 필요할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "얼어붙은 심장",
+							"whenKo": "적에 평타로 싸우는 챔피언이 많을 때"
+						},
+						{
+							"item": "실체화 장비",
+							"whenKo": "마나가 넉넉해 짧은 교전에서 스킬을 몰아 쓰고 싶을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "마나를 체력과 주문력으로",
+					"level": "strong",
+					"augmentIds": ["mind-to-matter", "adapt"],
+					"required": ["mind-to-matter", "adapt"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "정신 변환",
+							"id": "mind-to-matter"
+						},
+						{
+							"t": "text",
+							"v": "이 마나를 체력으로 바꾸고, "
+						},
+						{
+							"t": "item",
+							"v": "지배자의 피갑옷"
+						},
+						{
+							"t": "text",
+							"v": "이 체력을 공격력으로 바꿉니다. "
+						},
+						{
+							"t": "aug",
+							"v": "적응형 능력치",
+							"id": "adapt"
+						},
+						{
+							"t": "text",
+							"v": "가 그 공격력을 다시 주문력으로 바꿔 줍니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "E 과충전으로 Q·E 무한 반복",
+					"level": "strong",
+					"augmentIds": ["overloaded"],
+					"required": ["overloaded"],
+					"why": [
+						{
+							"t": "item",
+							"v": "과충전"
+						},
+						{
+							"t": "text",
+							"v": "의 지정 스킬이 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "일 때 고르세요. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "를 쓰면 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "가 초기화되고, "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "는 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "를 초기화해 QEQEQEQ를 끝없이 이어 쓸 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["overflow", "archmage", "eureka", "phenomenal-evil", "blue-barrier"],
+			"avoid": ["escapade"]
+		},
+		{
+			"id": "rammus",
+			"nameKo": "람머스",
+			"roles": ["탱커"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/rammus.webp",
+			"skills": {
+				"Q": {
+					"name": "대회전",
+					"icon": "/images/aram-mayhem/skills/rammus-q.webp"
+				},
+				"W": {
+					"name": "몸 말아 웅크리기",
+					"icon": "/images/aram-mayhem/skills/rammus-w.webp"
+				},
+				"E": {
+					"name": "광란의 도발",
+					"icon": "/images/aram-mayhem/skills/rammus-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "가시 갑옷"],
+					"boots": "판금 장화",
+					"situational": [
+						{
+							"item": "끝없는 절망",
+							"whenKo": "적과 붙어 싸우는데 적의 물리 피해가 많을 때"
+						},
+						{
+							"item": "해신 작쇼",
+							"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+						},
+						{
+							"item": "워모그의 갑옷",
+							"whenKo": "오래 버티며 체력을 회복해야 할 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						},
+						{
+							"item": "케이닉 루컨",
+							"whenKo": "적의 마법 피해가 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "판금 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "방어 태세와 장갑 충격",
+					"level": "strong",
+					"augmentIds": ["armored-impact"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "로 방어력을 올린 뒤 평타를 치면 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 붙습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.10.23)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147"
+						}
+					]
+				},
+				{
+					"title": "도발 뒤 보호막",
+					"level": "good",
+					"augmentIds": ["courage-of-the-colossus"],
+					"required": ["courage-of-the-colossus"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "으로 부딪히거나 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "로 도발하면 "
+						},
+						{
+							"t": "aug",
+							"v": "거석상의 용기",
+							"id": "courage-of-the-colossus"
+						},
+						{
+							"t": "text",
+							"v": " 보호막을 얻습니다. 보호막으로 버티는 동안 아군이 공격할 시간을 만들어 주세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["heavy-hitter", "recursion", "goliath", "impassable"],
+			"avoid": []
+		},
+		{
+			"id": "leona",
+			"nameKo": "레오나",
+			"roles": ["탱커"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/leona.webp",
+			"skills": {
+				"Q": {
+					"name": "여명의 방패",
+					"icon": "/images/aram-mayhem/skills/leona-q.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "끝없는 절망"],
+					"boots": "판금 장화",
+					"situational": [
+						{
+							"item": "해신 작쇼",
+							"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+						},
+						{
+							"item": "워모그의 갑옷",
+							"whenKo": "오래 버티며 체력을 회복해야 할 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						},
+						{
+							"item": "케이닉 루컨",
+							"whenKo": "적의 마법 피해가 아플 때"
+						},
+						{
+							"item": "대자연의 힘",
+							"whenKo": "지속적인 마법 피해가 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "판금 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "장갑 충격 강화 평타",
+					"level": "strong",
+					"augmentIds": ["armored-impact"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 강화한 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 더해집니다. 방어력 빌드로 버티면서 피해도 넣을 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": [
+				"courage-of-the-colossus",
+				"recursion",
+				"cruelty",
+				"goliath",
+				"impassable",
+				"bread-and-butter"
+			],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "lulu",
+			"nameKo": "룰루",
+			"roles": ["서포터"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/lulu.webp",
+			"skills": {
+				"Q": {
+					"name": "반짝반짝 창",
+					"icon": "/images/aram-mayhem/skills/lulu-q.webp"
+				},
+				"E": {
+					"name": "도와줘, 픽스!",
+					"icon": "/images/aram-mayhem/skills/lulu-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "지원",
+					"core": ["월석 재생기", "속삭이는 머리띠"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "불타는 향로",
+							"whenKo": "평타로 싸우는 아군 딜러를 자주 지켜 줄 때"
+						},
+						{
+							"item": "흐르는 물의 지팡이",
+							"whenKo": "스킬로 피해를 주는 아군에게 보호막을 자주 줄 때"
+						},
+						{
+							"item": "새벽심장",
+							"whenKo": "회복과 보호막의 양을 더 늘리고 싶을 때"
+						},
+						{
+							"item": "기사의 맹세",
+							"whenKo": "주로 피해를 넣는 아군을 지켜줘야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-enchanting-butterflies",
+					"trigger": ["enchanting-butterflies"],
+					"core": ["월석 재생기", "속삭이는 머리띠", "꽃피는 새벽의 검"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "불타는 향로",
+							"whenKo": "평타로 싸우는 아군 딜러를 자주 지켜 줄 때"
+						},
+						{
+							"item": "흐르는 물의 지팡이",
+							"whenKo": "스킬로 피해를 주는 아군에게 보호막을 자주 줄 때"
+						},
+						{
+							"item": "새벽심장",
+							"whenKo": "회복과 보호막의 양을 더 늘리고 싶을 때"
+						},
+						{
+							"item": "기사의 맹세",
+							"whenKo": "주로 피해를 넣는 아군을 지켜줘야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "item",
+								"v": "꽃피는 새벽의 검"
+							},
+							{
+								"t": "text",
+								"v": "을 갖추면 "
+							},
+							{
+								"t": "skill",
+								"key": "E"
+							},
+							{
+								"t": "text",
+								"v": "를 준 뒤 평타로 아군 회복을 이어 가세요."
+							}
+						],
+						[
+							{
+								"t": "item",
+								"v": "꽃피는 새벽의 검"
+							},
+							{
+								"t": "text",
+								"v": " 회복을 전할 수 있도록 다친 아군 곁에서 공격하세요."
+							}
+						]
+					]
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "보호막과 나비",
+					"level": "strong",
+					"augmentIds": ["enchanting-butterflies", "windspeakers-blessing", "recursion"],
+					"required": ["enchanting-butterflies"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "로 보호막을 줄 때마다 나비가 모입니다. "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "는 적 공격보다 아군 보호에 쓰고, 나비가 모이면 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "을 맞혀 추가 피해를 넣으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.10.24)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401"
+						}
+					]
+				}
+			],
+			"good": ["bread-and-cheese", "sound-barrier", "first-aid-kit", "all-for-you"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "master-yi",
+			"nameKo": "마스터 이",
+			"roles": ["암살자"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/master-yi.webp",
+			"skills": {
+				"Q": {
+					"name": "일격 필살",
+					"icon": "/images/aram-mayhem/skills/master-yi-q.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "치명타",
+					"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "죽음의 무도",
+							"whenKo": "적의 물리 피해를 버티며 처치 관여를 이어가야 할 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+						},
+						{
+							"item": "처형인의 대검",
+							"whenKo": "적 회복이 강할 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-mystic-punch",
+					"trigger": ["mystic-punch"],
+					"core": ["징수의 총", "오만", "끝없는 갈망"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "죽음의 무도",
+							"whenKo": "적의 물리 피해를 버티며 처치 관여를 이어가야 할 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+						},
+						{
+							"item": "도미닉 경의 인사",
+							"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						},
+						{
+							"item": "처형인의 대검",
+							"whenKo": "적 회복이 강할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "오만의 공격력이 오른 동안 평타로 다음 "
+							},
+							{
+								"t": "skill",
+								"key": "Q"
+							},
+							{
+								"t": "text",
+								"v": "의 대기시간을 줄이세요."
+							}
+						],
+						[
+							{
+								"t": "item",
+								"v": "끝없는 갈망"
+							},
+							{
+								"t": "text",
+								"v": "의 회복이 강해지는 처치 직후 "
+							},
+							{
+								"t": "skill",
+								"key": "Q"
+							},
+							{
+								"t": "text",
+								"v": "로 공격을 이어 가세요."
+							}
+						]
+					]
+				},
+				{
+					"key": "aug-dual-wield",
+					"trigger": ["dual-wield"],
+					"core": ["징수의 총", "몰락한 왕의 검", "죽음의 무도"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "마법사의 최후",
+							"whenKo": "마법 피해를 버티면서 기본 공격을 이어가야 할 때"
+						},
+						{
+							"item": "도미닉 경의 인사",
+							"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						},
+						{
+							"item": "처형인의 대검",
+							"whenKo": "적 회복이 강할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "Q 재사용",
+					"level": "strong",
+					"augmentIds": ["mystic-punch", "bread-and-butter", "double-tap"],
+					"required": ["mystic-punch"],
+					"why": [
+						{
+							"t": "text",
+							"v": "평타를 칠 때마다 "
+						},
+						{
+							"t": "aug",
+							"v": "신비한 주먹",
+							"id": "mystic-punch"
+						},
+						{
+							"t": "text",
+							"v": "이 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "의 대기시간을 줄입니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": " 뒤 평타를 이어 다음 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "을 앞당기고, 위협적인 스킬은 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 피하세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2025.11.30)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=405499"
+						}
+					]
+				},
+				{
+					"title": "추가 타격 지속 전투",
+					"level": "strong",
+					"augmentIds": ["dual-wield", "symphony-of-war", "double-tap"],
+					"required": ["dual-wield"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "양손잡이",
+							"id": "dual-wield"
+						},
+						{
+							"t": "text",
+							"v": "로 평타마다 추가 타격이 생깁니다. "
+						},
+						{
+							"t": "item",
+							"v": "몰락한 왕의 검"
+						},
+						{
+							"t": "text",
+							"v": "처럼 적중 시 효과가 있는 아이템과 잘 맞고, 아군이 먼저 들어간 뒤 공격하세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["deft", "goredrink"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "malphite",
+			"nameKo": "말파이트",
+			"roles": ["탱커"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/malphite.webp",
+			"skills": {
+				"W": {
+					"name": "천둥소리",
+					"icon": "/images/aram-mayhem/skills/malphite-w.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "가시 갑옷", "끝없는 절망"],
+					"boots": "판금 장화",
+					"situational": [
+						{
+							"item": "해신 작쇼",
+							"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+						},
+						{
+							"item": "워모그의 갑옷",
+							"whenKo": "오래 버티며 체력을 회복해야 할 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						},
+						{
+							"item": "케이닉 루컨",
+							"whenKo": "적의 마법 피해가 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "판금 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "방어력 기반 평타",
+					"level": "strong",
+					"augmentIds": ["armored-impact", "heavy-hitter", "recursion"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "text",
+							"v": "스킬 뒤 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 붙습니다. 방어력 아이템을 먼저 갖추고 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": " 뒤 평타를 넣으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.10.23)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147"
+						}
+					]
+				}
+			],
+			"good": ["courage-of-the-colossus", "goliath", "impassable", "slap-around"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "varus",
+			"nameKo": "바루스",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/varus.webp",
+			"skills": {
+				"Q": {
+					"name": "꿰뚫는 화살",
+					"icon": "/images/aram-mayhem/skills/varus-q.webp"
+				},
+				"W": {
+					"name": "역병 화살",
+					"icon": "/images/aram-mayhem/skills/varus-w.webp"
+				},
+				"E": {
+					"name": "퍼붓는 화살",
+					"icon": "/images/aram-mayhem/skills/varus-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "적중 시 효과",
+					"core": ["몰락한 왕의 검", "구인수의 격노검", "루난의 허리케인"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "스태틱의 단검",
+							"whenKo": "여러 적에게 번개 피해를 퍼뜨리고 싶을 때"
+						},
+						{
+							"item": "경계",
+							"whenKo": "적의 방어력과 마법 저항력이 모두 높을 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 쉽게 쓰러질 때"
+						},
+						{
+							"item": "도미닉 경의 인사",
+							"whenKo": "적에 방어력이 높은 탱커가 많을 때"
+						}
+					],
+					"skillOrder": ["W", "Q", "E"],
+					"play": []
+				},
+				{
+					"key": "base-1",
+					"style": "주문력",
+					"core": ["황혼과 새벽", "내셔의 이빨", "균열 생성기"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "그림자불꽃",
+							"whenKo": "체력이 낮은 적을 빨리 끝내고 싶을 때"
+						},
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 더 크게 올리고 싶을 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력을 올렸을 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+						}
+					],
+					"skillOrder": ["W", "Q", "E"],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "벌집으로 역병 쌓기",
+					"level": "strong",
+					"augmentIds": ["bees"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "text",
+							"v": "벌집도 적중 시 효과로 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "의 역병을 붙입니다. 역병이 쌓인 적을 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "·"
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "로 맞히면 역병이 터져 최대 체력 비례 피해를 줍니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["draw-your-sword", "mad-scientist", "giant-slayer", "still-here", "homeguard"],
+			"avoid": []
+		},
+		{
+			"id": "vi",
+			"nameKo": "바이",
+			"roles": ["전사"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/vi.webp",
+			"skills": {
+				"Q": {
+					"name": "금고 부수기",
+					"icon": "/images/aram-mayhem/skills/vi-q.webp"
+				},
+				"E": {
+					"name": "끈질긴 힘",
+					"icon": "/images/aram-mayhem/skills/vi-e.webp"
+				},
+				"R": {
+					"name": "정지 명령",
+					"icon": "/images/aram-mayhem/skills/vi-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "브루저",
+					"core": ["월식", "갈라진 하늘", "죽음의 무도"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+						},
+						{
+							"item": "칠흑의 양날 도끼",
+							"whenKo": "방어력이 높은 적을 아군과 함께 때릴 때"
+						},
+						{
+							"item": "끝없는 갈망",
+							"whenKo": "처치 관여 뒤 회복하며 다음 적과 싸우고 싶을 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-bees",
+					"trigger": ["bees"],
+					"core": ["오만", "징수의 총", "벼락폭풍검"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "죽음의 무도",
+							"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+						},
+						{
+							"item": "세릴다의 원한",
+							"whenKo": "방어력이 높은 적을 아군과 함께 때릴 때"
+						},
+						{
+							"item": "원칙의 원형낫",
+							"whenKo": "R을 더 자주 쓰고 싶을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "스킬과 강화 평타 연계",
+					"level": "strong",
+					"augmentIds": ["the-boom-and-the-bass", "ethereal-weapon", "goliath"],
+					"required": ["the-boom-and-the-bass"],
+					"why": [
+						{
+							"t": "text",
+							"v": "스킬을 쓸 때마다 다음 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "붐 앤 베이스",
+							"id": "the-boom-and-the-bass"
+						},
+						{
+							"t": "text",
+							"v": "의 추가 피해가 붙습니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 접근한 뒤 곧바로 평타를 넣고, "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "과 평타를 섞으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "벌집으로 돌진 돕기",
+					"level": "strong",
+					"augmentIds": ["bees"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "·"
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "을 쓸 때 날아간 벌집이 적을 느리게 만듭니다. 느려진 적에게는 끝까지 충전한 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "를 맞히기 쉽습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "검무 연계",
+					"level": "good",
+					"augmentIds": ["blade-waltz", "thread-the-needle"],
+					"required": ["blade-waltz"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "으로 대상에게 도착한 뒤 "
+						},
+						{
+							"t": "aug",
+							"v": "검무",
+							"id": "blade-waltz"
+						},
+						{
+							"t": "text",
+							"v": "를 이어 쓰면 주변 적을 연달아 공격할 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.09.15)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=641382"
+						}
+					]
+				}
+			],
+			"good": ["outlaws-grit", "swift-and-safe"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "veigar",
+			"nameKo": "베이가",
+			"roles": ["마법사"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/veigar.webp",
+			"skills": {
+				"Q": {
+					"name": "사악한 일격",
+					"icon": "/images/aram-mayhem/skills/veigar-q.webp"
+				},
+				"E": {
+					"name": "사건의 지평선",
+					"icon": "/images/aram-mayhem/skills/veigar-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["영겁의 지팡이", "대천사의 지팡이", "라바돈의 죽음모자"],
+					"boots": "마법사의 신발",
+					"situational": [
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 방해 스킬에 먼저 맞아 잡힐 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "주문력 중첩",
+					"level": "strong",
+					"augmentIds": ["stackosaurusrex", "phenomenal-evil", "eureka"],
+					"required": ["stackosaurusrex"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "다단 중첩",
+							"id": "stackosaurusrex"
+						},
+						{
+							"t": "text",
+							"v": "으로 영구 중첩이 더 많이 쌓입니다. 미니언 막타와 챔피언 처치 관여를 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "으로 챙기세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "가속으로 공간 장악",
+					"level": "strong",
+					"augmentIds": ["eureka", "infinite-recursion"],
+					"required": ["eureka"],
+					"why": [
+						{
+							"t": "text",
+							"v": "주문력이 오를수록 "
+						},
+						{
+							"t": "stat",
+							"v": "스킬 가속"
+						},
+						{
+							"t": "text",
+							"v": "도 오릅니다. "
+						},
+						{
+							"t": "item",
+							"v": "라바돈의 죽음모자"
+						},
+						{
+							"t": "text",
+							"v": "를 앞당겨 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "을 자주 쓰세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["witchful-thinking", "magic-missile"],
+			"avoid": ["escapade"]
+		},
+		{
+			"id": "vayne",
+			"nameKo": "베인",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/vayne.webp",
+			"skills": {},
+			"builds": [
+				{
+					"key": "base",
+					"style": "적중효과",
+					"core": ["몰락한 왕의 검", "구인수의 격노검", "경계"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "마법사의 최후",
+							"whenKo": "마법 피해를 버티면서 기본 공격을 이어가야 할 때"
+						},
+						{
+							"item": "헤르메스의 시미터",
+							"whenKo": "안전하게 공격할 수 있지만 회복이 부족할 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 기본 공격이 아플 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "여러 번 적중시키기",
+					"level": "strong",
+					"augmentIds": ["dual-wield", "double-tap", "deft"],
+					"required": ["dual-wield"],
+					"why": [
+						{
+							"t": "text",
+							"v": "평타마다 추가 타격이 생깁니다. "
+						},
+						{
+							"t": "item",
+							"v": "몰락한 왕의 검"
+						},
+						{
+							"t": "text",
+							"v": "처럼 적중 시 효과가 있는 아이템으로 추가 타격의 피해를 키우세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "사거리와 이동",
+					"level": "good",
+					"augmentIds": ["scopier-weapons", "tap-dancer"],
+					"required": ["scopier-weapons"],
+					"why": [
+						{
+							"t": "text",
+							"v": "평타 사거리가 늘어납니다. 평소보다 먼 거리에서 평타를 시작하고, 앞에 온 적을 안전하게 계속 치세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["firebrand", "symphony-of-war"],
+			"avoid": ["draw-your-sword"]
+		},
+		{
+			"id": "braum",
+			"nameKo": "브라움",
+			"roles": ["서포터", "탱커"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/braum.webp",
+			"skills": {
+				"Q": {
+					"name": "동상",
+					"icon": "/images/aram-mayhem/skills/braum-q.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "가시 갑옷"],
+					"boots": "판금 장화",
+					"situational": [
+						{
+							"item": "끝없는 절망",
+							"whenKo": "적과 붙어 싸우는데 적의 물리 피해가 많을 때"
+						},
+						{
+							"item": "해신 작쇼",
+							"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+						},
+						{
+							"item": "워모그의 갑옷",
+							"whenKo": "오래 버티며 체력을 회복해야 할 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						},
+						{
+							"item": "케이닉 루컨",
+							"whenKo": "적의 마법 피해가 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "판금 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "벌집으로 바로 기절",
+					"level": "strong",
+					"augmentIds": ["bees"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "벌이다!!!",
+							"id": "bees"
+						},
+						{
+							"t": "text",
+							"v": "의 벌집도 적중 시 효과로 패시브 뇌진탕 펀치 중첩을 쌓습니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "으로 적을 맞히면 벌집과 함께 중첩이 빠르게 차서 적을 바로 기절시킬 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "장갑 충격 강화 평타",
+					"level": "good",
+					"augmentIds": ["armored-impact"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "text",
+							"v": "스킬 뒤 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 붙습니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "을 맞힌 뒤 평타를 이어 넣으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["courage-of-the-colossus", "goliath", "impassable"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "brand",
+			"nameKo": "브랜드",
+			"roles": ["마법사", "전사"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/brand.webp",
+			"skills": {
+				"W": {
+					"name": "화염 기둥",
+					"icon": "/images/aram-mayhem/skills/brand-w.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+					"boots": "마법사의 신발",
+					"situational": [
+						{
+							"item": "핏빛 저주",
+							"whenKo": "마법 저항력이 높은 적을 계속 태울 때"
+						},
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "생존에 여유가 있어 주문 피해를 더 높이고 싶을 때"
+						},
+						{
+							"item": "모렐로노미콘",
+							"whenKo": "적이 회복으로 버틸 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-infernal-conduit",
+					"trigger": ["infernal-conduit"],
+					"core": ["어둠불꽃 횃불", "리안드리의 고통", "핏빛 저주"],
+					"boots": "마법사의 신발",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "생존에 여유가 있어 주문 피해를 더 높이고 싶을 때"
+						},
+						{
+							"item": "모렐로노미콘",
+							"whenKo": "적이 회복으로 버틸 때"
+						},
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "불을 끊지 않기",
+					"level": "strong",
+					"augmentIds": ["infernal-conduit", "magic-missile"],
+					"required": ["infernal-conduit"],
+					"why": [
+						{
+							"t": "text",
+							"v": "스킬로 남긴 화상이 일반 스킬의 대기시간을 줄입니다. "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "이 돌아오면 화상이 끝나기 전에 다시 맞혀 불을 이어 가세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.09.21)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=644960"
+						}
+					]
+				},
+				{
+					"title": "불길과 스킬 치명타",
+					"level": "strong",
+					"augmentIds": ["infernal-conduit", "jeweled-gauntlet", "its-critical"],
+					"required": ["infernal-conduit", "jeweled-gauntlet"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "지옥의 전도체",
+							"id": "infernal-conduit"
+						},
+						{
+							"t": "text",
+							"v": "로 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "을 자주 쓰고, "
+						},
+						{
+							"t": "aug",
+							"v": "보석 건틀릿",
+							"id": "jeweled-gauntlet"
+						},
+						{
+							"t": "text",
+							"v": "으로 스킬 피해에 치명타가 터집니다. 평타보다 돌아온 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "을 우선해 맞히세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.09.21)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=644960"
+						}
+					]
+				}
+			],
+			"good": ["phenomenal-evil", "erosion"],
+			"avoid": ["escapade"]
+		},
+		{
+			"id": "vladimir",
+			"nameKo": "블라디미르",
+			"roles": ["마법사", "전사"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/vladimir.webp",
+			"skills": {
+				"Q": {
+					"name": "수혈",
+					"icon": "/images/aram-mayhem/skills/vladimir-q.webp"
+				},
+				"W": {
+					"name": "피의 웅덩이",
+					"icon": "/images/aram-mayhem/skills/vladimir-w.webp"
+				},
+				"E": {
+					"name": "선혈의 파도",
+					"icon": "/images/aram-mayhem/skills/vladimir-e.webp"
+				},
+				"R": {
+					"name": "혈사병",
+					"icon": "/images/aram-mayhem/skills/vladimir-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["폭풍 쇄도", "그림자불꽃", "라바돈의 죽음모자"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "가까이 들어간 뒤 적의 강한 공격을 피해야 할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "정령의 형상",
+							"whenKo": "적 마법 피해가 강하고 스스로 회복하며 버텨야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "궁극기 없이 일반 스킬",
+					"level": "strong",
+					"augmentIds": ["back-to-basics", "purist-caster", "eureka"],
+					"required": ["back-to-basics"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "을 포기하는 대신 일반 스킬이 강해집니다. "
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "에 쓸 스킬 포인트를 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "과 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "에 쓰고, 팀의 광역 피해가 부족한 판에는 신중하게 고르세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.08.05)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=611275"
+						}
+					]
+				},
+				{
+					"title": "회복을 공격으로",
+					"level": "good",
+					"augmentIds": ["circle-of-death", "goliath"],
+					"required": ["circle-of-death"],
+					"why": [
+						{
+							"t": "text",
+							"v": "회복량의 일부가 주변 적에게 피해로 들어갑니다. 적 챔피언 곁에서 강화 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 회복하고, 들어갈 때 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "를 남겨 두세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2025.11.30)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=405499"
+						}
+					]
+				}
+			],
+			"good": ["witchful-thinking", "first-aid-kit"],
+			"avoid": ["overflow"]
+		},
+		{
+			"id": "sett",
+			"nameKo": "세트",
+			"roles": ["전사", "탱커"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/sett.webp",
+			"skills": {
+				"Q": {
+					"name": "주먹다짐",
+					"icon": "/images/aram-mayhem/skills/sett-q.webp"
+				},
+				"W": {
+					"name": "강펀치",
+					"icon": "/images/aram-mayhem/skills/sett-w.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "워모그의 갑옷", "지배자의 피갑옷"],
+					"boots": "신속의 장화",
+					"situational": [
+						{
+							"item": "스테락의 도전",
+							"whenKo": "큰 피해를 한꺼번에 받아 버티기 어려울 때"
+						},
+						{
+							"item": "정령의 형상",
+							"whenKo": "적 마법 피해가 강하고 아군의 회복이나 보호막을 자주 받을 때"
+						},
+						{
+							"item": "거대한 히드라",
+							"whenKo": "체력을 충분히 쌓았고 기본 공격 피해도 늘리고 싶을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "신속의 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "체력을 피해로 바꾸기",
+					"level": "strong",
+					"augmentIds": ["goliath", "heavy-hitter", "deft"],
+					"required": ["heavy-hitter"],
+					"why": [
+						{
+							"t": "text",
+							"v": "평타에 최대 체력 비례 피해가 붙습니다. 체력 아이템을 먼저 갖추고, "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "만 기다리지 말고 평타를 섞으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "장갑 충격 강화 평타",
+					"level": "strong",
+					"augmentIds": ["armored-impact"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "으로 강화한 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 더해집니다. 방어력 빌드로 버티면서 피해도 넣을 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["tank-engine", "quest-steel-your-heart", "first-aid-kit", "blunt-force"],
+			"avoid": []
+		},
+		{
+			"id": "sona",
+			"nameKo": "소나",
+			"roles": ["서포터"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/sona.webp",
+			"skills": {
+				"Q": {
+					"name": "용맹의 찬가",
+					"icon": "/images/aram-mayhem/skills/sona-q.webp"
+				},
+				"W": {
+					"name": "인내의 아리아",
+					"icon": "/images/aram-mayhem/skills/sona-w.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "지원",
+					"core": ["월석 재생기", "속삭이는 머리띠", "흐르는 물의 지팡이"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "불타는 향로",
+							"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+						},
+						{
+							"item": "새벽심장",
+							"whenKo": "회복과 보호막의 양을 더 늘리고 싶을 때"
+						},
+						{
+							"item": "미카엘의 축복",
+							"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-enchanting-butterflies",
+					"trigger": ["enchanting-butterflies"],
+					"core": ["월석 재생기", "속삭이는 머리띠", "새벽심장"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "불타는 향로",
+							"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+						},
+						{
+							"item": "흐르는 물의 지팡이",
+							"whenKo": "스킬로 피해를 주는 아군을 주로 회복할 때"
+						},
+						{
+							"item": "미카엘의 축복",
+							"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "회복을 반복해 나비 충전",
+					"level": "strong",
+					"augmentIds": ["enchanting-butterflies", "infinite-recursion", "windspeakers-blessing"],
+					"required": ["enchanting-butterflies"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "로 아군을 회복할 때마다 나비가 모입니다. "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "를 여러 아군에게 묻히고, 나비가 충분히 모이면 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 적 챔피언을 맞히세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.10.24)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401"
+						}
+					]
+				},
+				{
+					"title": "보호막에 방어 능력치",
+					"level": "strong",
+					"augmentIds": ["windspeakers-blessing", "recursion"],
+					"required": ["windspeakers-blessing"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "를 받은 아군이 잠시 방어 능력치를 얻습니다. 아군이 피해를 받기 전에 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "를 미리 주고, 본인은 앞라인보다 뒤에 서세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["first-aid-kit", "all-for-you"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "soraka",
+			"nameKo": "소라카",
+			"roles": ["서포터"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/soraka.webp",
+			"skills": {
+				"Q": {
+					"name": "별부름",
+					"icon": "/images/aram-mayhem/skills/soraka-q.webp"
+				},
+				"W": {
+					"name": "은하의 마력",
+					"icon": "/images/aram-mayhem/skills/soraka-w.webp"
+				},
+				"R": {
+					"name": "기원",
+					"icon": "/images/aram-mayhem/skills/soraka-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "지원",
+					"core": ["월석 재생기", "속삭이는 머리띠", "새벽심장"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "불타는 향로",
+							"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+						},
+						{
+							"item": "흐르는 물의 지팡이",
+							"whenKo": "스킬로 피해를 주는 아군을 주로 회복할 때"
+						},
+						{
+							"item": "미카엘의 축복",
+							"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-critical-healing",
+					"trigger": ["critical-healing"],
+					"core": ["월석 재생기", "속삭이는 머리띠", "파멸의식 고서"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "불타는 향로",
+							"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+						},
+						{
+							"item": "흐르는 물의 지팡이",
+							"whenKo": "스킬로 피해를 주는 아군을 주로 회복할 때"
+						},
+						{
+							"item": "미카엘의 축복",
+							"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "회복과 아군 방어",
+					"level": "strong",
+					"augmentIds": ["enchanting-butterflies", "windspeakers-blessing"],
+					"required": ["windspeakers-blessing"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "으로 회복한 아군이 방어 능력치도 얻습니다. 교전 중인 아군에게 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "을 주고, 앞으로 나가기보다 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "을 안전하게 맞힐 기회를 기다리세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.10.24)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401"
+						}
+					]
+				},
+				{
+					"title": "치유의 효율 높이기",
+					"level": "strong",
+					"augmentIds": ["critical-healing", "all-for-you", "windspeakers-blessing"],
+					"required": ["critical-healing"],
+					"why": [
+						{
+							"t": "text",
+							"v": "회복과 보호막에도 치명타가 터집니다. "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "과 "
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "은 아군이 피해를 받을 때 쓰세요. 회복 감소 상태에서는 효과가 줄어듭니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["first-aid-kit", "bread-and-jam"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "smolder",
+			"nameKo": "스몰더",
+			"roles": ["원거리 딜러"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/smolder.webp",
+			"skills": {
+				"Q": {
+					"name": "초강력 화염 숨결",
+					"icon": "/images/aram-mayhem/skills/smolder-q.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "치명타",
+					"core": ["정수 약탈자", "무한의 대검", "도미닉 경의 인사"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "처형인의 대검",
+							"whenKo": "적 회복이 강할 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 순식간에 쓰러질 때"
+						},
+						{
+							"item": "고속 연사포",
+							"whenKo": "멀리서 강화된 공격을 넣어야 할 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "중첩과 Q 사용 빈도",
+					"level": "strong",
+					"augmentIds": ["stackosaurusrex", "bread-and-butter"],
+					"required": ["stackosaurusrex"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 쌓는 중첩이 더 빨리 늘어납니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "을 막타용으로만 아끼지 말고 챔피언에게도 써 중첩을 모으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["vulnerability", "goredrink", "infinite-recursion", "blunt-force"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "annie",
+			"nameKo": "애니",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/annie.webp",
+			"skills": {
+				"E": {
+					"name": "용암 방패",
+					"icon": "/images/aram-mayhem/skills/annie-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커용",
+					"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 크게 올려 피해를 더 키우고 싶을 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "base-1",
+					"style": "암살용",
+					"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "먼 거리 반사 피해",
+					"level": "strong",
+					"augmentIds": ["skilled-sniper", "magic-missile"],
+					"required": ["magic-missile"],
+					"why": [
+						{
+							"t": "text",
+							"v": "앞에서 공격받는 아군에게 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "를 준 뒤 거리를 벌리세요. 반사 피해로 "
+						},
+						{
+							"t": "aug",
+							"v": "마법 미사일",
+							"id": "magic-missile"
+						},
+						{
+							"t": "text",
+							"v": "이 발동하고, 멀리 날아갈수록 피해가 커집니다. 반사 피해에는 "
+						},
+						{
+							"t": "aug",
+							"v": "노련한 저격수",
+							"id": "skilled-sniper"
+						},
+						{
+							"t": "text",
+							"v": "도 적용되어 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "의 대기시간이 줄어듭니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.09.07)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=635886"
+						}
+					]
+				}
+			],
+			"good": ["bread-and-cheese", "eureka", "infinite-recursion", "phenomenal-evil"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "anivia",
+			"nameKo": "애니비아",
+			"roles": ["마법사"],
+			"difficulty": "어려움",
+			"icon": "/images/aram-mayhem/champions/anivia.webp",
+			"skills": {
+				"W": {
+					"name": "결정화",
+					"icon": "/images/aram-mayhem/skills/anivia-w.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["영겁의 지팡이", "대천사의 지팡이", "리안드리의 고통"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 크게 올려 피해를 더 키우고 싶을 때"
+						},
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "적이 가까이 붙어 잠시 시간을 벌어야 할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 방해 스킬에 먼저 맞아 잡힐 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "무한 W 애니비아",
+					"level": "strong",
+					"augmentIds": ["terraind", "archmage", "purist-caster"],
+					"required": ["terraind", "archmage"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "지형 생성됨",
+							"id": "terraind"
+						},
+						{
+							"t": "text",
+							"v": "으로 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": " 벽 주위에 피해가 더해집니다. "
+						},
+						{
+							"t": "aug",
+							"v": "대마법사",
+							"id": "archmage"
+						},
+						{
+							"t": "text",
+							"v": "가 다른 스킬의 대기시간을 줄여 주어 벽을 끝없이 세울 수 있습니다. "
+						},
+						{
+							"t": "aug",
+							"v": "순수주의자 - 마법사",
+							"label": "순수주의자",
+							"id": "purist-caster"
+						},
+						{
+							"t": "text",
+							"v": "가 있으면 더 자주 세울 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "youtube",
+							"label": "유튜브 · 벽만 쳐서 캐리하는 \"지형생성됨\" 무한벽 애니비아",
+							"url": "https://youtu.be/pNMHmXsPCDk?t=327"
+						}
+					]
+				}
+			],
+			"good": ["recursion", "infernal-conduit", "magic-missile", "phenomenal-evil", "eureka"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "ashe",
+			"nameKo": "애쉬",
+			"roles": ["원거리 딜러"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/ashe.webp",
+			"skills": {
+				"Q": {
+					"name": "궁사의 집중",
+					"icon": "/images/aram-mayhem/skills/ashe-q.webp"
+				},
+				"E": {
+					"name": "매 날리기",
+					"icon": "/images/aram-mayhem/skills/ashe-e.webp"
+				},
+				"R": {
+					"name": "마법의 수정화살",
+					"icon": "/images/aram-mayhem/skills/ashe-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "몰락한 왕의 검",
+					"core": ["몰락한 왕의 검", "루난의 허리케인", "무한의 대검"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "도미닉 경의 인사",
+							"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+						},
+						{
+							"item": "필멸자의 운명",
+							"whenKo": "회복이 강한 적이 있을 때"
+						},
+						{
+							"item": "헤르메스의 시미터",
+							"whenKo": "적의 기절·속박을 풀어야 할 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "base-1",
+					"style": "윤 탈 야생화살",
+					"core": ["윤 탈 야생화살", "무한의 대검", "도미닉 경의 인사"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "몰락한 왕의 검",
+							"whenKo": "체력이 높은 적을 계속 공격할 때"
+						},
+						{
+							"item": "처형인의 대검",
+							"whenKo": "회복이 강한 적이 있을 때"
+						},
+						{
+							"item": "헤르메스의 시미터",
+							"whenKo": "적의 기절·속박을 풀어야 할 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "base-2",
+					"style": "주문력",
+					"core": ["루덴의 메아리", "제국의 명령", "지평선의 초점"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 크게 올려 피해를 더 키우고 싶을 때"
+						},
+						{
+							"item": "그림자불꽃",
+							"whenKo": "체력이 낮아진 적을 스킬로 마무리할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				},
+				{
+					"item": "명석함의 아이오니아 장화",
+					"label": "주문력 빌드"
+				}
+			],
+			"combos": [
+				{
+					"title": "무한 E·R 애쉬",
+					"level": "strong",
+					"augmentIds": ["archmage", "purist-caster"],
+					"required": ["archmage"],
+					"why": [],
+					"steps": [
+						[
+							{
+								"t": "skill",
+								"key": "E"
+							},
+							{
+								"t": "text",
+								"v": "는 4레벨까지만 올리기"
+							}
+						],
+						[
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "로 "
+							},
+							{
+								"t": "stat",
+								"v": "스킬 가속"
+							},
+							{
+								"t": "text",
+								"v": " 채우기: "
+							},
+							{
+								"t": "aug",
+								"v": "순수주의자 - 마법사",
+								"label": "순수주의자",
+								"id": "purist-caster"
+							},
+							{
+								"t": "text",
+								"v": "가 있으면 150, 없으면 233"
+							}
+						],
+						[
+							{
+								"t": "skill",
+								"key": "E",
+								"short": true
+							},
+							{
+								"t": "text",
+								"v": " "
+							},
+							{
+								"t": "skill",
+								"key": "R",
+								"short": true
+							},
+							{
+								"t": "text",
+								"v": "만 번갈아 쓰기"
+							}
+						]
+					],
+					"hint": "E 4레벨과 R 3레벨은 기본 대기시간이 60초로 같습니다. 대마법사가 서로 18초씩 줄여 주어 바로 다시 쓸 수 있습니다.",
+					"sources": [
+						{
+							"type": "youtube",
+							"label": "유튜브 · 대마법사 전문가가 말아주는 무한궁 애쉬",
+							"url": "https://youtu.be/8-ua9XtPqDc?t=324"
+						}
+					]
+				},
+				{
+					"title": "원딜 애쉬",
+					"level": "strong",
+					"augmentIds": ["scopiest-weapons", "tap-dancer", "dual-wield", "soul-siphon"],
+					"required": ["scopiest-weapons"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "최상급 조준경 부착",
+							"id": "scopiest-weapons"
+						},
+						{
+							"t": "text",
+							"v": "으로 평타 사거리가 크게 늘어납니다. 적의 스킬이 닿지 않는 거리에서 평타로 둔화를 걸고 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "을 쌓으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": [
+				"deft",
+				"ice-cold",
+				"scopier-weapons",
+				"ultimate-recursion",
+				"recursion",
+				"firebrand",
+				"symphony-of-war"
+			],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "yasuo",
+			"nameKo": "야스오",
+			"roles": ["전사"],
+			"difficulty": "어려움",
+			"icon": "/images/aram-mayhem/champions/yasuo.webp",
+			"skills": {
+				"Q": {
+					"name": "강철 폭풍",
+					"icon": "/images/aram-mayhem/skills/yasuo-q.webp"
+				},
+				"W": {
+					"name": "바람 장막",
+					"icon": "/images/aram-mayhem/skills/yasuo-w.webp"
+				},
+				"E": {
+					"name": "질풍검",
+					"icon": "/images/aram-mayhem/skills/yasuo-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "방어형",
+					"core": ["파멸의식 고서", "죽음의 무도", "정령의 형상"],
+					"boots": "판금 장화",
+					"situational": [
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						}
+					],
+					"skillOrder": ["E", "Q", "W"],
+					"play": []
+				},
+				{
+					"key": "aug-mystic-punch",
+					"trigger": ["mystic-punch"],
+					"core": ["몰락한 왕의 검", "마법사의 최후", "파멸의식 고서"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "죽음의 무도",
+							"whenKo": "물리 피해를 버티며 계속 싸워야 할 때"
+						},
+						{
+							"item": "정령의 형상",
+							"whenKo": "마법 피해를 버티면서 회복과 보호막을 늘리고 싶을 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "신비한 주먹 무한 Q",
+					"level": "strong",
+					"augmentIds": ["mystic-punch"],
+					"required": ["mystic-punch"],
+					"why": [],
+					"steps": [
+						[
+							{
+								"t": "item",
+								"v": "몰락한 왕의 검"
+							},
+							{
+								"t": "text",
+								"v": "과 "
+							},
+							{
+								"t": "item",
+								"v": "광전사의 군화"
+							},
+							{
+								"t": "text",
+								"v": "를 먼저 갖추기"
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "2코어로 "
+							},
+							{
+								"t": "item",
+								"v": "마법사의 최후"
+							},
+							{
+								"t": "text",
+								"v": "를 올려 공격 속도 채우기"
+							}
+						],
+						[
+							{
+								"t": "skill",
+								"key": "Q"
+							},
+							{
+								"t": "text",
+								"v": "만 계속 쓰기"
+							}
+						]
+					],
+					"hint": "Q도 적중 시 효과가 적용되어 신비한 주먹이 발동합니다. 공격 속도가 충분하면 Q를 맞힐 때마다 Q가 바로 돌아와 Q만 끝없이 쓸 수 있습니다.",
+					"sources": []
+				},
+				{
+					"title": "돌진으로 버티기",
+					"level": "strong",
+					"augmentIds": ["outlaws-grit", "swift-and-safe"],
+					"required": ["outlaws-grit"],
+					"why": [
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "으로 "
+						},
+						{
+							"t": "aug",
+							"v": "돌진",
+							"id": "dashing"
+						},
+						{
+							"t": "text",
+							"v": "할 때마다 "
+						},
+						{
+							"t": "aug",
+							"v": "무법자의 투지",
+							"id": "outlaws-grit"
+						},
+						{
+							"t": "text",
+							"v": "로 방어력과 마법 저항력이 쌓입니다. 미니언을 타고 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "을 이어 써서 충분히 쌓은 뒤 적에게 들어가세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.09.11)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=638977"
+						}
+					]
+				}
+			],
+			"good": [],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "yone",
+			"nameKo": "요네",
+			"roles": ["전사"],
+			"difficulty": "어려움",
+			"icon": "/images/aram-mayhem/champions/yone.webp",
+			"skills": {
+				"Q": {
+					"name": "필멸의 검",
+					"icon": "/images/aram-mayhem/skills/yone-q.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "치명타",
+					"core": ["윤 탈 야생화살", "파멸의식 고서", "죽음의 무도"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "정령의 형상",
+							"whenKo": "마법 피해를 버티면서 회복과 보호막을 늘리고 싶을 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-mystic-punch",
+					"trigger": ["mystic-punch"],
+					"core": ["몰락한 왕의 검", "마법사의 최후", "파멸의식 고서"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "죽음의 무도",
+							"whenKo": "물리 피해를 버티며 계속 싸워야 할 때"
+						},
+						{
+							"item": "정령의 형상",
+							"whenKo": "마법 피해를 버티면서 회복과 보호막을 늘리고 싶을 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "신비한 주먹 무한 Q",
+					"level": "strong",
+					"augmentIds": ["mystic-punch"],
+					"required": ["mystic-punch"],
+					"why": [],
+					"steps": [
+						[
+							{
+								"t": "item",
+								"v": "몰락한 왕의 검"
+							},
+							{
+								"t": "text",
+								"v": "과 "
+							},
+							{
+								"t": "item",
+								"v": "광전사의 군화"
+							},
+							{
+								"t": "text",
+								"v": "를 먼저 갖추기"
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "2코어로 "
+							},
+							{
+								"t": "item",
+								"v": "마법사의 최후"
+							},
+							{
+								"t": "text",
+								"v": "를 올려 공격 속도 채우기"
+							}
+						],
+						[
+							{
+								"t": "skill",
+								"key": "Q"
+							},
+							{
+								"t": "text",
+								"v": "만 계속 쓰기"
+							}
+						]
+					],
+					"hint": "Q도 적중 시 효과가 적용되어 신비한 주먹이 발동합니다. 공격 속도가 충분하면 Q를 맞힐 때마다 Q가 바로 돌아와 Q만 끝없이 쓸 수 있습니다.",
+					"sources": []
+				}
+			],
+			"good": ["the-boom-and-the-bass", "takeem-down-down-down", "swift-and-safe"],
+			"avoid": []
+		},
+		{
+			"id": "jax",
+			"nameKo": "잭스",
+			"roles": ["전사"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/jax.webp",
+			"skills": {
+				"W": {
+					"name": "무기 강화",
+					"icon": "/images/aram-mayhem/skills/jax-w.webp"
+				},
+				"R": {
+					"name": "무기의 달인",
+					"icon": "/images/aram-mayhem/skills/jax-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "브루저",
+					"core": ["황혼과 새벽", "몰락한 왕의 검", "죽음의 무도"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+						},
+						{
+							"item": "가시 갑옷",
+							"whenKo": "회복이 강한 적이 기본 공격으로 자신을 때릴 때"
+						},
+						{
+							"item": "해신 작쇼",
+							"whenKo": "물리 피해와 마법 피해를 함께 버티며 오래 싸울 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "신속의 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "방어력 기반 지속 전투",
+					"level": "strong",
+					"augmentIds": ["armored-impact", "heavy-hitter", "infinite-recursion"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "text",
+							"v": "스킬 뒤 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 붙습니다. "
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "으로 방어력을 높인 다음 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "를 켠 평타로 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "을 넣으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["upgrade-sheen", "mystic-punch", "the-boom-and-the-bass", "deft", "symphony-of-war"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "kaisa",
+			"nameKo": "카이사",
+			"roles": ["원거리 딜러", "마법사"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/kaisa.webp",
+			"skills": {
+				"Q": {
+					"name": "이케시아 폭우",
+					"icon": "/images/aram-mayhem/skills/kaisa-q.webp"
+				},
+				"W": {
+					"name": "공허추적자",
+					"icon": "/images/aram-mayhem/skills/kaisa-w.webp"
+				},
+				"E": {
+					"name": "고속 충전",
+					"icon": "/images/aram-mayhem/skills/kaisa-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["루덴의 메아리", "그림자불꽃", "황혼과 새벽"],
+					"boots": "마법사의 신발",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 더 크게 올리고 싶을 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력을 올렸을 때"
+						},
+						{
+							"item": "폭풍 쇄도",
+							"whenKo": "적 원거리 딜러를 빨리 끊어야 할 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+						}
+					],
+					"skillOrder": ["W", "Q", "E"],
+					"play": []
+				},
+				{
+					"key": "aug-bees",
+					"trigger": ["bees"],
+					"core": ["스태틱의 단검", "황혼과 새벽", "내셔의 이빨"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 더 크게 올리고 싶을 때"
+						},
+						{
+							"item": "구인수의 격노검",
+							"whenKo": "평타를 더 자주 넣고 싶을 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력을 올렸을 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "벌집으로 플라즈마 쌓기",
+					"level": "strong",
+					"augmentIds": ["bees"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "text",
+							"v": "벌집도 적중 시 효과로 패시브 두 번째 피부의 플라즈마 중첩을 쌓습니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "와 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "를 쓰면 벌집도 날아가 중첩이 빨리 터집니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["ethereal-weapon", "back-to-basics", "tooth-fairy", "mad-scientist", "eureka"],
+			"avoid": []
+		},
+		{
+			"id": "taric",
+			"nameKo": "타릭",
+			"roles": ["서포터", "탱커"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/taric.webp",
+			"skills": {
+				"Q": {
+					"name": "별빛 손길",
+					"icon": "/images/aram-mayhem/skills/taric-q.webp"
+				},
+				"W": {
+					"name": "수호의 고리",
+					"icon": "/images/aram-mayhem/skills/taric-w.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "가시 갑옷", "해신 작쇼"],
+					"boots": "판금 장화",
+					"situational": [
+						{
+							"item": "얼어붙은 심장",
+							"whenKo": "적의 빠른 기본 공격을 버티기 어려울 때"
+						},
+						{
+							"item": "꽃피는 새벽의 검",
+							"whenKo": "안전하게 기본 공격을 이어가며 아군을 회복할 수 있을 때"
+						},
+						{
+							"item": "정령의 형상",
+							"whenKo": "마법 피해를 버티면서 자신의 회복과 보호막을 늘릴 때"
+						},
+						{
+							"item": "기사의 맹세",
+							"whenKo": "주로 피해를 넣는 아군을 지켜줘야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "판금 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "장갑 충격 강화 평타",
+					"level": "strong",
+					"augmentIds": ["armored-impact", "infinite-recursion"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "text",
+							"v": "스킬 뒤 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 붙습니다. "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "로 방어력을 높이고 스킬을 쓸 때마다 바로 평타를 이어 넣으세요. 방어력 아이템을 쌓을수록 피해가 커집니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.10.23)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147"
+						}
+					]
+				},
+				{
+					"title": "버티며 아군 보호",
+					"level": "strong",
+					"augmentIds": ["protein-shake", "first-aid-kit", "windspeakers-blessing"],
+					"required": ["protein-shake"],
+					"why": [
+						{
+							"t": "text",
+							"v": "방어력과 마법 저항력이 높을수록 회복과 보호막이 강해집니다. 방어 아이템을 갖추고 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 주는 회복을 교전 중에 나눠 쓰세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["all-for-you", "critical-healing"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "tahm-kench",
+			"nameKo": "탐 켄치",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/tahm-kench.webp",
+			"skills": {
+				"Q": {
+					"name": "혀 채찍",
+					"icon": "/images/aram-mayhem/skills/tahm-kench-q.webp"
+				},
+				"W": {
+					"name": "심연 잠수",
+					"icon": "/images/aram-mayhem/skills/tahm-kench-w.webp"
+				},
+				"E": {
+					"name": "두꺼운 피부",
+					"icon": "/images/aram-mayhem/skills/tahm-kench-e.webp"
+				},
+				"R": {
+					"name": "집어삼키기",
+					"icon": "/images/aram-mayhem/skills/tahm-kench-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+					"boots": "판금 장화",
+					"situational": [
+						{
+							"item": "황혼과 새벽",
+							"whenKo": "스킬 뒤 평타로 피해를 더하고 싶을 때"
+						},
+						{
+							"item": "해신 작쇼",
+							"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						},
+						{
+							"item": "케이닉 루컨",
+							"whenKo": "적의 마법 피해가 아플 때"
+						}
+					],
+					"skillOrder": ["Q", "W", "E"],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "벌집으로 바로 기절",
+					"level": "strong",
+					"augmentIds": ["bees"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "text",
+							"v": "벌집도 적중 시 효과로 패시브 절대 미각 중첩을 쌓습니다. 벌집에 맞은 적에게 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "을 맞히면 바로 기절하고, "
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "로 삼킬 수도 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["lich-brain", "goliath", "tank-engine", "ethereal-weapon", "back-to-basics"],
+			"avoid": []
+		},
+		{
+			"id": "trundle",
+			"nameKo": "트런들",
+			"roles": ["전사"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/trundle.webp",
+			"skills": {
+				"Q": {
+					"name": "깨물기",
+					"icon": "/images/aram-mayhem/skills/trundle-q.webp"
+				},
+				"W": {
+					"name": "얼음 왕국",
+					"icon": "/images/aram-mayhem/skills/trundle-w.webp"
+				},
+				"E": {
+					"name": "얼음 기둥",
+					"icon": "/images/aram-mayhem/skills/trundle-e.webp"
+				},
+				"R": {
+					"name": "진압",
+					"icon": "/images/aram-mayhem/skills/trundle-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "브루저",
+					"core": ["강철심장", "삼위일체", "몰락한 왕의 검"],
+					"boots": "헤르메스의 발걸음",
+					"situational": [
+						{
+							"item": "굶주린 히드라",
+							"whenKo": "적이 모여 있어 여러 명을 함께 때릴 수 있을 때"
+						},
+						{
+							"item": "죽음의 무도",
+							"whenKo": "적의 물리 피해를 버티며 기본 공격을 이어가야 할 때"
+						},
+						{
+							"item": "정령의 형상",
+							"whenKo": "마법 피해를 버티면서 자신의 회복을 늘리고 싶을 때"
+						},
+						{
+							"item": "가시 갑옷",
+							"whenKo": "회복이 강한 적이 기본 공격으로 자신을 때릴 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "base-1",
+					"style": "서포터",
+					"core": ["제국의 명령", "밴들파이프", "혹한의 손길"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "기사의 맹세",
+							"whenKo": "주로 피해를 넣는 아군을 지켜 줘야 할 때"
+						},
+						{
+							"item": "강철의 솔라리 펜던트",
+							"whenKo": "적의 순간 피해가 커서 아군 전체를 지켜야 할 때"
+						},
+						{
+							"item": "구원",
+							"whenKo": "한타에서 아군 여러 명을 한꺼번에 회복시켜야 할 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-terraind",
+					"trigger": ["terraind"],
+					"core": ["제국의 명령", "어둠불꽃 횃불", "라바돈의 죽음모자"],
+					"boots": "명석함의 아이오니아 장화",
+					"situational": [
+						{
+							"item": "리안드리의 고통",
+							"whenKo": "체력이 높은 적을 기둥과 스킬로 오래 태울 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "적이 가까이 붙어 잠시 시간을 벌어야 할 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 방해 스킬 때문에 다가가기 어려울 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-armored-impact",
+					"trigger": ["armored-impact"],
+					"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장", "란두인의 예언", "도미닉 경의 인사"],
+					"boots": "신속의 장화",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "item",
+								"v": "가시 갑옷"
+							},
+							{
+								"t": "text",
+								"v": "의 반사 피해를 쓰도록 평타로 싸우는 적에게 붙으세요."
+							}
+						],
+						[
+							{
+								"t": "item",
+								"v": "란두인의 예언"
+							},
+							{
+								"t": "text",
+								"v": "을 사용해 적을 붙잡은 뒤 "
+							},
+							{
+								"t": "aug",
+								"v": "장갑 충격",
+								"id": "armored-impact"
+							},
+							{
+								"t": "text",
+								"v": " 평타를 이어 가세요."
+							}
+						]
+					]
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				},
+				{
+					"item": "명석함의 아이오니아 장화",
+					"label": "서포터·주문력 빌드"
+				}
+			],
+			"combos": [
+				{
+					"title": "방어력과 체력을 평타로",
+					"level": "strong",
+					"augmentIds": ["mystic-punch", "armored-impact", "heavy-hitter"],
+					"required": ["armored-impact"],
+					"why": [
+						{
+							"t": "text",
+							"v": "스킬 뒤 평타에 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "의 방어력 비례 피해가 붙습니다. "
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "으로 방어력을 훔친 뒤 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "를 켠 평타로 "
+						},
+						{
+							"t": "aug",
+							"v": "장갑 충격",
+							"id": "armored-impact"
+						},
+						{
+							"t": "text",
+							"v": "을 넣으세요."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "기둥 반복",
+					"level": "good",
+					"augmentIds": ["terraind", "archmage", "infinite-recursion"],
+					"required": ["terraind", "archmage"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "지형 생성됨",
+							"id": "terraind"
+						},
+						{
+							"t": "text",
+							"v": "으로 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": " 주위에 피해가 더해집니다. "
+						},
+						{
+							"t": "aug",
+							"v": "대마법사",
+							"id": "archmage"
+						},
+						{
+							"t": "text",
+							"v": "가 있으면 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "과 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "을 번갈아 써서 기둥을 끝없이 세울 수 있습니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["deft", "symphony-of-war"],
+			"avoid": ["back-to-basics"]
+		},
+		{
+			"id": "teemo",
+			"nameKo": "티모",
+			"roles": ["마법사"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/teemo.webp",
+			"skills": {
+				"Q": {
+					"name": "실명 다트",
+					"icon": "/images/aram-mayhem/skills/teemo-q.webp"
+				},
+				"W": {
+					"name": "신속한 이동",
+					"icon": "/images/aram-mayhem/skills/teemo-w.webp"
+				},
+				"E": {
+					"name": "맹독 다트",
+					"icon": "/images/aram-mayhem/skills/teemo-e.webp"
+				},
+				"R": {
+					"name": "유독성 함정",
+					"icon": "/images/aram-mayhem/skills/teemo-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["루덴의 메아리", "리안드리의 고통", "라바돈의 죽음모자"],
+					"boots": "마법사의 신발",
+					"situational": [
+						{
+							"item": "그림자불꽃",
+							"whenKo": "체력이 낮은 적을 빨리 끝내고 싶을 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력을 올렸을 때"
+						},
+						{
+							"item": "망각의 구",
+							"whenKo": "적 회복이 강할 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+						}
+					],
+					"skillOrder": ["Q", "E", "W"],
+					"play": []
+				},
+				{
+					"key": "aug-bees",
+					"trigger": ["bees"],
+					"core": ["스태틱의 단검", "황혼과 새벽", "내셔의 이빨"],
+					"boots": "광전사의 군화",
+					"situational": [
+						{
+							"item": "리안드리의 고통",
+							"whenKo": "체력이 많은 적을 오래 태우고 싶을 때"
+						},
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 더 크게 올리고 싶을 때"
+						},
+						{
+							"item": "그림자불꽃",
+							"whenKo": "체력이 낮은 적을 빨리 끝내고 싶을 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력을 올렸을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "광전사의 군화",
+					"label": "공격 속도"
+				},
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "벌집으로 독 퍼뜨리기",
+					"level": "strong",
+					"augmentIds": ["bees"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "text",
+							"v": "벌집도 적중 시 효과로 "
+						},
+						{
+							"t": "skill",
+							"key": "E"
+						},
+						{
+							"t": "text",
+							"v": "의 독을 묻힙니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "와 "
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "을 쓸 때마다 벌집이 날아가 독 피해가 계속 쌓입니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": ["ethereal-weapon", "infinite-recursion", "eureka", "erosion", "tripleshot"],
+			"avoid": []
+		},
+		{
+			"id": "fizz",
+			"nameKo": "피즈",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/fizz.webp",
+			"skills": {
+				"Q": {
+					"name": "성게 찌르기",
+					"icon": "/images/aram-mayhem/skills/fizz-q.webp"
+				},
+				"W": {
+					"name": "심해석 삼지창",
+					"icon": "/images/aram-mayhem/skills/fizz-w.webp"
+				},
+				"E": {
+					"name": "장난치기 / 재간둥이",
+					"icon": "/images/aram-mayhem/skills/fizz-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "주문력",
+					"core": ["리치베인", "그림자불꽃", "라바돈의 죽음모자"],
+					"boots": "마법사의 신발",
+					"situational": [
+						{
+							"item": "폭풍 쇄도",
+							"whenKo": "적 원거리 딜러를 빨리 끊어야 할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력을 올렸을 때"
+						},
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "들어간 뒤 적의 집중 공격을 피해야 할 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+						}
+					],
+					"skillOrder": ["E", "W", "Q"],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "벌집으로 출혈 묻히기",
+					"level": "strong",
+					"augmentIds": ["bees"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "text",
+							"v": "벌집도 적중 시 효과로 "
+						},
+						{
+							"t": "skill",
+							"key": "W"
+						},
+						{
+							"t": "text",
+							"v": "의 출혈을 묻힙니다. "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "로 파고들 때도 벌집이 날아가 적을 느리게 만듭니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": [
+				"takeem-down-down-down",
+				"the-boom-and-the-bass",
+				"ethereal-weapon",
+				"back-to-basics",
+				"clown-college"
+			],
+			"avoid": []
+		},
+		{
+			"id": "hecarim",
+			"nameKo": "헤카림",
+			"roles": ["전사"],
+			"difficulty": "보통",
+			"icon": "/images/aram-mayhem/champions/hecarim.webp",
+			"skills": {
+				"Q": {
+					"name": "회오리 베기",
+					"icon": "/images/aram-mayhem/skills/hecarim-q.webp"
+				},
+				"R": {
+					"name": "그림자의 맹습",
+					"icon": "/images/aram-mayhem/skills/hecarim-r.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "브루저",
+					"core": ["쇼진의 창", "마나무네", "끝없는 갈망"],
+					"boots": "탐욕의 군화",
+					"situational": [
+						{
+							"item": "죽음의 무도",
+							"whenKo": "적의 물리 피해를 버티며 계속 싸워야 할 때"
+						},
+						{
+							"item": "맬모셔스의 아귀",
+							"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+						},
+						{
+							"item": "세릴다의 원한",
+							"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "무한 Q · 환영 무기",
+					"level": "strong",
+					"augmentIds": ["ethereal-weapon", "mystic-punch"],
+					"required": ["ethereal-weapon", "mystic-punch"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "환영 무기",
+							"id": "ethereal-weapon"
+						},
+						{
+							"t": "text",
+							"v": "로 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "에도 적중 시 효과가 붙습니다. 그래서 맞힐 때마다 "
+						},
+						{
+							"t": "aug",
+							"v": "신비한 주먹",
+							"id": "mystic-punch"
+						},
+						{
+							"t": "text",
+							"v": "이 대기시간을 1.25초 줄여 무한 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "가 가능합니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "무한 Q · 궁극의 각성",
+					"level": "strong",
+					"augmentIds": ["ultimate-awakening"],
+					"required": ["ultimate-awakening"],
+					"why": [
+						{
+							"t": "aug",
+							"v": "궁극의 각성",
+							"id": "ultimate-awakening"
+						},
+						{
+							"t": "text",
+							"v": "은 "
+						},
+						{
+							"t": "skill",
+							"key": "R"
+						},
+						{
+							"t": "text",
+							"v": "을 쓴 뒤 15초 동안 "
+						},
+						{
+							"t": "stat",
+							"v": "스킬 가속"
+						},
+						{
+							"t": "text",
+							"v": "을 300 올려 줍니다. 그동안은 무한 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": "가 가능합니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				},
+				{
+					"title": "무한 Q · 스킬 가속 중첩",
+					"level": "strong",
+					"augmentIds": ["infinite-recursion", "shrink-engine"],
+					"required": [],
+					"why": [
+						{
+							"t": "aug",
+							"v": "무한 반복",
+							"id": "infinite-recursion"
+						},
+						{
+							"t": "text",
+							"v": "과 "
+						},
+						{
+							"t": "aug",
+							"v": "축소 엔진",
+							"id": "shrink-engine"
+						},
+						{
+							"t": "text",
+							"v": "은 처치에 관여할 때마다 "
+						},
+						{
+							"t": "stat",
+							"v": "스킬 가속"
+						},
+						{
+							"t": "text",
+							"v": "을 영구로 쌓아 줍니다. 둘 중 하나만 있어도 되고, 둘 다 있으면 후반에 "
+						},
+						{
+							"t": "skill",
+							"key": "Q"
+						},
+						{
+							"t": "text",
+							"v": " 대기시간이 거의 사라집니다."
+						}
+					],
+					"steps": [],
+					"hint": "",
+					"sources": []
+				}
+			],
+			"good": [
+				"the-boom-and-the-bass",
+				"takeem-down-down-down",
+				"goredrink",
+				"bread-and-butter",
+				"with-haste"
+			],
+			"avoid": []
+		}
+	],
+	"augments": {
+		"adapt": {
+			"nameKo": "적응형 능력치",
+			"tier": "silver",
+			"effectKo": "추가 공격력을 주문력으로 바꾸고 주문력을 높입니다.",
+			"icon": "/images/aram-mayhem/augments/adapt.webp"
+		},
+		"all-for-you": {
+			"nameKo": "너만을 위해",
+			"tier": "gold",
+			"effectKo": "아군에게 주는 회복과 보호막을 강화합니다.",
+			"icon": "/images/aram-mayhem/augments/all-for-you.webp"
+		},
+		"archmage": {
+			"nameKo": "대마법사",
+			"tier": "prismatic",
+			"effectKo": "스킬을 쓰면 다른 스킬의 남은 대기시간이 줄어듭니다.",
+			"icon": "/images/aram-mayhem/augments/archmage.webp"
+		},
+		"armored-impact": {
+			"nameKo": "장갑 충격",
+			"tier": "gold",
+			"effectKo": "스킬 뒤 다음 기본 공격에 방어력에 비례한 피해가 붙습니다.",
+			"icon": "/images/aram-mayhem/augments/armored-impact.webp"
+		},
+		"back-to-basics": {
+			"nameKo": "기본으로 돌아가기",
+			"tier": "prismatic",
+			"effectKo": "궁극기를 포기하고 일반 스킬과 회복·보호막을 강화합니다.",
+			"icon": "/images/aram-mayhem/augments/back-to-basics.webp"
+		},
+		"bees": {
+			"nameKo": "벌이다!!!",
+			"tier": "gold",
+			"effectKo": "스킬을 쓰면 때때로 벌집이 날아가 폭발합니다. 둔화와 적중 시 효과도 적용합니다.",
+			"icon": "/images/aram-mayhem/augments/bees.webp"
+		},
+		"blade-waltz": {
+			"nameKo": "검무",
+			"tier": "prismatic",
+			"effectKo": "적 사이를 연달아 이동하며 공격하는 소환사 주문을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/blade-waltz.webp"
+		},
+		"blue-barrier": {
+			"nameKo": "푸른 방어막",
+			"tier": "silver",
+			"effectKo": "마나를 쓰는 스킬을 사용하면 마나 소모량에 따른 보호막을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/blue-barrier.webp"
+		},
+		"blunt-force": {
+			"nameKo": "육중한 힘",
+			"tier": "silver",
+			"effectKo": "공격력을 높입니다.",
+			"icon": "/images/aram-mayhem/augments/blunt-force.webp"
+		},
+		"bread-and-butter": {
+			"nameKo": "빵과 버터",
+			"tier": "gold",
+			"effectKo": "Q의 스킬 가속을 높입니다.",
+			"icon": "/images/aram-mayhem/augments/bread-and-butter.webp"
+		},
+		"bread-and-cheese": {
+			"nameKo": "빵과 치즈",
+			"tier": "gold",
+			"effectKo": "E의 스킬 가속을 높입니다.",
+			"icon": "/images/aram-mayhem/augments/bread-and-cheese.webp"
+		},
+		"bread-and-jam": {
+			"nameKo": "빵과 잼",
+			"tier": "gold",
+			"effectKo": "W의 스킬 가속을 높입니다.",
+			"icon": "/images/aram-mayhem/augments/bread-and-jam.webp"
+		},
+		"circle-of-death": {
+			"nameKo": "죽음의 순환",
+			"tier": "prismatic",
+			"effectKo": "회복량의 일부를 주변 적 챔피언에게 주는 피해로 바꿉니다.",
+			"icon": "/images/aram-mayhem/augments/circle-of-death.webp"
+		},
+		"clown-college": {
+			"nameKo": "광대 대학",
+			"tier": "prismatic",
+			"effectKo": "기습 공격, 은신 이동, 사망 폭발 효과를 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/clown-college.webp"
+		},
+		"courage-of-the-colossus": {
+			"nameKo": "거석상의 용기",
+			"tier": "prismatic",
+			"effectKo": "적의 이동을 막으면 보호막을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/courage-of-the-colossus.webp"
+		},
+		"critical-healing": {
+			"nameKo": "치명적 치유",
+			"tier": "gold",
+			"effectKo": "회복과 보호막에도 치명타가 적용될 수 있습니다.",
+			"icon": "/images/aram-mayhem/augments/critical-healing.webp"
+		},
+		"cruelty": {
+			"nameKo": "잔혹 행위",
+			"tier": "prismatic",
+			"effectKo": "적의 이동을 막은 위치에 추가 피해가 떨어집니다.",
+			"icon": "/images/aram-mayhem/augments/cruelty.webp"
+		},
+		"dashing": {
+			"nameKo": "돌진",
+			"tier": "prismatic",
+			"effectKo": "돌진과 순간이동 스킬의 가속을 크게 높입니다.",
+			"icon": "/images/aram-mayhem/augments/dashing.webp"
+		},
+		"deft": {
+			"nameKo": "능수능란",
+			"tier": "silver",
+			"effectKo": "공격 속도를 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/deft.webp"
+		},
+		"double-tap": {
+			"nameKo": "한 발에 두 놈",
+			"tier": "prismatic",
+			"effectKo": "치명타 기본 공격이 적중 시 효과를 추가로 적용합니다.",
+			"icon": "/images/aram-mayhem/augments/double-tap.webp"
+		},
+		"draw-your-sword": {
+			"nameKo": "검을 뽑아라",
+			"tier": "prismatic",
+			"effectKo": "원거리 챔피언의 사거리가 짧아지는 대신 여러 전투 능력치를 크게 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/draw-your-sword.webp"
+		},
+		"dual-wield": {
+			"nameKo": "양손잡이",
+			"tier": "prismatic",
+			"effectKo": "기본 공격 뒤 추가 타격이 발생합니다. 추가 타격은 적중 시 효과를 낮은 비율로 적용합니다.",
+			"icon": "/images/aram-mayhem/augments/dual-wield.webp"
+		},
+		"enchanting-butterflies": {
+			"nameKo": "황홀한 나비",
+			"tier": "gold",
+			"effectKo": "아군 회복·보호막으로 나비를 모읍니다. 충분히 모은 뒤 적을 때리면 나비가 추가 피해를 줍니다.",
+			"icon": "/images/aram-mayhem/augments/enchanting-butterflies.webp"
+		},
+		"erosion": {
+			"nameKo": "부식",
+			"tier": "silver",
+			"effectKo": "적에게 피해를 줄수록 방어력과 마법 저항력을 깎습니다.",
+			"icon": "/images/aram-mayhem/augments/erosion.webp"
+		},
+		"escapade": {
+			"nameKo": "마법사 (물리)",
+			"tier": "silver",
+			"effectKo": "주문력을 추가 공격력으로 바꾸고 공격력을 높입니다.",
+			"icon": "/images/aram-mayhem/augments/escapade.webp"
+		},
+		"ethereal-weapon": {
+			"nameKo": "환영 무기",
+			"tier": "gold",
+			"effectKo": "스킬이 적중 시 효과를 적용합니다. 같은 대상에게는 발동 간격이 있습니다.",
+			"icon": "/images/aram-mayhem/augments/ethereal-weapon.webp"
+		},
+		"eureka": {
+			"nameKo": "유레카",
+			"tier": "prismatic",
+			"effectKo": "주문력에 비례해 스킬 가속을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/eureka.webp"
+		},
+		"firebrand": {
+			"nameKo": "화염 낙인",
+			"tier": "gold",
+			"effectKo": "기본 공격이 중첩되는 화상을 남깁니다.",
+			"icon": "/images/aram-mayhem/augments/firebrand.webp"
+		},
+		"first-aid-kit": {
+			"nameKo": "응급처치 키트",
+			"tier": "silver",
+			"effectKo": "체력 회복과 보호막 효과를 높입니다.",
+			"icon": "/images/aram-mayhem/augments/first-aid-kit.webp"
+		},
+		"giant-slayer": {
+			"nameKo": "거인 학살자",
+			"tier": "prismatic",
+			"effectKo": "몸집이 작아지고 빨라집니다. 자신보다 큰 적에게 피해가 늘어납니다.",
+			"icon": "/images/aram-mayhem/augments/giant-slayer.webp"
+		},
+		"goliath": {
+			"nameKo": "거인",
+			"tier": "prismatic",
+			"effectKo": "최대 체력과 적응형 능력치가 늘고 몸집이 커집니다.",
+			"icon": "/images/aram-mayhem/augments/goliath.webp"
+		},
+		"goredrink": {
+			"nameKo": "선혈포식",
+			"tier": "silver",
+			"effectKo": "모든 피해 흡혈을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/goredrink.webp"
+		},
+		"heavy-hitter": {
+			"nameKo": "강타자",
+			"tier": "silver",
+			"effectKo": "기본 공격에 자신의 최대 체력에 비례한 물리 피해를 더합니다.",
+			"icon": "/images/aram-mayhem/augments/heavy-hitter.webp"
+		},
+		"homeguard": {
+			"nameKo": "민병대",
+			"tier": "silver",
+			"effectKo": "적 챔피언에게 맞지 않는 동안 이동 속도가 크게 증가합니다.",
+			"icon": "/images/aram-mayhem/augments/homeguard.webp"
+		},
+		"ice-cold": {
+			"nameKo": "차가운 냉기",
+			"tier": "silver",
+			"effectKo": "둔화 효과를 강화합니다.",
+			"icon": "/images/aram-mayhem/augments/ice-cold.webp"
+		},
+		"impassable": {
+			"nameKo": "넘을 수 없는 벽",
+			"tier": "gold",
+			"effectKo": "여진과 빙결 강화 효과를 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/impassable.webp"
+		},
+		"infernal-conduit": {
+			"nameKo": "지옥의 전도체",
+			"tier": "prismatic",
+			"effectKo": "스킬로 적 챔피언을 맞히면 화상을 남깁니다. 화상 피해가 일반 스킬의 대기시간을 줄입니다.",
+			"icon": "/images/aram-mayhem/augments/infernal-conduit.webp"
+		},
+		"infinite-recursion": {
+			"nameKo": "무한 반복",
+			"tier": "prismatic",
+			"effectKo": "스킬 가속을 얻고 처치에 관여할 때마다 추가로 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/infinite-recursion.webp"
+		},
+		"its-critical": {
+			"nameKo": "치명적인 공격",
+			"tier": "gold",
+			"effectKo": "치명타 확률을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/its-critical.webp"
+		},
+		"jeweled-gauntlet": {
+			"nameKo": "보석 건틀릿",
+			"tier": "prismatic",
+			"effectKo": "스킬 피해에 치명타가 적용될 수 있으며 치명타 확률을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/jeweled-gauntlet.webp"
+		},
+		"leg-day": {
+			"nameKo": "하체 운동의 날",
+			"tier": "silver",
+			"effectKo": "이동 속도와 둔화 저항을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/leg-day.webp"
+		},
+		"lich-brain": {
+			"nameKo": "리치 두뇌",
+			"tier": "silver",
+			"effectKo": "추가 체력에 비례해 주문력을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/lich-brain.webp"
+		},
+		"mad-scientist": {
+			"nameKo": "미친 과학자",
+			"tier": "prismatic",
+			"effectKo": "부활할 때마다 커지고 강해지거나 작아지고 빨라지는 효과 중 하나를 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/mad-scientist.webp"
+		},
+		"magic-missile": {
+			"nameKo": "마법 미사일",
+			"tier": "gold",
+			"effectKo": "스킬 적중 시 고정 피해 미사일을 발사합니다. 멀리 날아갈수록 강해집니다.",
+			"icon": "/images/aram-mayhem/augments/magic-missile.webp"
+		},
+		"mind-to-matter": {
+			"nameKo": "정신 변환",
+			"tier": "silver",
+			"effectKo": "최대 마나에 비례해 추가 체력을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/mind-to-matter.webp"
+		},
+		"mystic-punch": {
+			"nameKo": "신비한 주먹",
+			"tier": "prismatic",
+			"effectKo": "기본 공격 적중 시 스킬의 남은 대기시간이 줄어듭니다.",
+			"icon": "/images/aram-mayhem/augments/mystic-punch.webp"
+		},
+		"outlaws-grit": {
+			"nameKo": "무법자의 투지",
+			"tier": "gold",
+			"effectKo": "돌진이나 순간이동 뒤 방어력과 마법 저항력이 쌓입니다.",
+			"icon": "/images/aram-mayhem/augments/outlaws-grit.webp"
+		},
+		"overflow": {
+			"nameKo": "범람",
+			"tier": "gold",
+			"effectKo": "마나 소모가 늘어나는 대신 최대 마나에 따라 피해와 회복·보호막 효과가 높아집니다.",
+			"icon": "/images/aram-mayhem/augments/overflow.webp"
+		},
+		"overloaded": {
+			"nameKo": "과충전",
+			"tier": "prismatic",
+			"effectKo": "다른 스킬을 쓰면 지정 스킬의 대기시간이 초기화됩니다.",
+			"icon": "/images/aram-mayhem/augments/overloaded.webp"
+		},
+		"phenomenal-evil": {
+			"nameKo": "극악무도",
+			"tier": "gold",
+			"effectKo": "스킬로 적 챔피언을 맞히며 주문력을 쌓습니다.",
+			"icon": "/images/aram-mayhem/augments/phenomenal-evil.webp"
+		},
+		"protein-shake": {
+			"nameKo": "프로틴 음료",
+			"tier": "prismatic",
+			"effectKo": "방어력과 마법 저항력에 따라 회복·보호막 효과가 높아집니다.",
+			"icon": "/images/aram-mayhem/augments/protein-shake.webp"
+		},
+		"purist-caster": {
+			"nameKo": "순수주의자 - 마법사",
+			"tier": "silver",
+			"effectKo": "추가 공격 속도를 스킬 가속으로 바꾸며 스킬 대기시간을 더 줄입니다.",
+			"icon": "/images/aram-mayhem/augments/purist-caster.webp"
+		},
+		"quest-steel-your-heart": {
+			"nameKo": "강철 같은 심장",
+			"tier": "gold",
+			"effectKo": "강철심장으로 체력 중첩을 모으면 중첩 효과가 강화됩니다.",
+			"icon": "/images/aram-mayhem/augments/quest-steel-your-heart.webp"
+		},
+		"recursion": {
+			"nameKo": "되풀이",
+			"tier": "gold",
+			"effectKo": "스킬 가속을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/recursion.webp"
+		},
+		"scopier-weapons": {
+			"nameKo": "상급 조준경 부착",
+			"tier": "gold",
+			"effectKo": "기본 공격 사거리가 더 늘어납니다.",
+			"icon": "/images/aram-mayhem/augments/scopier-weapons.webp"
+		},
+		"scopiest-weapons": {
+			"nameKo": "최상급 조준경 부착",
+			"tier": "prismatic",
+			"effectKo": "기본 공격 사거리가 크게 늘어납니다.",
+			"icon": "/images/aram-mayhem/augments/scopiest-weapons.webp"
+		},
+		"shrink-engine": {
+			"nameKo": "축소 엔진",
+			"tier": "gold",
+			"effectKo": "처치 관여로 작아지고 스킬 가속과 이동 속도를 쌓습니다. 사망하면 일부를 잃습니다.",
+			"icon": "/images/aram-mayhem/augments/shrink-engine.webp"
+		},
+		"skilled-sniper": {
+			"nameKo": "노련한 저격수",
+			"tier": "gold",
+			"effectKo": "먼 거리에서 일반 스킬을 맞히면 해당 스킬의 대기시간을 줄입니다.",
+			"icon": "/images/aram-mayhem/augments/skilled-sniper.webp"
+		},
+		"slap-around": {
+			"nameKo": "우당탕탕",
+			"tier": "silver",
+			"effectKo": "적의 이동을 막으면 공격력 또는 주문력을 쌓습니다. 사망하면 일부를 잃습니다.",
+			"icon": "/images/aram-mayhem/augments/slap-around.webp"
+		},
+		"soul-siphon": {
+			"nameKo": "영혼 흡수",
+			"tier": "gold",
+			"effectKo": "치명타 피해량의 일부만큼 체력을 회복합니다.",
+			"icon": "/images/aram-mayhem/augments/soul-siphon.webp"
+		},
+		"sound-barrier": {
+			"nameKo": "음속 장벽",
+			"tier": "silver",
+			"effectKo": "보호막을 받은 대상이 빨라집니다.",
+			"icon": "/images/aram-mayhem/augments/sound-barrier.webp"
+		},
+		"stackosaurusrex": {
+			"nameKo": "다단 중첩",
+			"tier": "silver",
+			"effectKo": "영구 스킬 중첩을 얻을 때 추가 중첩을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/stackosaurusrex.webp"
+		},
+		"still-here": {
+			"nameKo": "죽지 않아",
+			"tier": "gold",
+			"effectKo": "체력이 낮을수록 공격력, 주문력, 생명력 흡수가 늘어납니다.",
+			"icon": "/images/aram-mayhem/augments/still-here.webp"
+		},
+		"swift-and-safe": {
+			"nameKo": "빠르고 안전하게",
+			"tier": "silver",
+			"effectKo": "돌진이나 순간이동 뒤 잠시 보호막을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/swift-and-safe.webp"
+		},
+		"symphony-of-war": {
+			"nameKo": "전장의 교향곡",
+			"tier": "prismatic",
+			"effectKo": "정복자와 치명적 속도 효과를 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/symphony-of-war.webp"
+		},
+		"takeem-down-down-down": {
+			"nameKo": "전부 다 무너뜨려",
+			"tier": "gold",
+			"effectKo": "적 챔피언에게 기본 공격과 스킬을 여러 번 맞히면 추가 피해와 회복을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/takeem-down-down-down.webp"
+		},
+		"tank-engine": {
+			"nameKo": "탱크 엔진",
+			"tier": "gold",
+			"effectKo": "처치 관여로 최대 체력과 몸집이 커집니다. 죽으면 중첩 일부를 잃습니다.",
+			"icon": "/images/aram-mayhem/augments/tank-engine.webp"
+		},
+		"tap-dancer": {
+			"nameKo": "탭 댄서",
+			"tier": "prismatic",
+			"effectKo": "기본 공격으로 이동 속도를 쌓고 이동 속도에 따라 공격 속도를 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/tap-dancer.webp"
+		},
+		"terraind": {
+			"nameKo": "지형 생성됨",
+			"tier": "gold",
+			"effectKo": "지정 지형 생성 스킬 주위에 피해를 더합니다.",
+			"icon": "/images/aram-mayhem/augments/terraind.webp"
+		},
+		"the-boom-and-the-bass": {
+			"nameKo": "붐 앤 베이스",
+			"tier": "gold",
+			"effectKo": "스킬을 쓴 뒤 다음 기본 공격에 추가 피해가 붙고 이동 속도가 잠시 크게 오릅니다.",
+			"icon": "/images/aram-mayhem/augments/the-boom-and-the-bass.webp"
+		},
+		"thread-the-needle": {
+			"nameKo": "바늘에 실 끼우기",
+			"tier": "gold",
+			"effectKo": "방어구 관통력과 마법 관통력을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/thread-the-needle.webp"
+		},
+		"tooth-fairy": {
+			"nameKo": "이빨 요정",
+			"tier": "gold",
+			"effectKo": "큰 피해를 주면 떨어지는 이빨을 주워 물리·마법 관통력을 쌓습니다.",
+			"icon": "/images/aram-mayhem/augments/tooth-fairy.webp"
+		},
+		"tripleshot": {
+			"nameKo": "3연발",
+			"tier": "prismatic",
+			"effectKo": "지정 스킬이 앞쪽 적 2명을 추가로 공격합니다.",
+			"icon": "/images/aram-mayhem/augments/tripleshot.webp"
+		},
+		"ultimate-awakening": {
+			"nameKo": "궁극의 각성",
+			"tier": "prismatic",
+			"effectKo": "궁극기 사용 후 일반 스킬이 초기화되고 잠시 스킬 가속이 크게 증가합니다.",
+			"icon": "/images/aram-mayhem/augments/ultimate-awakening.webp"
+		},
+		"ultimate-recursion": {
+			"nameKo": "궁극의 반복",
+			"tier": "silver",
+			"effectKo": "궁극기 가속을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/ultimate-recursion.webp"
+		},
+		"upgrade-sheen": {
+			"nameKo": "광휘의 검 업그레이드",
+			"tier": "gold",
+			"effectKo": "주문 검 효과에 체력 비례 피해와 자신의 체력 회복을 더합니다.",
+			"icon": "/images/aram-mayhem/augments/upgrade-sheen.webp"
+		},
+		"vulnerability": {
+			"nameKo": "취약",
+			"tier": "gold",
+			"effectKo": "아이템 피해와 지속 피해에 치명타가 적용될 수 있습니다.",
+			"icon": "/images/aram-mayhem/augments/vulnerability.webp"
+		},
+		"windspeakers-blessing": {
+			"nameKo": "바람전달자의 축복",
+			"tier": "prismatic",
+			"effectKo": "회복·보호막을 받은 대상에게 잠시 방어력과 마법 저항력을 더합니다.",
+			"icon": "/images/aram-mayhem/augments/windspeakers-blessing.webp"
+		},
+		"witchful-thinking": {
+			"nameKo": "사악한 정신",
+			"tier": "silver",
+			"effectKo": "주문력을 얻습니다.",
+			"icon": "/images/aram-mayhem/augments/witchful-thinking.webp"
+		},
+		"with-haste": {
+			"nameKo": "속행",
+			"tier": "gold",
+			"effectKo": "스킬 가속에 비례해 이동 속도가 증가합니다.",
+			"icon": "/images/aram-mayhem/augments/with-haste.webp"
+		}
+	},
+	"items": {
+		"가시 갑옷": "/images/aram-mayhem/items/3075.webp",
+		"갈라진 하늘": "/images/aram-mayhem/items/6610.webp",
+		"강철심장": "/images/aram-mayhem/items/3084.webp",
+		"강철의 솔라리 펜던트": "/images/aram-mayhem/items/3190.webp",
+		"거대한 히드라": "/images/aram-mayhem/items/3748.webp",
+		"경계": "/images/aram-mayhem/items/3302.webp",
+		"고속 연사포": "/images/aram-mayhem/items/3094.webp",
+		"공허의 지팡이": "/images/aram-mayhem/items/3135.webp",
+		"과충전": "/images/aram-mayhem/items/1507.webp",
+		"광전사의 군화": "/images/aram-mayhem/items/3006.webp",
+		"구원": "/images/aram-mayhem/items/3107.webp",
+		"구인수의 격노검": "/images/aram-mayhem/items/3124.webp",
+		"굶주린 히드라": "/images/aram-mayhem/items/3074.webp",
+		"균열 생성기": "/images/aram-mayhem/items/4633.webp",
+		"그림자불꽃": "/images/aram-mayhem/items/4645.webp",
+		"기사의 맹세": "/images/aram-mayhem/items/3109.webp",
+		"꽃피는 새벽의 검": "/images/aram-mayhem/items/124011.webp",
+		"끝없는 갈망": "/images/aram-mayhem/items/2517.webp",
+		"끝없는 절망": "/images/aram-mayhem/items/2502.webp",
+		"내셔의 이빨": "/images/aram-mayhem/items/3115.webp",
+		"대자연의 힘": "/images/aram-mayhem/items/4401.webp",
+		"대천사의 지팡이": "/images/aram-mayhem/items/3003.webp",
+		"도미닉 경의 인사": "/images/aram-mayhem/items/3036.webp",
+		"독사의 송곳니": "/images/aram-mayhem/items/6695.webp",
+		"라바돈의 죽음모자": "/images/aram-mayhem/items/3089.webp",
+		"라일라이의 수정홀": "/images/aram-mayhem/items/3116.webp",
+		"란두인의 예언": "/images/aram-mayhem/items/3143.webp",
+		"루난의 허리케인": "/images/aram-mayhem/items/3085.webp",
+		"루덴의 메아리": "/images/aram-mayhem/items/6655.webp",
+		"리안드리의 고통": "/images/aram-mayhem/items/6653.webp",
+		"리치베인": "/images/aram-mayhem/items/3100.webp",
+		"마나무네": "/images/aram-mayhem/items/3004.webp",
+		"마법사의 신발": "/images/aram-mayhem/items/3020.webp",
+		"마법사의 최후": "/images/aram-mayhem/items/3091.webp",
+		"망각의 구": "/images/aram-mayhem/items/3916.webp",
+		"맬모셔스의 아귀": "/images/aram-mayhem/items/3156.webp",
+		"명석함의 아이오니아 장화": "/images/aram-mayhem/items/3158.webp",
+		"모렐로노미콘": "/images/aram-mayhem/items/3165.webp",
+		"몰락한 왕의 검": "/images/aram-mayhem/items/3153.webp",
+		"무라마나": "/images/aram-mayhem/items/3042.webp",
+		"무한의 대검": "/images/aram-mayhem/items/3031.webp",
+		"미카엘의 축복": "/images/aram-mayhem/items/3222.webp",
+		"발걸음 분쇄기": "/images/aram-mayhem/items/6631.webp",
+		"밴들파이프": "/images/aram-mayhem/items/2524.webp",
+		"밴시의 장막": "/images/aram-mayhem/items/3102.webp",
+		"벼락폭풍검": "/images/aram-mayhem/items/6699.webp",
+		"불타는 향로": "/images/aram-mayhem/items/3504.webp",
+		"삼위일체": "/images/aram-mayhem/items/3078.webp",
+		"새벽심장": "/images/aram-mayhem/items/6621.webp",
+		"세릴다의 원한": "/images/aram-mayhem/items/6694.webp",
+		"속삭이는 머리띠": "/images/aram-mayhem/items/2526.webp",
+		"쇼진의 창": "/images/aram-mayhem/items/3161.webp",
+		"스태틱의 단검": "/images/aram-mayhem/items/3087.webp",
+		"스테락의 도전": "/images/aram-mayhem/items/3053.webp",
+		"신속의 장화": "/images/aram-mayhem/items/3009.webp",
+		"실체화 장비": "/images/aram-mayhem/items/2522.webp",
+		"어둠불꽃 횃불": "/images/aram-mayhem/items/2503.webp",
+		"얼어붙은 심장": "/images/aram-mayhem/items/3110.webp",
+		"영겁의 지팡이": "/images/aram-mayhem/items/6657.webp",
+		"오만": "/images/aram-mayhem/items/126697.webp",
+		"워모그의 갑옷": "/images/aram-mayhem/items/3083.webp",
+		"원칙의 원형낫": "/images/aram-mayhem/items/6696.webp",
+		"월석 재생기": "/images/aram-mayhem/items/6617.webp",
+		"월식": "/images/aram-mayhem/items/6692.webp",
+		"유령 무희": "/images/aram-mayhem/items/3046.webp",
+		"윤 탈 야생화살": "/images/aram-mayhem/items/3032.webp",
+		"정령의 형상": "/images/aram-mayhem/items/3065.webp",
+		"정수 약탈자": "/images/aram-mayhem/items/3508.webp",
+		"제국의 명령": "/images/aram-mayhem/items/4005.webp",
+		"존야의 모래시계": "/images/aram-mayhem/items/3157.webp",
+		"죽음의 무도": "/images/aram-mayhem/items/6333.webp",
+		"지배자의 피갑옷": "/images/aram-mayhem/items/2501.webp",
+		"지평선의 초점": "/images/aram-mayhem/items/4628.webp",
+		"징수의 총": "/images/aram-mayhem/items/6676.webp",
+		"처형인의 대검": "/images/aram-mayhem/items/3123.webp",
+		"칠흑의 양날 도끼": "/images/aram-mayhem/items/3071.webp",
+		"케이닉 루컨": "/images/aram-mayhem/items/2504.webp",
+		"탐욕의 군화": "/images/aram-mayhem/items/3008.webp",
+		"파멸의식 고서": "/images/aram-mayhem/items/123430.webp",
+		"판금 장화": "/images/aram-mayhem/items/3047.webp",
+		"폭풍 쇄도": "/images/aram-mayhem/items/4646.webp",
+		"필멸자의 운명": "/images/aram-mayhem/items/3033.webp",
+		"핏빛 저주": "/images/aram-mayhem/items/8010.webp",
+		"해신 작쇼": "/images/aram-mayhem/items/6665.webp",
+		"헤르메스의 발걸음": "/images/aram-mayhem/items/3111.webp",
+		"헤르메스의 시미터": "/images/aram-mayhem/items/3139.webp",
+		"혹한의 손길": "/images/aram-mayhem/items/3119.webp",
+		"황혼과 새벽": "/images/aram-mayhem/items/2510.webp",
+		"흐르는 물의 지팡이": "/images/aram-mayhem/items/6616.webp"
+	},
+	"icons": {
+		"anvil": "/images/aram-mayhem/stats/anvil.webp",
+		"haste": "/images/aram-mayhem/stats/ability-haste.webp"
+	}
+}

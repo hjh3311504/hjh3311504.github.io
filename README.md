@@ -1,12 +1,12 @@
 # hjh3311504.github.io
 
-SvelteKit으로 만든 root 사이트, Team Maker, QR 코드·구슬 레이스·대진표 도구와 Markdown 블로그를 한 저장소에서 관리합니다.
+SvelteKit으로 만든 root 사이트, Team Maker, QR 코드·구슬 레이스·대진표 도구, 칼바람 아수라장 증강 가이드와 Markdown 블로그를 한 저장소에서 관리합니다.
 
 ## 공통 UI와 검사
 
 새 페이지도 공통 컴포넌트와 토큰을 사용합니다. 컴포넌트를 선택하거나 스타일을 바꿀 때 [컴포넌트 목록·사용 예시](docs/frontend-ui.md)의 관련 부분을 참고하세요. `npm run check:ui`는 UI 규칙, `npm run test:ui`는 검사기와 hook을 검증합니다. 활성화된 hook은 변경 파일을 검사하므로 같은 내용의 수동 검사를 반복할 필요는 없습니다. hook 연결을 설치하거나 진단할 때만 해당 문서의 연결 절차를 확인하세요.
 
-QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/marble-race/components/`, 대진표 화면은 `src/lib/bracket/components/`에서 기능별로 관리합니다. route는 상태·주요 동작·전체 배치를 담당합니다.
+QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/marble-race/components/`, 대진표 화면은 `src/lib/bracket/components/`, 아수라장 가이드 화면은 `src/lib/aram-mayhem/components/`에서 기능별로 관리합니다. route는 상태·주요 동작·전체 배치를 담당합니다.
 
 ## 공통 화면과 정적 자산
 
@@ -204,7 +204,7 @@ SVG의 viewBox 비율은 이전 PNG와 같게 맞춰 기존 CSS 크기에서 배
 | `main` 수동 실행           | `main` push와 동일                                                         | 실행 |
 | 다른 branch 수동 실행      | 실행하지 않음                                                              | 없음 |
 
-전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/blog`, `/about`, `/privacy`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
+전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/aram-mayhem`, `/blog`, `/about`, `/privacy`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
 
 PR에서는 `site-build`가 정적 파일을1회 만들고, `checks`가 lint·정적 검사·전체 단위 테스트를 병렬로 실행합니다. 브라우저 검사는 같은 build 파일을 내려받습니다. 성능·시간 보존 검사는 전용 실행 환경에서 실행하고, 일반 브라우저 검사는4개 환경에 나눕니다. 각 환경 안에서는 기존처럼 검사1개씩 실행합니다.
 
@@ -355,6 +355,19 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 - 인쇄는 화면과 같은 카드·색으로 만든 별도 사본을 A4 가로 1장(여백 10mm)에 맞춥니다. 어두운 테마에서도 밝은 색으로 출력합니다. 배율은 대진표 크기로 미리 계산하므로 인쇄 이벤트에 의존하지 않습니다. 인쇄 사본과 대진표 영역에는 광고를 넣지 않습니다.
 - 960px 이하에서는 라운드 탭과 가로 스크롤로 열을 이동합니다. 전체화면은 대진표 영역만 띄웁니다.
 - 브라우저 검사는 `tests/team-maker-e2e/bracket.spec.js`, 단위 테스트는 `tests/bracket/`에 있습니다.
+
+## 칼바람 아수라장 증강 가이드
+
+공개 주소는 `/aram-mayhem`, 로컬 주소는 `http://localhost:5173/aram-mayhem`입니다. 정적 결과는 `build/aram-mayhem.html`입니다. 홈·소개·공통 메뉴·sitemap에서 연결합니다. 요구사항은 [REQ-ARAM](docs/requirements/aram-mayhem.yaml), 화면은 [SCR-WEB-009](docs/design/screens/SCR-WEB-009.md), 결정은 [ADR](docs/adr/2026-10-26-칼바람-아수라장-증강-가이드-추가.md)을 따릅니다.
+
+- 조사 원본: `docs/research/aram-mayhem/`의 JSON. 조합은 `champions.json`, 빌드는 `builds.json`, 증강 빌드 운영 방법은 `build-play.json`, 신발은 `boots.json`, 추가 추천 증강은 `champ-extras.json`, 디시 글 정보는 `community-posts.json`에서 고칩니다.
+- 화면 데이터와 아이콘: 원본을 고친 뒤 `npm run generate:aram-mayhem`을 실행하면 `src/lib/aram-mayhem/guide-data.json`과 `static/images/aram-mayhem/`이 다시 만들어집니다. 두 결과를 함께 commit합니다. 내려받은 원본은 `.cache/aram-mayhem`에 남고 Git에서 제외합니다. 찾지 못한 챔피언·증강·아이템이 있으면 생성이 실패합니다.
+- 문장 타일: 설명 문장의 스킬 키(`Q`·`W`·`E`·`R`, 키만 보이려면 `[E]`), 증강·아이템 이름, `스킬 가속`, `모루`가 자동으로 타일이 됩니다. 스킬 이름 뒤 조사는 생성할 때 받침에 맞춥니다. 나누기 규칙은 `src/lib/aram-mayhem/text.js`입니다.
+- 화면: `src/routes/aram-mayhem/+page.svelte`(챔피언 선택·주소), `aram-mayhem.css`(스타일), `src/lib/aram-mayhem/guide.js`(거르기·빌드 비교), `src/lib/aram-mayhem/components/`(고르기·빌드·조합 카드)
+- 출처는 디시 칼바람 갤러리 글과 유튜브 영상만 조합 카드에 표시합니다. 통계 사이트 근거는 조사 JSON의 `evidence`에만 둡니다.
+- 아이템 규칙: 악의·피바라기는 추천하지 않습니다. 어둠불꽃 횃불·루덴의 메아리는 코어에만 넣습니다. 탱커 기본 빌드의 1코어는 강철심장입니다. 단위 테스트가 확인합니다.
+- 브라우저 저장소는 쓰지 않습니다. 고른 챔피언은 주소 끝 `#챔피언id`로 공유합니다.
+- 브라우저 검사는 `tests/team-maker-e2e/aram-mayhem.spec.js`, 단위 테스트는 `tests/aram-mayhem/`에 있습니다.
 
 ## ASMR 구슬 레이스
 

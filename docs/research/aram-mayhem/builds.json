@@ -1,0 +1,1708 @@
+{
+	"patch": "26.21",
+	"checkedAt": "2026-10-25",
+	"champions": [
+		{
+			"id": "annie",
+			"defaultBuild": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "라바돈의 죽음모자",
+						"whenKo": "주문력을 크게 올려 피해를 더 키우고 싶을 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+					},
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+					}
+				],
+				"styleKo": "탱커용",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/annie",
+					"note": "사이트 표기 16.21을 확인. Excl. augment-granted: ap 유형 선택률 83.13%, 유형 승률 50%. 핵심 3종 17,037경기, 승률 50.98%, 유형 내 선택률 12.25%. 함정으로 표시된 그림자불꽃·폭풍 쇄도·루덴의 메아리을 피하고, 일반 주문력 유형에서 표본과 성적이 모두 충분한 악의·리안드리의 고통·라일라이의 수정홀를 선택. 악의 첫 3칸 선택률 72.19%, WR impact +0.17; 리안드리의 고통 첫 3칸 선택률 32.48%, WR impact +0.64; 라일라이의 수정홀 첫 3칸 선택률 11.72%, WR impact +0.01. Trap items: 그림자불꽃·폭풍 쇄도·루덴의 메아리. 탐욕의 군화 단일 승률 53.73%, 선택률 5.51%; 스킬 피해로 회복하는 선택. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Bread and Cheese에서 기본 핵심 53%(해당 범위 646경기). Skilled Sniper에서 기본 핵심 49.8%(범위 546경기)로 같은 아이템이 상위여서 원거리 조합 빌드는 생략."
+				}
+			},
+			"comboBuilds": [],
+			"altDefaultBuilds": [
+				{
+					"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+					"boots": "탐욕의 군화",
+					"styleKo": "암살용",
+					"situational": [
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						},
+						{
+							"item": "존야의 모래시계",
+							"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "yasuo",
+			"defaultBuild": {
+				"core": ["파멸의식 고서", "죽음의 무도", "정령의 형상"],
+				"boots": "판금 장화",
+				"styleKo": "방어형",
+				"situational": [
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 공격이 아플 때"
+					}
+				],
+				"basis": {
+					"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=638977",
+					"note": "디시 638977 고서 방어형 공략의 코어(파멸의식 고서·죽음의 무도·정령의 형상)와 판금 장화. 추천 아이템은 방어 상황용 후보."
+				},
+				"skillOrder": ["E", "Q", "W"]
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "신비한 주먹 무한 Q",
+					"triggerAugmentIds": ["mystic-punch"],
+					"build": {
+						"core": ["몰락한 왕의 검", "마법사의 최후", "파멸의식 고서"],
+						"boots": "광전사의 군화",
+						"situational": [
+							{
+								"item": "죽음의 무도",
+								"whenKo": "물리 피해를 버티며 계속 싸워야 할 때"
+							},
+							{
+								"item": "정령의 형상",
+								"whenKo": "마법 피해를 버티면서 회복과 보호막을 늘리고 싶을 때"
+							},
+							{
+								"item": "맬모셔스의 아귀",
+								"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+							},
+							{
+								"item": "란두인의 예언",
+								"whenKo": "적의 치명타 공격이 아플 때"
+							}
+						]
+					},
+					"whyKo": "신비한 주먹을 얻으면 몰락한 왕의 검과 마법사의 최후로 공격 속도를 채워 Q를 끝없이 씁니다.",
+					"basis": {
+						"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=638977",
+						"note": "디시 글의 공격형 증강 시 아이템 교체 운영. HexMayhem must-play 신비한 주먹+윤 탈 야생화살·파멸의식 고서·죽음의 무도 71.17%(약9.7K, 조건부 통계)."
+					}
+				}
+			]
+		},
+		{
+			"id": "hecarim",
+			"defaultBuild": {
+				"core": ["쇼진의 창", "마나무네", "끝없는 갈망"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "적의 물리 피해를 버티며 계속 싸워야 할 때"
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+					},
+					{
+						"item": "세릴다의 원한",
+						"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "브루저",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/hecarim",
+					"note": "사이트 표기 16.21을 확인. Excl. augment-granted: bruiser 유형 선택률 77.62%, 유형 승률 59.32%. 핵심 3종 75,459경기, 승률 62.57%, 유형 내 선택률 11.02%. 주 사용 유형인 브루저에서 가장 흔한 쇼진의 창·죽음의 무도·마나무네(178,159경기 59.54%)보다 성적이 높고 표본이 충분한 쇼진의 창·마나무네·끝없는 갈망을 선택. 쇼진의 창 첫 3칸 선택률 62.9%, WR impact +0.07; 마나무네 첫 3칸 선택률 46%, WR impact +0.72; 끝없는 갈망 첫 3칸 선택률 25.31%, WR impact +0.70. 탐욕의 군화 단일 승률 61.64%, 선택률 28.34%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Infinite Recursion은 기본 핵심과 같음(68.71%, God-Tier Combos 약3.1K). Take'em Down Down Down도 기본 핵심과 같음(74.36%, 약5.2K). 별도 빌드의 발동 조건은 The Boom and the Bass만."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "master-yi",
+			"defaultBuild": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "적의 물리 피해를 버티며 처치 관여를 이어가야 할 때"
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+					},
+					{
+						"item": "처형인의 대검",
+						"whenKo": "적 회복이 강할 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "치명타",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/masteryi",
+					"note": "사이트 표기 16.21을 확인. Excl. augment-granted: crit 유형 선택률 45.98%, 유형 승률 57.58%. 핵심 3종 68,033경기, 승률 59.15%, 유형 내 선택률 17.27%. 주 사용 유형인 치명타에서 몰락한 왕의 검이 포함된 함정 경향을 피하고, 징수의 총·무한의 대검·도미닉 경의 인사을 선택. 징수의 총 첫 3칸 선택률 71.72%, WR impact +1.36; 무한의 대검 첫 3칸 선택률 34.26%, WR impact +0.50; 도미닉 경의 인사 첫 3칸 선택률 9.04%, WR impact +0.20. Trap items: 몰락한 왕의 검. 탐욕의 군화 단일 승률 59.93%, 선택률 10.08%; 피해를 주며 회복하는 선택. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "Q 재사용",
+					"triggerAugmentIds": ["mystic-punch"],
+					"build": {
+						"core": ["징수의 총", "오만", "끝없는 갈망"],
+						"boots": "탐욕의 군화",
+						"situational": [
+							{
+								"item": "죽음의 무도",
+								"whenKo": "적의 물리 피해를 버티며 처치 관여를 이어가야 할 때"
+							},
+							{
+								"item": "맬모셔스의 아귀",
+								"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+							},
+							{
+								"item": "도미닉 경의 인사",
+								"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+							},
+							{
+								"item": "독사의 송곳니",
+								"whenKo": "적의 보호막이 많을 때"
+							},
+							{
+								"item": "처형인의 대검",
+								"whenKo": "적 회복이 강할 때"
+							}
+						]
+					},
+					"whyKo": "기본 공격으로 스킬 대기시간을 줄일 수 있으면 공격력과 스킬 가속에 힘을 주는 빌드로 바꿀 수 있습니다. 처치 관여 뒤 회복하면서 다시 공격하세요.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/masteryi",
+						"note": "사이트 표기 16.21. With augment에서 신비한 주먹(clientId 1058)를 직접 선택. Lift is measured against the 53.8K matches with Mystic Punch and build data (61.82% win rate). 해당 핵심 3종 승률 67.66%; Lethality Win rate64.5% Pick rate4.14% Lift +2.7%; 세트의 유형 내 선택률 45.82%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. God-Tier Combos에서도 같은 3종을 확인: 표본 1.7K(약1,700경기), 승률 67.66%. https://hexmayhem.com/must-play. 같은 증강을 가진 경기의 기본 핵심 62.56%보다 5.10%p 높음. 서로 다른 선택 집단의 관측 비교로 인과 효과나 승률 보장을 뜻하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				},
+				{
+					"comboTitle": "추가 타격 지속 전투",
+					"triggerAugmentIds": ["dual-wield"],
+					"build": {
+						"core": ["징수의 총", "몰락한 왕의 검", "죽음의 무도"],
+						"boots": "탐욕의 군화",
+						"situational": [
+							{
+								"item": "마법사의 최후",
+								"whenKo": "마법 피해를 버티면서 기본 공격을 이어가야 할 때"
+							},
+							{
+								"item": "도미닉 경의 인사",
+								"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+							},
+							{
+								"item": "맬모셔스의 아귀",
+								"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+							},
+							{
+								"item": "독사의 송곳니",
+								"whenKo": "적의 보호막이 많을 때"
+							},
+							{
+								"item": "처형인의 대검",
+								"whenKo": "적 회복이 강할 때"
+							}
+						]
+					},
+					"whyKo": "양손잡이의 추가 타격으로 몰락한 왕의 검 효과를 더 자주 넣는 선택입니다. 죽음의 무도로 물리 피해를 버티며 공격을 이어가세요.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/masteryi",
+						"note": "사이트 표기 16.21. With augment에서 양손잡이(clientId 1225)를 직접 선택. Lift is measured against the 28.6K matches with Dual Wield and build data (60.92% win rate). 해당 핵심 3종 승률 63.75%; Bruiser Win rate62.23% Pick rate4.88% Lift +1.3%; 세트의 유형 내 선택률 70.33%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. 같은 증강을 가진 경기의 기본 핵심 62.9%보다 0.85%p 높음. 서로 다른 선택 집단의 관측 비교로 인과 효과나 승률 보장을 뜻하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				}
+			]
+		},
+		{
+			"id": "brand",
+			"defaultBuild": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "핏빛 저주",
+						"whenKo": "마법 저항력이 높은 적을 계속 태울 때"
+					},
+					{
+						"item": "라바돈의 죽음모자",
+						"whenKo": "생존에 여유가 있어 주문 피해를 더 높이고 싶을 때"
+					},
+					{
+						"item": "모렐로노미콘",
+						"whenKo": "적이 회복으로 버틸 때"
+					}
+				],
+				"styleKo": "주문력",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/brand",
+					"note": "사이트 표기 16.21을 확인. Excl. augment-granted: ap 유형 선택률 89.11%, 유형 승률 48.05%. 핵심 3종 438,813경기, 승률 48.68%, 유형 내 선택률 46.57%. 대다수가 사용하는 주문력 유형에서 가장 흔하고 유형 평균보다 높은 어둠불꽃 횃불·리안드리의 고통·라일라이의 수정홀를 선택. 어둠불꽃 횃불 첫 3칸 선택률 82.71%, WR impact +1.12; 리안드리의 고통 첫 3칸 선택률 84.38%, WR impact +0.34. 마법사의 신발 단일 승률 48.65%, 선택률 32.55%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Jeweled Gauntlet은 라바돈의 죽음모자 교체 47.43%가 같은 증강의 기본 46.5%보다 높지만 일반 기본 48.68%보다 낮고 운영도 같아 별도 빌드는 생략."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "불을 끊지 않기",
+					"triggerAugmentIds": ["infernal-conduit"],
+					"build": {
+						"core": ["어둠불꽃 횃불", "리안드리의 고통", "핏빛 저주"],
+						"boots": "마법사의 신발",
+						"situational": [
+							{
+								"item": "라바돈의 죽음모자",
+								"whenKo": "생존에 여유가 있어 주문 피해를 더 높이고 싶을 때"
+							},
+							{
+								"item": "모렐로노미콘",
+								"whenKo": "적이 회복으로 버틸 때"
+							},
+							{
+								"item": "존야의 모래시계",
+								"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+							}
+						]
+					},
+					"whyKo": "화상으로 스킬을 자주 돌릴 수 있을 때는 핏빛 저주로 적의 마법 저항력을 깎는 방향을 노립니다. 라일라이의 수정홀의 둔화가 줄어드니 아군과 함께 적을 따라가며 맞히세요.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/brand",
+						"note": "사이트 표기 16.21. With augment에서 지옥의 전도체(clientId 1045)를 직접 선택. Lift is measured against the 122.9K matches with Infernal Conduit and build data (51.97% win rate). 해당 핵심 3종 승률 53.98%; AP Win rate51.97% Pick rate91.12% Lift0.0%; 세트의 유형 내 선택률 4.39%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. 같은 증강을 가진 경기의 기본 핵심 52.6%보다 1.38%p 높음. 서로 다른 선택 집단의 관측 비교로 인과 효과나 승률 보장을 뜻하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				}
+			]
+		},
+		{
+			"id": "vladimir",
+			"defaultBuild": {
+				"core": ["폭풍 쇄도", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "가까이 들어간 뒤 적의 강한 공격을 피해야 할 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+					},
+					{
+						"item": "정령의 형상",
+						"whenKo": "적 마법 피해가 강하고 스스로 회복하며 버텨야 할 때"
+					}
+				],
+				"styleKo": "주문력",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/vladimir",
+					"note": "사이트 표기 16.21을 확인. 기본 핵심 3종 공동 통계 미확인. 일반 유형은 ap 선택률 61.39%, 승률 48.6%; bruiser 선택률 1.3%, 승률 51.75%; tank 선택률 17.65%, 승률 47.3%. Excl. augment-granted 화면 재확인: Lift is measured against the 446.3K matches with build data (48.32% win rate). 선택한 핵심 3종 행 없음. 공개 Core builds의 주요 3종 세트에는 모두 강철심장·균열 생성기·우주의 추진력 중 하나가 포함되고 이들은 Trap items로 표시됨. 함정을 피하려고 개별 Core items의 폭풍 쇄도·그림자불꽃·라바돈의 죽음모자으로 기본 후보를 구성. 이 3종 공동 표본·승률·최적 구매 순서는 미확인. 폭풍 쇄도 첫 3칸 선택률 6.14%, WR impact +0.20; 그림자불꽃 첫 3칸 선택률 27.96%, WR impact +0.61; 라바돈의 죽음모자 첫 3칸 선택률 26.04%, WR impact +0.92. Trap items: 강철심장·균열 생성기·우주의 추진력. 탐욕의 군화 첫 3칸 선택률 6.25%, WR impact +0.04. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Back To Basics와 Circle of Death는 확인했으나, 함정 아이템을 제외해 구성한 기본 핵심의 공동 통계가 공개되지 않아 동일 조건의 우월 비교 불가."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "sona",
+			"defaultBuild": {
+				"core": ["월석 재생기", "속삭이는 머리띠", "흐르는 물의 지팡이"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "불타는 향로",
+						"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+					},
+					{
+						"item": "새벽심장",
+						"whenKo": "회복과 보호막의 양을 더 늘리고 싶을 때"
+					},
+					{
+						"item": "미카엘의 축복",
+						"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+					}
+				],
+				"styleKo": "지원",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/sona",
+					"note": "사이트 표기 16.21을 확인. All matches: utility 유형 선택률 62.92%, 유형 승률 55.4%. 핵심 3종 29,542경기, 승률 58.36%, 유형 내 선택률 15.64%. Excl. augment-granted 화면 재확인: Lift is measured against the 222K matches with build data (54.41% win rate). 선택한 핵심 행 58.36% 15.95% +4.0%. 지원 유형의 월석 재생기·속삭이는 머리띠를 유지하고, 불타는 향로 세트(55.17%)보다 높은 흐르는 물의 지팡이 세트를 선택. 불타는 향로는 아군 구성에 맞춘 상황별 후보. 월석 재생기 첫 3칸 선택률 66.41%, WR impact +2.62; 속삭이는 머리띠 첫 3칸 선택률 63.15%, WR impact +2.72; 흐르는 물의 지팡이 첫 3칸 선택률 12.57%, WR impact +0.60. 명석함의 아이오니아 장화 단일 승률 53.83%, 선택률 36.11%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Windspeaker's Blessing에서는 기본 핵심 63.91%가 상위여서 별도 빌드를 생략."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "회복을 반복해 나비 충전",
+					"triggerAugmentIds": ["enchanting-butterflies"],
+					"build": {
+						"core": ["월석 재생기", "속삭이는 머리띠", "새벽심장"],
+						"boots": "명석함의 아이오니아 장화",
+						"situational": [
+							{
+								"item": "불타는 향로",
+								"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+							},
+							{
+								"item": "흐르는 물의 지팡이",
+								"whenKo": "스킬로 피해를 주는 아군을 주로 회복할 때"
+							},
+							{
+								"item": "미카엘의 축복",
+								"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+							}
+						]
+					},
+					"whyKo": "나비를 모으는 회복과 보호막에 힘을 더 싣습니다. 흐르는 물의 지팡이 대신 새벽심장을 먼저 갖춰 아군을 살리는 양을 늘리세요.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/sona",
+						"note": "사이트 표기 16.21. With augment에서 황홀한 나비(clientId 3163)를 직접 선택. Lift is measured against the 26.9K matches with Enchanting Butterflies and build data (58.16% win rate). 해당 핵심 3종 승률 60.51%; Utility Win rate58.59% Pick rate65.62% Lift +0.4%; 세트의 유형 내 선택률 18.1%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. 같은 증강을 가진 경기의 기본 핵심 59.61%보다 0.90%p 높음. 서로 다른 선택 집단의 관측 비교로 인과 효과나 승률 보장을 뜻하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				}
+			]
+		},
+		{
+			"id": "soraka",
+			"defaultBuild": {
+				"core": ["월석 재생기", "속삭이는 머리띠", "새벽심장"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "불타는 향로",
+						"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+					},
+					{
+						"item": "흐르는 물의 지팡이",
+						"whenKo": "스킬로 피해를 주는 아군을 주로 회복할 때"
+					},
+					{
+						"item": "미카엘의 축복",
+						"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+					}
+				],
+				"styleKo": "지원",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/soraka",
+					"note": "사이트 표기 16.21을 확인. All matches: utility 유형 선택률 66.28%, 유형 승률 50.25%. 핵심 3종 27,310경기, 승률 53.84%, 유형 내 선택률 13.15%. Excl. augment-granted 화면 재확인: Lift is measured against the 249.7K matches with build data (49.04% win rate). 선택한 핵심 행 53.84% 13.26% +4.8%. 지원 유형의 월석 재생기·속삭이는 머리띠·새벽심장을 선택. 아군 기본 공격 의존도가 있는 불타는 향로보다 회복 중심의 범용성을 우선. 함정으로 표시된 워모그의 갑옷는 기본에서 제외. 월석 재생기 첫 3칸 선택률 79.85%, WR impact +2.82; 속삭이는 머리띠 첫 3칸 선택률 65.36%, WR impact +2.30; 새벽심장 첫 3칸 선택률 10.42%, WR impact +0.41. Trap items: 워모그의 갑옷. 명석함의 아이오니아 장화 단일 승률 48.64%, 선택률 37.82%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Enchanting Butterflies에서는 기본 핵심 55.84%가 상위여서 별도 빌드를 생략."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "치유의 효율 높이기",
+					"triggerAugmentIds": ["critical-healing"],
+					"build": {
+						"core": ["월석 재생기", "속삭이는 머리띠", "파멸의식 고서"],
+						"boots": "명석함의 아이오니아 장화",
+						"situational": [
+							{
+								"item": "불타는 향로",
+								"whenKo": "기본 공격이 강한 아군을 주로 회복할 때"
+							},
+							{
+								"item": "흐르는 물의 지팡이",
+								"whenKo": "스킬로 피해를 주는 아군을 주로 회복할 때"
+							},
+							{
+								"item": "미카엘의 축복",
+								"whenKo": "아군의 기절이나 속박을 풀어줘야 할 때"
+							}
+						]
+					},
+					"whyKo": "회복과 보호막에도 치명타가 적용되므로 파멸의식 고서의 치명타 확률을 활용할 수 있습니다. 새벽심장 대신 고서를 넣고 아군 회복을 계속 이어가세요.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/soraka",
+						"note": "사이트 표기 16.21. With augment에서 치명적 치유(clientId 1118)를 직접 선택. Lift is measured against the 13.9K matches with Critical Healing and build data (48.21% win rate). 해당 핵심 3종 승률 54.65%; Utility Win rate48.66% Pick rate61.07% Lift +0.5%; 세트의 유형 내 선택률 5.6%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. 같은 증강을 가진 경기의 기본 핵심 51.98%보다 2.67%p 높음. 서로 다른 선택 집단의 관측 비교로 인과 효과나 승률 보장을 뜻하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				}
+			]
+		},
+		{
+			"id": "rammus",
+			"defaultBuild": {
+				"core": ["강철심장", "가시 갑옷"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "끝없는 절망",
+						"whenKo": "적과 붙어 싸우는데 적의 물리 피해가 많을 때"
+					},
+					{
+						"item": "해신 작쇼",
+						"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+					},
+					{
+						"item": "워모그의 갑옷",
+						"whenKo": "오래 버티며 체력을 회복해야 할 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 공격이 아플 때"
+					},
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적의 마법 피해가 아플 때"
+					}
+				],
+				"styleKo": "탱커",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/rammus",
+					"note": "사이트 표기 16.21을 확인. 기본 핵심 3종 공동 통계 미확인. 일반 유형은 tank 선택률 90.53%, 승률 47.64%. Excl. augment-granted 화면 재확인: Lift is measured against the 272.3K matches with build data (47.58% win rate). 선택한 핵심 3종 행 없음. 공개 Core builds의 주요 세트는 모두 강철심장을 포함하지만 강철심장은 Trap items(WR impact -4.77). 개별 Core items에서 가시 갑옷·해신 작쇼·란두인의 예언을 선택. 이 3종 일반 공동 표본·승률은 미확인. Armored Impact에서 같은 세트 56.85%를 보았지만 일반 성능 근거로 전용하지 않음. 가시 갑옷 첫 3칸 선택률 70.58%, WR impact +1.33; 해신 작쇼 첫 3칸 선택률 20.22%, WR impact +0.61; 란두인의 예언 첫 3칸 선택률 8.97%, WR impact +0.36. Trap items: 강철심장·워모그의 갑옷. 판금 장화 단일 승률 49.31%, 선택률 18.87%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Armored Impact 최상위 핵심은 기본 추천과 같음. Courage of the Colossus는 기본 추천 3종의 동일 조건 비교가 없어 별도 전환을 입증하지 못함."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "방어 태세와 장갑 충격",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "판금 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "taric",
+			"defaultBuild": {
+				"core": ["강철심장", "가시 갑옷", "해신 작쇼"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "얼어붙은 심장",
+						"whenKo": "적의 빠른 기본 공격을 버티기 어려울 때"
+					},
+					{
+						"item": "꽃피는 새벽의 검",
+						"whenKo": "안전하게 기본 공격을 이어가며 아군을 회복할 수 있을 때"
+					},
+					{
+						"item": "정령의 형상",
+						"whenKo": "마법 피해를 버티면서 자신의 회복과 보호막을 늘릴 때"
+					},
+					{
+						"item": "기사의 맹세",
+						"whenKo": "주로 피해를 넣는 아군을 지켜줘야 할 때"
+					}
+				],
+				"styleKo": "탱커",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/taric",
+					"note": "사이트 표기 16.21을 확인. 기본 핵심 3종 공동 통계 미확인. 일반 유형은 tank 선택률 72.05%, 승률 50.9%. Excl. augment-granted 화면 재확인: Lift is measured against the 65.6K matches with build data (50.9% win rate). 선택한 핵심 3종 행 없음. 공개 Core builds의 주요 세트는 모두 강철심장을 포함하지만 강철심장은 Trap items(WR impact -5.74). 개별 Core items의 얼어붙은 심장·가시 갑옷·해신 작쇼로 기본 후보를 구성. 이 3종 공동 표본·승률은 미확인. 얼어붙은 심장 첫 3칸 선택률 3.69%, WR impact +0.25; 가시 갑옷 첫 3칸 선택률 12.7%, WR impact +0.34; 해신 작쇼 첫 3칸 선택률 7.19%, WR impact +0.33. Trap items: 강철심장·워모그의 갑옷. 판금 장화 첫 3칸 선택률 9.53%, WR impact +0.11. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Armored Impact와 Protein Shake에서 기본 추천 3종의 동일 조건 비교가 없어 전환 우월성을 입증하지 못함."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 강화 평타",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "판금 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "ryze",
+			"defaultBuild": {
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "균열 생성기",
+						"whenKo": "적과 오래 싸우며 회복이 필요할 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+					},
+					{
+						"item": "얼어붙은 심장",
+						"whenKo": "적에 평타로 싸우는 챔피언이 많을 때"
+					},
+					{
+						"item": "실체화 장비",
+						"whenKo": "마나가 넉넉해 짧은 교전에서 스킬을 몰아 쓰고 싶을 때"
+					}
+				],
+				"styleKo": "주문력",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/ryze",
+					"note": "사이트 표기 16.21을 확인. All matches: ap 유형 선택률 94.35%, 유형 승률 52.27%. 핵심 3종 305,204경기, 승률 53.65%, 유형 내 선택률 32.11%. Excl. augment-granted 화면 재확인: Lift is measured against the 935.2K matches with build data (52.39% win rate). 선택한 핵심 행 53.65% 32.64% +1.3%. 가장 많이 쓰이는 주문력 유형에서 영겁의 지팡이·대천사의 지팡이·라바돈의 죽음모자을 선택. 혹한의 손길은 방어가 필요한 상황의 대체 후보. 영겁의 지팡이 첫 3칸 선택률 94.04%, WR impact +1.52; 대천사의 지팡이 첫 3칸 선택률 97.03%, WR impact +1.17; 라바돈의 죽음모자 첫 3칸 선택률 22.25%, WR impact +0.16. 탐욕의 군화 단일 승률 53.74%, 선택률 26.86%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Mind to Matter의 균열 생성기 대체는 기본 56.89% 대비 57.1%로 차이가 작고 기본 주문력 운영과 같아 상황별 후보로 남김. Eureka에서는 기본 핵심 51.91%가 상위."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "마나를 체력과 주문력으로",
+					"triggerAugmentIds": ["mind-to-matter", "adapt"],
+					"build": {
+						"core": [
+							"영겁의 지팡이",
+							"대천사의 지팡이",
+							"지배자의 피갑옷",
+							"마나무네",
+							"라바돈의 죽음모자"
+						],
+						"boots": "탐욕의 군화",
+						"situational": []
+					},
+					"whyKo": "지배자의 피갑옷과 마나무네가 주는 공격력을 적응형 능력치가 주문력으로 바꿔 줍니다. 마나무네의 마나는 정신 변환으로 체력이 됩니다."
+				},
+				{
+					"comboTitle": null,
+					"triggerAugmentIds": ["overflow"],
+					"build": {
+						"core": ["영겁의 지팡이", "대천사의 지팡이", "혹한의 손길"],
+						"boots": "탐욕의 군화",
+						"situational": [
+							{
+								"item": "라바돈의 죽음모자",
+								"whenKo": "주문력을 더 높여 피해를 키우고 싶을 때"
+							},
+							{
+								"item": "균열 생성기",
+								"whenKo": "적과 오래 싸우며 회복이 필요할 때"
+							},
+							{
+								"item": "공허의 지팡이",
+								"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+							},
+							{
+								"item": "얼어붙은 심장",
+								"whenKo": "적에 평타로 싸우는 챔피언이 많을 때"
+							},
+							{
+								"item": "실체화 장비",
+								"whenKo": "마나가 넉넉해 짧은 교전에서 스킬을 몰아 쓰고 싶을 때"
+							}
+						]
+					},
+					"whyKo": "범람은 최대 마나가 많을수록 강해집니다. 마나를 많이 주는 혹한의 손길로 범람의 피해와 보호막을 키우세요."
+				},
+				{
+					"comboTitle": null,
+					"triggerAugmentIds": ["overflow", "adapt"],
+					"build": {
+						"core": ["영겁의 지팡이", "대천사의 지팡이", "무라마나"],
+						"boots": "탐욕의 군화",
+						"situational": [
+							{
+								"item": "라바돈의 죽음모자",
+								"whenKo": "주문력을 더 높여 피해를 키우고 싶을 때"
+							},
+							{
+								"item": "균열 생성기",
+								"whenKo": "적과 오래 싸우며 회복이 필요할 때"
+							},
+							{
+								"item": "공허의 지팡이",
+								"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+							},
+							{
+								"item": "얼어붙은 심장",
+								"whenKo": "적에 평타로 싸우는 챔피언이 많을 때"
+							},
+							{
+								"item": "실체화 장비",
+								"whenKo": "마나가 넉넉해 짧은 교전에서 스킬을 몰아 쓰고 싶을 때"
+							}
+						]
+					},
+					"whyKo": "적응형 능력치가 무라마나의 공격력을 주문력으로 바꿔 줍니다. 마나도 많이 주어 범람을 함께 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "veigar",
+			"defaultBuild": {
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "라바돈의 죽음모자"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+					},
+					{
+						"item": "밴시의 장막",
+						"whenKo": "적의 방해 스킬에 먼저 맞아 잡힐 때"
+					}
+				],
+				"styleKo": "주문력",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/veigar",
+					"note": "사이트 표기 16.21을 확인. All matches: ap 유형 선택률 78.4%, 유형 승률 49.43%. 핵심 3종 89,549경기, 승률 51.4%, 유형 내 선택률 20.71%. Excl. augment-granted 화면 재확인: Lift is measured against the 431.3K matches with build data (49.41% win rate). 선택한 핵심 행 51.4% 20.94% +2.0%. 주문력 유형에서 표본이 많고 성적이 좋은 영겁의 지팡이·대천사의 지팡이·라바돈의 죽음모자을 선택. 함정으로 표시된 루덴의 메아리과 그림자불꽃은 기본에서 제외. 영겁의 지팡이 첫 3칸 선택률 47.77%, WR impact +0.38; 대천사의 지팡이 첫 3칸 선택률 36.58%, WR impact +0.25; 라바돈의 죽음모자 첫 3칸 선택률 39.88%, WR impact +0.88. Trap items: 그림자불꽃·루덴의 메아리. 마법사의 신발 단일 승률 49.42%, 선택률 37.28%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Stackosaurus Rex(24.1K)와 Eureka(44.6K) 모두 기본 핵심 3종이 각 55.3%, 56.79%로 상위여서 별도 빌드를 만들지 않음."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "vayne",
+			"defaultBuild": {
+				"core": ["몰락한 왕의 검", "구인수의 격노검", "경계"],
+				"boots": "광전사의 군화",
+				"situational": [
+					{
+						"item": "마법사의 최후",
+						"whenKo": "마법 피해를 버티면서 기본 공격을 이어가야 할 때"
+					},
+					{
+						"item": "헤르메스의 시미터",
+						"whenKo": "안전하게 공격할 수 있지만 회복이 부족할 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 기본 공격이 아플 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "적중효과",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/vayne",
+					"note": "사이트 표기 16.21을 확인. All matches: on_hit 유형 선택률 43.76%, 유형 승률 52.22%. 핵심 3종 71,053경기, 승률 53.52%, 유형 내 선택률 19.93%. Excl. augment-granted 화면 재확인: Lift is measured against the 588.7K matches with build data (52.13% win rate). 선택한 핵심 행 53.52% 19.93% +1.4%. 가장 많이 쓰이는 적중효과 유형에서 구인수의 격노검·몰락한 왕의 검·경계 세트를 선택. 몰락한 왕의 검 첫 3칸 선택률 57.51%, WR impact +0.24; 구인수의 격노검 첫 3칸 선택률 30.01%, WR impact +0.19. 광전사의 군화 단일 승률 51.16%, 선택률 58.74%; 공격 속도를 우선. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Dual Wield에서 기본 59.28%가 주요 적중효과 빌드 중 상위. Scopier Weapons의 크라켄 학살자 교체는 기본 54.28% 대비 54.34%로 운영이 같아 별도 빌드로 분리하지 않음."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "jax",
+			"defaultBuild": {
+				"core": ["황혼과 새벽", "몰락한 왕의 검", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+					},
+					{
+						"item": "가시 갑옷",
+						"whenKo": "회복이 강한 적이 기본 공격으로 자신을 때릴 때"
+					},
+					{
+						"item": "해신 작쇼",
+						"whenKo": "물리 피해와 마법 피해를 함께 버티며 오래 싸울 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "브루저",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/jax",
+					"note": "사이트 표기 16.21을 확인. All matches: bruiser 유형 선택률 48.08%, 유형 승률 54.66%. 핵심 3종 13,753경기, 승률 57.68%, 유형 내 선택률 6.19%. Excl. augment-granted 화면 재확인: Lift is measured against the 321.3K matches with build data (54.58% win rate). 선택한 핵심 행 57.68% 6.28% +3.1%. 주 사용 유형인 브루저에서 함정으로 표시된 삼위일체·갈라진 하늘·강철심장을 피하고 황혼과 새벽·몰락한 왕의 검·죽음의 무도를 선택. 황혼과 새벽의 특정 증강 부재 조건은 미확인이며 일반 통계 기준의 추천. 황혼과 새벽 첫 3칸 선택률 42.9%, WR impact +0.70; 죽음의 무도 첫 3칸 선택률 23.84%, WR impact +0.44. Trap items: 강철심장·삼위일체·갈라진 하늘. 탐욕의 군화 단일 승률 58.48%, 선택률 9.64%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Upgrade Sheen에서는 기본 57.89% 대비 주문력 대체 58.29%이나 소표본에 가깝고 전환 이점이 작음. Armored Impact의 강철심장 대체 58.17%도 기본 58.06%와 차이가 작아 일반 핵심을 유지. 증강 의존 가능성 검토: 황혼과 새벽은 일반 집계에서도 상위지만 관련 증강 미보유 조건의 우월성은 확인하지 못함."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "방어력 기반 지속 전투",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "신속의 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "trundle",
+			"defaultBuild": {
+				"core": ["강철심장", "삼위일체", "몰락한 왕의 검"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [
+					{
+						"item": "굶주린 히드라",
+						"whenKo": "적이 모여 있어 여러 명을 함께 때릴 수 있을 때"
+					},
+					{
+						"item": "죽음의 무도",
+						"whenKo": "적의 물리 피해를 버티며 기본 공격을 이어가야 할 때"
+					},
+					{
+						"item": "정령의 형상",
+						"whenKo": "마법 피해를 버티면서 자신의 회복을 늘리고 싶을 때"
+					},
+					{
+						"item": "가시 갑옷",
+						"whenKo": "회복이 강한 적이 기본 공격으로 자신을 때릴 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "브루저",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/trundle",
+					"note": "사이트 표기 16.21을 확인. All matches: bruiser 유형 선택률 14.84%, 유형 승률 53.5%. 핵심 3종 6,406경기, 승률 57.06%, 유형 내 선택률 6.13%. Excl. augment-granted 화면 재확인: Lift is measured against the 425.5K matches with build data (51.11% win rate). 선택한 핵심 행 57.06% 6.13% +6.0%. 사용량만 보면 주문력 유형이 더 크지만 제국의 명령과 강철심장이 Trap items이므로, 표본과 성적이 충분한 브루저 세트를 일반 후보로 선택. 기둥 피해를 전제로 한 빌드는 별도 증강 빌드로 분리. 삼위일체 첫 3칸 선택률 13.11%, WR impact +0.46; 몰락한 왕의 검 첫 3칸 선택률 21.22%, WR impact +0.11; 굶주린 히드라 첫 3칸 선택률 5.24%, WR impact +0.14. Trap items: 제국의 명령·강철심장. 헤르메스의 발걸음 첫 3칸 선택률 20.64%, WR impact +0.14. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "기둥 반복",
+					"triggerAugmentIds": ["terraind"],
+					"build": {
+						"core": ["제국의 명령", "어둠불꽃 횃불", "라바돈의 죽음모자"],
+						"boots": "명석함의 아이오니아 장화",
+						"situational": [
+							{
+								"item": "리안드리의 고통",
+								"whenKo": "체력이 높은 적을 기둥과 스킬로 오래 태울 때"
+							},
+							{
+								"item": "공허의 지팡이",
+								"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+							},
+							{
+								"item": "존야의 모래시계",
+								"whenKo": "적이 가까이 붙어 잠시 시간을 벌어야 할 때"
+							},
+							{
+								"item": "밴시의 장막",
+								"whenKo": "적의 방해 스킬 때문에 다가가기 어려울 때"
+							}
+						]
+					},
+					"whyKo": "지형 생성됨을 얻으면 제국의 명령과 주문력 아이템으로 기둥 피해를 키웁니다.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/trundle",
+						"note": "사이트 표기 16.21. With augment에서 지형 생성됨(clientId 2129)를 직접 선택. Lift is measured against the 75.5K matches with Terrain'd and build data (55.45% win rate). 해당 핵심 3종 승률 61.52%; Utility Win rate57.6% Pick rate3.06% Lift +2.1%; 세트의 유형 내 선택률 22.24%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. 일반 기본 핵심 승률 57.06%보다 높음. 다만 같은 증강에서 기본 핵심 행은 공개되지 않아 조건을 맞춘 직접 비교는 미확인. 서로 다른 경기 집단의 비교이며 증강이나 아이템의 인과 효과로 해석하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				},
+				{
+					"comboTitle": "방어력과 체력을 평타로",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "신속의 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/trundle",
+						"note": "사이트 표기 16.21. With augment에서 장갑 충격(clientId 3049)를 직접 선택. Lift is measured against the 9.2K matches with Armored Impact and build data (58.23% win rate). 해당 핵심 3종 승률 69.14%; Tank Win rate59.08% Pick rate30.73% Lift +0.8%; 세트의 유형 내 선택률 7.2%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. 일반 기본 핵심 승률 57.06%보다 높음. 다만 같은 증강에서 기본 핵심 행은 공개되지 않아 조건을 맞춘 직접 비교는 미확인. 서로 다른 경기 집단의 비교이며 증강이나 아이템의 인과 효과로 해석하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				}
+			],
+			"altDefaultBuilds": [
+				{
+					"core": ["제국의 명령", "밴들파이프", "혹한의 손길"],
+					"boots": "명석함의 아이오니아 장화",
+					"styleKo": "서포터",
+					"situational": [
+						{
+							"item": "기사의 맹세",
+							"whenKo": "주로 피해를 넣는 아군을 지켜 줘야 할 때"
+						},
+						{
+							"item": "강철의 솔라리 펜던트",
+							"whenKo": "적의 순간 피해가 커서 아군 전체를 지켜야 할 때"
+						},
+						{
+							"item": "구원",
+							"whenKo": "한타에서 아군 여러 명을 한꺼번에 회복시켜야 할 때"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "vi",
+			"defaultBuild": {
+				"core": ["월식", "갈라진 하늘", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+					},
+					{
+						"item": "칠흑의 양날 도끼",
+						"whenKo": "방어력이 높은 적을 아군과 함께 때릴 때"
+					},
+					{
+						"item": "끝없는 갈망",
+						"whenKo": "처치 관여 뒤 회복하며 다음 적과 싸우고 싶을 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "브루저",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/vi",
+					"note": "사이트 표기 16.21을 확인. All matches: bruiser 유형 선택률 13.48%, 유형 승률 50.13%. 핵심 3종 4,581경기, 승률 50.25%, 유형 내 선택률 14.3%. Excl. augment-granted 화면 재확인: Lift is measured against the 168.2K matches with build data (49.25% win rate). 선택한 핵심 행 50.25% 14.59% +1.0%. 가장 흔한 치명타·방어구 관통 유형은 징수의 총·오만·무한의 대검의 Trap 경향이 있어 제외. 브루저의 월식·갈라진 하늘·죽음의 무도를 일반 후보로 선택. 죽음의 무도 첫 3칸 선택률 20.45%, WR impact +0.58. Trap items: 징수의 총·오만·무한의 대검. 탐욕의 군화 단일 승률 52.31%, 선택률 10.12%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: The Boom and the Bass에서는 기본 핵심 62.68%가 상위여서 별도 빌드를 생략."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "벌집으로 돌진 돕기",
+					"triggerAugmentIds": ["bees"],
+					"build": {
+						"core": ["오만", "징수의 총", "벼락폭풍검"],
+						"boots": "탐욕의 군화",
+						"situational": [
+							{
+								"item": "죽음의 무도",
+								"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때"
+							},
+							{
+								"item": "맬모셔스의 아귀",
+								"whenKo": "적 마법 피해에 진입 직후 쓰러질 때"
+							},
+							{
+								"item": "세릴다의 원한",
+								"whenKo": "방어력이 높은 적을 아군과 함께 때릴 때"
+							},
+							{
+								"item": "원칙의 원형낫",
+								"whenKo": "R을 더 자주 쓰고 싶을 때"
+							}
+						]
+					},
+					"whyKo": "물리 관통력 아이템으로 Q·R 뒤 벌집과 함께 적을 빨리 끊어 냅니다.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/vi",
+						"note": "사이트 16.21 With augment BEES!!!(5.6K, 54.86%). Lethality 오만·징수의 총·벼락폭풍검 58.65%, 선택률 9.97%, +3.8%. 표본이 작음. 2026-10-26 확인."
+					}
+				}
+			]
+		},
+		{
+			"id": "sett",
+			"defaultBuild": {
+				"core": ["강철심장", "워모그의 갑옷", "지배자의 피갑옷"],
+				"boots": "신속의 장화",
+				"situational": [
+					{
+						"item": "스테락의 도전",
+						"whenKo": "큰 피해를 한꺼번에 받아 버티기 어려울 때"
+					},
+					{
+						"item": "정령의 형상",
+						"whenKo": "적 마법 피해가 강하고 아군의 회복이나 보호막을 자주 받을 때"
+					},
+					{
+						"item": "거대한 히드라",
+						"whenKo": "체력을 충분히 쌓았고 기본 공격 피해도 늘리고 싶을 때"
+					}
+				],
+				"styleKo": "탱커",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/sett",
+					"note": "사이트 표기 16.21을 확인. All matches: tank 유형 선택률 59.81%, 유형 승률 53.98%. 핵심 3종 433,492경기, 승률 54.53%, 유형 내 선택률 84.92%. Excl. augment-granted 화면 재확인: Lift is measured against the 707.7K matches with build data (52.82% win rate). 선택한 핵심 행 54.53% 86.07% +1.7%. 가장 많이 쓰이며 성적도 높은 탱커 유형의 강철심장·워모그의 갑옷·지배자의 피갑옷을 선택. 강철심장 첫 3칸 선택률 76%, WR impact +2.84; 워모그의 갑옷 첫 3칸 선택률 46.98%, WR impact +1.48; 지배자의 피갑옷 첫 3칸 선택률 61.52%, WR impact +1.89. 신속의 장화 단일 승률 55.44%, 선택률 1.92%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Goliath에서 기본 60.36%, 거대한 히드라 대체 61.15%지만 같은 체력 기반 운영이어서 히드라는 상황별 선택으로 남김."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 강화 평타",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "신속의 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "smolder",
+			"defaultBuild": {
+				"core": ["정수 약탈자", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "처형인의 대검",
+						"whenKo": "적 회복이 강할 때"
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 마법 피해에 순식간에 쓰러질 때"
+					},
+					{
+						"item": "고속 연사포",
+						"whenKo": "멀리서 강화된 공격을 넣어야 할 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "치명타",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/smolder",
+					"note": "사이트 표기 16.21을 확인. All matches: crit 유형 선택률 77.04%, 유형 승률 48.57%. 핵심 3종 196,703경기, 승률 50.67%, 유형 내 선택률 25.59%. Excl. augment-granted 화면 재확인: Lift is measured against the 849.5K matches with build data (48.46% win rate). 선택한 핵심 행 50.67% 25.59% +2.2%. 주 사용 유형인 치명타에서 정수 약탈자·무한의 대검·도미닉 경의 인사을 선택. 함정으로 표시된 징수의 총은 제외. 정수 약탈자 첫 3칸 선택률 78.36%, WR impact +1.59; 무한의 대검 첫 3칸 선택률 53.78%, WR impact +0.61; 도미닉 경의 인사 첫 3칸 선택률 19.06%, WR impact +0.26. Trap items: 징수의 총. 탐욕의 군화 단일 승률 50.91%, 선택률 27.62%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Stackosaurus Rex에서 삼위일체·마나무네·무한의 대검 56.97%는 200경기 이상이지만 주요 치명타 유형의 53.94% 기본과 유형·표본 구성이 달라 중첩 증강 때문에 전환할 근거는 부족함."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "lulu",
+			"defaultBuild": {
+				"core": ["월석 재생기", "속삭이는 머리띠"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "불타는 향로",
+						"whenKo": "평타로 싸우는 아군 딜러를 자주 지켜 줄 때"
+					},
+					{
+						"item": "흐르는 물의 지팡이",
+						"whenKo": "스킬로 피해를 주는 아군에게 보호막을 자주 줄 때"
+					},
+					{
+						"item": "새벽심장",
+						"whenKo": "회복과 보호막의 양을 더 늘리고 싶을 때"
+					},
+					{
+						"item": "기사의 맹세",
+						"whenKo": "주로 피해를 넣는 아군을 지켜줘야 할 때"
+					}
+				],
+				"styleKo": "지원",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/lulu",
+					"note": "사이트 표기 16.21을 확인. All matches: utility 유형 선택률 68.93%, 유형 승률 50.19%. 핵심 3종 38,605경기, 승률 51.29%, 유형 내 선택률 44.11%. Excl. augment-granted 화면 재확인: Lift is measured against the 88.1K matches with build data (50.1% win rate). 선택한 핵심 행 51.29% 44.27% +1.2%. 지원 유형에서 가장 흔하며 평균보다 높은 월석 재생기·불타는 향로·속삭이는 머리띠를 선택. 흐르는 물의 지팡이는 아군 구성에 맞춘 대체 후보. 월석 재생기 첫 3칸 선택률 71.54%, WR impact +3.81; 불타는 향로 첫 3칸 선택률 41.5%, WR impact +1.13; 속삭이는 머리띠 첫 3칸 선택률 58.08%, WR impact +2.18. 명석함의 아이오니아 장화 단일 승률 49.67%, 선택률 48.75%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "보호막과 나비",
+					"triggerAugmentIds": ["enchanting-butterflies"],
+					"build": {
+						"core": ["월석 재생기", "속삭이는 머리띠", "꽃피는 새벽의 검"],
+						"boots": "명석함의 아이오니아 장화",
+						"situational": [
+							{
+								"item": "불타는 향로",
+								"whenKo": "평타로 싸우는 아군 딜러를 자주 지켜 줄 때"
+							},
+							{
+								"item": "흐르는 물의 지팡이",
+								"whenKo": "스킬로 피해를 주는 아군에게 보호막을 자주 줄 때"
+							},
+							{
+								"item": "새벽심장",
+								"whenKo": "회복과 보호막의 양을 더 늘리고 싶을 때"
+							},
+							{
+								"item": "기사의 맹세",
+								"whenKo": "주로 피해를 넣는 아군을 지켜줘야 할 때"
+							}
+						]
+					},
+					"whyKo": "꽃피는 새벽의 검은 기본 공격으로도 아군을 회복하게 해줍니다. 안전하게 때릴 수 있을 때 회복을 더 자주 일으켜 나비를 모으세요.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/lulu",
+						"note": "사이트 표기 16.21. With augment에서 황홀한 나비(clientId 3163)를 직접 선택. Lift is measured against the 8K matches with Enchanting Butterflies and build data (52.86% win rate). 해당 핵심 3종 승률 56.41%; Utility Win rate52.86% Pick rate60.33% Lift0.0%; 세트의 유형 내 선택률 7.04%. 해당 행의 200경기 미만 경고가 없어 표본 기준 충족; 정확 경기 수는 화면에 미표시. 같은 증강을 가진 경기의 기본 핵심 53.37%보다 3.04%p 높음. 서로 다른 선택 집단의 관측 비교로 인과 효과나 승률 보장을 뜻하지 않음. 여러 증강을 동시에 가진 조합 통계가 아니라 발동 증강 1개와 핵심 3종의 조건부 통계. 신발·상황별 아이템은 게임 효과에 따른 선택이며 해당 증강 조건에서 따로 검증한 세트가 아님."
+					}
+				}
+			]
+		},
+		{
+			"id": "malphite",
+			"defaultBuild": {
+				"core": ["강철심장", "가시 갑옷", "끝없는 절망"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "해신 작쇼",
+						"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+					},
+					{
+						"item": "워모그의 갑옷",
+						"whenKo": "오래 버티며 체력을 회복해야 할 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 공격이 아플 때"
+					},
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적의 마법 피해가 아플 때"
+					}
+				],
+				"styleKo": "탱커",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/malphite",
+					"note": "사이트 표기 16.21을 확인. All matches: tank 유형 선택률 29.84%, 유형 승률 50.76%. 핵심 3종 32,114경기, 승률 51.95%, 유형 내 선택률 12.32%. Excl. augment-granted 화면 재확인: Lift is measured against the 713.2K matches with build data (48.02% win rate). 선택한 핵심 행 51.95% 12.32% +3.9%. 사용량이 더 큰 주문력 유형은 악의·그림자불꽃·폭풍 쇄도가 Trap items이므로, 충분한 표본과 더 높은 성적의 탱커 유형을 선택. 강철심장 첫 3칸 선택률 35.97%, WR impact +0.68; 가시 갑옷 첫 3칸 선택률 10.65%, WR impact +0.82; 끝없는 절망 첫 3칸 선택률 17.22%, WR impact +0.54. Trap items: 악의·그림자불꽃·폭풍 쇄도. 판금 장화 단일 승률 54.14%, 선택률 6.64%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "방어력 기반 평타",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "판금 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "ashe",
+			"defaultBuild": {
+				"core": ["몰락한 왕의 검", "루난의 허리케인", "무한의 대검"],
+				"boots": "광전사의 군화",
+				"situational": [
+					{
+						"item": "도미닉 경의 인사",
+						"whenKo": "적이 방어력 아이템을 많이 갖췄을 때"
+					},
+					{
+						"item": "필멸자의 운명",
+						"whenKo": "회복이 강한 적이 있을 때"
+					},
+					{
+						"item": "헤르메스의 시미터",
+						"whenKo": "적의 기절·속박을 풀어야 할 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "몰락한 왕의 검",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/ashe",
+					"note": "사이트 표기 16.21을 확인. All matches: crit 유형 선택률 17.56%, 유형 승률 48.23%. 핵심 3종 32,020경기, 승률 49.51%, 유형 내 선택률 16.03%. Excl. augment-granted 화면 재확인: Lift is measured against the 930.3K matches with build data (44.37% win rate). 선택한 핵심 행 49.51% 16.03% +5.1%. 사용량이 큰 주문력 유형의 악의·제국의 명령·지평선의 초점은 Trap items. 충분한 표본과 더 높은 성적의 치명타 유형에서 윤 탈 야생화살·루난·무한의 대검을 선택. 윤 탈 야생화살 첫 3칸 선택률 14.29%, WR impact +0.53; 루난의 허리케인 첫 3칸 선택률 20.81%, WR impact +0.67; 무한의 대검 첫 3칸 선택률 8.91%, WR impact +0.26. Trap items: 악의·제국의 명령·지평선의 초점. 광전사의 군화 첫 3칸 선택률 19.81%, WR impact +0.55. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Deft의 몰락한 왕의 검 교체(49.96%, 기본 48.46%)와 크라켄 학살자 변형(50.58%)은 같은 기본 공격 운영의 선택지로 보아 별도 조합 빌드 대신 상황별 후보로 남김."
+				}
+			},
+			"comboBuilds": [],
+			"altDefaultBuilds": [
+				{
+					"core": ["윤 탈 야생화살", "무한의 대검", "도미닉 경의 인사"],
+					"boots": "광전사의 군화",
+					"styleKo": "윤 탈 야생화살",
+					"situational": [
+						{
+							"item": "몰락한 왕의 검",
+							"whenKo": "체력이 높은 적을 계속 공격할 때"
+						},
+						{
+							"item": "처형인의 대검",
+							"whenKo": "회복이 강한 적이 있을 때"
+						},
+						{
+							"item": "헤르메스의 시미터",
+							"whenKo": "적의 기절·속박을 풀어야 할 때"
+						},
+						{
+							"item": "독사의 송곳니",
+							"whenKo": "적의 보호막이 많을 때"
+						}
+					]
+				},
+				{
+					"core": ["루덴의 메아리", "제국의 명령", "지평선의 초점"],
+					"boots": "명석함의 아이오니아 장화",
+					"styleKo": "주문력",
+					"situational": [
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 크게 올려 피해를 더 키우고 싶을 때"
+						},
+						{
+							"item": "그림자불꽃",
+							"whenKo": "체력이 낮아진 적을 스킬로 마무리할 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "garen",
+			"defaultBuild": {
+				"core": ["발걸음 분쇄기", "유령 무희", "무한의 대검"],
+				"boots": "광전사의 군화",
+				"situational": [
+					{
+						"item": "도미닉 경의 인사",
+						"whenKo": "적의 방어력이 높을 때"
+					},
+					{
+						"item": "필멸자의 운명",
+						"whenKo": "적 회복이 강할 때"
+					},
+					{
+						"item": "스테락의 도전",
+						"whenKo": "적에게 붙은 뒤 큰 피해를 한꺼번에 받아 버티기 어려울 때"
+					},
+					{
+						"item": "독사의 송곳니",
+						"whenKo": "적의 보호막이 많을 때"
+					}
+				],
+				"styleKo": "치명타",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/garen",
+					"note": "사이트 표기 16.21을 확인. All matches: crit 유형 선택률 44.9%, 유형 승률 47.9%. 핵심 3종 127,444경기, 승률 48.16%, 유형 내 선택률 49.77%. Excl. augment-granted 화면 재확인: Lift is measured against the 430.2K matches with build data (47.06% win rate). 선택한 핵심 행 48.16% 50.31% +1.1%. 주 사용 유형인 치명타에서 가장 흔한 발걸음 분쇄기·유령 무희·무한의 대검을 선택. 강철심장은 Trap items라 제외. 발걸음 분쇄기 첫 3칸 선택률 52.31%, WR impact +0.41; 유령 무희 첫 3칸 선택률 45.04%, WR impact +0.22. Trap items: 강철심장. 광전사의 군화 첫 3칸 선택률 28.22%, WR impact +0.39. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Spin To Win의 도미닉 경의 인사 교체 52.43%(기본 49.39%)는 상대 방어력에 따른 선택으로 남김. 회전·치명타라는 기본 운영은 같아 별도 조합 빌드를 만들지 않음."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "leona",
+			"defaultBuild": {
+				"core": ["강철심장", "끝없는 절망"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "해신 작쇼",
+						"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+					},
+					{
+						"item": "워모그의 갑옷",
+						"whenKo": "오래 버티며 체력을 회복해야 할 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 공격이 아플 때"
+					},
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적의 마법 피해가 아플 때"
+					},
+					{
+						"item": "대자연의 힘",
+						"whenKo": "지속적인 마법 피해가 아플 때"
+					}
+				],
+				"styleKo": "탱커",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/leona",
+					"note": "사이트 표기 16.21을 확인. 기본 핵심 3종 공동 통계 미확인. 일반 유형은 tank 선택률 90.4%, 승률 50.57%. Excl. augment-granted 화면 재확인: Lift is measured against the 417.3K matches with build data (50.57% win rate). 선택한 핵심 3종 행 없음. 공개 Core builds의 주요 세트는 모두 강철심장을 포함하지만 강철심장은 Trap items(WR impact -6.85). 개별 Core items의 가시 갑옷·해신 작쇼·얼어붙은 심장으로 기본 후보를 구성. 이 3종 공동 표본·승률은 미확인. 가시 갑옷 첫 3칸 선택률 16.8%, WR impact +0.42; 해신 작쇼 첫 3칸 선택률 9.31%, WR impact +0.28; 얼어붙은 심장 첫 3칸 선택률 2.13%, WR impact +0.19. Trap items: 강철심장·워모그의 갑옷. 판금 장화 단일 승률 51.72%, 선택률 13.93%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Courage of the Colossus는 확인했지만 함정 아이템을 제외한 기본 3종의 동일 조건 통계가 없어 전환 우월성을 검증하지 못함."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 강화 평타",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "판금 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "anivia",
+			"defaultBuild": {
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "리안드리의 고통"],
+				"boots": "탐욕의 군화",
+				"situational": [
+					{
+						"item": "라바돈의 죽음모자",
+						"whenKo": "주문력을 크게 올려 피해를 더 키우고 싶을 때"
+					},
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 가까이 붙어 잠시 시간을 벌어야 할 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+					},
+					{
+						"item": "밴시의 장막",
+						"whenKo": "적의 방해 스킬에 먼저 맞아 잡힐 때"
+					}
+				],
+				"styleKo": "주문력",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/anivia",
+					"note": "사이트 표기 16.21을 확인. 기본 핵심 3종 공동 통계 미확인. 일반 유형은 ap 선택률 83.43%, 승률 44.32%. Excl. augment-granted 화면 재확인: Lift is measured against the 159.4K matches with build data (44.32% win rate). 선택한 핵심 3종 행 없음. 공개 Core builds의 주요 세트는 모두 대천사의 지팡이 또는 리안드리의 고통를 포함하며 두 아이템은 Trap items로 표시됨. 영겁의 지팡이·라바돈의 죽음모자의 Core items 근거와 궁극기용 악의의 게임 효과로 기본 후보를 구성. 이 3종 공동 표본·승률은 미확인이며 일반 최상위 빌드로 검증된 세트가 아님. 영겁의 지팡이 첫 3칸 선택률 62.63%, WR impact +0.58; 라바돈의 죽음모자 첫 3칸 선택률 5.26%, WR impact +0.03. Trap items: 대천사의 지팡이·리안드리의 고통. 탐욕의 군화 단일 승률 46.69%, 선택률 9.65%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: Terrain'd의 공개 표에서도 함정 아이템을 제외한 기본 후보 3종의 공동 통계가 없어 전환 비교를 검증하지 못함."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "lux",
+			"defaultBuild": {
+				"core": ["루덴의 메아리", "라바돈의 죽음모자", "무덤꽃"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 한꺼번에 달려들어 스킬을 쓰기 전에 쓰러질 때"
+					},
+					{
+						"item": "모렐로노미콘",
+						"whenKo": "적이 회복으로 버틸 때"
+					},
+					{
+						"item": "밴시의 장막",
+						"whenKo": "적의 방해 스킬에 먼저 맞아 잡힐 때"
+					}
+				],
+				"styleKo": "주문력",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/lux",
+					"note": "사이트 표기 16.21을 확인. 기본 핵심 3종 공동 통계 미확인. 일반 유형은 ap 선택률 84.29%, 승률 46.25%. 공개 Core builds의 주요 세트는 모두 그림자불꽃을 포함하며 이 아이템은 Trap items(WR impact -1.61). 개별 Core items의 루덴의 메아리·라바돈의 죽음모자을 유지하고 무덤꽃을 넣은 기본 후보로 구성. 이 3종 공동 표본·승률은 미확인이며 일반 최상위 빌드로 검증된 세트가 아님. 루덴의 메아리 첫 3칸 선택률 66.37%, WR impact +0.14; 라바돈의 죽음모자 첫 3칸 선택률 25.85%, WR impact +0.44; 무덤꽃 첫 3칸 선택률 0.56%, WR impact 0.00. Trap items: 그림자불꽃·악의. 마법사의 신발 단일 승률 47.07%, 선택률 47.56%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: inferred를 제외하면 화면에 남는 조합이 없어 조합 빌드 대상이 아님."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "kog-maw",
+			"defaultBuild": {
+				"core": ["황혼과 새벽", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력 아이템을 갖췄을 때"
+					},
+					{
+						"item": "밴시의 장막",
+						"whenKo": "적의 방해 스킬에 먼저 맞아 잡힐 때"
+					},
+					{
+						"item": "대천사의 지팡이",
+						"whenKo": "스킬을 자주 써서 마나가 부족하고 보호막도 필요할 때"
+					}
+				],
+				"styleKo": "주문력",
+				"basis": {
+					"url": "https://hexmayhem.com/champions/kogmaw",
+					"note": "사이트 표기 16.21을 확인. Excl. augment-granted: ap 유형 선택률 33.62%, 유형 승률 49.23%. 핵심 3종 15,078경기, 승률 51.43%, 유형 내 선택률 9.61%. 적중효과와 주문력 유형이 모두 널리 쓰이나 적중효과 핵심인 구인수의 격노검·몰락한 왕의 검이 Trap items이므로 주문력 유형을 선택. 황혼과 새벽·그림자불꽃·라바돈의 죽음모자의 일반 통계를 기준으로 하며 특정 증강 부재 조건은 미확인. 황혼과 새벽 첫 3칸 선택률 13.89%, WR impact +0.34; 그림자불꽃 첫 3칸 선택률 21.12%, WR impact +0.14; 라바돈의 죽음모자 첫 3칸 선택률 6.53%, WR impact +0.07. Trap items: 구인수의 격노검·몰락한 왕의 검. 마법사의 신발 단일 승률 49.7%, 선택률 15.84%. Excl. augment-granted는 증강이 아이템을 직접 지급한 경기만 제외하며, 특정 증강이 없는 경기의 통계가 아님. 상황별 아이템과 구매 순서는 게임 효과에 따른 안내로 별도 승률을 주장하지 않음. 아이템 효과 출처: https://ddragon.leagueoflegends.com/cdn/16.21.1/data/ko_KR/item.json. 조합 검토: inferred를 제외하면 화면에 남는 조합이 없어 조합 빌드 대상이 아님. 증강 의존 가능성 검토: 황혼과 새벽은 일반 집계에서도 상위지만 관련 증강 미보유 조건의 우월성은 확인하지 못함."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "braum",
+			"defaultBuild": {
+				"core": ["강철심장", "가시 갑옷"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "끝없는 절망",
+						"whenKo": "적과 붙어 싸우는데 적의 물리 피해가 많을 때"
+					},
+					{
+						"item": "해신 작쇼",
+						"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+					},
+					{
+						"item": "워모그의 갑옷",
+						"whenKo": "오래 버티며 체력을 회복해야 할 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 공격이 아플 때"
+					},
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적의 마법 피해가 아플 때"
+					}
+				],
+				"styleKo": "탱커"
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 강화 평타",
+					"triggerAugmentIds": ["armored-impact"],
+					"build": {
+						"core": [
+							"가시 갑옷",
+							"해신 작쇼",
+							"얼어붙은 심장",
+							"란두인의 예언",
+							"도미닉 경의 인사"
+						],
+						"boots": "판금 장화",
+						"situational": []
+					},
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다."
+				}
+			]
+		},
+		{
+			"id": "yone",
+			"defaultBuild": {
+				"core": ["윤 탈 야생화살", "파멸의식 고서", "죽음의 무도"],
+				"boots": "광전사의 군화",
+				"styleKo": "치명타",
+				"situational": [
+					{
+						"item": "정령의 형상",
+						"whenKo": "마법 피해를 버티면서 회복과 보호막을 늘리고 싶을 때"
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 공격이 아플 때"
+					}
+				],
+				"basis": {
+					"url": "https://hexmayhem.com/champions/yone",
+					"note": "사이트 16.21. Crit 유형 승률 58.15%, 선택률 67.41%. 핵심 윤 탈 야생화살·파멸의식 고서·죽음의 무도 64.2%, 유형 내 21.2%, +6.7%p. Trap: 몰락한 왕의 검·무한의 대검. 신발은 페이지에 별도 표시 없어 공격 속도용 광전사의 군화."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "신비한 주먹 무한 Q",
+					"triggerAugmentIds": ["mystic-punch"],
+					"build": {
+						"core": ["몰락한 왕의 검", "마법사의 최후", "파멸의식 고서"],
+						"boots": "광전사의 군화",
+						"situational": [
+							{
+								"item": "죽음의 무도",
+								"whenKo": "물리 피해를 버티며 계속 싸워야 할 때"
+							},
+							{
+								"item": "정령의 형상",
+								"whenKo": "마법 피해를 버티면서 회복과 보호막을 늘리고 싶을 때"
+							},
+							{
+								"item": "맬모셔스의 아귀",
+								"whenKo": "적의 마법 피해에 들어가자마자 쓰러질 때"
+							},
+							{
+								"item": "란두인의 예언",
+								"whenKo": "적의 치명타 공격이 아플 때"
+							}
+						]
+					},
+					"whyKo": "신비한 주먹을 얻으면 몰락한 왕의 검과 마법사의 최후로 공격 속도를 채워 Q를 끝없이 씁니다.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/yone",
+						"note": "2026-10-26 사용자 지정: 몰락한 왕의 검·광전사의 군화·마법사의 최후로 공격 속도를 채워 무한 Q, 3코어 파멸의식 고서."
+					}
+				}
+			]
+		},
+		{
+			"id": "kaisa",
+			"defaultBuild": {
+				"core": ["루덴의 메아리", "그림자불꽃", "황혼과 새벽"],
+				"boots": "마법사의 신발",
+				"styleKo": "주문력",
+				"skillOrder": ["W", "Q", "E"],
+				"situational": [
+					{
+						"item": "라바돈의 죽음모자",
+						"whenKo": "주문력을 더 크게 올리고 싶을 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 올렸을 때"
+					},
+					{
+						"item": "폭풍 쇄도",
+						"whenKo": "적 원거리 딜러를 빨리 끊어야 할 때"
+					},
+					{
+						"item": "밴시의 장막",
+						"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+					}
+				],
+				"basis": {
+					"url": "https://hexmayhem.com/champions/kaisa",
+					"note": "사이트 16.21 Excl. augment-granted AP 유형 1위 루덴·그림자불꽃·황혼과 새벽 52.12%, 선택률 11.56%, +3.4%. 스킬 W→Q→E 50.66%, 선택률 68.35%. 2026-10-26 확인."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "벌집으로 플라즈마 쌓기",
+					"triggerAugmentIds": ["bees"],
+					"build": {
+						"core": ["스태틱의 단검", "황혼과 새벽", "내셔의 이빨"],
+						"boots": "광전사의 군화",
+						"situational": [
+							{
+								"item": "라바돈의 죽음모자",
+								"whenKo": "주문력을 더 크게 올리고 싶을 때"
+							},
+							{
+								"item": "구인수의 격노검",
+								"whenKo": "평타를 더 자주 넣고 싶을 때"
+							},
+							{
+								"item": "공허의 지팡이",
+								"whenKo": "적이 마법 저항력을 올렸을 때"
+							},
+							{
+								"item": "밴시의 장막",
+								"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+							}
+						]
+					},
+					"whyKo": "적중 시 효과 아이템을 모아 벌집이 터질 때마다 피해를 더합니다.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/kaisa",
+						"note": "사이트 16.21 With augment BEES!!!(벌이다 경기 128.2K, 59.39%). On-Hit 스태틱·황혼과 새벽·내셔 60.9%, +1.5%. AP 루덴·황혼·그림자불꽃 60.57%도 비슷해 기본 빌드를 그대로 써도 됨. 2026-10-26 확인."
+					}
+				}
+			]
+		},
+		{
+			"id": "tahm-kench",
+			"defaultBuild": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "판금 장화",
+				"styleKo": "탱커",
+				"skillOrder": ["Q", "W", "E"],
+				"situational": [
+					{
+						"item": "황혼과 새벽",
+						"whenKo": "스킬 뒤 평타로 피해를 더하고 싶을 때"
+					},
+					{
+						"item": "해신 작쇼",
+						"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적의 치명타 공격이 아플 때"
+					},
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적의 마법 피해가 아플 때"
+					}
+				],
+				"basis": {
+					"url": "https://hexmayhem.com/champions/tahmkench",
+					"note": "2026-10-26 사용자 지정: 강철심장→워모그의 갑옷→끝없는 절망. 참고로 HexMayhem 16.21 Excl. augment-granted Tank 1위는 강철심장·워모그·황혼과 새벽 58.37%(선택률 13.3%), 끝없는 절망 포함 행은 강철심장·끝없는 절망·워모그 51.07%(선택률 26.62%). 빠진 황혼과 새벽은 추천 아이템 맨 위로 이동. 스킬 Q→W→E 54.51%."
+				}
+			},
+			"comboBuilds": []
+		},
+		{
+			"id": "teemo",
+			"defaultBuild": {
+				"core": ["루덴의 메아리", "리안드리의 고통", "라바돈의 죽음모자"],
+				"boots": "마법사의 신발",
+				"styleKo": "주문력",
+				"skillOrder": ["Q", "E", "W"],
+				"situational": [
+					{
+						"item": "그림자불꽃",
+						"whenKo": "체력이 낮은 적을 빨리 끝내고 싶을 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 올렸을 때"
+					},
+					{
+						"item": "망각의 구",
+						"whenKo": "적 회복이 강할 때"
+					},
+					{
+						"item": "밴시의 장막",
+						"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+					}
+				],
+				"basis": {
+					"url": "https://hexmayhem.com/champions/teemo",
+					"note": "사이트 16.21 AP 유형 상위는 악의·리안드리 조합(악의·리안드리·라바돈 56.8%). 악의 금지 규칙으로 1코어를 바꿈. 처음에는 어둠불꽃 횃불을 넣었으나 벌이다 경기에서 횃불이 Trap item(-0.30)으로 표시되어 2026-10-26 사용자 지시로 루덴의 메아리로 변경. 횃불은 추천 아이템 칸 금지 규칙으로 옮기지 않음. 스킬 Q→E→W 선택률 63.21%."
+				}
+			},
+			"comboBuilds": [
+				{
+					"comboTitle": "벌집으로 독 퍼뜨리기",
+					"triggerAugmentIds": ["bees"],
+					"build": {
+						"core": ["스태틱의 단검", "황혼과 새벽", "내셔의 이빨"],
+						"boots": "광전사의 군화",
+						"situational": [
+							{
+								"item": "리안드리의 고통",
+								"whenKo": "체력이 많은 적을 오래 태우고 싶을 때"
+							},
+							{
+								"item": "라바돈의 죽음모자",
+								"whenKo": "주문력을 더 크게 올리고 싶을 때"
+							},
+							{
+								"item": "그림자불꽃",
+								"whenKo": "체력이 낮은 적을 빨리 끝내고 싶을 때"
+							},
+							{
+								"item": "공허의 지팡이",
+								"whenKo": "적이 마법 저항력을 올렸을 때"
+							}
+						]
+					},
+					"whyKo": "적중 시 효과 아이템을 모아 벌집이 터질 때마다 독과 추가 피해를 함께 넣습니다.",
+					"basis": {
+						"url": "https://hexmayhem.com/champions/teemo",
+						"note": "사이트 16.21 With augment BEES!!!(179.3K, 60.48%). On-Hit 스태틱·황혼과 새벽·내셔 62.49%, 선택률 15.31%, +2.0%. 악의가 없는 행 중 최고. 2026-10-26 확인."
+					}
+				}
+			]
+		},
+		{
+			"id": "varus",
+			"defaultBuild": {
+				"core": ["몰락한 왕의 검", "구인수의 격노검", "루난의 허리케인"],
+				"boots": "광전사의 군화",
+				"styleKo": "적중 시 효과",
+				"skillOrder": ["W", "Q", "E"],
+				"situational": [
+					{
+						"item": "스태틱의 단검",
+						"whenKo": "여러 적에게 번개 피해를 퍼뜨리고 싶을 때"
+					},
+					{
+						"item": "경계",
+						"whenKo": "적의 방어력과 마법 저항력이 모두 높을 때"
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 마법 피해에 쉽게 쓰러질 때"
+					},
+					{
+						"item": "도미닉 경의 인사",
+						"whenKo": "적에 방어력이 높은 탱커가 많을 때"
+					}
+				],
+				"basis": {
+					"url": "https://hexmayhem.com/champions/varus",
+					"note": "2026-10-26 사용자 지정: 몰락한 왕의 검→구인수의 격노검→루난의 허리케인, 스킬 W→Q→E. 참고로 HexMayhem 16.21 Excl. augment-granted On-Hit 행 몰락·구인수·루난 50.77%(선택률 25.85%, 유형 내 최다). 빠진 스태틱의 단검·경계는 추천 아이템 맨 위로 이동."
+				}
+			},
+			"comboBuilds": [],
+			"altDefaultBuilds": [
+				{
+					"core": ["황혼과 새벽", "내셔의 이빨", "균열 생성기"],
+					"boots": "광전사의 군화",
+					"styleKo": "주문력",
+					"situational": [
+						{
+							"item": "그림자불꽃",
+							"whenKo": "체력이 낮은 적을 빨리 끝내고 싶을 때"
+						},
+						{
+							"item": "라바돈의 죽음모자",
+							"whenKo": "주문력을 더 크게 올리고 싶을 때"
+						},
+						{
+							"item": "공허의 지팡이",
+							"whenKo": "적이 마법 저항력을 올렸을 때"
+						},
+						{
+							"item": "밴시의 장막",
+							"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+						}
+					],
+					"skillOrder": ["W", "Q", "E"],
+					"basis": {
+						"url": "https://hexmayhem.com/champions/varus",
+						"note": "2026-10-26 사용자 지정 주문력 빌드: 황혼과 새벽→내셔의 이빨→균열 생성기, 스킬 W→Q→E. 이 3개 조합의 HexMayhem 통계는 확인하지 않음."
+					}
+				}
+			]
+		},
+		{
+			"id": "fizz",
+			"defaultBuild": {
+				"core": ["리치베인", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "마법사의 신발",
+				"styleKo": "주문력",
+				"skillOrder": ["E", "W", "Q"],
+				"situational": [
+					{
+						"item": "폭풍 쇄도",
+						"whenKo": "적 원거리 딜러를 빨리 끊어야 할 때"
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 올렸을 때"
+					},
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "들어간 뒤 적의 집중 공격을 피해야 할 때"
+					},
+					{
+						"item": "밴시의 장막",
+						"whenKo": "적의 마법 스킬에 먼저 맞아 쓰러질 때"
+					}
+				],
+				"basis": {
+					"url": "https://hexmayhem.com/champions/fizz",
+					"note": "사이트 16.21 Excl. augment-granted AP 그림자불꽃·리치베인·라바돈 54.85%, 선택률 18.29%, +2.9%. With augment BEES!!!에서도 같은 3개가 59.26%로 1위라 벌이다 빌드를 따로 두지 않음. 스킬 E→W→Q 53.01%. 2026-10-26 확인."
+				}
+			},
+			"comboBuilds": []
+		}
+	]
+}

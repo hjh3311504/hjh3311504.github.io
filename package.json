@@ -5,11 +5,12 @@
 	"license": "MIT",
 	"scripts": {
 		"generate:assets": "node scripts/generate_site_assets.js",
+		"generate:aram-mayhem": "node scripts/generate_aram_mayhem.js",
 		"dev": "vite dev --host",
 		"build": "vite build",
 		"postbuild": "npm run optimize-images",
 		"preview": "sirv build --dev",
-		"test": "npm run test:analytics && npm run test:team-maker && node --test tests/qr-code/*.test.js && node --test tests/marble-race/*.test.js && node --test tests/bracket/*.test.js && npm run test:blog",
+		"test": "npm run test:analytics && npm run test:team-maker && node --test tests/qr-code/*.test.js && node --test tests/marble-race/*.test.js && node --test tests/bracket/*.test.js && node --test tests/aram-mayhem/*.test.js && npm run test:blog",
 		"test:analytics": "node --test tests/analytics/*.test.js",
 		"test:team-maker": "node --test tests/team-maker/*.test.js",
 		"pretest:e2e:team-maker": "npm run build",

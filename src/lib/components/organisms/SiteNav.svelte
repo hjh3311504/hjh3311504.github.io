@@ -284,6 +284,29 @@
 				<span>QR 코드</span>
 				{#if active === 'qr-code'}<span class="current-badge">현재</span>{/if}
 			</Button>
+			<Button
+				class={active === 'aram-mayhem' ? 'active' : ''}
+				href={resolve('/aram-mayhem')}
+				variant="ghost"
+				aria-current={active === 'aram-mayhem' ? 'page' : undefined}
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					aria-hidden="true"
+					><path
+						d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8-4.3-4.1 5.9-.9z"
+					/></svg
+				>
+				<span>칼바람 아수라장</span>
+				{#if active === 'aram-mayhem'}<span class="current-badge">현재</span>{/if}
+			</Button>
 		</div>
 	</nav>
 

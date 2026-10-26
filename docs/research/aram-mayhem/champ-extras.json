@@ -1,0 +1,170 @@
+{
+	"patch": "26.21",
+	"champions": [
+		{
+			"id": "annie",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["phenomenal-evil"]
+		},
+		{
+			"id": "yasuo",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "hecarim",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["bread-and-butter", "with-haste"]
+		},
+		{
+			"id": "master-yi",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["deft", "goredrink"]
+		},
+		{
+			"id": "brand",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["phenomenal-evil", "erosion"]
+		},
+		{
+			"id": "vladimir",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["witchful-thinking", "first-aid-kit"]
+		},
+		{
+			"id": "sona",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["first-aid-kit", "all-for-you"]
+		},
+		{
+			"id": "soraka",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["first-aid-kit", "bread-and-jam"]
+		},
+		{
+			"id": "rammus",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["goliath", "impassable"]
+		},
+		{
+			"id": "taric",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["all-for-you", "critical-healing"]
+		},
+		{
+			"id": "ryze",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["phenomenal-evil", "blue-barrier"]
+		},
+		{
+			"id": "veigar",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["witchful-thinking", "magic-missile"]
+		},
+		{
+			"id": "vayne",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["firebrand", "symphony-of-war"]
+		},
+		{
+			"id": "jax",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["deft", "symphony-of-war"]
+		},
+		{
+			"id": "trundle",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["deft", "symphony-of-war"]
+		},
+		{
+			"id": "vi",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["outlaws-grit", "swift-and-safe"]
+		},
+		{
+			"id": "sett",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["first-aid-kit", "blunt-force"]
+		},
+		{
+			"id": "smolder",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["infinite-recursion", "blunt-force"]
+		},
+		{
+			"id": "lulu",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["first-aid-kit", "all-for-you"]
+		},
+		{
+			"id": "malphite",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["impassable", "slap-around"]
+		},
+		{
+			"id": "ashe",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["firebrand", "symphony-of-war"]
+		},
+		{
+			"id": "garen",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["thread-the-needle", "leg-day"]
+		},
+		{
+			"id": "leona",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["impassable", "bread-and-butter"]
+		},
+		{
+			"id": "anivia",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["phenomenal-evil", "eureka"]
+		},
+		{
+			"id": "lux",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["phenomenal-evil", "witchful-thinking"]
+		},
+		{
+			"id": "kog-maw",
+			"avoidItems": [],
+			"extraGoodAugmentIds": ["magic-missile", "witchful-thinking"]
+		},
+		{
+			"id": "braum",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "yone",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kaisa",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "tahm-kench",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "teemo",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "varus",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "fizz",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		}
+	]
+}

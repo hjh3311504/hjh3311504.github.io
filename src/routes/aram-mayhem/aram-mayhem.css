@@ -1,0 +1,661 @@
+/* 칼바람 아수라장 증강 가이드 */
+.aram-page {
+	--aram-strong: var(--color-orange);
+	--aram-good: var(--color-green);
+	--aram-bad: var(--ui-danger);
+	--aram-tile: var(--ui-surface-soft);
+	--aram-tile-hover: color-mix(in srgb, var(--ui-text), transparent 92%);
+	--aram-accent-soft: color-mix(in srgb, var(--ui-primary), transparent 90%);
+	line-height: 1.6;
+}
+html[data-theme='dark'] .aram-page {
+	--aram-strong: var(--color-orange-2);
+	--aram-good: var(--color-green-2);
+}
+@media (prefers-color-scheme: dark) {
+	html[data-theme='auto'] .aram-page {
+		--aram-strong: var(--color-orange-2);
+		--aram-good: var(--color-green-2);
+	}
+}
+
+.aram-patch {
+	display: inline-block;
+	margin: 0 0 var(--space-16);
+	padding: var(--space-2) var(--space-12);
+	border-radius: 999px;
+	background: var(--aram-accent-soft);
+	color: var(--ui-primary);
+	font-size: var(--font-size-14);
+	font-weight: 700;
+}
+
+/* 챔피언 고르기 */
+.aram-search {
+	width: 100%;
+	margin-bottom: var(--space-12);
+}
+.aram-roles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-8);
+	margin-bottom: var(--space-12);
+}
+.aram-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+	gap: var(--space-8);
+	margin: 0 0 var(--space-24);
+	padding: 0;
+	list-style: none;
+}
+.aram-pick.ui-button {
+	flex-direction: column;
+	gap: var(--space-4);
+	width: 100%;
+	min-height: 0;
+	padding: var(--space-8) var(--space-4);
+	border: 2px solid transparent;
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+	color: var(--ui-text);
+	font-size: var(--font-size-12);
+	font-weight: 600;
+	line-height: 1.3;
+	text-align: center;
+	word-break: keep-all;
+}
+.aram-pick.ui-button:hover {
+	border-color: var(--ui-border);
+}
+.aram-pick.ui-button[aria-pressed='true'] {
+	border-color: var(--ui-primary);
+	color: var(--ui-primary);
+	font-weight: 700;
+}
+.aram-pick img {
+	width: 48px;
+	height: 48px;
+	border-radius: var(--ui-radius-sm);
+}
+
+/* 챔피언 설명 */
+.aram-detail-anchor {
+	scroll-margin-top: var(--space-16);
+}
+.aram-detail {
+	padding-top: var(--space-24);
+	border-top: 1px solid var(--ui-border);
+}
+.aram-champion-head {
+	display: flex;
+	align-items: center;
+	gap: var(--space-16);
+	margin-bottom: var(--space-20);
+}
+.aram-champion-head img {
+	flex: none;
+	width: 64px;
+	height: 64px;
+	border-radius: 12px;
+}
+.aram-champion-head h2 {
+	margin: 0;
+	font-size: var(--font-size-24);
+	line-height: 1.3;
+}
+.aram-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4);
+	margin-top: var(--space-4);
+}
+.aram-tag {
+	padding: 0 var(--space-8);
+	border-radius: 6px;
+	background: var(--aram-tile);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+}
+.aram-detail h3 {
+	margin: var(--space-32) 0 var(--space-12);
+	font-size: var(--font-size-20);
+	line-height: 1.4;
+}
+.aram-detail > h3:first-of-type {
+	margin-top: 0;
+}
+.aram-section-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-8) var(--space-16);
+	margin: var(--space-32) 0 var(--space-12);
+}
+.aram-section-head h3 {
+	margin: 0;
+}
+.aram-legend {
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+	margin: 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+}
+.aram-legend span {
+	width: 18px;
+	height: 12px;
+	border-radius: 4px;
+}
+.aram-legend-need {
+	border: 2px solid var(--aram-strong);
+}
+.aram-legend-opt {
+	margin-left: var(--space-8);
+	border: 2px dashed var(--ui-border-strong);
+}
+
+/* 카드 */
+.aram-card,
+.aram-combo {
+	margin-bottom: var(--space-12);
+	padding: var(--space-16) var(--space-20);
+	border: 1px solid var(--ui-border);
+	border-radius: 12px;
+	background: var(--ui-surface);
+}
+.aram-combo-strong {
+	border-color: color-mix(in srgb, var(--aram-strong), transparent 65%);
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--aram-strong), transparent 92%),
+		var(--ui-surface) 70%
+	);
+}
+.aram-combo > summary {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-8);
+	margin-bottom: var(--space-12);
+	line-height: 2;
+	list-style: none;
+	cursor: pointer;
+}
+.aram-combo > summary::-webkit-details-marker {
+	display: none;
+}
+.aram-combo > summary::after {
+	content: '';
+	width: 8px;
+	height: 8px;
+	margin-left: auto;
+	border-right: 2px solid var(--ui-text-muted);
+	border-bottom: 2px solid var(--ui-text-muted);
+	transform: translateY(-2px) rotate(45deg);
+	transition: transform 0.15s;
+}
+.aram-combo:not([open]) > summary {
+	margin-bottom: 0;
+}
+.aram-combo:not([open]) > summary::after {
+	transform: rotate(-45deg);
+}
+.aram-combo > summary:focus-visible {
+	border-radius: 4px;
+	outline: 2px solid var(--ui-focus);
+	outline-offset: 4px;
+}
+.aram-level {
+	padding: 0 var(--space-8);
+	border-radius: 6px;
+	font-size: var(--font-size-12);
+	font-weight: 800;
+	line-height: 1.8;
+}
+.aram-level-strong {
+	background: var(--aram-strong);
+	color: var(--ui-surface);
+}
+.aram-level-good {
+	background: color-mix(in srgb, var(--aram-good), transparent 88%);
+	color: var(--aram-good);
+}
+.aram-combo-title {
+	font-weight: 700;
+}
+
+/* 증강 타일 */
+.aram-augs {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-8);
+}
+.aram-aug.ui-button {
+	justify-content: flex-start;
+	gap: var(--space-8);
+	min-height: 0;
+	padding: var(--space-4) var(--space-12) var(--space-4) var(--space-4);
+	border: 2px solid transparent;
+	border-radius: var(--ui-radius-md);
+	background: var(--aram-tile);
+	color: var(--ui-text);
+	font-size: var(--font-size-14);
+	font-weight: 600;
+	text-align: left;
+}
+.aram-aug.ui-button:hover {
+	background: var(--aram-tile-hover);
+}
+.aram-aug-need.ui-button {
+	border-color: var(--aram-strong);
+	background: var(--ui-surface);
+}
+.aram-aug-opt.ui-button {
+	border: 2px dashed var(--ui-border-strong);
+	background: transparent;
+	color: var(--ui-text-muted);
+}
+.aram-aug.ui-button[aria-expanded='true'] {
+	border-color: var(--ui-primary);
+	background: var(--aram-accent-soft);
+}
+.aram-ring {
+	display: grid;
+	flex: none;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	padding: var(--space-2);
+	border-radius: 10px;
+}
+.aram-ring img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	background: var(--color-aram-icon-background);
+}
+.aram-ring-silver {
+	background: var(--color-aram-silver);
+}
+.aram-ring-gold {
+	background: var(--color-aram-gold);
+}
+.aram-ring-prismatic {
+	background: linear-gradient(
+		135deg,
+		var(--color-aram-prism-pink),
+		var(--color-aram-prism-violet) 45%,
+		var(--color-aram-prism-cyan)
+	);
+}
+.aram-aug-small .aram-ring {
+	width: 32px;
+	height: 32px;
+	border-radius: 8px;
+}
+.aram-aug-small .aram-ring img {
+	border-radius: 6px;
+}
+.aram-ring-small,
+.aram-ring-tab {
+	width: 24px;
+	height: 24px;
+	border-radius: 6px;
+}
+.aram-ring-small img,
+.aram-ring-tab img {
+	border-radius: 4px;
+}
+.aram-aug-detail {
+	margin-top: var(--space-12);
+	padding: var(--space-8) var(--space-12);
+	border-radius: var(--ui-radius-md);
+	background: var(--aram-accent-soft);
+	font-size: var(--font-size-14);
+}
+.aram-aug-detail strong {
+	margin-right: var(--space-8);
+}
+.aram-aug-detail p {
+	margin: var(--space-4) 0 0;
+}
+
+/* 설명 문장 안의 스킬·증강·아이템 타일 */
+.aram-why {
+	margin: var(--space-12) 0 0;
+	line-height: 2.2;
+	word-break: keep-all;
+	overflow-wrap: anywhere;
+}
+.aram-ic,
+.aram-ic.ui-button {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-4);
+	min-height: 0;
+	margin: 0 var(--space-2);
+	padding: var(--space-2) var(--space-4);
+	border: 1px solid transparent;
+	border-radius: 7px;
+	background: var(--aram-tile);
+	color: var(--ui-text);
+	font-size: inherit;
+	font-weight: 600;
+	line-height: 1.5;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.aram-ic img {
+	flex: none;
+	width: 24px;
+	height: 24px;
+	border-radius: 5px;
+	background: var(--color-aram-icon-background);
+}
+.aram-ic.ui-button:hover {
+	background: var(--aram-tile-hover);
+}
+.aram-ic.ui-button[aria-expanded='true'] {
+	border-color: var(--ui-primary);
+	background: var(--aram-accent-soft);
+}
+.aram-ic .aram-ring img {
+	background: var(--color-aram-icon-background);
+}
+.aram-key {
+	padding: 0 var(--space-4);
+	border-radius: 4px;
+	background: var(--ui-text);
+	color: var(--ui-surface);
+	font-size: var(--font-size-12);
+	font-weight: 800;
+	line-height: 1.5;
+}
+.aram-stat-icon {
+	display: inline-grid;
+	flex: none;
+	place-items: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 5px;
+	background: var(--color-aram-icon-background);
+}
+.aram-stat-icon img {
+	width: 16px;
+	height: 16px;
+	border-radius: 0;
+	background: none;
+}
+.aram-ic-added {
+	background: var(--aram-accent-soft);
+	box-shadow: inset 0 0 0 2px var(--ui-primary);
+}
+.aram-mark {
+	padding: 0 var(--space-4);
+	border-radius: 6px;
+	background: var(--ui-primary);
+	color: var(--ui-on-primary);
+	font-size: var(--font-size-12);
+	line-height: 1.6;
+}
+.aram-steps {
+	margin: var(--space-12) 0 0;
+	padding-left: var(--space-24);
+	line-height: 2.4;
+}
+.aram-hint {
+	margin: var(--space-8) 0 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+}
+/* 조합 출처: 설명보다 작고 흐리게 카드 오른쪽에 둔다. */
+.aram-sources {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: var(--space-4) var(--space-8);
+	margin: var(--space-8) 0 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+}
+.aram-sources a {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* 빌드 */
+.aram-build-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-8);
+	margin-bottom: var(--space-16);
+}
+.aram-build-tab.ui-button {
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	gap: var(--space-4);
+	min-height: 0;
+	padding: var(--space-4) var(--space-12);
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+	font-weight: 600;
+	line-height: 1.8;
+	text-align: left;
+}
+.aram-build-tab.ui-button:hover {
+	border-color: var(--ui-border-strong);
+}
+.aram-build-tab.ui-button[aria-pressed='true'] {
+	border-color: var(--ui-primary);
+	background: var(--aram-accent-soft);
+	color: var(--ui-primary);
+}
+.aram-build-tab-aug {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-4);
+	white-space: nowrap;
+}
+.aram-plus {
+	color: var(--ui-text-muted);
+}
+.aram-core {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-8);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.aram-core li {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+}
+.aram-item {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+	padding: var(--space-4) var(--space-12) var(--space-4) var(--space-4);
+	border-radius: var(--ui-radius-md);
+	background: var(--aram-tile);
+	font-size: var(--font-size-14);
+	font-weight: 600;
+}
+.aram-core li + li::before {
+	content: '→';
+	color: var(--ui-text-muted);
+	font-weight: 400;
+}
+.aram-core img {
+	width: 32px;
+	height: 32px;
+	border-radius: 6px;
+}
+.aram-item.aram-item-changed {
+	background: var(--aram-accent-soft);
+	box-shadow: inset 0 0 0 2px var(--ui-primary);
+}
+.aram-sub-heading {
+	margin: var(--space-16) 0 var(--space-4);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+	font-weight: 700;
+}
+.aram-skill-order {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--font-size-14);
+}
+.aram-skill-order li + li::before {
+	content: '→';
+	margin-right: var(--space-4);
+	color: var(--ui-text-muted);
+}
+.aram-situational {
+	display: grid;
+	gap: var(--space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	line-height: 2;
+}
+.aram-when {
+	margin-right: var(--space-4);
+}
+.aram-boots {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-8);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.aram-boots li {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+	padding: var(--space-4) var(--space-12) var(--space-4) var(--space-4);
+	border-radius: var(--ui-radius-md);
+	background: var(--aram-tile);
+}
+.aram-boots img {
+	width: 32px;
+	height: 32px;
+	border-radius: 6px;
+}
+.aram-boots strong,
+.aram-boots small {
+	display: block;
+	line-height: 1.4;
+}
+.aram-boots strong {
+	font-size: var(--font-size-14);
+}
+.aram-boots small {
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+}
+
+/* 나오면 좋은 증강·피할 증강 */
+.aram-boxes {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--space-12);
+	margin-top: var(--space-16);
+}
+.aram-box {
+	padding: var(--space-16) var(--space-20);
+	border-radius: 12px;
+}
+.aram-box-good {
+	background: color-mix(in srgb, var(--aram-good), transparent 90%);
+}
+.aram-box-bad {
+	background: color-mix(in srgb, var(--aram-bad), transparent 92%);
+}
+.aram-box h4 {
+	margin: 0 0 var(--space-8);
+	font-size: var(--font-size-14);
+}
+.aram-box-good h4 {
+	color: var(--aram-good);
+}
+.aram-box-bad h4 {
+	color: var(--aram-bad);
+}
+.aram-box .aram-aug.ui-button {
+	background: var(--ui-surface);
+}
+.aram-note {
+	margin: 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+}
+
+/* 안내와 법적 고지 */
+.aram-notes {
+	display: grid;
+	gap: var(--space-16);
+	margin-top: var(--space-32);
+}
+.aram-notes-list {
+	display: grid;
+	gap: var(--space-16);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.aram-notes-list h3 {
+	margin: 0 0 var(--space-4);
+	font-size: var(--font-size-16);
+}
+.aram-notes-list p,
+.aram-notes-text {
+	margin: 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+	line-height: 1.7;
+	word-break: keep-all;
+}
+.aram-notes-text + .aram-notes-text {
+	margin-top: var(--space-8);
+}
+.aram-legal {
+	margin-top: var(--space-24);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+	line-height: 1.6;
+}
+.aram-legal p {
+	margin: 0 0 var(--space-4);
+}
+
+@media (max-width: 640px) {
+	.aram-build-tab.ui-button {
+		width: 100%;
+	}
+	.aram-boxes {
+		grid-template-columns: 1fr;
+	}
+	.aram-card,
+	.aram-combo,
+	.aram-box {
+		padding: var(--space-16);
+	}
+}

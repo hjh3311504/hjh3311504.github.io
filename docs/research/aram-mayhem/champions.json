@@ -1,0 +1,3662 @@
+{
+	"patch": "26.21",
+	"checkedAt": "2026-10-24",
+	"guideStatus": "research-draft",
+	"ratingMeaningKo": "S: 통계 상위이며 독립된 커뮤니티 근거가 반복해서 일치하는 조합. A: 충분한 통계에서 기준 승률보다 3%p 이상 높은 핵심 증강 또는 상세 공략이 있는 강한 후보. B: 효과는 맞지만 강한 성능 근거가 부족한 후보. 이번에는 커뮤니티 합의가 충분하지 않아 S를 부여하지 않았습니다.",
+	"confidenceMeaningKo": "high: 3개 중 2개 이상의 개별 증강이 최소200경기·기준 승률 대비 +3%p 이상이고 해당 챔피언의 DC 설명도 같은 방향이며 모든 증강이 26.21 목록에 있음. medium: 충분한 개별 통계 하나 또는 상세 DC 공략과 스킬 원리가 일치함. low: 그 밖. high도 여러 증강을 동시에 선택한 승률을 뜻하지 않습니다.",
+	"champions": [
+		{
+			"id": "annie",
+			"nameKo": "애니",
+			"nameEn": "Annie",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "먼 거리 반사 피해",
+					"augmentIds": ["skilled-sniper", "magic-missile"],
+					"whyKo": "앞에서 공격받는 아군에게 E를 준 뒤 거리를 벌리세요. 반사 피해로 마법 미사일이 발동하고, 멀리 날아갈수록 피해가 커집니다. 반사 피해에는 노련한 저격수도 적용되어 E의 대기시간이 줄어듭니다.",
+					"rating": "S",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=635886",
+							"note": "26.17 글(게시일로 패치 추정). 스킬 사용 시점과 빌드 원리를 자세히 설명합니다. 반사 피해와 모든 증강의 현재 상호작용을 실험한 자료는 아닙니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "상세 DC 공략과 증강 효과가 같은 방향입니다. 현재 패치의 동시 조합 성능은 확인하지 못했습니다.",
+					"stats": [],
+					"communityPostIds": ["635886"],
+					"evidenceLevel": "community",
+					"requiredAugmentIds": ["magic-missile"]
+				}
+			],
+			"goodAugmentIds": [
+				"bread-and-cheese",
+				"eureka",
+				"infinite-recursion",
+				"skilled-sniper",
+				"magic-missile"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "지평선의 초점"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "미카엘의 축복",
+						"whenKo": "핵심 아군이 해제 가능한 군중 제어 효과에 자주 잡힐 때."
+					},
+					{
+						"item": "강철의 솔라리 펜던트",
+						"whenKo": "적의 광역 피해가 한꺼번에 들어올 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "DC 상세 공략이 E 반사 피해와 연결한 아이템을 중심으로 정리했습니다. 26.21의 각 발동 판정과 최적 구매 순서를 재현한 결과는 아닙니다.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=635886",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 Q로 안전하게 처치하고 기절 중첩을 준비하세요.",
+				"교전에서는 피해를 받기 직전의 아군에게 E를 주세요.",
+				"티버를 무작정 잃지 말고 아군과 함께 앞으로 보냈다가 회수하세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=635886",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "E를 자신에게만 쓰지 말고 맞고 있는 아군에게 주세요.",
+			"communityEvidenceIds": ["635886"]
+		},
+		{
+			"id": "yasuo",
+			"nameKo": "야스오",
+			"nameEn": "Yasuo",
+			"roles": ["브루저", "근접 딜러"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "신비한 주먹 무한 Q",
+					"augmentIds": ["mystic-punch"],
+					"requiredAugmentIds": ["mystic-punch"],
+					"rating": "S",
+					"evidenceLevel": "user",
+					"evidence": [],
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/must-play",
+							"scope": "augment+item",
+							"augmentId": "mystic-punch",
+							"items": ["윤 탈 야생화살", "파멸의식 고서", "죽음의 무도"],
+							"games": 9700,
+							"gamesApproximate": true,
+							"gamesDisplay": "9.7K",
+							"winRate": 71.17
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "",
+					"stepsKo": [
+						"몰락한 왕의 검과 광전사의 군화를 먼저 갖추기",
+						"2코어로 마법사의 최후를 올려 공격 속도 채우기",
+						"Q만 계속 쓰기"
+					],
+					"hintKo": "Q도 적중 시 효과가 적용되어 신비한 주먹이 발동합니다. 공격 속도가 충분하면 Q를 맞힐 때마다 Q가 바로 돌아와 Q만 끝없이 쓸 수 있습니다."
+				},
+				{
+					"title": "돌진으로 버티기",
+					"augmentIds": ["outlaws-grit", "swift-and-safe"],
+					"requiredAugmentIds": ["outlaws-grit"],
+					"rating": "A",
+					"evidenceLevel": "community",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=638977",
+							"note": "26.18 글(게시일로 패치 추정). 고서 방어형 빌드와 이동 뒤 방어 증강, 공격형 증강을 얻으면 아이템을 바꾸는 운영. 2026-10-26 야스오 항목을 이 글 기준으로 다시 작성."
+						}
+					],
+					"communityPostIds": ["638977"],
+					"whyKo": "E로 돌진할 때마다 무법자의 투지로 방어력과 마법 저항력이 쌓입니다. 미니언을 타고 E를 이어 써서 충분히 쌓은 뒤 적에게 들어가세요."
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 궁극기를 잃어 한타에서 할 일이 크게 줄어듭니다.",
+			"items": {
+				"core": ["파멸의식 고서", "죽음의 무도", "정령의 형상"],
+				"boots": "판금 장화",
+				"situational": [],
+				"sources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=638977"],
+				"stats": [
+					{
+						"source": "HexMayhem",
+						"patch": "26.21",
+						"sourcePatch": "16.21",
+						"checkedAt": "2026-10-24",
+						"url": "https://hexmayhem.com/must-play",
+						"scope": "augment+item",
+						"augmentId": "the-boom-and-the-bass",
+						"items": ["파멸의식 고서", "유령 무희", "죽음의 무도"],
+						"games": 5000,
+						"gamesApproximate": true,
+						"gamesDisplay": "5K",
+						"winRate": 71.54
+					},
+					{
+						"source": "HexMayhem",
+						"patch": "26.21",
+						"sourcePatch": "16.21",
+						"checkedAt": "2026-10-24",
+						"url": "https://hexmayhem.com/must-play",
+						"scope": "augment+item",
+						"augmentId": "mystic-punch",
+						"items": ["윤 탈 야생화살", "파멸의식 고서", "죽음의 무도"],
+						"games": 9700,
+						"gamesApproximate": true,
+						"gamesDisplay": "9.7K",
+						"winRate": 71.17
+					}
+				]
+			},
+			"playKo": [
+				"초반에는 미니언을 타고 왕복할 길을 남기세요.",
+				"한타에서는 바람 장막으로 적의 핵심 투사체를 막고 아군의 공중 띄우기에 맞춰 궁극기를 쓰세요.",
+				"보호막이 사라지면 잠시 빠져 다시 준비하세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=638977",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "E로 들어갈 수 있는 거리와 살아서 나올 수 있는 거리는 다릅니다.",
+			"communityEvidenceIds": ["638977"]
+		},
+		{
+			"id": "hecarim",
+			"nameKo": "헤카림",
+			"nameEn": "Hecarim",
+			"roles": ["브루저", "돌진"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "무한 Q · 환영 무기",
+					"augmentIds": ["ethereal-weapon", "mystic-punch"],
+					"whyKo": "환영 무기로 Q에도 적중 시 효과가 붙습니다. 그래서 맞힐 때마다 신비한 주먹이 대기시간을 1.25초 줄여 무한 Q가 가능합니다.",
+					"rating": "S",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1058",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1388",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/must-play",
+							"note": "증강 하나+완성 아이템 세 개의 조건부 통계입니다. 아이템 미완성 경기까지 포함한 빌드 승률이나 여러 증강의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://aramgg.com/ko/blog/hecarim-infinite-q-guide",
+							"note": "aramgg 헤카림 무한 Q 가이드(2026-02-24 게시, 사이트 표기 26.21). 궁극의 각성 15초 스킬 가속 300, 무한 반복(가속 60+처치 3)·축소 엔진(처치 관여 10) 중첩, 신비한 주먹+환영 무기 1.25초 감소. 지옥의 전도체 방법은 사용자 지시로 제외. 2026-10-26 확인."
+						}
+					],
+					"confidence": "high",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. 3개 중 2개 이상이 기준 승률보다 3%p 이상 높고 해당 챔피언의 DC 설명도 같은 방향입니다. high는 이 교차 근거의 수준이며 동시 조합 실험 결과가 아닙니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1058",
+							"scope": "single-augment",
+							"augmentId": "mystic-punch",
+							"games": 99900,
+							"gamesApproximate": true,
+							"gamesDisplay": "99.9K",
+							"winRate": 62.27,
+							"pickRate": 13.95,
+							"baselineWinRate": 57.89,
+							"liftPp": 4.38
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1388",
+							"scope": "single-augment",
+							"augmentId": "infinite-recursion",
+							"games": 40200,
+							"gamesApproximate": true,
+							"gamesDisplay": "40.2K",
+							"winRate": 64.19,
+							"pickRate": 5.62,
+							"baselineWinRate": 57.89,
+							"liftPp": 6.3
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/must-play",
+							"scope": "augment+item",
+							"augmentId": "infinite-recursion",
+							"items": ["쇼진의 창", "마나무네", "끝없는 갈망"],
+							"games": 3100,
+							"gamesApproximate": true,
+							"gamesDisplay": "3.1K",
+							"winRate": 68.71
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "guide",
+					"requiredAugmentIds": ["ethereal-weapon", "mystic-punch"]
+				},
+				{
+					"title": "무한 Q · 궁극의 각성",
+					"augmentIds": ["ultimate-awakening"],
+					"requiredAugmentIds": ["ultimate-awakening"],
+					"rating": "S",
+					"evidenceLevel": "guide",
+					"evidence": [
+						{
+							"url": "https://aramgg.com/ko/blog/hecarim-infinite-q-guide",
+							"note": "aramgg 헤카림 무한 Q 가이드(2026-02-24 게시, 사이트 표기 26.21). 궁극의 각성 15초 스킬 가속 300, 무한 반복(가속 60+처치 3)·축소 엔진(처치 관여 10) 중첩, 신비한 주먹+환영 무기 1.25초 감소. 지옥의 전도체 방법은 사용자 지시로 제외. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "궁극의 각성은 R을 쓴 뒤 15초 동안 스킬 가속을 300 올려 줍니다. 그동안은 무한 Q가 가능합니다."
+				},
+				{
+					"title": "무한 Q · 스킬 가속 중첩",
+					"augmentIds": ["infinite-recursion", "shrink-engine"],
+					"requiredAugmentIds": [],
+					"rating": "A",
+					"evidenceLevel": "guide",
+					"evidence": [
+						{
+							"url": "https://aramgg.com/ko/blog/hecarim-infinite-q-guide",
+							"note": "aramgg 헤카림 무한 Q 가이드(2026-02-24 게시, 사이트 표기 26.21). 궁극의 각성 15초 스킬 가속 300, 무한 반복(가속 60+처치 3)·축소 엔진(처치 관여 10) 중첩, 신비한 주먹+환영 무기 1.25초 감소. 지옥의 전도체 방법은 사용자 지시로 제외. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "무한 반복과 축소 엔진은 처치에 관여할 때마다 스킬 가속을 영구로 쌓아 줍니다. 둘 중 하나만 있어도 되고, 둘 다 있으면 후반에 Q 대기시간이 거의 사라집니다."
+				}
+			],
+			"goodAugmentIds": [
+				"ethereal-weapon",
+				"mystic-punch",
+				"infinite-recursion",
+				"the-boom-and-the-bass",
+				"takeem-down-down-down",
+				"goredrink"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["쇼진의 창", "마나무네", "끝없는 갈망"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때."
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 주문 피해에 진입 직후 쓰러질 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "stats는 해당 증강 하나와 완성 아이템 세 개를 함께 가진 경기의 조건부 통계입니다. 완성 전에 끝난 경기와 구매 순서는 확인하지 못했습니다. core 전체의 무조건적인 승률로 읽지 마세요. 신발·상황별 아이템은 효과에 따른 후보입니다.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=631013",
+					"https://arammayhem.com/data/v1/latest/items.json",
+					"https://hexmayhem.com/must-play"
+				],
+				"stats": [
+					{
+						"source": "HexMayhem",
+						"patch": "26.21",
+						"sourcePatch": "16.21",
+						"checkedAt": "2026-10-24",
+						"url": "https://hexmayhem.com/must-play",
+						"scope": "augment+item",
+						"augmentId": "takeem-down-down-down",
+						"items": ["쇼진의 창", "마나무네", "끝없는 갈망"],
+						"games": 5200,
+						"gamesApproximate": true,
+						"gamesDisplay": "5.2K",
+						"winRate": 74.36
+					},
+					{
+						"source": "HexMayhem",
+						"patch": "26.21",
+						"sourcePatch": "16.21",
+						"checkedAt": "2026-10-24",
+						"url": "https://hexmayhem.com/must-play",
+						"scope": "augment+item",
+						"augmentId": "the-boom-and-the-bass",
+						"items": ["오만", "끝없는 갈망", "죽음의 무도"],
+						"games": 2600,
+						"gamesApproximate": true,
+						"gamesDisplay": "2.6K",
+						"winRate": 73.79
+					},
+					{
+						"source": "HexMayhem",
+						"patch": "26.21",
+						"sourcePatch": "16.21",
+						"checkedAt": "2026-10-24",
+						"url": "https://hexmayhem.com/must-play",
+						"scope": "augment+item",
+						"augmentId": "infinite-recursion",
+						"items": ["쇼진의 창", "마나무네", "끝없는 갈망"],
+						"games": 3100,
+						"gamesApproximate": true,
+						"gamesDisplay": "3.1K",
+						"winRate": 68.71
+					}
+				]
+			},
+			"playKo": [
+				"초반에는 Q를 적과 미니언에 함께 맞히되 깊이 추격하지 마세요.",
+				"한타는 아군이 따라올 거리에서 시작하고 W로 버틸 시간을 확보하세요.",
+				"E로 적을 아군 쪽으로 밀거나 달려드는 적을 떼어내세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=631013",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "눈덩이가 맞아도 아군이 멀면 바로 따라가지 마세요.",
+			"communityEvidenceIds": ["650355", "631013", "405499"]
+		},
+		{
+			"id": "master-yi",
+			"nameKo": "마스터 이",
+			"nameEn": "Master Yi",
+			"roles": ["암살자", "평타"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "Q 재사용",
+					"augmentIds": ["mystic-punch", "bread-and-butter", "double-tap"],
+					"whyKo": "평타를 칠 때마다 신비한 주먹이 Q의 대기시간을 줄입니다. Q 뒤 평타를 이어 다음 Q를 앞당기고, 위협적인 스킬은 Q로 피하세요.",
+					"rating": "S",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=405499",
+							"note": "과거 커뮤니티의 스킬·증강 활용 방향을 참고했습니다. 현재 수치와 무한 반복 주장을 확인한 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1058",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/2010",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/must-play",
+							"note": "증강 하나+완성 아이템 세 개의 조건부 통계입니다. 아이템 미완성 경기까지 포함한 빌드 승률이나 여러 증강의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "high",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. 3개 중 2개 이상이 기준 승률보다 3%p 이상 높고 해당 챔피언의 DC 설명도 같은 방향입니다. high는 이 교차 근거의 수준이며 동시 조합 실험 결과가 아닙니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1058",
+							"scope": "single-augment",
+							"augmentId": "mystic-punch",
+							"games": 104200,
+							"gamesApproximate": true,
+							"gamesDisplay": "104.2K",
+							"winRate": 61.37,
+							"pickRate": 15.27,
+							"baselineWinRate": 55.72,
+							"liftPp": 5.65
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/2010",
+							"scope": "single-augment",
+							"augmentId": "double-tap",
+							"games": 31600,
+							"gamesApproximate": true,
+							"gamesDisplay": "31.6K",
+							"winRate": 61.3,
+							"pickRate": 4.62,
+							"baselineWinRate": 55.72,
+							"liftPp": 5.58
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/must-play",
+							"scope": "augment+item",
+							"augmentId": "mystic-punch",
+							"items": ["징수의 총", "오만", "끝없는 갈망"],
+							"games": 1700,
+							"gamesApproximate": true,
+							"gamesDisplay": "1.7K",
+							"winRate": 67.66
+						}
+					],
+					"communityPostIds": ["405499"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["mystic-punch"]
+				},
+				{
+					"title": "추가 타격 지속 전투",
+					"augmentIds": ["dual-wield", "symphony-of-war", "double-tap"],
+					"whyKo": "양손잡이로 평타마다 추가 타격이 생깁니다. 몰락한 왕의 검처럼 적중 시 효과가 있는 아이템과 잘 맞고, 아군이 먼저 들어간 뒤 공격하세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1225",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/2010",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1225",
+							"scope": "single-augment",
+							"augmentId": "dual-wield",
+							"games": 56000,
+							"gamesApproximate": true,
+							"gamesDisplay": "56K",
+							"winRate": 60.24,
+							"pickRate": 8.2,
+							"baselineWinRate": 55.72,
+							"liftPp": 4.52
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/2010",
+							"scope": "single-augment",
+							"augmentId": "double-tap",
+							"games": 31600,
+							"gamesApproximate": true,
+							"gamesDisplay": "31.6K",
+							"winRate": 61.3,
+							"pickRate": 4.62,
+							"baselineWinRate": 55.72,
+							"liftPp": 5.58
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["dual-wield"]
+				}
+			],
+			"goodAugmentIds": [
+				"mystic-punch",
+				"bread-and-butter",
+				"double-tap",
+				"dual-wield",
+				"symphony-of-war"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["몰락한 왕의 검", "구인수의 격노검", "죽음의 무도"],
+				"boots": "광전사의 군화",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때."
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 주문 피해에 진입 직후 쓰러질 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "stats는 해당 증강 하나와 완성 아이템 세 개를 함께 가진 경기의 조건부 통계입니다. 완성 전에 끝난 경기와 구매 순서는 확인하지 못했습니다. core 전체의 무조건적인 승률로 읽지 마세요. 신발·상황별 아이템은 효과에 따른 후보입니다. core는 기존의 적중 시 효과 빌드 후보입니다. 통계의 징수의 총·오만 빌드는 신비한 주먹을 고른 경우의 별도 선택지입니다.",
+				"sources": [
+					"https://arammayhem.com/data/v1/latest/items.json",
+					"https://hexmayhem.com/must-play"
+				],
+				"stats": [
+					{
+						"source": "HexMayhem",
+						"patch": "26.21",
+						"sourcePatch": "16.21",
+						"checkedAt": "2026-10-24",
+						"url": "https://hexmayhem.com/must-play",
+						"scope": "augment+item",
+						"augmentId": "mystic-punch",
+						"items": ["징수의 총", "오만", "끝없는 갈망"],
+						"games": 1700,
+						"gamesApproximate": true,
+						"gamesDisplay": "1.7K",
+						"winRate": 67.66
+					}
+				]
+			},
+			"playKo": [
+				"초반에는 체력을 아끼고 적이 쓴 제어 스킬을 보세요.",
+				"한타가 시작된 뒤 체력이 낮은 적이나 가까운 적을 공격하세요.",
+				"Q를 이동용으로 즉시 쓰지 말고 큰 스킬을 피할 때 사용하세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "혼자 먼저 들어가기보다 두 번째로 들어가세요.",
+			"communityEvidenceIds": ["405499"]
+		},
+		{
+			"id": "brand",
+			"nameKo": "브랜드",
+			"nameEn": "Brand",
+			"roles": ["마법사", "지속 딜러"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "불을 끊지 않기",
+					"augmentIds": ["infernal-conduit", "magic-missile"],
+					"whyKo": "스킬로 남긴 화상이 일반 스킬의 대기시간을 줄입니다. W가 돌아오면 화상이 끝나기 전에 다시 맞혀 불을 이어 가세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=644960",
+							"note": "26.18 글(게시일로 패치 추정). 본문 설명 없이 제목과 이미지가 중심입니다. 피해량이나 강함의 등급을 이 글만으로 확정하지 않습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1045",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1045",
+							"scope": "single-augment",
+							"augmentId": "infernal-conduit",
+							"games": 164000,
+							"gamesApproximate": true,
+							"gamesDisplay": "164K",
+							"winRate": 52.67,
+							"pickRate": 19.2,
+							"baselineWinRate": 48.43,
+							"liftPp": 4.24
+						}
+					],
+					"communityPostIds": ["644960"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["infernal-conduit"]
+				},
+				{
+					"title": "불길과 스킬 치명타",
+					"augmentIds": ["infernal-conduit", "jeweled-gauntlet", "its-critical"],
+					"whyKo": "지옥의 전도체로 W를 자주 쓰고, 보석 건틀릿으로 스킬 피해에 치명타가 터집니다. 평타보다 돌아온 W를 우선해 맞히세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=644960",
+							"note": "과거 커뮤니티의 스킬·증강 활용 방향을 참고했습니다. 현재 수치와 무한 반복 주장을 확인한 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1045",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1045",
+							"scope": "single-augment",
+							"augmentId": "infernal-conduit",
+							"games": 164000,
+							"gamesApproximate": true,
+							"gamesDisplay": "164K",
+							"winRate": 52.67,
+							"pickRate": 19.2,
+							"baselineWinRate": 48.43,
+							"liftPp": 4.24
+						}
+					],
+					"communityPostIds": ["644960"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["infernal-conduit", "jeweled-gauntlet"]
+				}
+			],
+			"goodAugmentIds": ["infernal-conduit", "magic-missile", "jeweled-gauntlet", "its-critical"],
+			"avoidAugmentIds": ["escapade"],
+			"avoidNoteKo": "escapade: 주문력을 공격력으로 바꾸므로 이 주문력 빌드와 맞지 않습니다.",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 자신에게 돌진하거나 큰 피해를 집중할 때."
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 많이 갖췄을 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 미니언과 적을 함께 맞히되 Q를 생존용으로 남기세요.",
+				"한타에서는 한 명만 추격하지 말고 불이 여러 적에게 번지게 하세요.",
+				"짧은 사거리를 메우려고 앞라인을 넘어가지 마세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "궁극기는 적이 모였을 때 쓰면 튕길 기회가 늘어납니다.",
+			"communityEvidenceIds": ["644960"]
+		},
+		{
+			"id": "vladimir",
+			"nameKo": "블라디미르",
+			"nameEn": "Vladimir",
+			"roles": ["마법사", "브루저"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "궁극기 없이 일반 스킬",
+					"augmentIds": ["back-to-basics", "purist-caster", "eureka"],
+					"whyKo": "R을 포기하는 대신 일반 스킬이 강해집니다. R에 쓸 스킬 포인트를 Q와 E에 쓰고, 팀의 광역 피해가 부족한 판에는 신중하게 고르세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=611275",
+							"note": "26.15 글(게시일로 패치 추정). 네 증강을 명시한 실전 후기지만 설명이 짧고 이전 패치 자료입니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1030",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1030",
+							"scope": "single-augment",
+							"augmentId": "eureka",
+							"games": 64800,
+							"gamesApproximate": true,
+							"gamesDisplay": "64.8K",
+							"winRate": 52.02,
+							"pickRate": 13.43,
+							"baselineWinRate": 47.57,
+							"liftPp": 4.45
+						}
+					],
+					"communityPostIds": ["611275"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["back-to-basics"]
+				},
+				{
+					"title": "회복을 공격으로",
+					"augmentIds": ["circle-of-death", "goliath"],
+					"whyKo": "회복량의 일부가 주변 적에게 피해로 들어갑니다. 적 챔피언 곁에서 강화 Q로 회복하고, 들어갈 때 W를 남겨 두세요.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=405499",
+							"note": "과거 커뮤니티의 스킬·증강 활용 방향을 참고했습니다. 현재 수치와 무한 반복 주장을 확인한 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1041",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1041",
+							"scope": "single-augment",
+							"augmentId": "goliath",
+							"games": 35900,
+							"gamesApproximate": true,
+							"gamesDisplay": "35.9K",
+							"winRate": 50.22,
+							"pickRate": 7.45,
+							"baselineWinRate": 47.57,
+							"liftPp": 2.65
+						}
+					],
+					"communityPostIds": ["405499"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["circle-of-death"]
+				}
+			],
+			"goodAugmentIds": ["back-to-basics", "purist-caster", "eureka", "circle-of-death", "goliath"],
+			"avoidAugmentIds": ["overflow"],
+			"avoidNoteKo": "overflow: 마나를 쓰지 않는 챔피언이라 효과가 없습니다.",
+			"items": {
+				"core": ["우주의 추진력", "라바돈의 죽음모자", "정령의 형상"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 자신에게 돌진하거나 큰 피해를 집중할 때."
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 많이 갖췄을 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 강화 Q를 맞힐 기회만 노리고 체력을 보존하세요.",
+				"한타에서는 E를 준비해 들어가되 W로 빠질 마나 대신 체력 비용도 고려하세요.",
+				"회복 감소 효과를 받으면 평소보다 일찍 물러나세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "W는 추격보다 적의 핵심 스킬을 피하는 데 먼저 쓰세요.",
+			"communityEvidenceIds": ["611275", "405499"]
+		},
+		{
+			"id": "sona",
+			"nameKo": "소나",
+			"nameEn": "Sona",
+			"roles": ["서포터", "회복"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "회복을 반복해 나비 충전",
+					"augmentIds": ["enchanting-butterflies", "infinite-recursion", "windspeakers-blessing"],
+					"whyKo": "W로 아군을 회복할 때마다 나비가 모입니다. W를 여러 아군에게 묻히고, 나비가 충분히 모이면 Q로 적 챔피언을 맞히세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401",
+							"note": "26.21 글(현재 패치). 신규 증강과 아이템을 직접 다룬 경험담입니다. 특정 챔피언별 두 증강 조합의 실험이나 통계는 없습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1095",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1388",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3163",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. DC 글은 증강의 일반 활용법이며 이 챔피언에 연결한 부분은 작성자 해석입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1095",
+							"scope": "single-augment",
+							"augmentId": "windspeakers-blessing",
+							"games": 13500,
+							"gamesApproximate": true,
+							"gamesDisplay": "13.5K",
+							"winRate": 61.11,
+							"pickRate": 6.03,
+							"baselineWinRate": 53.21,
+							"liftPp": 7.9
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1388",
+							"scope": "single-augment",
+							"augmentId": "infinite-recursion",
+							"games": 11300,
+							"gamesApproximate": true,
+							"gamesDisplay": "11.3K",
+							"winRate": 58.32,
+							"pickRate": 5.03,
+							"baselineWinRate": 53.21,
+							"liftPp": 5.11
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3163",
+							"scope": "single-augment",
+							"augmentId": "enchanting-butterflies",
+							"games": 45000,
+							"gamesApproximate": true,
+							"gamesDisplay": "45K",
+							"winRate": 57.06,
+							"pickRate": 20.02,
+							"baselineWinRate": 53.21,
+							"liftPp": 3.85
+						}
+					],
+					"communityPostIds": ["671401"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["enchanting-butterflies"]
+				},
+				{
+					"title": "보호막에 방어 능력치",
+					"augmentIds": ["windspeakers-blessing", "recursion"],
+					"whyKo": "W를 받은 아군이 잠시 방어 능력치를 얻습니다. 아군이 피해를 받기 전에 W를 미리 주고, 본인은 앞라인보다 뒤에 서세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1068",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1095",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1068",
+							"scope": "single-augment",
+							"augmentId": "recursion",
+							"games": 20100,
+							"gamesApproximate": true,
+							"gamesDisplay": "20.1K",
+							"winRate": 53.82,
+							"pickRate": 8.92,
+							"baselineWinRate": 53.21,
+							"liftPp": 0.61
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1095",
+							"scope": "single-augment",
+							"augmentId": "windspeakers-blessing",
+							"games": 13500,
+							"gamesApproximate": true,
+							"gamesDisplay": "13.5K",
+							"winRate": 61.11,
+							"pickRate": 6.03,
+							"baselineWinRate": 53.21,
+							"liftPp": 7.9
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["windspeakers-blessing"]
+				}
+			],
+			"goodAugmentIds": [
+				"enchanting-butterflies",
+				"infinite-recursion",
+				"windspeakers-blessing",
+				"recursion"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["악곡의 왕관", "새벽심장", "꽃피는 새벽의 검"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "미카엘의 축복",
+						"whenKo": "핵심 아군이 해제 가능한 군중 제어 효과에 자주 잡힐 때."
+					},
+					{
+						"item": "강철의 솔라리 펜던트",
+						"whenKo": "적의 광역 피해가 한꺼번에 들어올 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "황홀한 나비를 고른 경우 악곡의 왕관·새벽심장을 우선 검토하는 DC 상세 공략을 반영했습니다. 챔피언별 최적 빌드 통계는 아니며 나머지 아이템과 신발은 상황에 따른 후보입니다.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 마나를 모두 쓰지 말고 아군이 실제로 맞을 때 W를 쓰세요.",
+				"한타에서는 여러 아군이 오라에 닿을 위치를 잡으세요.",
+				"나비를 쏘려고 적에게 붙지 말고 안전한 공격 기회를 기다리세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "아군을 살리는 위치를 유지해야 증강도 계속 발동합니다.",
+			"communityEvidenceIds": ["671401"]
+		},
+		{
+			"id": "soraka",
+			"nameKo": "소라카",
+			"nameEn": "Soraka",
+			"roles": ["서포터", "회복"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "회복과 아군 방어",
+					"augmentIds": ["enchanting-butterflies", "windspeakers-blessing"],
+					"whyKo": "W로 회복한 아군이 방어 능력치도 얻습니다. 교전 중인 아군에게 W를 주고, 앞으로 나가기보다 Q를 안전하게 맞힐 기회를 기다리세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401",
+							"note": "26.21 글(현재 패치). 신규 증강과 아이템을 직접 다룬 경험담입니다. 특정 챔피언별 두 증강 조합의 실험이나 통계는 없습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1095",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3163",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. DC 글은 증강의 일반 활용법이며 이 챔피언에 연결한 부분은 작성자 해석입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1095",
+							"scope": "single-augment",
+							"augmentId": "windspeakers-blessing",
+							"games": 16500,
+							"gamesApproximate": true,
+							"gamesDisplay": "16.5K",
+							"winRate": 57.21,
+							"pickRate": 6.86,
+							"baselineWinRate": 49.75,
+							"liftPp": 7.46
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3163",
+							"scope": "single-augment",
+							"augmentId": "enchanting-butterflies",
+							"games": 38400,
+							"gamesApproximate": true,
+							"gamesDisplay": "38.4K",
+							"winRate": 51.44,
+							"pickRate": 16,
+							"baselineWinRate": 49.75,
+							"liftPp": 1.69
+						}
+					],
+					"communityPostIds": ["671401"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["windspeakers-blessing"]
+				},
+				{
+					"title": "치유의 효율 높이기",
+					"augmentIds": ["critical-healing", "all-for-you", "windspeakers-blessing"],
+					"whyKo": "회복과 보호막에도 치명타가 터집니다. W와 R은 아군이 피해를 받을 때 쓰세요. 회복 감소 상태에서는 효과가 줄어듭니다.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1095",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1095",
+							"scope": "single-augment",
+							"augmentId": "windspeakers-blessing",
+							"games": 16500,
+							"gamesApproximate": true,
+							"gamesDisplay": "16.5K",
+							"winRate": 57.21,
+							"pickRate": 6.86,
+							"baselineWinRate": 49.75,
+							"liftPp": 7.46
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["critical-healing"]
+				}
+			],
+			"goodAugmentIds": [
+				"enchanting-butterflies",
+				"windspeakers-blessing",
+				"critical-healing",
+				"all-for-you"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["악곡의 왕관", "새벽심장", "꽃피는 새벽의 검"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "미카엘의 축복",
+						"whenKo": "핵심 아군이 해제 가능한 군중 제어 효과에 자주 잡힐 때."
+					},
+					{
+						"item": "강철의 솔라리 펜던트",
+						"whenKo": "적의 광역 피해가 한꺼번에 들어올 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "황홀한 나비를 고른 경우 악곡의 왕관·새벽심장을 우선 검토하는 DC 상세 공략을 반영했습니다. 챔피언별 최적 빌드 통계는 아니며 나머지 아이템과 신발은 상황에 따른 후보입니다.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 Q를 안전하게 맞혀 자신의 체력을 관리하세요.",
+				"한타에서는 딜러 뒤에서 W를 쓰고 적 진입 경로에 E를 남기세요.",
+				"R은 아군 한 명이 쓰러진 뒤가 아니라 위험해지기 전에 판단하세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "치유를 하려고 위험한 아군까지 따라 들어가지 마세요.",
+			"communityEvidenceIds": ["671401"]
+		},
+		{
+			"id": "rammus",
+			"nameKo": "람머스",
+			"nameEn": "Rammus",
+			"roles": ["탱커", "보호"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "방어 태세와 장갑 충격",
+					"augmentIds": ["armored-impact"],
+					"whyKo": "W로 방어력을 올린 뒤 평타를 치면 장갑 충격의 방어력 비례 피해가 붙습니다.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+							"note": "26.21 글(현재 패치). 이틀간 사용했다고 밝힌 실전 설명입니다. 챔피언별 완성 조합이나 계수를 독립적으로 재현하지는 못했습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3049",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. DC 글은 증강의 일반 활용법이며 이 챔피언에 연결한 부분은 작성자 해석입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3049",
+							"scope": "single-augment",
+							"augmentId": "armored-impact",
+							"games": 63200,
+							"gamesApproximate": true,
+							"gamesDisplay": "63.2K",
+							"winRate": 52.19,
+							"pickRate": 25.41,
+							"baselineWinRate": 46.41,
+							"liftPp": 5.78
+						}
+					],
+					"communityPostIds": ["670147"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["armored-impact"]
+				},
+				{
+					"title": "도발 뒤 보호막",
+					"augmentIds": ["courage-of-the-colossus"],
+					"whyKo": "Q로 부딪히거나 E로 도발하면 거석상의 용기 보호막을 얻습니다. 보호막으로 버티는 동안 아군이 공격할 시간을 만들어 주세요.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1018",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1018",
+							"scope": "single-augment",
+							"augmentId": "courage-of-the-colossus",
+							"games": 14900,
+							"gamesApproximate": true,
+							"gamesDisplay": "14.9K",
+							"winRate": 47.17,
+							"pickRate": 6,
+							"baselineWinRate": 46.41,
+							"liftPp": 0.76
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["courage-of-the-colossus"]
+				}
+			],
+			"goodAugmentIds": ["armored-impact", "heavy-hitter", "courage-of-the-colossus", "recursion"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["가시 갑옷", "해신 작쇼", "란두인의 예언"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적 주문 피해가 강해 방어력만으로 버티기 어려울 때."
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적 치명타 기본 공격이 큰 위협일 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "장갑 충격을 고른 경우 방어력 아이템을 완성하는 DC 공략에 근거합니다. 챔피언별 빌드 전체를 검증한 통계는 없으며 적의 마법 피해와 아군 보호 필요에 따라 바꾸세요.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 적의 주요 물리 딜러와 아군 딜러 사이를 지키세요.",
+				"Q로 진입할 때 미니언에 먼저 부딪히지 않게 보세요.",
+				"도발 뒤 W를 켜고 평타를 섞으세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "가장 가까운 탱커보다 아군을 위협하는 적을 도발하세요.",
+			"communityEvidenceIds": ["670147"]
+		},
+		{
+			"id": "taric",
+			"nameKo": "타릭",
+			"nameEn": "Taric",
+			"roles": ["서포터", "탱커"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "장갑 충격 강화 평타",
+					"augmentIds": ["armored-impact", "infinite-recursion"],
+					"whyKo": "스킬 뒤 평타에 장갑 충격의 방어력 비례 피해가 붙습니다. W로 방어력을 높이고 스킬을 쓸 때마다 바로 평타를 이어 넣으세요. 방어력 아이템을 쌓을수록 피해가 커집니다.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+							"note": "26.21 글(현재 패치). 이틀간 사용했다고 밝힌 실전 설명입니다. 챔피언별 완성 조합이나 계수를 독립적으로 재현하지는 못했습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1095",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1388",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3049",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. DC 글은 증강의 일반 활용법이며 이 챔피언에 연결한 부분은 작성자 해석입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1095",
+							"scope": "single-augment",
+							"augmentId": "windspeakers-blessing",
+							"games": 3400,
+							"gamesApproximate": true,
+							"gamesDisplay": "3.4K",
+							"winRate": 56.6,
+							"pickRate": 4.58,
+							"baselineWinRate": 51.43,
+							"liftPp": 5.17
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1388",
+							"scope": "single-augment",
+							"augmentId": "infinite-recursion",
+							"games": 1600,
+							"gamesApproximate": true,
+							"gamesDisplay": "1.6K",
+							"winRate": 57.95,
+							"pickRate": 2.21,
+							"baselineWinRate": 51.43,
+							"liftPp": 6.52
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3049",
+							"scope": "single-augment",
+							"augmentId": "armored-impact",
+							"games": 9900,
+							"gamesApproximate": true,
+							"gamesDisplay": "9.9K",
+							"winRate": 57.55,
+							"pickRate": 13.2,
+							"baselineWinRate": 51.43,
+							"liftPp": 6.12
+						}
+					],
+					"communityPostIds": ["670147"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["armored-impact"]
+				},
+				{
+					"title": "버티며 아군 보호",
+					"augmentIds": ["protein-shake", "first-aid-kit", "windspeakers-blessing"],
+					"whyKo": "방어력과 마법 저항력이 높을수록 회복과 보호막이 강해집니다. 방어 아이템을 갖추고 Q로 주는 회복을 교전 중에 나눠 쓰세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1037",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1095",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1037",
+							"scope": "single-augment",
+							"augmentId": "first-aid-kit",
+							"games": 6900,
+							"gamesApproximate": true,
+							"gamesDisplay": "6.9K",
+							"winRate": 51.45,
+							"pickRate": 9.19,
+							"baselineWinRate": 51.43,
+							"liftPp": 0.02
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1095",
+							"scope": "single-augment",
+							"augmentId": "windspeakers-blessing",
+							"games": 3400,
+							"gamesApproximate": true,
+							"gamesDisplay": "3.4K",
+							"winRate": 56.6,
+							"pickRate": 4.58,
+							"baselineWinRate": 51.43,
+							"liftPp": 5.17
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["protein-shake"]
+				}
+			],
+			"goodAugmentIds": [
+				"armored-impact",
+				"infinite-recursion",
+				"windspeakers-blessing",
+				"protein-shake",
+				"first-aid-kit"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["얼어붙은 심장", "해신 작쇼", "정령의 형상"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적 주문 피해가 강해 방어력만으로 버티기 어려울 때."
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적 치명타 기본 공격이 큰 위협일 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "장갑 충격을 고른 경우 방어력 아이템을 완성하는 DC 공략에 근거합니다. 챔피언별 빌드 전체를 검증한 통계는 없으며 적의 마법 피해와 아군 보호 필요에 따라 바꾸세요.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 평타를 칠 수 있을 때만 앞으로 나가세요.",
+				"한타에서는 스킬과 강화 평타를 번갈아 쓰세요.",
+				"R은 즉시 무적이 아니므로 아군이 쓰러지기 전에 사용하세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "궁극기 시전 뒤 무적이 시작되기까지 시간을 남겨 두세요.",
+			"communityEvidenceIds": ["670147"]
+		},
+		{
+			"id": "ryze",
+			"nameKo": "라이즈",
+			"nameEn": "Ryze",
+			"roles": ["마법사", "지속 딜러"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "마나를 체력과 주문력으로",
+					"augmentIds": ["mind-to-matter", "adapt"],
+					"requiredAugmentIds": ["mind-to-matter", "adapt"],
+					"whyKo": "정신 변환이 마나를 체력으로 바꾸고, 지배자의 피갑옷이 체력을 공격력으로 바꿉니다. 적응형 능력치가 그 공격력을 다시 주문력으로 바꿔 줍니다.",
+					"rating": "S",
+					"evidenceLevel": "user",
+					"evidence": [],
+					"communityPostIds": []
+				},
+				{
+					"title": "E 과충전으로 Q·E 무한 반복",
+					"augmentIds": ["overloaded"],
+					"requiredAugmentIds": ["overloaded"],
+					"whyKo": "과충전의 지정 스킬이 E일 때 고르세요. Q를 쓰면 E가 초기화되고, E는 Q를 초기화해 QEQEQEQ를 끝없이 이어 쓸 수 있습니다.",
+					"rating": "S",
+					"evidenceLevel": "user",
+					"evidence": [],
+					"communityPostIds": []
+				}
+			],
+			"goodAugmentIds": ["overflow", "archmage", "eureka"],
+			"avoidAugmentIds": ["escapade"],
+			"avoidNoteKo": "escapade: 주문력을 공격력으로 바꾸므로 이 주문력 빌드와 맞지 않습니다.",
+			"items": {
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "라바돈의 죽음모자"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 자신에게 돌진하거나 큰 피해를 집중할 때."
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 많이 갖췄을 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 E가 붙은 적에게 Q를 맞히고 마나를 관리하세요.",
+				"한타에서는 아군 탱커 뒤에서 가까운 적부터 공격하세요.",
+				"R은 뒤로 빠지거나 아군과 이동하는 도구로 활용하세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "범람을 골랐다면 마나 소모가 늘어나는 점부터 기억하세요.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "veigar",
+			"nameKo": "베이가",
+			"nameEn": "Veigar",
+			"roles": ["마법사", "성장"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "주문력 중첩",
+					"augmentIds": ["stackosaurusrex", "phenomenal-evil", "eureka"],
+					"whyKo": "다단 중첩으로 영구 중첩이 더 많이 쌓입니다. 미니언 막타와 챔피언 처치 관여를 Q로 챙기세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1030",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1204",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1030",
+							"scope": "single-augment",
+							"augmentId": "eureka",
+							"games": 76900,
+							"gamesApproximate": true,
+							"gamesDisplay": "76.9K",
+							"winRate": 53.23,
+							"pickRate": 16.55,
+							"baselineWinRate": 49.25,
+							"liftPp": 3.98
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1204",
+							"scope": "single-augment",
+							"augmentId": "stackosaurusrex",
+							"games": 46600,
+							"gamesApproximate": true,
+							"gamesDisplay": "46.6K",
+							"winRate": 52.66,
+							"pickRate": 10.02,
+							"baselineWinRate": 49.25,
+							"liftPp": 3.41
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["stackosaurusrex"]
+				},
+				{
+					"title": "가속으로 공간 장악",
+					"augmentIds": ["eureka", "infinite-recursion"],
+					"whyKo": "주문력이 오를수록 스킬 가속도 오릅니다. 라바돈의 죽음모자를 앞당겨 E를 자주 쓰세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1030",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1030",
+							"scope": "single-augment",
+							"augmentId": "eureka",
+							"games": 76900,
+							"gamesApproximate": true,
+							"gamesDisplay": "76.9K",
+							"winRate": 53.23,
+							"pickRate": 16.55,
+							"baselineWinRate": 49.25,
+							"liftPp": 3.98
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["eureka"]
+				}
+			],
+			"goodAugmentIds": ["stackosaurusrex", "phenomenal-evil", "eureka", "infinite-recursion"],
+			"avoidAugmentIds": ["escapade"],
+			"avoidNoteKo": "escapade: 주문력을 공격력으로 바꾸므로 이 주문력 빌드와 맞지 않습니다.",
+			"items": {
+				"core": ["루덴의 메아리", "라바돈의 죽음모자", "공허의 지팡이"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 자신에게 돌진하거나 큰 피해를 집중할 때."
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 많이 갖췄을 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 Q로 미니언과 챔피언을 안전하게 맞히세요.",
+				"적이 돌진하면 자신과 아군 앞에 E를 놓으세요.",
+				"E가 없을 때는 한 발 더 뒤에 서세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "기절은 E 안쪽 전체가 아니라 벽에 닿을 때 걸립니다.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "vayne",
+			"nameKo": "베인",
+			"nameEn": "Vayne",
+			"roles": ["원거리 딜러", "대형 적 처리"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "여러 번 적중시키기",
+					"augmentIds": ["dual-wield", "double-tap", "deft"],
+					"whyKo": "평타마다 추가 타격이 생깁니다. 몰락한 왕의 검처럼 적중 시 효과가 있는 아이템으로 추가 타격의 피해를 키우세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1022",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1225",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/2010",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1022",
+							"scope": "single-augment",
+							"augmentId": "deft",
+							"games": 77500,
+							"gamesApproximate": true,
+							"gamesDisplay": "77.5K",
+							"winRate": 50.84,
+							"pickRate": 11.51,
+							"baselineWinRate": 50.1,
+							"liftPp": 0.74
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1225",
+							"scope": "single-augment",
+							"augmentId": "dual-wield",
+							"games": 121600,
+							"gamesApproximate": true,
+							"gamesDisplay": "121.6K",
+							"winRate": 56.85,
+							"pickRate": 18.07,
+							"baselineWinRate": 50.1,
+							"liftPp": 6.75
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/2010",
+							"scope": "single-augment",
+							"augmentId": "double-tap",
+							"games": 79900,
+							"gamesApproximate": true,
+							"gamesDisplay": "79.9K",
+							"winRate": 52.77,
+							"pickRate": 11.87,
+							"baselineWinRate": 50.1,
+							"liftPp": 2.67
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["dual-wield"]
+				},
+				{
+					"title": "사거리와 이동",
+					"augmentIds": ["scopier-weapons", "tap-dancer"],
+					"whyKo": "평타 사거리가 늘어납니다. 평소보다 먼 거리에서 평타를 시작하고, 앞에 온 적을 안전하게 계속 치세요.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1071",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1071",
+							"scope": "single-augment",
+							"augmentId": "scopier-weapons",
+							"games": 103400,
+							"gamesApproximate": true,
+							"gamesDisplay": "103.4K",
+							"winRate": 51.34,
+							"pickRate": 15.36,
+							"baselineWinRate": 50.1,
+							"liftPp": 1.24
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["scopier-weapons"]
+				}
+			],
+			"goodAugmentIds": ["dual-wield", "double-tap", "deft", "scopier-weapons", "tap-dancer"],
+			"avoidAugmentIds": ["draw-your-sword"],
+			"avoidNoteKo": "draw-your-sword: 사거리를 잃는 대가가 커서 초보자용 원거리 운영과 맞지 않습니다.",
+			"items": {
+				"core": ["몰락한 왕의 검", "구인수의 격노검", "경계"],
+				"boots": "광전사의 군화",
+				"situational": [
+					{
+						"item": "필멸자의 운명",
+						"whenKo": "적의 체력 회복을 줄이는 역할이 필요할 때."
+					},
+					{
+						"item": "헤르메스의 시미터",
+						"whenKo": "해제 가능한 제어 효과 때문에 계속 공격하지 못할 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 사거리가 짧다는 점을 의식하고 미니언 뒤에서 움직이세요.",
+				"한타는 가장 가까운 적부터 치고 Q로 옆으로 피하세요.",
+				"E를 피해용으로 낭비하지 말고 적 돌진을 끊으세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "구르기로 적에게 가까워지는 것보다 스킬을 피하는 것이 먼저입니다.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "jax",
+			"nameKo": "잭스",
+			"nameEn": "Jax",
+			"roles": ["브루저", "평타"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "방어력 기반 지속 전투",
+					"augmentIds": ["armored-impact", "heavy-hitter", "infinite-recursion"],
+					"whyKo": "스킬 뒤 평타에 장갑 충격의 방어력 비례 피해가 붙습니다. R로 방어력을 높인 다음 W를 켠 평타로 장갑 충격을 넣으세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3049",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3049",
+							"scope": "single-augment",
+							"augmentId": "armored-impact",
+							"games": 20400,
+							"gamesApproximate": true,
+							"gamesDisplay": "20.4K",
+							"winRate": 60.98,
+							"pickRate": 5.23,
+							"baselineWinRate": 53.69,
+							"liftPp": 7.29
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["armored-impact"]
+				}
+			],
+			"goodAugmentIds": [
+				"upgrade-sheen",
+				"mystic-punch",
+				"the-boom-and-the-bass",
+				"armored-impact",
+				"heavy-hitter",
+				"infinite-recursion"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["삼위일체", "몰락한 왕의 검", "스테락의 도전"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때."
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 주문 피해에 진입 직후 쓰러질 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=631013",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 E가 없을 때 적 평타를 오래 맞지 마세요.",
+				"한타는 아군이 도와줄 거리에서 Q로 시작하세요.",
+				"E로 여러 명을 기절시키려다 너무 깊게 들어가지 마세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=631013",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "Q로 들어간 뒤 돌아올 대상이나 점멸을 먼저 확인하세요.",
+			"communityEvidenceIds": ["631013"]
+		},
+		{
+			"id": "trundle",
+			"nameKo": "트런들",
+			"nameEn": "Trundle",
+			"roles": ["브루저", "방해"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "기둥 반복",
+					"augmentIds": ["terraind", "archmage", "infinite-recursion"],
+					"whyKo": "지형 생성됨으로 E 주위에 피해가 더해집니다. 대마법사가 있으면 E와 W를 번갈아 써서 기둥을 끝없이 세울 수 있습니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "user",
+					"requiredAugmentIds": ["terraind", "archmage"]
+				},
+				{
+					"title": "방어력과 체력을 평타로",
+					"augmentIds": ["mystic-punch", "armored-impact", "heavy-hitter"],
+					"whyKo": "스킬 뒤 평타에 장갑 충격의 방어력 비례 피해가 붙습니다. R로 방어력을 훔친 뒤 Q를 켠 평타로 장갑 충격을 넣으세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1058",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1181",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3049",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1058",
+							"scope": "single-augment",
+							"augmentId": "mystic-punch",
+							"games": 39100,
+							"gamesApproximate": true,
+							"gamesDisplay": "39.1K",
+							"winRate": 53.75,
+							"pickRate": 6.62,
+							"baselineWinRate": 51.16,
+							"liftPp": 2.59
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1181",
+							"scope": "single-augment",
+							"augmentId": "heavy-hitter",
+							"games": 25400,
+							"gamesApproximate": true,
+							"gamesDisplay": "25.4K",
+							"winRate": 54.66,
+							"pickRate": 4.3,
+							"baselineWinRate": 51.16,
+							"liftPp": 3.5
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3049",
+							"scope": "single-augment",
+							"augmentId": "armored-impact",
+							"games": 34700,
+							"gamesApproximate": true,
+							"gamesDisplay": "34.7K",
+							"winRate": 57.93,
+							"pickRate": 5.87,
+							"baselineWinRate": 51.16,
+							"liftPp": 6.77
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["armored-impact"]
+				}
+			],
+			"goodAugmentIds": [
+				"terraind",
+				"infinite-recursion",
+				"archmage",
+				"mystic-punch",
+				"armored-impact",
+				"heavy-hitter"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["삼위일체", "몰락한 왕의 검", "정령의 형상"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때."
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 주문 피해에 진입 직후 쓰러질 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 아군이 맞힐 수 있는 위치에 E를 놓으세요.",
+				"적 탱커가 들어오면 R로 능력치를 빼앗고 앞라인부터 치세요.",
+				"기둥을 아군 퇴로에 놓지 않도록 위치를 먼저 확인하세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=661682",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "기둥은 적을 가두는 데도 아군을 살리는 데도 쓰입니다.",
+			"communityEvidenceIds": ["661682"]
+		},
+		{
+			"id": "vi",
+			"nameKo": "바이",
+			"nameEn": "Vi",
+			"roles": ["브루저", "돌진"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "검무 연계",
+					"augmentIds": ["blade-waltz", "thread-the-needle"],
+					"whyKo": "R로 대상에게 도착한 뒤 검무를 이어 쓰면 주변 적을 연달아 공격할 수 있습니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=641382",
+							"note": "26.18 글(게시일로 패치 추정). 구체적인 조작 방법이 있는 짧은 실전 제보입니다. 현재 패치의 중첩 피해 계산은 재현하지 않았습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": ["641382"],
+					"evidenceLevel": "community",
+					"requiredAugmentIds": ["blade-waltz"]
+				},
+				{
+					"title": "스킬과 강화 평타 연계",
+					"augmentIds": ["the-boom-and-the-bass", "ethereal-weapon", "goliath"],
+					"whyKo": "스킬을 쓸 때마다 다음 평타에 붐 앤 베이스의 추가 피해가 붙습니다. Q로 접근한 뒤 곧바로 평타를 넣고, E와 평타를 섞으세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1029",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1041",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3078",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1029",
+							"scope": "single-augment",
+							"augmentId": "ethereal-weapon",
+							"games": 11600,
+							"gamesApproximate": true,
+							"gamesDisplay": "11.6K",
+							"winRate": 51.96,
+							"pickRate": 5.87,
+							"baselineWinRate": 48.03,
+							"liftPp": 3.93
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1041",
+							"scope": "single-augment",
+							"augmentId": "goliath",
+							"games": 11000,
+							"gamesApproximate": true,
+							"gamesDisplay": "11K",
+							"winRate": 53.08,
+							"pickRate": 5.55,
+							"baselineWinRate": 48.03,
+							"liftPp": 5.05
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3078",
+							"scope": "single-augment",
+							"augmentId": "the-boom-and-the-bass",
+							"games": 13400,
+							"gamesApproximate": true,
+							"gamesDisplay": "13.4K",
+							"winRate": 56.05,
+							"pickRate": 6.77,
+							"baselineWinRate": 48.03,
+							"liftPp": 8.02
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["the-boom-and-the-bass"]
+				},
+				{
+					"title": "벌집으로 돌진 돕기",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"rating": "A",
+					"evidenceLevel": "stats",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/vi",
+							"note": "26.21(사이트 16.21) 바이 벌이다!!! 54.26%, 선택률 4.77%, +6.2%p. 디시 언급 없음. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "E·R을 쓸 때 날아간 벌집이 적을 느리게 만듭니다. 느려진 적에게는 끝까지 충전한 Q를 맞히기 쉽습니다."
+				}
+			],
+			"goodAugmentIds": [
+				"blade-waltz",
+				"thread-the-needle",
+				"the-boom-and-the-bass",
+				"ethereal-weapon",
+				"goliath"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["월식", "칠흑의 양날 도끼", "죽음의 무도"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때."
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 주문 피해에 진입 직후 쓰러질 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=631013",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 Q를 끝까지 충전할 여유가 있는지 먼저 보세요.",
+				"한타에서는 아군이 때릴 수 있는 적에게 R을 쓰세요.",
+				"진입 뒤 적의 뒤로 계속 달리지 말고 앞라인과 함께 싸우세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=641382",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=631013",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "궁극기를 쓸 수 있다는 이유만으로 깊은 적에게 들어가지 마세요.",
+			"communityEvidenceIds": ["641382", "631013"]
+		},
+		{
+			"id": "sett",
+			"nameKo": "세트",
+			"nameEn": "Sett",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "체력을 피해로 바꾸기",
+					"augmentIds": ["goliath", "heavy-hitter", "deft"],
+					"whyKo": "평타에 최대 체력 비례 피해가 붙습니다. 체력 아이템을 먼저 갖추고, W만 기다리지 말고 평타를 섞으세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1022",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1041",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1181",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1022",
+							"scope": "single-augment",
+							"augmentId": "deft",
+							"games": 8400,
+							"gamesApproximate": true,
+							"gamesDisplay": "8.4K",
+							"winRate": 52.78,
+							"pickRate": 1.18,
+							"baselineWinRate": 51.58,
+							"liftPp": 1.2
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1041",
+							"scope": "single-augment",
+							"augmentId": "goliath",
+							"games": 101000,
+							"gamesApproximate": true,
+							"gamesDisplay": "101K",
+							"winRate": 58.31,
+							"pickRate": 14.17,
+							"baselineWinRate": 51.58,
+							"liftPp": 6.73
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1181",
+							"scope": "single-augment",
+							"augmentId": "heavy-hitter",
+							"games": 101200,
+							"gamesApproximate": true,
+							"gamesDisplay": "101.2K",
+							"winRate": 54.17,
+							"pickRate": 14.19,
+							"baselineWinRate": 51.58,
+							"liftPp": 2.59
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["heavy-hitter"]
+				},
+				{
+					"title": "전투가 이어질수록 성장",
+					"augmentIds": ["tank-engine", "quest-steel-your-heart"],
+					"whyKo": "강철심장과 처치 관여로 체력을 쌓는 조합입니다. 붙기 어려운 원거리 조합을 상대로는 쌓는 데 오래 걸립니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				},
+				{
+					"title": "장갑 충격 강화 평타",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "Q로 강화한 평타에 장갑 충격의 방어력 비례 피해가 더해집니다. 방어력 빌드로 버티면서 피해도 넣을 수 있습니다.",
+					"rating": "A",
+					"evidenceLevel": "user",
+					"evidence": [],
+					"communityPostIds": []
+				}
+			],
+			"goodAugmentIds": [
+				"goliath",
+				"heavy-hitter",
+				"deft",
+				"tank-engine",
+				"quest-steel-your-heart"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "지배자의 피갑옷", "스테락의 도전"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적 주문 피해가 강해 방어력만으로 버티기 어려울 때."
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적 치명타 기본 공격이 큰 위협일 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 무리한 맞교환보다 아군과 함께 들어갈 기회를 찾으세요.",
+				"E의 가장자리로 적을 끌어오되 아군이 호응할 거리를 유지하세요.",
+				"큰 피해를 받은 뒤 W 중심선을 맞히고 보호막이 사라지기 전에 빠지세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=632893",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "W를 쓰기 전에 적의 이동기를 확인하면 중심선을 맞히기 쉽습니다.",
+			"communityEvidenceIds": ["632893"]
+		},
+		{
+			"id": "smolder",
+			"nameKo": "스몰더",
+			"nameEn": "Smolder",
+			"roles": ["원거리 딜러", "성장"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "중첩과 Q 사용 빈도",
+					"augmentIds": ["stackosaurusrex", "bread-and-butter"],
+					"whyKo": "Q로 쌓는 중첩이 더 빨리 늘어납니다. Q를 막타용으로만 아끼지 말고 챔피언에게도 써 중첩을 모으세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1204",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1204",
+							"scope": "single-augment",
+							"augmentId": "stackosaurusrex",
+							"games": 73000,
+							"gamesApproximate": true,
+							"gamesDisplay": "73K",
+							"winRate": 53.19,
+							"pickRate": 8.86,
+							"baselineWinRate": 48.51,
+							"liftPp": 4.68
+						}
+					],
+					"communityPostIds": [],
+					"evidenceLevel": "stats",
+					"requiredAugmentIds": ["stackosaurusrex"]
+				},
+				{
+					"title": "지속 피해와 생존",
+					"augmentIds": ["vulnerability", "goredrink"],
+					"whyKo": "후반 지속 피해에 치명타와 흡혈을 더하는 조합입니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": ["stackosaurusrex", "bread-and-butter", "vulnerability", "goredrink"],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["정수 약탈자", "쇼진의 창", "무한의 대검"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "필멸자의 운명",
+						"whenKo": "적의 체력 회복을 줄이는 역할이 필요할 때."
+					},
+					{
+						"item": "헤르메스의 시미터",
+						"whenKo": "해제 가능한 제어 효과 때문에 계속 공격하지 못할 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=650031",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 Q로 안전하게 중첩을 모으고 아군과 미니언을 나눠 먹으세요.",
+				"한타에서는 가까운 적에게 Q를 쓰며 뒤로 이동하세요.",
+				"E를 견제에 소모하지 말고 벽과 적 진입을 피해 생존하는 데 남기세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "중첩을 위해 죽으면 다음 성장 기회도 잃습니다.",
+			"communityEvidenceIds": ["650031"]
+		},
+		{
+			"id": "lulu",
+			"nameKo": "룰루",
+			"nameEn": "Lulu",
+			"roles": ["서포터", "보호막"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "보호막과 나비",
+					"augmentIds": ["enchanting-butterflies", "windspeakers-blessing", "recursion"],
+					"whyKo": "E로 보호막을 줄 때마다 나비가 모입니다. E는 적 공격보다 아군 보호에 쓰고, 나비가 모이면 Q를 맞혀 추가 피해를 넣으세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401",
+							"note": "26.21 글(현재 패치). 신규 증강과 아이템을 직접 다룬 경험담입니다. 특정 챔피언별 두 증강 조합의 실험이나 통계는 없습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1068",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1095",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3163",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. DC 글은 증강의 일반 활용법이며 이 챔피언에 연결한 부분은 작성자 해석입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1068",
+							"scope": "single-augment",
+							"augmentId": "recursion",
+							"games": 9800,
+							"gamesApproximate": true,
+							"gamesDisplay": "9.8K",
+							"winRate": 49.18,
+							"pickRate": 10.19,
+							"baselineWinRate": 48.26,
+							"liftPp": 0.92
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1095",
+							"scope": "single-augment",
+							"augmentId": "windspeakers-blessing",
+							"games": 5800,
+							"gamesApproximate": true,
+							"gamesDisplay": "5.8K",
+							"winRate": 57.07,
+							"pickRate": 6,
+							"baselineWinRate": 48.26,
+							"liftPp": 8.81
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3163",
+							"scope": "single-augment",
+							"augmentId": "enchanting-butterflies",
+							"games": 15300,
+							"gamesApproximate": true,
+							"gamesDisplay": "15.3K",
+							"winRate": 51.23,
+							"pickRate": 15.98,
+							"baselineWinRate": 48.26,
+							"liftPp": 2.97
+						}
+					],
+					"communityPostIds": ["671401"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["enchanting-butterflies"]
+				},
+				{
+					"title": "빠른 보호와 이동",
+					"augmentIds": ["bread-and-cheese", "sound-barrier"],
+					"whyKo": "E를 자주 주고 보호막을 받은 아군이 움직일 여유를 만드는 방향입니다. 적을 추격하는 데만 쓰지 말고 돌진을 피하게 도와주세요.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": [
+				"enchanting-butterflies",
+				"windspeakers-blessing",
+				"recursion",
+				"bread-and-cheese",
+				"sound-barrier"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["악곡의 왕관", "불타는 향로", "새벽심장"],
+				"boots": "명석함의 아이오니아 장화",
+				"situational": [
+					{
+						"item": "미카엘의 축복",
+						"whenKo": "핵심 아군이 해제 가능한 군중 제어 효과에 자주 잡힐 때."
+					},
+					{
+						"item": "강철의 솔라리 펜던트",
+						"whenKo": "적의 광역 피해가 한꺼번에 들어올 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "황홀한 나비를 고른 경우 악곡의 왕관·새벽심장을 우선 검토하는 DC 상세 공략을 반영했습니다. 챔피언별 최적 빌드 통계는 아니며 나머지 아이템과 신발은 상황에 따른 후보입니다.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=671401",
+					"https://arammayhem.com/data/v1/latest/items.json"
+				]
+			},
+			"playKo": [
+				"초반에는 가장 안전하게 공격할 수 있는 아군을 따라다니세요.",
+				"적 암살자가 오면 W 변이와 R을 순서대로 사용하세요.",
+				"보호막이 있는 아군과 너무 붙어 광역 스킬을 함께 맞지 마세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "W를 이동 속도로 썼다면 잠시 적 암살자를 더 조심하세요.",
+			"communityEvidenceIds": ["671401"]
+		},
+		{
+			"id": "malphite",
+			"nameKo": "말파이트",
+			"nameEn": "Malphite",
+			"roles": ["탱커", "진입"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "방어력 기반 평타",
+					"augmentIds": ["armored-impact", "heavy-hitter", "recursion"],
+					"whyKo": "스킬 뒤 평타에 장갑 충격의 방어력 비례 피해가 붙습니다. 방어력 아이템을 먼저 갖추고 W 뒤 평타를 넣으세요.",
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+							"note": "26.21 글(현재 패치). 이틀간 사용했다고 밝힌 실전 설명입니다. 챔피언별 완성 조합이나 계수를 독립적으로 재현하지는 못했습니다. 이 가이드의 2~3증강 묶음 전체를 검증한 근거와는 구분합니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/1181",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/augments/3049",
+							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://hexmayhem.com/must-play",
+							"note": "증강 하나+완성 아이템 세 개의 조건부 통계입니다. 아이템 미완성 경기까지 포함한 빌드 승률이나 여러 증강의 동시 승률은 아닙니다."
+						}
+					],
+					"confidence": "medium",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. DC 글은 증강의 일반 활용법이며 이 챔피언에 연결한 부분은 작성자 해석입니다.",
+					"stats": [
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/1181",
+							"scope": "single-augment",
+							"augmentId": "heavy-hitter",
+							"games": 34000,
+							"gamesApproximate": true,
+							"gamesDisplay": "34K",
+							"winRate": 50.94,
+							"pickRate": 4.8,
+							"baselineWinRate": 48.06,
+							"liftPp": 2.88
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/augments/3049",
+							"scope": "single-augment",
+							"augmentId": "armored-impact",
+							"games": 79700,
+							"gamesApproximate": true,
+							"gamesDisplay": "79.7K",
+							"winRate": 56.95,
+							"pickRate": 11.25,
+							"baselineWinRate": 48.06,
+							"liftPp": 8.89
+						},
+						{
+							"source": "HexMayhem",
+							"patch": "26.21",
+							"sourcePatch": "16.21",
+							"checkedAt": "2026-10-24",
+							"url": "https://hexmayhem.com/must-play",
+							"scope": "augment+item",
+							"augmentId": "armored-impact",
+							"items": ["얼어붙은 심장", "가시 갑옷", "란두인의 예언"],
+							"games": 2200,
+							"gamesApproximate": true,
+							"gamesDisplay": "2.2K",
+							"winRate": 68.59
+						}
+					],
+					"communityPostIds": ["670147"],
+					"evidenceLevel": "stats+community",
+					"requiredAugmentIds": ["armored-impact"]
+				},
+				{
+					"title": "진입 뒤 보호막",
+					"augmentIds": ["courage-of-the-colossus", "goliath"],
+					"whyKo": "R로 적을 띄운 뒤 보호막과 체력으로 후속 공격을 버티는 조합입니다. 여러 명을 띄우려고 아군과 너무 멀리 떨어지지 마세요.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": [
+				"armored-impact",
+				"heavy-hitter",
+				"recursion",
+				"courage-of-the-colossus",
+				"goliath"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["가시 갑옷", "해신 작쇼", "얼어붙은 심장"],
+				"boots": "판금 장화",
+				"situational": [
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적 주문 피해가 강해 방어력만으로 버티기 어려울 때."
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적 치명타 기본 공격이 큰 위협일 때."
+					}
+				],
+				"confidence": "medium",
+				"noteKo": "stats는 해당 증강 하나와 완성 아이템 세 개를 함께 가진 경기의 조건부 통계입니다. 완성 전에 끝난 경기와 구매 순서는 확인하지 못했습니다. core 전체의 무조건적인 승률로 읽지 마세요. 신발·상황별 아이템은 효과에 따른 후보입니다.",
+				"sources": [
+					"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+					"https://arammayhem.com/data/v1/latest/items.json",
+					"https://hexmayhem.com/must-play"
+				],
+				"stats": [
+					{
+						"source": "HexMayhem",
+						"patch": "26.21",
+						"sourcePatch": "16.21",
+						"checkedAt": "2026-10-24",
+						"url": "https://hexmayhem.com/must-play",
+						"scope": "augment+item",
+						"augmentId": "armored-impact",
+						"items": ["얼어붙은 심장", "가시 갑옷", "란두인의 예언"],
+						"games": 2200,
+						"gamesApproximate": true,
+						"gamesDisplay": "2.2K",
+						"winRate": 68.59
+					}
+				]
+			},
+			"playKo": [
+				"초반에는 방어막이 돌아온 뒤 짧게 교환하세요.",
+				"한타는 아군이 따라올 수 있는 거리에서 R로 여세요.",
+				"진입 후 W 평타를 섞고 적 딜러만 따라가다 아군을 버리지 마세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "적 주문 피해가 강하면 방어력만 사지 말고 마법 저항력을 섞으세요.",
+			"communityEvidenceIds": ["670147"]
+		},
+		{
+			"id": "ashe",
+			"nameKo": "애쉬",
+			"nameEn": "Ashe",
+			"roles": ["원거리 딜러", "방해"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "무한 E·R 애쉬",
+					"augmentIds": ["archmage", "purist-caster"],
+					"requiredAugmentIds": ["archmage"],
+					"rating": "S",
+					"evidenceLevel": "video",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/ashe",
+							"note": "26.21(사이트 표기 16.21) 애쉬 증강 상위 10개. 대마법사 승률 55.41% +11.1%p, 최상급 조준경 부착·탭 댄서·영혼 흡수·양손잡이 포함. 2026-10-25 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "",
+					"videos": [
+						{
+							"url": "https://youtu.be/8-ua9XtPqDc?t=324",
+							"titleKo": "대마법사 전문가가 말아주는 무한궁 애쉬"
+						}
+					],
+					"videoNoteKo": "영상 5분24초 구간과 영상 댓글 팁(2026-10-26 사용자 제공): 대마법사는 무작위로 스킬 기본 쿨의 30% 반환. E4렙=R3렙=60초 → 18초 반환. 60초를 18초로 줄이는 가속 233(쿨감 70%), 순수주의자 150. 스킬 포인트를 더 찍으면 기본 쿨이 줄어 더 많은 가속 필요, 쿨 1초 차이마다 가속 34 증가. 요약: 스킬 2개만 사용, 두 스킬 쿨 맞추기, 가속 최소 233/순수주의자 150.",
+					"stepsKo": [
+						"E는 4레벨까지만 올리기",
+						"모루로 스킬 가속 채우기: 순수주의자가 있으면 150, 없으면 233",
+						"[E] [R]만 번갈아 쓰기"
+					],
+					"hintKo": "E 4레벨과 R 3레벨은 기본 대기시간이 60초로 같습니다. 대마법사가 서로 18초씩 줄여 주어 바로 다시 쓸 수 있습니다."
+				},
+				{
+					"title": "원딜 애쉬",
+					"augmentIds": ["scopiest-weapons", "tap-dancer", "dual-wield", "soul-siphon"],
+					"requiredAugmentIds": ["scopiest-weapons"],
+					"rating": "A",
+					"evidenceLevel": "stats",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/ashe",
+							"note": "26.21(사이트 표기 16.21) 애쉬 증강 상위 10개. 대마법사 승률 55.41% +11.1%p, 최상급 조준경 부착·탭 댄서·영혼 흡수·양손잡이 포함. 2026-10-25 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "최상급 조준경 부착으로 평타 사거리가 크게 늘어납니다. 적의 스킬이 닿지 않는 거리에서 평타로 둔화를 걸고 Q를 쌓으세요."
+				},
+				{
+					"title": "궁극기로 교전 열기",
+					"augmentIds": ["ultimate-recursion", "recursion"],
+					"whyKo": "궁극기와 일반 스킬을 더 자주 쓰는 보조형 조합입니다. 아군이 공격할 대상을 만들 때 쓰세요.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						},
+						{
+							"url": "https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+							"note": "26.21 신규 증강의 이름·등급·기본 효과 근거입니다. 챔피언별 궁합의 근거는 아닙니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": ["deft", "ice-cold", "scopier-weapons", "ultimate-recursion", "recursion"],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["크라켄 학살자", "루난의 허리케인", "무한의 대검"],
+				"boots": "광전사의 군화",
+				"situational": [
+					{
+						"item": "필멸자의 운명",
+						"whenKo": "적의 체력 회복을 줄이는 역할이 필요할 때."
+					},
+					{
+						"item": "헤르메스의 시미터",
+						"whenKo": "해제 가능한 제어 효과 때문에 계속 공격하지 못할 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 W로 견제하되 평타를 칠 수 있는 위치를 유지하세요.",
+				"R은 먼 거리 명중만 노리기보다 적 돌진을 끊는 데도 쓰세요.",
+				"한타에서는 움직이며 앞에 있는 적부터 공격하세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "팀에 물리 피해가 부족하면 주문력 빌드로 무작정 바꾸지 마세요.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "garen",
+			"nameKo": "가렌",
+			"nameEn": "Garen",
+			"roles": ["브루저", "근접 딜러"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "검무로 E 확정 적중",
+					"augmentIds": ["blade-waltz"],
+					"whyKo": "E를 쓰면서 검무를 사용하면 무적 상태로 E를 확정으로 맞힐 수 있습니다.",
+					"rating": "A",
+					"evidence": [],
+					"confidence": "high",
+					"verificationNoteKo": "사용자 제공 플레이 지식",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "user",
+					"requiredAugmentIds": ["blade-waltz"]
+				},
+				{
+					"title": "체력으로 버티기",
+					"augmentIds": ["goliath", "heavy-hitter"],
+					"whyKo": "체력을 얻어 진입을 버티고 Q 뒤 기본 공격까지 활용하는 방향입니다. 계속 E만 쓰면 기본 공격 추가 피해를 충분히 쓰지 못합니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": ["blunt-force", "goliath"],
+			"avoidAugmentIds": ["overflow"],
+			"avoidNoteKo": "overflow: 마나를 쓰지 않는 챔피언이라 효과가 없습니다.",
+			"items": {
+				"core": ["발걸음 분쇄기", "칠흑의 양날 도끼", "스테락의 도전"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [
+					{
+						"item": "죽음의 무도",
+						"whenKo": "물리 피해를 버티며 처치 관여를 이어가야 할 때."
+					},
+					{
+						"item": "맬모셔스의 아귀",
+						"whenKo": "적 주문 피해에 진입 직후 쓰러질 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 체력이 낮아지면 잠시 빠져 기본 지속 효과로 회복하세요.",
+				"적의 핵심 제어 스킬이 빠진 뒤 Q로 접근하세요.",
+				"R을 쓸 적을 고르되 처치 욕심 때문에 아군을 버리지 마세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "W는 체력이 다 빠진 뒤보다 적의 큰 피해가 들어오기 직전에 쓰세요.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "leona",
+			"nameKo": "레오나",
+			"nameEn": "Leona",
+			"roles": ["탱커", "보호"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "제어 효과에 추가 피해",
+					"augmentIds": ["cruelty", "goliath"],
+					"whyKo": "여러 제어 스킬에 추가 피해를 붙이고 체력으로 전선을 유지하는 조합입니다. 피해를 욕심내기보다 아군이 때릴 적을 묶어 두세요.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				},
+				{
+					"title": "장갑 충격 강화 평타",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "Q로 강화한 평타에 장갑 충격의 방어력 비례 피해가 더해집니다. 방어력 빌드로 버티면서 피해도 넣을 수 있습니다.",
+					"rating": "A",
+					"evidenceLevel": "user",
+					"evidence": [],
+					"communityPostIds": []
+				}
+			],
+			"goodAugmentIds": [
+				"courage-of-the-colossus",
+				"recursion",
+				"armored-impact",
+				"cruelty",
+				"goliath"
+			],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["해신 작쇼", "끝없는 절망", "정령의 형상"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [
+					{
+						"item": "케이닉 루컨",
+						"whenKo": "적 주문 피해가 강해 방어력만으로 버티기 어려울 때."
+					},
+					{
+						"item": "란두인의 예언",
+						"whenKo": "적 치명타 기본 공격이 큰 위협일 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 E가 맞아도 아군이 따라올 수 있는지 보고 진입하세요.",
+				"한타에서는 W를 켜고 제어 스킬을 시간차로 사용하세요.",
+				"적 암살자가 아군에게 붙으면 앞쪽 추격을 멈추고 돌아오세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "기절을 한 번에 겹치기보다 이어서 쓰면 오래 묶을 수 있습니다.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "anivia",
+			"nameKo": "애니비아",
+			"nameEn": "Anivia",
+			"roles": ["마법사", "방해"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "무한 W 애니비아",
+					"augmentIds": ["terraind", "archmage", "purist-caster"],
+					"requiredAugmentIds": ["terraind", "archmage"],
+					"rating": "S",
+					"evidenceLevel": "video",
+					"evidence": [],
+					"communityPostIds": [],
+					"whyKo": "지형 생성됨으로 W 벽 주위에 피해가 더해집니다. 대마법사가 다른 스킬의 대기시간을 줄여 주어 벽을 끝없이 세울 수 있습니다. 순수주의자가 있으면 더 자주 세울 수 있습니다.",
+					"videos": [
+						{
+							"url": "https://youtu.be/pNMHmXsPCDk?t=327",
+							"titleKo": "벽만 쳐서 캐리하는 \"지형생성됨\" 무한벽 애니비아"
+						}
+					],
+					"videoNoteKo": "영상 5분27초 구간(2026-07-03 게시, 2026-10-26 사용자 제공). 영상 설명의 애니비아 증강: 지형생성됨[W], 순수주의자 - 마법사, 대마법사."
+				},
+				{
+					"title": "넓은 지속 피해",
+					"augmentIds": ["infernal-conduit", "magic-missile"],
+					"whyKo": "R을 오래 유지하며 반복 적중을 노리는 방향입니다. 마나와 생존이 부족하면 증강 효과를 낼 시간이 줄어듭니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": ["terraind", "recursion", "infernal-conduit", "magic-missile"],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "리안드리의 고통"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 자신에게 돌진하거나 큰 피해를 집중할 때."
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 많이 갖췄을 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 Q를 맞힌 뒤 E를 연계하고 마나를 남기세요.",
+				"R은 아군이 싸울 공간에 놓고 적을 무리하게 쫓지 마세요.",
+				"W가 아군의 퇴로를 막지 않도록 벽 양끝을 살피세요."
+			],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=645501",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"
+			],
+			"beginnerTipKo": "알이 있어도 아군과 떨어진 곳에서 죽으면 살아나기 어렵습니다.",
+			"communityEvidenceIds": ["645501"]
+		},
+		{
+			"id": "lux",
+			"nameKo": "럭스",
+			"nameEn": "Lux",
+			"roles": ["마법사", "원거리"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "먼 거리 견제",
+					"augmentIds": ["skilled-sniper", "magic-missile"],
+					"whyKo": "멀리서 Q와 E를 맞히는 플레이를 가속과 추가 피해로 보완하는 방향입니다. 발동 거리보다 가까우면 효과가 나지 않습니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				},
+				{
+					"title": "주문력과 스킬 치명타",
+					"augmentIds": ["eureka", "jeweled-gauntlet"],
+					"whyKo": "주문력 기반 가속으로 기회를 늘리고 스킬 치명타를 노리는 조합입니다. 치명타보다 스킬을 맞히는 것이 먼저입니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://arammayhem.com/data/v1/latest/combos.json",
+							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
+						},
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": ["skilled-sniper", "magic-missile", "eureka", "jeweled-gauntlet"],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
+			"items": {
+				"core": ["루덴의 메아리", "지평선의 초점", "라바돈의 죽음모자"],
+				"boots": "마법사의 신발",
+				"situational": [
+					{
+						"item": "존야의 모래시계",
+						"whenKo": "적이 자신에게 돌진하거나 큰 피해를 집중할 때."
+					},
+					{
+						"item": "공허의 지팡이",
+						"whenKo": "적이 마법 저항력을 많이 갖췄을 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 Q를 무작정 쓰지 말고 E로 이동 경로를 좁히세요.",
+				"한타에서 W가 여러 아군을 지나가게 사용하세요.",
+				"Q를 놓쳤다면 뒤로 물러나 다음 기회를 기다리세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "적이 가까울수록 Q를 생존용으로 아껴 두세요.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kog-maw",
+			"nameKo": "코그모",
+			"nameEn": "Kog'Maw",
+			"roles": ["원거리 딜러", "지속 딜러"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "W 지속 공격",
+					"augmentIds": ["deft", "scopier-weapons"],
+					"whyKo": "공격 속도와 사거리를 함께 챙겨 W가 켜진 시간을 활용하는 방향입니다. 이동기가 없으므로 긴 사거리가 있어도 혼자 앞으로 나가면 위험합니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				},
+				{
+					"title": "추가 타격",
+					"augmentIds": ["dual-wield", "firebrand"],
+					"whyKo": "추가 타격과 화상으로 평타를 오래 유지하는 조합입니다.",
+					"rating": "B",
+					"evidence": [
+						{
+							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
+							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "효과 또는 사용 사례에서 확장한 후보입니다. 현재 제시 조건과 묶음 전체의 성능은 미확인입니다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "inferred"
+				}
+			],
+			"goodAugmentIds": ["deft", "scopier-weapons", "dual-wield", "firebrand"],
+			"avoidAugmentIds": ["draw-your-sword"],
+			"avoidNoteKo": "draw-your-sword: 사거리를 잃는 대가가 커서 초보자용 원거리 운영과 맞지 않습니다.",
+			"items": {
+				"core": ["몰락한 왕의 검", "구인수의 격노검", "루난의 허리케인"],
+				"boots": "광전사의 군화",
+				"situational": [
+					{
+						"item": "필멸자의 운명",
+						"whenKo": "적의 체력 회복을 줄이는 역할이 필요할 때."
+					},
+					{
+						"item": "헤르메스의 시미터",
+						"whenKo": "해제 가능한 제어 효과 때문에 계속 공격하지 못할 때."
+					}
+				],
+				"confidence": "low",
+				"noteKo": "초보자용 기본 구매 후보입니다. 조합별 최적 빌드·가격·구매 가능 여부를 26.21 한국 클라이언트에서 모두 검증하지 않았습니다. 상대 피해 유형과 실제 선택한 증강에 맞춰 바꾸세요.",
+				"sources": ["https://arammayhem.com/data/v1/latest/items.json"]
+			},
+			"playKo": [
+				"초반에는 W가 없는 시간을 구분해 움직이세요.",
+				"한타에서 아군 보호 스킬이 닿는 거리를 유지하세요.",
+				"R을 연속 사용해 마나를 모두 쓰지 마세요."
+			],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=590024"],
+			"beginnerTipKo": "W가 끝나면 한 발 물러나 다음 공격 시간을 기다리세요.",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "braum",
+			"nameKo": "브라움",
+			"nameEn": "Braum",
+			"roles": ["서포터", "탱커"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "벌집으로 바로 기절",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"rating": "S",
+					"evidenceLevel": "user",
+					"evidence": [],
+					"communityPostIds": [],
+					"whyKo": "벌이다!!!의 벌집도 적중 시 효과로 패시브 뇌진탕 펀치 중첩을 쌓습니다. Q로 적을 맞히면 벌집과 함께 중첩이 빠르게 차서 적을 바로 기절시킬 수 있습니다."
+				},
+				{
+					"title": "장갑 충격 강화 평타",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"rating": "B",
+					"evidenceLevel": "user",
+					"evidence": [],
+					"communityPostIds": [],
+					"whyKo": "스킬 뒤 평타에 장갑 충격의 방어력 비례 피해가 붙습니다. Q를 맞힌 뒤 평타를 이어 넣으세요."
+				}
+			],
+			"goodAugmentIds": ["courage-of-the-colossus", "goliath", "impassable"],
+			"avoidAugmentIds": ["back-to-basics"],
+			"avoidNoteKo": "back-to-basics: 적을 띄우는 R을 잃어 한타에서 할 일이 크게 줄어듭니다.",
+			"items": {
+				"core": ["강철심장", "가시 갑옷"],
+				"boots": "판금 장화",
+				"situational": []
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "yone",
+			"nameKo": "요네",
+			"nameEn": "Yone",
+			"roles": ["브루저", "근접 딜러"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "신비한 주먹 무한 Q",
+					"augmentIds": ["mystic-punch"],
+					"requiredAugmentIds": ["mystic-punch"],
+					"rating": "S",
+					"evidenceLevel": "user",
+					"communityPostIds": [],
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/yone",
+							"note": "26.21(사이트 16.21) 요네 증강 1위 신비한 주먹 63.45%, 선택률 14.52%, +7.6%p. 2026-10-26 확인."
+						}
+					],
+					"whyKo": "",
+					"stepsKo": [
+						"몰락한 왕의 검과 광전사의 군화를 먼저 갖추기",
+						"2코어로 마법사의 최후를 올려 공격 속도 채우기",
+						"Q만 계속 쓰기"
+					],
+					"hintKo": "Q도 적중 시 효과가 적용되어 신비한 주먹이 발동합니다. 공격 속도가 충분하면 Q를 맞힐 때마다 Q가 바로 돌아와 Q만 끝없이 쓸 수 있습니다."
+				}
+			],
+			"goodAugmentIds": ["the-boom-and-the-bass", "takeem-down-down-down", "swift-and-safe"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["윤 탈 야생화살", "파멸의식 고서", "죽음의 무도"],
+				"boots": "광전사의 군화",
+				"situational": []
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kaisa",
+			"nameKo": "카이사",
+			"nameEn": "Kai'Sa",
+			"roles": ["원거리 딜러", "마법사"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "벌집으로 플라즈마 쌓기",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"rating": "S",
+					"evidenceLevel": "stats",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/kaisa",
+							"note": "26.21(사이트 16.21) 카이사 증강 1위 벌이다!!! 60.41%, 선택률 14.31%, +11.2%p. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "벌집도 적중 시 효과로 패시브 두 번째 피부의 플라즈마 중첩을 쌓습니다. Q와 W를 쓰면 벌집도 날아가 중첩이 빨리 터집니다."
+				}
+			],
+			"goodAugmentIds": [
+				"ethereal-weapon",
+				"back-to-basics",
+				"tooth-fairy",
+				"mad-scientist",
+				"eureka"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": [],
+				"boots": "",
+				"situational": []
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "tahm-kench",
+			"nameKo": "탐 켄치",
+			"nameEn": "Tahm Kench",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "벌집으로 바로 기절",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"rating": "S",
+					"evidenceLevel": "stats",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/tahmkench",
+							"note": "26.21(사이트 16.21) 탐 켄치 증강 1위 벌이다!!! 62.57%, 선택률 7.69%, +8.8%p. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "벌집도 적중 시 효과로 패시브 절대 미각 중첩을 쌓습니다. 벌집에 맞은 적에게 Q를 맞히면 바로 기절하고, R로 삼킬 수도 있습니다."
+				}
+			],
+			"goodAugmentIds": [
+				"lich-brain",
+				"goliath",
+				"tank-engine",
+				"ethereal-weapon",
+				"back-to-basics"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": [],
+				"boots": "",
+				"situational": []
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "teemo",
+			"nameKo": "티모",
+			"nameEn": "Teemo",
+			"roles": ["마법사", "원거리"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "벌집으로 독 퍼뜨리기",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"rating": "S",
+					"evidenceLevel": "stats",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/teemo",
+							"note": "26.21(사이트 16.21) 티모 증강 2위 벌이다!!! 61%, 선택률 16.88%, +6.4%p. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "벌집도 적중 시 효과로 E의 독을 묻힙니다. Q와 R을 쓸 때마다 벌집이 날아가 독 피해가 계속 쌓입니다."
+				}
+			],
+			"goodAugmentIds": [
+				"ethereal-weapon",
+				"infinite-recursion",
+				"eureka",
+				"erosion",
+				"tripleshot"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": [],
+				"boots": "",
+				"situational": []
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "varus",
+			"nameKo": "바루스",
+			"nameEn": "Varus",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "벌집으로 역병 쌓기",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"rating": "A",
+					"evidenceLevel": "stats",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/varus",
+							"note": "26.21(사이트 16.21) 바루스 증강 2위 벌이다!!! 54.36%, 선택률 14%, +6.5%p. 디시 673819는 포킹 바루스가 중후반에 약하다는 부정 후기라 출처로 쓰지 않음. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "벌집도 적중 시 효과로 W의 역병을 붙입니다. 역병이 쌓인 적을 Q·E로 맞히면 역병이 터져 최대 체력 비례 피해를 줍니다."
+				}
+			],
+			"goodAugmentIds": [
+				"draw-your-sword",
+				"mad-scientist",
+				"giant-slayer",
+				"still-here",
+				"homeguard"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": [],
+				"boots": "",
+				"situational": []
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "fizz",
+			"nameKo": "피즈",
+			"nameEn": "Fizz",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "벌집으로 출혈 묻히기",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"rating": "A",
+					"evidenceLevel": "stats",
+					"evidence": [
+						{
+							"url": "https://hexmayhem.com/champions/fizz",
+							"note": "26.21(사이트 16.21) 피즈 증강 2위 벌이다!!! 56.73%, 선택률 8.85%, +5.8%p. 디시 673953은 체감이 없다는 반대 의견. 2026-10-26 확인."
+						}
+					],
+					"communityPostIds": [],
+					"whyKo": "벌집도 적중 시 효과로 W의 출혈을 묻힙니다. Q로 파고들 때도 벌집이 날아가 적을 느리게 만듭니다."
+				}
+			],
+			"goodAugmentIds": [
+				"takeem-down-down-down",
+				"the-boom-and-the-bass",
+				"ethereal-weapon",
+				"back-to-basics",
+				"clown-college"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": [],
+				"boots": "",
+				"situational": []
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		}
+	],
+	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."
+}

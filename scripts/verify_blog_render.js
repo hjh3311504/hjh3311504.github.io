@@ -113,7 +113,7 @@ try {
 	assert.ok(releasedHtml.includes('예약-검증-본문'));
 	assert.ok(releasedHtml.includes('2020-01-02T00:00:00+09:00'));
 	await rm(path.join(directory, 'scheduled.md'));
-	for (const route of ['/team-maker', '/qr-code', '/marble-race', '/bracket']) {
+	for (const route of ['/team-maker', '/qr-code', '/marble-race', '/bracket', '/aram-mayhem']) {
 		const response = await respond(route);
 		assert.equal(response.status, 200, `${route}: production 응답 실패`);
 		const tool = await response.text();

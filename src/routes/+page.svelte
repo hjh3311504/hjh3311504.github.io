@@ -249,6 +249,35 @@
 							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
 						</Surface>
 					</li>
+					<li>
+						<Surface class="project-card" href={resolve('/aram-mayhem')} variant="interactive">
+							<span class="project-icon aram-project-icon" aria-hidden="true"
+								><svg
+									width="26"
+									height="26"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><path
+										d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8-4.3-4.1 5.9-.9z"
+									/></svg
+								></span
+							>
+							<span class="project-copy"
+								><span class="project-title-row"
+									><span class="project-title">칼바람 아수라장 증강 가이드</span><span
+										class="project-kind">가이드</span
+									></span
+								><span class="project-description"
+									>챔피언별 추천 증강 조합과<br />코어 아이템 순서를 정리한 초보자용 가이드입니다.</span
+								></span
+							>
+							<span class="open-button" aria-hidden="true">열기 <span>→</span></span>
+						</Surface>
+					</li>
 				</ul>
 			</Section>
 
@@ -510,6 +539,11 @@
 	.bracket-project-icon {
 		background: var(--color-orange);
 		box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--color-orange) 70%, transparent);
+	}
+
+	.aram-project-icon {
+		background: var(--color-middle-rank);
+		box-shadow: 0 6px 16px -6px var(--color-middle-rank-line);
 	}
 
 	.marble-project-icon {

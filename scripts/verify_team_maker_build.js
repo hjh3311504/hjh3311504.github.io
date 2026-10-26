@@ -28,6 +28,7 @@ const requiredFiles = [
 	'build/qr-code.html',
 	'build/marble-race.html',
 	'build/bracket.html',
+	'build/aram-mayhem.html',
 	'build/team-maker.html',
 	'build/about.html',
 	'build/privacy.html',
@@ -66,6 +67,7 @@ const homeHtml = await readFile(path.join(root, 'build/index.html'), 'utf8');
 const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
 const marbleHtml = await readFile(path.join(root, 'build/marble-race.html'), 'utf8');
 const bracketHtml = await readFile(path.join(root, 'build/bracket.html'), 'utf8');
+const aramHtml = await readFile(path.join(root, 'build/aram-mayhem.html'), 'utf8');
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 const aboutHtml = await readFile(path.join(root, 'build/about.html'), 'utf8');
 const privacyHtml = await readFile(path.join(root, 'build/privacy.html'), 'utf8');
@@ -114,6 +116,11 @@ for (const [name, document, phrases] of [
 		'대진표',
 		bracketHtml,
 		['6팀 입력 순서 배치의 라운드별 경기', '부전승은 누가 받나요?', '17팀 이상도 되나요?']
+	],
+	[
+		'아수라장 가이드',
+		aramHtml,
+		['가이드 보는 법', '추천 기준과 자료', '아이템 추천', '증강 추천', 'Legal Jibber Jabber']
 	]
 ]) {
 	const bodyText = document
@@ -135,6 +142,7 @@ for (const [name, document] of [
 	['QR 코드', qrHtml],
 	['구슬 레이스', marbleHtml],
 	['대진표', bracketHtml],
+	['아수라장 가이드', aramHtml],
 	['소개', aboutHtml],
 	['개인정보처리방침', privacyHtml],
 	['404', notFoundHtml]
@@ -207,6 +215,7 @@ for (const [name, document] of [
 	['QR 코드', qrHtml],
 	['구슬 레이스', marbleHtml],
 	['대진표', bracketHtml],
+	['아수라장 가이드', aramHtml],
 	['소개', aboutHtml],
 	['개인정보처리방침', privacyHtml]
 ]) {
@@ -356,7 +365,8 @@ for (const [route, content, expectedCount, expectedOpen] of [
 	['team-maker', html, 4, 4],
 	['qr-code', qrHtml, 2, 2],
 	['marble-race', marbleHtml, 5, 4],
-	['bracket', bracketHtml, 3, 3]
+	['bracket', bracketHtml, 3, 3],
+	['aram-mayhem', aramHtml, 2, 1]
 ]) {
 	const sections = [...content.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)].filter(
 		([, attributes]) => /\bdata-ui-disclosure\b/.test(attributes)
@@ -425,6 +435,7 @@ for (const reference of new Set(localReferences)) {
 		'qr-code',
 		'marble-race',
 		'bracket',
+		'aram-mayhem',
 		'about',
 		'privacy'
 	].includes(routeName);
@@ -548,6 +559,30 @@ for (const [name, document] of [
 		throw new Error(`${name} HTML에 대진표 링크가 없습니다.`);
 }
 console.log('대진표 정적 페이지와 sitemap 검증 통과');
+
+for (const marker of [
+	'칼바람 아수라장 증강 가이드',
+	'id="aram-champion-name"',
+	'id="aram-howto-title"',
+	'id="aram-basis-title"',
+	'aria-label="챔피언 고르기"',
+	'<link rel="canonical" href="https://hjh3311504.github.io/aram-mayhem"'
+]) {
+	if (!aramHtml.includes(marker))
+		throw new Error(`아수라장 가이드 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+}
+if ((aramHtml.match(/<h1\b/g)?.length ?? 0) !== 1)
+	throw new Error('아수라장 가이드의 h1은 1개여야 합니다.');
+// 챔피언 아이콘과 증강 아이콘은 외부 주소가 아니라 사이트에 함께 배포한 파일을 쓴다.
+const aramImages = [...aramHtml.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map((match) => match[1]);
+if (!aramImages.length || aramImages.some((src) => !src.startsWith('/images/aram-mayhem/')))
+	throw new Error('아수라장 가이드 이미지는 /images/aram-mayhem/ 아래 파일이어야 합니다.');
+for (const src of new Set(aramImages)) await access(path.join(root, 'build', src.slice(1)));
+if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/aram-mayhem</loc>'))
+	throw new Error('sitemap에 아수라장 가이드 주소가 없습니다.');
+if (!/href="(?:\.\/|\/)aram-mayhem"/.test(homeHtml))
+	throw new Error('홈 HTML에 아수라장 가이드 링크가 없습니다.');
+console.log('아수라장 가이드 정적 페이지와 sitemap 검증 통과');
 
 for (const marker of [
 	pageName,
