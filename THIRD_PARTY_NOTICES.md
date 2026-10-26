@@ -13,6 +13,7 @@
 | `src/lib/team-maker/fonts/`와 설계 전달본의 SUIT·SUITE 글꼴                                                                                           | SIL Open Font License 1.1                                                                            |
 | 홈의 GitHub 아이콘                                                                                                                                    | Bootstrap Icons의 MIT와 원저작권 고지                                                                |
 | `static/images/team-maker/`의 SVG                                                                                                                     | 2026-10-25에 직접 좌표를 정해 작성한 도형10개와 단순 도형의 `favicon.svg`에 MIT를 적용합니다.        |
+| `static/images/aram-mayhem/`, `src/lib/aram-mayhem/guide-data.json`의 챔피언·증강·아이템 이름과 효과 문구                                             | Riot Games의 자산입니다. MIT 적용 범위에서 제외하며 아래 칼바람 아수라장 고지를 따릅니다.            |
 | `docs/design/handoff/`, `docs/design/claude-design-DSN.md`                                                                                            | 보존용 설계 자료·요청문입니다. 이번 MIT 적용 범위에서 제외하며 포함된 외부 자료의 조건을 유지합니다. |
 | npm 패키지와 외부 라이선스 원문                                                                                                                       | 각 저작권자의 라이선스를 유지합니다.                                                                 |
 
@@ -43,6 +44,14 @@ SVG 원본 코드는 `static/images/team-maker/*.svg` 파일 자체에 있습니
 2026-10-13에는 `static/downloads/blog/`의 `file-hash/`, `filename-order/`, `png-transparency/`, `image-orientation/`, `url-characters/`, `qr-url-length/`, `team-rule-conflicts/`에 직접 만든 파일·도형·가상 명단·주소 비교 자료를 추가했습니다. `static/images/blog/png-transparency/`, `image-orientation/`, `qr-url-length/`의 비교 그림도 같은 자료로 생성했습니다. 외부 사진은 사용하지 않았으며 자체 도형·문구·생성 코드는 위 MIT 적용 기준을 따릅니다. 비교 그림과 `upright-source.svg`, 방향 비교 JPG에 사용한 SUIT 글자 모양은 기존 OFL 고지를 유지합니다.
 
 `static/images/blog/filename-order/`는 자체 연습 파일을 Python의 기본 파일 목록으로 열어 Chromium에서 직접 촬영한 화면입니다. Python은 [PSF 라이선스](https://docs.python.org/3/license.html)를 따르며 원프로그램의 권리는 유지합니다. ZIP에는 자체 연습 파일만 담았습니다. 생성·검증 방법은 `scripts/README-blog-workflow-examples.md`에 있습니다.
+
+## 칼바람 아수라장 증강 가이드 자산
+
+`static/images/aram-mayhem/`의 챔피언·스킬·아이템·증강·스탯 아이콘은 2026-10-26에 `scripts/generate_aram_mayhem.js`가 Riot Games의 [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) 16.21.1과 [CommunityDragon](https://www.communitydragon.org/) 16.21에서 받아 크기만 줄여 webp로 바꾼 파일입니다. 모루 아이콘은 Data Dragon 아이템 220008, 스킬 가속 아이콘은 CommunityDragon의 스탯 룬 그림입니다. `src/lib/aram-mayhem/guide-data.json`의 챔피언·스킬·아이템·증강 이름과 증강 효과 문구도 같은 자료에서 가져왔습니다.
+
+이 자료의 권리는 Riot Games에 있습니다. 사이트는 Riot Games의 [Legal Jibber Jabber](https://www.riotgames.com/en/legal) 정책에 따라 무료 팬 가이드로 사용하며 페이지에 같은 고지를 표시합니다. 프로젝트 MIT 라이선스에 포함하지 않으며 별도의 재사용 허락을 부여하지 않습니다. CommunityDragon은 Riot Games가 운영하지 않는 커뮤니티 자료 보관소입니다.
+
+조합 설명·단계·빌드 선택 문구는 직접 작성했으며 위 MIT 적용 기준을 따릅니다. 조합 카드의 디시인사이드·유튜브 링크는 조합을 정리할 때 참고한 글과 영상입니다. 원문 문장·이미지·영상 화면은 옮기지 않았습니다.
 
 ## 템플릿 이력
 

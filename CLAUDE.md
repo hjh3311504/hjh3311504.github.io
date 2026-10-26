@@ -14,8 +14,8 @@ Codex, Claude Code와 기타 coding agent가 함께 사용하는 저장소 지�
 
 SvelteKit 2·Svelte 5·Vite 8·`@sveltejs/adapter-static`을 사용한다. JavaScript 중심이며 일부 TypeScript가 있다. 패키지는 npm과 `package-lock.json`으로 관리한다. `main`은 GitHub Actions를 통해 GitHub Pages에 배포된다.
 
-- 공개 route: `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/blog`, `/blog/[slug]`, `/about`, `/privacy`. 도구·블로그·소개·방침 route에는 마지막 슬래시가 없다.
-- 도구 build 결과: `build/team-maker.html`, `build/qr-code.html`, `build/marble-race.html`, `build/bracket.html`.
+- 공개 route: `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/aram-mayhem`, `/blog`, `/blog/[slug]`, `/about`, `/privacy`. 도구·블로그·소개·방침 route에는 마지막 슬래시가 없다.
+- 도구 build 결과: `build/team-maker.html`, `build/qr-code.html`, `build/marble-race.html`, `build/bracket.html`, `build/aram-mayhem.html`.
 - 블로그 글은 `content/blog/*.md`에서 관리한다. 공개 글만 정적 HTML·sitemap·RSS에 포함하고 초안은 로컬에서만 미리 본다. 작성·검증 방법은 README의 블로그 운영을 따른다.
 - Team Maker 정적 자산: `/images/team-maker/`.
 - 참가자 데이터는 브라우저 `localStorage`에만 저장한다. 서버·로그인·비밀 키를 추가하지 않는다.
@@ -30,6 +30,7 @@ SvelteKit 2·Svelte 5·Vite 8·`@sveltejs/adapter-static`을 사용한다. JavaS
 | Team Maker 변경         | [README의 수정 위치](README.md#team-maker-수정-위치). 아래의 현재 구조 의존성을 확인한다.                                            |
 | 공통 UI·스타일 변경     | [컴포넌트와 스타일 기준](docs/frontend-ui.md)의 해당 부분. 토큰은 `src/lib/styles/tokens.css`다.                                     |
 | 요구사항·화면 설계 변경 | `docs/requirements/`, `docs/design/`. [설계 문서 관리](README.md#설계-문서-관리)에 연결 형식과 승인 상태를 설명한다.                 |
+| 아수라장 가이드 변경    | [README의 칼바람 아수라장 증강 가이드](README.md#칼바람-아수라장-증강-가이드). 조사 JSON을 고친 뒤 `npm run generate:aram-mayhem`.   |
 | 중요한 결정 변경        | `docs/adr/`. 과거 ADR은 보존하고 새 결정으로 변경 이유를 남긴다.                                                                     |
 | favicon·OG 이미지 변경  | `static/favicon.svg`, `scripts/generate_site_assets.js` 수정 후 `npm run generate:assets`. 출처는 `THIRD_PARTY_NOTICES.md`를 따른다. |
 

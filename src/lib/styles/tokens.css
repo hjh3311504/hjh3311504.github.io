@@ -230,4 +230,11 @@
 	--color-arena-dark-accent-soft: rgb(106 201 178 / 15%);
 	--color-arena-dark-minimap: rgb(31 41 50 / 85%);
 	--color-arena-dark-shadow: rgb(0 0 0 / 35%);
+	/* 칼바람 아수라장 가이드: 증강 등급 테두리와 게임 아이콘 바탕 */
+	--color-aram-silver: #9aa6b2;
+	--color-aram-gold: #d4a33b;
+	--color-aram-prism-pink: #ff7ac3;
+	--color-aram-prism-violet: #8f7bff;
+	--color-aram-prism-cyan: #43d1ff;
+	--color-aram-icon-background: #1e2328;
 }

@@ -1,0 +1,1950 @@
+{
+	"patch": "26.21",
+	"source": "Data Dragon 16.21.1 ko_KR + 클라이언트 map12 KIWI 상점 목록",
+	"items": [
+		{
+			"id": 1001,
+			"nameKo": "장화",
+			"nameEn": "Boots",
+			"gold": 300,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 1004,
+			"nameKo": "요정의 부적",
+			"nameEn": "Faerie Charm",
+			"gold": 200,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1006,
+			"nameKo": "원기 회복의 구슬",
+			"nameEn": "Rejuvenation Bead",
+			"gold": 300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1011,
+			"nameKo": "거인의 허리띠",
+			"nameEn": "Giant's Belt",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1018,
+			"nameKo": "민첩성의 망토",
+			"nameEn": "Cloak of Agility",
+			"gold": 600,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1026,
+			"nameKo": "방출의 마법봉",
+			"nameEn": "Blasting Wand",
+			"gold": 850,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1027,
+			"nameKo": "사파이어 수정",
+			"nameEn": "Sapphire Crystal",
+			"gold": 300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1028,
+			"nameKo": "루비 수정",
+			"nameEn": "Ruby Crystal",
+			"gold": 400,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1029,
+			"nameKo": "천 갑옷",
+			"nameEn": "Cloth Armor",
+			"gold": 300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1031,
+			"nameKo": "쇠사슬 조끼",
+			"nameEn": "Chain Vest",
+			"gold": 800,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1033,
+			"nameKo": "마법무효화의 망토",
+			"nameEn": "Null-Magic Mantle",
+			"gold": 400,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1036,
+			"nameKo": "롱소드",
+			"nameEn": "Long Sword",
+			"gold": 350,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1037,
+			"nameKo": "곡괭이",
+			"nameEn": "Pickaxe",
+			"gold": 875,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1038,
+			"nameKo": "B.F. 대검",
+			"nameEn": "B. F. Sword",
+			"gold": 1300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1042,
+			"nameKo": "단검",
+			"nameEn": "Dagger",
+			"gold": 250,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1043,
+			"nameKo": "곡궁",
+			"nameEn": "Recurve Bow",
+			"gold": 700,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1052,
+			"nameKo": "증폭의 고서",
+			"nameEn": "Amplifying Tome",
+			"gold": 400,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1053,
+			"nameKo": "흡혈의 낫",
+			"nameEn": "Vampiric Scepter",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1057,
+			"nameKo": "음전자 망토",
+			"nameEn": "Negatron Cloak",
+			"gold": 850,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1058,
+			"nameKo": "쓸데없이 큰 지팡이",
+			"nameEn": "Needlessly Large Rod",
+			"gold": 1200,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 1111,
+			"nameKo": "자르반 1세의",
+			"nameEn": "Jarvan I's",
+			"gold": 300,
+			"into": false,
+			"boots": true
+		},
+		{
+			"id": 1500,
+			"nameKo": "관통 탄환",
+			"nameEn": "Penetrating Bullets",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1501,
+			"nameKo": "요새화",
+			"nameEn": "Fortification",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1502,
+			"nameKo": "이중 갑옷",
+			"nameEn": "Reinforced Armor",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1503,
+			"nameKo": "파수꾼의 눈",
+			"nameEn": "Warden's Eye",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1506,
+			"nameKo": "이중 갑옷",
+			"nameEn": "Reinforced Armor",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1507,
+			"nameKo": "과충전",
+			"nameEn": "Overcharged",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1508,
+			"nameKo": "방탄 양말",
+			"nameEn": "Anti-tower Socks",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1509,
+			"nameKo": "체질",
+			"nameEn": "Gusto",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1510,
+			"nameKo": "특이 체질",
+			"nameEn": "Phreakish Gusto",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1511,
+			"nameKo": "슈퍼 메크 방어구",
+			"nameEn": "Super Mech Armor",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1512,
+			"nameKo": "슈퍼 메크 전력장",
+			"nameEn": "Super Mech Power Field",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1515,
+			"nameKo": "포탑 방패",
+			"nameEn": "Turret Plating",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1516,
+			"nameKo": "구조물 현상금",
+			"nameEn": "Structure Bounty",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1517,
+			"nameKo": "구조물 현상금",
+			"nameEn": "Structure Bounty",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1518,
+			"nameKo": "구조물 현상금",
+			"nameEn": "Structure Bounty",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1519,
+			"nameKo": "구조물 현상금",
+			"nameEn": "Structure Bounty",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1520,
+			"nameKo": "과충전HA",
+			"nameEn": "OvererchargedHA",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1521,
+			"nameKo": "요새화",
+			"nameEn": "Fortification",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 1522,
+			"nameKo": "포탑 강화",
+			"nameEn": "Tower Power-Up",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2001,
+			"nameKo": "귀환",
+			"nameEn": "Recall",
+			"gold": 60,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2003,
+			"nameKo": "체력 물약",
+			"nameEn": "Health Potion",
+			"gold": 50,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2007,
+			"nameKo": "귀환 비활성화",
+			"nameEn": "Disabled Recall",
+			"gold": 60,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2010,
+			"nameKo": "굳건한 의지의 완전한 비스킷",
+			"nameEn": "Total Biscuit of Everlasting Will",
+			"gold": 50,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2019,
+			"nameKo": "강철 인장",
+			"nameEn": "Steel Sigil",
+			"gold": 1100,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2020,
+			"nameKo": "야수화",
+			"nameEn": "The Brutalizer",
+			"gold": 1337,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2021,
+			"nameKo": "땅굴 채굴기",
+			"nameEn": "Tunneler",
+			"gold": 1150,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2022,
+			"nameKo": "빛나는 티끌",
+			"nameEn": "Glowing Mote",
+			"gold": 250,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2031,
+			"nameKo": "충전형 물약",
+			"nameEn": "Refillable Potion",
+			"gold": 150,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2051,
+			"nameKo": "수호자의 뿔피리",
+			"nameEn": "Guardian's Horn",
+			"gold": 950,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2052,
+			"nameKo": "포로 간식",
+			"nameEn": "Poro-Snax",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2065,
+			"nameKo": "슈렐리아의 군가",
+			"nameEn": "Shurelya's Battlesong",
+			"gold": 2200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2138,
+			"nameKo": "강철의 영약",
+			"nameEn": "Elixir of Iron",
+			"gold": 500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2139,
+			"nameKo": "마법의 영약",
+			"nameEn": "Elixir of Sorcery",
+			"gold": 500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2140,
+			"nameKo": "분노의 영약",
+			"nameEn": "Elixir of Wrath",
+			"gold": 500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2141,
+			"nameKo": "카파 주스",
+			"nameEn": "Cappa Juice",
+			"gold": 300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2150,
+			"nameKo": "숙련의 영약",
+			"nameEn": "Elixir of Skill",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2151,
+			"nameKo": "탐욕의 영약",
+			"nameEn": "Elixir of Avarice",
+			"gold": 50,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2152,
+			"nameKo": "힘의 영약",
+			"nameEn": "Elixir of Force",
+			"gold": 50,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2403,
+			"nameKo": "미니언 해체분석기",
+			"nameEn": "Minion Dematerializer",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2420,
+			"nameKo": "추적자의 팔목 보호대",
+			"nameEn": "Seeker's Armguard",
+			"gold": 1600,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2421,
+			"nameKo": "부서진 팔목 보호대",
+			"nameEn": "Shattered Armguard",
+			"gold": 1600,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2422,
+			"nameKo": "약간 신비한 신발",
+			"nameEn": "Slightly Magical Footwear",
+			"gold": 300,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 2501,
+			"nameKo": "지배자의 피갑옷",
+			"nameEn": "Overlord's Bloodmail",
+			"gold": 3300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2502,
+			"nameKo": "끝없는 절망",
+			"nameEn": "Unending Despair",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2503,
+			"nameKo": "어둠불꽃 횃불",
+			"nameEn": "Blackfire Torch",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2504,
+			"nameKo": "케이닉 루컨",
+			"nameEn": "Kaenic Rookern",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2508,
+			"nameKo": "운명의 재",
+			"nameEn": "Fated Ashes",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2510,
+			"nameKo": "황혼과 새벽",
+			"nameEn": "Dusk and Dawn",
+			"gold": 3100,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2512,
+			"nameKo": "악마사냥꾼의 화살",
+			"nameEn": "Fiendhunter Bolts",
+			"gold": 2650,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2517,
+			"nameKo": "끝없는 갈망",
+			"nameEn": "Endless Hunger",
+			"gold": 3100,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2522,
+			"nameKo": "실체화 장비",
+			"nameEn": "Actualizer",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2523,
+			"nameKo": "마법광학 장치 C44",
+			"nameEn": "Hexoptics C44",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2524,
+			"nameKo": "밴들파이프",
+			"nameEn": "Bandlepipes",
+			"gold": 2300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2525,
+			"nameKo": "원형질 안전벨트",
+			"nameEn": "Protoplasm Harness",
+			"gold": 2600,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 2526,
+			"nameKo": "속삭이는 머리띠",
+			"nameEn": "Whispering Circlet",
+			"gold": 2250,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 2530,
+			"nameKo": "악곡의 왕관",
+			"nameEn": "Diadem of Songs",
+			"gold": 2250,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3002,
+			"nameKo": "개척자",
+			"nameEn": "Trailblazer",
+			"gold": 2400,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3003,
+			"nameKo": "대천사의 지팡이",
+			"nameEn": "Archangel's Staff",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3004,
+			"nameKo": "마나무네",
+			"nameEn": "Manamune",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3006,
+			"nameKo": "광전사의 군화",
+			"nameEn": "Berserker's Greaves",
+			"gold": 1100,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 3008,
+			"nameKo": "탐욕의 군화",
+			"nameEn": "Gluttonous Greaves",
+			"gold": 1100,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 3009,
+			"nameKo": "신속의 장화",
+			"nameEn": "Boots of Swiftness",
+			"gold": 1000,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 3011,
+			"nameKo": "화학공학 부패기",
+			"nameEn": "Chemtech Putrifier",
+			"gold": 1900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3020,
+			"nameKo": "마법사의 신발",
+			"nameEn": "Sorcerer's Shoes",
+			"gold": 1100,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 3024,
+			"nameKo": "얼음 방패",
+			"nameEn": "Glacial Buckler",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3031,
+			"nameKo": "무한의 대검",
+			"nameEn": "Infinity Edge",
+			"gold": 3500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3032,
+			"nameKo": "윤 탈 야생화살",
+			"nameEn": "Yun Tal Wildarrows",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3033,
+			"nameKo": "필멸자의 운명",
+			"nameEn": "Mortal Reminder",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3035,
+			"nameKo": "최후의 속삭임",
+			"nameEn": "Last Whisper",
+			"gold": 1450,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3036,
+			"nameKo": "도미닉 경의 인사",
+			"nameEn": "Lord Dominik's Regards",
+			"gold": 3300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3039,
+			"nameKo": "아트마의 심판",
+			"nameEn": "Atma's Reckoning",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3040,
+			"nameKo": "대천사의 포옹",
+			"nameEn": "Seraph's Embrace",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3042,
+			"nameKo": "무라마나",
+			"nameEn": "Muramana",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3044,
+			"nameKo": "탐식의 망치",
+			"nameEn": "Phage",
+			"gold": 1100,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3046,
+			"nameKo": "유령 무희",
+			"nameEn": "Phantom Dancer",
+			"gold": 2650,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3047,
+			"nameKo": "판금 장화",
+			"nameEn": "Plated Steelcaps",
+			"gold": 1200,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 3050,
+			"nameKo": "지크의 융합",
+			"nameEn": "Zeke's Convergence",
+			"gold": 2200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3051,
+			"nameKo": "온기가 필요한 자의 도끼",
+			"nameEn": "Hearthbound Axe",
+			"gold": 1200,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3053,
+			"nameKo": "스테락의 도전",
+			"nameEn": "Sterak's Gage",
+			"gold": 3200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3057,
+			"nameKo": "광휘의 검",
+			"nameEn": "Sheen",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3065,
+			"nameKo": "정령의 형상",
+			"nameEn": "Spirit Visage",
+			"gold": 2700,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3066,
+			"nameKo": "비상의 월갑",
+			"nameEn": "Winged Moonplate",
+			"gold": 800,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3067,
+			"nameKo": "점화석",
+			"nameEn": "Kindlegem",
+			"gold": 800,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3068,
+			"nameKo": "태양불꽃 방패",
+			"nameEn": "Sunfire Aegis",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3070,
+			"nameKo": "여신의 눈물",
+			"nameEn": "Tear of the Goddess",
+			"gold": 400,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3071,
+			"nameKo": "칠흑의 양날 도끼",
+			"nameEn": "Black Cleaver",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3072,
+			"nameKo": "피바라기",
+			"nameEn": "Bloodthirster",
+			"gold": 3400,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3073,
+			"nameKo": "실험적 마공학판",
+			"nameEn": "Experimental Hexplate",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3074,
+			"nameKo": "굶주린 히드라",
+			"nameEn": "Ravenous Hydra",
+			"gold": 3300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3075,
+			"nameKo": "가시 갑옷",
+			"nameEn": "Thornmail",
+			"gold": 2450,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3076,
+			"nameKo": "덤불 조끼",
+			"nameEn": "Bramble Vest",
+			"gold": 800,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3077,
+			"nameKo": "티아맷",
+			"nameEn": "Tiamat",
+			"gold": 1200,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3078,
+			"nameKo": "삼위일체",
+			"nameEn": "Trinity Force",
+			"gold": 3333,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3082,
+			"nameKo": "파수꾼의 갑옷",
+			"nameEn": "Warden's Mail",
+			"gold": 1000,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3083,
+			"nameKo": "워모그의 갑옷",
+			"nameEn": "Warmog's Armor",
+			"gold": 3100,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3084,
+			"nameKo": "강철심장",
+			"nameEn": "Heartsteel",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3085,
+			"nameKo": "루난의 허리케인",
+			"nameEn": "Runaan's Hurricane",
+			"gold": 2650,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3086,
+			"nameKo": "열정의 검",
+			"nameEn": "Zeal",
+			"gold": 1200,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3087,
+			"nameKo": "스태틱의 단검",
+			"nameEn": "Statikk Shiv",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3089,
+			"nameKo": "라바돈의 죽음모자",
+			"nameEn": "Rabadon's Deathcap",
+			"gold": 3500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3091,
+			"nameKo": "마법사의 최후",
+			"nameEn": "Wit's End",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3094,
+			"nameKo": "고속 연사포",
+			"nameEn": "Rapid Firecannon",
+			"gold": 2650,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3095,
+			"nameKo": "폭풍갈퀴",
+			"nameEn": "Stormrazor",
+			"gold": 3200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3100,
+			"nameKo": "리치베인",
+			"nameEn": "Lich Bane",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3102,
+			"nameKo": "밴시의 장막",
+			"nameEn": "Banshee's Veil",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3107,
+			"nameKo": "구원",
+			"nameEn": "Redemption",
+			"gold": 2300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3108,
+			"nameKo": "악마의 마법서",
+			"nameEn": "Fiendish Codex",
+			"gold": 850,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3109,
+			"nameKo": "기사의 맹세",
+			"nameEn": "Knight's Vow",
+			"gold": 2300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3110,
+			"nameKo": "얼어붙은 심장",
+			"nameEn": "Frozen Heart",
+			"gold": 2500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3111,
+			"nameKo": "헤르메스의 발걸음",
+			"nameEn": "Mercury's Treads",
+			"gold": 1250,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 3112,
+			"nameKo": "수호자의 보주",
+			"nameEn": "Guardian's Orb",
+			"gold": 950,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3113,
+			"nameKo": "에테르 환영",
+			"nameEn": "Aether Wisp",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3114,
+			"nameKo": "금지된 우상",
+			"nameEn": "Forbidden Idol",
+			"gold": 600,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3115,
+			"nameKo": "내셔의 이빨",
+			"nameEn": "Nashor's Tooth",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3116,
+			"nameKo": "라일라이의 수정홀",
+			"nameEn": "Rylai's Crystal Scepter",
+			"gold": 2600,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3117,
+			"nameKo": "기동력의 장화",
+			"nameEn": "Mobility Boots",
+			"gold": 1000,
+			"into": false,
+			"boots": true
+		},
+		{
+			"id": 3118,
+			"nameKo": "악의",
+			"nameEn": "Malignance",
+			"gold": 2700,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3119,
+			"nameKo": "혹한의 손길",
+			"nameEn": "Winter's Approach",
+			"gold": 2400,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3121,
+			"nameKo": "종말의 겨울",
+			"nameEn": "Fimbulwinter",
+			"gold": 2400,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3123,
+			"nameKo": "처형인의 대검",
+			"nameEn": "Executioner's Calling",
+			"gold": 800,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3124,
+			"nameKo": "구인수의 격노검",
+			"nameEn": "Guinsoo's Rageblade",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3133,
+			"nameKo": "콜필드의 전투 망치",
+			"nameEn": "Caulfield's Warhammer",
+			"gold": 1050,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3134,
+			"nameKo": "톱날 단검",
+			"nameEn": "Serrated Dirk",
+			"gold": 1000,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3135,
+			"nameKo": "공허의 지팡이",
+			"nameEn": "Void Staff",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3137,
+			"nameKo": "무덤꽃",
+			"nameEn": "Cryptbloom",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3139,
+			"nameKo": "헤르메스의 시미터",
+			"nameEn": "Mercurial Scimitar",
+			"gold": 3200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3140,
+			"nameKo": "수은 장식띠",
+			"nameEn": "Quicksilver Sash",
+			"gold": 1300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3142,
+			"nameKo": "요우무의 유령검",
+			"nameEn": "Youmuu's Ghostblade",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3143,
+			"nameKo": "란두인의 예언",
+			"nameEn": "Randuin's Omen",
+			"gold": 2700,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3144,
+			"nameKo": "정찰병의 새총",
+			"nameEn": "Scout's Slingshot",
+			"gold": 600,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3145,
+			"nameKo": "마법공학 교류 발전기",
+			"nameEn": "Hextech Alternator",
+			"gold": 1100,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3146,
+			"nameKo": "마법공학 총검",
+			"nameEn": "Hextech Gunblade",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3147,
+			"nameKo": "기괴한 가면",
+			"nameEn": "Haunting Guise",
+			"gold": 1300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3152,
+			"nameKo": "마법공학 로켓 벨트",
+			"nameEn": "Hextech Rocketbelt",
+			"gold": 2650,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3153,
+			"nameKo": "몰락한 왕의 검",
+			"nameEn": "Blade of The Ruined King",
+			"gold": 3200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3155,
+			"nameKo": "주문포식자",
+			"nameEn": "Hexdrinker",
+			"gold": 1300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3156,
+			"nameKo": "맬모셔스의 아귀",
+			"nameEn": "Maw of Malmortius",
+			"gold": 3100,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3157,
+			"nameKo": "존야의 모래시계",
+			"nameEn": "Zhonya's Hourglass",
+			"gold": 3250,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3158,
+			"nameKo": "명석함의 아이오니아 장화",
+			"nameEn": "Ionian Boots of Lucidity",
+			"gold": 900,
+			"into": true,
+			"boots": true
+		},
+		{
+			"id": 3161,
+			"nameKo": "쇼진의 창",
+			"nameEn": "Spear of Shojin",
+			"gold": 3100,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3165,
+			"nameKo": "모렐로노미콘",
+			"nameEn": "Morellonomicon",
+			"gold": 2850,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3177,
+			"nameKo": "수호자의 검",
+			"nameEn": "Guardian's Blade",
+			"gold": 950,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3179,
+			"nameKo": "그림자 검",
+			"nameEn": "Umbral Glaive",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3181,
+			"nameKo": "선체파괴자",
+			"nameEn": "Hullbreaker",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3184,
+			"nameKo": "수호자의 망치",
+			"nameEn": "Guardian's Hammer",
+			"gold": 950,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3190,
+			"nameKo": "강철의 솔라리 펜던트",
+			"nameEn": "Locket of the Iron Solari",
+			"gold": 2200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3211,
+			"nameKo": "망령의 두건",
+			"nameEn": "Spectre's Cowl",
+			"gold": 1250,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3222,
+			"nameKo": "미카엘의 축복",
+			"nameEn": "Mikael's Blessing",
+			"gold": 2300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3302,
+			"nameKo": "경계",
+			"nameEn": "Terminus",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3330,
+			"nameKo": "허수아비",
+			"nameEn": "Scarecrow Effigy",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3400,
+			"nameKo": "수당",
+			"nameEn": "Your Cut",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3504,
+			"nameKo": "불타는 향로",
+			"nameEn": "Ardent Censer",
+			"gold": 2200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3508,
+			"nameKo": "정수 약탈자",
+			"nameEn": "Essence Reaver",
+			"gold": 3050,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3599,
+			"nameKo": "칼리스타의 칠흑의 창",
+			"nameEn": "Kalista's Black Spear",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3600,
+			"nameKo": "칼리스타의 칠흑의 창",
+			"nameEn": "Kalista's Black Spear",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3742,
+			"nameKo": "망자의 갑옷",
+			"nameEn": "Dead Man's Plate",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3748,
+			"nameKo": "거대한 히드라",
+			"nameEn": "Titanic Hydra",
+			"gold": 3300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3801,
+			"nameKo": "수정 팔 보호구",
+			"nameEn": "Crystalline Bracer",
+			"gold": 800,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3802,
+			"nameKo": "사라진 양피지",
+			"nameEn": "Lost Chapter",
+			"gold": 1200,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3803,
+			"nameKo": "억겁의 카탈리스트",
+			"nameEn": "Catalyst of Aeons",
+			"gold": 1300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 3814,
+			"nameKo": "밤의 끝자락",
+			"nameEn": "Edge of Night",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3901,
+			"nameKo": "<rarityLegendary>가차없는 포격</rarityLegendary><br><subtitleLeft><silver>바다뱀 은화 500닢</silver></subtitleLeft>",
+			"nameEn": "<rarityLegendary>Fire at Will</rarityLegendary><br><subtitleLeft><silver>500 Silver Serpents</silver></subtitleLeft>",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3902,
+			"nameKo": "<rarityLegendary>죽음의 여신</rarityLegendary><br><subtitleLeft><silver>바다뱀 은화 500닢</silver></subtitleLeft>",
+			"nameEn": "<rarityLegendary>Death's Daughter</rarityLegendary><br><subtitleLeft><silver>500 Silver Serpents</silver></subtitleLeft>",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3903,
+			"nameKo": "<rarityLegendary>사기진작</rarityLegendary><br><subtitleLeft><silver>바다뱀 은화 500닢</silver></subtitleLeft>",
+			"nameEn": "<rarityLegendary>Raise Morale</rarityLegendary><br><subtitleLeft><silver>500 Silver Serpents</silver></subtitleLeft>",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 3916,
+			"nameKo": "망각의 구",
+			"nameEn": "Oblivion Orb",
+			"gold": 800,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 4003,
+			"nameKo": "생명선",
+			"nameEn": "Lifeline",
+			"gold": 1600,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 4004,
+			"nameKo": "망령 해적검",
+			"nameEn": "Spectral Cutlass",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4005,
+			"nameKo": "제국의 명령",
+			"nameEn": "Imperial Mandate",
+			"gold": 2400,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4401,
+			"nameKo": "대자연의 힘",
+			"nameEn": "Force of Nature",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4628,
+			"nameKo": "지평선의 초점",
+			"nameEn": "Horizon Focus",
+			"gold": 2700,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4629,
+			"nameKo": "우주의 추진력",
+			"nameEn": "Cosmic Drive",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4630,
+			"nameKo": "역병의 보석",
+			"nameEn": "Blighting Jewel",
+			"gold": 1100,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 4632,
+			"nameKo": "신록의 장벽",
+			"nameEn": "Verdant Barrier",
+			"gold": 1600,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 4633,
+			"nameKo": "균열 생성기",
+			"nameEn": "Riftmaker",
+			"gold": 3100,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4635,
+			"nameKo": "흡수의 시선",
+			"nameEn": "Leeching Leer",
+			"gold": 1265,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4636,
+			"nameKo": "밤의 수확자",
+			"nameEn": "Night Harvester",
+			"gold": 2765,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4637,
+			"nameKo": "악마의 포옹",
+			"nameEn": "Demonic Embrace",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4642,
+			"nameKo": "밴들유리 거울",
+			"nameEn": "Bandleglass Mirror",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 4645,
+			"nameKo": "그림자불꽃",
+			"nameEn": "Shadowflame",
+			"gold": 3200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 4646,
+			"nameKo": "폭풍 쇄도",
+			"nameEn": "Stormsurge",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6032,
+			"nameKo": "추가 능력치",
+			"nameEn": "Stat Bonus",
+			"gold": 750,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6333,
+			"nameKo": "죽음의 무도",
+			"nameEn": "Death's Dance",
+			"gold": 3300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6609,
+			"nameKo": "화공 펑크 사슬검",
+			"nameEn": "Chempunk Chainsword",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6610,
+			"nameKo": "갈라진 하늘",
+			"nameEn": "Sundered Sky",
+			"gold": 3100,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6616,
+			"nameKo": "흐르는 물의 지팡이",
+			"nameEn": "Staff of Flowing Water",
+			"gold": 2250,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6617,
+			"nameKo": "월석 재생기",
+			"nameEn": "Moonstone Renewer",
+			"gold": 2200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6620,
+			"nameKo": "헬리아의 메아리",
+			"nameEn": "Echoes of Helia",
+			"gold": 2200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6621,
+			"nameKo": "새벽심장",
+			"nameEn": "Dawncore",
+			"gold": 2500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6631,
+			"nameKo": "발걸음 분쇄기",
+			"nameEn": "Stridebreaker",
+			"gold": 3300,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6653,
+			"nameKo": "리안드리의 고통",
+			"nameEn": "Liandry's Torment",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6655,
+			"nameKo": "루덴의 메아리",
+			"nameEn": "Luden's Echo",
+			"gold": 2750,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6657,
+			"nameKo": "영겁의 지팡이",
+			"nameEn": "Rod of Ages",
+			"gold": 2600,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6660,
+			"nameKo": "바미의 불씨",
+			"nameEn": "Bami's Cinder",
+			"gold": 900,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 6662,
+			"nameKo": "얼어붙은 건틀릿",
+			"nameEn": "Iceborn Gauntlet",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6664,
+			"nameKo": "공허한 광휘",
+			"nameEn": "Hollow Radiance",
+			"gold": 2800,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6665,
+			"nameKo": "해신 작쇼",
+			"nameEn": "Jak'Sho, The Protean",
+			"gold": 3200,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6670,
+			"nameKo": "절정의 화살",
+			"nameEn": "Noonquiver",
+			"gold": 1300,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 6672,
+			"nameKo": "크라켄 학살자",
+			"nameEn": "Kraken Slayer",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6673,
+			"nameKo": "불멸의 철갑궁",
+			"nameEn": "Immortal Shieldbow",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6675,
+			"nameKo": "나보리 명멸검",
+			"nameEn": "Navori Flickerblade",
+			"gold": 2650,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6676,
+			"nameKo": "징수의 총",
+			"nameEn": "The Collector",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6690,
+			"nameKo": "꽁지깃",
+			"nameEn": "Rectrix",
+			"gold": 775,
+			"into": true,
+			"boots": false
+		},
+		{
+			"id": 6692,
+			"nameKo": "월식",
+			"nameEn": "Eclipse",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6693,
+			"nameKo": "자객의 발톱",
+			"nameEn": "Prowler's Claw",
+			"gold": 2850,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6694,
+			"nameKo": "세릴다의 원한",
+			"nameEn": "Serylda's Grudge",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6695,
+			"nameKo": "독사의 송곳니",
+			"nameEn": "Serpent's Fang",
+			"gold": 2500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6696,
+			"nameKo": "원칙의 원형낫",
+			"nameEn": "Axiom Arc",
+			"gold": 2750,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6698,
+			"nameKo": "불경한 히드라",
+			"nameEn": "Profane Hydra",
+			"gold": 2850,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6699,
+			"nameKo": "벼락폭풍검",
+			"nameEn": "Voltaic Cyclosword",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 6701,
+			"nameKo": "기회",
+			"nameEn": "Opportunity",
+			"gold": 2700,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 7050,
+			"nameKo": "갱플랭크 Placeholder",
+			"nameEn": "Gangplank Placeholder",
+			"gold": 0,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 8001,
+			"nameKo": "증오의 사슬",
+			"nameEn": "Anathema's Chains",
+			"gold": 2500,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 8010,
+			"nameKo": "핏빛 저주",
+			"nameEn": "Bloodletter's Curse",
+			"gold": 2900,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 8020,
+			"nameKo": "심연의 가면",
+			"nameEn": "Abyssal Mask",
+			"gold": 2650,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 123430,
+			"nameKo": "파멸의식 고서",
+			"nameEn": "Rite of Ruin",
+			"gold": 3000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 124011,
+			"nameKo": "꽃피는 새벽의 검",
+			"nameEn": "Sword of Blossoming Dawn",
+			"gold": 2350,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 126697,
+			"nameKo": "오만",
+			"nameEn": "Hubris",
+			"gold": 2950,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 220008,
+			"nameKo": "모루 교환권",
+			"nameEn": "Anvil Voucher",
+			"gold": 750,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 223069,
+			"nameKo": "공허의 불길",
+			"nameEn": "Void Immolation",
+			"gold": 6000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 226668,
+			"nameKo": "궁극의 히드라",
+			"nameEn": "Ultra Hydra",
+			"gold": 6000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 228002,
+			"nameKo": "우글렛의 마녀 모자",
+			"nameEn": "Wooglet's Witchcap",
+			"gold": 6000,
+			"into": false,
+			"boots": false
+		},
+		{
+			"id": 994403,
+			"nameKo": "황금 뒤집개",
+			"nameEn": "Golden Spatula",
+			"gold": 2500,
+			"into": false,
+			"boots": false
+		}
+	]
+}

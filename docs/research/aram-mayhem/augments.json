@@ -1,0 +1,4699 @@
+{
+	"patch": "26.21",
+	"checkedAt": "2026-10-24",
+	"coverageComplete": true,
+	"coverageNoteKo": "26.21(클라이언트 16.21) CommunityDragon의 한국어 클라이언트 데이터로 아수라장(KIWI) 목록을 대조했습니다. 일반 선택 증강 235개를 모두 포함합니다. 26.21 삭제 증강 13개는 클라이언트 목록에 없고, 클라이언트에서 비활성(Enabled:false)인 9개는 제외했습니다. 펜타킬 헤드라이너 전용 증강 4개(헤비·파워·스래시·둠)는 일반 선택지가 아니어서 넣지 않았습니다.",
+	"augments": [
+		{
+			"id": "bees",
+			"nameKo": "벌이다!!!",
+			"nameEn": "BEES!!!",
+			"tier": "gold",
+			"effectKo": "스킬을 쓰면 때때로 벌집이 날아가 폭발합니다. 둔화와 적중 시 효과도 적용합니다.",
+			"tags": ["on-hit", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3086,
+			"clientNameId": "BEES",
+			"clientVerified": true
+		},
+		{
+			"id": "transmute-prismatic",
+			"nameKo": "전환: 프리즘",
+			"nameEn": "Transmute: Prismatic",
+			"tier": "gold",
+			"effectKo": "무작위 프리즘 증강을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1238,
+			"clientNameId": "ARAM_TransmutePrismatic",
+			"clientVerified": true
+		},
+		{
+			"id": "draw-your-sword",
+			"nameKo": "검을 뽑아라",
+			"nameEn": "Draw Your Sword",
+			"tier": "prismatic",
+			"effectKo": "원거리 챔피언의 사거리가 짧아지는 대신 여러 전투 능력치를 크게 얻습니다.",
+			"tags": ["ad", "attack-speed", "tank", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1134,
+			"clientNameId": "ARAM_DrawYourSword",
+			"clientVerified": true
+		},
+		{
+			"id": "the-boom-and-the-bass",
+			"nameKo": "붐 앤 베이스",
+			"nameEn": "The Boom and the Bass",
+			"tier": "gold",
+			"effectKo": "스킬을 쓴 뒤 다음 기본 공격에 추가 피해가 붙고 이동 속도가 잠시 크게 오릅니다.",
+			"tags": ["on-hit", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3078,
+			"clientNameId": "TheBoomAndTheBass",
+			"clientVerified": true
+		},
+		{
+			"id": "infinite-recursion",
+			"nameKo": "무한 반복",
+			"nameEn": "Infinite Recursion",
+			"tier": "prismatic",
+			"effectKo": "스킬 가속을 얻고 처치에 관여할 때마다 추가로 얻습니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1388,
+			"clientNameId": "InfiniteRecursion",
+			"clientVerified": true
+		},
+		{
+			"id": "takeem-down-down-down",
+			"nameKo": "전부 다 무너뜨려",
+			"nameEn": "Take'em Down Down Down",
+			"tier": "gold",
+			"effectKo": "적 챔피언에게 기본 공격과 스킬을 여러 번 맞히면 추가 피해와 회복을 얻습니다.",
+			"tags": ["heal", "on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3116,
+			"clientNameId": "TakeemDownDownDown",
+			"clientVerified": true
+		},
+		{
+			"id": "armored-impact",
+			"nameKo": "장갑 충격",
+			"nameEn": "Armored Impact",
+			"tier": "gold",
+			"effectKo": "스킬 뒤 다음 기본 공격에 방어력에 비례한 피해가 붙습니다.",
+			"tags": ["tank", "on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3049,
+			"clientNameId": "ArmoredImpact",
+			"clientVerified": true
+		},
+		{
+			"id": "shrink-engine",
+			"nameKo": "축소 엔진",
+			"nameEn": "Shrink Engine",
+			"tier": "gold",
+			"effectKo": "처치 관여로 작아지고 스킬 가속과 이동 속도를 쌓습니다. 사망하면 일부를 잃습니다.",
+			"tags": ["ability-haste", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1373,
+			"clientNameId": "ShrinkEngine",
+			"clientVerified": true
+		},
+		{
+			"id": "recursion",
+			"nameKo": "되풀이",
+			"nameEn": "Recursion",
+			"tier": "gold",
+			"effectKo": "스킬 가속을 얻습니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1068,
+			"clientNameId": "ARAM_Recursion",
+			"clientVerified": true
+		},
+		{
+			"id": "still-here",
+			"nameKo": "죽지 않아",
+			"nameEn": "Still Here",
+			"tier": "gold",
+			"effectKo": "체력이 낮을수록 공격력, 주문력, 생명력 흡수가 늘어납니다.",
+			"tags": ["ad", "ap", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3131,
+			"clientNameId": "StillHere",
+			"clientVerified": true
+		},
+		{
+			"id": "blunt-force",
+			"nameKo": "육중한 힘",
+			"nameEn": "Blunt Force",
+			"tier": "silver",
+			"effectKo": "공격력을 높입니다.",
+			"tags": ["ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1007,
+			"clientNameId": "ARAM_BluntForce",
+			"clientVerified": true
+		},
+		{
+			"id": "mad-scientist",
+			"nameKo": "미친 과학자",
+			"nameEn": "Mad Scientist",
+			"tier": "prismatic",
+			"effectKo": "부활할 때마다 커지고 강해지거나 작아지고 빨라지는 효과 중 하나를 얻습니다.",
+			"tags": ["tank", "ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1053,
+			"clientNameId": "ARAM_MadScientist",
+			"clientVerified": true
+		},
+		{
+			"id": "back-to-basics",
+			"nameKo": "기본으로 돌아가기",
+			"nameEn": "Back To Basics",
+			"tier": "prismatic",
+			"effectKo": "궁극기를 포기하고 일반 스킬과 회복·보호막을 강화합니다.",
+			"tags": ["ability-haste", "heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1004,
+			"clientNameId": "ARAM_BacktoBasics",
+			"clientVerified": true
+		},
+		{
+			"id": "goliath",
+			"nameKo": "거인",
+			"nameEn": "Goliath",
+			"tier": "prismatic",
+			"effectKo": "최대 체력과 적응형 능력치가 늘고 몸집이 커집니다.",
+			"tags": ["tank", "ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1041,
+			"clientNameId": "ARAM_Goliath",
+			"clientVerified": true
+		},
+		{
+			"id": "tank-engine",
+			"nameKo": "탱크 엔진",
+			"nameEn": "Tank Engine",
+			"tier": "gold",
+			"effectKo": "처치 관여로 최대 체력과 몸집이 커집니다. 죽으면 중첩 일부를 잃습니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1353,
+			"clientNameId": "ARAM_TankEngine",
+			"clientVerified": true
+		},
+		{
+			"id": "eureka",
+			"nameKo": "유레카",
+			"nameEn": "Eureka",
+			"tier": "prismatic",
+			"effectKo": "주문력에 비례해 스킬 가속을 얻습니다.",
+			"tags": ["ap", "ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1030,
+			"clientNameId": "ARAM_Eureka",
+			"clientVerified": true
+		},
+		{
+			"id": "ethereal-weapon",
+			"nameKo": "환영 무기",
+			"nameEn": "Ethereal Weapon",
+			"tier": "gold",
+			"effectKo": "스킬이 적중 시 효과를 적용합니다. 같은 대상에게는 발동 간격이 있습니다.",
+			"tags": ["on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1029,
+			"clientNameId": "ARAM_EtherealWeapon",
+			"clientVerified": true
+		},
+		{
+			"id": "jeweled-gauntlet",
+			"nameKo": "보석 건틀릿",
+			"nameEn": "Jeweled Gauntlet",
+			"tier": "prismatic",
+			"effectKo": "스킬 피해에 치명타가 적용될 수 있으며 치명타 확률을 얻습니다.",
+			"tags": ["ap", "ad", "crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1048,
+			"clientNameId": "ARAM_JeweledGauntlet",
+			"clientVerified": true
+		},
+		{
+			"id": "tooth-fairy",
+			"nameKo": "이빨 요정",
+			"nameEn": "Tooth Fairy",
+			"tier": "gold",
+			"effectKo": "큰 피해를 주면 떨어지는 이빨을 주워 물리·마법 관통력을 쌓습니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2083,
+			"clientNameId": "BurstingTeeth",
+			"clientVerified": true
+		},
+		{
+			"id": "windspeakers-blessing",
+			"nameKo": "바람전달자의 축복",
+			"nameEn": "Windspeaker's Blessing",
+			"tier": "prismatic",
+			"effectKo": "회복·보호막을 받은 대상에게 잠시 방어력과 마법 저항력을 더합니다.",
+			"tags": ["tank", "heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1095,
+			"clientNameId": "ARAM_WindspeakersBlessing",
+			"clientVerified": true
+		},
+		{
+			"id": "warlock-juicebox",
+			"nameKo": "마도사의 주스 상자",
+			"nameEn": "Warlock Juicebox",
+			"tier": "gold",
+			"effectKo": "모든 피해 흡혈을 얻습니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2132,
+			"clientNameId": "WarlockJuicebox",
+			"clientVerified": true
+		},
+		{
+			"id": "quest-steel-your-heart",
+			"nameKo": "강철 같은 심장",
+			"nameEn": "Steel Your Heart",
+			"tier": "gold",
+			"effectKo": "강철심장으로 체력 중첩을 모으면 중첩 효과가 강화됩니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1152,
+			"clientNameId": "ARAM_Quest_SteelYourHeart",
+			"clientVerified": true
+		},
+		{
+			"id": "ultra-hydra",
+			"nameKo": "궁극의 히드라",
+			"nameEn": "Ultra Hydra",
+			"tier": "prismatic",
+			"effectKo": "히드라 아이템을 완성하면 티아맷을 얻습니다. 굶주린 히드라·불경한 히드라·거대한 히드라를 모으는 퀘스트를 완료하면 궁극의 히드라를 얻습니다.",
+			"tags": ["ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments/2141",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-17-notes/",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"officialVerificationNoteKo": "공식26.17 아수라장 신규 효과와 퀘스트 설명을 확인했습니다. 후속 수치 변경 여부와 모든 발동 조건을 클라이언트에서 재현하지 않았습니다.",
+			"clientId": 2141,
+			"clientNameId": "Quest_UltraHydra",
+			"clientVerified": true
+		},
+		{
+			"id": "escape-plan",
+			"nameKo": "도주 계획",
+			"nameEn": "Escape Plan",
+			"tier": "silver",
+			"effectKo": "체력이 낮아지면 커다란 보호막과 이동 속도를 얻고 작아집니다.",
+			"tags": ["shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1333,
+			"clientNameId": "EscapePlan",
+			"clientVerified": true
+		},
+		{
+			"id": "heavy-hitter",
+			"nameKo": "강타자",
+			"nameEn": "Heavy Hitter",
+			"tier": "silver",
+			"effectKo": "기본 공격에 자신의 최대 체력에 비례한 물리 피해를 더합니다.",
+			"tags": ["tank", "on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1181,
+			"clientNameId": "ARAM_HeavyHitter",
+			"clientVerified": true
+		},
+		{
+			"id": "clown-college",
+			"nameKo": "광대 대학",
+			"nameEn": "Clown College",
+			"tier": "prismatic",
+			"effectKo": "기습 공격, 은신 이동, 사망 폭발 효과를 얻습니다.",
+			"tags": ["ad", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "출처 사이트끼리 삭제 여부가 달랐습니다. 26.21 클라이언트 아수라장 목록에서 활성 상태를 확인했습니다.",
+			"clientId": 1310,
+			"clientNameId": "ARAM_ClownCollege",
+			"clientVerified": true
+		},
+		{
+			"id": "soul-siphon",
+			"nameKo": "영혼 흡수",
+			"nameEn": "Soul Siphon",
+			"tier": "gold",
+			"effectKo": "치명타 피해량의 일부만큼 체력을 회복합니다.",
+			"tags": ["crit", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1077,
+			"clientNameId": "ARAM_SoulSiphon",
+			"clientVerified": true
+		},
+		{
+			"id": "transmute-gold",
+			"nameKo": "전환: 골드",
+			"nameEn": "Transmute: Gold",
+			"tier": "silver",
+			"effectKo": "무작위 골드 증강을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1237,
+			"clientNameId": "ARAM_TransmuteGold",
+			"clientVerified": true
+		},
+		{
+			"id": "mystic-punch",
+			"nameKo": "신비한 주먹",
+			"nameEn": "Mystic Punch",
+			"tier": "prismatic",
+			"effectKo": "기본 공격 적중 시 스킬의 남은 대기시간이 줄어듭니다.",
+			"tags": ["on-hit", "ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1058,
+			"clientNameId": "ARAM_MysticPunch",
+			"clientVerified": true
+		},
+		{
+			"id": "giant-slayer",
+			"nameKo": "거인 학살자",
+			"nameEn": "Giant Slayer",
+			"tier": "prismatic",
+			"effectKo": "몸집이 작아지고 빨라집니다. 자신보다 큰 적에게 피해가 늘어납니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1195,
+			"clientNameId": "ARAM_GiantSlayer",
+			"clientVerified": true
+		},
+		{
+			"id": "from-beginning-to-end",
+			"nameKo": "시작부터 끝까지",
+			"nameEn": "From Beginning To End",
+			"tier": "gold",
+			"effectKo": "어둠의 수확과 선제공격 효과를 얻습니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1038,
+			"clientNameId": "ARAM_FromBeginningToEnd",
+			"clientVerified": true
+		},
+		{
+			"id": "phenomenal-evil",
+			"nameKo": "극악무도",
+			"nameEn": "Phenomenal Evil",
+			"tier": "gold",
+			"effectKo": "스킬로 적 챔피언을 맞히며 주문력을 쌓습니다.",
+			"tags": ["ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1390,
+			"clientNameId": "ARAM_PhenomenalEvil",
+			"clientVerified": true
+		},
+		{
+			"id": "shadow-runner",
+			"nameKo": "그림자 질주",
+			"nameEn": "Shadow Runner",
+			"tier": "silver",
+			"effectKo": "돌진·순간이동·은신 해제 뒤 잠시 빨라집니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1073,
+			"clientNameId": "ARAM_ShadowRunner",
+			"clientVerified": true
+		},
+		{
+			"id": "dual-wield",
+			"nameKo": "양손잡이",
+			"nameEn": "Dual Wield",
+			"tier": "prismatic",
+			"effectKo": "기본 공격 뒤 추가 타격이 발생합니다. 추가 타격은 적중 시 효과를 낮은 비율로 적용합니다.",
+			"tags": ["on-hit", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1225,
+			"clientNameId": "ARAM_DualWield",
+			"clientVerified": true
+		},
+		{
+			"id": "goredrink",
+			"nameKo": "선혈포식",
+			"nameEn": "Goredrink",
+			"tier": "silver",
+			"effectKo": "모든 피해 흡혈을 얻습니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1138,
+			"clientNameId": "ARAM_Goredrink",
+			"clientVerified": true
+		},
+		{
+			"id": "infernal-conduit",
+			"nameKo": "지옥의 전도체",
+			"nameEn": "Infernal Conduit",
+			"tier": "prismatic",
+			"effectKo": "스킬로 적 챔피언을 맞히면 화상을 남깁니다. 화상 피해가 일반 스킬의 대기시간을 줄입니다.",
+			"tags": ["ap", "ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1045,
+			"clientNameId": "ARAM_InfernalConduit",
+			"clientVerified": true
+		},
+		{
+			"id": "quest-wooglets-witchcap",
+			"nameKo": "우글렛의 마녀 모자",
+			"nameEn": "Wooglet's Witchcap",
+			"tier": "prismatic",
+			"effectKo": "지팡이를 얻습니다. 라바돈의 죽음모자와 존야의 모래시계를 갖추면 합성합니다.",
+			"tags": ["ap", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1156,
+			"clientNameId": "ARAM_Quest_WoogletsWitchcap",
+			"clientVerified": true
+		},
+		{
+			"id": "forged-by-the-master",
+			"nameKo": "장인의 솜씨",
+			"nameEn": "Forged By The Master",
+			"tier": "silver",
+			"effectKo": "아이템과 증강으로 가하는 피해를 높입니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2127,
+			"clientNameId": "ForgedByTheMaster",
+			"clientVerified": true
+		},
+		{
+			"id": "homeguard",
+			"nameKo": "민병대",
+			"nameEn": "Homeguard",
+			"tier": "silver",
+			"effectKo": "적 챔피언에게 맞지 않는 동안 이동 속도가 크게 증가합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1105,
+			"clientNameId": "ARAM_Homeguard",
+			"clientVerified": true
+		},
+		{
+			"id": "zealot",
+			"nameKo": "광신자",
+			"nameEn": "Zealot",
+			"tier": "silver",
+			"effectKo": "주문력에 따라 공격 속도와 치명타 확률을 얻습니다.",
+			"tags": ["ap", "crit", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2009,
+			"clientNameId": "ARAM_Zealot",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-deaths-dance",
+			"nameKo": "죽음의 무도 업그레이드",
+			"nameEn": "Upgrade Death's Dance",
+			"tier": "silver",
+			"effectKo": "죽음의 무도의 피해 지연과 처치 관여 회복을 강화합니다.",
+			"tags": ["heal", "ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments/2157",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-17-notes/",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"officialVerificationNoteKo": "공식26.17 아수라장 신규 효과와 퀘스트 설명을 확인했습니다. 후속 수치 변경 여부와 모든 발동 조건을 클라이언트에서 재현하지 않았습니다.",
+			"clientId": 2157,
+			"clientNameId": "Upgrade_DeathDance",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-infinity-edge",
+			"nameKo": "무한의 대검 업그레이드",
+			"nameEn": "Upgrade Infinity Edge",
+			"tier": "gold",
+			"effectKo": "무한의 대검에 추가 치명타 피해 효과를 붙입니다.",
+			"tags": ["crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1336,
+			"clientNameId": "ARAM_Upgrade_IE",
+			"clientVerified": true
+		},
+		{
+			"id": "blue-barrier",
+			"nameKo": "푸른 방어막",
+			"nameEn": "Blue Barrier",
+			"tier": "silver",
+			"effectKo": "마나를 쓰는 스킬을 사용하면 마나 소모량에 따른 보호막을 얻습니다.",
+			"tags": ["shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3051,
+			"clientNameId": "BlueBarrier",
+			"clientVerified": true
+		},
+		{
+			"id": "donation",
+			"nameKo": "후원",
+			"nameEn": "Donation",
+			"tier": "gold",
+			"effectKo": "골드를 즉시 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1384,
+			"clientNameId": "Donation",
+			"clientVerified": true
+		},
+		{
+			"id": "adapt",
+			"nameKo": "적응형 능력치",
+			"nameEn": "ADAPt",
+			"tier": "silver",
+			"effectKo": "추가 공격력을 주문력으로 바꾸고 주문력을 높입니다.",
+			"tags": ["ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1205,
+			"clientNameId": "ARAM_ADAPt",
+			"clientVerified": true
+		},
+		{
+			"id": "deft",
+			"nameKo": "능수능란",
+			"nameEn": "Deft",
+			"tier": "silver",
+			"effectKo": "공격 속도를 얻습니다.",
+			"tags": ["attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1022,
+			"clientNameId": "ARAM_Deft",
+			"clientVerified": true
+		},
+		{
+			"id": "transmute-chaos",
+			"nameKo": "전환: 혼돈",
+			"nameEn": "Transmute: Chaos",
+			"tier": "prismatic",
+			"effectKo": "무작위 증강 2개를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1243,
+			"clientNameId": "ARAM_TransmuteChaos",
+			"clientVerified": true
+		},
+		{
+			"id": "tank-it-or-leave-it",
+			"nameKo": "확률적 방어",
+			"nameEn": "Tank It Or Leave It",
+			"tier": "silver",
+			"effectKo": "치명타 확률에 따라 받는 피해를 줄일 확률이 생깁니다.",
+			"tags": ["crit", "tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1080,
+			"clientNameId": "ARAM_TankItOrLeaveIt",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-immolate",
+			"nameKo": "불사르기 업그레이드",
+			"nameEn": "Upgrade Immolate",
+			"tier": "silver",
+			"effectKo": "불사르기 효과가 적 챔피언에게 피해를 줄 때 골드를 얻습니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1319,
+			"clientNameId": "ARAM_Upgrade_Immolate",
+			"clientVerified": true
+		},
+		{
+			"id": "stackosaurusrex",
+			"nameKo": "다단 중첩",
+			"nameEn": "Stackosaurus Rex",
+			"tier": "silver",
+			"effectKo": "영구 스킬 중첩을 얻을 때 추가 중첩을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://arammayhem.com/ko-kr/augments/stackosaurusrex/",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.20",
+			"clientId": 1204,
+			"clientNameId": "ARAM_StackosaurusRex",
+			"clientVerified": true
+		},
+		{
+			"id": "vulnerability",
+			"nameKo": "취약",
+			"nameEn": "Vulnerability",
+			"tier": "gold",
+			"effectKo": "아이템 피해와 지속 피해에 치명타가 적용될 수 있습니다.",
+			"tags": ["crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1092,
+			"clientNameId": "ARAM_Vulnerability",
+			"clientVerified": true
+		},
+		{
+			"id": "weapon-of-destiny",
+			"nameKo": "운명의 무기",
+			"nameEn": "Weapon of Destiny",
+			"tier": "gold",
+			"effectKo": "첫 전설급 아이템의 능력치가 처치 관여로 증가합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3081,
+			"clientNameId": "WeaponOfDestiny",
+			"clientVerified": true
+		},
+		{
+			"id": "spin-to-win",
+			"nameKo": "승리를 위한 회전",
+			"nameEn": "Spin To Win",
+			"tier": "silver",
+			"effectKo": "회전하는 스킬의 피해와 사용 빈도를 높입니다.",
+			"tags": ["ad", "ap", "ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1214,
+			"clientNameId": "ARAM_SpinToWin",
+			"clientVerified": true
+		},
+		{
+			"id": "escapade",
+			"nameKo": "마법사 (물리)",
+			"nameEn": "escAPADe",
+			"tier": "silver",
+			"effectKo": "주문력을 추가 공격력으로 바꾸고 공격력을 높입니다.",
+			"tags": ["ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1206,
+			"clientNameId": "ARAM_escAPADe",
+			"clientVerified": true
+		},
+		{
+			"id": "swift-and-safe",
+			"nameKo": "빠르고 안전하게",
+			"nameEn": "Swift and Safe",
+			"tier": "silver",
+			"effectKo": "돌진이나 순간이동 뒤 잠시 보호막을 얻습니다.",
+			"tags": ["shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1315,
+			"clientNameId": "SwiftAndSafe",
+			"clientVerified": true
+		},
+		{
+			"id": "twin-fire",
+			"nameKo": "쌍둥이 불꽃",
+			"nameEn": "Twin Fire",
+			"tier": "silver",
+			"effectKo": "스킬 피해가 추가 폭죽을 발사합니다. 치명타 확률이 폭죽 수를 늘립니다.",
+			"tags": ["crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1415,
+			"clientNameId": "Twinfire",
+			"clientVerified": true
+		},
+		{
+			"id": "sap-magic",
+			"nameKo": "마법 흡수",
+			"nameEn": "Sap Magic",
+			"tier": "gold",
+			"effectKo": "주기적으로 다음 기본 공격이 강화되고 자신을 회복합니다.",
+			"tags": ["on-hit", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3129,
+			"clientNameId": "SapMagic",
+			"clientVerified": true
+		},
+		{
+			"id": "purist-caster",
+			"nameKo": "순수주의자 - 마법사",
+			"nameEn": "Purist - Caster",
+			"tier": "silver",
+			"effectKo": "추가 공격 속도를 스킬 가속으로 바꾸며 스킬 대기시간을 더 줄입니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2018,
+			"clientNameId": "ARAM_Purist_Caster",
+			"clientVerified": true
+		},
+		{
+			"id": "scopier-weapons",
+			"nameKo": "상급 조준경 부착",
+			"nameEn": "Scopier Weapons",
+			"tier": "gold",
+			"effectKo": "기본 공격 사거리가 더 늘어납니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1071,
+			"clientNameId": "ARAM_ScopierWeapons",
+			"clientVerified": true
+		},
+		{
+			"id": "flow-of-spirit",
+			"nameKo": "영혼의 흐름",
+			"nameEn": "Flow of Spirit",
+			"tier": "silver",
+			"effectKo": "지정 스킬을 쓰며 공격 속도를 쌓습니다.",
+			"tags": ["attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3085,
+			"clientNameId": "FlowOfSpirit",
+			"clientVerified": true
+		},
+		{
+			"id": "outlaws-grit",
+			"nameKo": "무법자의 투지",
+			"nameEn": "Outlaw's Grit",
+			"tier": "gold",
+			"effectKo": "돌진이나 순간이동 뒤 방어력과 마법 저항력이 쌓입니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1063,
+			"clientNameId": "ARAM_OutlawsGrit",
+			"clientVerified": true
+		},
+		{
+			"id": "ultimate-recursion",
+			"nameKo": "궁극의 반복",
+			"nameEn": "Ultimate Recursion",
+			"tier": "silver",
+			"effectKo": "궁극기 가속을 얻습니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3055,
+			"clientNameId": "UltimateRecursion",
+			"clientVerified": true
+		},
+		{
+			"id": "enchanting-butterflies",
+			"nameKo": "황홀한 나비",
+			"nameEn": "Enchanting Butterflies",
+			"tier": "gold",
+			"effectKo": "아군 회복·보호막으로 나비를 모읍니다. 충분히 모은 뒤 적을 때리면 나비가 추가 피해를 줍니다.",
+			"tags": ["heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3163,
+			"clientNameId": "EnchantingButterflies",
+			"clientVerified": true
+		},
+		{
+			"id": "final-form",
+			"nameKo": "최종 형태",
+			"nameEn": "Final Form",
+			"tier": "prismatic",
+			"effectKo": "궁극기를 쓰면 잠시 보호막과 이동 속도, 모든 피해 흡혈을 얻습니다.",
+			"tags": ["shield", "heal", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1344,
+			"clientNameId": "FinalForm",
+			"clientVerified": true
+		},
+		{
+			"id": "quest-urfs-champion",
+			"nameKo": "우르프의 챔피언",
+			"nameEn": "Urf's Champion",
+			"tier": "prismatic",
+			"effectKo": "처치 관여 퀘스트를 달성하면 황금 뒤집개를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1154,
+			"clientNameId": "ARAM_Quest_UrfsChampion",
+			"clientVerified": true
+		},
+		{
+			"id": "hand-of-baron",
+			"nameKo": "남작의 도움",
+			"nameEn": "Hand of Baron",
+			"tier": "prismatic",
+			"effectKo": "주변 아군 미니언을 강화하고 적응형 능력치를 높입니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1389,
+			"clientNameId": "HandOfBaron",
+			"clientVerified": true
+		},
+		{
+			"id": "leg-day",
+			"nameKo": "하체 운동의 날",
+			"nameEn": "Leg Day",
+			"tier": "silver",
+			"effectKo": "이동 속도와 둔화 저항을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1305,
+			"clientNameId": "ARAM_LegDay",
+			"clientVerified": true
+		},
+		{
+			"id": "stay-resolute",
+			"nameKo": "확고한 의지로",
+			"nameEn": "Stay Resolute",
+			"tier": "silver",
+			"effectKo": "지정 스킬을 적에게 맞히면 방어력과 마법 저항력을 얻습니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2076,
+			"clientNameId": "TitansPulse",
+			"clientVerified": true
+		},
+		{
+			"id": "wee-woo-wee-woo",
+			"nameKo": "삐뽀삐뽀",
+			"nameEn": "Wee Woo Wee Woo",
+			"tier": "gold",
+			"effectKo": "체력이 낮은 아군 쪽으로 빨라지고 그 아군에게 주는 회복·보호막이 강해집니다.",
+			"tags": ["heal", "shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1005,
+			"clientNameId": "ARAM_WeeWooWeeWoo",
+			"clientVerified": true
+		},
+		{
+			"id": "heavy-is-the-crown",
+			"nameKo": "왕관의 무게",
+			"nameEn": "Heavy Is The Crown",
+			"tier": "gold",
+			"effectKo": "이동 속도를 잃는 대신 공격력·주문력·공격 속도를 얻습니다. 처치 관여와 사망에 따라 변합니다.",
+			"tags": ["ad", "ap", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3132,
+			"clientNameId": "HeavyIsTheCrown",
+			"clientVerified": true
+		},
+		{
+			"id": "mind-to-matter",
+			"nameKo": "정신 변환",
+			"nameEn": "Mind to Matter",
+			"tier": "silver",
+			"effectKo": "최대 마나에 비례해 추가 체력을 얻습니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1056,
+			"clientNameId": "ARAM_MindtoMatter",
+			"clientVerified": true
+		},
+		{
+			"id": "biggest-snowball-ever",
+			"nameKo": "데굴데굴 눈덩이!",
+			"nameEn": "Biggest Snowball Ever",
+			"tier": "prismatic",
+			"effectKo": "눈덩이를 크게 강화하고 적중 시 주변 적을 띄웁니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1329,
+			"clientNameId": "BiggestSnowballEver",
+			"clientVerified": true
+		},
+		{
+			"id": "omni-soul",
+			"nameKo": "전능의 영혼",
+			"nameEn": "Omni Soul",
+			"tier": "prismatic",
+			"effectKo": "무작위 드래곤 영혼 3개를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1062,
+			"clientNameId": "ARAM_OmniSoul",
+			"clientVerified": true
+		},
+		{
+			"id": "sonata",
+			"nameKo": "소나타",
+			"nameEn": "Sonata",
+			"tier": "gold",
+			"effectKo": "회복·보호막 효과와 이동 속도 효과를 번갈아 자동으로 제공합니다.",
+			"tags": ["heal", "shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1420,
+			"clientNameId": "Sonata",
+			"clientVerified": true
+		},
+		{
+			"id": "celestial-body",
+			"nameKo": "천상의 신체",
+			"nameEn": "Celestial Body",
+			"tier": "gold",
+			"effectKo": "최대 체력을 크게 얻지만 가하는 피해가 줄어듭니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1013,
+			"clientNameId": "ARAM_CelestialBody",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-collector",
+			"nameKo": "징수의 총 업그레이드",
+			"nameEn": "Upgrade Collector",
+			"tier": "silver",
+			"effectKo": "징수의 총의 처형과 골드 효과를 강화합니다.",
+			"tags": ["crit", "ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1320,
+			"clientNameId": "ARAM_Upgrade_Collector",
+			"clientVerified": true
+		},
+		{
+			"id": "archmage",
+			"nameKo": "대마법사",
+			"nameEn": "Archmage",
+			"tier": "prismatic",
+			"effectKo": "스킬을 쓰면 다른 스킬의 남은 대기시간이 줄어듭니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2087,
+			"clientNameId": "ARAM_Archmage",
+			"clientVerified": true
+		},
+		{
+			"id": "circle-of-death",
+			"nameKo": "죽음의 순환",
+			"nameEn": "Circle of Death",
+			"tier": "prismatic",
+			"effectKo": "회복량의 일부를 주변 적 챔피언에게 주는 피해로 바꿉니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1015,
+			"clientNameId": "ARAM_CircleofDeath",
+			"clientVerified": true
+		},
+		{
+			"id": "stats-on-stats",
+			"nameKo": "능력치 더하기 능력치!",
+			"nameEn": "Stats on Stats!",
+			"tier": "gold",
+			"effectKo": "능력치 모루 3개를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1403,
+			"clientNameId": "ARAM_StatsOnStats",
+			"clientVerified": true
+		},
+		{
+			"id": "magic-missile",
+			"nameKo": "마법 미사일",
+			"nameEn": "Magic Missile",
+			"tier": "gold",
+			"effectKo": "스킬 적중 시 고정 피해 미사일을 발사합니다. 멀리 날아갈수록 강해집니다.",
+			"tags": ["ap", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1133,
+			"clientNameId": "ARAM_MagicMissile",
+			"clientVerified": true
+		},
+		{
+			"id": "fruitify",
+			"nameKo": "과일화",
+			"nameEn": "Fruitify",
+			"tier": "silver",
+			"effectKo": "처치 관여 시 아군과 자신이 먹고 회복할 수 있는 과일이 생깁니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3121,
+			"clientNameId": "Fruitify",
+			"clientVerified": true
+		},
+		{
+			"id": "erosion",
+			"nameKo": "부식",
+			"nameEn": "Erosion",
+			"tier": "silver",
+			"effectKo": "적에게 피해를 줄수록 방어력과 마법 저항력을 깎습니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1028,
+			"clientNameId": "ARAM_Erosion",
+			"clientVerified": true
+		},
+		{
+			"id": "ocean-soul",
+			"nameKo": "바다의 영혼",
+			"nameEn": "Ocean Soul",
+			"tier": "silver",
+			"effectKo": "바다 드래곤 영혼 효과로 전투 중 회복합니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1060,
+			"clientNameId": "ARAM_OceanSoul",
+			"clientVerified": true
+		},
+		{
+			"id": "jeweled-bracelet",
+			"nameKo": "보석 팔찌",
+			"nameEn": "Jeweled Bracelet",
+			"tier": "gold",
+			"effectKo": "궁극기 피해에 치명타가 적용될 수 있습니다.",
+			"tags": ["crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3123,
+			"clientNameId": "JeweledBracelet",
+			"clientVerified": true
+		},
+		{
+			"id": "witchful-thinking",
+			"nameKo": "사악한 정신",
+			"nameEn": "Witchful Thinking",
+			"tier": "silver",
+			"effectKo": "주문력을 얻습니다.",
+			"tags": ["ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1097,
+			"clientNameId": "ARAM_WitchfulThinking",
+			"clientVerified": true
+		},
+		{
+			"id": "marksmage",
+			"nameKo": "마법 명사수",
+			"nameEn": "Marksmage",
+			"tier": "gold",
+			"effectKo": "기본 공격에 주문력 비례 물리 피해를 더합니다.",
+			"tags": ["ap", "on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1129,
+			"clientNameId": "ARAM_Marksmage",
+			"clientVerified": true
+		},
+		{
+			"id": "spirit-bomb",
+			"nameKo": "영혼 폭탄",
+			"nameEn": "Spirit Bomb",
+			"tier": "prismatic",
+			"effectKo": "아군 회복·보호막으로 힘을 모아 체력이 낮은 아군 주변을 회복하고 보호합니다.",
+			"tags": ["heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2104,
+			"clientNameId": "ARAM_SpiritBomb",
+			"clientVerified": true
+		},
+		{
+			"id": "scopiest-weapons",
+			"nameKo": "최상급 조준경 부착",
+			"nameEn": "Scopiest Weapons",
+			"tier": "prismatic",
+			"effectKo": "기본 공격 사거리가 크게 늘어납니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1115,
+			"clientNameId": "ARAM_ScopiestWeapons",
+			"clientVerified": true
+		},
+		{
+			"id": "lich-brain",
+			"nameKo": "리치 두뇌",
+			"nameEn": "Lich Brain",
+			"tier": "silver",
+			"effectKo": "추가 체력에 비례해 주문력을 얻습니다.",
+			"tags": ["ap", "tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3094,
+			"clientNameId": "LichBrain",
+			"clientVerified": true
+		},
+		{
+			"id": "from-downtown",
+			"nameKo": "초장거리 저격",
+			"nameEn": "From Downtown",
+			"tier": "gold",
+			"effectKo": "먼 거리에서 스킬을 맞히는 퀘스트를 완료하면 원거리 적중 시 운석이 떨어집니다.",
+			"tags": ["ap", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "이전 이름은 '로켓 배송'입니다. 26.21 한국 클라이언트 이름은 '초장거리 저격'입니다.",
+			"clientId": 2103,
+			"clientNameId": "ARAM_BangBang",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-stormsurge",
+			"nameKo": "폭풍 쇄도 업그레이드",
+			"nameEn": "Upgrade Stormsurge",
+			"tier": "gold",
+			"effectKo": "폭풍 쇄도 효과가 주변에도 피해를 주고 추가 표식을 남깁니다.",
+			"tags": ["ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3150,
+			"clientNameId": "Upgrade_Stormsurge",
+			"clientVerified": true
+		},
+		{
+			"id": "bonk",
+			"nameKo": "꽁!",
+			"nameEn": "BONK!",
+			"tier": "gold",
+			"effectKo": "지정 강화 공격이나 스킬이 주변에도 추가 피해를 줍니다.",
+			"tags": ["on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2111,
+			"clientNameId": "Bonk",
+			"clientVerified": true
+		},
+		{
+			"id": "dont-blink",
+			"nameKo": "속전속결",
+			"nameEn": "Don't Blink",
+			"tier": "silver",
+			"effectKo": "상대보다 이동 속도가 빠를수록 피해가 증가합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1026,
+			"clientNameId": "ARAM_DontBlink",
+			"clientVerified": true
+		},
+		{
+			"id": "with-haste",
+			"nameKo": "속행",
+			"nameEn": "With Haste",
+			"tier": "gold",
+			"effectKo": "스킬 가속에 비례해 이동 속도가 증가합니다.",
+			"tags": ["ability-haste", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1098,
+			"clientNameId": "ARAM_WithHaste",
+			"clientVerified": true
+		},
+		{
+			"id": "critical-rhythm",
+			"nameKo": "치명적 리듬",
+			"nameEn": "Critical Rhythm",
+			"tier": "gold",
+			"effectKo": "치명타를 터뜨리며 공격 속도를 쌓습니다.",
+			"tags": ["crit", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1328,
+			"clientNameId": "CriticalRhythm",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-zhonyas",
+			"nameKo": "존야 업그레이드",
+			"nameEn": "Upgrade Zhonya's",
+			"tier": "silver",
+			"effectKo": "존야 계열 무적 효과 중 이동할 수 있게 됩니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1318,
+			"clientNameId": "ARAM_Upgrade_ZH",
+			"clientVerified": true
+		},
+		{
+			"id": "get-jinxed",
+			"nameKo": "떴다, 징크스",
+			"nameEn": "Get Jinxed",
+			"tier": "gold",
+			"effectKo": "로켓을 타고 돌진하는 소환사 주문을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3004,
+			"clientNameId": "GetJinxed",
+			"clientVerified": true
+		},
+		{
+			"id": "crimson-cobalt",
+			"nameKo": "핏빛 코발트",
+			"nameEn": "CRIMSON COBALT",
+			"tier": "gold",
+			"effectKo": "지정 스킬로 표식을 남깁니다. 표식을 소모하면 피해를 더 주고 해당 스킬 대기시간을 줄입니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3088,
+			"clientNameId": "CrimsonCobalt",
+			"clientVerified": true
+		},
+		{
+			"id": "dive-bomber",
+			"nameKo": "폭격기",
+			"nameEn": "Dive Bomber",
+			"tier": "silver",
+			"effectKo": "죽을 때 주변 적에게 최대 체력 비례 고정 피해를 줍니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1025,
+			"clientNameId": "ARAM_DiveBomber",
+			"clientVerified": true
+		},
+		{
+			"id": "en-passant",
+			"nameKo": "앙파상",
+			"nameEn": "En Passant",
+			"tier": "prismatic",
+			"effectKo": "적의 급소를 공격하면 고정 피해, 회복, 이동 속도를 얻습니다.",
+			"tags": ["heal", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2098,
+			"clientNameId": "ARAM_EndlessHunt",
+			"clientVerified": true
+		},
+		{
+			"id": "ultimate-awakening",
+			"nameKo": "궁극의 각성",
+			"nameEn": "Ultimate Awakening",
+			"tier": "prismatic",
+			"effectKo": "궁극기 사용 후 일반 스킬이 초기화되고 잠시 스킬 가속이 크게 증가합니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1349,
+			"clientNameId": "UltimateAwakening",
+			"clientVerified": true
+		},
+		{
+			"id": "bread-and-butter",
+			"nameKo": "빵과 버터",
+			"nameEn": "Bread And Butter",
+			"tier": "gold",
+			"effectKo": "Q의 스킬 가속을 높입니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1103,
+			"clientNameId": "ARAM_BreadAndButter",
+			"clientVerified": true
+		},
+		{
+			"id": "echo-cast",
+			"nameKo": "메아리 시전",
+			"nameEn": "Echo Cast",
+			"tier": "prismatic",
+			"effectKo": "지정 스킬을 쓰면 분신이 같은 스킬을 다시 사용합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2062,
+			"clientNameId": "Ability_SelfAOE_DoubleCast",
+			"clientVerified": true
+		},
+		{
+			"id": "slap-around",
+			"nameKo": "우당탕탕",
+			"nameEn": "Slap Around",
+			"tier": "silver",
+			"effectKo": "적의 이동을 막으면 공격력 또는 주문력을 쌓습니다. 사망하면 일부를 잃습니다.",
+			"tags": ["ad", "ap", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1136,
+			"clientNameId": "ARAM_SlapAround",
+			"clientVerified": true
+		},
+		{
+			"id": "growth-spurt",
+			"nameKo": "급속 성장",
+			"nameEn": "Growth Spurt",
+			"tier": "gold",
+			"effectKo": "커지면서 주변 적을 띄우고 체력을 얻는 소환사 주문을 받습니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1401,
+			"clientNameId": "GrowthSpurt",
+			"clientVerified": true
+		},
+		{
+			"id": "goldrend",
+			"nameKo": "골드 강탈",
+			"nameEn": "Goldrend",
+			"tier": "prismatic",
+			"effectKo": "적 챔피언을 공격하면 주기적으로 추가 피해, 골드, 이동 속도를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1335,
+			"clientNameId": "Goldrend",
+			"clientVerified": true
+		},
+		{
+			"id": "overflow",
+			"nameKo": "범람",
+			"nameEn": "Overflow",
+			"tier": "gold",
+			"effectKo": "마나 소모가 늘어나는 대신 최대 마나에 따라 피해와 회복·보호막 효과가 높아집니다.",
+			"tags": ["ap", "heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1311,
+			"clientNameId": "ARAM_Overflow",
+			"clientVerified": true
+		},
+		{
+			"id": "skilled-sniper",
+			"nameKo": "노련한 저격수",
+			"nameEn": "Skilled Sniper",
+			"tier": "gold",
+			"effectKo": "먼 거리에서 일반 스킬을 맞히면 해당 스킬의 대기시간을 줄입니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1113,
+			"clientNameId": "ARAM_SkilledSniper",
+			"clientVerified": true
+		},
+		{
+			"id": "stats-on-stats-on-stats",
+			"nameKo": "능력치 더하기 능력치 더하기 능력치!",
+			"nameEn": "Stats on Stats on Stats!",
+			"tier": "prismatic",
+			"effectKo": "능력치 모루 4개와 다음 증강 선택의 추가 새로고침을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1402,
+			"clientNameId": "ARAM_StatsOnStatsOnStats",
+			"clientVerified": true
+		},
+		{
+			"id": "get-excited",
+			"nameKo": "신난다!",
+			"nameEn": "Get Excited!",
+			"tier": "gold",
+			"effectKo": "처치 관여 직후 잠시 공격 속도와 이동 속도가 높아집니다.",
+			"tags": ["attack-speed", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1322,
+			"clientNameId": "ARAM_GetExcited",
+			"clientVerified": true
+		},
+		{
+			"id": "big-shot",
+			"nameKo": "묵직한 한 방",
+			"nameEn": "Big Shot",
+			"tier": "prismatic",
+			"effectKo": "공격 속도의 상당 부분을 치명타 피해로 바꿉니다.",
+			"tags": ["crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3018,
+			"clientNameId": "BigShot",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-ravenous-hydra",
+			"nameKo": "굶주린 히드라 업그레이드",
+			"nameEn": "Upgrade Ravenous Hydra",
+			"tier": "gold",
+			"effectKo": "스킬에도 굶주린 히드라의 쪼개기가 적용되며 흡혈을 강화합니다.",
+			"tags": ["ad", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments/2140",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2140,
+			"clientNameId": "Upgrade_Ravenous",
+			"clientVerified": true
+		},
+		{
+			"id": "big-brain",
+			"nameKo": "전술적 대비",
+			"nameEn": "Big Brain",
+			"tier": "gold",
+			"effectKo": "주문력에 비례하는 보호막을 얻습니다.",
+			"tags": ["ap", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1180,
+			"clientNameId": "ARAM_BigBrain",
+			"clientVerified": true
+		},
+		{
+			"id": "dashing",
+			"nameKo": "돌진",
+			"nameEn": "Dashing",
+			"tier": "prismatic",
+			"effectKo": "돌진과 순간이동 스킬의 가속을 크게 높입니다.",
+			"tags": ["ability-haste", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1019,
+			"clientNameId": "ARAM_Dashing",
+			"clientVerified": true
+		},
+		{
+			"id": "endless-decimation",
+			"nameKo": "끝없는 학살",
+			"nameEn": "Endless Decimation",
+			"tier": "gold",
+			"effectKo": "전투 중 주변을 자동으로 베며 바깥쪽 적을 맞히면 회복합니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2091,
+			"clientNameId": "EndlessDecimation",
+			"clientVerified": true
+		},
+		{
+			"id": "ice-cold",
+			"nameKo": "차가운 냉기",
+			"nameEn": "Ice Cold",
+			"tier": "silver",
+			"effectKo": "둔화 효과를 강화합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1044,
+			"clientNameId": "ARAM_IceCold",
+			"clientVerified": true
+		},
+		{
+			"id": "first-aid-kit",
+			"nameKo": "응급처치 키트",
+			"nameEn": "First-Aid Kit",
+			"tier": "silver",
+			"effectKo": "체력 회복과 보호막 효과를 높입니다.",
+			"tags": ["heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1037,
+			"clientNameId": "ARAM_FirstAidKit",
+			"clientVerified": true
+		},
+		{
+			"id": "pursuit-of-haste",
+			"nameKo": "가속 추구",
+			"nameEn": "Pursuit of Haste",
+			"tier": "gold",
+			"effectKo": "지정 스킬을 적 챔피언에게 맞히는 퀘스트로 해당 스킬 가속을 얻습니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2100,
+			"clientNameId": "ARAM_SpecializedRecursion",
+			"clientVerified": true
+		},
+		{
+			"id": "group-hug",
+			"nameKo": "단체 포옹",
+			"nameEn": "Group Hug",
+			"tier": "prismatic",
+			"effectKo": "지정 회복·보호막 스킬이 주변 아군에게도 효과를 줍니다.",
+			"tags": ["heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3149,
+			"clientNameId": "GroupHug",
+			"clientVerified": true
+		},
+		{
+			"id": "dawnbringers-resolve",
+			"nameKo": "빛의 인도자 결의",
+			"nameEn": "Dawnbringer's Resolve",
+			"tier": "gold",
+			"effectKo": "체력이 일정 수준 아래로 떨어지면 크게 회복합니다.",
+			"tags": ["heal", "tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1020,
+			"clientNameId": "ARAM_DawnbringersResolve",
+			"clientVerified": true
+		},
+		{
+			"id": "symphony-of-war",
+			"nameKo": "전장의 교향곡",
+			"nameEn": "Symphony of War",
+			"tier": "prismatic",
+			"effectKo": "정복자와 치명적 속도 효과를 얻습니다.",
+			"tags": ["attack-speed", "ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1079,
+			"clientNameId": "ARAM_SymphonyofWar",
+			"clientVerified": true
+		},
+		{
+			"id": "blade-waltz",
+			"nameKo": "검무",
+			"nameEn": "Blade Waltz",
+			"tier": "prismatic",
+			"effectKo": "적 사이를 연달아 이동하며 공격하는 소환사 주문을 얻습니다.",
+			"tags": ["on-hit", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1006,
+			"clientNameId": "ARAM_BladeWaltz",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-sheen",
+			"nameKo": "광휘의 검 업그레이드",
+			"nameEn": "Upgrade Sheen",
+			"tier": "gold",
+			"effectKo": "주문 검 효과에 체력 비례 피해와 자신의 체력 회복을 더합니다.",
+			"tags": ["on-hit", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1996,
+			"clientNameId": "ARAM_Upgrade_Sheen",
+			"clientVerified": true
+		},
+		{
+			"id": "dont-change-the-channel",
+			"nameKo": "채널 고정",
+			"nameEn": "Don't Change the Channel",
+			"tier": "silver",
+			"effectKo": "정신을 집중하는 동안 보호막을 얻습니다.",
+			"tags": ["shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2131,
+			"clientNameId": "DontChangeTheChannel",
+			"clientVerified": true
+		},
+		{
+			"id": "ravenous-bind",
+			"nameKo": "굶주린 속박",
+			"nameEn": "Ravenous Bind",
+			"tier": "gold",
+			"effectKo": "지정 스킬로 적의 이동을 막으면 추가 피해를 주고 회복합니다.",
+			"tags": ["heal", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2077,
+			"clientNameId": "DarkWind",
+			"clientVerified": true
+		},
+		{
+			"id": "siphon",
+			"nameKo": "흡수",
+			"nameEn": "Siphon",
+			"tier": "silver",
+			"effectKo": "지정 스킬로 적 챔피언을 맞히면 회복합니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2073,
+			"clientNameId": "ARAM_SustainingStrike",
+			"clientVerified": true
+		},
+		{
+			"id": "tap-dancer",
+			"nameKo": "탭 댄서",
+			"nameEn": "Tap Dancer",
+			"tier": "prismatic",
+			"effectKo": "기본 공격으로 이동 속도를 쌓고 이동 속도에 따라 공격 속도를 얻습니다.",
+			"tags": ["attack-speed", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1081,
+			"clientNameId": "ARAM_TapDancer",
+			"clientVerified": true
+		},
+		{
+			"id": "terraind",
+			"nameKo": "지형 생성됨",
+			"nameEn": "Terrain'd",
+			"tier": "gold",
+			"effectKo": "지정 지형 생성 스킬 주위에 피해를 더합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2129,
+			"clientNameId": "Terraind",
+			"clientVerified": true
+		},
+		{
+			"id": "courage-of-the-colossus",
+			"nameKo": "거석상의 용기",
+			"nameEn": "Courage of the Colossus",
+			"tier": "prismatic",
+			"effectKo": "적의 이동을 막으면 보호막을 얻습니다.",
+			"tags": ["shield", "tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1018,
+			"clientNameId": "ARAM_CourageoftheColossus",
+			"clientVerified": true
+		},
+		{
+			"id": "protein-shake",
+			"nameKo": "프로틴 음료",
+			"nameEn": "Protein Shake",
+			"tier": "prismatic",
+			"effectKo": "방어력과 마법 저항력에 따라 회복·보호막 효과가 높아집니다.",
+			"tags": ["tank", "heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1324,
+			"clientNameId": "ARAM_ProteinShake",
+			"clientVerified": true
+		},
+		{
+			"id": "its-critical",
+			"nameKo": "치명적인 공격",
+			"nameEn": "It's Critical",
+			"tier": "gold",
+			"effectKo": "치명타 확률을 얻습니다.",
+			"tags": ["crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1047,
+			"clientNameId": "ARAM_ItsCritical",
+			"clientVerified": true
+		},
+		{
+			"id": "sonic-boom",
+			"nameKo": "음속 폭발",
+			"nameEn": "Sonic Boom",
+			"tier": "silver",
+			"effectKo": "아군에게 강화 효과를 주면 아군 주변 적에게 피해와 둔화를 줍니다.",
+			"tags": ["heal", "shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1076,
+			"clientNameId": "ARAM_SonicBoom",
+			"clientVerified": true
+		},
+		{
+			"id": "flashy",
+			"nameKo": "점멸 난사",
+			"nameEn": "Flashy",
+			"tier": "gold",
+			"effectKo": "점멸을 여러 차례 충전해 사용합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1116,
+			"clientNameId": "ARAM_Flashy",
+			"clientVerified": true
+		},
+		{
+			"id": "lil-extra-help",
+			"nameKo": "작은 도움",
+			"nameEn": "Lil' Extra Help",
+			"tier": "gold",
+			"effectKo": "지정 스킬이 유지되는 동안 공격 사거리와 공격 속도가 늘어납니다.",
+			"tags": ["attack-speed", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2096,
+			"clientNameId": "LittleExtraHelp",
+			"clientVerified": true
+		},
+		{
+			"id": "double-time",
+			"nameKo": "더블 타임",
+			"nameEn": "Double Time",
+			"tier": "gold",
+			"effectKo": "서로 다른 스킬을 빠르게 맞히면 추가 피해를 주고 최대 마나를 영구적으로 쌓습니다.",
+			"tags": ["ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3036,
+			"clientNameId": "DoubleTime",
+			"clientVerified": true
+		},
+		{
+			"id": "thread-the-needle",
+			"nameKo": "바늘에 실 끼우기",
+			"nameEn": "Thread the Needle",
+			"tier": "gold",
+			"effectKo": "방어구 관통력과 마법 관통력을 얻습니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1084,
+			"clientNameId": "ARAM_ThreadtheNeedle",
+			"clientVerified": true
+		},
+		{
+			"id": "scoped-weapons",
+			"nameKo": "조준경 부착",
+			"nameEn": "Scoped Weapons",
+			"tier": "silver",
+			"effectKo": "기본 공격 사거리가 늘어납니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1170,
+			"clientNameId": "ARAM_ScopedWeapons",
+			"clientVerified": true
+		},
+		{
+			"id": "recoil",
+			"nameKo": "고반동",
+			"nameEn": "Recoil",
+			"tier": "gold",
+			"effectKo": "지정 스킬을 쓰면 자신의 몸이 뒤로 밀려납니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3075,
+			"clientNameId": "Recoil",
+			"clientVerified": true
+		},
+		{
+			"id": "ominous-pact",
+			"nameKo": "불길한 서약",
+			"nameEn": "Ominous Pact",
+			"tier": "prismatic",
+			"effectKo": "스킬에 체력 비용이 생깁니다. 잃은 체력에 따라 주문력, 이동 속도, 모든 피해 흡혈을 얻습니다.",
+			"tags": ["ap", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1332,
+			"clientNameId": "OminousPact",
+			"clientVerified": true
+		},
+		{
+			"id": "bread-and-cheese",
+			"nameKo": "빵과 치즈",
+			"nameEn": "Bread and Cheese",
+			"tier": "gold",
+			"effectKo": "E의 스킬 가속을 높입니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1151,
+			"clientNameId": "ARAM_BreadAndCheese",
+			"clientVerified": true
+		},
+		{
+			"id": "lonely-warrior",
+			"nameKo": "고독한 전사",
+			"nameEn": "Lonely Warrior",
+			"tier": "silver",
+			"effectKo": "주변 적 챔피언 수에 따라 방어력, 마법 저항력, 공격 속도를 얻습니다.",
+			"tags": ["tank", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3134,
+			"clientNameId": "LonelyWarrior",
+			"clientVerified": true
+		},
+		{
+			"id": "pursuit-of-power",
+			"nameKo": "위력 추구",
+			"nameEn": "Pursuit of Power",
+			"tier": "gold",
+			"effectKo": "지정 스킬을 맞히는 퀘스트로 그 스킬의 피해를 높입니다.",
+			"tags": ["ap", "ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "출처 사이트끼리 삭제 여부가 달랐습니다. 26.21 클라이언트 아수라장 목록에서 활성 상태를 확인했습니다.",
+			"clientId": 2116,
+			"clientNameId": "SpecializedEmpowerment",
+			"clientVerified": true
+		},
+		{
+			"id": "soul-eater",
+			"nameKo": "영혼의 포식자",
+			"nameEn": "Soul Eater",
+			"tier": "gold",
+			"effectKo": "적의 이동을 막으면 최대 체력을 영구적으로 얻습니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1375,
+			"clientNameId": "SoulEater",
+			"clientVerified": true
+		},
+		{
+			"id": "master-of-duality",
+			"nameKo": "결투의 대가",
+			"nameEn": "Master of Duality",
+			"tier": "prismatic",
+			"effectKo": "기본 공격은 주문력을, 스킬 피해는 공격력을 잠시 쌓아 줍니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1054,
+			"clientNameId": "ARAM_MasterofDuality",
+			"clientVerified": true
+		},
+		{
+			"id": "cruelty",
+			"nameKo": "잔혹 행위",
+			"nameEn": "Cruelty",
+			"tier": "prismatic",
+			"effectKo": "적의 이동을 막은 위치에 추가 피해가 떨어집니다.",
+			"tags": ["ap", "tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1323,
+			"clientNameId": "ARAM_Cruelty",
+			"clientVerified": true
+		},
+		{
+			"id": "empyrean-promise",
+			"nameKo": "창공의 서약",
+			"nameEn": "Empyrean Promise",
+			"tier": "prismatic",
+			"effectKo": "아군에게 이동하면서 서로 보호막을 얻는 소환사 주문을 받습니다.",
+			"tags": ["shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1331,
+			"clientNameId": "EmpyreanPromise",
+			"clientVerified": true
+		},
+		{
+			"id": "triggered-inferno",
+			"nameKo": "지옥불 난사 발동",
+			"nameEn": "Triggered Inferno",
+			"tier": "prismatic",
+			"effectKo": "기본 공격과 스킬을 섞어 중첩을 모으면 주변에 총탄을 난사합니다.",
+			"tags": ["ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2005,
+			"clientNameId": "ARAM_InfernoTriggered",
+			"clientVerified": true
+		},
+		{
+			"id": "veil-of-warding",
+			"nameKo": "감시의 장막",
+			"nameEn": "Veil of Warding",
+			"tier": "silver",
+			"effectKo": "일정 시간마다 적 스킬을 한 번 막는 주문 보호막을 얻습니다.",
+			"tags": ["shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1034,
+			"clientNameId": "VeilOfWarding",
+			"clientVerified": true
+		},
+		{
+			"id": "firefox",
+			"nameKo": "불여우",
+			"nameEn": "FireFox",
+			"tier": "silver",
+			"effectKo": "자동으로 불꽃을 띄워 주변 적을 공격하고 잠시 빨라집니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1308,
+			"clientNameId": "ARAM_Firefox",
+			"clientVerified": true
+		},
+		{
+			"id": "kill-secured",
+			"nameKo": "확보된 킬",
+			"nameEn": "Kill Secured",
+			"tier": "silver",
+			"effectKo": "체력이 낮은 적을 향해 빨라집니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2026,
+			"clientNameId": "KillSecured",
+			"clientVerified": true
+		},
+		{
+			"id": "typhoon",
+			"nameKo": "태풍",
+			"nameEn": "Typhoon",
+			"tier": "silver",
+			"effectKo": "기본 공격 시 다른 적에게 적중 시 효과가 적용되는 추가 탄환을 보냅니다.",
+			"tags": ["on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1087,
+			"clientNameId": "ARAM_Typhoon",
+			"clientVerified": true
+		},
+		{
+			"id": "minionmancer",
+			"nameKo": "소환술사",
+			"nameEn": "Minionmancer",
+			"tier": "gold",
+			"effectKo": "소환수의 체력과 피해량을 높입니다.",
+			"tags": ["ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1104,
+			"clientNameId": "ARAM_Minionmancer",
+			"clientVerified": true
+		},
+		{
+			"id": "infernal-soul",
+			"nameKo": "지옥불 영혼",
+			"nameEn": "Infernal Soul",
+			"tier": "silver",
+			"effectKo": "지옥불 드래곤 영혼 효과를 얻습니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1046,
+			"clientNameId": "ARAM_InfernalSoul",
+			"clientVerified": true
+		},
+		{
+			"id": "earthwake",
+			"nameKo": "대지의 각성",
+			"nameEn": "Earthwake",
+			"tier": "prismatic",
+			"effectKo": "돌진과 순간이동 경로가 잠시 뒤 폭발합니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1027,
+			"clientNameId": "ARAM_Earthwake",
+			"clientVerified": true
+		},
+		{
+			"id": "juiced",
+			"nameKo": "도취",
+			"nameEn": "Juiced",
+			"tier": "silver",
+			"effectKo": "기본 공격이 마나를 소비해 최대 마나에 따른 추가 피해를 줍니다.",
+			"tags": ["on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2016,
+			"clientNameId": "ARAM_Juiced",
+			"clientVerified": true
+		},
+		{
+			"id": "hextech-soul",
+			"nameKo": "마법공학의 영혼",
+			"nameEn": "Hextech Soul",
+			"tier": "silver",
+			"effectKo": "마법공학 드래곤 영혼 효과를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1416,
+			"clientNameId": "HextechSoul",
+			"clientVerified": true
+		},
+		{
+			"id": "pressure-cooker",
+			"nameKo": "압력솥",
+			"nameEn": "Pressure Cooker",
+			"tier": "gold",
+			"effectKo": "주변 적에게 체력에 비례한 화상을 줍니다. 퀘스트로 범위와 피해가 커집니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2102,
+			"clientNameId": "PressureCooker",
+			"clientVerified": true
+		},
+		{
+			"id": "hellbent",
+			"nameKo": "열의",
+			"nameEn": "Hellbent",
+			"tier": "prismatic",
+			"effectKo": "전투로 중첩을 모으면 죽었을 때 강화된 상태로 부활할 수 있습니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2107,
+			"clientNameId": "ARAM_Hellbent",
+			"clientVerified": true
+		},
+		{
+			"id": "stats",
+			"nameKo": "능력치!",
+			"nameEn": "Stats!",
+			"tier": "silver",
+			"effectKo": "능력치 모루 2개를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1404,
+			"clientNameId": "ARAM_Stats",
+			"clientVerified": true
+		},
+		{
+			"id": "ok-boomerang",
+			"nameKo": "부메랑 투척",
+			"nameEn": "Ok Boomerang",
+			"tier": "gold",
+			"effectKo": "주변 적에게 자동으로 부메랑을 날립니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1061,
+			"clientNameId": "ARAM_OkBoomerang",
+			"clientVerified": true
+		},
+		{
+			"id": "all-for-you",
+			"nameKo": "너만을 위해",
+			"nameEn": "All For You",
+			"tier": "gold",
+			"effectKo": "아군에게 주는 회복과 보호막을 강화합니다.",
+			"tags": ["heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1141,
+			"clientNameId": "ARAM_AllForYou",
+			"clientVerified": true
+		},
+		{
+			"id": "overloaded",
+			"nameKo": "과충전",
+			"nameEn": "Overloaded",
+			"tier": "prismatic",
+			"effectKo": "다른 스킬을 쓰면 지정 스킬의 대기시간이 초기화됩니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2123,
+			"clientNameId": "Overloaded",
+			"clientVerified": true
+		},
+		{
+			"id": "mighty-shield",
+			"nameKo": "강력한 방패",
+			"nameEn": "Mighty Shield",
+			"tier": "silver",
+			"effectKo": "보호막을 받으면 잠시 공격력 또는 주문력을 얻습니다.",
+			"tags": ["shield", "ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1314,
+			"clientNameId": "MightyShield",
+			"clientVerified": true
+		},
+		{
+			"id": "its-go-time",
+			"nameKo": "출발할 시간",
+			"nameEn": "It's Go Time",
+			"tier": "silver",
+			"effectKo": "지정 스킬이 유지되는 동안 빨라집니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2125,
+			"clientNameId": "ItsGoTime",
+			"clientVerified": true
+		},
+		{
+			"id": "pandorasbox",
+			"nameKo": "판도라의 상자",
+			"nameEn": "Pandora's Box",
+			"tier": "prismatic",
+			"effectKo": "보유 증강을 같은 개수의 무작위 프리즘 증강으로 바꿉니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 12317,
+			"clientNameId": "ARAM_PandorasBox",
+			"clientVerified": true
+		},
+		{
+			"id": "its-killing-time",
+			"nameKo": "처형 시간",
+			"nameEn": "It's Killing Time",
+			"tier": "gold",
+			"effectKo": "궁극기 뒤 일정 시간 적에게 준 피해를 저장해 추가로 터뜨립니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1211,
+			"clientNameId": "ARAM_ItsKillingTime",
+			"clientVerified": true
+		},
+		{
+			"id": "firebrand",
+			"nameKo": "화염 낙인",
+			"nameEn": "Firebrand",
+			"tier": "gold",
+			"effectKo": "기본 공격이 중첩되는 화상을 남깁니다.",
+			"tags": ["on-hit", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1036,
+			"clientNameId": "ARAM_Firebrand",
+			"clientVerified": true
+		},
+		{
+			"id": "double-tap",
+			"nameKo": "한 발에 두 놈",
+			"nameEn": "Double Tap",
+			"tier": "prismatic",
+			"effectKo": "치명타 기본 공격이 적중 시 효과를 추가로 적용합니다.",
+			"tags": ["crit", "on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments/2010",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-17-notes/",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"officialVerificationNoteKo": "공식26.17 아수라장 절에서 골드에서 프리즘으로 변경한 사실을 확인했습니다. 현재 효과의 모든 수치를 확인한 것은 아닙니다.",
+			"clientId": 2010,
+			"clientNameId": "ARAM_DoubleTap",
+			"clientVerified": true
+		},
+		{
+			"id": "nightstalking",
+			"nameKo": "밤의 추적",
+			"nameEn": "Nightstalking",
+			"tier": "gold",
+			"effectKo": "적에게 피해를 준 직후 처치에 관여하면 잠시 투명해집니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1326,
+			"clientNameId": "Nightstalking",
+			"clientVerified": true
+		},
+		{
+			"id": "tripleshot",
+			"nameKo": "3연발",
+			"nameEn": "Tripleshot",
+			"tier": "prismatic",
+			"effectKo": "지정 스킬이 앞쪽 적 2명을 추가로 공격합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2054,
+			"clientNameId": "SpellVolley",
+			"clientVerified": true
+		},
+		{
+			"id": "trusty-weapon",
+			"nameKo": "믿음직한 무기",
+			"nameEn": "Trusty Weapon",
+			"tier": "silver",
+			"effectKo": "지정 스킬로 적 챔피언을 맞히며 그 스킬의 피해를 잠시 높입니다.",
+			"tags": ["ap", "ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2136,
+			"clientNameId": "TrustyWeapon",
+			"clientVerified": true
+		},
+		{
+			"id": "bread-and-jam",
+			"nameKo": "빵과 잼",
+			"nameEn": "Bread And Jam",
+			"tier": "gold",
+			"effectKo": "W의 스킬 가속을 높입니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1150,
+			"clientNameId": "ARAM_BreadAndJam",
+			"clientVerified": true
+		},
+		{
+			"id": "light-em-up",
+			"nameKo": "불을 밝혀",
+			"nameEn": "Light 'Em Up!",
+			"tier": "silver",
+			"effectKo": "일정 횟수 기본 공격하면 추가 마법 피해를 연달아 줍니다.",
+			"tags": ["on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1051,
+			"clientNameId": "ARAM_LightemUp",
+			"clientVerified": true
+		},
+		{
+			"id": "adaptive-ward",
+			"nameKo": "적응형 와드",
+			"nameEn": "Adaptive Ward",
+			"tier": "silver",
+			"effectKo": "지정 스킬로 적을 맞히면 적의 피해 유형에 맞는 방어 능력치를 얻습니다.",
+			"tags": ["tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2138,
+			"clientNameId": "WardingWeapon",
+			"clientVerified": true
+		},
+		{
+			"id": "ultimate-revolution",
+			"nameKo": "궁극기 대변혁",
+			"nameEn": "Ultimate Revolution",
+			"tier": "prismatic",
+			"effectKo": "궁극기를 사용하면 다시 사용할 기회가 생깁니다. 자체 대기시간이 있습니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1088,
+			"clientNameId": "ARAM_UltimateRevolution",
+			"clientVerified": true
+		},
+		{
+			"id": "cant-touch-this",
+			"nameKo": "난공불락",
+			"nameEn": "Can't Touch This",
+			"tier": "prismatic",
+			"effectKo": "궁극기를 쓴 직후 잠시 무적이 됩니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1011,
+			"clientNameId": "ARAM_CantTouchThis",
+			"clientVerified": true
+		},
+		{
+			"id": "gift-of-the-drowned",
+			"nameKo": "가라앉은 자의 축복",
+			"nameEn": "Gift of the Drowned",
+			"tier": "silver",
+			"effectKo": "아이템의 추가 체력을 물리 관통력으로 바꿉니다.",
+			"tags": ["ad"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3063,
+			"clientNameId": "GiftoftheDrowned",
+			"clientVerified": true
+		},
+		{
+			"id": "critical-healing",
+			"nameKo": "치명적 치유",
+			"nameEn": "Critical Healing",
+			"tier": "gold",
+			"effectKo": "회복과 보호막에도 치명타가 적용될 수 있습니다.",
+			"tags": ["heal", "shield", "crit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1118,
+			"clientNameId": "ARAM_CriticalHealing",
+			"clientVerified": true
+		},
+		{
+			"id": "sound-barrier",
+			"nameKo": "음속 장벽",
+			"nameEn": "Sound Barrier",
+			"tier": "silver",
+			"effectKo": "보호막을 받은 대상이 빨라집니다.",
+			"tags": ["shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3025,
+			"clientNameId": "Sound_Barrier",
+			"clientVerified": true
+		},
+		{
+			"id": "bolstered",
+			"nameKo": "보강",
+			"nameEn": "Bolstered",
+			"tier": "silver",
+			"effectKo": "지정 스킬의 보호막이 대상의 잃은 체력에 따라 더 강해집니다.",
+			"tags": ["shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2144,
+			"clientNameId": "DoubleDefense",
+			"clientVerified": true
+		},
+		{
+			"id": "fey-magic",
+			"nameKo": "요정 마법",
+			"nameEn": "Fey Magic",
+			"tier": "prismatic",
+			"effectKo": "궁극기로 피해를 준 적을 잠시 변이시킵니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1194,
+			"clientNameId": "ARAM_FeyMagic",
+			"clientVerified": true
+		},
+		{
+			"id": "mosh-monster",
+			"nameKo": "모시핏 괴물",
+			"nameEn": "Mosh Monster",
+			"tier": "prismatic",
+			"effectKo": "궁극기를 쓰면 체력이 늘고 주변 적을 둔화합니다. 처치 관여로 강화됩니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3053,
+			"clientNameId": "MoshMonster",
+			"clientVerified": true
+		},
+		{
+			"id": "ultimate-unstoppable",
+			"nameKo": "궁극의 저지 불가",
+			"nameEn": "Ultimate Unstoppable",
+			"tier": "silver",
+			"effectKo": "궁극기를 쓴 직후 잠시 군중 제어 효과에 면역이 됩니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1112,
+			"clientNameId": "ARAM_UltimateUnstoppable",
+			"clientVerified": true
+		},
+		{
+			"id": "shark-tempest",
+			"nameKo": "상어 폭풍",
+			"nameEn": "Shark Tempest",
+			"tier": "gold",
+			"effectKo": "눈덩이 주위와 적중 지점에서 상어가 피해와 둔화를 줍니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2034,
+			"clientNameId": "SharkTempest",
+			"clientVerified": true
+		},
+		{
+			"id": "apex-inventor",
+			"nameKo": "최첨단 발명가",
+			"nameEn": "Apex Inventor",
+			"tier": "gold",
+			"effectKo": "아이템 효과의 재사용 대기시간을 줄입니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1002,
+			"clientNameId": "ARAM_ApexInventor",
+			"clientVerified": true
+		},
+		{
+			"id": "stuck-in-here-with-me",
+			"nameKo": "도망갈 수 없어",
+			"nameEn": "Stuck In Here With Me",
+			"tier": "prismatic",
+			"effectKo": "궁극기 뒤 주변 적을 도발하고 받는 피해를 줄입니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1413,
+			"clientNameId": "ARAM_StuckInHereWithMe",
+			"clientVerified": true
+		},
+		{
+			"id": "totentanz",
+			"nameKo": "죽음의 춤",
+			"nameEn": "Totentanz",
+			"tier": "prismatic",
+			"effectKo": "잠시 죽지 않는 소환사 주문을 얻습니다. 시간 안에 처치에 관여하지 못하면 죽습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3079,
+			"clientNameId": "Totentanz",
+			"clientVerified": true
+		},
+		{
+			"id": "impassable",
+			"nameKo": "넘을 수 없는 벽",
+			"nameEn": "Impassable",
+			"tier": "gold",
+			"effectKo": "여진과 빙결 강화 효과를 얻습니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1149,
+			"clientNameId": "ARAM_Impassable",
+			"clientVerified": true
+		},
+		{
+			"id": "spell-split",
+			"nameKo": "주문 분산",
+			"nameEn": "Spell Split",
+			"tier": "prismatic",
+			"effectKo": "지정 투사체가 조건을 만족하면 갈라집니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2072,
+			"clientNameId": "Missile_Split",
+			"clientVerified": true
+		},
+		{
+			"id": "mountainsoul",
+			"nameKo": "대지의 영혼",
+			"nameEn": "Mountain Soul",
+			"tier": "silver",
+			"effectKo": "대지 드래곤 영혼 효과를 얻습니다.",
+			"tags": ["shield", "tank"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1057,
+			"clientNameId": "ARAM_MountainSoul",
+			"clientVerified": true
+		},
+		{
+			"id": "shark-bait",
+			"nameKo": "상어 미끼",
+			"nameEn": "Shark Bait",
+			"tier": "gold",
+			"effectKo": "죽은 뒤 이동해 주변 적을 공격하는 상어의 위치를 정합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2032,
+			"clientNameId": "FishBait",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-sword-of-blossoming-dawn",
+			"nameKo": "꽃피는 새벽의 검 업그레이드",
+			"nameEn": "Upgrade Sword of Blossoming Dawn",
+			"tier": "prismatic",
+			"effectKo": "꽃피는 새벽의 검 회복 효과와 공격 속도를 강화합니다.",
+			"tags": ["heal", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1379,
+			"clientNameId": "Upgrade_SwordOfBlossom",
+			"clientVerified": true
+		},
+		{
+			"id": "rejuvenation",
+			"nameKo": "원기 회복",
+			"nameEn": "Rejuvenation",
+			"tier": "gold",
+			"effectKo": "지정 스킬 사용 시 자신의 체력을 회복합니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments/1067",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "low",
+			"availability": "listed",
+			"sourcePatch": "26.20",
+			"noteKo": "상세 페이지는 26.20이고 스킬 자리와 수치가 깨져 있습니다.",
+			"clientId": 1067,
+			"clientNameId": "ARAM_RabbleRousing",
+			"clientVerified": true
+		},
+		{
+			"id": "snowday",
+			"nameKo": "눈 오는 날",
+			"nameEn": "Snowday",
+			"tier": "silver",
+			"effectKo": "눈덩이의 대기시간을 줄이고 피해를 높입니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2088,
+			"clientNameId": "ARAM_Snowday",
+			"clientVerified": true
+		},
+		{
+			"id": "squishy-slappy-grab",
+			"nameKo": "말랑 찰싹 손",
+			"nameEn": "Squishy Slappy Grab",
+			"tier": "prismatic",
+			"effectKo": "주변 적과 연결된 손을 발사하고 다음 공격으로 적들을 끌어당깁니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2115,
+			"clientNameId": "SquishySlappyGrab",
+			"clientVerified": true
+		},
+		{
+			"id": "porcupine",
+			"nameKo": "고슴도치",
+			"nameEn": "Porcupine",
+			"tier": "gold",
+			"effectKo": "챔피언에게 피해를 받으며 힘을 모아 주변에 가시를 발사합니다.",
+			"tags": ["tank", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2139,
+			"clientNameId": "PinCushion",
+			"clientVerified": true
+		},
+		{
+			"id": "searing-dawn",
+			"nameKo": "타오르는 새벽",
+			"nameEn": "Searing Dawn",
+			"tier": "gold",
+			"effectKo": "스킬로 적에게 표식을 남겨 아군의 다음 공격에 추가 피해를 더합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1072,
+			"clientNameId": "ARAM_SearingDawn",
+			"clientVerified": true
+		},
+		{
+			"id": "flashbang",
+			"nameKo": "점멸탄",
+			"nameEn": "Flashbang",
+			"tier": "silver",
+			"effectKo": "점멸 도착 지점에 피해와 둔화를 줍니다. 사망하면 점멸이 초기화됩니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1187,
+			"clientNameId": "ARAM_Flashbang",
+			"clientVerified": true
+		},
+		{
+			"id": "pinball",
+			"nameKo": "핀볼",
+			"nameEn": "Pinball",
+			"tier": "gold",
+			"effectKo": "눈덩이가 벽에 튕기며 커지고 강해집니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1358,
+			"clientNameId": "PinballSnowball",
+			"clientVerified": true
+		},
+		{
+			"id": "empowered-by-the-faithful",
+			"nameKo": "신념을 통한 강화",
+			"nameEn": "Empowered By The Faithful",
+			"tier": "prismatic",
+			"effectKo": "아군 회복·보호막 뒤 아군의 공격으로 중첩을 모아 광역 피해를 줍니다.",
+			"tags": ["heal", "shield"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2004,
+			"clientNameId": "ARAM_EmpoweredByTheFaithful",
+			"clientVerified": true
+		},
+		{
+			"id": "nature-is-healing",
+			"nameKo": "자연의 회복",
+			"nameEn": "Nature is Healing",
+			"tier": "gold",
+			"effectKo": "수풀에 들어갈 때 체력을 회복합니다. 수풀마다 별도 대기시간이 있습니다.",
+			"tags": ["heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-16-notes/",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2043,
+			"clientNameId": "NatureIsHealing",
+			"clientVerified": true
+		},
+		{
+			"id": "divine-intervention",
+			"nameKo": "신성한 중재",
+			"nameEn": "Divine Intervention",
+			"tier": "gold",
+			"effectKo": "주기적으로 자신과 주변 아군에게 잠시 무적을 부여합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1301,
+			"clientNameId": "ARAM_DivineIntervention",
+			"clientVerified": true
+		},
+		{
+			"id": "rite-of-ascension",
+			"nameKo": "초월 의식",
+			"nameEn": "Rite of Ascension",
+			"tier": "prismatic",
+			"effectKo": "처치한 적이 남긴 정수를 공격하면 일반 스킬이 초기화되고 빨라집니다.",
+			"tags": ["ability-haste", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2099,
+			"clientNameId": "ARAM_DivineDomain",
+			"clientVerified": true
+		},
+		{
+			"id": "pat-on-the-back",
+			"nameKo": "격려하기",
+			"nameEn": "Pat On The Back",
+			"tier": "gold",
+			"effectKo": "아군을 스쳐 지나가면 보호막과 이동 속도를 얻습니다.",
+			"tags": ["shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "출처 사이트끼리 삭제 여부가 달랐습니다. 26.21 클라이언트 아수라장 목록에서 활성 상태를 확인했습니다.",
+			"clientId": 2137,
+			"clientNameId": "PatOnTheBack",
+			"clientVerified": true
+		},
+		{
+			"id": "titans-resolve",
+			"nameKo": "거인의 결의",
+			"nameEn": "Titan's Resolve",
+			"tier": "prismatic",
+			"effectKo": "피해를 주고받으며 공격·방어 능력치와 몸집, 강인함을 쌓습니다.",
+			"tags": ["tank", "ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1001,
+			"clientNameId": "ARAM_ImTheJuggernaut",
+			"clientVerified": true
+		},
+		{
+			"id": "mercys-strike",
+			"nameKo": "자비의 일격",
+			"nameEn": "Mercy's Strike",
+			"tier": "gold",
+			"effectKo": "지정 스킬 뒤 기본 공격의 사거리, 속도, 피해가 강화됩니다.",
+			"tags": ["on-hit", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2133,
+			"clientNameId": "MercysStrike",
+			"clientVerified": true
+		},
+		{
+			"id": "quickstep",
+			"nameKo": "날쌘걸음",
+			"nameEn": "Quickstep",
+			"tier": "gold",
+			"effectKo": "지정 광역 스킬을 쓰면 커서 방향으로 돌진합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2064,
+			"clientNameId": "ARAM_Quickstep",
+			"clientVerified": true
+		},
+		{
+			"id": "prom-queen",
+			"nameKo": "퀸카",
+			"nameEn": "Prom Queen",
+			"tier": "prismatic",
+			"effectKo": "주기적으로 빨라지고 닿은 적을 매혹하는 효과가 생깁니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1421,
+			"clientNameId": "PromQueen",
+			"clientVerified": true
+		},
+		{
+			"id": "arcane-axiom",
+			"nameKo": "비전 원칙",
+			"nameEn": "Arcane Axiom",
+			"tier": "gold",
+			"effectKo": "처치에 관여하면 궁극기의 남은 대기시간 일부를 돌려받습니다.",
+			"tags": ["ability-haste"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3118,
+			"clientNameId": "ArcaneAxiom",
+			"clientVerified": true
+		},
+		{
+			"id": "holy-snowball",
+			"nameKo": "신성한 눈덩이",
+			"nameEn": "Holy Snowball",
+			"tier": "prismatic",
+			"effectKo": "눈덩이를 다시 눌러 돌진하면 도착 직후 잠시 무적이 됩니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1392,
+			"clientNameId": "GoldenSnowball",
+			"clientVerified": true
+		},
+		{
+			"id": "third-times-the-harm",
+			"nameKo": "해악의 숫자 3",
+			"nameEn": "Third Times the Harm",
+			"tier": "prismatic",
+			"effectKo": "적 챔피언을 3번 기본 공격하면 추가 피해와 공격 속도를 얻습니다.",
+			"tags": ["on-hit", "attack-speed"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3016,
+			"clientNameId": "ThirdTimesTheHarm",
+			"clientVerified": true
+		},
+		{
+			"id": "poltergeist",
+			"nameKo": "폴터가이스트",
+			"nameEn": "Poltergeist",
+			"tier": "silver",
+			"effectKo": "보호막과 이동 속도를 함께 얻는 소환사 주문을 받습니다.",
+			"tags": ["shield", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1347,
+			"clientNameId": "Poltergeist",
+			"clientVerified": true
+		},
+		{
+			"id": "terror",
+			"nameKo": "공포",
+			"nameEn": "Terror",
+			"tier": "gold",
+			"effectKo": "지정 스킬을 쓸 때 주변 적에게 공포를 줍니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "low",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "이전 목록·26.12 공식 발표는 프리즘이고 최신 두 사이트는 골드입니다. 변경 패치 원문은 찾지 못했습니다.",
+			"clientId": 2065,
+			"clientNameId": "ARAM_Terror",
+			"clientVerified": true
+		},
+		{
+			"id": "hands-off-the-talent",
+			"nameKo": "아티스트 보호",
+			"nameEn": "Hands off the Talent",
+			"tier": "silver",
+			"effectKo": "최대 사거리에서 쏜 기본 공격에 추가 피해가 붙습니다.",
+			"tags": ["ad", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3052,
+			"clientNameId": "HandsOffTheTalent",
+			"clientVerified": true
+		},
+		{
+			"id": "flash-2",
+			"nameKo": "점멸 2",
+			"nameEn": "Flash 2",
+			"tier": "silver",
+			"effectKo": "추가 점멸과 소환사 주문 가속을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1348,
+			"clientNameId": "Flash2",
+			"clientVerified": true
+		},
+		{
+			"id": "surge-field",
+			"nameKo": "방출 역장",
+			"nameEn": "Surge Field",
+			"tier": "prismatic",
+			"effectKo": "궁극기 사용 시 가속·이동 속도와 추가 공격을 제공하는 영역이 생깁니다.",
+			"tags": ["ability-haste", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2134,
+			"clientNameId": "SurgeField",
+			"clientVerified": true
+		},
+		{
+			"id": "shrink-ray",
+			"nameKo": "감쇠 광선",
+			"nameEn": "Shrink Ray",
+			"tier": "gold",
+			"effectKo": "기본 공격한 적의 피해량과 몸집을 잠시 줄입니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1074,
+			"clientNameId": "ARAM_ShrinkRay",
+			"clientVerified": true
+		},
+		{
+			"id": "upgrade-sundered-sky",
+			"nameKo": "갈라진 하늘 업그레이드",
+			"nameEn": "Upgrade Sundered Sky",
+			"tier": "gold",
+			"effectKo": "갈라진 하늘의 대상별 대기시간과 회복 효과를 강화합니다.",
+			"tags": ["ad", "heal"],
+			"sources": [
+				"https://aramgg.com/ko/augments/2143",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "low",
+			"availability": "listed",
+			"sourcePatch": "26.20",
+			"noteKo": "상세 페이지는 26.20이며 수치가 깨져 있습니다.",
+			"clientId": 2143,
+			"clientNameId": "Upgrade_SunderedSky",
+			"clientVerified": true
+		},
+		{
+			"id": "chain-reaction",
+			"nameKo": "연쇄 반응",
+			"nameEn": "Chain Reaction",
+			"tier": "gold",
+			"effectKo": "지정 스킬로 밀친 적이 다른 적이나 지형에 부딪히면 추가 효과가 발생합니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-16-notes/",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2078,
+			"clientNameId": "ChainReaction",
+			"clientVerified": true
+		},
+		{
+			"id": "pin-cushion",
+			"nameKo": "바늘꽂이",
+			"nameEn": "Pin Cushion",
+			"tier": "prismatic",
+			"effectKo": "지정 스킬 지속 중 기본 공격으로 표식을 쌓고 종료 시 터뜨립니다.",
+			"tags": ["on-hit"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2135,
+			"clientNameId": "Overkill",
+			"clientVerified": true
+		},
+		{
+			"id": "brass-blast",
+			"nameKo": "트럼펫 폭발",
+			"nameEn": "Brass Blast",
+			"tier": "gold",
+			"effectKo": "힘을 모아 적을 밀치는 소환사 주문을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3071,
+			"clientNameId": "BrassBlast",
+			"clientVerified": true
+		},
+		{
+			"id": "snowblast",
+			"nameKo": "눈 폭발",
+			"nameEn": "Snowblast",
+			"tier": "gold",
+			"effectKo": "눈덩이 재사용으로 진입할 때 피해를 더 주고 적을 띄우거나 밀어냅니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2080,
+			"clientNameId": "Snowbomb",
+			"clientVerified": true
+		},
+		{
+			"id": "multishot",
+			"nameKo": "다중 공격",
+			"nameEn": "Multishot",
+			"tier": "prismatic",
+			"effectKo": "지정 투사체를 맞히는 퀘스트로 추가 투사체를 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 2055,
+			"clientNameId": "ARAM_Multishot",
+			"clientVerified": true
+		},
+		{
+			"id": "spin-me-right-round",
+			"nameKo": "빙글빙글",
+			"nameEn": "Spin Me Right Round",
+			"tier": "silver",
+			"effectKo": "지형을 붙잡고 회전하며 공격하는 소환사 주문을 얻습니다.",
+			"tags": ["on-hit", "utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "출처 사이트끼리 삭제 여부가 달랐습니다. 26.21 클라이언트 아수라장 목록에서 활성 상태를 확인했습니다.",
+			"clientId": 1386,
+			"clientNameId": "YouSpinMeRightRound",
+			"clientVerified": true
+		},
+		{
+			"id": "glass-cannon",
+			"nameKo": "유리 대포",
+			"nameEn": "Glass Cannon",
+			"tier": "prismatic",
+			"effectKo": "유지할 수 있는 체력이 제한되지만 가하는 피해에 추가 고정 피해가 붙습니다.",
+			"tags": ["ad", "ap"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1325,
+			"clientNameId": "GlassCannon",
+			"clientVerified": true
+		},
+		{
+			"id": "king-me",
+			"nameKo": "나는 왕이다",
+			"nameEn": "King Me",
+			"tier": "prismatic",
+			"effectKo": "적 기지의 이동 장치에 도달하는 조건을 달성하면 보상을 얻습니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://aramgg.com/ko/augments",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://arammayhem.com/data/v1/latest/augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 1337,
+			"clientNameId": "KingMe",
+			"clientVerified": true
+		},
+		{
+			"id": "bouncing-bees",
+			"nameKo": "튕기는 꿀벌",
+			"nameEn": "Bouncing Bees",
+			"tier": "prismatic",
+			"effectKo": "스킬 뒤 기본 공격이 적 사이를 튕깁니다. 퀘스트를 달성하면 튕김 횟수와 공격력이 늘어납니다.",
+			"tags": ["on-hit", "ad"],
+			"sources": [
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3048,
+			"clientNameId": "BouncingBees",
+			"clientVerified": true
+		},
+		{
+			"id": "no-mana-no-problem",
+			"nameKo": "마나 없음, 상관없음",
+			"nameEn": "No Mana, No Problem",
+			"tier": "silver",
+			"effectKo": "아이템에서 얻는 마나를 주문력으로 바꿉니다.",
+			"tags": ["ap"],
+			"sources": [
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3059,
+			"clientNameId": "NoManaNoProblem",
+			"clientVerified": true
+		},
+		{
+			"id": "tickle-monster",
+			"nameKo": "간지럼 괴물",
+			"nameEn": "Tickle Monster",
+			"tier": "gold",
+			"effectKo": "아이템의 공격력을 공격 속도로 바꿉니다.",
+			"tags": ["attack-speed"],
+			"sources": [
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3058,
+			"clientNameId": "TickleMonster",
+			"clientVerified": true
+		},
+		{
+			"id": "salvation",
+			"nameKo": "구원",
+			"nameEn": "Salvation",
+			"tier": "gold",
+			"effectKo": "체력이 낮아지면 적을 밀어내고 아군을 회복합니다.",
+			"tags": ["heal", "utility"],
+			"sources": [
+				"https://www.leagueoflegends.com/ko-kr/news/game-updates/league-of-legends-patch-26-21-notes/",
+				"https://mobalytics.gg/lol/tier-list/mayhem",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json"
+			],
+			"confidence": "high",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"clientId": 3039,
+			"clientNameId": "Salvation",
+			"clientVerified": true
+		},
+		{
+			"id": "icathias-fall",
+			"nameKo": "이케시아의 몰락",
+			"nameEn": "Icathia's Fall",
+			"tier": "prismatic",
+			"effectKo": "즉시 바미의 불씨를 받습니다. 태양불꽃 방패와 공허한 광휘를 함께 가지면 두 아이템이 공허의 불길로 바뀌는 퀘스트 증강입니다.",
+			"tags": ["tank", "quest"],
+			"sources": [
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/augment-lists.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "1·2차 조사 목록에 없던 증강입니다. 26.21 클라이언트 데이터에서 추가했습니다. 챔피언 조합 근거는 아직 없습니다.",
+			"clientId": 1361,
+			"clientNameId": "ARAM_Quest_VoidImmolation",
+			"clientVerified": true
+		},
+		{
+			"id": "overextender",
+			"nameKo": "무리한 진입",
+			"nameEn": "Overextender",
+			"tier": "gold",
+			"effectKo": "귀환 후 대포 발사기를 타면 발사기의 사거리·이동 속도·피해량이 크게 늘어납니다.",
+			"tags": ["utility"],
+			"sources": [
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/augment-lists.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "1·2차 조사 목록에 없던 증강입니다. 26.21 클라이언트 데이터에서 추가했습니다. 챔피언 조합 근거는 아직 없습니다.",
+			"clientId": 2119,
+			"clientNameId": "Overextender",
+			"clientVerified": true
+		},
+		{
+			"id": "reload",
+			"nameKo": "재장전",
+			"nameEn": "Reload",
+			"tier": "gold",
+			"effectKo": "지정된 스킬이 지속되는 동안 기본 공격의 적중 시 효과가 스킬 재사용 대기시간을 줄입니다.",
+			"tags": ["on-hit", "ability-haste"],
+			"sources": [
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/augment-lists.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "1·2차 조사 목록에 없던 증강입니다. 26.21 클라이언트 데이터에서 추가했습니다. 챔피언 조합 근거는 아직 없습니다.",
+			"clientId": 2126,
+			"clientNameId": "KeepGoing",
+			"clientVerified": true
+		},
+		{
+			"id": "double-strike",
+			"nameKo": "2연속 공격",
+			"nameEn": "Double Strike",
+			"tier": "silver",
+			"effectKo": "지정된 스킬의 적중 시 효과가 한 번 더 적용됩니다.",
+			"tags": ["on-hit"],
+			"sources": [
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/augment-lists.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "1·2차 조사 목록에 없던 증강입니다. 26.21 클라이언트 데이터에서 추가했습니다. 챔피언 조합 근거는 아직 없습니다.",
+			"clientId": 2148,
+			"clientNameId": "DoubleStrike",
+			"clientVerified": true
+		},
+		{
+			"id": "support-main",
+			"nameKo": "서포터 주력",
+			"nameEn": "Support Main",
+			"tier": "silver",
+			"effectKo": "아군 회복량 퀘스트를 채우면 내 모든 회복 효과에 추가 지속 회복이 붙습니다.",
+			"tags": ["heal", "quest"],
+			"sources": [
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/cherry-augments.json",
+				"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/augment-lists.json"
+			],
+			"confidence": "medium",
+			"availability": "listed",
+			"sourcePatch": "26.21",
+			"noteKo": "1·2차 조사 목록에 없던 증강입니다. 26.21 클라이언트 데이터에서 추가했습니다. 챔피언 조합 근거는 아직 없습니다.",
+			"clientId": 2108,
+			"clientNameId": "SupportMain",
+			"clientVerified": true
+		}
+	]
+}

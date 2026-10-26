@@ -8,6 +8,7 @@ export const basePaths = [
 	'/qr-code',
 	'/marble-race',
 	'/bracket',
+	'/aram-mayhem',
 	'/blog',
 	'/about',
 	'/privacy'

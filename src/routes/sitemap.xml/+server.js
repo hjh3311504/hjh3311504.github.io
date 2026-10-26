@@ -11,6 +11,7 @@ export async function GET() {
 		'/qr-code',
 		'/marble-race',
 		'/bracket',
+		'/aram-mayhem',
 		'/blog',
 		'/about',
 		'/privacy'
