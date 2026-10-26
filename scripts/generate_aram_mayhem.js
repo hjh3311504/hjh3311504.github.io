@@ -2,14 +2,17 @@
 // 실행: npm run generate:aram-mayhem
 // 내려받은 원본은 .cache/aram-mayhem에 두고 다시 받지 않는다. 결과는 Git에 함께 올린다.
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import * as prettier from 'prettier';
 import sharp from 'sharp';
 import { fixParticles, segment } from '../src/lib/aram-mayhem/text.js';
 
 const DATA_DIR = 'docs/research/aram-mayhem';
 const CACHE_DIR = '.cache/aram-mayhem';
 const IMAGE_DIR = 'static/images/aram-mayhem';
+// 생성이 중간에 실패해도 기존 아이콘이 남도록 임시 폴더에 만든 뒤 마지막에 바꾼다.
+const NEXT_IMAGE_DIR = `${CACHE_DIR}/images-next`;
 const IMAGE_URL = '/images/aram-mayhem';
 const OUTPUT = 'src/lib/aram-mayhem/guide-data.json';
 const DDRAGON_VERSION = '16.21.1';
@@ -46,7 +49,7 @@ const downloadJson = async (url) => JSON.parse((await download(url)).toString('u
 
 /** 원본 이미지를 정사각형 webp로 저장하고 공개 주소를 돌려준다. */
 async function saveIcon(url, folder, name, size) {
-	const target = path.join(IMAGE_DIR, folder, `${name}.webp`);
+	const target = path.join(NEXT_IMAGE_DIR, folder, `${name}.webp`);
 	const image = await sharp(await download(url))
 		.resize(size, size)
 		.webp({ quality: 82 })
@@ -56,9 +59,9 @@ async function saveIcon(url, folder, name, size) {
 }
 
 await mkdir(CACHE_DIR, { recursive: true });
-await rm(IMAGE_DIR, { recursive: true, force: true });
+await rm(NEXT_IMAGE_DIR, { recursive: true, force: true });
 for (const folder of ['champions', 'skills', 'augments', 'items', 'stats']) {
-	await mkdir(path.join(IMAGE_DIR, folder), { recursive: true });
+	await mkdir(path.join(NEXT_IMAGE_DIR, folder), { recursive: true });
 }
 
 const [research, augmentData, buildData, buildPlayData, bootsData, extrasData, postsData, kiwi] =
@@ -108,7 +111,7 @@ const usedAugments = new Set();
 const usedItems = new Set();
 const missing = [];
 
-// 조합 출처: 실제로 내용을 따온 디시 칼바람 갤러리 글과 유튜브 영상만 보여 준다.
+// 조합 출처: 조합을 정리할 때 실제로 참고한 디시 칼바람 갤러리 글과 유튜브 영상만 보여 준다.
 function dcLabel(post, note = '') {
 	const date = post?.postedAt?.slice(0, 10);
 	if (date) return `디시 칼바람 갤러리(${date.replaceAll('-', '.')})`;
@@ -320,6 +323,9 @@ if (missing.length) {
 	throw new Error(`찾지 못한 자료가 있습니다.\n${missing.join('\n')}`);
 }
 
+await rm(IMAGE_DIR, { recursive: true, force: true });
+await rename(NEXT_IMAGE_DIR, IMAGE_DIR);
+
 const guide = {
 	patch: research.patch,
 	dataDragonVersion: DDRAGON_VERSION,
@@ -328,7 +334,12 @@ const guide = {
 	items,
 	icons
 };
-await writeFile(OUTPUT, `${JSON.stringify(guide, null, '\t')}\n`);
+// 저장소의 lint와 같은 모양으로 저장한다.
+const prettierOptions = await prettier.resolveConfig(OUTPUT);
+await writeFile(
+	OUTPUT,
+	await prettier.format(JSON.stringify(guide, null, '\t'), { ...prettierOptions, filepath: OUTPUT })
+);
 console.log(
 	`챔피언 ${champions.length}명, 증강 ${Object.keys(augments).length}개, 아이템 ${Object.keys(items).length}개 → ${OUTPUT}`
 );

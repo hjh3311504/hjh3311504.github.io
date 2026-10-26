@@ -42,6 +42,12 @@ test('챔피언을 고르면 설명과 주소가 바뀌고 주소로 다시 열 
 
 	await openGuide(page, '#ashe');
 	await expect(championName(page)).toHaveText('애쉬');
+
+	// 깨진 주소는 첫 챔피언으로 열고 고르기는 그대로 동작한다.
+	await openGuide(page, '#%E0');
+	await expect(championName(page)).toHaveText('가렌');
+	await picker(page).getByRole('button', { name: '티모' }).click();
+	await expect(championName(page)).toHaveText('티모');
 });
 
 test('이름 검색과 역할로 챔피언 목록을 거른다', async ({ page }) => {

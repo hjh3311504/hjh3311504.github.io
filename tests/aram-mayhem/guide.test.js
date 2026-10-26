@@ -40,6 +40,7 @@ test('주소의 #값으로 챔피언을 고르고 모르는 값이면 첫 챔피
 	assert.equal(championFromHash(champions, '#tahm-kench').id, 'tahm-kench');
 	assert.equal(championFromHash(champions, '#unknown').id, 'teemo');
 	assert.equal(championFromHash(champions, '').id, 'teemo');
+	assert.equal(championFromHash(champions, '#%E0').id, 'teemo');
 });
 
 test('빌드 탭 이름은 기본 빌드 스타일이나 증강 이름을 쓴다', () => {
@@ -97,6 +98,8 @@ test('생성된 가이드 데이터는 참조가 모두 연결되어 있다', ()
 			for (const id of build.trigger ?? []) assert.ok(guide.augments[id], `${champion.id} ${id}`);
 			for (const key of build.skillOrder) assert.ok(champion.skills[key], `${champion.id} ${key}`);
 		}
+		for (const boot of champion.boots)
+			assert.ok(guide.items[boot.item], `${champion.id} ${boot.item}`);
 		for (const combo of champion.combos) {
 			for (const id of combo.augmentIds) assert.ok(guide.augments[id], `${champion.id} ${id}`);
 			for (const part of [...combo.why, ...combo.steps.flat()]) {

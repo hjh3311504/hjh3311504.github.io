@@ -20,7 +20,13 @@ export function filterChampions(champions, role, query) {
 
 /** 주소의 #챔피언 값으로 처음 보여 줄 챔피언을 고른다. 없거나 모르는 값이면 첫 챔피언이다. */
 export function championFromHash(champions, hash) {
-	const id = decodeURIComponent(String(hash ?? '').replace(/^#/, ''));
+	const raw = String(hash ?? '').replace(/^#/, '');
+	let id = raw;
+	try {
+		id = decodeURIComponent(raw);
+	} catch {
+		// '#%E0'처럼 깨진 주소는 모르는 값으로 본다.
+	}
 	return champions.find((champion) => champion.id === id) ?? champions[0];
 }
 
