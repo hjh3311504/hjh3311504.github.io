@@ -362,6 +362,7 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 
 - 조사 원본: `docs/research/aram-mayhem/`의 JSON. 조합은 `champions.json`, 빌드는 `builds.json`, 증강 빌드 운영 방법은 `build-play.json`, 신발은 `boots.json`, 추가 추천 증강은 `champ-extras.json`, 디시 글 정보는 `community-posts.json`에서 고칩니다.
 - 화면 데이터와 아이콘: 원본을 고친 뒤 `npm run generate:aram-mayhem`을 실행하면 `src/lib/aram-mayhem/guide-data.json`과 `static/images/aram-mayhem/`이 다시 만들어집니다. 두 결과를 함께 commit합니다. 내려받은 원본은 `.cache/aram-mayhem`에 남고 Git에서 제외합니다. 찾지 못한 챔피언·증강·아이템이 있으면 생성이 실패합니다.
+- 아이콘 버전: 생성 script의 `DDRAGON_VERSION`(현재 16.21.1)으로 Data Dragon을, 그 앞 두 자리(16.21)로 CommunityDragon을 고정합니다. 패치가 바뀌면 이 값도 함께 고칩니다.
 - 문장 타일: 설명 문장의 스킬 키(`Q`·`W`·`E`·`R`, 키만 보이려면 `[E]`), 증강·아이템 이름, `스킬 가속`, `모루`가 자동으로 타일이 됩니다. 스킬 이름 뒤 조사는 생성할 때 받침에 맞춥니다. 나누기 규칙은 `src/lib/aram-mayhem/text.js`입니다.
 - 화면: `src/routes/aram-mayhem/+page.svelte`(챔피언 선택·주소), `aram-mayhem.css`(스타일), `src/lib/aram-mayhem/guide.js`(거르기·빌드 비교), `src/lib/aram-mayhem/components/`(고르기·빌드·조합 카드)
 - 출처는 디시 칼바람 갤러리 글과 유튜브 영상만 조합 카드에 표시합니다. 통계 사이트 근거는 조사 JSON의 `evidence`에만 둡니다.

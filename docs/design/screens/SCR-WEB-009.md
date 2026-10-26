@@ -92,4 +92,4 @@
 ## 미결 사항
 
 - 챔피언별 개별 주소(검색 노출용)는 이번 범위에 넣지 않았다. 필요하면 별도 결정한다.
-- 패치가 바뀌면 조사 JSON을 고친 뒤 `npm run generate:aram-mayhem`으로 다시 만든다. 자동 갱신은 없다.
+- 패치가 바뀌면 조사 JSON과 생성 script의 `DDRAGON_VERSION`을 고친 뒤 `npm run generate:aram-mayhem`으로 다시 만든다. 자동 갱신은 없다.

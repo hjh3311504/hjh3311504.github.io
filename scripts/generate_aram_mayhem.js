@@ -17,8 +17,9 @@ const IMAGE_URL = '/images/aram-mayhem';
 const OUTPUT = 'src/lib/aram-mayhem/guide-data.json';
 const DDRAGON_VERSION = '16.21.1';
 const DDRAGON = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}`;
-const CDRAGON =
-	'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default';
+// CommunityDragon은 패치(16.21) 단위로 고정해 다시 생성해도 같은 아이콘을 받는다.
+const CDRAGON_VERSION = DDRAGON_VERSION.split('.').slice(0, 2).join('.');
+const CDRAGON = `https://raw.communitydragon.org/${CDRAGON_VERSION}/plugins/rcp-be-lol-game-data/global/default`;
 
 // 조사 자료의 역할·특징 표기를 초보자용 6개 역할로 묶는다.
 const ROLE_MAP = {

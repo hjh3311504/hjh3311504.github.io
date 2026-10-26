@@ -47,7 +47,7 @@ SVG 원본 코드는 `static/images/team-maker/*.svg` 파일 자체에 있습니
 
 ## 칼바람 아수라장 증강 가이드 자산
 
-`static/images/aram-mayhem/`의 챔피언·스킬·아이템·증강·스탯 아이콘은 2026-10-26에 `scripts/generate_aram_mayhem.js`가 Riot Games의 [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) 16.21.1과 [CommunityDragon](https://www.communitydragon.org/)에서 받아 크기만 줄여 webp로 바꾼 파일입니다. 모루 아이콘은 Data Dragon 아이템 220008, 스킬 가속 아이콘은 CommunityDragon의 스탯 룬 그림입니다. `src/lib/aram-mayhem/guide-data.json`의 챔피언·스킬·아이템·증강 이름과 증강 효과 문구도 같은 자료에서 가져왔습니다.
+`static/images/aram-mayhem/`의 챔피언·스킬·아이템·증강·스탯 아이콘은 2026-10-26에 `scripts/generate_aram_mayhem.js`가 Riot Games의 [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) 16.21.1과 [CommunityDragon](https://www.communitydragon.org/) 16.21에서 받아 크기만 줄여 webp로 바꾼 파일입니다. 모루 아이콘은 Data Dragon 아이템 220008, 스킬 가속 아이콘은 CommunityDragon의 스탯 룬 그림입니다. `src/lib/aram-mayhem/guide-data.json`의 챔피언·스킬·아이템·증강 이름과 증강 효과 문구도 같은 자료에서 가져왔습니다.
 
 이 자료의 권리는 Riot Games에 있습니다. 사이트는 Riot Games의 [Legal Jibber Jabber](https://www.riotgames.com/en/legal) 정책에 따라 무료 팬 가이드로 사용하며 페이지에 같은 고지를 표시합니다. 프로젝트 MIT 라이선스에 포함하지 않으며 별도의 재사용 허락을 부여하지 않습니다. CommunityDragon은 Riot Games가 운영하지 않는 커뮤니티 자료 보관소입니다.
 
