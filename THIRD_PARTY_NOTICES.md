@@ -32,6 +32,8 @@ SVG 원본 코드는 `static/images/team-maker/*.svg` 파일 자체에 있습니
 
 ## 블로그 파일 비교 예제
 
+`static/images/blog/bracket-correction/`의 `confirm.png`와 `after.png`는 2026-10-26에 로컬에서 실행한 사이트의 대진표 화면을 Playwright로 Chromium을 조작해 촬영했습니다. 가상4팀을 사용했으며 모바일 확인창과 넓은 화면의 4강·결승 영역을 담았습니다. 외부 사진이나 실제 대회 기록은 사용하지 않았습니다. 화면의 자체 코드와 글꼴은 위 적용 조건을 따릅니다.
+
 `static/images/blog/file-guides/`와 `static/downloads/blog/file-guides/`는 2026-10-04에 블로그의 파일·문서 문제 해결 글을 위해 자체 제작한 비교 자료입니다. 안내 카드와 합성 패턴은 `scripts/generate_blog_file_examples.js`, 가상의 주문서 PDF는 `scripts/generate_blog_pdf_examples.py`로 생성했습니다. 외부 사진·화면·개인정보는 사용하지 않았습니다. 자체 작성한 도형·문구·생성 코드는 위 MIT 적용 기준을 따릅니다.
 
 이미지의 글자와 PDF에 포함한 글꼴은 저장소의 SUIT에서 가져왔으며 SIL Open Font License 1.1을 따릅니다. 글꼴 원본의 권리는 유지합니다. CSV·텍스트·ZIP은 `scripts/generate_blog_data_examples.py`가 자체 작성한 연습 데이터와 위 이미지로 생성했습니다. `renamed-only.jpg`는 PNG의 이름만 바꾼 확장자 비교용 예제입니다. 측정 JSON은 생성한 파일의 크기와 검증 결과를 담습니다. 원본 예제는 `static/downloads/`에 보관해 사이트 이미지 최적화 과정의 영향을 받지 않도록 했습니다.

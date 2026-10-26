@@ -1,0 +1,56 @@
+{
+  "checkedOn": "2026-10-26",
+  "timezone": "Asia/Seoul",
+  "sourceCommit": "3c21217f4f9eb8fc8a589a31c8ef9e2cce38798c",
+  "environment": "로컬 Vite development server, Playwright browser, Chromium 155.0.0.0 on macOS",
+  "input": {
+    "teams": [
+      "가람",
+      "나래",
+      "다온",
+      "라온"
+    ],
+    "order": "input",
+    "initialWinners": {
+      "4강 1경기": "가람",
+      "4강 2경기": "나래",
+      "결승 1경기": "가람"
+    }
+  },
+  "observed": {
+    "initialStatus": "우승: 가람",
+    "changeDialog": "4강 1경기 결과를 바꾸면 이후 경기 1개의 결과가 지워져요.",
+    "dismissedDialogStatus": "우승: 가람",
+    "correctedStatus": "경기 3개 중 2개 끝남 · 다음 경기: 결승 1경기",
+    "remainingWinners": {
+      "4강 1경기": "라온",
+      "4강 2경기": "나래"
+    },
+    "finalParticipants": [
+      "라온",
+      "나래"
+    ],
+    "rerecordedFinalStatus": "우승: 라온",
+    "renameNotice": "팀 목록이 바뀌었어요. 다시 만들면 대진표에 반영돼요.",
+    "statusAfterRenamingInputOnly": "우승: 라온",
+    "statusAfterClickingSelectedFinalWinnerAgain": "경기 3개 중 2개 끝남 · 다음 경기: 결승 1경기",
+    "cancelSemifinalDialog": "4강 1경기 결과를 취소하면 이후 경기 1개의 결과가 지워져요.",
+    "cancelSemifinalStatus": "경기 3개 중 1개 끝남 · 다음 경기: 4강 1경기",
+    "remainingWinnersAfterSemifinalCancellation": {
+      "4강 2경기": "나래"
+    }
+  },
+  "scope": "가상 4팀을 Playwright로 실제 브라우저에서 자동 조작함. 모바일 라운드 이동도 확인. 인쇄창·종이 출력·다른 브라우저·전체 팀 수 조합은 확인하지 않음. 재현 절차는 글의 번호 목록을 따름.",
+  "screenshots": [
+    "/images/blog/bracket-correction/confirm.png",
+    "/images/blog/bracket-correction/after.png"
+  ],
+  "mobileCheck": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "statusAfterCorrection": "경기 3개 중 2개 끝남 · 다음 경기: 결승 1경기",
+    "documentWidth": 375
+  }
+}
