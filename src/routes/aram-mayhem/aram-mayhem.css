@@ -65,24 +65,83 @@ html[data-theme='dark'] .aram-page {
 .aram-pick.ui-button:hover {
 	border-color: var(--ui-border);
 }
-.aram-pick.ui-button[aria-pressed='true'] {
-	border-color: var(--ui-primary);
-	color: var(--ui-primary);
-	font-weight: 700;
-}
 .aram-pick img {
 	width: 48px;
 	height: 48px;
 	border-radius: var(--ui-radius-sm);
 }
 
-/* 챔피언 설명 */
-.aram-detail-anchor {
-	scroll-margin-top: var(--space-16);
+/* 챔피언 검색: 화면 오른쪽 아래에 떠 있는 버튼과 검색 창 */
+.aram-search-fab.ui-button {
+	position: fixed;
+	z-index: 20;
+	right: var(--space-24);
+	bottom: var(--space-24);
+	min-height: 44px;
+	padding: 0 var(--space-16);
+	border-radius: 999px;
+	box-shadow: var(--ui-shadow);
 }
+.aram-search-key {
+	padding: 0 var(--space-4);
+	border-radius: 4px;
+	background: color-mix(in srgb, currentColor, transparent 80%);
+	font: inherit;
+	font-size: var(--font-size-12);
+}
+.aram-search-fab-space {
+	height: var(--space-48);
+}
+/* 터치만 쓰는 기기에는 키보드가 없을 수 있어 / 키 표시를 숨긴다. */
+@media (hover: none) {
+	.aram-search-key {
+		display: none;
+	}
+}
+.aram-suggest {
+	margin: var(--space-8) 0 0;
+	padding: 0;
+	list-style: none;
+}
+.aram-suggest[hidden] {
+	display: none;
+}
+.aram-suggest li {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+	padding: var(--space-4) var(--space-8);
+	border-radius: var(--ui-radius-sm);
+	color: var(--ui-text);
+	font-size: var(--font-size-14);
+	font-weight: 600;
+	cursor: pointer;
+}
+.aram-suggest li[aria-selected='true'] {
+	background: var(--aram-accent-soft);
+	color: var(--ui-primary);
+}
+.aram-suggest img {
+	flex: none;
+	width: 28px;
+	height: 28px;
+	border-radius: var(--ui-radius-sm);
+}
+.aram-suggest-alias {
+	margin-left: auto;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+	font-weight: 400;
+}
+.aram-suggest-empty {
+	margin: var(--space-8) 0 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+}
+
+/* 챔피언 설명 */
 .aram-detail {
-	padding-top: var(--space-24);
-	border-top: 1px solid var(--ui-border);
+	padding-top: var(--space-8);
 }
 .aram-champion-head {
 	display: flex;
@@ -346,6 +405,12 @@ html[data-theme='dark'] .aram-page {
 	line-height: 1.5;
 	vertical-align: middle;
 	white-space: nowrap;
+}
+/* 한글은 글자 높이가 낮아 middle 정렬만으로는 타일이 글자보다 약 2px 내려간다. 문장 안 타일만 글자 중심에 맞춘다. */
+.aram-why .aram-ic,
+.aram-steps .aram-ic {
+	position: relative;
+	top: -0.15em;
 }
 .aram-ic img {
 	flex: none;
@@ -644,6 +709,10 @@ html[data-theme='dark'] .aram-page {
 }
 
 @media (max-width: 640px) {
+	.aram-search-fab.ui-button {
+		right: var(--space-16);
+		bottom: var(--space-16);
+	}
 	.aram-build-tab.ui-button {
 		width: 100%;
 	}

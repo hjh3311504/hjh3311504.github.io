@@ -13,6 +13,8 @@ import {
 	shareImage as marbleImage,
 	faqs as marbleFaqs
 } from '../src/lib/marble-race/page-content.js';
+import aramGuide from '../src/lib/aram-mayhem/guide-data.json' with { type: 'json' };
+import { championPath, championSeo, hubSeo } from '../src/lib/aram-mayhem/seo.js';
 
 const root = process.cwd();
 const requiredFiles = [
@@ -68,6 +70,17 @@ const qrHtml = await readFile(path.join(root, 'build/qr-code.html'), 'utf8');
 const marbleHtml = await readFile(path.join(root, 'build/marble-race.html'), 'utf8');
 const bracketHtml = await readFile(path.join(root, 'build/bracket.html'), 'utf8');
 const aramHtml = await readFile(path.join(root, 'build/aram-mayhem.html'), 'utf8');
+// 챔피언 공략 페이지는 build/aram-mayhem/챔피언id.html이다. 공통 검사는 첫 챔피언 페이지로 한다.
+const aramChampionHtml = Object.fromEntries(
+	await Promise.all(
+		aramGuide.champions.map(async (champion) => [
+			champion.id,
+			await readFile(path.join(root, `build${championPath(champion.id)}.html`), 'utf8')
+		])
+	)
+);
+const aramSampleId = aramGuide.champions[0].id;
+const aramSampleHtml = aramChampionHtml[aramSampleId];
 const notFoundHtml = await readFile(path.join(root, 'build/404.html'), 'utf8');
 const aboutHtml = await readFile(path.join(root, 'build/about.html'), 'utf8');
 const privacyHtml = await readFile(path.join(root, 'build/privacy.html'), 'utf8');
@@ -120,8 +133,9 @@ for (const [name, document, phrases] of [
 	[
 		'아수라장 가이드',
 		aramHtml,
-		['가이드 보는 법', '추천 기준과 자료', '아이템 추천', '증강 추천', 'Legal Jibber Jabber']
-	]
+		['증바람 공략', '가이드 보는 법', '추천 기준과 자료', '도파민', 'Legal Jibber Jabber']
+	],
+	['아수라장 챔피언 공략', aramSampleHtml, ['아이템 추천', '증강 추천', 'Legal Jibber Jabber']]
 ]) {
 	const bodyText = document
 		.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
@@ -143,6 +157,7 @@ for (const [name, document] of [
 	['구슬 레이스', marbleHtml],
 	['대진표', bracketHtml],
 	['아수라장 가이드', aramHtml],
+	['아수라장 챔피언 공략', aramSampleHtml],
 	['소개', aboutHtml],
 	['개인정보처리방침', privacyHtml],
 	['404', notFoundHtml]
@@ -216,6 +231,7 @@ for (const [name, document] of [
 	['구슬 레이스', marbleHtml],
 	['대진표', bracketHtml],
 	['아수라장 가이드', aramHtml],
+	['아수라장 챔피언 공략', aramSampleHtml],
 	['소개', aboutHtml],
 	['개인정보처리방침', privacyHtml]
 ]) {
@@ -560,9 +576,24 @@ for (const [name, document] of [
 }
 console.log('대진표 정적 페이지와 sitemap 검증 통과');
 
+const aramJsonLd = (document, name) => {
+	const match = document.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+	if (!match) throw new Error(`${name} HTML에서 JSON-LD 구조화 데이터를 찾지 못했습니다.`);
+	const graph = JSON.parse(match[1])['@graph'] ?? [];
+	if (graph.some((item) => item['@type'] === 'FAQPage'))
+		throw new Error(`${name}에 사용하지 않는 FAQPage 구조화 데이터가 있습니다.`);
+	return graph;
+};
+// 챔피언 아이콘과 증강 아이콘은 외부 주소가 아니라 사이트에 함께 배포한 파일을 쓴다.
+async function checkAramImages(document, name) {
+	const images = [...document.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map((match) => match[1]);
+	if (!images.length || images.some((src) => !src.startsWith('/images/aram-mayhem/')))
+		throw new Error(`${name} 이미지는 /images/aram-mayhem/ 아래 파일이어야 합니다.`);
+	for (const src of new Set(images)) await access(path.join(root, 'build', src.slice(1)));
+}
+const hubSeoText = hubSeo(aramGuide);
 for (const marker of [
-	'칼바람 아수라장 증강 가이드',
-	'id="aram-champion-name"',
+	`<title>${hubSeoText.title}</title>`,
 	'id="aram-howto-title"',
 	'id="aram-basis-title"',
 	'aria-label="챔피언 고르기"',
@@ -573,16 +604,56 @@ for (const marker of [
 }
 if ((aramHtml.match(/<h1\b/g)?.length ?? 0) !== 1)
 	throw new Error('아수라장 가이드의 h1은 1개여야 합니다.');
-// 챔피언 아이콘과 증강 아이콘은 외부 주소가 아니라 사이트에 함께 배포한 파일을 쓴다.
-const aramImages = [...aramHtml.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map((match) => match[1]);
-if (!aramImages.length || aramImages.some((src) => !src.startsWith('/images/aram-mayhem/')))
-	throw new Error('아수라장 가이드 이미지는 /images/aram-mayhem/ 아래 파일이어야 합니다.');
-for (const src of new Set(aramImages)) await access(path.join(root, 'build', src.slice(1)));
+await checkAramImages(aramHtml, '아수라장 가이드');
+const hubList = aramJsonLd(aramHtml, '아수라장 가이드').find(
+	(item) => item['@type'] === 'ItemList'
+);
+if (hubList?.itemListElement?.length !== aramGuide.champions.length)
+	throw new Error('아수라장 가이드의 챔피언 목록 구조화 데이터 수가 맞지 않습니다.');
 if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/aram-mayhem</loc>'))
 	throw new Error('sitemap에 아수라장 가이드 주소가 없습니다.');
 if (!/href="(?:\.\/|\/)aram-mayhem"/.test(homeHtml))
 	throw new Error('홈 HTML에 아수라장 가이드 링크가 없습니다.');
-console.log('아수라장 가이드 정적 페이지와 sitemap 검증 통과');
+
+for (const champion of aramGuide.champions) {
+	const document = aramChampionHtml[champion.id];
+	const name = `아수라장 ${champion.nameKo} 공략`;
+	const pathname = championPath(champion.id);
+	const seo = championSeo(champion, aramGuide);
+	// 허브의 챔피언 타일은 검색엔진이 따라갈 수 있는 정적 링크다.
+	if (!aramHtml.includes(`href="${pathname}"`))
+		throw new Error(`아수라장 가이드 허브에 ${champion.nameKo} 공략 링크가 없습니다.`);
+	if (!sitemapHtml.includes(`<loc>https://hjh3311504.github.io${pathname}</loc>`))
+		throw new Error(`sitemap에 ${name} 주소가 없습니다.`);
+	for (const marker of [
+		`<title>${seo.title}</title>`,
+		`<link rel="canonical" href="https://hjh3311504.github.io${pathname}"`,
+		`<h2 id="aram-champion-name">${champion.nameKo}</h2>`,
+		'role="combobox"'
+	]) {
+		if (!document.includes(marker))
+			throw new Error(`${name} HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+	}
+	if ((document.match(/<h1\b/g)?.length ?? 0) !== 1)
+		throw new Error(`${name}의 h1은 1개여야 합니다.`);
+	if (/<a\b[^>]*href="\/aram-mayhem\/[^"]+"/.test(document))
+		throw new Error(`${name}에는 다른 챔피언 공략 링크를 두지 않습니다.`);
+	await checkAramImages(document, name);
+	const crumbs = aramJsonLd(document, name).find((item) => item['@type'] === 'BreadcrumbList');
+	if (crumbs?.itemListElement?.at(-1)?.item !== `https://hjh3311504.github.io${pathname}`)
+		throw new Error(`${name}의 이동 경로 구조화 데이터가 올바르지 않습니다.`);
+}
+// 추천 기준은 통계 티어가 아니라 재미 위주 빌드라고 밝힌다. 안내 문구에 디시인사이드를 적지 않는다.
+for (const [name, document] of [
+	['아수라장 가이드', aramHtml],
+	['아수라장 챔피언 공략', aramSampleHtml]
+]) {
+	if (/디시인사이드|승률이 높은/.test(document))
+		throw new Error(`${name}의 추천 기준 안내에 통계·디시인사이드 표현이 남아 있습니다.`);
+}
+console.log(
+	`아수라장 가이드 허브와 챔피언 공략 ${aramGuide.champions.length}개의 정적 페이지·sitemap 검증 통과`
+);
 
 for (const marker of [
 	pageName,

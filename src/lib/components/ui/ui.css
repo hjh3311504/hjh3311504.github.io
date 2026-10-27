@@ -379,6 +379,10 @@ html[data-theme='dark'] .site-shell {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+.ui-dialog[data-placement='top'] {
+	max-height: min(calc(100dvh - var(--space-80) - var(--space-16)), 900px);
+	margin-top: var(--space-80);
+}
 .ui-dialog[data-size='wide'] {
 	width: min(760px, calc(100% - 32px));
 }
@@ -434,6 +438,14 @@ html[data-theme='dark'] .site-shell {
 .ui-form-field > label {
 	font-size: var(--font-size-14);
 	font-weight: 700;
+}
+.ui-form-field[data-label='hidden'] > label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
 }
 .ui-form-field .ui-field {
 	width: 100%;

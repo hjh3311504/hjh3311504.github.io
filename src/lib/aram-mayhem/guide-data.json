@@ -5,6 +5,7 @@
 		{
 			"id": "garen",
 			"nameKo": "가렌",
+			"aliases": [],
 			"roles": ["전사"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/garen.webp",
@@ -108,6 +109,7 @@
 		{
 			"id": "ryze",
 			"nameKo": "라이즈",
+			"aliases": [],
 			"roles": ["마법사", "전사"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/ryze.webp",
@@ -346,6 +348,7 @@
 		{
 			"id": "rammus",
 			"nameKo": "람머스",
+			"aliases": [],
 			"roles": ["탱커"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/rammus.webp",
@@ -500,6 +503,7 @@
 		{
 			"id": "leona",
 			"nameKo": "레오나",
+			"aliases": [],
 			"roles": ["탱커"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/leona.webp",
@@ -611,6 +615,7 @@
 		{
 			"id": "lulu",
 			"nameKo": "룰루",
+			"aliases": [],
 			"roles": ["서포터"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/lulu.webp",
@@ -774,6 +779,7 @@
 		{
 			"id": "master-yi",
 			"nameKo": "마스터 이",
+			"aliases": ["마이"],
 			"roles": ["암살자"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/master-yi.webp",
@@ -1024,6 +1030,7 @@
 		{
 			"id": "malphite",
 			"nameKo": "말파이트",
+			"aliases": ["말파"],
 			"roles": ["탱커"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/malphite.webp",
@@ -1134,6 +1141,7 @@
 		{
 			"id": "varus",
 			"nameKo": "바루스",
+			"aliases": [],
 			"roles": ["원거리 딜러"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/varus.webp",
@@ -1274,6 +1282,7 @@
 		{
 			"id": "vi",
 			"nameKo": "바이",
+			"aliases": [],
 			"roles": ["전사"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/vi.webp",
@@ -1480,6 +1489,7 @@
 		{
 			"id": "veigar",
 			"nameKo": "베이가",
+			"aliases": [],
 			"roles": ["마법사"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/veigar.webp",
@@ -1610,6 +1620,7 @@
 		{
 			"id": "vayne",
 			"nameKo": "베인",
+			"aliases": [],
 			"roles": ["원거리 딜러"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/vayne.webp",
@@ -1710,6 +1721,7 @@
 		{
 			"id": "braum",
 			"nameKo": "브라움",
+			"aliases": [],
 			"roles": ["서포터", "탱커"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/braum.webp",
@@ -1846,6 +1858,7 @@
 		{
 			"id": "brand",
 			"nameKo": "브랜드",
+			"aliases": [],
 			"roles": ["마법사", "전사"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/brand.webp",
@@ -2007,6 +2020,7 @@
 		{
 			"id": "vladimir",
 			"nameKo": "블라디미르",
+			"aliases": ["블라디"],
 			"roles": ["마법사", "전사"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/vladimir.webp",
@@ -2164,6 +2178,7 @@
 		{
 			"id": "sett",
 			"nameKo": "세트",
+			"aliases": [],
 			"roles": ["전사", "탱커"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/sett.webp",
@@ -2287,6 +2302,7 @@
 		{
 			"id": "sona",
 			"nameKo": "소나",
+			"aliases": [],
 			"roles": ["서포터"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/sona.webp",
@@ -2440,6 +2456,7 @@
 		{
 			"id": "soraka",
 			"nameKo": "소라카",
+			"aliases": [],
 			"roles": ["서포터"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/soraka.webp",
@@ -2601,6 +2618,7 @@
 		{
 			"id": "smolder",
 			"nameKo": "스몰더",
+			"aliases": [],
 			"roles": ["원거리 딜러"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/smolder.webp",
@@ -2691,6 +2709,7 @@
 		{
 			"id": "annie",
 			"nameKo": "애니",
+			"aliases": [],
 			"roles": ["마법사", "서포터"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/annie.webp",
@@ -2823,6 +2842,7 @@
 		{
 			"id": "anivia",
 			"nameKo": "애니비아",
+			"aliases": [],
 			"roles": ["마법사"],
 			"difficulty": "어려움",
 			"icon": "/images/aram-mayhem/champions/anivia.webp",
@@ -2939,6 +2959,7 @@
 		{
 			"id": "ashe",
 			"nameKo": "애쉬",
+			"aliases": [],
 			"roles": ["원거리 딜러"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/ashe.webp",
@@ -3177,6 +3198,7 @@
 		{
 			"id": "yasuo",
 			"nameKo": "야스오",
+			"aliases": [],
 			"roles": ["전사"],
 			"difficulty": "어려움",
 			"icon": "/images/aram-mayhem/champions/yasuo.webp",
@@ -3374,6 +3396,7 @@
 		{
 			"id": "yone",
 			"nameKo": "요네",
+			"aliases": [],
 			"roles": ["전사"],
 			"difficulty": "어려움",
 			"icon": "/images/aram-mayhem/champions/yone.webp",
@@ -3516,6 +3539,7 @@
 		{
 			"id": "jax",
 			"nameKo": "잭스",
+			"aliases": [],
 			"roles": ["전사"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/jax.webp",
@@ -3641,6 +3665,7 @@
 		{
 			"id": "kaisa",
 			"nameKo": "카이사",
+			"aliases": [],
 			"roles": ["원거리 딜러", "마법사"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/kaisa.webp",
@@ -3773,6 +3798,7 @@
 		{
 			"id": "taric",
 			"nameKo": "타릭",
+			"aliases": [],
 			"roles": ["서포터", "탱커"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/taric.webp",
@@ -3910,6 +3936,7 @@
 		{
 			"id": "tahm-kench",
 			"nameKo": "탐 켄치",
+			"aliases": [],
 			"roles": ["탱커", "서포터"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/tahm-kench.webp",
@@ -4016,6 +4043,7 @@
 		{
 			"id": "trundle",
 			"nameKo": "트런들",
+			"aliases": [],
 			"roles": ["전사"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/trundle.webp",
@@ -4288,6 +4316,7 @@
 		{
 			"id": "teemo",
 			"nameKo": "티모",
+			"aliases": [],
 			"roles": ["마법사"],
 			"difficulty": "쉬움",
 			"icon": "/images/aram-mayhem/champions/teemo.webp",
@@ -4432,6 +4461,7 @@
 		{
 			"id": "fizz",
 			"nameKo": "피즈",
+			"aliases": [],
 			"roles": ["암살자", "마법사"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/fizz.webp",
@@ -4540,6 +4570,7 @@
 		{
 			"id": "hecarim",
 			"nameKo": "헤카림",
+			"aliases": [],
 			"roles": ["전사"],
 			"difficulty": "보통",
 			"icon": "/images/aram-mayhem/champions/hecarim.webp",
@@ -4748,480 +4779,560 @@
 	"augments": {
 		"adapt": {
 			"nameKo": "적응형 능력치",
+			"aliases": ["적능"],
 			"tier": "silver",
 			"effectKo": "추가 공격력을 주문력으로 바꾸고 주문력을 높입니다.",
 			"icon": "/images/aram-mayhem/augments/adapt.webp"
 		},
 		"all-for-you": {
 			"nameKo": "너만을 위해",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "아군에게 주는 회복과 보호막을 강화합니다.",
 			"icon": "/images/aram-mayhem/augments/all-for-you.webp"
 		},
 		"archmage": {
 			"nameKo": "대마법사",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "스킬을 쓰면 다른 스킬의 남은 대기시간이 줄어듭니다.",
 			"icon": "/images/aram-mayhem/augments/archmage.webp"
 		},
 		"armored-impact": {
 			"nameKo": "장갑 충격",
+			"aliases": ["장충"],
 			"tier": "gold",
 			"effectKo": "스킬 뒤 다음 기본 공격에 방어력에 비례한 피해가 붙습니다.",
 			"icon": "/images/aram-mayhem/augments/armored-impact.webp"
 		},
 		"back-to-basics": {
 			"nameKo": "기본으로 돌아가기",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "궁극기를 포기하고 일반 스킬과 회복·보호막을 강화합니다.",
 			"icon": "/images/aram-mayhem/augments/back-to-basics.webp"
 		},
 		"bees": {
 			"nameKo": "벌이다!!!",
+			"aliases": ["벌이다", "벌"],
 			"tier": "gold",
 			"effectKo": "스킬을 쓰면 때때로 벌집이 날아가 폭발합니다. 둔화와 적중 시 효과도 적용합니다.",
 			"icon": "/images/aram-mayhem/augments/bees.webp"
 		},
 		"blade-waltz": {
 			"nameKo": "검무",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "적 사이를 연달아 이동하며 공격하는 소환사 주문을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/blade-waltz.webp"
 		},
 		"blue-barrier": {
 			"nameKo": "푸른 방어막",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "마나를 쓰는 스킬을 사용하면 마나 소모량에 따른 보호막을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/blue-barrier.webp"
 		},
 		"blunt-force": {
 			"nameKo": "육중한 힘",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "공격력을 높입니다.",
 			"icon": "/images/aram-mayhem/augments/blunt-force.webp"
 		},
 		"bread-and-butter": {
 			"nameKo": "빵과 버터",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "Q의 스킬 가속을 높입니다.",
 			"icon": "/images/aram-mayhem/augments/bread-and-butter.webp"
 		},
 		"bread-and-cheese": {
 			"nameKo": "빵과 치즈",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "E의 스킬 가속을 높입니다.",
 			"icon": "/images/aram-mayhem/augments/bread-and-cheese.webp"
 		},
 		"bread-and-jam": {
 			"nameKo": "빵과 잼",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "W의 스킬 가속을 높입니다.",
 			"icon": "/images/aram-mayhem/augments/bread-and-jam.webp"
 		},
 		"circle-of-death": {
 			"nameKo": "죽음의 순환",
+			"aliases": ["죽순"],
 			"tier": "prismatic",
 			"effectKo": "회복량의 일부를 주변 적 챔피언에게 주는 피해로 바꿉니다.",
 			"icon": "/images/aram-mayhem/augments/circle-of-death.webp"
 		},
 		"clown-college": {
 			"nameKo": "광대 대학",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "기습 공격, 은신 이동, 사망 폭발 효과를 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/clown-college.webp"
 		},
 		"courage-of-the-colossus": {
 			"nameKo": "거석상의 용기",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "적의 이동을 막으면 보호막을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/courage-of-the-colossus.webp"
 		},
 		"critical-healing": {
 			"nameKo": "치명적 치유",
+			"aliases": ["치치"],
 			"tier": "gold",
 			"effectKo": "회복과 보호막에도 치명타가 적용될 수 있습니다.",
 			"icon": "/images/aram-mayhem/augments/critical-healing.webp"
 		},
 		"cruelty": {
 			"nameKo": "잔혹 행위",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "적의 이동을 막은 위치에 추가 피해가 떨어집니다.",
 			"icon": "/images/aram-mayhem/augments/cruelty.webp"
 		},
 		"dashing": {
 			"nameKo": "돌진",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "돌진과 순간이동 스킬의 가속을 크게 높입니다.",
 			"icon": "/images/aram-mayhem/augments/dashing.webp"
 		},
 		"deft": {
 			"nameKo": "능수능란",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "공격 속도를 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/deft.webp"
 		},
 		"double-tap": {
 			"nameKo": "한 발에 두 놈",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "치명타 기본 공격이 적중 시 효과를 추가로 적용합니다.",
 			"icon": "/images/aram-mayhem/augments/double-tap.webp"
 		},
 		"draw-your-sword": {
 			"nameKo": "검을 뽑아라",
+			"aliases": ["검뽑"],
 			"tier": "prismatic",
 			"effectKo": "원거리 챔피언의 사거리가 짧아지는 대신 여러 전투 능력치를 크게 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/draw-your-sword.webp"
 		},
 		"dual-wield": {
 			"nameKo": "양손잡이",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "기본 공격 뒤 추가 타격이 발생합니다. 추가 타격은 적중 시 효과를 낮은 비율로 적용합니다.",
 			"icon": "/images/aram-mayhem/augments/dual-wield.webp"
 		},
 		"enchanting-butterflies": {
 			"nameKo": "황홀한 나비",
+			"aliases": ["황나", "나비"],
 			"tier": "gold",
 			"effectKo": "아군 회복·보호막으로 나비를 모읍니다. 충분히 모은 뒤 적을 때리면 나비가 추가 피해를 줍니다.",
 			"icon": "/images/aram-mayhem/augments/enchanting-butterflies.webp"
 		},
 		"erosion": {
 			"nameKo": "부식",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "적에게 피해를 줄수록 방어력과 마법 저항력을 깎습니다.",
 			"icon": "/images/aram-mayhem/augments/erosion.webp"
 		},
 		"escapade": {
 			"nameKo": "마법사 (물리)",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "주문력을 추가 공격력으로 바꾸고 공격력을 높입니다.",
 			"icon": "/images/aram-mayhem/augments/escapade.webp"
 		},
 		"ethereal-weapon": {
 			"nameKo": "환영 무기",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "스킬이 적중 시 효과를 적용합니다. 같은 대상에게는 발동 간격이 있습니다.",
 			"icon": "/images/aram-mayhem/augments/ethereal-weapon.webp"
 		},
 		"eureka": {
 			"nameKo": "유레카",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "주문력에 비례해 스킬 가속을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/eureka.webp"
 		},
 		"firebrand": {
 			"nameKo": "화염 낙인",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "기본 공격이 중첩되는 화상을 남깁니다.",
 			"icon": "/images/aram-mayhem/augments/firebrand.webp"
 		},
 		"first-aid-kit": {
 			"nameKo": "응급처치 키트",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "체력 회복과 보호막 효과를 높입니다.",
 			"icon": "/images/aram-mayhem/augments/first-aid-kit.webp"
 		},
 		"giant-slayer": {
 			"nameKo": "거인 학살자",
+			"aliases": ["거학"],
 			"tier": "prismatic",
 			"effectKo": "몸집이 작아지고 빨라집니다. 자신보다 큰 적에게 피해가 늘어납니다.",
 			"icon": "/images/aram-mayhem/augments/giant-slayer.webp"
 		},
 		"goliath": {
 			"nameKo": "거인",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "최대 체력과 적응형 능력치가 늘고 몸집이 커집니다.",
 			"icon": "/images/aram-mayhem/augments/goliath.webp"
 		},
 		"goredrink": {
 			"nameKo": "선혈포식",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "모든 피해 흡혈을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/goredrink.webp"
 		},
 		"heavy-hitter": {
 			"nameKo": "강타자",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "기본 공격에 자신의 최대 체력에 비례한 물리 피해를 더합니다.",
 			"icon": "/images/aram-mayhem/augments/heavy-hitter.webp"
 		},
 		"homeguard": {
 			"nameKo": "민병대",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "적 챔피언에게 맞지 않는 동안 이동 속도가 크게 증가합니다.",
 			"icon": "/images/aram-mayhem/augments/homeguard.webp"
 		},
 		"ice-cold": {
 			"nameKo": "차가운 냉기",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "둔화 효과를 강화합니다.",
 			"icon": "/images/aram-mayhem/augments/ice-cold.webp"
 		},
 		"impassable": {
 			"nameKo": "넘을 수 없는 벽",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "여진과 빙결 강화 효과를 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/impassable.webp"
 		},
 		"infernal-conduit": {
 			"nameKo": "지옥의 전도체",
+			"aliases": ["전도체", "지전"],
 			"tier": "prismatic",
 			"effectKo": "스킬로 적 챔피언을 맞히면 화상을 남깁니다. 화상 피해가 일반 스킬의 대기시간을 줄입니다.",
 			"icon": "/images/aram-mayhem/augments/infernal-conduit.webp"
 		},
 		"infinite-recursion": {
 			"nameKo": "무한 반복",
+			"aliases": ["무반"],
 			"tier": "prismatic",
 			"effectKo": "스킬 가속을 얻고 처치에 관여할 때마다 추가로 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/infinite-recursion.webp"
 		},
 		"its-critical": {
 			"nameKo": "치명적인 공격",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "치명타 확률을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/its-critical.webp"
 		},
 		"jeweled-gauntlet": {
 			"nameKo": "보석 건틀릿",
+			"aliases": ["보건"],
 			"tier": "prismatic",
 			"effectKo": "스킬 피해에 치명타가 적용될 수 있으며 치명타 확률을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/jeweled-gauntlet.webp"
 		},
 		"leg-day": {
 			"nameKo": "하체 운동의 날",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "이동 속도와 둔화 저항을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/leg-day.webp"
 		},
 		"lich-brain": {
 			"nameKo": "리치 두뇌",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "추가 체력에 비례해 주문력을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/lich-brain.webp"
 		},
 		"mad-scientist": {
 			"nameKo": "미친 과학자",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "부활할 때마다 커지고 강해지거나 작아지고 빨라지는 효과 중 하나를 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/mad-scientist.webp"
 		},
 		"magic-missile": {
 			"nameKo": "마법 미사일",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "스킬 적중 시 고정 피해 미사일을 발사합니다. 멀리 날아갈수록 강해집니다.",
 			"icon": "/images/aram-mayhem/augments/magic-missile.webp"
 		},
 		"mind-to-matter": {
 			"nameKo": "정신 변환",
+			"aliases": ["정변"],
 			"tier": "silver",
 			"effectKo": "최대 마나에 비례해 추가 체력을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/mind-to-matter.webp"
 		},
 		"mystic-punch": {
 			"nameKo": "신비한 주먹",
+			"aliases": ["신주"],
 			"tier": "prismatic",
 			"effectKo": "기본 공격 적중 시 스킬의 남은 대기시간이 줄어듭니다.",
 			"icon": "/images/aram-mayhem/augments/mystic-punch.webp"
 		},
 		"outlaws-grit": {
 			"nameKo": "무법자의 투지",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "돌진이나 순간이동 뒤 방어력과 마법 저항력이 쌓입니다.",
 			"icon": "/images/aram-mayhem/augments/outlaws-grit.webp"
 		},
 		"overflow": {
 			"nameKo": "범람",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "마나 소모가 늘어나는 대신 최대 마나에 따라 피해와 회복·보호막 효과가 높아집니다.",
 			"icon": "/images/aram-mayhem/augments/overflow.webp"
 		},
 		"overloaded": {
 			"nameKo": "과충전",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "다른 스킬을 쓰면 지정 스킬의 대기시간이 초기화됩니다.",
 			"icon": "/images/aram-mayhem/augments/overloaded.webp"
 		},
 		"phenomenal-evil": {
 			"nameKo": "극악무도",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "스킬로 적 챔피언을 맞히며 주문력을 쌓습니다.",
 			"icon": "/images/aram-mayhem/augments/phenomenal-evil.webp"
 		},
 		"protein-shake": {
 			"nameKo": "프로틴 음료",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "방어력과 마법 저항력에 따라 회복·보호막 효과가 높아집니다.",
 			"icon": "/images/aram-mayhem/augments/protein-shake.webp"
 		},
 		"purist-caster": {
 			"nameKo": "순수주의자 - 마법사",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "추가 공격 속도를 스킬 가속으로 바꾸며 스킬 대기시간을 더 줄입니다.",
 			"icon": "/images/aram-mayhem/augments/purist-caster.webp"
 		},
 		"quest-steel-your-heart": {
 			"nameKo": "강철 같은 심장",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "강철심장으로 체력 중첩을 모으면 중첩 효과가 강화됩니다.",
 			"icon": "/images/aram-mayhem/augments/quest-steel-your-heart.webp"
 		},
 		"recursion": {
 			"nameKo": "되풀이",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "스킬 가속을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/recursion.webp"
 		},
 		"scopier-weapons": {
 			"nameKo": "상급 조준경 부착",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "기본 공격 사거리가 더 늘어납니다.",
 			"icon": "/images/aram-mayhem/augments/scopier-weapons.webp"
 		},
 		"scopiest-weapons": {
 			"nameKo": "최상급 조준경 부착",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "기본 공격 사거리가 크게 늘어납니다.",
 			"icon": "/images/aram-mayhem/augments/scopiest-weapons.webp"
 		},
 		"shrink-engine": {
 			"nameKo": "축소 엔진",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "처치 관여로 작아지고 스킬 가속과 이동 속도를 쌓습니다. 사망하면 일부를 잃습니다.",
 			"icon": "/images/aram-mayhem/augments/shrink-engine.webp"
 		},
 		"skilled-sniper": {
 			"nameKo": "노련한 저격수",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "먼 거리에서 일반 스킬을 맞히면 해당 스킬의 대기시간을 줄입니다.",
 			"icon": "/images/aram-mayhem/augments/skilled-sniper.webp"
 		},
 		"slap-around": {
 			"nameKo": "우당탕탕",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "적의 이동을 막으면 공격력 또는 주문력을 쌓습니다. 사망하면 일부를 잃습니다.",
 			"icon": "/images/aram-mayhem/augments/slap-around.webp"
 		},
 		"soul-siphon": {
 			"nameKo": "영혼 흡수",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "치명타 피해량의 일부만큼 체력을 회복합니다.",
 			"icon": "/images/aram-mayhem/augments/soul-siphon.webp"
 		},
 		"sound-barrier": {
 			"nameKo": "음속 장벽",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "보호막을 받은 대상이 빨라집니다.",
 			"icon": "/images/aram-mayhem/augments/sound-barrier.webp"
 		},
 		"stackosaurusrex": {
 			"nameKo": "다단 중첩",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "영구 스킬 중첩을 얻을 때 추가 중첩을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/stackosaurusrex.webp"
 		},
 		"still-here": {
 			"nameKo": "죽지 않아",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "체력이 낮을수록 공격력, 주문력, 생명력 흡수가 늘어납니다.",
 			"icon": "/images/aram-mayhem/augments/still-here.webp"
 		},
 		"swift-and-safe": {
 			"nameKo": "빠르고 안전하게",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "돌진이나 순간이동 뒤 잠시 보호막을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/swift-and-safe.webp"
 		},
 		"symphony-of-war": {
 			"nameKo": "전장의 교향곡",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "정복자와 치명적 속도 효과를 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/symphony-of-war.webp"
 		},
 		"takeem-down-down-down": {
 			"nameKo": "전부 다 무너뜨려",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "적 챔피언에게 기본 공격과 스킬을 여러 번 맞히면 추가 피해와 회복을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/takeem-down-down-down.webp"
 		},
 		"tank-engine": {
 			"nameKo": "탱크 엔진",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "처치 관여로 최대 체력과 몸집이 커집니다. 죽으면 중첩 일부를 잃습니다.",
 			"icon": "/images/aram-mayhem/augments/tank-engine.webp"
 		},
 		"tap-dancer": {
 			"nameKo": "탭 댄서",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "기본 공격으로 이동 속도를 쌓고 이동 속도에 따라 공격 속도를 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/tap-dancer.webp"
 		},
 		"terraind": {
 			"nameKo": "지형 생성됨",
+			"aliases": ["지형생성"],
 			"tier": "gold",
 			"effectKo": "지정 지형 생성 스킬 주위에 피해를 더합니다.",
 			"icon": "/images/aram-mayhem/augments/terraind.webp"
 		},
 		"the-boom-and-the-bass": {
 			"nameKo": "붐 앤 베이스",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "스킬을 쓴 뒤 다음 기본 공격에 추가 피해가 붙고 이동 속도가 잠시 크게 오릅니다.",
 			"icon": "/images/aram-mayhem/augments/the-boom-and-the-bass.webp"
 		},
 		"thread-the-needle": {
 			"nameKo": "바늘에 실 끼우기",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "방어구 관통력과 마법 관통력을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/thread-the-needle.webp"
 		},
 		"tooth-fairy": {
 			"nameKo": "이빨 요정",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "큰 피해를 주면 떨어지는 이빨을 주워 물리·마법 관통력을 쌓습니다.",
 			"icon": "/images/aram-mayhem/augments/tooth-fairy.webp"
 		},
 		"tripleshot": {
 			"nameKo": "3연발",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "지정 스킬이 앞쪽 적 2명을 추가로 공격합니다.",
 			"icon": "/images/aram-mayhem/augments/tripleshot.webp"
 		},
 		"ultimate-awakening": {
 			"nameKo": "궁극의 각성",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "궁극기 사용 후 일반 스킬이 초기화되고 잠시 스킬 가속이 크게 증가합니다.",
 			"icon": "/images/aram-mayhem/augments/ultimate-awakening.webp"
 		},
 		"ultimate-recursion": {
 			"nameKo": "궁극의 반복",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "궁극기 가속을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/ultimate-recursion.webp"
 		},
 		"upgrade-sheen": {
 			"nameKo": "광휘의 검 업그레이드",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "주문 검 효과에 체력 비례 피해와 자신의 체력 회복을 더합니다.",
 			"icon": "/images/aram-mayhem/augments/upgrade-sheen.webp"
 		},
 		"vulnerability": {
 			"nameKo": "취약",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "아이템 피해와 지속 피해에 치명타가 적용될 수 있습니다.",
 			"icon": "/images/aram-mayhem/augments/vulnerability.webp"
 		},
 		"windspeakers-blessing": {
 			"nameKo": "바람전달자의 축복",
+			"aliases": [],
 			"tier": "prismatic",
 			"effectKo": "회복·보호막을 받은 대상에게 잠시 방어력과 마법 저항력을 더합니다.",
 			"icon": "/images/aram-mayhem/augments/windspeakers-blessing.webp"
 		},
 		"witchful-thinking": {
 			"nameKo": "사악한 정신",
+			"aliases": [],
 			"tier": "silver",
 			"effectKo": "주문력을 얻습니다.",
 			"icon": "/images/aram-mayhem/augments/witchful-thinking.webp"
 		},
 		"with-haste": {
 			"nameKo": "속행",
+			"aliases": [],
 			"tier": "gold",
 			"effectKo": "스킬 가속에 비례해 이동 속도가 증가합니다.",
 			"icon": "/images/aram-mayhem/augments/with-haste.webp"
@@ -5317,6 +5428,9 @@
 		"혹한의 손길": "/images/aram-mayhem/items/3119.webp",
 		"황혼과 새벽": "/images/aram-mayhem/items/2510.webp",
 		"흐르는 물의 지팡이": "/images/aram-mayhem/items/6616.webp"
+	},
+	"itemAliases": {
+		"꽃피는 새벽의 검": ["새벽검"]
 	},
 	"icons": {
 		"anvil": "/images/aram-mayhem/stats/anvil.webp",
