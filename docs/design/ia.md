@@ -3,7 +3,7 @@
 ## 범위
 
 - surface: `web`
-- route: `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/aram-mayhem`, `/blog`, `/blog/[slug]`
+- route: `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/aram-mayhem`, `/aram-mayhem/[champion]`, `/aram-mayhem/augments/[augment]`, `/blog`, `/blog/[slug]`
 - 관련 REQ: `REQ-WEB-001`, `REQ-WEB-002`, `REQ-WEB-003`, `REQ-WEB-005`, `REQ-WEB-006`, `REQ-WEB-007`, `REQ-WEB-009`, `REQ-WEB-011`, `REQ-WEB-012`, `REQ-WEB-013`, `REQ-WEB-014`, `REQ-WEB-015`, `REQ-WEB-016`, `REQ-WEB-017`, `REQ-WEB-018`, `REQ-WEB-019`, `REQ-WEB-020`, `REQ-WEB-021`, `REQ-WEB-022`, `REQ-WEB-023`, `REQ-WEB-024`, `REQ-WEB-025`, `REQ-WEB-026`, `REQ-WEB-027`
 
 ## 화면과 이동
@@ -92,6 +92,6 @@ AdSense 3번째 거절(가치가 별로 없는 콘텐츠) 대응 계획을 사�
 
 사용자가 독립 HTML 시안을 v86까지 고친 뒤 실제 페이지 구현을 요청했다.
 
-- `SCR-WEB-009`: `/aram-mayhem` 허브에서 챔피언 검색·역할 거르기 → 챔피언 타일 → `/aram-mayhem/챔피언id` 공략에서 빌드 탭·증강 조합 확인, 위쪽 검색창으로 다른 챔피언 이동. 연결 REQ는 `REQ-ARAM-001`이다.
-- 고른 챔피언은 같은 화면의 `#챔피언id`로 공유한다. 챔피언별 route는 만들지 않는다.
+- `SCR-WEB-009`: `/aram-mayhem` 허브에서 챔피언 검색·역할 거르기 → 챔피언 타일 → `/aram-mayhem/챔피언id` 공략에서 빌드 탭·증강 조합 확인, 떠 있는 챔피언 검색 버튼으로 다른 챔피언 이동. 허브의 증강별 공략 → `/aram-mayhem/augments/증강id`에서 어울리는 챔피언 확인 → 챔피언 공략. 연결 REQ는 `REQ-ARAM-001`이다.
+- 2026-10-27부터 챔피언마다 `/aram-mayhem/챔피언id` route를 만든다. 예전 공유 주소 `/aram-mayhem#챔피언id`는 챔피언 공략으로 옮긴다.
 - 홈 둘러보기, 소개 페이지, 공통 내비게이션, sitemap에서 연결한다. 공통 메뉴의 프로젝트는 5개가 된다.

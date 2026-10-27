@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterEach(async ({ page }, testInfo) => {
-	// 없는 챔피언 주소는 404 응답을 콘솔 오류로 남기므로 그 검사만 제외한다.
+	// 없는 주소는 404 응답을 콘솔 오류로 남기므로 그 검사만 제외한다.
 	const errors = browserErrors.get(page);
 	if (testInfo.title.includes('없는 챔피언')) return;
 	expect(errors).toEqual([]);
@@ -53,7 +53,25 @@ test('허브의 챔피언 타일은 챔피언 공략 페이지로 이동한다',
 	await expect(page.getByRole('heading', { name: '증바람 티모 공략', level: 1 })).toBeVisible();
 	await expect(championName(page)).toHaveText('티모');
 	// 로컬 미리보기는 제목 앞에 [로컬]을 붙인다.
-	await expect(page).toHaveTitle(/증바람 티모 공략 · 벌이다!!!\(벌\) 템트리/);
+	await expect(page).toHaveTitle(/증바람 티모 공략$/);
+});
+
+test('허브의 증강별 공략에서 증강 공략으로 가고 챔피언 공략으로 이어진다', async ({ page }) => {
+	await openHub(page);
+	await page
+		.getByRole('region', { name: '증강별 공략' })
+		.getByRole('link', { name: /장갑 충격/ })
+		.click();
+	await expect(page).toHaveURL(/\/aram-mayhem\/augments\/armored-impact$/);
+	await expect(
+		page.getByRole('heading', { name: '증바람 장갑 충격 공략', level: 1 })
+	).toBeVisible();
+	await expect(page).toHaveTitle(/증바람 장갑 충격\(장충\) 공략$/);
+	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 준다.
+	await expect(page.getByRole('list', { name: '코어 아이템 구매 순서' })).toHaveCount(1);
+	await page.getByRole('link', { name: '트런들' }).click();
+	await expect(page).toHaveURL(/\/aram-mayhem\/trundle$/);
+	await expect(championName(page)).toHaveText('트런들');
 });
 
 test('예전 #챔피언 주소는 챔피언 공략 페이지로 옮긴다', async ({ page }) => {
@@ -207,14 +225,16 @@ test('접은 조합 카드는 다른 챔피언을 봤다가 돌아와도 접혀 
 	await expect(combo()).not.toHaveAttribute('open', '');
 });
 
-test('없는 챔피언 주소는 404를 보여 준다', async ({ page }) => {
-	const response = await page.goto(`${HUB_PATH}/unknown-champion`);
-	expect(response?.status()).toBe(404);
+test('없는 챔피언·증강 주소는 404를 보여 준다', async ({ page }) => {
+	for (const path of [`${HUB_PATH}/unknown-champion`, `${HUB_PATH}/augments/unknown-augment`]) {
+		const response = await page.goto(path);
+		expect(response?.status(), path).toBe(404);
+	}
 });
 
 test('좁은 화면에서도 가로로 넘치지 않는다', async ({ page }) => {
 	await page.setViewportSize({ width: 360, height: 800 });
-	for (const path of [HUB_PATH, `${HUB_PATH}/yasuo`]) {
+	for (const path of [HUB_PATH, `${HUB_PATH}/yasuo`, `${HUB_PATH}/augments/bees`]) {
 		await page.goto(path);
 		const overflow = await page.evaluate(
 			() => document.documentElement.scrollWidth - document.documentElement.clientWidth

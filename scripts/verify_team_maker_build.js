@@ -14,7 +14,14 @@ import {
 	faqs as marbleFaqs
 } from '../src/lib/marble-race/page-content.js';
 import aramGuide from '../src/lib/aram-mayhem/guide-data.json' with { type: 'json' };
-import { championPath, championSeo, hubSeo } from '../src/lib/aram-mayhem/seo.js';
+import {
+	AUGMENT_PAGE_IDS,
+	augmentPath,
+	augmentSeo,
+	championPath,
+	championSeo,
+	hubSeo
+} from '../src/lib/aram-mayhem/seo.js';
 
 const root = process.cwd();
 const requiredFiles = [
@@ -643,6 +650,39 @@ for (const champion of aramGuide.champions) {
 	if (crumbs?.itemListElement?.at(-1)?.item !== `https://hjh3311504.github.io${pathname}`)
 		throw new Error(`${name}의 이동 경로 구조화 데이터가 올바르지 않습니다.`);
 }
+// 증강 공략 페이지: 허브 링크, sitemap, 제목, 검색 버튼·범례, 어울리는 챔피언의 공략 링크,
+// 이동 경로와 챔피언 목록 구조화 데이터.
+for (const id of AUGMENT_PAGE_IDS) {
+	const pathname = augmentPath(id);
+	const seo = augmentSeo(id, aramGuide);
+	const name = `아수라장 ${aramGuide.augments[id].nameKo} 증강 공략`;
+	const document = await readFile(path.join(root, `build${pathname}.html`), 'utf8');
+	if (!aramHtml.includes(`href="${pathname}"`))
+		throw new Error(`아수라장 가이드 허브에 ${name} 링크가 없습니다.`);
+	if (!sitemapHtml.includes(`<loc>https://hjh3311504.github.io${pathname}</loc>`))
+		throw new Error(`sitemap에 ${name} 주소가 없습니다.`);
+	for (const marker of [
+		`<title>${seo.title}</title>`,
+		`<link rel="canonical" href="https://hjh3311504.github.io${pathname}"`,
+		'id="aram-augment-name"',
+		'role="combobox"',
+		'class="aram-legend"',
+		...seo.entries.map(({ champion }) => `href="${championPath(champion.id)}"`)
+	]) {
+		if (!document.includes(marker))
+			throw new Error(`${name} HTML에서 ${marker} 표시를 찾지 못했습니다.`);
+	}
+	if ((document.match(/<h1\b/g)?.length ?? 0) !== 1)
+		throw new Error(`${name}의 h1은 1개여야 합니다.`);
+	await checkAramImages(document, name);
+	const graph = aramJsonLd(document, name);
+	const list = graph.find((item) => item['@type'] === 'ItemList');
+	if (list?.itemListElement?.length !== seo.entries.length)
+		throw new Error(`${name}의 챔피언 목록 구조화 데이터 수가 맞지 않습니다.`);
+	const crumbs = graph.find((item) => item['@type'] === 'BreadcrumbList');
+	if (crumbs?.itemListElement?.at(-1)?.item !== `https://hjh3311504.github.io${pathname}`)
+		throw new Error(`${name}의 이동 경로 구조화 데이터가 올바르지 않습니다.`);
+}
 // 추천 기준은 통계 티어가 아니라 재미 위주 빌드라고 밝힌다. 안내 문구에 디시인사이드를 적지 않는다.
 for (const [name, document] of [
 	['아수라장 가이드', aramHtml],
@@ -652,7 +692,7 @@ for (const [name, document] of [
 		throw new Error(`${name}의 추천 기준 안내에 통계·디시인사이드 표현이 남아 있습니다.`);
 }
 console.log(
-	`아수라장 가이드 허브와 챔피언 공략 ${aramGuide.champions.length}개의 정적 페이지·sitemap 검증 통과`
+	`아수라장 가이드 허브, 챔피언 공략 ${aramGuide.champions.length}개, 증강 공략 ${AUGMENT_PAGE_IDS.length}개의 정적 페이지·sitemap 검증 통과`
 );
 
 for (const marker of [

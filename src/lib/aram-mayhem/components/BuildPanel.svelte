@@ -2,6 +2,7 @@
 	import { Button } from '$lib/components/ui';
 	import { buildLabel, coreMarks, isAddedSituational, situationalHeading } from '../guide.js';
 	import RichText from './RichText.svelte';
+	import CoreItems from './CoreItems.svelte';
 	import AugmentDetail from './AugmentDetail.svelte';
 
 	let { champion, guide } = $props();
@@ -54,26 +55,7 @@
 		{/each}
 	</div>
 
-	<ol class="aram-core" aria-label="코어 아이템 구매 순서">
-		{#each build.core as item, index (item)}
-			<li>
-				<span class="aram-item" class:aram-item-changed={marks[index]}>
-					{#if guide.items[item]}
-						<img
-							src={guide.items[item]}
-							alt=""
-							width="32"
-							height="32"
-							loading="lazy"
-							decoding="async"
-						/>
-					{/if}
-					<span>{item}</span>
-					{#if marks[index]}<span class="aram-mark">{marks[index]}</span>{/if}
-				</span>
-			</li>
-		{/each}
-	</ol>
+	<CoreItems items={build.core} {guide} {marks} />
 
 	{#if skillOrder.length}
 		<p class="aram-sub-heading">스킬 마스터 순서</p>
