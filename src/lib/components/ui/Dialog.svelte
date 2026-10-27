@@ -5,6 +5,8 @@
 		id,
 		size = 'md',
 		scroll = 'dialog',
+		// top: 내용 높이가 바뀌어도 창이 움직이지 않도록 화면 위쪽에 둔다. 검색 결과 창에 쓴다.
+		placement = 'center',
 		element = $bindable(),
 		title = '',
 		titleId,
@@ -38,6 +40,7 @@
 	data-ui-dialog
 	data-size={size}
 	data-scroll={scroll}
+	data-placement={placement === 'top' ? 'top' : undefined}
 >
 	{#if beforeHeader}{@render beforeHeader()}{/if}
 	{#if header}

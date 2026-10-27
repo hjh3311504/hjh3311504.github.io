@@ -5,7 +5,7 @@
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
 	import ToolPageFooter from '$lib/components/organisms/ToolPageFooter.svelte';
-	import ChampionSearch from '$lib/aram-mayhem/components/ChampionSearch.svelte';
+	import ChampionSearchLauncher from '$lib/aram-mayhem/components/ChampionSearchLauncher.svelte';
 	import ChampionGuide from '$lib/aram-mayhem/components/ChampionGuide.svelte';
 	import AramLegal from '$lib/aram-mayhem/components/AramLegal.svelte';
 	import guide from '$lib/aram-mayhem/guide-data.json';
@@ -59,11 +59,11 @@
 <SiteShell active="aram-mayhem" variant="aram-mayhem">
 	<ToolPageLayout class="aram-page" maxWidth="1040px" title={seo.heading}>
 		<p class="aram-patch">{guide.patch} 패치 기준</p>
-		<ChampionSearch champions={guide.champions} onselect={selectChampion} />
 		{#key champion.id}
 			<ChampionGuide {champion} {guide} {closed} />
 		{/key}
 		<AramLegal />
 		<ToolPageFooter />
+		<ChampionSearchLauncher champions={guide.champions} onselect={selectChampion} />
 	</ToolPageLayout>
 </SiteShell>

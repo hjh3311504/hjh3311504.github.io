@@ -71,24 +71,36 @@ html[data-theme='dark'] .aram-page {
 	border-radius: var(--ui-radius-sm);
 }
 
-/* 다른 챔피언 찾기: 챔피언 페이지 위쪽. 입력할 때만 목록이 열린다. */
-.aram-search {
-	position: relative;
-	max-width: 360px;
-	margin-bottom: var(--space-24);
+/* 챔피언 검색: 화면 오른쪽 아래에 떠 있는 버튼과 검색 창 */
+.aram-search-fab.ui-button {
+	position: fixed;
+	z-index: 20;
+	right: var(--space-24);
+	bottom: var(--space-24);
+	min-height: 44px;
+	padding: 0 var(--space-16);
+	border-radius: 999px;
+	box-shadow: var(--ui-shadow);
+}
+.aram-search-key {
+	padding: 0 var(--space-4);
+	border-radius: 4px;
+	background: color-mix(in srgb, currentColor, transparent 80%);
+	font: inherit;
+	font-size: var(--font-size-12);
+}
+.aram-search-fab-space {
+	height: var(--space-48);
+}
+/* 터치만 쓰는 기기에는 키보드가 없을 수 있어 / 키 표시를 숨긴다. */
+@media (hover: none) {
+	.aram-search-key {
+		display: none;
+	}
 }
 .aram-suggest {
-	position: absolute;
-	z-index: 10;
-	top: calc(100% + var(--space-4));
-	right: 0;
-	left: 0;
-	margin: 0;
-	padding: var(--space-4);
-	border: 1px solid var(--ui-border);
-	border-radius: var(--ui-radius-md);
-	background: var(--ui-surface);
-	box-shadow: var(--ui-shadow);
+	margin: var(--space-8) 0 0;
+	padding: 0;
 	list-style: none;
 }
 .aram-suggest[hidden] {
@@ -129,8 +141,7 @@ html[data-theme='dark'] .aram-page {
 
 /* 챔피언 설명 */
 .aram-detail {
-	padding-top: var(--space-24);
-	border-top: 1px solid var(--ui-border);
+	padding-top: var(--space-8);
 }
 .aram-champion-head {
 	display: flex;
@@ -698,6 +709,10 @@ html[data-theme='dark'] .aram-page {
 }
 
 @media (max-width: 640px) {
+	.aram-search-fab.ui-button {
+		right: var(--space-16);
+		bottom: var(--space-16);
+	}
 	.aram-build-tab.ui-button {
 		width: 100%;
 	}

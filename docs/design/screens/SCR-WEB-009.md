@@ -14,7 +14,7 @@
 
 ## 화면 구성
 
-공용 SiteShell·ToolPageHeader·Button·EmptyState·DisclosureSection·ToolPageFooter·FormField와 `.ui-field`를 사용한다. 두 화면이 있다.
+공용 SiteShell·ToolPageHeader·Button·Dialog·EmptyState·DisclosureSection·ToolPageFooter·FormField와 `.ui-field`를 사용한다. 두 화면이 있다.
 
 ### 허브 `/aram-mayhem`
 
@@ -35,8 +35,12 @@
 1. 공통 내비게이션과 `칼바람 아수라장` 현재 위치 표시
 2. ToolPageHeader: 제목 `증바람 {챔피언} 공략`. 설명 문장은 두지 않는다. 템트리 요약은 검색 설명(meta description)에만 넣는다.
 3. 패치 표시: `26.21 패치 기준`
-4. 다른 챔피언 찾기: 보이는 label `다른 챔피언 찾기`, placeholder `이름·별명·초성 (예: 마이, ㅌㅁ)`의 검색창 1개. 최대 너비 360px. 입력할 때만 아래에 자동완성 목록(최대 8명, 28px 아이콘·이름·별명)을 띄운다. 맞는 챔피언이 없으면 `찾는 챔피언이 아직 가이드에 없어요.`
-5. 챔피언 설명: 위쪽 구분선 아래에 둔다.
+4. 챔피언 검색: 화면 오른쪽 아래(모바일 16px, PC 24px 여백)에 떠 있는 primary 버튼 `챔피언 검색`. 높이 44px의 둥근 버튼이며 마우스를 쓰는 기기에서는 `/` 키 표시를 붙인다. JavaScript가 연결된 뒤에만 보인다.
+   - 버튼이나 `/` 키를 누르면 위쪽에 고정한 Dialog `챔피언 검색`(`placement="top"`)을 열고 입력창에 바로 초점을 둔다.
+   - 입력창은 FormField의 `labelHidden`으로 label `다른 챔피언 찾기`를 화면에서 숨기고 같은 문구를 placeholder로 쓴다.
+   - 입력할 때만 입력창 아래에 자동완성 목록(최대 8명, 28px 아이콘·이름·별명)을 보여 준다. 맞는 챔피언이 없으면 `찾는 챔피언이 아직 가이드에 없어요.`
+   - 페이지 끝에 48px 빈 공간을 두어 떠 있는 버튼이 마지막 고지 글자를 가리지 않게 한다.
+5. 챔피언 설명: 위쪽 구분선 없이 패치 표시 아래에 둔다.
    - 머리: 64px 챔피언 아이콘, 이름(h2), 역할·난이도 태그
    - `아이템 추천`(h3): 빌드 카드와 신발 카드
    - `증강 추천`(h3)과 오른쪽 범례(필수 증강 실선·선택 증강 점선)
@@ -75,7 +79,8 @@
 ## 동작과 예외
 
 - 허브의 챔피언 타일을 누르면 챔피언 공략 페이지로 이동한다. 예전 공유 주소 `/aram-mayhem#챔피언id`는 방문 기록을 늘리지 않고 챔피언 공략 페이지로 옮긴다. 모르는 값이면 허브에 머문다.
-- 챔피언 페이지 검색창은 입력할 때만 목록을 연다. 방향키로 고르고 Enter로 이동한다. 마우스로 누르거나 Escape로 비울 수 있다. 이동하면 검색어를 비운다.
+- 챔피언 검색 창의 목록은 입력할 때만 보인다. 방향키로 고르고 Enter나 마우스로 이동한다. Escape나 닫기 버튼으로 창을 닫는다. 어떻게 닫든 검색어를 비운다.
+- `/` 키는 글자를 쓰는 칸(입력칸·여러 줄 입력칸·편집 영역)에 초점이 있거나, 한글 조합 중이거나, 다른 창이나 메뉴 서랍이 열려 있으면 동작하지 않는다. 체크박스·버튼에 초점이 있을 때는 동작한다.
 - 검색은 띄어쓰기를 무시하고 이름·별명에 포함되는지 본다. 초성만 입력하면 초성으로 찾는다. 이름·별명이 검색어로 시작하는 챔피언을 먼저 보여 준다. 허브는 역할과 검색어를 함께 적용한다.
 - 챔피언을 바꾸면 빌드 버튼은 첫 기본 빌드로, 열린 증강 효과는 닫힌 상태로 돌아간다. 접은 조합 카드는 챔피언별로 기억한다.
 - 없는 챔피언 주소는 404다.
@@ -92,7 +97,7 @@
 ## 접근성
 
 - 역할·빌드 버튼은 공통 Button에 `aria-pressed`를 붙인다. 버튼 묶음에는 `role="group"`과 이름을 붙인다. 허브 챔피언 타일은 링크다.
-- 챔피언 페이지 검색창은 `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`를 쓴다. 목록은 `role="listbox"`, 항목은 `role="option"`과 `aria-selected`다.
+- 떠 있는 버튼은 `aria-haspopup="dialog"`를 붙인다. 챔피언 검색 입력창은 `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`를 쓴다. 목록은 `role="listbox"`, 항목은 `role="option"`과 `aria-selected`다.
 - 증강 버튼은 `aria-expanded`로 효과 상자 열림을 알린다.
 - 아이콘 이미지는 옆 글자와 같은 뜻이라 빈 대체 텍스트를 쓴다. 스킬 타일은 `title`로 키와 스킬 종류를 알려 준다.
 - 조합 카드는 `details`·`summary`라 키보드로 열고 닫는다. summary 초점에 테두리를 보여 준다.
@@ -103,7 +108,7 @@
 - `node --test tests/aram-mayhem/*.test.js`
 - `npm run test:e2e:built -- tests/team-maker-e2e/aram-mayhem.spec.js`
 - `npm run verify:team-maker`의 아수라장 가이드 정적 검사
-- 데스크톱·모바일, 밝은·어두운 테마에서 긴 조합 문장과 타일 줄바꿈, 검색 자동완성 목록 확인
+- 데스크톱·모바일, 밝은·어두운 테마에서 긴 조합 문장과 타일 줄바꿈, 떠 있는 검색 버튼과 검색 창 확인
 
 ## 미결 사항
 

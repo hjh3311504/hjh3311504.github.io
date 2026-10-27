@@ -1,10 +1,9 @@
 <script>
-	import { onMount } from 'svelte';
 	import { FormField } from '$lib/components/ui';
 	import { searchChampions } from '../guide.js';
 
-	// 챔피언 페이지의 다른 챔피언 찾기. 입력할 때만 자동완성 목록을 보여 준다.
-	let { champions, onselect } = $props();
+	// 다른 챔피언 찾기. 입력할 때만 자동완성 목록을 보여 준다. 검색 창(ChampionSearchLauncher) 안에서 쓴다.
+	let { champions, onselect, input = $bindable() } = $props();
 	let query = $state('');
 	let focused = $state(false);
 	let active = $state(0);
@@ -12,13 +11,18 @@
 	let open = $derived(focused && query.trim() !== '');
 	const optionId = (id) => `aram-suggest-${id}`;
 
-	function choose(champion) {
+	/** 검색어와 고른 항목을 처음으로 돌린다. 검색 창이 닫힐 때 부른다. */
+	export function reset() {
 		query = '';
 		active = 0;
+	}
+
+	function choose(champion) {
 		onselect(champion.id);
 	}
 
 	function onkeydown(event) {
+		// 검색 입력창은 글자가 남아 있으면 첫 Escape를 글자 지우기에 쓴다. 미리 비워 한 번에 창을 닫는다.
 		if (event.key === 'Escape') {
 			query = '';
 			return;
@@ -33,33 +37,28 @@
 			choose(results[active] ?? results[0]);
 		}
 	}
-	// 브라우저 검사가 입력 처리가 연결된 뒤에 입력하도록 표시한다.
-	let ready = $state(false);
-	onMount(() => (ready = true));
 </script>
 
-<div class="aram-search" data-ready={ready || undefined}>
-	<FormField id="aram-champion-search" label="다른 챔피언 찾기" spacing="none">
-		{#snippet children({ describedBy })}
-			<input
-				class="ui-field"
-				id="aram-champion-search"
-				type="search"
-				role="combobox"
-				placeholder="이름·별명·초성 (예: 마이, ㅌㅁ)"
-				autocomplete="off"
-				aria-autocomplete="list"
-				aria-expanded={open}
-				aria-controls="aram-suggest"
-				aria-activedescendant={open && results[active] ? optionId(results[active].id) : undefined}
-				aria-describedby={describedBy}
-				bind:value={query}
-				oninput={() => (active = 0)}
-				onfocus={() => (focused = true)}
-				onblur={() => (focused = false)}
-				{onkeydown}
-			/>
-		{/snippet}
+<div class="aram-search">
+	<FormField id="aram-champion-search" label="다른 챔피언 찾기" labelHidden>
+		<input
+			bind:this={input}
+			class="ui-field"
+			id="aram-champion-search"
+			type="search"
+			role="combobox"
+			placeholder="다른 챔피언 찾기"
+			autocomplete="off"
+			aria-autocomplete="list"
+			aria-expanded={open}
+			aria-controls="aram-suggest"
+			aria-activedescendant={open && results[active] ? optionId(results[active].id) : undefined}
+			bind:value={query}
+			oninput={() => (active = 0)}
+			onfocus={() => (focused = true)}
+			onblur={() => (focused = false)}
+			{onkeydown}
+		/>
 	</FormField>
 	<!-- 목록을 누르는 동안 입력창의 포커스를 유지해 목록이 먼저 닫히지 않게 한다. -->
 	<ul

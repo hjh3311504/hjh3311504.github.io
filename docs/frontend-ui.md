@@ -43,9 +43,9 @@
 </Section>
 ```
 
-`Dialog`는 native dialog를 유지한다. 열기는 연결한 element의 `showModal()`, 닫기는 기존 이벤트로 처리한다. 기본 너비는480px, `wide`는760px, `large`는1120px다. 화면보다 넓어지지 않는다. 본문만 스크롤하려면 `scroll="body"`를 지정하고 기존 본문 컨테이너에 `data-ui-dialog-body`를 붙인다. 기본 내부 여백24px·모바일16px, 제목22px, 제목과 설명8px, 본문 사이16px, 하단 버튼까지24px를 사용한다.
+`Dialog`는 native dialog를 유지한다. 기본 위치는 화면 가운데다. 검색 결과처럼 내용 높이가 자주 바뀌면 `placement="top"`으로 위쪽 80px에 고정한다. 이때 최대 높이는 화면 높이에서 96px을 뺀 값이다. 열기는 연결한 element의 `showModal()`, 닫기는 기존 이벤트로 처리한다. 기본 너비는480px, `wide`는760px, `large`는1120px다. 화면보다 넓어지지 않는다. 본문만 스크롤하려면 `scroll="body"`를 지정하고 기존 본문 컨테이너에 `data-ui-dialog-body`를 붙인다. 기본 내부 여백24px·모바일16px, 제목22px, 제목과 설명8px, 본문 사이16px, 하단 버튼까지24px를 사용한다.
 
-`FormField`는 기본적으로 앞 입력 항목과16px 간격을 둔다. 부모 grid나 flex가 간격을 관리하는 가로 필터에서는 `spacing="none"`을 지정한다. 페이지에서 공통 내부 여백을 덮어쓰지 않는다.
+`FormField`는 기본적으로 앞 입력 항목과16px 간격을 둔다. 부모 grid나 flex가 간격을 관리하는 가로 필터에서는 `spacing="none"`을 지정한다. placeholder로 뜻이 보이는 검색창은 `labelHidden`으로 label을 화면에서만 숨긴다. 페이지에서 공통 내부 여백을 덮어쓰지 않는다.
 
 부모는 데이터와 동작을 관리한다. 하위 컴포넌트에는 값과 콜백을 전달한다. 양방향 입력이나 DOM 참조가 필요할 때만 `bind:`를 사용한다. 한 기능에만 쓰이는 요소는 그 기능 폴더에 둔다.
 

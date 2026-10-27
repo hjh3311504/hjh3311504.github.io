@@ -29,15 +29,18 @@ async function openHub(page, hash = '') {
 
 async function openChampion(page, id) {
 	await page.goto(`${HUB_PATH}/${id}`);
-	await expect(page.locator('.aram-search[data-ready]')).toBeAttached();
+	await expect(page.locator('.aram-search-dialog[data-ready]')).toBeAttached();
 }
 
 const championName = (page) => page.locator('#aram-champion-name');
 const picker = (page) => page.getByRole('list', { name: '챔피언 고르기' });
+const searchButton = (page) => page.getByRole('button', { name: /챔피언 검색/ });
+const searchDialog = (page) => page.getByRole('dialog', { name: '챔피언 검색' });
 const search = (page) => page.getByRole('combobox', { name: '다른 챔피언 찾기' });
 const suggestions = (page) => page.getByRole('listbox', { name: '찾은 챔피언' });
 
 async function goByName(page, query, name) {
+	await searchButton(page).click();
 	await search(page).fill(query);
 	await suggestions(page).getByRole('option', { name }).click();
 	await expect(championName(page)).toHaveText(name);
@@ -85,20 +88,29 @@ test('허브 검색은 이름·별명·초성과 역할로 챔피언 목록을 �
 	expect(names).not.toContain('티모');
 });
 
-test('챔피언 페이지 검색창은 입력할 때만 목록을 보여 주고 키보드로 고른다', async ({ page }) => {
+test('떠 있는 검색 버튼과 / 키로 검색 창을 열고 키보드로 챔피언을 고른다', async ({ page }) => {
 	await openChampion(page, 'garen');
-	await expect(suggestions(page)).toBeHidden();
+	await expect(searchDialog(page)).toBeHidden();
 	// 다른 챔피언 링크 목록은 두지 않는다.
 	await expect(page.locator('a[href^="/aram-mayhem/"]')).toHaveCount(0);
 
+	await searchButton(page).click();
+	await expect(searchDialog(page)).toBeVisible();
+	await expect(search(page)).toBeFocused();
+	await expect(suggestions(page)).toBeHidden();
 	await search(page).fill('마이');
 	await expect(search(page)).toHaveAttribute('aria-expanded', 'true');
 	await expect(suggestions(page).getByRole('option')).toHaveText([/마스터 이/]);
 	await search(page).press('Enter');
 	await expect(page).toHaveURL(/\/aram-mayhem\/master-yi$/);
 	await expect(championName(page)).toHaveText('마스터 이');
-	await expect(search(page)).toHaveValue('');
+	await expect(searchDialog(page)).toBeHidden();
 
+	// / 키로 열고, 방향키로 고르고, Escape로 닫는다.
+	await page.keyboard.press('/');
+	await expect(searchDialog(page)).toBeVisible();
+	await expect(search(page)).toBeFocused();
+	await expect(search(page)).toHaveValue('');
 	await search(page).fill('ㅌ');
 	await expect(suggestions(page).getByRole('option').first()).toHaveAttribute(
 		'aria-selected',
@@ -110,10 +122,38 @@ test('챔피언 페이지 검색창은 입력할 때만 목록을 보여 주고 
 		'true'
 	);
 	await search(page).press('Escape');
-	await expect(suggestions(page)).toBeHidden();
+	await expect(searchDialog(page)).toBeHidden();
 
+	await searchButton(page).click();
 	await search(page).fill('없는 이름');
 	await expect(page.getByText('찾는 챔피언이 아직 가이드에 없어요.')).toBeVisible();
+	await searchDialog(page).getByRole('button', { name: '닫기' }).click();
+	await expect(searchDialog(page)).toBeHidden();
+
+	// 닫기 버튼으로 닫아도 다음에는 빈 검색창으로 연다.
+	await searchButton(page).click();
+	await expect(search(page)).toHaveValue('');
+	await expect(page.getByText('찾는 챔피언이 아직 가이드에 없어요.')).toBeHidden();
+	await search(page).press('Escape');
+	await expect(searchDialog(page)).toBeHidden();
+});
+
+test('메뉴 서랍이 열려 있으면 / 키로 검색 창을 열지 않는다', async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 800 });
+	await openChampion(page, 'garen');
+	await page.getByRole('button', { name: '메뉴 열기' }).filter({ visible: true }).click();
+	await expect(page.getByRole('dialog', { name: '사이트 내비게이션' })).toBeVisible();
+	await page.keyboard.press('/');
+	await expect(searchDialog(page)).toBeHidden();
+});
+
+test('낮은 화면에서도 검색 창이 화면 안에 들어온다', async ({ page }) => {
+	await page.setViewportSize({ width: 800, height: 400 });
+	await openChampion(page, 'garen');
+	await searchButton(page).click();
+	await search(page).fill('ㅇ');
+	const bottom = await searchDialog(page).evaluate((el) => el.getBoundingClientRect().bottom);
+	expect(bottom).toBeLessThanOrEqual(400);
 });
 
 test('빌드 탭을 바꾸면 증강 빌드의 바뀐 아이템을 표시한다', async ({ page }) => {
