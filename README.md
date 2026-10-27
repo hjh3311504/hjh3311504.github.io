@@ -204,7 +204,7 @@ SVG의 viewBox 비율은 이전 PNG와 같게 맞춰 기존 CSS 크기에서 배
 | `main` 수동 실행           | `main` push와 동일                                                         | 실행 |
 | 다른 branch 수동 실행      | 실행하지 않음                                                              | 없음 |
 
-전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/aram-mayhem`, `/blog`, `/about`, `/privacy`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
+전체 검사를 통과한 PR을 거쳐 머지하세요. 머지 후에는 최종 코드의 배포 파일을 새로 만들되 오래 걸리는 테스트를 반복하지 않습니다. 직접 `main`에 push하면 전체 검사를 거치지 않으므로 일반 작업은 PR을 사용합니다. build나 정적 결과 검증이 실패하면 배포하지 않습니다. 배포 뒤에는 `/`, `/team-maker`, `/qr-code`, `/marble-race`, `/bracket`, `/aram-mayhem`, `/aram-mayhem/master-yi`, `/blog`, `/about`, `/privacy`, `/rss.xml`, `/sitemap.xml`의 응답을 확인합니다.
 
 PR에서는 `site-build`가 정적 파일을1회 만들고, `checks`가 lint·정적 검사·전체 단위 테스트를 병렬로 실행합니다. 브라우저 검사는 같은 build 파일을 내려받습니다. 성능·시간 보존 검사는 전용 실행 환경에서 실행하고, 일반 브라우저 검사는4개 환경에 나눕니다. 각 환경 안에서는 기존처럼 검사1개씩 실행합니다.
 
@@ -358,16 +358,19 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 
 ## 칼바람 아수라장 증강 가이드
 
-공개 주소는 `/aram-mayhem`, 로컬 주소는 `http://localhost:5173/aram-mayhem`입니다. 정적 결과는 `build/aram-mayhem.html`입니다. 홈·소개·공통 메뉴·sitemap에서 연결합니다. 요구사항은 [REQ-ARAM](docs/requirements/aram-mayhem.yaml), 화면은 [SCR-WEB-009](docs/design/screens/SCR-WEB-009.md), 결정은 [ADR](docs/adr/2026-10-26-칼바람-아수라장-증강-가이드-추가.md)을 따릅니다.
+허브 주소는 `/aram-mayhem`, 챔피언 공략은 `/aram-mayhem/챔피언id`(예: `/aram-mayhem/master-yi`)입니다. 로컬 주소는 `http://localhost:5173/aram-mayhem`입니다. 정적 결과는 `build/aram-mayhem.html`과 `build/aram-mayhem/챔피언id.html`입니다. 홈·소개·공통 메뉴에서 허브로 연결하고, sitemap에는 허브와 챔피언 공략을 모두 넣습니다. 요구사항은 [REQ-ARAM](docs/requirements/aram-mayhem.yaml), 화면은 [SCR-WEB-009](docs/design/screens/SCR-WEB-009.md), 결정은 [가이드 추가 ADR](docs/adr/2026-10-26-칼바람-아수라장-증강-가이드-추가.md)과 [챔피언별 주소 ADR](docs/adr/2026-10-27-아수라장-챔피언별-주소와-검색-문구.md)을 따릅니다.
 
-- 조사 원본: `docs/research/aram-mayhem/`의 JSON. 조합은 `champions.json`, 빌드는 `builds.json`, 증강 빌드 운영 방법은 `build-play.json`, 신발은 `boots.json`, 추가 추천 증강은 `champ-extras.json`, 디시 글 정보는 `community-posts.json`에서 고칩니다.
+- 조사 원본: `docs/research/aram-mayhem/`의 JSON. 조합은 `champions.json`, 빌드는 `builds.json`, 증강 빌드 운영 방법은 `build-play.json`, 신발은 `boots.json`, 추가 추천 증강은 `champ-extras.json`, 디시 글 정보는 `community-posts.json`, 챔피언·증강·아이템 별명은 `aliases.json`에서 고칩니다.
 - 화면 데이터와 아이콘: 원본을 고친 뒤 `npm run generate:aram-mayhem`을 실행하면 `src/lib/aram-mayhem/guide-data.json`과 `static/images/aram-mayhem/`이 다시 만들어집니다. 두 결과를 함께 commit합니다. 내려받은 원본은 `.cache/aram-mayhem`에 남고 Git에서 제외합니다. 찾지 못한 챔피언·증강·아이템이 있으면 생성이 실패합니다.
 - 아이콘 버전: 생성 script의 `DDRAGON_VERSION`(현재 16.21.1)으로 Data Dragon을, 그 앞 두 자리(16.21)로 CommunityDragon을 고정합니다. 패치가 바뀌면 이 값도 함께 고칩니다.
 - 문장 타일: 설명 문장의 스킬 키(`Q`·`W`·`E`·`R`, 키만 보이려면 `[E]`), 증강·아이템 이름, `스킬 가속`, `모루`가 자동으로 타일이 됩니다. 스킬 이름 뒤 조사는 생성할 때 받침에 맞춥니다. 나누기 규칙은 `src/lib/aram-mayhem/text.js`입니다.
-- 화면: `src/routes/aram-mayhem/+page.svelte`(챔피언 선택·주소), `aram-mayhem.css`(스타일), `src/lib/aram-mayhem/guide.js`(거르기·빌드 비교), `src/lib/aram-mayhem/components/`(고르기·빌드·조합 카드)
+- 별명: `aliases.json`의 챔피언 목록은 Data Dragon의 한국어 챔피언 전체(현재 173명)와 같아야 합니다. 가이드에 없는 챔피언도 미리 넣고, 별명이 없으면 빈 배열로 둡니다. 띄어쓰기만 다른 이름은 검색창이 자동으로 찾으므로 넣지 않습니다. 빠지거나 틀린 이름이 있으면 생성이 실패합니다.
+- 검색 문구: `src/lib/aram-mayhem/seo.js`가 페이지 제목·검색 설명·구조화 데이터를 데이터에서 만듭니다. 예: `증바람 마스터 이(마이) 공략 · 신비한 주먹(신주) 템트리`. `FAQPage` 구조화 데이터는 쓰지 않습니다.
+- 화면: `src/routes/aram-mayhem/+page.svelte`(허브·챔피언 타일·예전 `#챔피언id` 주소 이동), `src/routes/aram-mayhem/[champion]/`(챔피언 공략·검색창), `aram-mayhem.css`(스타일), `src/lib/aram-mayhem/guide.js`(이름·별명·초성 검색, 빌드 비교), `src/lib/aram-mayhem/components/`(고르기·검색·빌드·조합 카드)
+- 추천 기준 안내에는 통계 티어가 아니라 재밌다고 알려진 도파민 빌드라고 적습니다. 안내 문구에는 디시인사이드를 적지 않습니다.
 - 출처는 디시 칼바람 갤러리 글과 유튜브 영상만 조합 카드에 표시합니다. 통계 사이트 근거는 조사 JSON의 `evidence`에만 둡니다.
 - 아이템 규칙: 악의·피바라기는 추천하지 않습니다. 어둠불꽃 횃불·루덴의 메아리는 코어에만 넣습니다. 탱커 기본 빌드의 1코어는 강철심장입니다. 단위 테스트가 확인합니다.
-- 브라우저 저장소는 쓰지 않습니다. 고른 챔피언은 주소 끝 `#챔피언id`로 공유합니다.
+- 브라우저 저장소는 쓰지 않습니다. 챔피언 공략은 챔피언 주소로 공유합니다. 챔피언 페이지에는 다른 챔피언 링크 목록을 두지 않고, 위쪽 검색창에 입력할 때만 자동완성 목록을 보여 줍니다.
 - 브라우저 검사는 `tests/team-maker-e2e/aram-mayhem.spec.js`, 단위 테스트는 `tests/aram-mayhem/`에 있습니다.
 
 ## ASMR 구슬 레이스

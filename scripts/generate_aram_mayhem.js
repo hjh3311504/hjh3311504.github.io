@@ -65,17 +65,27 @@ for (const folder of ['champions', 'skills', 'augments', 'items', 'stats']) {
 	await mkdir(path.join(NEXT_IMAGE_DIR, folder), { recursive: true });
 }
 
-const [research, augmentData, buildData, buildPlayData, bootsData, extrasData, postsData, kiwi] =
-	await Promise.all([
-		readData('champions.json'),
-		readData('augments.json'),
-		readData('builds.json'),
-		readData('build-play.json'),
-		readData('boots.json'),
-		readData('champ-extras.json'),
-		readData('community-posts.json'),
-		readData('kiwi-shop-items.json')
-	]);
+const [
+	research,
+	augmentData,
+	buildData,
+	buildPlayData,
+	bootsData,
+	extrasData,
+	postsData,
+	kiwi,
+	aliasData
+] = await Promise.all([
+	readData('champions.json'),
+	readData('augments.json'),
+	readData('builds.json'),
+	readData('build-play.json'),
+	readData('boots.json'),
+	readData('champ-extras.json'),
+	readData('community-posts.json'),
+	readData('kiwi-shop-items.json'),
+	readData('aliases.json')
+]);
 const builds = byId(buildData.champions);
 const buildPlays = byId(buildPlayData.champions);
 const bootsById = byId(bootsData.champions);
@@ -87,6 +97,21 @@ const postByUrl = Object.fromEntries(posts.map((post) => [post.url, post]));
 const postById = Object.fromEntries(posts.filter((post) => post.id).map((post) => [post.id, post]));
 
 const championsEn = (await downloadJson(`${DDRAGON}/data/en_US/champion.json`)).data;
+// 별명 원본은 가이드에 아직 없는 챔피언까지 모두 담는다. 빠지거나 틀린 이름이 있으면 멈춘다.
+const championNamesKo = Object.values(
+	(await downloadJson(`${DDRAGON}/data/ko_KR/champion.json`)).data
+).map((champion) => champion.name);
+const aliasNames = Object.keys(aliasData.champions);
+const missingAliases = championNamesKo.filter((name) => !aliasNames.includes(name));
+const unknownAliases = aliasNames.filter((name) => !championNamesKo.includes(name));
+if (missingAliases.length || unknownAliases.length) {
+	throw new Error(
+		`별명 원본의 챔피언 목록이 Data Dragon과 다릅니다. 빠짐: ${missingAliases.join(', ') || '없음'} / 모름: ${unknownAliases.join(', ') || '없음'}`
+	);
+}
+for (const id of Object.keys(aliasData.augments)) {
+	if (!augmentsById[id]) throw new Error(`별명 원본의 증강을 찾지 못함: ${id}`);
+}
 const ddragonIdByName = Object.fromEntries(
 	Object.entries(championsEn).map(([key, champion]) => [champion.name.toLowerCase(), key])
 );
@@ -268,6 +293,7 @@ for (const champion of research.champions) {
 	champions.push({
 		id: champion.id,
 		nameKo: champion.nameKo,
+		aliases: aliasData.champions[champion.nameKo] ?? [],
 		roles: [...new Set(champion.roles.map((role) => ROLE_MAP[role]).filter(Boolean))],
 		difficulty: champion.difficulty,
 		icon: await saveIcon(`${DDRAGON}/img/champion/${ddragonId}.png`, 'champions', champion.id, 128),
@@ -295,7 +321,13 @@ for (const id of [...usedAugments].sort()) {
 	} else {
 		missing.push(`증강 아이콘: ${augment.nameKo}`);
 	}
-	augments[id] = { nameKo: augment.nameKo, tier: augment.tier, effectKo: augment.effectKo, icon };
+	augments[id] = {
+		nameKo: augment.nameKo,
+		aliases: aliasData.augments[id] ?? [],
+		tier: augment.tier,
+		effectKo: augment.effectKo,
+		icon
+	};
 }
 
 const items = {};
@@ -308,6 +340,14 @@ for (const name of [...usedItems].sort()) {
 	}
 	items[name] = await saveIcon(`${DDRAGON}/img/item/${id}.png`, 'items', id, 64);
 }
+
+for (const name of Object.keys(aliasData.items)) {
+	if (!itemIdByName[name.replace(/\s+/g, '')]) missing.push(`별명 원본의 아이템: ${name}`);
+}
+// 화면에 나오는 아이템의 별명만 넣는다.
+const itemAliases = Object.fromEntries(
+	Object.entries(aliasData.items).filter(([name, list]) => name in items && list.length)
+);
 
 // 문장 타일용 아이콘: 능력치 모루(모루 교환권), 스킬 가속(룬 능력치 조각)
 const icons = {
@@ -333,6 +373,7 @@ const guide = {
 	champions,
 	augments,
 	items,
+	itemAliases,
 	icons
 };
 // 저장소의 lint와 같은 모양으로 저장한다.

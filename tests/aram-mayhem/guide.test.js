@@ -8,19 +8,22 @@ import {
 	championFromHash,
 	coreMarks,
 	filterChampions,
+	initials,
 	isAddedSituational,
 	roleOptions,
+	searchChampions,
 	situationalHeading
 } from '../../src/lib/aram-mayhem/guide.js';
 
 const champions = [
 	{ id: 'teemo', nameKo: '티모', roles: ['마법사'] },
 	{ id: 'braum', nameKo: '브라움', roles: ['탱커', '서포터'] },
-	{ id: 'tahm-kench', nameKo: '탐 켄치', roles: ['탱커'] }
+	{ id: 'tahm-kench', nameKo: '탐 켄치', roles: ['탱커'] },
+	{ id: 'master-yi', nameKo: '마스터 이', aliases: ['마이'], roles: ['암살자'] }
 ];
 
 test('역할 목록은 가이드에 있는 역할만 정해진 순서로 보여 준다', () => {
-	assert.deepEqual(roleOptions(champions), [ALL_ROLES, '마법사', '탱커', '서포터']);
+	assert.deepEqual(roleOptions(champions), [ALL_ROLES, '마법사', '암살자', '탱커', '서포터']);
 });
 
 test('역할과 이름 검색어로 챔피언을 거른다', () => {
@@ -35,12 +38,36 @@ test('역할과 이름 검색어로 챔피언을 거른다', () => {
 	assert.deepEqual(filterChampions(champions, '마법사', '브라움'), []);
 });
 
-test('주소의 #값으로 챔피언을 고르고 모르는 값이면 첫 챔피언을 보여 준다', () => {
+test('검색어는 띄어쓰기를 무시하고 별명과 초성도 찾는다', () => {
+	const ids = (query) => filterChampions(champions, ALL_ROLES, query).map((c) => c.id);
+	assert.deepEqual(ids('탐켄치'), ['tahm-kench']);
+	assert.deepEqual(ids('마이'), ['master-yi']);
+	assert.deepEqual(ids('마스터이'), ['master-yi']);
+	assert.deepEqual(ids('ㅌㅁ'), ['teemo']);
+	assert.deepEqual(ids('ㅁㅇ'), ['master-yi']);
+	assert.equal(initials('탐 켄치'), 'ㅌㅋㅊ');
+});
+
+test('자동완성은 이름·별명이 검색어로 시작하는 챔피언을 먼저 보여 준다', () => {
+	const list = [
+		{ id: 'a', nameKo: '말파이트', aliases: ['말파'] },
+		{ id: 'b', nameKo: '가말', aliases: [] },
+		{ id: 'c', nameKo: '말자하', aliases: [] }
+	];
+	assert.deepEqual(
+		searchChampions(list, '말').map((c) => c.id),
+		['c', 'a', 'b']
+	);
+	assert.deepEqual(searchChampions(list, '   '), []);
+	assert.equal(searchChampions(list, '말', 1).length, 1);
+});
+
+test('예전 주소의 #값은 맞는 챔피언만 찾고 모르는 값이면 없다', () => {
 	assert.equal(championFromHash(champions, '#braum').id, 'braum');
 	assert.equal(championFromHash(champions, '#tahm-kench').id, 'tahm-kench');
-	assert.equal(championFromHash(champions, '#unknown').id, 'teemo');
-	assert.equal(championFromHash(champions, '').id, 'teemo');
-	assert.equal(championFromHash(champions, '#%E0').id, 'teemo');
+	assert.equal(championFromHash(champions, '#unknown'), undefined);
+	assert.equal(championFromHash(champions, ''), undefined);
+	assert.equal(championFromHash(champions, '#%E0'), undefined);
 });
 
 test('빌드 탭 이름은 기본 빌드 스타일이나 증강 이름을 쓴다', () => {

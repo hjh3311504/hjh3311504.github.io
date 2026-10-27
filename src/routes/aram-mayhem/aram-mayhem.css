@@ -65,21 +65,69 @@ html[data-theme='dark'] .aram-page {
 .aram-pick.ui-button:hover {
 	border-color: var(--ui-border);
 }
-.aram-pick.ui-button[aria-pressed='true'] {
-	border-color: var(--ui-primary);
-	color: var(--ui-primary);
-	font-weight: 700;
-}
 .aram-pick img {
 	width: 48px;
 	height: 48px;
 	border-radius: var(--ui-radius-sm);
 }
 
-/* 챔피언 설명 */
-.aram-detail-anchor {
-	scroll-margin-top: var(--space-16);
+/* 다른 챔피언 찾기: 챔피언 페이지 위쪽. 입력할 때만 목록이 열린다. */
+.aram-search {
+	position: relative;
+	max-width: 360px;
+	margin-bottom: var(--space-24);
 }
+.aram-suggest {
+	position: absolute;
+	z-index: 10;
+	top: calc(100% + var(--space-4));
+	right: 0;
+	left: 0;
+	margin: 0;
+	padding: var(--space-4);
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+	box-shadow: var(--ui-shadow);
+	list-style: none;
+}
+.aram-suggest[hidden] {
+	display: none;
+}
+.aram-suggest li {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+	padding: var(--space-4) var(--space-8);
+	border-radius: var(--ui-radius-sm);
+	color: var(--ui-text);
+	font-size: var(--font-size-14);
+	font-weight: 600;
+	cursor: pointer;
+}
+.aram-suggest li[aria-selected='true'] {
+	background: var(--aram-accent-soft);
+	color: var(--ui-primary);
+}
+.aram-suggest img {
+	flex: none;
+	width: 28px;
+	height: 28px;
+	border-radius: var(--ui-radius-sm);
+}
+.aram-suggest-alias {
+	margin-left: auto;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+	font-weight: 400;
+}
+.aram-suggest-empty {
+	margin: var(--space-8) 0 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+}
+
+/* 챔피언 설명 */
 .aram-detail {
 	padding-top: var(--space-24);
 	border-top: 1px solid var(--ui-border);
@@ -346,6 +394,12 @@ html[data-theme='dark'] .aram-page {
 	line-height: 1.5;
 	vertical-align: middle;
 	white-space: nowrap;
+}
+/* 한글은 글자 높이가 낮아 middle 정렬만으로는 타일이 글자보다 약 2px 내려간다. 문장 안 타일만 글자 중심에 맞춘다. */
+.aram-why .aram-ic,
+.aram-steps .aram-ic {
+	position: relative;
+	top: -0.15em;
 }
 .aram-ic img {
 	flex: none;
