@@ -8,9 +8,16 @@
 	import ChampionPicker from '$lib/aram-mayhem/components/ChampionPicker.svelte';
 	import AramGuideNotes from '$lib/aram-mayhem/components/AramGuideNotes.svelte';
 	import AramLegal from '$lib/aram-mayhem/components/AramLegal.svelte';
+	import AugmentLinks from '$lib/aram-mayhem/components/AugmentLinks.svelte';
 	import guide from '$lib/aram-mayhem/guide-data.json';
 	import { championFromHash } from '$lib/aram-mayhem/guide.js';
-	import { HUB_PATH, hubSeo, structuredData } from '$lib/aram-mayhem/seo.js';
+	import {
+		AUGMENT_PAGE_IDS,
+		HUB_PATH,
+		championList,
+		hubSeo,
+		structuredData
+	} from '$lib/aram-mayhem/seo.js';
 	import { siteBaseUrl, image as shareImage } from '$lib/data/meta.js';
 	import './aram-mayhem.css';
 
@@ -25,7 +32,7 @@
 			{ name: "Lake's develog", path: '/' },
 			{ name: '증바람 공략', path: HUB_PATH }
 		],
-		champions: guide.champions
+		list: championList(guide.champions)
 	});
 
 	onMount(() => {
@@ -59,6 +66,7 @@
 	<ToolPageLayout class="aram-page" maxWidth="1040px" title={seo.heading} description={seo.intro}>
 		<p class="aram-patch">{guide.patch} 패치 기준</p>
 		<ChampionPicker champions={guide.champions} />
+		<AugmentLinks ids={AUGMENT_PAGE_IDS} {guide} />
 		<AramGuideNotes patch={guide.patch} championCount={guide.champions.length} />
 		<AramLegal />
 		<ToolPageFooter />

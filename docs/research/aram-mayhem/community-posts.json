@@ -383,6 +383,25 @@
 			"reliabilityReasonKo": "짧은 경험담입니다. 본문은 2026-10-26 검색 결과 요약으로만 확인했고, 이 환경에서는 디시 본문이 열리지 않았습니다. 게시일 미확인.",
 			"id": "604695",
 			"recheckedAt": "2026-10-26"
+		},
+		{
+			"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=674777",
+			"title": "스태틱결대 벌이다 천벌 볼리베어",
+			"postedAt": "2026-10-27T14:12:04+09:00",
+			"recommendCount": 10,
+			"viewCount": 519,
+			"patch": "26.21",
+			"patchInferredFromDate": false,
+			"champions": ["volibear"],
+			"championAssociation": "글 제목과 영상의 챔피언",
+			"augmentIds": ["bees", "master-of-duality"],
+			"items": ["스태틱의 단검", "그림자불꽃", "라바돈의 죽음모자"],
+			"summaryKo": "벌이다!!!가 나오면 꼭 고르라는 짧은 글과 24초 영상입니다. 영상의 증강 칸에서 결투의 대가·벌이다!!!·E 강화 스킬 증강을 확인했습니다. 댓글 답변은 스태틱의 단검을 필수로, 그림자불꽃·라바돈의 죽음모자까지 3코어를 권하고 벌집으로 스태틱 효과가 터진다고 설명합니다.",
+			"usedFor": ["combo", "items", "play"],
+			"reliability": "medium",
+			"reliabilityReasonKo": "실전 영상이 있지만 단일 글이고 아이템 설명은 다른 사용자의 댓글입니다.",
+			"id": "674777",
+			"recheckedAt": "2026-10-27"
 		}
 	]
 }

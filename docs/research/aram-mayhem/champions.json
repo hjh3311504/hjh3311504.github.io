@@ -3656,6 +3656,52 @@
 			"playSources": [],
 			"beginnerTipKo": "",
 			"communityEvidenceIds": []
+		},
+		{
+			"id": "volibear",
+			"nameKo": "볼리베어",
+			"nameEn": "Volibear",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "벌집으로 스태틱 터뜨리기",
+					"augmentIds": ["bees", "master-of-duality"],
+					"requiredAugmentIds": ["bees"],
+					"whyKo": "벌집도 적중 시 효과라 벌집만 맞혀도 스태틱의 단검 효과가 터집니다. 결투의 대가로 기본 공격과 스킬을 섞어 주문력과 공격력을 함께 쌓으세요.",
+					"stepsKo": [
+						"미니언을 한 번 때려 스태틱의 단검을 충전한 뒤 스킬로 벌집을 날리세요.",
+						"스태틱의 단검이 다시 충전되면 E를 맞혀 더 큰 피해를 넣으세요."
+					],
+					"rating": "A",
+					"evidence": [
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=674777",
+							"note": "26.21 글(2026.10.27, 추천 10). 영상에서 결투의 대가·벌이다!!!·E 강화 스킬 증강을 확인했습니다. 아이템(스태틱의 단검 필수, 그림자불꽃·라바돈의 죽음모자)과 스태틱 연계는 글쓴이가 아닌 댓글 답변입니다."
+						}
+					],
+					"confidence": "low",
+					"verificationNoteKo": "영상이 있는 단일 실전 글입니다. 세 번째 E 강화 증강의 이름은 확인하지 못했습니다.",
+					"stats": [],
+					"communityPostIds": ["674777"],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "워모그의 갑옷"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 볼리베어 핵심 빌드에서 고른 후보입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/volibear/"]
+			},
+			"playKo": [],
+			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=674777"],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["674777"]
 		}
 	],
 	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."

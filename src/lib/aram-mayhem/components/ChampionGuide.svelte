@@ -2,6 +2,7 @@
 	import BuildPanel from './BuildPanel.svelte';
 	import ComboCard from './ComboCard.svelte';
 	import AugmentBox from './AugmentBox.svelte';
+	import ComboLegend from './ComboLegend.svelte';
 
 	// closed: 사용자가 접은 조합 카드. 같은 챔피언으로 돌아와도 접힌 채로 둔다.
 	let { champion, guide, closed } = $props();
@@ -30,10 +31,7 @@
 
 	<div class="aram-section-head">
 		<h3>증강 추천</h3>
-		<p class="aram-legend">
-			<span class="aram-legend-need" aria-hidden="true"></span>필수 증강
-			<span class="aram-legend-opt" aria-hidden="true"></span>선택 증강
-		</p>
+		<ComboLegend />
 	</div>
 	{#each champion.combos as combo (combo.title)}
 		<ComboCard

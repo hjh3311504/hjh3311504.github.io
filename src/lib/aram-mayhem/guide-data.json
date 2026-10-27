@@ -1719,6 +1719,146 @@
 			"avoid": ["draw-your-sword"]
 		},
 		{
+			"id": "volibear",
+			"nameKo": "볼리베어",
+			"aliases": ["볼베"],
+			"roles": ["전사", "탱커"],
+			"difficulty": "쉬움",
+			"icon": "/images/aram-mayhem/champions/volibear.webp",
+			"skills": {
+				"E": {
+					"name": "천공 분열",
+					"icon": "/images/aram-mayhem/skills/volibear-e.webp"
+				}
+			},
+			"builds": [
+				{
+					"key": "base",
+					"style": "탱커",
+					"core": ["강철심장", "끝없는 절망", "워모그의 갑옷"],
+					"boots": "헤르메스의 발걸음",
+					"situational": [
+						{
+							"item": "해신 작쇼",
+							"whenKo": "적의 물리 피해와 마법 피해가 섞여 있을 때"
+						},
+						{
+							"item": "란두인의 예언",
+							"whenKo": "적의 치명타 공격이 아플 때"
+						},
+						{
+							"item": "케이닉 루컨",
+							"whenKo": "적의 마법 피해가 아플 때"
+						}
+					],
+					"skillOrder": [],
+					"play": []
+				},
+				{
+					"key": "aug-bees",
+					"trigger": ["bees"],
+					"core": ["스태틱의 단검", "그림자불꽃", "라바돈의 죽음모자"],
+					"boots": "헤르메스의 발걸음",
+					"situational": [],
+					"skillOrder": [],
+					"play": []
+				}
+			],
+			"boots": [
+				{
+					"item": "탐욕의 군화",
+					"label": "오래 싸울 때"
+				},
+				{
+					"item": "헤르메스의 발걸음",
+					"label": "기절·마법 피해 많을 때"
+				},
+				{
+					"item": "신속의 장화",
+					"label": "둔화 많을 때"
+				},
+				{
+					"item": "판금 장화",
+					"label": "원거리 평타 많을 때"
+				}
+			],
+			"combos": [
+				{
+					"title": "벌집으로 스태틱 터뜨리기",
+					"level": "strong",
+					"augmentIds": ["bees", "master-of-duality"],
+					"required": ["bees"],
+					"why": [
+						{
+							"t": "text",
+							"v": "벌집도 적중 시 효과라 벌집만 맞혀도 "
+						},
+						{
+							"t": "item",
+							"v": "스태틱의 단검"
+						},
+						{
+							"t": "text",
+							"v": " 효과가 터집니다. "
+						},
+						{
+							"t": "aug",
+							"v": "결투의 대가",
+							"id": "master-of-duality"
+						},
+						{
+							"t": "text",
+							"v": "로 기본 공격과 스킬을 섞어 주문력과 공격력을 함께 쌓으세요."
+						}
+					],
+					"steps": [
+						[
+							{
+								"t": "text",
+								"v": "미니언을 한 번 때려 "
+							},
+							{
+								"t": "item",
+								"v": "스태틱의 단검"
+							},
+							{
+								"t": "text",
+								"v": "을 충전한 뒤 스킬로 벌집을 날리세요."
+							}
+						],
+						[
+							{
+								"t": "item",
+								"v": "스태틱의 단검"
+							},
+							{
+								"t": "text",
+								"v": "이 다시 충전되면 "
+							},
+							{
+								"t": "skill",
+								"key": "E"
+							},
+							{
+								"t": "text",
+								"v": "을 맞혀 더 큰 피해를 넣으세요."
+							}
+						]
+					],
+					"hint": "",
+					"sources": [
+						{
+							"type": "dc",
+							"label": "디시 칼바람 갤러리(2026.10.27)",
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=674777"
+						}
+					]
+				}
+			],
+			"good": [],
+			"avoid": []
+		},
+		{
 			"id": "braum",
 			"nameKo": "브라움",
 			"aliases": [],
@@ -5084,6 +5224,13 @@
 			"tier": "gold",
 			"effectKo": "스킬 적중 시 고정 피해 미사일을 발사합니다. 멀리 날아갈수록 강해집니다.",
 			"icon": "/images/aram-mayhem/augments/magic-missile.webp"
+		},
+		"master-of-duality": {
+			"nameKo": "결투의 대가",
+			"aliases": ["결대"],
+			"tier": "prismatic",
+			"effectKo": "기본 공격은 주문력을, 스킬 피해는 공격력을 잠시 쌓아 줍니다.",
+			"icon": "/images/aram-mayhem/augments/master-of-duality.webp"
 		},
 		"mind-to-matter": {
 			"nameKo": "정신 변환",

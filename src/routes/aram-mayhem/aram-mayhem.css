@@ -139,6 +139,50 @@ html[data-theme='dark'] .aram-page {
 	font-size: var(--font-size-14);
 }
 
+/* 허브의 증강별 공략 링크 */
+.aram-aug-links {
+	margin: 0 0 var(--space-24);
+}
+.aram-aug-links h2 {
+	margin: 0 0 var(--space-12);
+	font-size: var(--font-size-18);
+	line-height: 1.4;
+}
+.aram-aug-links ul {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: var(--space-8);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.aram-aug-link.ui-button {
+	justify-content: flex-start;
+	gap: var(--space-12);
+	width: 100%;
+	padding: var(--space-8) var(--space-12);
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+	color: var(--ui-text);
+	text-align: left;
+}
+.aram-aug-link.ui-button:hover {
+	border-color: var(--ui-border-strong);
+}
+.aram-aug-link strong,
+.aram-aug-link small {
+	display: block;
+}
+.aram-aug-link strong {
+	font-size: var(--font-size-14);
+}
+.aram-aug-link small {
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+	font-weight: 400;
+}
+
 /* 챔피언 설명 */
 .aram-detail {
 	padding-top: var(--space-8);
@@ -172,6 +216,45 @@ html[data-theme='dark'] .aram-page {
 	background: var(--aram-tile);
 	color: var(--ui-text-muted);
 	font-size: var(--font-size-12);
+}
+/* 증강 공략 */
+/* .aram-ring(40px)이 뒤에 있으므로 두 class를 함께 써서 64px를 지킨다. */
+.aram-ring.aram-ring-head {
+	width: 64px;
+	height: 64px;
+	padding: var(--space-4);
+	border-radius: 14px;
+}
+.aram-aug-effect {
+	margin: 0 0 var(--space-24);
+	padding: var(--space-12) var(--space-16);
+	border-radius: var(--ui-radius-md);
+	background: var(--aram-accent-soft);
+}
+.aram-aug-champ + .aram-aug-champ {
+	margin-top: var(--space-24);
+}
+.aram-aug-champ h4 {
+	margin: 0 0 var(--space-8);
+	font-size: var(--font-size-18);
+	line-height: 1.4;
+}
+.aram-aug-champ h4 a {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-8);
+	color: var(--ui-text);
+}
+.aram-aug-champ h4 a:hover {
+	color: var(--ui-primary);
+}
+.aram-aug-champ h4 img {
+	width: 40px;
+	height: 40px;
+	border-radius: 8px;
+}
+.aram-aug-champ .aram-sub-heading:first-child {
+	margin-top: 0;
 }
 .aram-detail h3 {
 	margin: var(--space-32) 0 var(--space-12);
