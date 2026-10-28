@@ -11,7 +11,8 @@
 
 	let build = $derived(champion.builds.find((b) => b.key === selectedKey) ?? champion.builds[0]);
 	// 증강 빌드만 첫 기본 빌드와 비교해 바뀐 아이템을 표시한다.
-	let base = $derived(build.trigger ? champion.builds[0] : null);
+	// 쇠사슬 조끼 빌드처럼 완전히 다른 템트리(variant)는 비교하지 않는다.
+	let base = $derived(build.trigger && !build.variant ? champion.builds[0] : null);
 	let marks = $derived(coreMarks(build, base));
 	let skillOrder = $derived(build.skillOrder.filter((key) => champion.skills[key]));
 
@@ -48,6 +49,8 @@
 							{guide.augments[id].nameKo}
 						</span>
 					{/each}
+					{#if option.variant}<span class="aram-plus" aria-hidden="true">·</span>
+						{option.variant}{/if}
 				{:else}
 					{buildLabel(option, guide.augments)}
 				{/if}
@@ -55,7 +58,7 @@
 		{/each}
 	</div>
 
-	<CoreItems items={build.core} {guide} {marks} />
+	<CoreItems items={build.core} {guide} {marks} notes={build.notes} />
 
 	{#if skillOrder.length}
 		<p class="aram-sub-heading">스킬 마스터 순서</p>

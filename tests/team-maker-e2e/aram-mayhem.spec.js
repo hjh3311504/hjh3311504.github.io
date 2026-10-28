@@ -56,10 +56,12 @@ test('허브의 챔피언 타일은 챔피언 공략 페이지로 이동한다',
 	await expect(page).toHaveTitle(/증바람 티모 공략$/);
 });
 
-test('허브의 증강별 공략에서 증강 공략으로 가고 챔피언 공략으로 이어진다', async ({ page }) => {
+test('허브의 꼭 읽어야 할 증강 공략에서 증강 공략으로 가고 챔피언 공략으로 이어진다', async ({
+	page
+}) => {
 	await openHub(page);
 	await page
-		.getByRole('region', { name: '증강별 공략' })
+		.getByRole('region', { name: '꼭 읽어야 할 증강 공략' })
 		.getByRole('link', { name: /장갑 충격/ })
 		.click();
 	await expect(page).toHaveURL(/\/aram-mayhem\/augments\/armored-impact$/);
@@ -67,11 +69,54 @@ test('허브의 증강별 공략에서 증강 공략으로 가고 챔피언 공�
 		page.getByRole('heading', { name: '증바람 장갑 충격 공략', level: 1 })
 	).toBeVisible();
 	await expect(page).toHaveTitle(/증바람 장갑 충격\(장충\) 공략$/);
-	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 준다.
-	await expect(page.getByRole('list', { name: '코어 아이템 구매 순서' })).toHaveCount(1);
+	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 주고, 쇠사슬 조끼 6개 템트리를 그 아래에 더한다.
+	await expect(page.getByRole('list', { name: '코어 아이템 구매 순서' })).toHaveCount(2);
 	await page.getByRole('link', { name: '트런들' }).click();
 	await expect(page).toHaveURL(/\/aram-mayhem\/trundle$/);
 	await expect(championName(page)).toHaveText('트런들');
+});
+
+test('운명의 무기 공략은 챔피언 대신 AD·AP 1코어 카드 2개를 출처 없이 보여 준다', async ({
+	page
+}) => {
+	await openHub(page);
+	const link = page
+		.getByRole('region', { name: '꼭 읽어야 할 증강 공략' })
+		.getByRole('link', { name: /운명의 무기/ });
+	await expect(link).toContainText('방마관 100% 만들기');
+	await link.click();
+	await expect(page).toHaveURL(/\/aram-mayhem\/augments\/weapon-of-destiny$/);
+	await expect(page).toHaveTitle(/증바람 운명의 무기\(운무\) 공략$/);
+	await expect(page.getByRole('heading', { name: '1코어 추천', level: 3 })).toBeVisible();
+	// 관통력 100%를 강조하고 관통력은 아이콘 타일로 보여 준다.
+	// %와 '까지' 사이에는 줄바꿈을 막는 단어 잇기 문자가 있다.
+	await expect(page.locator('.aram-aug-lead')).toContainText(/100%\u2060까지/);
+	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(2);
+	const cards = page.locator('.aram-role-items > li');
+	await expect(cards).toHaveCount(2);
+	await expect(cards.nth(0)).toContainText('AD 챔피언');
+	await expect(cards.nth(0)).toContainText('도미닉 경의 인사');
+	await expect(cards.nth(1)).toContainText('AP 챔피언');
+	await expect(cards.nth(1)).toContainText('무덤꽃');
+	await expect(page.locator('.aram-sources')).toHaveCount(0);
+	await expect(page.getByRole('heading', { name: /어울리는 챔피언/ })).toHaveCount(0);
+});
+
+test('장갑 충격 공략과 챔피언 빌드 탭에 쇠사슬 조끼 6개 + 모루 템트리를 보여 준다', async ({
+	page
+}) => {
+	await page.goto(`${HUB_PATH}/augments/armored-impact`);
+	const vest = page.locator('.aram-card', { hasText: '쇠사슬 조끼 6개' });
+	await expect(vest.locator('.aram-item-note')).toHaveText(['6개', '반복 구매']);
+	await expect(vest.getByRole('listitem').filter({ hasText: '방어력을 고르세요' })).toHaveCount(1);
+
+	await page.goto(`${HUB_PATH}/rammus`);
+	// 버튼 사이의 · 기호는 화면 읽기에서 빠진다.
+	await page.getByRole('button', { name: '장갑 충격 쇠사슬 조끼 6개' }).click();
+	const core = page.getByRole('list', { name: '코어 아이템 구매 순서' });
+	await expect(core.locator('.aram-item')).toHaveText(['쇠사슬 조끼 6개', '모루 반복 구매']);
+	// 완전히 다른 템트리라 기본 빌드와 비교한 추가·변경 표시는 하지 않는다.
+	await expect(core.locator('.aram-mark')).toHaveCount(0);
 });
 
 test('예전 #챔피언 주소는 챔피언 공략 페이지로 옮긴다', async ({ page }) => {

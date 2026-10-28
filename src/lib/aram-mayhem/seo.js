@@ -9,8 +9,13 @@ export const championPath = (id) => `${HUB_PATH}/${id}`;
 export const aramChampionPaths = (guide = guideData) =>
 	guide.champions.map((champion) => championPath(champion.id));
 
-/** 증강 공략 페이지를 만드는 증강. 증강 이름으로 많이 검색하는 것만 고른다. */
-export const AUGMENT_PAGE_IDS = ['armored-impact', 'bees'];
+/** 증강 공략 페이지를 만드는 증강과 허브 링크의 한 줄 소개. 증강 이름으로 많이 검색하는 것만 고른다. */
+export const AUGMENT_PAGE_HOOKS = {
+	'armored-impact': '탱커가 딜러로',
+	bees: '광역 데미지 딜링',
+	'weapon-of-destiny': '방마관 100% 만들기'
+};
+export const AUGMENT_PAGE_IDS = Object.keys(AUGMENT_PAGE_HOOKS);
 export const augmentPath = (id) => `${HUB_PATH}/augments/${id}`;
 export const aramAugmentPaths = () => AUGMENT_PAGE_IDS.map(augmentPath);
 
@@ -104,13 +109,21 @@ export function augmentSeo(id, guide) {
 	const names = entries.map(({ champion }) => champion.nameKo).join('·');
 	const core = sharedCore(entries);
 	// 템트리와 어울리는 챔피언을 앞에 둔다. 증강 효과는 본문에서 보여 준다.
+	// 챔피언 조합 없이 1코어만 정리한 증강(운명의 무기)은 1코어 추천을 넣는다.
 	const lead = core
 		? `증바람 ${label} 템트리는 ${itemOrder(guide, core)}입니다. 어울리는 챔피언은`
 		: `증바람 ${label} 증강과 어울리는 챔피언은`;
+	const roleItems = (augment.guide?.roleItems ?? [])
+		.map((row) => `${row.role} ${itemName(guide, row.item)}`)
+		.join(', ');
+	const search = augment.guide?.search ? ` ${augment.guide.search}` : '';
+	const summary = entries.length
+		? `${lead} ${names} ${entries.length}명입니다.${search}`
+		: `증바람 ${label} 1코어 추천은 ${roleItems}입니다.${search}`;
 	return {
 		title: `증바람 ${label} 공략`,
 		heading: `증바람 ${augment.nameKo} 공략`,
-		description: `${lead} ${names} ${entries.length}명입니다. 칼바람 아수라장 ${guide.patch} 패치 기준이며 통계 티어가 아닌 도파민 빌드입니다.`,
+		description: `${summary} 칼바람 아수라장 ${guide.patch} 패치 기준이며 통계 티어가 아닌 도파민 빌드입니다.`,
 		entries,
 		core
 	};

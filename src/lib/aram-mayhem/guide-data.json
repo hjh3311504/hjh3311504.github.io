@@ -405,6 +405,46 @@
 					"situational": [],
 					"skillOrder": [],
 					"play": []
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
+							}
+						]
+					]
 				}
 			],
 			"boots": [
@@ -552,6 +592,46 @@
 					"situational": [],
 					"skillOrder": [],
 					"play": []
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
+							}
+						]
+					]
 				}
 			],
 			"boots": [
@@ -1075,6 +1155,46 @@
 					"situational": [],
 					"skillOrder": [],
 					"play": []
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
+							}
+						]
+					]
 				}
 			],
 			"boots": [
@@ -1910,6 +2030,46 @@
 					"situational": [],
 					"skillOrder": [],
 					"play": []
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
+							}
+						]
+					]
 				}
 			],
 			"boots": [
@@ -2363,6 +2523,46 @@
 					"situational": [],
 					"skillOrder": [],
 					"play": []
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
+							}
+						]
+					]
 				}
 			],
 			"boots": [
@@ -3728,6 +3928,46 @@
 					"situational": [],
 					"skillOrder": [],
 					"play": []
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
+							}
+						]
+					]
 				}
 			],
 			"boots": [
@@ -3987,6 +4227,46 @@
 					"situational": [],
 					"skillOrder": [],
 					"play": []
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
+							}
+						]
+					]
 				}
 			],
 			"boots": [
@@ -4319,6 +4599,46 @@
 							{
 								"t": "text",
 								"v": " 평타를 이어 가세요."
+							}
+						]
+					]
+				},
+				{
+					"key": "aug-armored-impact-chain-vest",
+					"trigger": ["armored-impact"],
+					"variant": "쇠사슬 조끼 6개",
+					"core": ["쇠사슬 조끼", "모루"],
+					"notes": ["6개", "반복 구매"],
+					"boots": "",
+					"situational": [],
+					"skillOrder": [],
+					"play": [
+						[
+							{
+								"t": "text",
+								"v": "아이템 6칸을 "
+							},
+							{
+								"t": "item",
+								"v": "쇠사슬 조끼"
+							},
+							{
+								"t": "text",
+								"v": "로 모두 채우세요."
+							}
+						],
+						[
+							{
+								"t": "text",
+								"v": "그다음부터는 골드가 모일 때마다 "
+							},
+							{
+								"t": "anvil",
+								"v": "모루"
+							},
+							{
+								"t": "text",
+								"v": "를 사서 방어력을 고르세요."
 							}
 						]
 					]
@@ -4943,7 +5263,78 @@
 			"aliases": ["장충"],
 			"tier": "gold",
 			"effectKo": "스킬 뒤 다음 기본 공격에 방어력에 비례한 피해가 붙습니다.",
-			"icon": "/images/aram-mayhem/augments/armored-impact.webp"
+			"icon": "/images/aram-mayhem/augments/armored-impact.webp",
+			"guide": {
+				"lead": [],
+				"coreWhy": [
+					{
+						"t": "aug",
+						"v": "장갑 충격",
+						"id": "armored-impact"
+					},
+					{
+						"t": "text",
+						"v": "의 추가 피해는 물리 피해예요. 그래서 마지막 아이템은 방어력 대신 "
+					},
+					{
+						"t": "stat",
+						"v": "방어구 관통력"
+					},
+					{
+						"t": "text",
+						"v": "을 높여 주는 "
+					},
+					{
+						"t": "item",
+						"v": "도미닉 경의 인사"
+					},
+					{
+						"t": "text",
+						"v": "를 추천해요."
+					}
+				],
+				"search": "쇠사슬 조끼 6개를 산 뒤 모루로 방어력만 올리는 빌드도 있습니다.",
+				"tips": [],
+				"roleItems": [],
+				"builds": [
+					{
+						"key": "chain-vest",
+						"label": "쇠사슬 조끼 6개",
+						"core": ["쇠사슬 조끼", "모루"],
+						"notes": ["6개", "반복 구매"],
+						"play": [
+							[
+								{
+									"t": "text",
+									"v": "아이템 6칸을 "
+								},
+								{
+									"t": "item",
+									"v": "쇠사슬 조끼"
+								},
+								{
+									"t": "text",
+									"v": "로 모두 채우세요."
+								}
+							],
+							[
+								{
+									"t": "text",
+									"v": "그다음부터는 골드가 모일 때마다 "
+								},
+								{
+									"t": "anvil",
+									"v": "모루"
+								},
+								{
+									"t": "text",
+									"v": "를 사서 방어력을 고르세요."
+								}
+							]
+						]
+					}
+				]
+			}
 		},
 		"back-to-basics": {
 			"nameKo": "기본으로 돌아가기",
@@ -5463,6 +5854,114 @@
 			"effectKo": "아이템 피해와 지속 피해에 치명타가 적용될 수 있습니다.",
 			"icon": "/images/aram-mayhem/augments/vulnerability.webp"
 		},
+		"weapon-of-destiny": {
+			"nameKo": "운명의 무기",
+			"aliases": ["운무"],
+			"tier": "gold",
+			"effectKo": "첫 전설급 아이템의 능력치가 처치 관여로 증가합니다.",
+			"icon": "/images/aram-mayhem/augments/weapon-of-destiny.webp",
+			"guide": {
+				"lead": [
+					{
+						"t": "text",
+						"v": "중첩을 쌓으면 "
+					},
+					{
+						"t": "stat",
+						"v": "방어구 관통력"
+					},
+					{
+						"t": "text",
+						"v": "과 "
+					},
+					{
+						"t": "stat",
+						"v": "마법 관통력"
+					},
+					{
+						"t": "text",
+						"v": "이 100%⁠까지 올라 적의 방어력을 모두 무시할 수 있어요."
+					}
+				],
+				"coreWhy": [],
+				"search": "중첩을 쌓으면 관통력이 100%까지 오릅니다.",
+				"tips": [
+					[
+						{
+							"t": "text",
+							"v": "첫 전설급 아이템에만 적용돼요. 빨리 완성할수록 중첩을 일찍 쌓아요."
+						}
+					],
+					[
+						{
+							"t": "text",
+							"v": "피해를 준 적이 3초 안에 죽으면 중첩이 쌓여요."
+						}
+					],
+					[
+						{
+							"t": "text",
+							"v": "강화된 아이템은 팔 수 없어요."
+						}
+					]
+				],
+				"roleItems": [
+					{
+						"role": "AD 챔피언",
+						"item": "도미닉 경의 인사",
+						"why": [
+							{
+								"t": "text",
+								"v": "중첩이 쌓일수록 "
+							},
+							{
+								"t": "stat",
+								"v": "방어구 관통력"
+							},
+							{
+								"t": "text",
+								"v": "이 늘어나 100%⁠까지 오를 수 있어요."
+							}
+						]
+					},
+					{
+						"role": "AP 챔피언",
+						"item": "무덤꽃",
+						"why": [
+							{
+								"t": "text",
+								"v": "중첩이 쌓일수록 "
+							},
+							{
+								"t": "stat",
+								"v": "마법 관통력"
+							},
+							{
+								"t": "text",
+								"v": "과 "
+							},
+							{
+								"t": "stat",
+								"v": "스킬 가속"
+							},
+							{
+								"t": "text",
+								"v": "이 늘어나요. "
+							},
+							{
+								"t": "stat",
+								"v": "마법 관통력"
+							},
+							{
+								"t": "text",
+								"v": "은 100%⁠까지 오를 수 있어요."
+							}
+						]
+					}
+				],
+				"builds": []
+			}
+		},
 		"windspeakers-blessing": {
 			"nameKo": "바람전달자의 축복",
 			"aliases": [],
@@ -5525,6 +6024,7 @@
 		"명석함의 아이오니아 장화": "/images/aram-mayhem/items/3158.webp",
 		"모렐로노미콘": "/images/aram-mayhem/items/3165.webp",
 		"몰락한 왕의 검": "/images/aram-mayhem/items/3153.webp",
+		"무덤꽃": "/images/aram-mayhem/items/3137.webp",
 		"무라마나": "/images/aram-mayhem/items/3042.webp",
 		"무한의 대검": "/images/aram-mayhem/items/3031.webp",
 		"미카엘의 축복": "/images/aram-mayhem/items/3222.webp",
@@ -5537,6 +6037,7 @@
 		"새벽심장": "/images/aram-mayhem/items/6621.webp",
 		"세릴다의 원한": "/images/aram-mayhem/items/6694.webp",
 		"속삭이는 머리띠": "/images/aram-mayhem/items/2526.webp",
+		"쇠사슬 조끼": "/images/aram-mayhem/items/1031.webp",
 		"쇼진의 창": "/images/aram-mayhem/items/3161.webp",
 		"스태틱의 단검": "/images/aram-mayhem/items/3087.webp",
 		"스테락의 도전": "/images/aram-mayhem/items/3053.webp",
@@ -5574,13 +6075,16 @@
 		"헤르메스의 시미터": "/images/aram-mayhem/items/3139.webp",
 		"혹한의 손길": "/images/aram-mayhem/items/3119.webp",
 		"황혼과 새벽": "/images/aram-mayhem/items/2510.webp",
-		"흐르는 물의 지팡이": "/images/aram-mayhem/items/6616.webp"
+		"흐르는 물의 지팡이": "/images/aram-mayhem/items/6616.webp",
+		"모루": "/images/aram-mayhem/stats/anvil.webp"
 	},
 	"itemAliases": {
 		"꽃피는 새벽의 검": ["새벽검"]
 	},
 	"icons": {
 		"anvil": "/images/aram-mayhem/stats/anvil.webp",
-		"haste": "/images/aram-mayhem/stats/ability-haste.webp"
+		"haste": "/images/aram-mayhem/stats/ability-haste.webp",
+		"armorPen": "/images/aram-mayhem/stats/armor-penetration.webp",
+		"magicPen": "/images/aram-mayhem/stats/magic-penetration.webp"
 	}
 }

@@ -115,9 +115,10 @@ test('생성된 가이드 데이터는 참조가 모두 연결되어 있다', ()
 		assert.ok(champion.builds.length > 0, `${champion.id} 빌드`);
 		assert.equal(champion.builds[0].key, 'base');
 		for (const build of champion.builds) {
+			// 쇠사슬 조끼 6개 빌드처럼 아이템 칸을 모두 채우는 빌드는 신발이 없다.
 			for (const item of [
 				...build.core,
-				build.boots,
+				...(build.variant ? [] : [build.boots]),
 				...build.situational.map((row) => row.item)
 			]) {
 				assert.ok(guide.items[item], `${champion.id} 아이템 ${item}`);
@@ -140,6 +141,34 @@ test('생성된 가이드 데이터는 참조가 모두 연결되어 있다', ()
 		}
 		for (const id of [...champion.good, ...champion.avoid]) assert.ok(guide.augments[id], id);
 	}
+});
+
+test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루 빌드도 바로 뒤에 보여 준다', () => {
+	const armored = guide.champions.filter((champion) =>
+		champion.builds.some((build) => build.key === 'aug-armored-impact')
+	);
+	assert.equal(armored.length, 8);
+	for (const champion of armored) {
+		const index = champion.builds.findIndex((build) => build.key === 'aug-armored-impact');
+		const vest = champion.builds[index + 1];
+		assert.equal(vest.key, 'aug-armored-impact-chain-vest', champion.id);
+		assert.deepEqual(vest.trigger, ['armored-impact']);
+		assert.equal(vest.variant, '쇠사슬 조끼 6개');
+		assert.deepEqual(vest.core, ['쇠사슬 조끼', '모루']);
+		// 모루는 문장 타일과 같은 초록 모루 아이콘을 쓴다.
+		assert.equal(guide.items['모루'], guide.icons.anvil);
+		assert.deepEqual(vest.notes, ['6개', '반복 구매']);
+		assert.equal(vest.play.length, 2);
+	}
+	// 기본 빌드 아래에는 마지막 아이템이 도미닉 경의 인사인 이유를 타일과 함께 보여 준다.
+	const why = guide.augments['armored-impact'].guide.coreWhy;
+	assert.ok(why.some((part) => part.t === 'stat' && part.v === '방어구 관통력'));
+	assert.ok(why.some((part) => part.t === 'item' && part.v === '도미닉 경의 인사'));
+	// 증강 공략에도 같은 템트리를 보여 준다.
+	assert.deepEqual(
+		guide.augments['armored-impact'].guide.builds.map((build) => build.label),
+		['쇠사슬 조끼 6개']
+	);
 });
 
 test('가이드 아이템 규칙: 악의·피바라기 금지, 횃불·루덴은 추천 아이템 칸에 넣지 않음', () => {

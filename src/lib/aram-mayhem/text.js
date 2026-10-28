@@ -4,6 +4,13 @@
 // 문장 안에서 타일로 바꿀 짧은 이름. 화면에는 짧은 이름을 보여 주고 원래 증강으로 연결한다.
 export const AUGMENT_ALIASES = { 순수주의자: '순수주의자 - 마법사' };
 
+/** 능력치 타일로 바꿀 이름과 가이드 데이터 icons의 아이콘 키. */
+export const STAT_ICONS = {
+	'스킬 가속': 'haste',
+	'방어구 관통력': 'armorPen',
+	'마법 관통력': 'magicPen'
+};
+
 const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /**
@@ -15,7 +22,7 @@ export function segment(text, { augmentNames, itemNames }) {
 		...augmentNames.map((name) => ['aug', name]),
 		...itemNames.map((name) => ['item', name]),
 		...Object.keys(AUGMENT_ALIASES).map((name) => ['augAlias', name]),
-		['stat', '스킬 가속'],
+		...Object.keys(STAT_ICONS).map((name) => ['stat', name]),
 		['anvil', '모루']
 	].sort((a, b) => b[1].length - a[1].length);
 	const kind = Object.fromEntries(alternatives.map(([type, name]) => [name, type]));

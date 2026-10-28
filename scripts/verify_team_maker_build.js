@@ -666,8 +666,16 @@ for (const id of AUGMENT_PAGE_IDS) {
 		`<link rel="canonical" href="https://hjh3311504.github.io${pathname}"`,
 		'id="aram-augment-name"',
 		'role="combobox"',
-		'class="aram-legend"',
-		...seo.entries.map(({ champion }) => `href="${championPath(champion.id)}"`)
+		// 챔피언 조합이 있으면 범례와 챔피언 공략 링크, 1코어 추천만 있으면 추천 아이템
+		...(seo.entries.length
+			? [
+					'class="aram-legend"',
+					...seo.entries.map(({ champion }) => `href="${championPath(champion.id)}"`)
+				]
+			: [
+					'class="aram-role-items"',
+					...aramGuide.augments[id].guide.roleItems.map((row) => `<span>${row.item}</span>`)
+				])
 	]) {
 		if (!document.includes(marker))
 			throw new Error(`${name} HTML에서 ${marker} 표시를 찾지 못했습니다.`);
@@ -677,7 +685,7 @@ for (const id of AUGMENT_PAGE_IDS) {
 	await checkAramImages(document, name);
 	const graph = aramJsonLd(document, name);
 	const list = graph.find((item) => item['@type'] === 'ItemList');
-	if (list?.itemListElement?.length !== seo.entries.length)
+	if ((list?.itemListElement?.length ?? 0) !== seo.entries.length)
 		throw new Error(`${name}의 챔피언 목록 구조화 데이터 수가 맞지 않습니다.`);
 	const crumbs = graph.find((item) => item['@type'] === 'BreadcrumbList');
 	if (crumbs?.itemListElement?.at(-1)?.item !== `https://hjh3311504.github.io${pathname}`)

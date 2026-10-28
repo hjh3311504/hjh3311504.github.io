@@ -3,6 +3,7 @@ import test from 'node:test';
 import guide from '../../src/lib/aram-mayhem/guide-data.json' with { type: 'json' };
 import aliases from '../../docs/research/aram-mayhem/aliases.json' with { type: 'json' };
 import {
+	AUGMENT_PAGE_HOOKS,
 	AUGMENT_PAGE_IDS,
 	aramAugmentPaths,
 	aramChampionPaths,
@@ -95,7 +96,8 @@ test('허브 문구는 통계 티어가 아니라고 밝히고 구조화 데이�
 test('증강 공략 문구는 증강 별명·어울리는 챔피언·공통 템트리를 담는다', () => {
 	assert.deepEqual(aramAugmentPaths(), [
 		'/aram-mayhem/augments/armored-impact',
-		'/aram-mayhem/augments/bees'
+		'/aram-mayhem/augments/bees',
+		'/aram-mayhem/augments/weapon-of-destiny'
 	]);
 	const armored = augmentSeo('armored-impact', guide);
 	assert.equal(armored.title, '증바람 장갑 충격(장충) 공략');
@@ -115,6 +117,12 @@ test('증강 공략 문구는 증강 별명·어울리는 챔피언·공통 템�
 	assert.ok(
 		armored.description.startsWith('증바람 장갑 충격(장충) 템트리는 가시 갑옷 → 해신 작쇼')
 	);
+	// 쇠사슬 조끼 6개 빌드도 검색 설명에 알린다.
+	assert.ok(
+		armored.description.includes(
+			'8명입니다. 쇠사슬 조끼 6개를 산 뒤 모루로 방어력만 올리는 빌드도 있습니다. 칼바람 아수라장'
+		)
+	);
 
 	const bees = augmentSeo('bees', guide);
 	assert.equal(bees.title, '증바람 벌이다!!!(벌) 공략');
@@ -124,11 +132,44 @@ test('증강 공략 문구는 증강 별명·어울리는 챔피언·공통 템�
 			'증바람 벌이다!!!(벌) 증강과 어울리는 챔피언은 바루스·바이·볼리베어·브라움·카이사·탐 켄치·티모·피즈 8명'
 		)
 	);
-	// 증강 페이지 목록은 직접 적은 값이므로 데이터에 그 증강과 어울리는 챔피언이 있는지 확인한다.
+	// 증강 페이지 목록은 직접 적은 값이므로 데이터에 어울리는 챔피언이나 1코어 추천이 있는지 확인한다.
 	for (const id of AUGMENT_PAGE_IDS) {
 		assert.ok(guide.augments[id], id);
 		const seo = augmentSeo(id, guide);
-		assert.ok(seo.entries.length > 0, id);
+		assert.ok(seo.entries.length > 0 || guide.augments[id].guide?.roleItems.length > 0, id);
 		assert.ok(seo.description.includes('도파민'), id);
+		// 허브 링크에 보여 줄 한 줄 소개가 있다.
+		assert.ok(AUGMENT_PAGE_HOOKS[id], id);
 	}
+});
+
+test('운명의 무기 공략은 챔피언 없이 AD·AP 1코어를 검색 설명에 넣는다', () => {
+	const seo = augmentSeo('weapon-of-destiny', guide);
+	assert.equal(seo.title, '증바람 운명의 무기(운무) 공략');
+	assert.deepEqual(seo.entries, []);
+	assert.ok(
+		seo.description.startsWith(
+			'증바람 운명의 무기(운무) 1코어 추천은 AD 챔피언 도미닉 경의 인사, AP 챔피언 무덤꽃입니다. 중첩을 쌓으면 관통력이 100%까지 오릅니다.'
+		)
+	);
+	// 추천 아이템마다 아이콘이 있고, 이 페이지는 출처를 보여 주지 않는다.
+	const { roleItems, ...rest } = guide.augments['weapon-of-destiny'].guide;
+	assert.deepEqual(
+		roleItems.map((row) => [row.role, row.item]),
+		[
+			['AD 챔피언', '도미닉 경의 인사'],
+			['AP 챔피언', '무덤꽃']
+		]
+	);
+	for (const row of roleItems) {
+		assert.ok(guide.items[row.item], row.item);
+		assert.equal(row.sources, undefined);
+	}
+	assert.deepEqual(Object.keys(rest).sort(), ['builds', 'coreWhy', 'lead', 'search', 'tips']);
+	// 관통력은 아이콘 타일로 보여 준다.
+	assert.deepEqual(
+		roleItems.map((row) => row.why.filter((part) => part.t === 'stat').map((part) => part.v)),
+		[['방어구 관통력'], ['마법 관통력', '스킬 가속', '마법 관통력']]
+	);
+	assert.ok(guide.icons.armorPen && guide.icons.magicPen);
 });

@@ -74,7 +74,8 @@ const [
 	extrasData,
 	postsData,
 	kiwi,
-	aliasData
+	aliasData,
+	augmentGuideData
 ] = await Promise.all([
 	readData('champions.json'),
 	readData('augments.json'),
@@ -84,7 +85,8 @@ const [
 	readData('champ-extras.json'),
 	readData('community-posts.json'),
 	readData('kiwi-shop-items.json'),
-	readData('aliases.json')
+	readData('aliases.json'),
+	readData('augment-guides.json')
 ]);
 const builds = byId(buildData.champions);
 const buildPlays = byId(buildPlayData.champions);
@@ -93,6 +95,10 @@ const extras = byId(extrasData.champions);
 const augmentsById = byId(augmentData.augments);
 const augmentIdByName = Object.fromEntries(augmentData.augments.map((a) => [a.nameKo, a.id]));
 const posts = postsData.posts;
+// 증강 공략에 적은 다른 템트리. 그 증강 빌드가 있는 챔피언 공략에도 탭으로 붙인다.
+const extraBuildsByAugment = Object.fromEntries(
+	augmentGuideData.augments.map((entry) => [entry.id, entry.builds ?? []])
+);
 const postByUrl = Object.fromEntries(posts.map((post) => [post.url, post]));
 const postById = Object.fromEntries(posts.filter((post) => post.id).map((post) => [post.id, post]));
 
@@ -249,6 +255,22 @@ for (const champion of research.champions) {
 			skillOrder: comboBuild.build.skillOrder ?? [],
 			play: play && !play.samePlay ? (play.playKo ?? []).map((t) => parse(t, skillKeys)) : []
 		});
+		// 장갑 충격의 쇠사슬 조끼 빌드처럼 증강 공략에 적은 다른 템트리를 그 증강 빌드 바로 뒤에 붙인다.
+		for (const id of comboBuild.triggerAugmentIds) {
+			for (const extra of extraBuildsByAugment[id] ?? []) {
+				buildTabs.push({
+					key: `aug-${comboBuild.triggerAugmentIds.join('-')}-${extra.key}`,
+					trigger: comboBuild.triggerAugmentIds,
+					variant: extra.labelKo,
+					core: extra.core,
+					notes: extra.notesKo ?? [],
+					boots: '',
+					situational: [],
+					skillOrder: [],
+					play: extra.playKo.map(parsePlain)
+				});
+			}
+		}
 	}
 	buildTabs.forEach(useBuild);
 	buildTabs.forEach((build) => build.skillOrder.forEach((key) => skillKeys.add(key)));
@@ -307,6 +329,57 @@ for (const champion of research.champions) {
 }
 champions.sort((a, b) => a.nameKo.localeCompare(b.nameKo, 'ko'));
 
+// 챔피언 조합 없이 증강만으로 정리한 공략(1코어 추천과 팁). 화면에 출처는 보여 주지 않는다.
+/** 챔피언이 없는 문장은 스킬 타일을 쓸 수 없어 스킬 자리(궁극기·Q 등)를 원래 글자로 되돌린다. */
+function parsePlain(text) {
+	let at = 0;
+	return parse(text, new Set()).map((part) => {
+		const raw =
+			part.t === 'skill'
+				? text.slice(at).match(/^(궁극기|\[[QWER]\]|[QWER])/)[0]
+				: (part.label ?? part.v);
+		at += raw.length;
+		if (part.t === 'skill') return { t: 'text', v: raw };
+		// '100%까지'가 % 뒤에서 줄바꿈되지 않도록 단어 잇기 문자(U+2060)를 넣는다.
+		return part.t === 'text'
+			? { ...part, v: part.v.replace(/%(?=\p{Script=Hangul})/gu, '%\u2060') }
+			: part;
+	});
+}
+const augmentGuides = {};
+for (const entry of augmentGuideData.augments) {
+	usedAugments.add(entry.id);
+	const roleItems = entry.roleItems ?? [];
+	const extraBuilds = entry.builds ?? [];
+	roleItems.forEach((row) => usedItems.add(row.item));
+	extraBuilds.forEach((build) => build.core.forEach((item) => usedItems.add(item)));
+	// 근거 글 번호는 조사 기록에 있어야 한다.
+	for (const id of [
+		entry.tipEvidencePostIds ?? [],
+		...roleItems.map((row) => row.evidencePostIds)
+	].flat()) {
+		if (!postById[id]) missing.push(`디시 글: ${id}`);
+	}
+	augmentGuides[entry.id] = {
+		lead: entry.leadKo ? parsePlain(entry.leadKo) : [],
+		coreWhy: entry.coreWhyKo ? parsePlain(entry.coreWhyKo) : [],
+		search: entry.searchKo ?? '',
+		tips: (entry.tipsKo ?? []).map(parsePlain),
+		roleItems: roleItems.map((row) => ({
+			role: row.roleKo,
+			item: row.item,
+			why: parsePlain(row.whyKo)
+		})),
+		builds: extraBuilds.map((build) => ({
+			key: build.key,
+			label: build.labelKo,
+			core: build.core,
+			notes: build.notesKo ?? [],
+			play: build.playKo.map(parsePlain)
+		}))
+	};
+}
+
 const augments = {};
 for (const id of [...usedAugments].sort()) {
 	const augment = augmentsById[id];
@@ -326,12 +399,16 @@ for (const id of [...usedAugments].sort()) {
 		aliases: aliasData.augments[id] ?? [],
 		tier: augment.tier,
 		effectKo: augment.effectKo,
-		icon
+		icon,
+		...(augmentGuides[id] && { guide: augmentGuides[id] })
 	};
 }
 
+// 템트리의 '모루'는 상점 아이템 이름이 아니라 능력치 모루다. 문장 타일과 같은 아이콘을 쓴다(아래 icons.anvil).
+const ANVIL = '모루';
 const items = {};
 for (const name of [...usedItems].sort()) {
+	if (name === ANVIL) continue;
 	const id = itemIdByName[name.replace(/\s+/g, '')];
 	if (!id) {
 		missing.push(`아이템: ${name}`);
@@ -349,16 +426,30 @@ const itemAliases = Object.fromEntries(
 	Object.entries(aliasData.items).filter(([name, list]) => name in items && list.length)
 );
 
-// 문장 타일용 아이콘: 능력치 모루(모루 교환권), 스킬 가속(룬 능력치 조각)
+// 문장 타일용 아이콘: 능력치 모루(초록 모루 아이템 220000), 스킬 가속(룬 능력치 조각), 관통력(게임 글자 아이콘)
 const icons = {
-	anvil: await saveIcon(`${DDRAGON}/img/item/220008.png`, 'stats', 'anvil', 48),
+	anvil: await saveIcon(`${DDRAGON}/img/item/220000.png`, 'stats', 'anvil', 48),
 	haste: await saveIcon(
 		`${CDRAGON}/v1/perk-images/statmods/statmodscdrscalingicon.png`,
 		'stats',
 		'ability-haste',
 		32
+	),
+	armorPen: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scaleapen.png`,
+		'stats',
+		'armor-penetration',
+		32
+	),
+	magicPen: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalempen.png`,
+		'stats',
+		'magic-penetration',
+		32
 	)
 };
+
+if (usedItems.has(ANVIL)) items[ANVIL] = icons.anvil;
 
 if (missing.length) {
 	throw new Error(`찾지 못한 자료가 있습니다.\n${missing.join('\n')}`);
