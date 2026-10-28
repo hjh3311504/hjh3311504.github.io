@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { resolve } from '$app/paths';
 	import { Button, EmptyState, FormField } from '$lib/components/ui';
-	import { ALL_ROLES, filterChampions, roleOptions } from '../guide.js';
+	import { ALL_ROLES, filterChampions, roleOptions, tileName } from '../guide.js';
 
 	// 허브의 챔피언 목록. 타일은 챔피언 공략 페이지 링크라서 검색엔진도 따라간다.
 	let { champions } = $props();
@@ -49,9 +49,12 @@
 						class="aram-pick"
 						variant="ghost"
 						href={resolve('/aram-mayhem/[champion]', { champion: champion.id })}
+						aria-label={tileName(champion) === champion.nameKo
+							? undefined
+							: `${tileName(champion)} (${champion.nameKo})`}
 					>
 						<img src={champion.icon} alt="" width="48" height="48" decoding="async" />
-						{champion.nameKo}
+						{tileName(champion)}
 					</Button>
 				</li>
 			{/each}

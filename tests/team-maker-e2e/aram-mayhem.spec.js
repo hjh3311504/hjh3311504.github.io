@@ -140,6 +140,11 @@ test('허브 검색은 이름·별명·초성과 역할로 챔피언 목록을 �
 	await expect(picker(page).getByRole('link')).toHaveText(['티모']);
 	await box.fill('없는 이름');
 	await expect(page.getByText('찾는 챔피언이 아직 가이드에 없어요.')).toBeVisible();
+	// 긴 이름은 타일에 줄임말로 보이고, 링크 이름은 보이는 줄임말과 전체 이름을 함께 담는다.
+	await box.fill('트페');
+	await expect(
+		picker(page).getByRole('link', { name: '트페 (트위스티드 페이트)', exact: true })
+	).toHaveText('트페');
 
 	await box.fill('');
 	await page

@@ -46,10 +46,16 @@ html[data-theme='dark'] .aram-page {
 	padding: 0;
 	list-style: none;
 }
+/* 이름이 두 줄인 타일(트위스티드 페이트)이 있어도 같은 줄의 타일 높이를 맞추고 아이콘을 위에 둔다. */
+.aram-grid > li {
+	display: flex;
+}
 .aram-pick.ui-button {
 	flex-direction: column;
+	justify-content: flex-start;
 	gap: var(--space-4);
 	width: 100%;
+	height: 100%;
 	min-height: 0;
 	padding: var(--space-8) var(--space-4);
 	border: 2px solid transparent;
@@ -536,7 +542,11 @@ html[data-theme='dark'] .aram-page {
 	border-color: var(--ui-primary);
 	background: var(--aram-accent-soft);
 }
+/* 위 .aram-ic img의 24px가 링(24px, 안쪽 여백 2px)보다 커서 아이콘이 아래로 밀리므로 링 안을 채우게 되돌린다. */
 .aram-ic .aram-ring img {
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
 	background: var(--color-aram-icon-background);
 }
 .aram-key {

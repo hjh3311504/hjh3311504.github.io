@@ -12,7 +12,8 @@ import {
 	isAddedSituational,
 	roleOptions,
 	searchChampions,
-	situationalHeading
+	situationalHeading,
+	tileName
 } from '../../src/lib/aram-mayhem/guide.js';
 
 const champions = [
@@ -98,6 +99,11 @@ test('추천 아이템 제목은 코어 개수에 맞춘다', () => {
 	assert.equal(situationalHeading(5), '6코어부터 추천 아이템');
 });
 
+test('허브 타일은 긴 이름만 줄임말로 보여 준다', () => {
+	assert.equal(tileName({ id: 'twisted-fate', nameKo: '트위스티드 페이트' }), '트페');
+	assert.equal(tileName({ id: 'teemo', nameKo: '티모' }), '티모');
+});
+
 test('조합 증강은 필수 증강 다음 선택 증강 순서로 나눈다', () => {
 	assert.deepEqual(augmentGroups({ augmentIds: ['a', 'b', 'c'], required: ['b'] }), {
 		required: ['b'],
@@ -147,7 +153,7 @@ test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루
 	const armored = guide.champions.filter((champion) =>
 		champion.builds.some((build) => build.key === 'aug-armored-impact')
 	);
-	assert.equal(armored.length, 8);
+	assert.equal(armored.length, 11);
 	for (const champion of armored) {
 		const index = champion.builds.findIndex((build) => build.key === 'aug-armored-impact');
 		const vest = champion.builds[index + 1];
@@ -171,11 +177,23 @@ test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루
 	);
 });
 
-test('가이드 아이템 규칙: 악의·피바라기 금지, 횃불·루덴은 추천 아이템 칸에 넣지 않음', () => {
+// 애니·우디르는 사용자 지시로 기본 빌드 1코어에만 악의를 둔다.
+const MALIGNANCE_OK = new Set(['annie', 'udyr']);
+const ALLOWED_BOOTS = new Set([
+	'탐욕의 군화',
+	'신속의 장화',
+	'헤르메스의 발걸음',
+	'판금 장화',
+	'광전사의 군화'
+]);
+
+test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피바라기 금지, 횃불·루덴은 추천 아이템 칸에 넣지 않음, 정한 신발만 추천', () => {
 	for (const champion of guide.champions) {
 		for (const build of champion.builds) {
 			const all = [...build.core, ...build.situational.map((row) => row.item)];
-			assert.ok(!all.includes('악의'), `${champion.id} 악의`);
+			const allowed =
+				MALIGNANCE_OK.has(champion.id) && build.key === 'base' && build.core[0] === '악의';
+			assert.ok(!all.slice(allowed ? 1 : 0).includes('악의'), `${champion.id} 악의`);
 			assert.ok(!all.includes('피바라기'), `${champion.id} 피바라기`);
 			for (const row of build.situational) {
 				assert.ok(
@@ -183,6 +201,13 @@ test('가이드 아이템 규칙: 악의·피바라기 금지, 횃불·루덴은
 					`${champion.id} ${row.item}`
 				);
 			}
+		}
+		// 신발은 탐욕의 군화(기본)·신속의 장화(서포터)와 필요할 때 헤르메스의 발걸음·판금 장화·광전사의 군화만 추천한다.
+		for (const boots of [
+			...champion.builds.map((build) => build.boots).filter(Boolean),
+			...champion.boots.map((row) => row.item)
+		]) {
+			assert.ok(ALLOWED_BOOTS.has(boots), `${champion.id} ${boots}`);
 		}
 		if (champion.roles.includes('탱커')) {
 			assert.equal(champion.builds[0].core[0], '강철심장', `${champion.id} 탱커 1코어`);

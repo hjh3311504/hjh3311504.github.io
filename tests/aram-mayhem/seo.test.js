@@ -104,7 +104,19 @@ test('증강 공략 문구는 증강 별명·어울리는 챔피언·공통 템�
 	assert.equal(armored.heading, '증바람 장갑 충격 공략');
 	assert.deepEqual(
 		armored.entries.map(({ champion }) => champion.id),
-		['rammus', 'leona', 'malphite', 'braum', 'sett', 'jax', 'taric', 'trundle']
+		[
+			'nasus',
+			'rammus',
+			'leona',
+			'malphite',
+			'braum',
+			'blitzcrank',
+			'sett',
+			'udyr',
+			'jax',
+			'taric',
+			'trundle'
+		]
 	);
 	// 장갑 충격은 모든 챔피언이 같은 고정 빌드를 쓰므로 템트리를 검색 설명에 넣는다.
 	assert.deepEqual(armored.core, [
@@ -120,7 +132,7 @@ test('증강 공략 문구는 증강 별명·어울리는 챔피언·공통 템�
 	// 쇠사슬 조끼 6개 빌드도 검색 설명에 알린다.
 	assert.ok(
 		armored.description.includes(
-			'8명입니다. 쇠사슬 조끼 6개를 산 뒤 모루로 방어력만 올리는 빌드도 있습니다. 칼바람 아수라장'
+			'11명입니다. 쇠사슬 조끼 6개를 산 뒤 모루로 방어력만 올리는 빌드도 있습니다. 칼바람 아수라장'
 		)
 	);
 
