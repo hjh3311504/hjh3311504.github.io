@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-10-28T00:04:31.013Z",
+  "source": "https://hjh3311504.github.io/blog/bracket-result-correction",
+  "browser": "151.0.7922.34",
+  "platform": "darwin",
+  "arch": "arm64",
+  "options": {
+    "format": "A4",
+    "margin": {
+      "top": "12mm",
+      "bottom": "12mm",
+      "left": "12mm",
+      "right": "12mm"
+    },
+    "scale": 1,
+    "displayHeaderFooter": false,
+    "printBackground": false
+  },
+  "bytes": 474922,
+  "sha256": "b6916d9af61e9a2ea0869ea305e91a9acf48a1548773eed0a4a40fc63b1f592a",
+  "method": "Playwright page.pdf; print CSS; no DOM/style edits; third-party requests blocked",
+  "pages": 5,
+  "pageLinks": [
+    {
+      "page": 1,
+      "webLinks": [
+        "https://hjh3311504.github.io/about",
+        "https://hjh3311504.github.io/blog",
+        "https://hjh3311504.github.io/bracket"
+      ]
+    },
+    {
+      "page": 2,
+      "webLinks": []
+    },
+    {
+      "page": 3,
+      "webLinks": [
+        "https://hjh3311504.github.io/images/blog/bracket-correction/after.png"
+      ]
+    },
+    {
+      "page": 4,
+      "webLinks": [
+        "https://developer.mozilla.org/en-US/docs/Web/API/Window/print",
+        "https://hjh3311504.github.io/downloads/blog/bracket-correction/verification.json"
+      ]
+    },
+    {
+      "page": 5,
+      "webLinks": [
+        "https://hjh3311504.github.io/blog/browser-local-storage",
+        "https://hjh3311504.github.io/bracket",
+        "https://hjh3311504.github.io/blog",
+        "https://hjh3311504.github.io/about",
+        "https://hjh3311504.github.io/privacy",
+        "https://hjh3311504.github.io/rss.xml"
+      ]
+    }
+  ],
+  "visualCheck": "All 5 pages rendered with Poppler; rightmost table column and diagram on page 3; final advice on page 5; no clipping/overlap seen.",
+  "linkCheck": "URI annotations read only; PDF viewer clicking not tested."
+}
