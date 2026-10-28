@@ -45,8 +45,8 @@
 			"avoidAugmentIds": ["back-to-basics"],
 			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
 			"items": {
-				"core": ["어둠불꽃 횃불", "리안드리의 고통", "지평선의 초점"],
-				"boots": "명석함의 아이오니아 장화",
+				"core": ["악의", "리안드리의 고통", "지평선의 초점"],
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "미카엘의 축복",
@@ -317,7 +317,7 @@
 			"avoidNoteKo": "",
 			"items": {
 				"core": ["쇼진의 창", "마나무네", "끝없는 갈망"],
-				"boots": "명석함의 아이오니아 장화",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "죽음의 무도",
@@ -611,8 +611,8 @@
 			"combos": [
 				{
 					"title": "불을 끊지 않기",
-					"augmentIds": ["infernal-conduit", "magic-missile"],
-					"whyKo": "스킬로 남긴 화상이 일반 스킬의 대기시간을 줄입니다. W가 돌아오면 화상이 끝나기 전에 다시 맞혀 불을 이어 가세요.",
+					"augmentIds": ["infernal-conduit", "magic-missile", "jeweled-gauntlet", "its-critical"],
+					"whyKo": "스킬로 남긴 화상이 일반 스킬의 대기시간을 줄입니다. 보석 건틀릿까지 있으면 자주 쓰는 W에 치명타도 터집니다.",
 					"rating": "A",
 					"evidence": [
 						{
@@ -630,10 +630,14 @@
 						{
 							"url": "https://hexmayhem.com/augments/1045",
 							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
+						},
+						{
+							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=644960",
+							"note": "과거 커뮤니티의 스킬·증강 활용 방향을 참고했습니다. 현재 수치와 무한 반복 주장을 확인한 근거는 아닙니다."
 						}
 					],
 					"confidence": "medium",
-					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
+					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다. 2026-10-28 사용자 지시로 \"불길과 스킬 치명타\" 조합(보석 건틀릿·치명적인 공격)을 선택 증강으로 합침.",
 					"stats": [
 						{
 							"source": "HexMayhem",
@@ -655,53 +659,6 @@
 					"communityPostIds": ["644960"],
 					"evidenceLevel": "stats+community",
 					"requiredAugmentIds": ["infernal-conduit"]
-				},
-				{
-					"title": "불길과 스킬 치명타",
-					"augmentIds": ["infernal-conduit", "jeweled-gauntlet", "its-critical"],
-					"whyKo": "지옥의 전도체로 W를 자주 쓰고, 보석 건틀릿으로 스킬 피해에 치명타가 터집니다. 평타보다 돌아온 W를 우선해 맞히세요.",
-					"rating": "A",
-					"evidence": [
-						{
-							"url": "https://arammayhem.com/data/v1/latest/combos.json",
-							"note": "공개 조합 데이터에서 이 챔피언과 일부 증강의 연결을 확인했습니다. 기반 자료는 26.20이며 묶음 전체의 현재 성능을 보증하지 않습니다."
-						},
-						{
-							"url": "https://mobalytics.gg/lol/tier-list/mayhem",
-							"note": "증강 효과를 확인해 챔피언의 스킬과 연결한 작성자 해석입니다. 이 페이지의 순위를 조합 승률이나 확정 성능으로 옮기지 않았습니다."
-						},
-						{
-							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=644960",
-							"note": "과거 커뮤니티의 스킬·증강 활용 방향을 참고했습니다. 현재 수치와 무한 반복 주장을 확인한 근거는 아닙니다."
-						},
-						{
-							"url": "https://hexmayhem.com/augments/1045",
-							"note": "26.21 개별 증강 통계. 같은 챔피언의 기준 승률과 비교했으며 이 묶음의 동시 승률은 아닙니다."
-						}
-					],
-					"confidence": "medium",
-					"verificationNoteKo": "개별 증강 통계 기반입니다. 표본은 각 증강을 고른 경기이며 2~3개를 함께 고른 표본이 아닙니다. gamesApproximate가 true인 경기 수는 K 단위 공개값을 환산한 근삿값입니다.",
-					"stats": [
-						{
-							"source": "HexMayhem",
-							"patch": "26.21",
-							"sourcePatch": "16.21",
-							"checkedAt": "2026-10-24",
-							"url": "https://hexmayhem.com/augments/1045",
-							"scope": "single-augment",
-							"augmentId": "infernal-conduit",
-							"games": 164000,
-							"gamesApproximate": true,
-							"gamesDisplay": "164K",
-							"winRate": 52.67,
-							"pickRate": 19.2,
-							"baselineWinRate": 48.43,
-							"liftPp": 4.24
-						}
-					],
-					"communityPostIds": ["644960"],
-					"evidenceLevel": "stats+community",
-					"requiredAugmentIds": ["infernal-conduit", "jeweled-gauntlet"]
 				}
 			],
 			"goodAugmentIds": ["infernal-conduit", "magic-missile", "jeweled-gauntlet", "its-critical"],
@@ -709,7 +666,7 @@
 			"avoidNoteKo": "escapade: 주문력을 공격력으로 바꾸므로 이 주문력 빌드와 맞지 않습니다.",
 			"items": {
 				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
-				"boots": "마법사의 신발",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "존야의 모래시계",
@@ -840,7 +797,7 @@
 			"avoidNoteKo": "overflow: 마나를 쓰지 않는 챔피언이라 효과가 없습니다.",
 			"items": {
 				"core": ["우주의 추진력", "라바돈의 죽음모자", "정령의 형상"],
-				"boots": "명석함의 아이오니아 장화",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "존야의 모래시계",
@@ -1028,7 +985,7 @@
 			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
 			"items": {
 				"core": ["악곡의 왕관", "새벽심장", "꽃피는 새벽의 검"],
-				"boots": "명석함의 아이오니아 장화",
+				"boots": "신속의 장화",
 				"situational": [
 					{
 						"item": "미카엘의 축복",
@@ -1187,7 +1144,7 @@
 			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
 			"items": {
 				"core": ["악곡의 왕관", "새벽심장", "꽃피는 새벽의 검"],
-				"boots": "명석함의 아이오니아 장화",
+				"boots": "신속의 장화",
 				"situational": [
 					{
 						"item": "미카엘의 축복",
@@ -1571,7 +1528,7 @@
 			"avoidNoteKo": "escapade: 주문력을 공격력으로 바꾸므로 이 주문력 빌드와 맞지 않습니다.",
 			"items": {
 				"core": ["영겁의 지팡이", "대천사의 지팡이", "라바돈의 죽음모자"],
-				"boots": "명석함의 아이오니아 장화",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "존야의 모래시계",
@@ -1714,7 +1671,7 @@
 			"avoidNoteKo": "escapade: 주문력을 공격력으로 바꾸므로 이 주문력 빌드와 맞지 않습니다.",
 			"items": {
 				"core": ["루덴의 메아리", "라바돈의 죽음모자", "공허의 지팡이"],
-				"boots": "마법사의 신발",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "존야의 모래시계",
@@ -2541,7 +2498,7 @@
 			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
 			"items": {
 				"core": ["정수 약탈자", "쇼진의 창", "무한의 대검"],
-				"boots": "명석함의 아이오니아 장화",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "필멸자의 운명",
@@ -2695,7 +2652,7 @@
 			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
 			"items": {
 				"core": ["악곡의 왕관", "불타는 향로", "새벽심장"],
-				"boots": "명석함의 아이오니아 장화",
+				"boots": "신속의 장화",
 				"situational": [
 					{
 						"item": "미카엘의 축복",
@@ -3187,7 +3144,7 @@
 			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
 			"items": {
 				"core": ["영겁의 지팡이", "대천사의 지팡이", "리안드리의 고통"],
-				"boots": "마법사의 신발",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "존야의 모래시계",
@@ -3269,7 +3226,7 @@
 			"avoidNoteKo": "back-to-basics: 핵심 궁극기를 잃으므로 이 기본 운영과 함께 쓰기 어렵습니다.",
 			"items": {
 				"core": ["루덴의 메아리", "지평선의 초점", "라바돈의 죽음모자"],
-				"boots": "마법사의 신발",
+				"boots": "탐욕의 군화",
 				"situational": [
 					{
 						"item": "존야의 모래시계",
@@ -3468,6 +3425,20 @@
 					],
 					"communityPostIds": [],
 					"whyKo": "벌집도 적중 시 효과로 패시브 두 번째 피부의 플라즈마 중첩을 쌓습니다. Q와 W를 쓰면 벌집도 날아가 중첩이 빨리 터집니다."
+				},
+				{
+					"title": "W만으로 패시브 터트리기",
+					"augmentIds": ["ethereal-weapon"],
+					"requiredAugmentIds": ["ethereal-weapon"],
+					"whyKo": "환영 무기와 황혼과 새벽이 있으면 W만 맞혀도 패시브 중첩이 터집니다.",
+					"stepsKo": ["황혼과 새벽을 1코어로 사세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "2026-10-28 사용자 제보: 환영 무기와 황혼과 새벽을 가면 W만 맞혀도 패시브 중첩을 터뜨릴 수 있다.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "user"
 				}
 			],
 			"goodAugmentIds": [
@@ -3702,6 +3673,486 @@
 			"playSources": ["https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=674777"],
 			"beginnerTipKo": "",
 			"communityEvidenceIds": ["674777"]
+		},
+		{
+			"id": "miss-fortune",
+			"nameKo": "미스 포츈",
+			"nameEn": "Miss Fortune",
+			"roles": ["원거리 딜러", "마법사"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "E 장판 치명타 미포",
+					"augmentIds": ["big-shot", "vulnerability"],
+					"requiredAugmentIds": ["big-shot", "vulnerability"],
+					"whyKo": "취약으로 E 장판에도 치명타가 터지고, 묵직한 한 방이 그 피해를 키웁니다.",
+					"stepsKo": ["E를 적이 모인 곳에 까세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "한두 경기의 커뮤니티 후기이며 재현 실험이나 조합 승률은 없음. 근거 글 676020. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "대마법사 순수주의자 미포",
+					"augmentIds": ["archmage", "purist-caster"],
+					"requiredAugmentIds": ["archmage", "purist-caster"],
+					"whyKo": "스킬을 쓸수록 다른 스킬 대기시간이 줄어 E와 R을 자주 씁니다.",
+					"stepsKo": ["Q·W·E를 번갈아 써서 R을 빨리 돌리세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "2026-06-16의 과거 후기1개다. 현재 패치에서 같은 성능을 재현했는지는 확인하지 못했다. 근거 글 572523. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 미스 포츈 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/missfortune/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=676020",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=572523"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["572523", "676020"]
+		},
+		{
+			"id": "blitzcrank",
+			"nameKo": "블리츠크랭크",
+			"nameEn": "Blitzcrank",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "R·W 무한 블리츠",
+					"augmentIds": ["archmage", "purist-caster", "eureka"],
+					"requiredAugmentIds": ["archmage", "purist-caster"],
+					"whyKo": "대마법사와 스킬 가속으로 R과 W를 번갈아 계속 씁니다.",
+					"stepsKo": ["적에게 붙어 R→W→R→W를 반복하세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "3개를 함께 사용한 후기는2026-06-22 글1개다. 673522·617872는 대마법사 방향만 뒷받침하며 전체 조합 재검증이 아니다. 근거 글 577447. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "끌어온 적에게 장갑 충격",
+					"augmentIds": ["armored-impact", "cruelty", "bonk"],
+					"requiredAugmentIds": ["armored-impact", "cruelty"],
+					"whyKo": "Q로 끌어온 적에게 잔혹 행위 피해가 떨어지고, E 평타에 장갑 충격이 붙습니다.",
+					"stepsKo": ["Q로 끌어온 뒤 바로 E 평타를 치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "원문은 지옥불이라는 네 번째 증강도 사용했다. 정확한 증강명은 미확인이다. 여기 제시한3개만의 성능은 따로 검증되지 않았다. 근거 글 675899. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "혹한의 손길", "워모그의 갑옷"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 블리츠크랭크 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/blitzcrank/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=577447",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=675899"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["577447", "675899"]
+		},
+		{
+			"id": "zilean",
+			"nameKo": "질리언",
+			"nameEn": "Zilean",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "대마법사 질리언",
+					"augmentIds": ["archmage", "eureka", "courage-of-the-colossus"],
+					"requiredAugmentIds": ["archmage"],
+					"whyKo": "대마법사로 Q와 W가 빨리 돌아 Q 폭탄을 자주 던집니다. 유레카는 스킬 가속을, 거석상의 용기는 기절 때 보호막을 더합니다.",
+					"stepsKo": ["같은 적에게 Q→W→Q를 맞혀 기절시키세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 조합 영상은2026-04-01 글이다. 현재 대마법사 단독 후기는672680, 자세한 운영·빌드는674423에 있으나 같은2증강의 현재 검증은 아니다. 근거 글 514768. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. / 대마법사 직접 후기는 672680 1개입니다. 유레카까지 함께 쓴 경우는 상대 관찰 영상(581106)뿐이라 유레카는 선택 증강으로 둡니다. 2026-10-28 사용자 지시로 추가. 근거 글 672680, 581106. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. 2026-10-28 사용자 지시로 같은 핵심 증강의 조합을 하나로 합침.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 질리언 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/zilean/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=514768",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=672680"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["514768", "581106", "672680"]
+		},
+		{
+			"id": "katarina",
+			"nameKo": "카타리나",
+			"nameEn": "Katarina",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "왕관 쓴 R 카타",
+					"augmentIds": ["heavy-is-the-crown", "quest-urfs-champion"],
+					"requiredAugmentIds": ["heavy-is-the-crown"],
+					"whyKo": "왕관의 무게로 얻은 공격 속도가 R 피해를 키웁니다.",
+					"stepsKo": ["느려진 이동은 E로 메우세요."],
+					"rating": "A",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "두 글 모두 왕관의 무게와 뒤집개를 사용했다. 672451은 환영 무기도 있었으므로2증강만의 결과가 아니다. 추가 추천인 궁극의 저지 불가·요정 마법은 실제 동시 선택이 확인되지 않았다. 근거 글 672451, 667798. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "궁각 대마법사 카타",
+					"augmentIds": ["ultimate-awakening", "archmage"],
+					"requiredAugmentIds": ["ultimate-awakening", "archmage"],
+					"whyKo": "R 뒤 Q·W·E가 초기화되고, 대마법사로 더 빨리 돌아옵니다.",
+					"stepsKo": ["R 뒤 초기화된 Q·W·E를 바로 쓰세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "프리즘2개를 함께 얻어야 한다. 원문에는 정확한 스킬 순서와 구매 순서가 없다. 근거 글 672782. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["크라켄 학살자", "몰락한 왕의 검", "경계"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 카타리나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/katarina/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=672451",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=667798",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=672782"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["667798", "672451", "672782"]
+		},
+		{
+			"id": "twisted-fate",
+			"nameKo": "트위스티드 페이트",
+			"nameEn": "Twisted Fate",
+			"roles": ["마법사", "원거리"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "메아리 시전 트페",
+					"augmentIds": ["echo-cast", "the-boom-and-the-bass", "recoil"],
+					"requiredAugmentIds": ["echo-cast"],
+					"whyKo": "메아리 시전으로 분신이 Q를 한 번 더 던집니다. 붐 앤 베이스는 Q 뒤 평타를, 고반동은 거리 벌리기를 돕습니다.",
+					"stepsKo": ["Q를 쓰고 분신의 Q까지 맞히세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "Q를 거의 쉬지 않고 썼다는 후기다. 붐 앤 베이스 단독으로 Q 대기시간이 줄어든다는 인과관계는 확인하지 못했다. 근거 글 673841. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. / 한두 경기의 커뮤니티 후기이며 재현 실험이나 조합 승률은 없음. 근거 글 675539. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. 2026-10-28 사용자 지시로 같은 핵심 증강의 조합을 하나로 합침.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "리치베인", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 트위스티드 페이트 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/twistedfate/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=673841",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=675539"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673841", "675539"]
+		},
+		{
+			"id": "udyr",
+			"nameKo": "우디르",
+			"nameEn": "Udyr",
+			"roles": ["브루저", "지속 딜러"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "태세 전환 장갑 충격",
+					"augmentIds": ["armored-impact", "ethereal-weapon", "heavy-hitter", "scopiest-weapons"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "태세를 바꿀 때마다 다음 평타에 장갑 충격이 붙습니다. 환영 무기·강타자는 피해를, 최상급 조준경 부착은 사거리를 더합니다.",
+					"stepsKo": ["평타 사이사이에 Q·W·E·R로 태세를 바꾸세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "완성3증강 직접 후기는675385만 해당한다. 675892는 각성 E와 장갑 충격의 단일 상호작용을 보조한다. R→환영 무기→다른 태세 발동은 원문도 미확인이다. 근거 글 675385, 675892. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. / 제목과 경기 자료만 있고 자세한 텍스트가 없다. 실제 사거리·피해량과 구매 순서는 확인하지 못했다. 근거 글 670902. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. 2026-10-28 사용자 지시로 같은 핵심 증강의 조합을 하나로 합침.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["악의", "리안드리의 고통", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 우디르 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/udyr/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=675385",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=675892",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670902"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["670902", "675385", "675892"]
+		},
+		{
+			"id": "nasus",
+			"nameKo": "나서스",
+			"nameEn": "Nasus",
+			"roles": ["브루저", "지속 딜러"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "Q 한 방 장갑 충격",
+					"augmentIds": ["armored-impact", "the-boom-and-the-bass", "bonk"],
+					"requiredAugmentIds": ["armored-impact", "the-boom-and-the-bass"],
+					"whyKo": "Q 한 대에 장갑 충격과 붐 앤 베이스 피해가 함께 붙습니다.",
+					"stepsKo": ["W로 느리게 한 뒤 Q를 치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "한두 경기의 커뮤니티 후기이며 재현 실험이나 조합 승률은 없음. 근거 글 674138. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "신비한 주먹 환영 무기",
+					"augmentIds": ["mystic-punch", "ethereal-weapon"],
+					"requiredAugmentIds": ["mystic-punch", "ethereal-weapon"],
+					"whyKo": "평타를 칠 때마다 Q 대기시간이 줄어 Q를 계속 씁니다.",
+					"stepsKo": ["R을 켜고 Q와 평타를 번갈아 치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "2026-06-29 영상1개다. 현재 패치의 발동 간격과 동일 대상 연속 발동은 재검증하지 못했다. 근거 글 583816. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 나서스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/nasus/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=674138",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=583816"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["583816", "674138"]
+		},
+		{
+			"id": "lucian",
+			"nameKo": "루시안",
+			"nameEn": "Lucian",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "치명타 R 루시안",
+					"augmentIds": [
+						"vulnerability",
+						"jeweled-bracelet",
+						"jeweled-gauntlet",
+						"upgrade-infinity-edge",
+						"draw-your-sword"
+					],
+					"requiredAugmentIds": ["vulnerability", "jeweled-bracelet", "jeweled-gauntlet"],
+					"whyKo": "취약·보석 팔찌·보석 건틀릿 중 하나만 있어도 R에 치명타가 터집니다. 셋을 모두 모으면 효과가 곱으로 쌓여 피해가 크게 늘어납니다.",
+					"stepsKo": ["R을 끝까지 맞히세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "원문은 왕관의 무게까지 포함한4증강 경기이며 완성 직후 경기가 끝나 반복 검증이 짧다. 근거 글 675592. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. / 2026-07-22의3증강 후기다. 원문이 주장한 치명타 배율을 현재 패치의 확정 수치로 옮기지 않았다. 근거 글 601285. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. / 원문은 이름 미상의 궁극기 가속 증강도 사용했다. 이를 임의의 증강 id로 바꾸지 않았다. 근거 글 670780. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. 2026-10-28 사용자 지시로 같은 핵심 증강의 조합을 하나로 합침. 2026-10-28 사용자 설명: 취약·보석 팔찌·보석 건틀릿 중 하나만 있어도 치명타가 터지고, 셋은 곱연산이라 모두 필수로 둠.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": ["heavy-is-the-crown"],
+			"avoidNoteKo": "heavy-is-the-crown: 675592 작성자가 이동 속도 손해가 컸다고 평가했습니다. 모든 루시안 빌드에서 무조건 피하라는 뜻은 아닙니다.",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "광전사의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 루시안 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/lucian/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=675592",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=601285",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670780"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["601285", "670780", "675592"]
+		},
+		{
+			"id": "fiora",
+			"nameKo": "피오라",
+			"nameEn": "Fiora",
+			"roles": ["브루저", "근접 딜러"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "신비한 주먹 피오라",
+					"augmentIds": [
+						"mystic-punch",
+						"the-boom-and-the-bass",
+						"ultimate-awakening",
+						"shadow-runner"
+					],
+					"requiredAugmentIds": ["mystic-punch"],
+					"whyKo": "평타마다 스킬 대기시간이 줄어 Q를 계속 씁니다. 붐 앤 베이스·궁극의 각성·그림자 질주가 피해와 이동을 더합니다.",
+					"stepsKo": ["Q와 평타를 번갈아 치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "원문은 하체 운동의 날까지 포함한4증강 경기다. 제시한3개만의 결과로 볼 수 없다. 근거 글 675270. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. / 2026-05-21 경기 영상1개다. 현재 패치에서 같은3증강 조합을 재검증하지 못했다. 근거 글 547056. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음. 2026-10-28 사용자 지시로 같은 핵심 증강의 조합을 하나로 합침.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["삼위일체", "굶주린 히드라", "죽음의 무도"],
+				"boots": "헤르메스의 발걸음",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 피오라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/fiora/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=675270",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=547056"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["547056", "675270"]
+		},
+		{
+			"id": "gangplank",
+			"nameKo": "갱플랭크",
+			"nameEn": "Gangplank",
+			"roles": ["브루저", "근접 딜러"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "묵직한 Q 갱플",
+					"augmentIds": ["back-to-basics", "big-shot", "blunt-force"],
+					"requiredAugmentIds": ["back-to-basics", "big-shot"],
+					"whyKo": "R을 버리는 대신 Q가 강해지고, 묵직한 한 방으로 치명타 피해가 커집니다.",
+					"stepsKo": ["Q로 계속 견제하세요."],
+					"rating": "A",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "육중한 힘까지 갖춘3증강은673637의1경기뿐이다. R을 포기하는 선택의 팀 전체 손익은 검증하지 못했다. 근거 글 675482, 673637. 2026-10-28 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": ["dont-blink"],
+			"avoidNoteKo": "dont-blink: 532677 리플레이 실험에서 E 화약통 피해는 늘지 않았습니다. Q·기본 공격·R에는 적용됐으므로 26.21에서 다시 확인이 필요합니다.",
+			"items": {
+				"core": ["정수 약탈자", "징수의 총", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 갱플랭크 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/gangplank/"]
+			},
+			"playKo": [],
+			"playSources": [
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=675482",
+				"https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=673637"
+			],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673637", "675482"]
 		}
 	],
 	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."

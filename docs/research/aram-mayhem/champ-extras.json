@@ -170,6 +170,56 @@
 			"id": "volibear",
 			"avoidItems": [],
 			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "miss-fortune",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "blitzcrank",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "zilean",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "katarina",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "twisted-fate",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "udyr",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "nasus",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "lucian",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "fiora",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "gangplank",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
 		}
 	]
 }

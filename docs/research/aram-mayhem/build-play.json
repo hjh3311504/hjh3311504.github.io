@@ -370,7 +370,14 @@
 		{
 			"id": "kaisa",
 			"defaultPlayKo": [],
-			"comboBuilds": []
+			"comboBuilds": [
+				{
+					"comboTitle": "W만으로 패시브 터트리기",
+					"whyKo": "환영 무기를 얻으면 황혼과 새벽을 먼저 사서 W에 적중 시 효과를 싣습니다.",
+					"playKo": [],
+					"samePlay": true
+				}
+			]
 		},
 		{
 			"id": "tahm-kench",
@@ -394,6 +401,84 @@
 		},
 		{
 			"id": "volibear",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "miss-fortune",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "blitzcrank",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "끌어온 적에게 장갑 충격",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["Q로 끌어온 적에게 E 평타를 치세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "zilean",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "katarina",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "왕관 쓴 R 카타",
+					"whyKo": "왕관의 무게를 얻으면 공격력 아이템으로 바꿔 R 피해를 키웁니다.",
+					"playKo": ["느려진 이동은 E로 메우세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "twisted-fate",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "udyr",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "태세 전환 장갑 충격",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["태세를 바꿀 때마다 평타를 치세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "nasus",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "Q 한 방 장갑 충격",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["Q 평타로 장갑 충격을 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "lucian",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "fiora",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "gangplank",
 			"defaultPlayKo": [],
 			"comboBuilds": []
 		}

@@ -33,10 +33,13 @@
 				{ name: '증바람 공략', path: HUB_PATH },
 				{ name: seo.heading, path: augmentPath(data.augmentId) }
 			],
-			list: championList(
-				seo.entries.map(({ champion }) => champion),
-				`증바람 ${augment.nameKo} 추천 챔피언`
-			)
+			// 1코어 추천만 정리한 증강은 챔피언 목록이 없다.
+			list: seo.entries.length
+				? championList(
+						seo.entries.map(({ champion }) => champion),
+						`증바람 ${augment.nameKo} 추천 챔피언`
+					)
+				: undefined
 		})
 	);
 
