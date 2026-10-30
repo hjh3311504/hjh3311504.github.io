@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-30T00:10:19.438Z",
+  "browser": "151.0.7922.34",
+  "platform": "darwin",
+  "content": "https://hjh3311504.github.io/blog",
+  "emojiTitle": "모임🎉",
+  "notice": "SVG 제목으로 저장할 수 없는 글자: 🎉. 제목을 바꾸거나 PNG로 저장하세요.",
+  "png": {
+    "width": 1024,
+    "height": 952,
+    "decoded": "https://hjh3311504.github.io/blog"
+  },
+  "svgTitle": "모임 안내",
+  "svgUsesTextElement": false,
+  "svgUsesExternalFont": false,
+  "titleFontSupports": {
+    "é": false,
+    "漢": false,
+    "　": false,
+    "★": true,
+    "♥": true
+  },
+  "physicalScanTested": false
+}

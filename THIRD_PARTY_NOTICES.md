@@ -33,6 +33,8 @@ SVG 원본 코드는 `static/images/team-maker/*.svg` 파일 자체에 있습니
 
 ## 블로그 파일 비교 예제
 
+`static/images/blog/qr-title/svg-notice.png`와 `static/downloads/blog/qr-title/`의 PNG·SVG는2026-10-30에 로컬 QR 도구에서 직접 저장·촬영했습니다. 공개 블로그 주소와 가상 모임 제목을 사용했습니다. SUIT 글자 모양은 기존 OFL 고지를 따릅니다. 화면과 PNG의 이모지 모양에는 macOS 시스템 글꼴 Apple Color Emoji를 사용했습니다. 시스템 글꼴과 이모지 모양에 프로젝트 MIT나 SUIT의 OFL을 새로 적용하지 않습니다. 재현 코드는 `scripts/capture_blog_qr_title.js`입니다.
+
 `static/downloads/blog/webpage-pdf/bracket-webpage.pdf`는2026-10-28에 운영 중인 자체 블로그 글을 Chromium으로 인쇄한 사본입니다. `static/images/blog/webpage-pdf/last-page.png`는 그 PDF의5쪽 윗부분이며 아래 빈 공간을 잘랐습니다. 외부 문서나 인쇄창을 가져온 그림이 아닙니다. PDF에 포함된 SUIT·SUITE에는 아래 OFL 고지를 유지합니다. 출력 과정에서 macOS 시스템 글꼴 Apple SD Gothic Neo·Courier 일부도 포함됐습니다. 이 글꼴에 프로젝트 MIT나 SUIT·SUITE의 OFL을 새로 적용하지 않습니다.
 
 `static/images/blog/bracket-correction/`의 `confirm.png`와 `after.png`는 2026-10-26에 로컬에서 실행한 사이트의 대진표 화면을 Playwright로 Chromium을 조작해 촬영했습니다. 가상4팀을 사용했으며 모바일 확인창과 넓은 화면의 4강·결승 영역을 담았습니다. 외부 사진이나 실제 대회 기록은 사용하지 않았습니다. 화면의 자체 코드와 글꼴은 위 적용 조건을 따릅니다.
