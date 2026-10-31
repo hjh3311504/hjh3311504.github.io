@@ -1,5 +1,5 @@
 <script>
-	import { augmentGroups } from '../guide.js';
+	import { augmentGroups, youtubeEmbedUrl } from '../guide.js';
 	import AugmentTile from './AugmentTile.svelte';
 	import AugmentDetail from './AugmentDetail.svelte';
 	import RichText from './RichText.svelte';
@@ -51,6 +51,18 @@
 	{/if}
 	{#if combo.hint}
 		<p class="aram-hint">{combo.hint}</p>
+	{/if}
+	{#if combo.playVideo}
+		<div class="aram-video" style:aspect-ratio={combo.playVideo.aspect}>
+			<iframe
+				src={youtubeEmbedUrl(combo.playVideo.youtubeId)}
+				title={combo.playVideo.title}
+				loading="lazy"
+				allow="encrypted-media; picture-in-picture; fullscreen"
+				allowfullscreen
+				referrerpolicy="strict-origin-when-cross-origin"
+			></iframe>
+		</div>
 	{/if}
 	{#if combo.sources.length}
 		<p class="aram-sources">

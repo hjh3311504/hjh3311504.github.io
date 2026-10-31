@@ -1865,7 +1865,12 @@
 							"label": "디시 칼바람 갤러리(2026.10.23)",
 							"url": "https://gall.dcinside.com/mgallery/board/view/?id=howlingabyss&no=670147"
 						}
-					]
+					],
+					"playVideo": {
+						"youtubeId": "Vx5VH92Zd2I",
+						"aspect": "16/9",
+						"title": "말파이트 장갑 충격 플레이 영상"
+					}
 				}
 			],
 			"good": ["courage-of-the-colossus", "goliath", "impassable", "slap-around"],
@@ -5713,7 +5718,12 @@
 						]
 					],
 					"hint": "",
-					"sources": []
+					"sources": [],
+					"playVideo": {
+						"youtubeId": "TXJnV9S1t8g",
+						"aspect": "64/27",
+						"title": "카이사 환영 무기 + 황혼과 새벽 플레이 영상"
+					}
 				}
 			],
 			"good": ["back-to-basics", "tooth-fairy", "mad-scientist", "eureka"],

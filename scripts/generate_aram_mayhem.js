@@ -151,6 +151,16 @@ function dcLabel(post, note = '') {
 	return `디시 칼바람 갤러리${patch ? `(${patch[1]} 글)` : ''}`;
 }
 
+// 조합 카드에 넣는 YouTube 플레이 영상. 출처 링크(videos)와 따로 둔다.
+function comboPlayVideo(championId, combo) {
+	const video = combo.playVideo;
+	if (!video) return {};
+	if (!/^[\w-]{11}$/.test(video.youtubeId) || !/^\d+\/\d+$/.test(video.aspect) || !video.titleKo) {
+		throw new Error(`플레이 영상 정보가 잘못됨: ${championId} ${combo.title}`);
+	}
+	return { playVideo: { youtubeId: video.youtubeId, aspect: video.aspect, title: video.titleKo } };
+}
+
 function comboSources(combo) {
 	const sources = [];
 	const seen = new Set();
@@ -218,7 +228,8 @@ for (const champion of research.champions) {
 			why: combo.whyKo ? parse(combo.whyKo, skillKeys) : [],
 			steps: (combo.stepsKo ?? []).map((step) => parse(step, skillKeys)),
 			hint: combo.hintKo ?? '',
-			sources: comboSources(combo)
+			sources: comboSources(combo),
+			...comboPlayVideo(champion.id, combo)
 		}))
 		// 강력 추천 조합을 먼저 보여 준다. 같은 등급은 조사 순서를 유지한다.
 		.sort((a, b) => (a.level === 'strong' ? 0 : 1) - (b.level === 'strong' ? 0 : 1));
