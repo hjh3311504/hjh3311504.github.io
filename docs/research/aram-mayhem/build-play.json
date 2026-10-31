@@ -481,6 +481,70 @@
 			"id": "gangplank",
 			"defaultPlayKo": [],
 			"comboBuilds": []
+		},
+		{
+			"id": "rengar",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "zed",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "히드라 쪼개기 제드",
+					"whyKo": "굶주린 히드라를 먼저 사서 스킬에 쪼개기 피해를 싣습니다.",
+					"playKo": ["[W] 그림자와 함께 Q를 맞혀 쪼개기 피해를 여러 명에게 퍼뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "xin-zhao",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "naafiri",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "sylas",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 사일러스",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["스킬 하나를 쓰고 바로 평타를 쳐서 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "skarner",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "shaco",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "singed",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "gragas",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "jayce",
+			"defaultPlayKo": [],
+			"comboBuilds": []
 		}
 	]
 }

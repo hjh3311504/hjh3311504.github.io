@@ -4163,6 +4163,504 @@
 			],
 			"beginnerTipKo": "",
 			"communityEvidenceIds": ["673637", "675482"]
+		},
+		{
+			"id": "rengar",
+			"nameKo": "렝가",
+			"nameEn": "Rengar",
+			"roles": ["암살자", "브루저"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "공격력 몰아주기 렝가",
+					"augmentIds": ["escapade", "goliath"],
+					"requiredAugmentIds": ["escapade"],
+					"whyKo": "마법사 (물리)로 공격력을 크게 올리고, 거인으로 체력과 능력치를 더해 들어가서도 버팁니다.",
+					"stepsKo": ["수풀이나 R로 몰래 다가간 뒤 Q로 먼저 때리세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "공격력1000이라는 작성자 수치는 한 경기 사례입니다. 정확한 계산식과 거인 단독 기여는 확인하지 않았습니다. 근거 글 673425. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [
+				"nightstalking",
+				"big-shot",
+				"takeem-down-down-down",
+				"the-boom-and-the-bass"
+			],
+			"avoidAugmentIds": ["vulnerability"],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 렝가 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/rengar/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673425"]
+		},
+		{
+			"id": "zed",
+			"nameKo": "제드",
+			"nameEn": "Zed",
+			"roles": ["암살자"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "히드라 쪼개기 제드",
+					"augmentIds": ["upgrade-ravenous-hydra", "ultra-hydra", "forged-by-the-master"],
+					"requiredAugmentIds": ["upgrade-ravenous-hydra"],
+					"whyKo": "굶주린 히드라 업그레이드로 Q와 E에도 쪼개기 피해가 붙어, [W] 그림자와 함께 여러 명을 한꺼번에 때립니다.",
+					"stepsKo": [
+						"굶주린 히드라를 먼저 완성하세요.",
+						"[W] 그림자를 깔고 Q와 E를 겹쳐 맞히세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "2026-08-26의 과거 영상 후기1개입니다. 제목에서 조합만 확인했으며 영상 프레임과 현재 패치의 상호작용은 확인하지 않았습니다. 근거 글 626672. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [
+				"ultimate-unstoppable",
+				"bees",
+				"takeem-down-down-down",
+				"infinite-recursion"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "원칙의 원형낫", "징수의 총"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 제드 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/zed/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["626672"]
+		},
+		{
+			"id": "xin-zhao",
+			"nameKo": "신 짜오",
+			"nameEn": "Xin Zhao",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "스킬마다 적중 효과 짜오",
+					"augmentIds": [
+						"ethereal-weapon",
+						"mystic-punch",
+						"upgrade-sheen",
+						"the-boom-and-the-bass"
+					],
+					"requiredAugmentIds": ["ethereal-weapon", "mystic-punch"],
+					"whyKo": "환영 무기로 스킬에도 적중 시 효과가 붙고, 신비한 주먹이 맞힐 때마다 스킬 대기시간을 줄여 줍니다.",
+					"stepsKo": [
+						"E로 들어간 뒤 Q 평타와 W를 이어 쓰세요.",
+						"적 뒷줄로 들어갔다면 R로 바깥에서 오는 공격을 막으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "4증강 조합은678138, 2증강과 아이템3개는678123의 서로 다른 경기입니다. 모든 선택 증강과 아이템을 한꺼번에 검증한 것은 아닙니다. 근거 글 678138, 678123. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "연타 회복 짜오",
+					"augmentIds": ["takeem-down-down-down", "the-boom-and-the-bass"],
+					"requiredAugmentIds": ["takeem-down-down-down"],
+					"whyKo": "Q 3연타와 평타를 이어 맞혀 전부 다 무너뜨려의 추가 피해와 회복을 빨리 얻습니다.",
+					"stepsKo": ["한 적에게 붙어 스킬과 평타를 끊지 말고 이어 치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "실전 사용을 밝힌 짧은 감상1개뿐입니다. 피해량·승패·구체적인 운영은 글에 없습니다. 근거 글 676410. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "결투의 대가 짜오",
+					"augmentIds": ["master-of-duality"],
+					"requiredAugmentIds": ["master-of-duality"],
+					"whyKo": "평타는 주문력을, 스킬은 공격력을 쌓아 주는 결투의 대가로 평타와 스킬을 번갈아 쓰며 강해집니다.",
+					"stepsKo": ["평타와 Q·W·E를 섞어 써서 능력치를 쌓으세요."],
+					"hintKo": "적의 원거리 견제가 많으면 들어가기 어려워요.",
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "26.09~26.10 무렵 후기2개입니다. 26.21의675265에서는 결투의 대가·장갑 충격을 얻어도 원거리 견제를 뚫지 못했습니다. 근거 글 542510, 548334. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["스태틱의 단검", "황혼과 새벽", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 신 짜오 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/xinzhao/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["542510", "548334", "676410", "678123", "678138"]
+		},
+		{
+			"id": "naafiri",
+			"nameKo": "나피리",
+			"nameEn": "Naafiri",
+			"roles": ["암살자", "브루저"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "환영 무기 벌 견제 나피리",
+					"augmentIds": ["ethereal-weapon", "bees"],
+					"requiredAugmentIds": ["ethereal-weapon", "bees"],
+					"whyKo": "환영 무기로 Q에도 적중 시 효과가 붙어, [Q]를 맞힐 때마다 벌이다!!!의 벌이 적에게 붙습니다.",
+					"stepsKo": ["멀리서 Q를 맞혀 체력을 깎으세요.", "체력이 줄어든 적에게 E로 들어가세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "조합 후기는2개지만 같은 작성자의 글인지 확인하지 않았습니다. 무리 개체마다 효과가 터진다는 주장은 검증하지 않았습니다. 근거 글 677585, 670055. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["ultra-hydra", "upgrade-ravenous-hydra", "blade-waltz"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "원칙의 원형낫"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 나피리 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/naafiri/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["670055", "677585"]
+		},
+		{
+			"id": "sylas",
+			"nameKo": "사일러스",
+			"nameEn": "Sylas",
+			"roles": ["마법사", "암살자"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "장갑 충격 사일러스",
+					"augmentIds": ["armored-impact", "infinite-recursion"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "스킬 뒤 강화 평타가 장갑 충격의 방어력 비례 피해를 계속 터뜨립니다. 방어력 아이템만 사도 피해가 나옵니다.",
+					"stepsKo": [
+						"스킬 하나를 쓰고 바로 평타를 치세요.",
+						"무한 반복을 얻으면 스킬을 더 자주 써서 같은 순서를 반복하세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "장갑 충격 사용 후기는4개이고 무한 반복까지 함께 쓴 후기는1개입니다. 고정 아이템5개는 사용자 규칙이며 글에서 확인한 구매 순서가 아닙니다. 근거 글 675403, 676739, 673074, 672131. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "마법 명사수 W 한 방",
+					"augmentIds": ["marksmage", "the-boom-and-the-bass", "upgrade-sheen"],
+					"requiredAugmentIds": ["marksmage"],
+					"whyKo": "마법 명사수가 평타에 주문력 비례 피해를 더하고, 붐 앤 베이스와 광휘의 검 업그레이드가 스킬 뒤 평타를 더 세게 만듭니다.",
+					"stepsKo": ["W를 쓴 뒤 바로 평타를 치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "세 증강을 함께 쓴 직접 후기1개입니다. 현재 상호작용의 오류 가능성과 실제 피해 계산은 확인하지 않았습니다. 근거 글 669758. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["영겁의 지팡이", "균열 생성기", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 사일러스 핵심 빌드 선택률 2위입니다(사용자 지시).",
+				"sources": ["https://arammayhem.com/ko-kr/build/sylas/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["669758", "672131", "673074", "675403", "676739"]
+		},
+		{
+			"id": "skarner",
+			"nameKo": "스카너",
+			"nameEn": "Skarner",
+			"roles": ["탱커", "브루저"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "W 반복 스카너",
+					"augmentIds": ["ethereal-weapon", "crimson-cobalt", "mystic-punch", "blue-barrier"],
+					"requiredAugmentIds": ["ethereal-weapon", "crimson-cobalt"],
+					"whyKo": "환영 무기로 W에도 적중 시 효과가 붙고, 핏빛 코발트 표식을 터뜨릴 때마다 [W] 대기시간이 줄어듭니다.",
+					"stepsKo": [
+						"적에게 붙어 W를 쓰고 평타로 표식을 터뜨리세요.",
+						"보호막이 사라지면 무리하게 쫓지 마세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "2증강 후기와4증강 후기 각1개입니다. W가 실제로 무한 사용된다는 주장은 검증하지 않았으며 현재 재사용 대기시간 제한은 남습니다. 근거 글 675574, 675896. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["overloaded", "bees", "the-boom-and-the-bass"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 스카너 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/skarner/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["675574", "675896"]
+		},
+		{
+			"id": "shaco",
+			"nameKo": "샤코",
+			"nameEn": "Shaco",
+			"roles": ["암살자"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "벌 E 견제 샤코",
+					"augmentIds": ["bees", "shadow-runner"],
+					"requiredAugmentIds": ["bees"],
+					"whyKo": "[E] 단검에 벌이다!!!의 벌이 붙어 멀리서 견제 피해를 더합니다.",
+					"stepsKo": [
+						"안전한 거리에서 E를 던지세요.",
+						"Q로 숨은 뒤 그림자 질주로 빨라진 틈에 거리를 벌리세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기1개입니다. 제목의 E 3연발이 어떤 추가 조건으로 가능한지는 확인하지 못했습니다. 근거 글 679181. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "기습 한 방 샤코",
+					"augmentIds": ["the-boom-and-the-bass", "big-shot"],
+					"requiredAugmentIds": ["the-boom-and-the-bass", "big-shot"],
+					"whyKo": "Q로 숨은 뒤 첫 평타에 붐 앤 베이스의 추가 피해가 붙고, 묵직한 한 방이 그 피해를 키웁니다.",
+					"stepsKo": ["Q로 적 뒤로 돌아 들어가 첫 평타를 확실히 맞히세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "한 줄짜리 직접 후기1개입니다. 대상의 방어력·아이템·치명타 여부는 확인되지 않았습니다. 근거 글 679052. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "궁극의 각성 샤코",
+					"augmentIds": ["ultimate-awakening", "the-boom-and-the-bass"],
+					"requiredAugmentIds": ["ultimate-awakening"],
+					"whyKo": "R을 쓰면 Q·W·E가 다시 준비되어 숨기와 상자를 한 번 더 쓸 수 있습니다.",
+					"stepsKo": ["Q와 E를 쓴 뒤 R로 다시 준비하고 한 번 더 쓰세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "원문은 순수주의자와 이름이 불명확한 광신도도 함께 사용했습니다. 여기 제시한2증강만의 성능이 검증된 것은 아닙니다. 순수주의자는 공격 동작이 불편하다는 원문 평가에 따라 제외했습니다. 근거 글 676707. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["rite-of-ascension"],
+			"avoidAugmentIds": ["purist-caster"],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 샤코 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/shaco/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["676707", "679052", "679181"]
+		},
+		{
+			"id": "singed",
+			"nameKo": "신지드",
+			"nameEn": "Singed",
+			"roles": ["마법사", "브루저"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "궁극기 거인 신지드",
+					"augmentIds": ["mosh-monster", "goliath"],
+					"requiredAugmentIds": ["mosh-monster"],
+					"whyKo": "R을 쓰면 모시핏 괴물이 체력을 늘리고 주변 적을 느리게 합니다. 거인이 체력을 더 늘려 오래 버팁니다.",
+					"stepsKo": ["싸움이 시작되기 전에 R을 켜세요.", "Q를 켠 채 적 사이를 돌아다니세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "체력2만이라는 수치는 한 경기에서 작성자가 본 값입니다. 아이템과 중첩 수가 없어 같은 수치를 보장할 수 없습니다. 근거 글 675598. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["fruitify"],
+			"avoidAugmentIds": ["armored-impact", "ethereal-weapon"],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["영겁의 지팡이", "라일라이의 수정홀", "리안드리의 고통"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 신지드 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/singed/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["675598"]
+		},
+		{
+			"id": "gragas",
+			"nameKo": "그라가스",
+			"nameEn": "Gragas",
+			"roles": ["브루저", "마법사"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "연쇄 반응 그라가스",
+					"augmentIds": ["chain-reaction"],
+					"requiredAugmentIds": ["chain-reaction"],
+					"whyKo": "E와 R로 밀친 적이 다른 적이나 벽에 부딪히면 연쇄 반응이 추가 효과를 냅니다.",
+					"stepsKo": ["적이 벽이나 다른 적 가까이 있을 때 E나 R로 밀치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "2026-09-22와10-21 새벽 글입니다. 둘 다 패치 경계 시점이어서26.21 실전 후기 수에는 넣지 않았습니다. 근거 글 646063, 666496. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "회복을 피해로 그라가스",
+					"augmentIds": ["circle-of-death", "sap-magic"],
+					"requiredAugmentIds": ["circle-of-death"],
+					"whyKo": "W 뒤 평타와 마법 흡수로 회복할 때마다 죽음의 순환이 그 회복량 일부를 주변 적에게 피해로 줍니다.",
+					"stepsKo": ["W를 켠 뒤 적에게 붙어 평타를 치세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "한 줄짜리 후기1개입니다. 피해에 그라가스 자체 회복과 다른 아이템이 얼마나 기여했는지는 확인되지 않았습니다. 근거 글 679179. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["the-boom-and-the-bass"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 그라가스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/gragas/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["646063", "666496", "679179"]
+		},
+		{
+			"id": "jayce",
+			"nameKo": "제이스",
+			"nameEn": "Jayce",
+			"roles": ["브루저", "원거리 딜러"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "보석 건틀릿 Q 제이스",
+					"augmentIds": ["jeweled-gauntlet", "bees", "infinite-recursion"],
+					"requiredAugmentIds": ["jeweled-gauntlet"],
+					"whyKo": "보석 건틀릿으로 원거리 [Q]에 치명타가 터집니다. [E] 관문을 지난 [Q]는 더 멀리 날아가고 더 아픕니다.",
+					"stepsKo": [
+						"원거리 형태에서 [E] 관문을 깔고 [Q]를 그 위로 쏘세요.",
+						"적이 붙으면 망치 형태로 바꿔 [E]로 밀어내세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "서로 다른3경기를 합친 카드입니다. 표시한4개를 한꺼번에 사용한 후기는 없습니다. 676018의 도취와678365의 거인·남작의 도움 등 나머지 조건도 영향을 줬을 수 있습니다. 운명의 무기는 챔피언 없이 보여 주는 증강 공략이라 선택 증강에서 뺌. 근거 글 676018, 676455, 678365. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["purist-caster"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "마나무네"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 제이스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/jayce/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["676018", "676455", "678365"]
 		}
 	],
 	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."
