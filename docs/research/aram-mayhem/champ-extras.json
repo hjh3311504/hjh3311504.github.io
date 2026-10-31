@@ -220,6 +220,56 @@
 			"id": "gangplank",
 			"avoidItems": [],
 			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "rengar",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "zed",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "xin-zhao",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "naafiri",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "sylas",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "skarner",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "shaco",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "singed",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "gragas",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "jayce",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
 		}
 	]
 }

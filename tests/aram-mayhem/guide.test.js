@@ -154,7 +154,7 @@ test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루
 	const armored = guide.champions.filter((champion) =>
 		champion.builds.some((build) => build.key === 'aug-armored-impact')
 	);
-	assert.equal(armored.length, 11);
+	assert.equal(armored.length, 12);
 	for (const champion of armored) {
 		const index = champion.builds.findIndex((build) => build.key === 'aug-armored-impact');
 		const vest = champion.builds[index + 1];
