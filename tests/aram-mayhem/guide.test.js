@@ -13,7 +13,8 @@ import {
 	roleOptions,
 	searchChampions,
 	situationalHeading,
-	tileName
+	tileName,
+	youtubeEmbedUrl
 } from '../../src/lib/aram-mayhem/guide.js';
 
 const champions = [
@@ -212,5 +213,37 @@ test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피�
 		if (champion.roles.includes('탱커')) {
 			assert.equal(champion.builds[0].core[0], '강철심장', `${champion.id} 탱커 1코어`);
 		}
+	}
+});
+
+test('플레이 영상은 자동 재생·소리 끔 없이 YouTube nocookie 주소로 반복한다', () => {
+	const url = new URL(youtubeEmbedUrl('TXJnV9S1t8g'));
+	assert.equal(url.origin, 'https://www.youtube-nocookie.com');
+	assert.equal(url.pathname, '/embed/TXJnV9S1t8g');
+	assert.equal(url.searchParams.get('autoplay'), null);
+	assert.equal(url.searchParams.get('mute'), null);
+	for (const [key, value] of [
+		['loop', '1'],
+		['playlist', 'TXJnV9S1t8g'],
+		['playsinline', '1']
+	]) {
+		assert.equal(url.searchParams.get(key), value, key);
+	}
+});
+
+test('카이사·말파이트 조합 카드에 플레이 영상이 있다', () => {
+	const videos = guide.champions.flatMap((champion) =>
+		champion.combos
+			.filter((combo) => combo.playVideo)
+			.map((combo) => [champion.id, combo.title, combo.playVideo])
+	);
+	assert.deepEqual(videos.map(([id, title, video]) => [id, title, video.youtubeId]).sort(), [
+		['kaisa', 'W만으로 패시브 터트리기', 'TXJnV9S1t8g'],
+		['malphite', '방어력 기반 평타', 'Vx5VH92Zd2I']
+	]);
+	for (const [, , video] of videos) {
+		assert.match(video.youtubeId, /^[\w-]{11}$/);
+		assert.match(video.aspect, /^\d+\/\d+$/);
+		assert.ok(video.title);
 	}
 });

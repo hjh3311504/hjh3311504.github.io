@@ -6,6 +6,10 @@ const browserErrors = new WeakMap();
 
 test.beforeEach(async ({ page }) => {
 	await stubAdsense(page);
+	// 조합 카드의 플레이 영상이 실제 YouTube에 접속하지 않게 한다.
+	await page.route('https://www.youtube-nocookie.com/**', (route) =>
+		route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>영상</title>' })
+	);
 	const errors = [];
 	browserErrors.set(page, errors);
 	page.on('console', (message) => {
@@ -273,6 +277,24 @@ test('접은 조합 카드는 다른 챔피언을 봤다가 돌아와도 접혀 
 	await goByName(page, '티모', '티모');
 	await goByName(page, '애쉬', '애쉬');
 	await expect(combo()).not.toHaveAttribute('open', '');
+});
+
+test('조합 카드의 플레이 영상은 자동 재생하지 않는다', async ({ page }) => {
+	for (const [path, combo, id] of [
+		['kaisa', 'W만으로 패시브 터트리기', 'TXJnV9S1t8g'],
+		['malphite', '방어력 기반 평타', 'Vx5VH92Zd2I'],
+		['augments/armored-impact', '방어력 기반 평타', 'Vx5VH92Zd2I']
+	]) {
+		await page.goto(`${HUB_PATH}/${path}`);
+		const frame = page
+			.locator('.aram-combo')
+			.filter({ hasText: combo })
+			.locator('.aram-video iframe');
+		await expect(frame).toHaveAttribute('src', new RegExp(`/embed/${id}\\?loop=1`));
+		await expect(frame).not.toHaveAttribute('src', /autoplay|mute/);
+		await expect(frame).toHaveAttribute('loading', 'lazy');
+		await expect(frame).toHaveAttribute('title', /플레이 영상/);
+	}
 });
 
 test('없는 챔피언·증강 주소는 404를 보여 준다', async ({ page }) => {

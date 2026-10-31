@@ -2769,7 +2769,12 @@
 					],
 					"communityPostIds": ["670147"],
 					"evidenceLevel": "stats+community",
-					"requiredAugmentIds": ["armored-impact"]
+					"requiredAugmentIds": ["armored-impact"],
+					"playVideo": {
+						"youtubeId": "Vx5VH92Zd2I",
+						"aspect": "16/9",
+						"titleKo": "말파이트 장갑 충격 플레이 영상"
+					}
 				},
 				{
 					"title": "진입 뒤 보호막",
@@ -3438,7 +3443,12 @@
 					"verificationNoteKo": "2026-10-28 사용자 제보: 환영 무기와 황혼과 새벽을 가면 W만 맞혀도 패시브 중첩을 터뜨릴 수 있다.",
 					"stats": [],
 					"communityPostIds": [],
-					"evidenceLevel": "user"
+					"evidenceLevel": "user",
+					"playVideo": {
+						"youtubeId": "TXJnV9S1t8g",
+						"aspect": "64/27",
+						"titleKo": "카이사 환영 무기 + 황혼과 새벽 플레이 영상"
+					}
 				}
 			],
 			"goodAugmentIds": [

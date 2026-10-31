@@ -595,6 +595,19 @@ html[data-theme='dark'] .aram-page {
 	color: var(--ui-text-muted);
 	font-size: var(--font-size-14);
 }
+/* 조합 플레이 영상: 카드 폭에 맞추고 영상 비율(style:aspect-ratio)을 유지한다. */
+.aram-video {
+	margin: var(--space-12) 0 0;
+	overflow: hidden;
+	border-radius: 8px;
+	background: var(--color-aram-icon-background);
+}
+.aram-video iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
 /* 조합 출처: 설명보다 작고 흐리게 카드 오른쪽에 둔다. */
 .aram-sources {
 	display: flex;

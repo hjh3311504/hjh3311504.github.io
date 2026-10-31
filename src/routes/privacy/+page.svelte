@@ -11,7 +11,7 @@
 	const analytics = getContext(ANALYTICS_CONTEXT);
 	const pageTitle = "개인정보처리방침 | Lake's develog";
 	const description =
-		"Lake's develog가 브라우저에 저장하는 정보, 방문 통계, Google AdSense 광고 쿠키와 문의 방법을 안내합니다.";
+		"Lake's develog가 브라우저에 저장하는 정보, 방문 통계, YouTube 영상, Google AdSense 광고 쿠키와 문의 방법을 안내합니다.";
 	const feedbackUrl =
 		'https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml';
 </script>
@@ -37,7 +37,7 @@
 		<Section variant="card" padding="card" aria-label="개인정보처리방침 본문">
 			<div class="blog-prose privacy-content">
 				<p class="policy-meta">
-					운영자: Lake · 적용일: <time datetime="2026-10-19">2026년 10월 19일</time>
+					운영자: Lake · 적용일: <time datetime="2026-10-31">2026년 10월 31일</time>
 				</p>
 
 				<h2>브라우저에 저장하는 정보</h2>
@@ -72,6 +72,15 @@
 						href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
 						>GitHub 개인정보처리방침</a
 					>에서 확인하세요.
+				</p>
+				<p>
+					증바람 공략의 일부 조합 카드에는 YouTube 플레이 영상이 들어 있습니다. 영상 카드가 화면
+					가까이 오면 YouTube의 개인정보 보호 강화 모드(youtube-nocookie.com) 플레이어를 불러옵니다.
+					영상은 누를 때만 재생합니다. 플레이어를 불러올 때 Google에 IP 주소와 브라우저 정보, 보고
+					있는 페이지 주소가 전달될 수 있습니다. 영상을 재생하거나 YouTube로 이동하면 Google이
+					쿠키를 사용할 수 있습니다. 자세한 내용은
+					<a href="https://policies.google.com/privacy?hl=ko">Google 개인정보처리방침</a>을
+					확인하세요.
 				</p>
 
 				<h2>방문 통계</h2>

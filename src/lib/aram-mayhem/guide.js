@@ -113,3 +113,14 @@ export function augmentGroups(combo) {
 		optional: combo.augmentIds.filter((id) => !combo.required.includes(id))
 	};
 }
+
+/** 조합 카드 플레이 영상의 YouTube 주소. 사용자가 누르면 소리와 함께 반복 재생한다. */
+export function youtubeEmbedUrl(id) {
+	const params = new URLSearchParams({
+		loop: '1',
+		playlist: id,
+		playsinline: '1',
+		rel: '0'
+	});
+	return `https://www.youtube-nocookie.com/embed/${id}?${params}`;
+}
