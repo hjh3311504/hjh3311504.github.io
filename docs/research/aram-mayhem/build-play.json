@@ -707,6 +707,73 @@
 					"samePlay": false
 				}
 			]
+		},
+		{
+			"id": "caitlyn",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "gnar",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "벌집 나르",
+					"whyKo": "벌이다!!!를 얻으면 주문력 아이템으로 Q와 벌 피해를 키웁니다.",
+					"playKo": [],
+					"samePlay": true
+				}
+			]
+		},
+		{
+			"id": "twitch",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "벌집 트위치",
+					"whyKo": "벌이다!!!를 얻으면 주문력 아이템으로 독과 E 피해를 키웁니다.",
+					"playKo": [],
+					"samePlay": true
+				}
+			]
+		},
+		{
+			"id": "belveth",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 벨베스",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": [
+						"Q로 파고들 때마다 장갑 충격 피해가 터지니, 방향을 바꿔 가며 Q를 이어 쓰세요."
+					],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "urgot",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 우르곳",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["W를 끈 사이 평타를 섞어 장갑 충격 피해를 제대로 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "shyvana",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 쉬바나",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["W, 평타, Q, 평타 순서로 장갑 충격 피해를 계속 터뜨리세요."],
+					"samePlay": false
+				}
+			]
 		}
 	]
 }
