@@ -5428,6 +5428,266 @@
 			"playSources": [],
 			"beginnerTipKo": "",
 			"communityEvidenceIds": ["679101"]
+		},
+		{
+			"id": "caitlyn",
+			"nameKo": "케이틀린",
+			"nameEn": "Caitlyn",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "치명타 R 케이틀린",
+					"augmentIds": ["jeweled-bracelet", "big-shot"],
+					"requiredAugmentIds": ["jeweled-bracelet", "big-shot"],
+					"whyKo": "보석 팔찌로 R에도 치명타가 터지고, 묵직한 한 방이 치명타 피해를 더 키웁니다.",
+					"stepsKo": [
+						"안전한 거리에서 R로 체력이 낮은 적을 노리세요.",
+						"R을 대신 맞아 줄 적이 앞에 있는지 먼저 보세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기4개지만 대부분 짧은 피해 기록입니다. 펜타킬 맵·다른 증강·아이템이 섞여 있으며 동일 조건 비교가 아닙니다. 원칙의 원형낫은673733에서만 확인했습니다. 근거 글 679024, 678833, 673733, 674367. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 케이틀린 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/caitlyn/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673733", "674367", "678833", "679024"]
+		},
+		{
+			"id": "gnar",
+			"nameKo": "나르",
+			"nameEn": "Gnar",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "벌집 나르",
+					"augmentIds": ["bees", "marksmage"],
+					"requiredAugmentIds": ["bees"],
+					"whyKo": "[Q]를 던질 때마다 벌이다!!!의 벌이 함께 날아가 미니 나르로 멀리서 견제합니다. 마법 명사수가 나오면 평타에도 주문력 피해가 붙습니다.",
+					"stepsKo": [
+						"[W]를 먼저 올리고 미니 나르 상태에서 [Q]로 견제하세요.",
+						"벌을 맞히면 분노가 빨리 차니, 변신할 때가 되면 거리를 조절하세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "W 선마 후기와 실제3증강 사용 후기가 있으나 설명은 짧습니다. 벌을 맞히면 분노가 빨리 차 미니 나르를 유지하기 어렵다는 부정 후기2개를 함께 기록했습니다. 마법 명사수가 벌 자체에 적용된다는 뜻은 아닙니다. 근거 글 673754, 674417, 672739, 680063. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "지배자의 피갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 나르 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/gnar/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["672739", "673754", "674417", "680063"]
+		},
+		{
+			"id": "twitch",
+			"nameKo": "트위치",
+			"nameEn": "Twitch",
+			"roles": ["원거리 딜러", "암살자"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "벌집 트위치",
+					"augmentIds": ["bees", "master-of-duality"],
+					"requiredAugmentIds": ["bees"],
+					"whyKo": "벌이다!!!의 벌이 트위치의 독을 여러 적에게 퍼뜨리고, E로 쌓인 독을 한꺼번에 터뜨립니다. 결투의 대가가 나오면 평타로 주문력을 더 얻습니다.",
+					"stepsKo": ["평타나 W로 독을 묻히세요.", "E로 독을 터뜨린 뒤 바로 거리를 벌리세요."],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "주문력 후기2개와 공격 속도 혼합 후기1개입니다. 혼합 빌드는 일반 공격력 빌드보다 자주 죽었다는 한계도 있습니다. 결투의 대가 동시 획득은1개 글에서만 확인됩니다. 근거 글 680256, 674468, 675750. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["master-of-duality"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "루난의 허리케인", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 트위치 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/twitch/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["674468", "675750", "680256"]
+		},
+		{
+			"id": "belveth",
+			"nameKo": "벨베스",
+			"nameEn": "Bel'Veth",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "장갑 충격 벨베스",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "Q로 파고들 때마다 장갑 충격 피해가 바로 터집니다. 방어 아이템을 갖추면 버티는 힘과 피해가 함께 오릅니다.",
+					"stepsKo": [
+						"방어 아이템을 갖추고 Q로 적에게 파고드세요.",
+						"방향을 바꿔 가며 Q를 이어 쓰세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "Q 발동은 직접 후기2개에서 반복됩니다. 방어력 감소에 약했고 게임 내 발동 간격은 재현하지 않았습니다. 근거 글 676049, 675120, 672149. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "해악의 숫자 3 벨베스",
+					"augmentIds": ["third-times-the-harm"],
+					"requiredAugmentIds": ["third-times-the-harm"],
+					"whyKo": "해악의 숫자 3은 평타 3번마다 추가 피해를 줍니다. 벨베스는 E로 빠르게 연속 공격해 이 효과를 자주 터뜨립니다.",
+					"stepsKo": [
+						"초반에는 버티며 싸울 시간을 만드세요.",
+						"적에게 붙은 뒤 E로 연속 공격하세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "짧은 직접 후기2개입니다. E에 적용되는 세부 비율과 같은 조건의 피해 비교는 미확인입니다. 근거 글 678867, 676128. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["big-shot"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["크라켄 학살자", "몰락한 왕의 검", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 벨베스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/belveth/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["672149", "675120", "676049", "676128", "678867"]
+		},
+		{
+			"id": "urgot",
+			"nameKo": "우르곳",
+			"nameEn": "Urgot",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "장갑 충격 우르곳",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "W를 켜고 끌 때마다 장갑 충격 피해가 터집니다. 이렇게 터뜨리면 피해가 줄어, 중간중간 평타를 섞으면 좋습니다.",
+					"stepsKo": [
+						"W를 먼저 끝까지 올리세요.",
+						"켜고 끄기를 반복하고, 끈 사이에 평타를 섞으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 실험을 포함한 후기4개입니다. W 발동 피해 감소와 답답함을 보고한 글도 있어 최상위 성능으로 단정할 수 없습니다. 근거 글 672850, 671130, 672982, 677753. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "거대한 히드라", "지배자의 피갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 우르곳 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/urgot/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["671130", "672850", "672982", "677753"]
+		},
+		{
+			"id": "shyvana",
+			"nameKo": "쉬바나",
+			"nameEn": "Shyvana",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "장갑 충격 쉬바나",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "처치에 관여할수록 방어력이 쌓이고, Q를 다시 쓸 수 있어 장갑 충격 피해를 자주 터뜨립니다.",
+					"stepsKo": [
+						"방어 아이템을 갖추고 W로 다가가세요.",
+						"W, 평타, Q, 평타 순서로 번갈아 쓰세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "상호작용을 설명한 직접 후기1개와 공격 순서 후기1개입니다. 현재 쉬바나 스킬 설명과 대조했지만 반복 발동 횟수는 게임에서 검증하지 않았습니다. 근거 글 673028, 671118. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["the-boom-and-the-bass"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "워모그의 갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 쉬바나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/shyvana/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["671118", "673028"]
 		}
 	],
 	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."
