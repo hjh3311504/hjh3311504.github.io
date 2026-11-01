@@ -188,7 +188,7 @@ const ALLOWED_BOOTS = new Set([
 	'광전사의 군화'
 ]);
 
-test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피바라기 금지, 횃불·루덴은 추천 아이템 칸에 넣지 않음, 정한 신발만 추천', () => {
+test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피바라기 금지, 도미닉과 필멸자를 함께 추천하지 않음, 횃불·루덴은 추천 아이템 칸에 넣지 않음, 정한 신발만 추천', () => {
 	for (const champion of guide.champions) {
 		for (const build of champion.builds) {
 			const all = [...build.core, ...build.situational.map((row) => row.item)];
@@ -196,6 +196,11 @@ test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피�
 				MALIGNANCE_OK.has(champion.id) && build.key === 'base' && build.core[0] === '악의';
 			assert.ok(!all.slice(allowed ? 1 : 0).includes('악의'), `${champion.id} 악의`);
 			assert.ok(!all.includes('피바라기'), `${champion.id} 피바라기`);
+			// 도미닉 경의 인사가 있는 빌드는 필멸자의 운명 대신 처형인의 대검을 추천한다.
+			assert.ok(
+				!(all.includes('도미닉 경의 인사') && all.includes('필멸자의 운명')),
+				`${champion.id} ${build.key} 도미닉·필멸자`
+			);
 			for (const row of build.situational) {
 				assert.ok(
 					!['어둠불꽃 횃불', '루덴의 메아리'].includes(row.item),
