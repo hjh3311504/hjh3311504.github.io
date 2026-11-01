@@ -102,11 +102,15 @@ function sharedCore(entries) {
 	return builds.every((build) => build.core.join('|') === first) ? builds[0].core : undefined;
 }
 
+const DESCRIPTION_CHAMPIONS = 5;
+
 export function augmentSeo(id, guide) {
 	const augment = guide.augments[id];
 	const label = withAlias(augment.nameKo, augment.aliases);
 	const entries = augmentChampions(guide, id);
-	const names = entries.map(({ champion }) => champion.nameKo).join('·');
+	// 검색 결과에는 설명 앞부분만 보이므로 챔피언은 앞의 몇 명만 적고 나머지는 인원수로 줄인다.
+	const shown = entries.slice(0, DESCRIPTION_CHAMPIONS).map(({ champion }) => champion.nameKo);
+	const names = shown.join('·') + (entries.length > shown.length ? ' 등' : '');
 	const core = sharedCore(entries);
 	// 템트리와 어울리는 챔피언을 앞에 둔다. 증강 효과는 본문에서 보여 준다.
 	// 챔피언 조합 없이 1코어만 정리한 증강(운명의 무기)은 1코어 추천을 넣는다.
