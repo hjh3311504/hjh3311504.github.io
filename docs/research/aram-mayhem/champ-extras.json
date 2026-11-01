@@ -315,6 +315,46 @@
 			"id": "karthus",
 			"avoidItems": [],
 			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "graves",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "gwen",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "jarvan-iv",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "swain",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "rumble",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "yorick",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "akshan",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "nautilus",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
 		}
 	]
 }
