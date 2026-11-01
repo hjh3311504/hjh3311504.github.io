@@ -625,6 +625,88 @@
 			"id": "karthus",
 			"defaultPlayKo": [],
 			"comboBuilds": []
+		},
+		{
+			"id": "graves",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 그레이브즈",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["E로 방어력을 쌓은 뒤 바로 평타를 쳐서 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "gwen",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "jarvan-iv",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "지형 생성됨 자르반",
+					"whyKo": "지형 생성됨을 얻으면 주문력 아이템으로 R 벽 주변의 지속 피해를 키웁니다.",
+					"playKo": [],
+					"samePlay": true
+				}
+			]
+		},
+		{
+			"id": "swain",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 스웨인",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["E를 맞히고 끌어당길 때마다 평타를 넣어 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "rumble",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "yorick",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "노련한 저격수 요릭",
+					"whyKo": "노련한 저격수를 얻으면 주문력 아이템으로 E 피해를 키웁니다.",
+					"playKo": [],
+					"samePlay": true
+				}
+			]
+		},
+		{
+			"id": "akshan",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "벌집 아크샨",
+					"whyKo": "적중 시 효과 아이템과 주문력을 모아 벌집이 터질 때마다 피해를 더합니다.",
+					"playKo": [],
+					"samePlay": true
+				}
+			]
+		},
+		{
+			"id": "nautilus",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 노틸러스",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["평타를 친 뒤 W를 쓰고 다시 평타를 쳐서 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
 		}
 	]
 }

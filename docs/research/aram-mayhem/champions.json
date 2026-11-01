@@ -5066,6 +5066,368 @@
 			"playSources": [],
 			"beginnerTipKo": "",
 			"communityEvidenceIds": ["675855", "677314", "678796"]
+		},
+		{
+			"id": "graves",
+			"nameKo": "그레이브즈",
+			"nameEn": "Graves",
+			"roles": ["원거리 딜러", "브루저"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "장갑 충격 그레이브즈",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "E를 쓸 때마다 방어력이 쌓여 장갑 충격의 추가 피해가 커집니다. 스킬 뒤 강화 평타로 피해를 터뜨립니다.",
+					"stepsKo": [
+						"방어력 아이템을 갖추고 E로 방어력 중첩을 쌓으세요.",
+						"E를 쓴 뒤 바로 평타를 넣고, 다른 스킬 뒤에도 평타를 섞으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "새 상세 후기1개와 부정 직접 후기1개. 초반에는 긴 스킬 대기시간과 짧은 사거리가 불편했다는 반대 평가가 있습니다. 모루 능력치가 섞였고 동일 조건 비교는 아닙니다. 근거 글 680069, 677325, 674934, 673824. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["the-boom-and-the-bass", "big-shot"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 그레이브즈 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/graves/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673824", "674934", "677325", "680069"]
+		},
+		{
+			"id": "gwen",
+			"nameKo": "그웬",
+			"nameEn": "Gwen",
+			"roles": ["브루저", "마법사"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "흡혈 그웬",
+					"augmentIds": ["warlock-juicebox", "adapt"],
+					"requiredAugmentIds": ["warlock-juicebox"],
+					"whyKo": "마도사의 주스 상자로 모든 피해에 흡혈이 붙어, 붙어 싸우면서 체력을 회복합니다. 적응형 능력치가 나오면 주문력이 더 오릅니다.",
+					"stepsKo": [
+						"초반에는 무리하지 말고 방어 아이템을 함께 갖추세요.",
+						"평타로 Q 중첩을 쌓은 뒤 가운데 부분을 맞혀 큰 피해를 주고 흡혈로 회복하세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기1개. 맵의 추가 효과가 주문력을 높였다고 했으므로 증강만의 성능으로 볼 수 없습니다. 흡혈50% 수치는 재검증하지 않았습니다. 근거 글 678049. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["adapt", "jeweled-gauntlet", "takeem-down-down-down"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["황혼과 새벽", "내셔의 이빨", "균열 생성기"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 그웬 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/gwen/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["678049"]
+		},
+		{
+			"id": "jarvan-iv",
+			"nameKo": "자르반 4세",
+			"nameEn": "Jarvan IV",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "지형 생성됨 자르반",
+					"augmentIds": ["terraind"],
+					"requiredAugmentIds": ["terraind"],
+					"whyKo": "R로 만든 벽에도 지형 생성됨의 피해가 붙어, 갇힌 적이 계속 피해를 받습니다.",
+					"stepsKo": [
+						"적의 이동기가 빠진 뒤 R로 가두세요.",
+						"갇힌 적이 벽 근처에 오래 머물도록 길을 막으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "26.12 추정의 과거 영상 글1개. 영상3개는 경기3개로 세지 않았으며 프레임을 보지 않았습니다. 리안드리의 고통은 완성 구입이 아니라 하위 아이템을 산 계획입니다. 근거 글 573772. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["archmage", "get-jinxed"],
+			"avoidAugmentIds": ["armored-impact", "bees"],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "원칙의 원형낫"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 자르반 4세 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/jarvaniv/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["573772"]
+		},
+		{
+			"id": "swain",
+			"nameKo": "스웨인",
+			"nameEn": "Swain",
+			"roles": ["마법사", "탱커"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "장갑 충격 스웨인",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "방어력 아이템을 갖출수록 장갑 충격의 추가 피해가 커집니다. 원거리 평타라 안전한 거리에서 피해를 터뜨립니다.",
+					"stepsKo": [
+						"E를 맞힌 뒤 바로 평타를 넣으세요.",
+						"E로 끌어당긴 뒤 한 번 더 평타를 넣으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 사용 후기1개와 적용 팁·평가2개. 후반에는 힘이 빠진다는 반대 평가도 있습니다. E 두 번 발동 주장은 직접 재현하지 않았습니다. 근거 글 670852, 672650, 678056. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "앙파상 스웨인",
+					"augmentIds": ["en-passant", "ethereal-weapon"],
+					"requiredAugmentIds": ["en-passant", "ethereal-weapon"],
+					"whyKo": "환영 무기로 스킬에도 적중 시 효과가 붙어, 앙파상의 급소 피해와 회복을 자주 터뜨립니다.",
+					"stepsKo": [
+						"R을 켜고 적의 급소 쪽으로 움직이세요.",
+						"여러 적에게 둘러싸이기 전에 빠질 길을 남겨 두세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "26.21 직접 후기1개. 이전 조사 요약을 재사용했으며 이번 본문은 빈 응답이었습니다. 급소별 발동 간격과 조합 승률은 확인하지 않았습니다. 근거 글 678224. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "정령의 형상"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 스웨인 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/swain/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["670852", "672650", "678056", "678224"]
+		},
+		{
+			"id": "rumble",
+			"nameKo": "럼블",
+			"nameEn": "Rumble",
+			"roles": ["마법사", "브루저"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "전부 다 무너뜨려 럼블",
+					"augmentIds": ["takeem-down-down-down", "the-boom-and-the-bass"],
+					"requiredAugmentIds": ["takeem-down-down-down"],
+					"whyKo": "여러 번 피해를 주는 Q로 전부 다 무너뜨려 중첩을 빠르게 쌓습니다. 붐 앤 베이스가 함께 나오면 스킬 뒤 평타 피해가 커집니다.",
+					"stepsKo": [
+						"Q로 적을 계속 맞히며 중첩을 쌓으세요.",
+						"안전하게 붙을 수 있을 때만 스킬 뒤 평타를 넣으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "조합의 긍정 직접 후기1개와 붐 앤 베이스 단독 선택의 부정 후기1개. 단독 선택 후기에는 환영 무기·전부 다 무너뜨려가 필요했다고 적었으나 없던 증강을 동시 사용으로 세지 않습니다. 근거 글 673820, 675600. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["ethereal-weapon", "bees"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["리안드리의 고통", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 럼블 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/rumble/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673820", "675600"]
+		},
+		{
+			"id": "yorick",
+			"nameKo": "요릭",
+			"nameEn": "Yorick",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "노련한 저격수 요릭",
+					"augmentIds": ["skilled-sniper"],
+					"requiredAugmentIds": ["skilled-sniper"],
+					"whyKo": "먼 거리에서 E를 맞히면 노련한 저격수로 대기시간이 줄어 더 자주 던질 수 있습니다.",
+					"stepsKo": [
+						"먼 거리에서 E를 맞히세요.",
+						"적이 다가오면 W로 길을 막고 다시 거리를 벌리세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "26.19 추정의 과거 직접 후기1개. 글에 함께 나온 빵과 버터는 Q 증강이므로 E 카드에 넣지 않았습니다. 현재 패치에서 재현하지 않았습니다. 근거 글 650003. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["fey-magic", "armored-impact"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "갈라진 하늘", "얼어붙은 건틀릿"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 요릭 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/yorick/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["650003"]
+		},
+		{
+			"id": "akshan",
+			"nameKo": "아크샨",
+			"nameEn": "Akshan",
+			"roles": ["원거리 딜러", "암살자"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "치명타 R 아크샨",
+					"augmentIds": ["big-shot", "jeweled-gauntlet", "upgrade-infinity-edge"],
+					"requiredAugmentIds": ["big-shot", "jeweled-gauntlet"],
+					"whyKo": "보석 건틀릿으로 R에도 치명타가 터지고, 묵직한 한 방이 치명타 피해를 더 키웁니다. 무한의 대검 업그레이드가 나오면 R 탄환 몇 발로도 큰 피해를 줍니다.",
+					"stepsKo": [
+						"R 탄환을 막을 미니언이나 적이 없는지 먼저 보세요.",
+						"무한의 대검 업그레이드가 나오면 무한의 대검을 먼저 갖추세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "표시한3증강 동시 사용의 직접 후기1개. 보석 팔찌를 쓴 별도 경기1개는 취약 추가 뒤 피해가 줄었다는 주의 근거로만 연결합니다. 치명타 피해 계산과 버그 여부는 미검증입니다. 근거 글 671305, 671249. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "벌집 아크샨",
+					"augmentIds": ["bees"],
+					"requiredAugmentIds": ["bees"],
+					"whyKo": "스킬을 쓸 때마다 벌이다!!!의 벌이 나가 적중 시 효과 피해를 더합니다.",
+					"stepsKo": [
+						"안전한 거리에서 스킬과 평타를 섞어 벌을 내보내세요.",
+						"E로 들어갈 때는 벽에 부딪혀 멈출 수 있으니 빠질 길을 보세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기1개이며 기존 조사 요약을 재사용했습니다. 글에 제시된 주문력 계수 합산은 확인하지 않았으므로 확정 피해량을 쓰지 않습니다. 근거 글 672551. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["upgrade-infinity-edge"],
+			"avoidAugmentIds": ["vulnerability"],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아크샨 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/akshan/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["671249", "671305", "672551"]
+		},
+		{
+			"id": "nautilus",
+			"nameKo": "노틸러스",
+			"nameEn": "Nautilus",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "장갑 충격 노틸러스",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "스킬 뒤 강화 평타에 장갑 충격 피해가 붙습니다. W로 평타를 다시 칠 수 있어 피해를 자주 터뜨립니다.",
+					"stepsKo": [
+						"평타를 친 뒤 W를 쓰고 다시 평타를 치세요.",
+						"Q와 E 사이에도 평타를 넣으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "26.21 직접 후기1개이며 이전 요약 재사용입니다. 운명의 무기는 아이템 구매 보조로만 기록하고 카드에서는 뺐습니다. 실제 공격 초기화 간격은 재현하지 않았습니다. 근거 글 679101. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["quest-steel-your-heart"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 노틸러스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/nautilus/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["679101"]
 		}
 	],
 	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."
