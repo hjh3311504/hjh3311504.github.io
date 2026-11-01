@@ -545,6 +545,86 @@
 			"id": "jayce",
 			"defaultPlayKo": [],
 			"comboBuilds": []
+		},
+		{
+			"id": "ekko",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "corki",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "thresh",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 쓰레쉬",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["E와 W를 쓴 뒤 바로 평타를 쳐서 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "viego",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "환영 무기 Q 비에고",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["스킬을 쓴 뒤 바로 평타를 쳐서 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "wukong",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 오공",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["E 뒤 평타, Q, W 뒤 평타 순서로 장갑 충격 피해를 계속 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "azir",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "lee-sin",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 리 신",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["스킬을 쓰고 다시 쓰기 전에 평타를 넣어 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "irelia",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 이렐리아",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": ["Q로 들어간 뒤 바로 평타를 쳐서 장갑 충격 피해를 터뜨리세요."],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "karthus",
+			"defaultPlayKo": [],
+			"comboBuilds": []
 		}
 	]
 }

@@ -4661,6 +4661,411 @@
 			"playSources": [],
 			"beginnerTipKo": "",
 			"communityEvidenceIds": ["676018", "676455", "678365"]
+		},
+		{
+			"id": "ekko",
+			"nameKo": "에코",
+			"nameEn": "Ekko",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "벌집 에코",
+					"augmentIds": ["bees", "ethereal-weapon", "marksmage", "adapt"],
+					"requiredAugmentIds": ["bees"],
+					"whyKo": "Q를 맞힐 때마다 벌이다!!!의 벌이 적에게 붙어 피해를 더합니다. 환영 무기나 마법 명사수가 나오면 그 피해가 더 커집니다.",
+					"stepsKo": [
+						"멀리서 Q를 먼저 맞혀 벌을 붙이세요.",
+						"깊이 들어갔다면 W 보호막과 R로 빠져나오세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "26.21 직접 후기3개. 선택 증강 전체는676803 한 경기뿐이며 벌집 발동 간격을 직접 실험하지 않음. 근거 글 677427, 676803, 676287. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["ethereal-weapon"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["황혼과 새벽", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 에코 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ekko/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["676287", "676803", "677427"]
+		},
+		{
+			"id": "corki",
+			"nameKo": "코르키",
+			"nameEn": "Corki",
+			"roles": ["원거리 딜러", "마법사"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "미사일 치명타 코르키",
+					"augmentIds": ["jeweled-gauntlet", "jeweled-bracelet", "vulnerability"],
+					"requiredAugmentIds": ["jeweled-gauntlet"],
+					"whyKo": "보석 건틀릿으로 Q와 R에도 치명타가 터집니다. 보석 팔찌나 취약이 함께 나오면 치명타 피해가 더 커집니다.",
+					"stepsKo": [
+						"치명타 확률 아이템을 먼저 갖추세요.",
+						"세 번째마다 나가는 큰 [R] 미사일을 적 챔피언에게 맞히세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기3개가 모두 짧음. 취약·벌이다!!!까지 포함한 전체 선택 목록이 한 경기에서 모두 나온 것은 아님. 보팔과 보건의 추가 이득은 중복 적용 실험 없음. 검을 뽑아라·벌이다!!!는 원거리 딜러 운영과 맞지 않거나 한 경기에만 나와 선택 증강에서 뺌. 근거 글 678748, 677627, 676427, 677651. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["jeweled-bracelet"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 코르키 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/corki/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["676427", "677627", "677651", "678748"]
+		},
+		{
+			"id": "thresh",
+			"nameKo": "쓰레쉬",
+			"nameEn": "Thresh",
+			"roles": ["서포터", "탱커"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "장갑 충격 쓰레쉬",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "영혼을 모을수록 방어력이 늘어 장갑 충격의 추가 피해가 커집니다. E와 W 뒤 강화 평타로 피해를 터뜨립니다.",
+					"stepsKo": [
+						"E를 쓴 뒤 평타, W를 쓴 뒤 평타를 번갈아 넣으세요.",
+						"아군을 구해야 할 때는 W 랜턴을 아껴 두세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기4개. 영혼 수와 상대 조건이 다르며 고정5아이템 빌드 성능은 검증하지 않음. 근거 글 674892, 674312, 673486, 673243, 673824. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 쓰레쉬 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/thresh/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673243", "673486", "673824", "674312", "674892"]
+		},
+		{
+			"id": "viego",
+			"nameKo": "비에고",
+			"nameEn": "Viego",
+			"roles": ["암살자", "브루저"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "환영 무기 Q 비에고",
+					"augmentIds": ["ethereal-weapon", "mystic-punch", "armored-impact"],
+					"requiredAugmentIds": ["ethereal-weapon"],
+					"whyKo": "환영 무기로 [Q]에도 적중 시 효과가 붙습니다. 신비한 주먹이 나오면 [Q]를 맞힐 때마다 대기시간이 줄어 자주 쓸 수 있습니다.",
+					"stepsKo": [
+						"체력이 높은 적에게 [Q]를 반복해서 맞히세요.",
+						"체력이 적게 남은 적은 R로 마무리하세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기2개는 서로 다른 조합. 세 증강을 모두 함께 사용한 후기 수는0개이며 Q·W·R 적용 주장과 마무리 피해 한계를 재현하지 않음. 근거 글 678331, 671164. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 비에고 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/viego/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["671164", "678331"]
+		},
+		{
+			"id": "wukong",
+			"nameKo": "오공",
+			"nameEn": "Wukong",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "장갑 충격 오공",
+					"augmentIds": ["armored-impact", "flashy"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "싸우는 동안 방어력이 늘고, 스킬 뒤 평타가 장갑 충격 피해를 터뜨립니다.",
+					"stepsKo": [
+						"E 뒤 평타, Q, W 뒤 평타 순서로 이어 치세요.",
+						"R로 띄운 뒤 회전을 끊고 평타를 넣어도 좋아요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기2개와 상세 팁1개. 영상 글은 제목의 조합만 확인했으며 점멸 난사까지 갖춘 전체 조합 후기는1개. 근거 글 678178, 677011, 673806. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "지배자의 피갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 오공 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/wukong/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673806", "677011", "678178"]
+		},
+		{
+			"id": "azir",
+			"nameKo": "아지르",
+			"nameEn": "Azir",
+			"roles": ["마법사"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "붐 앤 베이스 아지르",
+					"augmentIds": ["the-boom-and-the-bass", "marksmage"],
+					"requiredAugmentIds": ["the-boom-and-the-bass"],
+					"whyKo": "병사로 공격할 때마다 붐 앤 베이스로 이동 속도가 크게 올라 거리를 벌리며 싸울 수 있습니다. 피해보다 안전하게 싸우는 데 쓰는 조합입니다.",
+					"stepsKo": [
+						"W 병사가 적을 때릴 수 있는 곳에 세우세요.",
+						"빨라진 틈에 적과 거리를 벌리고 Q로 병사를 다시 옮기세요."
+					],
+					"hintKo": "피해를 크게 키우는 조합은 아니에요.",
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기2개, 보조 팁2개. 피해량이 낮다는 평가와 패배 후기가 있어 강한 피해 조합으로 소개하면 안 됨. 근거 글 678399, 675523, 676678, 677301. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["magic-missile"],
+			"avoidAugmentIds": ["master-of-duality"],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["내셔의 이빨", "리안드리의 고통", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아지르 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/azir/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["675523", "676678", "677301", "678399"]
+		},
+		{
+			"id": "lee-sin",
+			"nameKo": "리 신",
+			"nameEn": "Lee Sin",
+			"roles": ["암살자", "브루저"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "장갑 충격 리 신",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "[Q]·[W]·[E]를 두 번씩 쓸 수 있어, 스킬 뒤 강화 평타로 장갑 충격 피해를 자주 터뜨립니다.",
+					"stepsKo": [
+						"스킬을 쓰고 다시 쓰기 전에 평타를 한 번씩 넣으세요.",
+						"두 번째 [W]로 흡혈을 얻어 버티세요."
+					],
+					"hintKo": "적이 모두 마법 피해면 초반이 힘들어요.",
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기2개와 팁3개. 상대가 모두 마법 피해일 때 초반이 힘들었다는 기록이 있으며 지정 방어력 고정 빌드의 대처 능력은 별도 검증 없음. 근거 글 678844, 677745, 677165, 674317, 669447. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "월식"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 리 신 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/leesin/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["669447", "674317", "677165", "677745", "678844"]
+		},
+		{
+			"id": "irelia",
+			"nameKo": "이렐리아",
+			"nameEn": "Irelia",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "장갑 충격 이렐리아",
+					"augmentIds": ["armored-impact", "sap-magic", "clown-college"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "Q로 미니언을 처치하면 [Q]를 바로 다시 쓸 수 있어, 적 사이를 오가며 장갑 충격 피해를 터뜨립니다. 마법 흡수가 나오면 회복도 얻습니다.",
+					"stepsKo": [
+						"Q로 처치할 수 있는 미니언을 타고 다가가세요.",
+						"E나 R 표식을 남긴 적에게 Q로 다시 들어가세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "상세 실전 후기1개와 Q 판정 팁1개. 광대 대학까지 갖춘 한 경기이며 마법 흡수의 실제 대기시간은 재현하지 않음. 근거 글 678995, 675601. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["still-here"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["몰락한 왕의 검", "갈라진 하늘", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 이렐리아 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/irelia/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["675601", "678995"]
+		},
+		{
+			"id": "karthus",
+			"nameKo": "카서스",
+			"nameEn": "Karthus",
+			"roles": ["마법사"],
+			"difficulty": "보통",
+			"combos": [
+				{
+					"title": "R 두 번 카서스",
+					"augmentIds": ["ultimate-revolution", "eureka"],
+					"requiredAugmentIds": ["ultimate-revolution"],
+					"whyKo": "궁극기 대변혁으로 R을 한 번 더 쓸 수 있습니다. 유레카가 나오면 주문력이 오를수록 스킬 가속도 늘어납니다.",
+					"stepsKo": [
+						"안전한 곳이나 쓰러진 뒤 패시브 시간에 R을 쓰세요.",
+						"다시 쓸 수 있는 R로 남은 적을 마무리하세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기1개를2차 기록에서 재사용. 운명의 무기도 함께 얻었던 경기이므로 카드의 두 증강만으로 같은 성능을 보장하지 않음. 근거 글 678796. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "붙어서 태우는 카서스",
+					"augmentIds": ["en-passant", "warlock-juicebox", "upgrade-zhonyas", "blue-barrier"],
+					"requiredAugmentIds": ["en-passant"],
+					"whyKo": "E를 켜고 적 옆에 붙어 앙파상의 추가 피해와 회복을 노립니다. 마도사의 주스 상자와 존야 업그레이드는 오래 버티게 해 줍니다.",
+					"stepsKo": [
+						"어둠불꽃 횃불·리안드리의 고통·라일라이의 수정홀로 지속 피해를 준비하세요.",
+						"E를 켜고 적 옆을 돌며 Q를 맞히세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기1개를2차 기록에서 재사용. 가까이 붙는 위험이 크며 E·앙파상의 정확한 발동 관계와 회복량은 재현하지 않음. 근거 글 675855. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				},
+				{
+					"title": "폭풍 쇄도 카서스",
+					"augmentIds": ["upgrade-stormsurge", "bees", "its-killing-time", "trusty-weapon"],
+					"requiredAugmentIds": ["upgrade-stormsurge"],
+					"whyKo": "폭풍 쇄도 업그레이드로 폭풍 쇄도의 폭발이 한 번 더 터집니다. 처형 시간이 나오면 R 뒤 쌓인 피해도 더해집니다.",
+					"stepsKo": [
+						"폭풍 쇄도를 먼저 완성하세요.",
+						"R을 쓴 뒤 맞힐 수 있는 적에게 Q를 이어 넣으세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "직접 후기1개를2차 기록에서 재사용. 다른 증강이 모두 갖춰진 한 경기이며 폭풍 쇄도만의 기여도는 분리하지 못함. 근거 글 677314. 2026-10-31 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": [],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 카서스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/karthus/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["675855", "677314", "678796"]
 		}
 	],
 	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."
