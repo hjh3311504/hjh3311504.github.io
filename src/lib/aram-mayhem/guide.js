@@ -1,17 +1,10 @@
 // 아수라장 가이드 화면의 거르기·빌드 비교 규칙. 화면 컴포넌트와 단위 테스트가 함께 사용한다.
 
-export const ROLE_ORDER = ['마법사', '원거리 딜러', '전사', '암살자', '탱커', '서포터'];
-export const ALL_ROLES = '전체';
 export const TIER_LABEL = { silver: '실버', gold: '골드', prismatic: '프리즘' };
 
-/** 가이드에 있는 역할만 정해진 순서로 돌려준다. */
 /** 허브 타일에서 두 줄로 넘어가는 긴 이름은 사용자가 정한 줄임말로 보여 준다. */
 const TILE_NAMES = { 'twisted-fate': '트페', 'renata-glasc': '레나타' };
 export const tileName = (champion) => TILE_NAMES[champion.id] ?? champion.nameKo;
-
-export function roleOptions(champions) {
-	return [ALL_ROLES, ...ROLE_ORDER.filter((role) => champions.some((c) => c.roles.includes(role)))];
-}
 
 const CHOSEONG = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
 
@@ -47,14 +40,25 @@ export function matchScore(champion, query) {
 	return 0;
 }
 
-/** 역할과 검색어(이름·별명·초성)로 챔피언을 거른다. 검색어가 비면 역할만 본다. */
-export function filterChampions(champions, role, query) {
-	const searching = compact(query) !== '';
-	return champions.filter(
-		(champion) =>
-			(role === ALL_ROLES || champion.roles.includes(role)) &&
-			(!searching || matchScore(champion, query) > 0)
-	);
+/** 검색어(이름·별명·초성)로 챔피언을 거른다. 검색어가 비면 모두 돌려준다. */
+export function filterChampions(champions, query) {
+	if (compact(query) === '') return champions;
+	return champions.filter((champion) => matchScore(champion, query) > 0);
+}
+
+/** 쌍자음은 기본 자음 묶음에 넣는다. 예: 뽀삐는 ㅂ, 쓰레쉬는 ㅅ. */
+const BASE_CHOSEONG = { ㄲ: 'ㄱ', ㄸ: 'ㄷ', ㅃ: 'ㅂ', ㅆ: 'ㅅ', ㅉ: 'ㅈ' };
+
+/** 가나다순 챔피언 목록을 이름 첫 초성별로 묶는다. 순서는 받은 목록을 따른다. */
+export function groupByInitial(champions) {
+	const groups = new Map();
+	for (const champion of champions) {
+		const first = initials(champion.nameKo)[0];
+		const initial = BASE_CHOSEONG[first] ?? first;
+		if (!groups.has(initial)) groups.set(initial, []);
+		groups.get(initial).push(champion);
+	}
+	return [...groups].map(([initial, list]) => ({ initial, champions: list }));
 }
 
 /** 검색창 자동완성 목록. 잘 맞는 챔피언을 먼저, 같으면 가나다순으로 최대 limit명을 돌려준다. */

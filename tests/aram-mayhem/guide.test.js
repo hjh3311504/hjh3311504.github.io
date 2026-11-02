@@ -2,15 +2,14 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import guide from '../../src/lib/aram-mayhem/guide-data.json' with { type: 'json' };
 import {
-	ALL_ROLES,
 	augmentGroups,
 	buildLabel,
 	championFromHash,
 	coreMarks,
 	filterChampions,
+	groupByInitial,
 	initials,
 	isAddedSituational,
-	roleOptions,
 	searchChampions,
 	situationalHeading,
 	tileName,
@@ -24,30 +23,44 @@ const champions = [
 	{ id: 'master-yi', nameKo: '마스터 이', aliases: ['마이'], roles: ['암살자'] }
 ];
 
-test('역할 목록은 가이드에 있는 역할만 정해진 순서로 보여 준다', () => {
-	assert.deepEqual(roleOptions(champions), [ALL_ROLES, '마법사', '암살자', '탱커', '서포터']);
-});
-
-test('역할과 이름 검색어로 챔피언을 거른다', () => {
+test('이름 검색어로 챔피언을 거르고 빈 검색어는 모두 보여 준다', () => {
+	assert.equal(filterChampions(champions, '  ').length, champions.length);
 	assert.deepEqual(
-		filterChampions(champions, '탱커', '').map((c) => c.id),
-		['braum', 'tahm-kench']
-	);
-	assert.deepEqual(
-		filterChampions(champions, ALL_ROLES, ' 켄치 ').map((c) => c.id),
+		filterChampions(champions, ' 켄치 ').map((c) => c.id),
 		['tahm-kench']
 	);
-	assert.deepEqual(filterChampions(champions, '마법사', '브라움'), []);
+	assert.deepEqual(filterChampions(champions, '없는 이름'), []);
 });
 
 test('검색어는 띄어쓰기를 무시하고 별명과 초성도 찾는다', () => {
-	const ids = (query) => filterChampions(champions, ALL_ROLES, query).map((c) => c.id);
+	const ids = (query) => filterChampions(champions, query).map((c) => c.id);
 	assert.deepEqual(ids('탐켄치'), ['tahm-kench']);
 	assert.deepEqual(ids('마이'), ['master-yi']);
 	assert.deepEqual(ids('마스터이'), ['master-yi']);
 	assert.deepEqual(ids('ㅌㅁ'), ['teemo']);
 	assert.deepEqual(ids('ㅁㅇ'), ['master-yi']);
 	assert.equal(initials('탐 켄치'), 'ㅌㅋㅊ');
+});
+
+test('허브 타일은 이름 첫 초성별로 묶고 쌍자음은 기본 자음에 넣는다', () => {
+	const list = [
+		{ id: 'garen', nameKo: '가렌' },
+		{ id: 'galio', nameKo: '갈리오' },
+		{ id: 'braum', nameKo: '브라움' },
+		{ id: 'poppy', nameKo: '뽀삐' },
+		{ id: 'thresh', nameKo: '쓰레쉬' }
+	];
+	assert.deepEqual(
+		groupByInitial(list).map((g) => [g.initial, g.champions.map((c) => c.id)]),
+		[
+			['ㄱ', ['garen', 'galio']],
+			['ㅂ', ['braum', 'poppy']],
+			['ㅅ', ['thresh']]
+		]
+	);
+	const all = groupByInitial(guide.champions);
+	assert.deepEqual(all.map((g) => g.initial).join(''), 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ');
+	assert.equal(all.flatMap((g) => g.champions).length, guide.champions.length);
 });
 
 test('자동완성은 이름·별명이 검색어로 시작하는 챔피언을 먼저 보여 준다', () => {
