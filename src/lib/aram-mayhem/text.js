@@ -4,14 +4,29 @@
 // 문장 안에서 타일로 바꿀 짧은 이름. 화면에는 짧은 이름을 보여 주고 원래 증강으로 연결한다.
 export const AUGMENT_ALIASES = { 순수주의자: '순수주의자 - 마법사' };
 
-/** 능력치 타일로 바꿀 이름과 가이드 데이터 icons의 아이콘 키. */
+/**
+ * 능력치 타일로 바꿀 이름과 가이드 데이터 icons의 아이콘 키. 능력치 이름은 모두 타일로 보여 준다(2026-11-02 사용자 결정).
+ * '치명타가 터진다', '흡혈로 회복'처럼 능력치 이름이 아닌 현상은 타일로 바꾸지 않는다.
+ */
 export const STAT_ICONS = {
-	'스킬 가속': 'haste',
+	체력: 'health',
+	공격력: 'attackDamage',
+	주문력: 'abilityPower',
 	방어력: 'armor',
+	'마법 저항력': 'magicResist',
+	'공격 속도': 'attackSpeed',
+	'이동 속도': 'moveSpeed',
+	'스킬 가속': 'haste',
+	'치명타 확률': 'critChance',
+	'치명타 피해': 'critDamage',
 	'방어구 관통력': 'armorPen',
 	// 물리 관통력(치명성)은 게임 글자 아이콘이 따로 없어 방어구 관통력 아이콘을 같이 쓴다.
 	'물리 관통력': 'armorPen',
-	'마법 관통력': 'magicPen'
+	'마법 관통력': 'magicPen',
+	'모든 피해 흡혈': 'omnivamp',
+	강인함: 'tenacity',
+	마나: 'mana',
+	사거리: 'range'
 };
 
 const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

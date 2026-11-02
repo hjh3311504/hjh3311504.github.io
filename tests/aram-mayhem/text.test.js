@@ -26,6 +26,27 @@ test('방어구 관통력·마법 관통력도 능력치 타일로 나눈다', (
 	]);
 });
 
+test('능력치 이름은 모두 타일로 나누고 치명타·흡혈 같은 현상은 글자로 둔다', () => {
+	assert.deepEqual(
+		segment('방어력과 마법 저항력, 체력을 공격력으로 바꾸고 치명타가 터지면 흡혈', names),
+		[
+			{ t: 'stat', v: '방어력' },
+			{ t: 'text', v: '과 ' },
+			{ t: 'stat', v: '마법 저항력' },
+			{ t: 'text', v: ', ' },
+			{ t: 'stat', v: '체력' },
+			{ t: 'text', v: '을 ' },
+			{ t: 'stat', v: '공격력' },
+			{ t: 'text', v: '으로 바꾸고 치명타가 터지면 흡혈' }
+		]
+	);
+	assert.deepEqual(segment('치명타 확률 아이템과 평타 사거리', names), [
+		{ t: 'stat', v: '치명타 확률' },
+		{ t: 'text', v: ' 아이템과 평타 ' },
+		{ t: 'stat', v: '사거리' }
+	]);
+});
+
 test('대괄호 스킬은 키만, 궁극기는 R로, 짧은 증강 이름은 원래 증강으로 연결한다', () => {
 	assert.deepEqual(segment('[E] 궁극기 순수주의자', names), [
 		{ t: 'skill', key: 'E', short: true },

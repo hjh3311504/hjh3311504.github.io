@@ -6,7 +6,7 @@ import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import * as prettier from 'prettier';
 import sharp from 'sharp';
-import { fixParticles, segment } from '../src/lib/aram-mayhem/text.js';
+import { STAT_ICONS, fixParticles, segment } from '../src/lib/aram-mayhem/text.js';
 
 const DATA_DIR = 'docs/research/aram-mayhem';
 const CACHE_DIR = '.cache/aram-mayhem';
@@ -475,7 +475,7 @@ const itemAliases = Object.fromEntries(
 	Object.entries(aliasData.items).filter(([name, list]) => name in items && list.length)
 );
 
-// 문장 타일용 아이콘: 능력치 모루(초록 모루 아이템 220000), 스킬 가속(룬 능력치 조각), 방어력·관통력(게임 글자 아이콘)
+// 문장 타일용 아이콘: 능력치 모루(초록 모루 아이템 220000), 스킬 가속(룬 능력치 조각), 나머지 능력치(게임 글자 아이콘)
 const icons = {
 	anvil: await saveIcon(`${DDRAGON}/img/item/220000.png`, 'stats', 'anvil', 48),
 	haste: await saveIcon(
@@ -537,8 +537,48 @@ const icons = {
 		'stats',
 		'omnivamp',
 		32
+	),
+	attackDamage: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalead.png`,
+		'stats',
+		'attack-damage',
+		32
+	),
+	abilityPower: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scaleap.png`,
+		'stats',
+		'ability-power',
+		32
+	),
+	critChance: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalecrit.png`,
+		'stats',
+		'crit-chance',
+		32
+	),
+	critDamage: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalecritmult.png`,
+		'stats',
+		'crit-damage',
+		32
+	),
+	mana: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalemana.png`,
+		'stats',
+		'mana',
+		32
+	),
+	range: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalerange.png`,
+		'stats',
+		'range',
+		32
 	)
 };
+// 문장 타일로 바꾸는 능력치 이름마다 아이콘이 있어야 한다.
+for (const [name, key] of Object.entries(STAT_ICONS)) {
+	if (!icons[key]) missing.push(`능력치 타일 아이콘: ${name}`);
+}
 
 if (usedItems.has(ANVIL)) items[ANVIL] = icons.anvil;
 

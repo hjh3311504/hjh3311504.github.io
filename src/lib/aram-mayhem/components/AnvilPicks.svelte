@@ -12,19 +12,21 @@
 {/if}
 {#if build.anvils?.length}
 	<p class="aram-sub-heading">추천 모루 선택지</p>
-	<!-- 줄은 등급, 칸은 1순위·2순위. 좁은 화면에서는 줄마다 한 열로 쌓는다. -->
-	<table class="aram-anvils">
-		<thead>
-			<tr>
-				<th scope="col">등급</th>
-				<th scope="col">1순위</th>
-				<th scope="col">2순위</th>
+	<!-- 줄은 등급, 칸은 1순위·2순위. 좁은 화면에서는 줄마다 한 열로 쌓는다.
+	     CSS로 display를 바꾸면 일부 브라우저가 표 구조를 화면 읽기에 넘기지 않아 role을 직접 적는다. -->
+	<!-- svelte-ignore a11y_no_redundant_roles -->
+	<table class="aram-anvils" role="table">
+		<thead role="rowgroup">
+			<tr role="row">
+				<th scope="col" role="columnheader">등급</th>
+				<th scope="col" role="columnheader">1순위</th>
+				<th scope="col" role="columnheader">2순위</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody role="rowgroup">
 			{#each build.anvils as group (group.tiers.join())}
-				<tr aria-label={`${tierNames(group.tiers)} 모루`}>
-					<th scope="row">
+				<tr role="row" aria-label={`${tierNames(group.tiers)} 모루`}>
+					<th scope="row" role="rowheader">
 						<span class="aram-anvil-badges">
 							{#each group.tiers as tier (tier)}
 								<span class={`aram-anvil-badge aram-anvil-badge-${tier}`}>{TIER_LABEL[tier]}</span>
@@ -32,7 +34,7 @@
 						</span>
 					</th>
 					{#each group.priorities as stats, index (index)}
-						<td class="aram-anvil-rank" class:aram-anvil-first={index === 0}>
+						<td role="cell" class="aram-anvil-rank" class:aram-anvil-first={index === 0}>
 							<span class="aram-anvil-rank-name">{index + 1}순위</span>
 							<span class="aram-anvil-stats">
 								{#each stats as pick (pick.stat)}
