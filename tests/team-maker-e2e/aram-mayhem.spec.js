@@ -121,9 +121,15 @@ test('장갑 충격 공략과 챔피언 빌드 탭에 모루작 빌드와 추천
 	await expect(vest.locator('.aram-core-with')).toHaveText('2티어 신발');
 	await expect(vest.locator('.aram-caution')).toContainText('저점이 낮아요');
 	await expect(vest.locator('.aram-anvil-badge')).toHaveText(['프리즘', '골드', '실버']);
+	const prism = vest.getByRole('region', { name: '프리즘 모루' });
+	await expect(prism.locator('dt')).toHaveText(['1순위', '2순위']);
+	await expect(prism.locator('dd').first().locator('.aram-anvil-stat')).toHaveText([
+		'방어구 관통력',
+		'모든 피해 흡혈'
+	]);
 	await expect(
-		vest.getByRole('region', { name: '프리즘 모루' }).locator('.aram-anvil-stat strong')
-	).toHaveText(['방어구 관통력', '모든 피해 흡혈']);
+		vest.getByRole('region', { name: '골드·실버 모루' }).locator('dd').nth(1)
+	).toContainText('스킬 가속 + 공격 속도');
 
 	await page.goto(`${HUB_PATH}/rammus`);
 	// 버튼 사이의 · 기호는 화면 읽기에서 빠진다.

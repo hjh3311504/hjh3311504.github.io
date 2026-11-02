@@ -650,66 +650,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -1374,66 +1369,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -1849,66 +1839,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -3046,66 +3031,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -3683,66 +3663,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -3986,66 +3961,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -4932,66 +4902,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -5780,66 +5745,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -7335,66 +7295,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -7837,66 +7792,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -8490,66 +8440,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -8847,66 +8792,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -9374,66 +9314,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -10196,66 +10131,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -10895,66 +10825,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -11303,66 +11228,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -12272,66 +12192,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -14445,66 +14360,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -15291,66 +15201,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -15621,66 +15526,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -16106,66 +16006,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -17150,66 +17045,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -20353,66 +20243,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -20965,66 +20850,61 @@
 					"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 					"anvils": [
 						{
-							"tier": "prismatic",
-							"picks": [
-								{
-									"stat": "방어구 관통력",
-									"icons": ["armorPen"],
-									"value": "17.5%",
-									"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-								},
-								{
-									"stat": "모든 피해 흡혈",
-									"icons": ["omnivamp"],
-									"value": "근접 20%·원거리 10%",
-									"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-								}
+							"tiers": ["prismatic"],
+							"priorities": [
+								[
+									{
+										"stat": "방어구 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "모든 피해 흡혈",
+										"icons": ["omnivamp"]
+									}
+								],
+								[
+									{
+										"stat": "이동 속도",
+										"icons": ["moveSpeed"]
+									},
+									{
+										"stat": "강인함",
+										"icons": ["tenacity"]
+									}
+								]
 							]
 						},
 						{
-							"tier": "gold",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "45",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "30 + 30",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "20",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
-							]
-						},
-						{
-							"tier": "silver",
-							"picks": [
-								{
-									"stat": "방어력",
-									"icons": ["armor"],
-									"value": "12",
-									"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-								},
-								{
-									"stat": "방어력 + 마법 저항력",
-									"icons": ["armor", "magicResist"],
-									"value": "10 + 10",
-									"why": "적의 마법 피해가 아플 때 골라요."
-								},
-								{
-									"stat": "물리 관통력",
-									"icons": ["armorPen"],
-									"value": "8",
-									"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-								}
+							"tiers": ["gold", "silver"],
+							"priorities": [
+								[
+									{
+										"stat": "방어력",
+										"icons": ["armor"]
+									},
+									{
+										"stat": "방어력 + 마법 저항력",
+										"icons": ["armor", "magicResist"]
+									}
+								],
+								[
+									{
+										"stat": "물리 관통력",
+										"icons": ["armorPen"]
+									},
+									{
+										"stat": "체력",
+										"icons": ["health"]
+									},
+									{
+										"stat": "스킬 가속",
+										"icons": ["haste"]
+									},
+									{
+										"stat": "스킬 가속 + 공격 속도",
+										"icons": ["haste", "attackSpeed"]
+									}
+								]
 							]
 						}
 					]
@@ -22717,66 +22597,61 @@
 						"caution": "기본 빌드보다 모루 등급에 크게 기대는 빌드라 저점이 낮아요. 좋은 모루가 안 나오면 기본 빌드보다 약할 수 있어요.",
 						"anvils": [
 							{
-								"tier": "prismatic",
-								"picks": [
-									{
-										"stat": "방어구 관통력",
-										"icons": ["armorPen"],
-										"value": "17.5%",
-										"why": "장갑 충격 피해는 물리 피해라 적의 방어력을 뚫어 피해를 키워요."
-									},
-									{
-										"stat": "모든 피해 흡혈",
-										"icons": ["omnivamp"],
-										"value": "근접 20%·원거리 10%",
-										"why": "준 피해만큼 체력을 회복해 오래 싸울 수 있어요."
-									}
+								"tiers": ["prismatic"],
+								"priorities": [
+									[
+										{
+											"stat": "방어구 관통력",
+											"icons": ["armorPen"]
+										},
+										{
+											"stat": "모든 피해 흡혈",
+											"icons": ["omnivamp"]
+										}
+									],
+									[
+										{
+											"stat": "이동 속도",
+											"icons": ["moveSpeed"]
+										},
+										{
+											"stat": "강인함",
+											"icons": ["tenacity"]
+										}
+									]
 								]
 							},
 							{
-								"tier": "gold",
-								"picks": [
-									{
-										"stat": "방어력",
-										"icons": ["armor"],
-										"value": "45",
-										"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-									},
-									{
-										"stat": "방어력 + 마법 저항력",
-										"icons": ["armor", "magicResist"],
-										"value": "30 + 30",
-										"why": "적의 마법 피해가 아플 때 골라요."
-									},
-									{
-										"stat": "물리 관통력",
-										"icons": ["armorPen"],
-										"value": "20",
-										"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-									}
-								]
-							},
-							{
-								"tier": "silver",
-								"picks": [
-									{
-										"stat": "방어력",
-										"icons": ["armor"],
-										"value": "12",
-										"why": "장갑 충격 피해와 버티는 힘이 함께 올라요."
-									},
-									{
-										"stat": "방어력 + 마법 저항력",
-										"icons": ["armor", "magicResist"],
-										"value": "10 + 10",
-										"why": "적의 마법 피해가 아플 때 골라요."
-									},
-									{
-										"stat": "물리 관통력",
-										"icons": ["armorPen"],
-										"value": "8",
-										"why": "방어력을 충분히 쌓았고 피해를 더 넣고 싶을 때 골라요."
-									}
+								"tiers": ["gold", "silver"],
+								"priorities": [
+									[
+										{
+											"stat": "방어력",
+											"icons": ["armor"]
+										},
+										{
+											"stat": "방어력 + 마법 저항력",
+											"icons": ["armor", "magicResist"]
+										}
+									],
+									[
+										{
+											"stat": "물리 관통력",
+											"icons": ["armorPen"]
+										},
+										{
+											"stat": "체력",
+											"icons": ["health"]
+										},
+										{
+											"stat": "스킬 가속",
+											"icons": ["haste"]
+										},
+										{
+											"stat": "스킬 가속 + 공격 속도",
+											"icons": ["haste", "attackSpeed"]
+										}
+									]
 								]
 							}
 						]
@@ -23958,6 +23833,10 @@
 		"armorPen": "/images/aram-mayhem/stats/armor-penetration.webp",
 		"magicPen": "/images/aram-mayhem/stats/magic-penetration.webp",
 		"magicResist": "/images/aram-mayhem/stats/magic-resist.webp",
+		"health": "/images/aram-mayhem/stats/health.webp",
+		"attackSpeed": "/images/aram-mayhem/stats/attack-speed.webp",
+		"moveSpeed": "/images/aram-mayhem/stats/move-speed.webp",
+		"tenacity": "/images/aram-mayhem/stats/tenacity.webp",
 		"omnivamp": "/images/aram-mayhem/stats/omnivamp.webp"
 	}
 }

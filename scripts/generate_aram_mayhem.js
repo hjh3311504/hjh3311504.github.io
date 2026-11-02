@@ -217,16 +217,19 @@ function useBuild(build) {
 const ANVIL_STAT_ICONS = {
 	'방어구 관통력': ['armorPen'],
 	'모든 피해 흡혈': ['omnivamp'],
+	'이동 속도': ['moveSpeed'],
+	강인함: ['tenacity'],
 	방어력: ['armor'],
 	'방어력 + 마법 저항력': ['armor', 'magicResist'],
-	'물리 관통력': ['armorPen']
+	'물리 관통력': ['armorPen'],
+	체력: ['health'],
+	'스킬 가속': ['haste'],
+	'스킬 가속 + 공격 속도': ['haste', 'attackSpeed']
 };
 /** 증강 공략의 다른 템트리(모루작 빌드)를 증강 공략과 챔피언 빌드 탭이 함께 쓰는 모양으로 바꾼다. */
 function extraBuildView(build) {
-	for (const tier of build.anvils ?? []) {
-		for (const pick of tier.picks) {
-			if (!ANVIL_STAT_ICONS[pick.statKo]) missing.push(`모루 능력치 아이콘: ${pick.statKo}`);
-		}
+	for (const stat of (build.anvils ?? []).flatMap((group) => group.priorities.flat())) {
+		if (!ANVIL_STAT_ICONS[stat]) missing.push(`모루 능력치 아이콘: ${stat}`);
 	}
 	return {
 		core: build.core,
@@ -234,14 +237,12 @@ function extraBuildView(build) {
 		notes: build.notesKo ?? [],
 		play: build.playKo.map(parsePlain),
 		caution: build.cautionKo ?? '',
-		anvils: (build.anvils ?? []).map((tier) => ({
-			tier: tier.tier,
-			picks: tier.picks.map((pick) => ({
-				stat: pick.statKo,
-				icons: ANVIL_STAT_ICONS[pick.statKo] ?? [],
-				value: pick.valueKo,
-				why: pick.whyKo
-			}))
+		// 등급 묶음마다 1순위·2순위 능력치. 수치와 설명은 보여 주지 않는다(2026-11-02 사용자 결정).
+		anvils: (build.anvils ?? []).map((group) => ({
+			tiers: group.tiers,
+			priorities: group.priorities.map((stats) =>
+				stats.map((stat) => ({ stat, icons: ANVIL_STAT_ICONS[stat] ?? [] }))
+			)
 		}))
 	};
 }
@@ -503,6 +504,30 @@ const icons = {
 		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalemr.png`,
 		'stats',
 		'magic-resist',
+		32
+	),
+	health: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalehealth.png`,
+		'stats',
+		'health',
+		32
+	),
+	attackSpeed: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scaleas.png`,
+		'stats',
+		'attack-speed',
+		32
+	),
+	moveSpeed: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalems.png`,
+		'stats',
+		'move-speed',
+		32
+	),
+	tenacity: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scaletenacity.png`,
+		'stats',
+		'tenacity',
 		32
 	),
 	omnivamp: await saveIcon(

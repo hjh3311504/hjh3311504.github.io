@@ -176,16 +176,22 @@ test('장갑 충격 빌드가 있는 챔피언은 모루작 빌드도 바로 뒤
 	assert.equal(guide.items['모루'], guide.icons.anvil);
 	assert.match(guide.items['2티어 신발'], /\/items\/1001\.webp$/);
 	assert.match(anvilBuild.caution, /저점이 낮아요/);
-	// 추천 모루는 프리즘·골드·실버 순서이고, 프리즘은 방어구 관통력과 모든 피해 흡혈이다.
+	// 추천 모루는 프리즘, 골드·실버 두 묶음이고 1순위·2순위 능력치 이름만 보여 준다.
+	const names = (group) => group.priorities.map((stats) => stats.map((pick) => pick.stat));
 	assert.deepEqual(
-		anvilBuild.anvils.map((tier) => tier.tier),
-		['prismatic', 'gold', 'silver']
+		anvilBuild.anvils.map((group) => group.tiers),
+		[['prismatic'], ['gold', 'silver']]
 	);
-	assert.deepEqual(
-		anvilBuild.anvils[0].picks.map((pick) => pick.stat),
-		['방어구 관통력', '모든 피해 흡혈']
-	);
-	for (const pick of anvilBuild.anvils.flatMap((tier) => tier.picks)) {
+	assert.deepEqual(names(anvilBuild.anvils[0]), [
+		['방어구 관통력', '모든 피해 흡혈'],
+		['이동 속도', '강인함']
+	]);
+	assert.deepEqual(names(anvilBuild.anvils[1]), [
+		['방어력', '방어력 + 마법 저항력'],
+		['물리 관통력', '체력', '스킬 가속', '스킬 가속 + 공격 속도']
+	]);
+	for (const pick of anvilBuild.anvils.flatMap((group) => group.priorities.flat())) {
+		assert.deepEqual(Object.keys(pick).sort(), ['icons', 'stat'], pick.stat);
 		assert.ok(pick.icons.length > 0, pick.stat);
 		for (const key of pick.icons) assert.ok(guide.icons[key], `${pick.stat} ${key}`);
 	}

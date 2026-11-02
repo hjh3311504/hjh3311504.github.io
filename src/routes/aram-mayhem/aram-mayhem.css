@@ -700,8 +700,11 @@ html[data-theme='dark'] .aram-page {
 	align-items: start;
 	gap: var(--space-12);
 }
+.aram-anvil-badges {
+	display: grid;
+	gap: var(--space-4);
+}
 .aram-anvil-badge {
-	margin: 0;
 	padding: var(--space-4) 0;
 	border-radius: var(--ui-radius-sm);
 	color: var(--color-aram-on-tier);
@@ -727,38 +730,46 @@ html[data-theme='dark'] .aram-page {
 	display: grid;
 	gap: var(--space-8);
 	margin: 0;
-	padding: 0;
-	list-style: none;
 }
-.aram-anvil-picks li {
+.aram-anvil-rank {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--space-8);
+}
+.aram-anvil-rank dt {
+	flex: none;
+	padding: var(--space-2) 0;
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-12);
+	font-weight: 700;
+	line-height: 1.5;
+}
+.aram-anvil-rank dd {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
 	gap: var(--space-4) var(--space-8);
-	font-size: var(--font-size-14);
-	line-height: 1.5;
+	margin: 0;
 }
 .aram-anvil-stat {
 	display: inline-flex;
 	align-items: center;
 	gap: var(--space-4);
-	padding: var(--space-2) var(--space-8);
+	padding: var(--space-2) var(--space-8) var(--space-2) var(--space-2);
 	border-radius: var(--ui-radius-sm);
 	background: var(--aram-tile);
-}
-.aram-anvil-stat img {
-	width: 16px;
-	height: 16px;
-}
-.aram-anvil-stat strong,
-.aram-anvil-value {
+	font-size: var(--font-size-14);
+	font-weight: 600;
+	line-height: 1.5;
 	white-space: nowrap;
 }
-.aram-anvil-value {
-	color: var(--ui-text-muted);
+.aram-anvil-stat .aram-stat-icon {
+	width: 20px;
+	height: 20px;
+	border-radius: 4px;
 }
-.aram-anvil-why {
-	color: var(--ui-text-muted);
+.aram-anvil-stat .aram-stat-icon img {
+	width: 14px;
+	height: 14px;
 }
 .aram-core img {
 	width: 32px;
@@ -933,8 +944,10 @@ html[data-theme='dark'] .aram-page {
 		grid-template-columns: 1fr;
 		gap: var(--space-8);
 	}
+	.aram-anvil-badges {
+		display: flex;
+	}
 	.aram-anvil-badge {
-		justify-self: start;
 		padding: var(--space-2) var(--space-12);
 	}
 	.aram-boxes,
