@@ -221,7 +221,7 @@ html[data-theme='dark'] .aram-page {
 	border-radius: 6px;
 	background: var(--aram-tile);
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 }
 /* 증강 공략 */
 /* .aram-ring(40px)이 뒤에 있으므로 두 class를 함께 써서 64px를 지킨다. */
@@ -274,7 +274,7 @@ html[data-theme='dark'] .aram-page {
 }
 .aram-detail h3 {
 	margin: var(--space-32) 0 var(--space-12);
-	font-size: var(--font-size-20);
+	font-size: var(--font-size-22);
 	line-height: 1.4;
 }
 .aram-detail > h3:first-of-type {
@@ -297,7 +297,7 @@ html[data-theme='dark'] .aram-page {
 	gap: var(--space-4);
 	margin: 0;
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 }
 .aram-legend span {
 	width: 18px;
@@ -366,7 +366,7 @@ html[data-theme='dark'] .aram-page {
 .aram-level {
 	padding: 0 var(--space-8);
 	border-radius: 6px;
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 	font-weight: 800;
 	line-height: 1.8;
 }
@@ -398,7 +398,7 @@ html[data-theme='dark'] .aram-page {
 	border-radius: var(--ui-radius-md);
 	background: var(--aram-tile);
 	color: var(--ui-text);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 	font-weight: 600;
 	text-align: left;
 }
@@ -471,7 +471,7 @@ html[data-theme='dark'] .aram-page {
 	padding: var(--space-8) var(--space-12);
 	border-radius: var(--ui-radius-md);
 	background: var(--aram-accent-soft);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 }
 .aram-aug-detail strong {
 	margin-right: var(--space-8);
@@ -538,7 +538,7 @@ html[data-theme='dark'] .aram-page {
 	border-radius: 4px;
 	background: var(--ui-text);
 	color: var(--ui-surface);
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 	font-weight: 800;
 	line-height: 1.5;
 }
@@ -566,7 +566,7 @@ html[data-theme='dark'] .aram-page {
 	border-radius: 6px;
 	background: var(--ui-primary);
 	color: var(--ui-on-primary);
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 	line-height: 1.6;
 }
 .aram-steps {
@@ -577,7 +577,7 @@ html[data-theme='dark'] .aram-page {
 .aram-hint {
 	margin: var(--space-8) 0 0;
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 }
 /* 조합 플레이 영상: 카드 폭에 맞추고 영상 비율(style:aspect-ratio)을 유지한다. */
 .aram-video {
@@ -600,7 +600,7 @@ html[data-theme='dark'] .aram-page {
 	gap: var(--space-4) var(--space-8);
 	margin: var(--space-8) 0 0;
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 }
 .aram-sources a {
 	color: inherit;
@@ -625,7 +625,7 @@ html[data-theme='dark'] .aram-page {
 	border-radius: var(--ui-radius-md);
 	background: var(--ui-surface);
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 	font-weight: 600;
 	line-height: 1.8;
 	text-align: left;
@@ -668,7 +668,7 @@ html[data-theme='dark'] .aram-page {
 	padding: var(--space-4) var(--space-12) var(--space-4) var(--space-4);
 	border-radius: var(--ui-radius-md);
 	background: var(--aram-tile);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 	font-weight: 600;
 }
 .aram-core li + li::before {
@@ -707,7 +707,7 @@ html[data-theme='dark'] .aram-page {
 	padding: var(--space-4) 0;
 	border-radius: var(--ui-radius-sm);
 	color: var(--color-aram-on-tier);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 	font-weight: 700;
 	text-align: center;
 }
@@ -770,7 +770,7 @@ html[data-theme='dark'] .aram-page {
 	border-radius: 6px;
 	background: var(--ui-surface);
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 	line-height: 1.6;
 }
 .aram-item.aram-item-changed {
@@ -780,7 +780,7 @@ html[data-theme='dark'] .aram-page {
 .aram-sub-heading {
 	margin: var(--space-16) 0 var(--space-4);
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-18);
 	font-weight: 700;
 }
 /* 카드 맨 위의 소제목은 카드 안쪽 여백만 둔다. */
@@ -795,7 +795,7 @@ html[data-theme='dark'] .aram-page {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 }
 .aram-skill-order li + li::before {
 	content: '→';
@@ -840,11 +840,11 @@ html[data-theme='dark'] .aram-page {
 	line-height: 1.4;
 }
 .aram-boots strong {
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 }
 .aram-boots small {
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-12);
+	font-size: var(--font-size-14);
 }
 
 /* 나오면 좋은 증강·피할 증강 */
@@ -866,7 +866,7 @@ html[data-theme='dark'] .aram-page {
 }
 .aram-box h4 {
 	margin: 0 0 var(--space-8);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-18);
 }
 .aram-box-good h4 {
 	color: var(--aram-good);
@@ -880,7 +880,7 @@ html[data-theme='dark'] .aram-page {
 .aram-note {
 	margin: 0;
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 }
 
 /* 안내와 법적 고지 */
@@ -898,13 +898,13 @@ html[data-theme='dark'] .aram-page {
 }
 .aram-notes-list h3 {
 	margin: 0 0 var(--space-4);
-	font-size: var(--font-size-16);
+	font-size: var(--font-size-18);
 }
 .aram-notes-list p,
 .aram-notes-text {
 	margin: 0;
 	color: var(--ui-text-muted);
-	font-size: var(--font-size-14);
+	font-size: var(--font-size-16);
 	line-height: 1.7;
 	word-break: keep-all;
 }
