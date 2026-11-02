@@ -151,7 +151,7 @@ test('생성된 가이드 데이터는 참조가 모두 연결되어 있다', ()
 	}
 });
 
-test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루 빌드도 바로 뒤에 보여 준다', () => {
+test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 → 해신 작쇼 → 모루 빌드도 바로 뒤에 보여 준다', () => {
 	const armored = guide.champions.filter((champion) =>
 		champion.builds.some((build) => build.key === 'aug-armored-impact')
 	);
@@ -162,11 +162,13 @@ test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루
 		assert.equal(vest.key, 'aug-armored-impact-chain-vest', champion.id);
 		assert.deepEqual(vest.trigger, ['armored-impact']);
 		assert.equal(vest.variant, '쇠사슬 조끼 6개');
-		assert.deepEqual(vest.core, ['쇠사슬 조끼', '모루']);
+		assert.deepEqual(vest.core, ['쇠사슬 조끼', '해신 작쇼', '모루']);
 		// 모루는 문장 타일과 같은 초록 모루 아이콘을 쓴다.
 		assert.equal(guide.items['모루'], guide.icons.anvil);
-		assert.deepEqual(vest.notes, ['6개', '반복 구매']);
-		assert.equal(vest.play.length, 2);
+		assert.deepEqual(vest.notes, ['6개', '', '반복 구매']);
+		assert.equal(vest.play.length, 3);
+		// 운영 설명의 방어력은 능력치 타일로 보여 준다.
+		assert.ok(vest.play.flat().some((part) => part.t === 'stat' && part.v === '방어력'));
 	}
 	// 기본 빌드 아래에는 마지막 아이템이 도미닉 경의 인사인 이유를 타일과 함께 보여 준다.
 	const why = guide.augments['armored-impact'].guide.coreWhy;

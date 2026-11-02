@@ -437,13 +437,19 @@ const itemAliases = Object.fromEntries(
 	Object.entries(aliasData.items).filter(([name, list]) => name in items && list.length)
 );
 
-// 문장 타일용 아이콘: 능력치 모루(초록 모루 아이템 220000), 스킬 가속(룬 능력치 조각), 관통력(게임 글자 아이콘)
+// 문장 타일용 아이콘: 능력치 모루(초록 모루 아이템 220000), 스킬 가속(룬 능력치 조각), 방어력·관통력(게임 글자 아이콘)
 const icons = {
 	anvil: await saveIcon(`${DDRAGON}/img/item/220000.png`, 'stats', 'anvil', 48),
 	haste: await saveIcon(
 		`${CDRAGON}/v1/perk-images/statmods/statmodscdrscalingicon.png`,
 		'stats',
 		'ability-haste',
+		32
+	),
+	armor: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalearmor.png`,
+		'stats',
+		'armor',
 		32
 	),
 	armorPen: await saveIcon(

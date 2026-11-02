@@ -100,7 +100,7 @@ test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카�
 	// 관통력 100%를 강조하고 관통력은 아이콘 타일로 보여 준다.
 	// %와 '까지' 사이에는 줄바꿈을 막는 단어 잇기 문자가 있다.
 	await expect(page.locator('.aram-aug-lead')).toContainText(/100%\u2060까지/);
-	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(2);
+	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(3);
 	const cards = page.locator('.aram-role-items > li');
 	await expect(cards).toHaveCount(3);
 	await expect(cards.nth(0)).toContainText('AD 챔피언');
@@ -113,19 +113,29 @@ test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카�
 	await expect(page.getByRole('heading', { name: /어울리는 챔피언/ })).toHaveCount(0);
 });
 
-test('장갑 충격 공략과 챔피언 빌드 탭에 쇠사슬 조끼 6개 + 모루 템트리를 보여 준다', async ({
+test('장갑 충격 공략과 챔피언 빌드 탭에 쇠사슬 조끼 6개 → 해신 작쇼 → 모루 템트리를 보여 준다', async ({
 	page
 }) => {
 	await page.goto(`${HUB_PATH}/augments/armored-impact`);
 	const vest = page.locator('.aram-card', { hasText: '쇠사슬 조끼 6개' });
 	await expect(vest.locator('.aram-item-note')).toHaveText(['6개', '반복 구매']);
+	await expect(vest.locator('.aram-item')).toHaveText([
+		'쇠사슬 조끼 6개',
+		'해신 작쇼',
+		'모루 반복 구매'
+	]);
+	await expect(vest.locator('.aram-stat-icon img')).toHaveCount(1);
 	await expect(vest.getByRole('listitem').filter({ hasText: '방어력을 고르세요' })).toHaveCount(1);
 
 	await page.goto(`${HUB_PATH}/rammus`);
 	// 버튼 사이의 · 기호는 화면 읽기에서 빠진다.
 	await page.getByRole('button', { name: '장갑 충격 쇠사슬 조끼 6개' }).click();
 	const core = page.getByRole('list', { name: '코어 아이템 구매 순서' });
-	await expect(core.locator('.aram-item')).toHaveText(['쇠사슬 조끼 6개', '모루 반복 구매']);
+	await expect(core.locator('.aram-item')).toHaveText([
+		'쇠사슬 조끼 6개',
+		'해신 작쇼',
+		'모루 반복 구매'
+	]);
 	// 완전히 다른 템트리라 기본 빌드와 비교한 추가·변경 표시는 하지 않는다.
 	await expect(core.locator('.aram-mark')).toHaveCount(0);
 });
