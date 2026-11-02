@@ -85,6 +85,29 @@ test('허브의 꼭 읽어야 할 증강 공략에서 증강 공략으로 가고
 	await expect(championName(page)).toHaveText('트런들');
 });
 
+test('허브는 꼭 읽어야 할 증강 공략을 챔피언 이름 검색 위에 두고 벌이다!!! 공략은 적중 시 효과를 안내한다', async ({
+	page
+}) => {
+	await openHub(page);
+	const links = page.getByRole('region', { name: '꼭 읽어야 할 증강 공략' });
+	const search = page.getByLabel('챔피언 이름 검색');
+	await expect(links).toBeVisible();
+	await expect(search).toBeVisible();
+	const linksBox = await links.boundingBox();
+	const searchBox = await search.boundingBox();
+	expect(linksBox.y + linksBox.height).toBeLessThanOrEqual(searchBox.y);
+
+	await links.getByRole('link', { name: /벌이다!!!/ }).click();
+	await expect(page).toHaveURL(/\/aram-mayhem\/augments\/bees$/);
+	// 챔피언마다 템트리가 달라 템트리 카드 없이 알아 둘 점만 보여 준다.
+	await expect(page.getByRole('heading', { name: '벌이다!!! 템트리', level: 3 })).toHaveCount(0);
+	await expect(page.getByRole('heading', { name: '알아 둘 점', level: 3 })).toBeVisible();
+	await expect(page.locator('.aram-detail')).toContainText(
+		'패시브나 스킬에 적중 시 효과가 붙은 챔피언이 쓰면 효과가 더 커져요.'
+	);
+	await expect(page.getByRole('heading', { name: '어울리는 챔피언 16명', level: 3 })).toBeVisible();
+});
+
 test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카드 3개를 출처 없이 보여 준다', async ({
 	page
 }) => {

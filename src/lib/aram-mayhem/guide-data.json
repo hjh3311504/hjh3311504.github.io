@@ -23197,7 +23197,28 @@
 			"aliases": ["벌이다", "벌"],
 			"tier": "gold",
 			"effectKo": "스킬을 쓰면 때때로 벌집이 날아가 폭발합니다. 둔화와 적중 시 효과도 적용합니다.",
-			"icon": "/images/aram-mayhem/augments/bees.webp"
+			"icon": "/images/aram-mayhem/augments/bees.webp",
+			"guide": {
+				"lead": [],
+				"coreWhy": [],
+				"search": "",
+				"tips": [
+					[
+						{
+							"t": "text",
+							"v": "벌집도 적중 시 효과를 적용해요."
+						}
+					],
+					[
+						{
+							"t": "text",
+							"v": "그래서 패시브나 스킬에 적중 시 효과가 붙은 챔피언이 쓰면 효과가 더 커져요."
+						}
+					]
+				],
+				"roleItems": [],
+				"builds": []
+			}
 		},
 		"big-shot": {
 			"nameKo": "묵직한 한 방",

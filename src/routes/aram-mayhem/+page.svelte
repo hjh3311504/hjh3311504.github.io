@@ -65,8 +65,8 @@
 <SiteShell active="aram-mayhem" variant="aram-mayhem">
 	<ToolPageLayout class="aram-page" maxWidth="1040px" title={seo.heading} description={seo.intro}>
 		<p class="aram-patch">{guide.patch} 패치 기준</p>
-		<ChampionPicker champions={guide.champions} />
 		<AugmentLinks ids={AUGMENT_PAGE_IDS} {guide} />
+		<ChampionPicker champions={guide.champions} />
 		<AramGuideNotes patch={guide.patch} championCount={guide.champions.length} />
 		<AramLegal />
 		<ToolPageFooter />
