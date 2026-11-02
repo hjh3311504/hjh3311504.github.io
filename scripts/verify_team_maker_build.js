@@ -675,7 +675,7 @@ for (const id of AUGMENT_PAGE_IDS) {
 			: [
 					'class="aram-role-items"',
 					...aramGuide.augments[id].guide.roleItems.flatMap((row) =>
-						row.items.map(({ item }) => `<span>${item}</span>`)
+						row.items.map((item) => `<span>${item}</span>`)
 					)
 				])
 	]) {

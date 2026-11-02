@@ -261,11 +261,11 @@ html[data-theme='dark'] .aram-page {
 .aram-role-items .aram-item {
 	display: inline-flex;
 }
-/* 한 카드에 추천 아이템이 여럿이면 아이템마다 이유를 붙여 위아래로 나눈다. */
-.aram-role-item + .aram-role-item {
-	margin-top: var(--space-12);
-	padding-top: var(--space-12);
-	border-top: 1px solid var(--ui-border);
+/* 한 카드에 추천 아이템이 여럿이면 한 줄에 나란히 두고 좁으면 줄바꿈한다. */
+.aram-role-item-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-8);
 }
 .aram-role-items .aram-item img {
 	width: 32px;

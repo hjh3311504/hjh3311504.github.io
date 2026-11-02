@@ -61,17 +61,17 @@
 			{#each augment.guide.roleItems as row (row.role)}
 				<li class="aram-card">
 					<p class="aram-sub-heading">{row.role}</p>
-					{#each row.items as { item, why } (item)}
-						<div class="aram-role-item">
+					<div class="aram-role-item-list">
+						{#each row.items as item (item)}
 							<span class="aram-item">
 								{#if guide.items[item]}
 									<img src={guide.items[item]} alt="" width="32" height="32" decoding="async" />
 								{/if}
 								<span>{item}</span>
 							</span>
-							<p class="aram-why"><RichText parts={why} champion={null} {guide} /></p>
-						</div>
-					{/each}
+						{/each}
+					</div>
+					<p class="aram-why"><RichText parts={row.why} champion={null} {guide} /></p>
 				</li>
 			{/each}
 		</ul>

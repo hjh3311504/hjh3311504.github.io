@@ -8,6 +8,8 @@ export const AUGMENT_ALIASES = { 순수주의자: '순수주의자 - 마법사' 
 export const STAT_ICONS = {
 	'스킬 가속': 'haste',
 	'방어구 관통력': 'armorPen',
+	// 물리 관통력(치명성)은 게임 글자 아이콘이 따로 없어 방어구 관통력 아이콘을 같이 쓴다.
+	'물리 관통력': 'armorPen',
 	'마법 관통력': 'magicPen'
 };
 

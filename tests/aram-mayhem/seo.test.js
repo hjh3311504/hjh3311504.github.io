@@ -180,7 +180,7 @@ test('운명의 무기 공략은 챔피언 없이 AD·AP·암살자 1코어를 �
 	// 추천 아이템마다 아이콘이 있고, 이 페이지는 출처를 보여 주지 않는다.
 	const { roleItems, ...rest } = guide.augments['weapon-of-destiny'].guide;
 	assert.deepEqual(
-		roleItems.map((row) => [row.role, row.items.map(({ item }) => item)]),
+		roleItems.map((row) => [row.role, row.items]),
 		[
 			['AD 챔피언', ['도미닉 경의 인사']],
 			['AP 챔피언', ['무덤꽃', '공허의 지팡이']],
@@ -188,16 +188,19 @@ test('운명의 무기 공략은 챔피언 없이 AD·AP·암살자 1코어를 �
 		]
 	);
 	for (const row of roleItems) {
-		for (const { item } of row.items) assert.ok(guide.items[item], item);
+		for (const item of row.items) assert.ok(guide.items[item], item);
 		assert.equal(row.sources, undefined);
 	}
 	assert.deepEqual(Object.keys(rest).sort(), ['builds', 'coreWhy', 'lead', 'search', 'tips']);
 	// 관통력은 아이콘 타일로 보여 준다.
 	assert.deepEqual(
-		roleItems.map(({ items }) =>
-			items[0].why.filter((part) => part.t === 'stat').map((part) => part.v)
-		),
-		[['방어구 관통력'], ['마법 관통력', '스킬 가속', '마법 관통력'], []]
+		roleItems.map((row) => row.why.filter((part) => part.t === 'stat').map((part) => part.v)),
+		[['방어구 관통력'], ['마법 관통력', '스킬 가속'], ['물리 관통력']]
+	);
+	// 설명 속 아이템 이름도 타일로 보여 준다.
+	assert.deepEqual(
+		roleItems.map((row) => row.why.filter((part) => part.t === 'item').map((part) => part.v)),
+		[[], ['무덤꽃'], ['독사의 송곳니']]
 	);
 	assert.ok(guide.icons.armorPen && guide.icons.magicPen);
 });
