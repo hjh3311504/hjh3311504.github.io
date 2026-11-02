@@ -774,6 +774,495 @@
 					"samePlay": false
 				}
 			]
+		},
+		{
+			"id": "galio",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "nami",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "nocturne",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "nunu-willump",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "nidalee",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "neeko",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "nilah",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "darius",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "diana",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "draven",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "rakan",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "renata-glasc",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "renekton",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "rek-sai",
+			"defaultPlayKo": [],
+			"comboBuilds": [
+				{
+					"comboTitle": "장갑 충격 렉사이",
+					"whyKo": "방어력을 크게 올려 장갑 충격의 추가 피해를 키웁니다.",
+					"playKo": [
+						"W로 다가가 튀어나온 뒤 Q 기본 공격으로 장갑 충격 피해를 여러 명에게 넣으세요."
+					],
+					"samePlay": false
+				}
+			]
+		},
+		{
+			"id": "rell",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "locke",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "leblanc",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "riven",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "lissandra",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "lillia",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "maokai",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "malzahar",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "mel",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "mordekaiser",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "morgana",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "dr-mundo",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "milio",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "bard",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "vex",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "velkoz",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "briar",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "viktor",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "poppy",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "samira",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "sion",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "senna",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "seraphine",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "sejuani",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "shen",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "sivir",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "syndra",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "ahri",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "amumu",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "aurelion-sol",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "ivern",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "akali",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "aatrox",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "aphelios",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "alistar",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "ambessa",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "elise",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "aurora",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "ornn",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "orianna",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "olaf",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "warwick",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "yunara",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "yuumi",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "evelynn",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "ezreal",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "illaoi",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "xayah",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "zyra",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "zac",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "zaahen",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "janna",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "xerath",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "zeri",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "zoe",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "ziggs",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "jhin",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "jinx",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "chogath",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "karma",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "camille",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "kassadin",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "cassiopeia",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "khazix",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "kalista",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "kennen",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "kayn",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "kayle",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "quinn",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "ksante",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "kled",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "qiyana",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "kindred",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "talon",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "taliyah",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "tristana",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "tryndamere",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "pyke",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "pantheon",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "fiddlesticks",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "heimerdinger",
+			"defaultPlayKo": [],
+			"comboBuilds": []
+		},
+		{
+			"id": "hwei",
+			"defaultPlayKo": [],
+			"comboBuilds": []
 		}
 	]
 }

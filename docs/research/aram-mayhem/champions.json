@@ -5688,6 +5688,2664 @@
 			"playSources": [],
 			"beginnerTipKo": "",
 			"communityEvidenceIds": ["671118", "673028"]
+		},
+		{
+			"id": "galio",
+			"nameKo": "갈리오",
+			"nameEn": "Galio",
+			"roles": ["탱커", "마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["quest-steel-your-heart", "tank-engine", "ethereal-weapon", "lich-brain"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 갈리오 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/galio/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["676743"]
+		},
+		{
+			"id": "nami",
+			"nameKo": "나미",
+			"nameEn": "Nami",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"shrink-engine",
+				"windspeakers-blessing",
+				"infinite-recursion",
+				"sonata",
+				"enchanting-butterflies"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["제국의 명령", "속삭이는 머리띠", "월석 재생기"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 나미 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/nami/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "nocturne",
+			"nameKo": "녹턴",
+			"nameEn": "Nocturne",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["biggest-snowball-ever", "jeweled-gauntlet", "big-shot"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "원칙의 원형낫", "징수의 총"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 녹턴 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/nocturne/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["674684", "675427"]
+		},
+		{
+			"id": "nunu-willump",
+			"nameKo": "누누와 윌럼프",
+			"nameEn": "Nunu & Willump",
+			"roles": ["마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["jeweled-gauntlet"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "폭풍 쇄도", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 누누와 윌럼프 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/nunu/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["386699"]
+		},
+		{
+			"id": "nidalee",
+			"nameKo": "니달리",
+			"nameEn": "Nidalee",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"spell-split",
+				"bees",
+				"from-beginning-to-end",
+				"infinite-recursion",
+				"quest-wooglets-witchcap"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 니달리 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/nidalee/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "neeko",
+			"nameKo": "니코",
+			"nameEn": "Neeko",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"bees",
+				"clown-college",
+				"quest-wooglets-witchcap",
+				"echo-cast",
+				"biggest-snowball-ever"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 니코 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/neeko/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "nilah",
+			"nameKo": "닐라",
+			"nameEn": "Nilah",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["jeweled-gauntlet", "big-shot", "totentanz"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 닐라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/nilah/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["672836", "674844"]
+		},
+		{
+			"id": "darius",
+			"nameKo": "다리우스",
+			"nameEn": "Darius",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"mad-scientist",
+				"escape-plan",
+				"stay-resolute",
+				"the-boom-and-the-bass"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "정령의 형상"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 다리우스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/darius/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "diana",
+			"nameKo": "다이애나",
+			"nameEn": "Diana",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"takeem-down-down-down",
+				"armored-impact",
+				"quest-steel-your-heart",
+				"ethereal-weapon",
+				"heavy-hitter"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "균열 생성기"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 다이애나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/diana/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "draven",
+			"nameKo": "드레이븐",
+			"nameEn": "Draven",
+			"roles": ["원거리 딜러"],
+			"difficulty": "어려움",
+			"combos": [
+				{
+					"title": "치명타 R 드레이븐",
+					"augmentIds": ["jeweled-bracelet", "jeweled-gauntlet", "upgrade-infinity-edge"],
+					"requiredAugmentIds": ["jeweled-bracelet"],
+					"whyKo": "보석 팔찌로 R에도 치명타가 터지고, R 도끼가 갔다가 돌아오며 두 번 맞힐 수 있습니다.",
+					"stepsKo": [
+						"R은 적이 모여 있는 방향으로 던져 갈 때와 돌아올 때 모두 맞히세요.",
+						"첫 적을 맞힌 뒤 돌아오는 도끼 길에 적이 남아 있는지 보세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "독립된 작성자·경기 여부는 확인하지 못했습니다. 통제된 비교 실험이나 조합 승률이 아닙니다. 근거 글 680926, 677548, 673372. 2026-11-02 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["jeweled-bracelet", "jeweled-gauntlet", "upgrade-infinity-edge"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 드레이븐 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/draven/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673372", "677548", "680926"]
+		},
+		{
+			"id": "rakan",
+			"nameKo": "라칸",
+			"nameEn": "Rakan",
+			"roles": ["서포터"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"infinite-recursion",
+				"shadow-runner",
+				"protein-shake",
+				"dashing"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "혹한의 손길", "끝없는 절망"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 라칸 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/rakan/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "renata-glasc",
+			"nameKo": "레나타 글라스크",
+			"nameEn": "Renata Glasc",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"shrink-engine",
+				"sonata",
+				"infinite-recursion",
+				"windspeakers-blessing",
+				"enchanting-butterflies"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "제국의 명령", "슈렐리아의 군가"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 레나타 글라스크 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/renata/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "renekton",
+			"nameKo": "레넥톤",
+			"nameEn": "Renekton",
+			"roles": ["브루저"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": ["armored-impact", "mystic-punch"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["갈라진 하늘", "월식", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 레넥톤 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/renekton/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["680738"]
+		},
+		{
+			"id": "rek-sai",
+			"nameKo": "렉사이",
+			"nameEn": "Rek'Sai",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "쉬움",
+			"combos": [
+				{
+					"title": "장갑 충격 렉사이",
+					"augmentIds": ["armored-impact"],
+					"requiredAugmentIds": ["armored-impact"],
+					"whyKo": "Q를 켠 기본 공격이 주변 적에게도 피해를 줘, 장갑 충격 추가 피해를 여러 명에게 넣습니다.",
+					"stepsKo": [
+						"방어 아이템을 갖추고 W로 땅속에서 다가가세요.",
+						"튀어나온 뒤 Q를 켜고 모여 있는 적을 기본 공격으로 때리세요."
+					],
+					"rating": "B",
+					"evidence": [],
+					"confidence": "low",
+					"verificationNoteKo": "독립된 작성자·경기 여부는 확인하지 못했습니다. 통제된 비교 실험이나 조합 승률이 아닙니다. 근거 글 677357, 673903. 2026-11-02 사용자 지시로 화면에 출처를 보여 주지 않음.",
+					"stats": [],
+					"communityPostIds": [],
+					"evidenceLevel": "community"
+				}
+			],
+			"goodAugmentIds": ["armored-impact"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "정령의 형상"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 렉사이 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/reksai/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673903", "677357"]
+		},
+		{
+			"id": "rell",
+			"nameKo": "렐",
+			"nameEn": "Rell",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"quest-steel-your-heart",
+				"infinite-recursion",
+				"upgrade-immolate",
+				"pressure-cooker"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 렐 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/rell/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "locke",
+			"nameKo": "로크",
+			"nameEn": "Locke",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["bees"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["리치베인", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 로크 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/locke/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["673249"]
+		},
+		{
+			"id": "leblanc",
+			"nameKo": "르블랑",
+			"nameEn": "LeBlanc",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"warlock-juicebox",
+				"bees",
+				"upgrade-stormsurge",
+				"from-beginning-to-end",
+				"quest-wooglets-witchcap"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 르블랑 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/leblanc/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "riven",
+			"nameKo": "리븐",
+			"nameEn": "Riven",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["armored-impact", "the-boom-and-the-bass"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "갈라진 하늘", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 리븐 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/riven/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["672423"]
+		},
+		{
+			"id": "lissandra",
+			"nameKo": "리산드라",
+			"nameEn": "Lissandra",
+			"roles": ["마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"quest-wooglets-witchcap",
+				"upgrade-stormsurge",
+				"from-beginning-to-end",
+				"warlock-juicebox",
+				"biggest-snowball-ever"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "존야의 모래시계", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 리산드라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/lissandra/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "lillia",
+			"nameKo": "릴리아",
+			"nameEn": "Lillia",
+			"roles": ["브루저", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"phenomenal-evil",
+				"infernal-conduit",
+				"quest-wooglets-witchcap",
+				"takeem-down-down-down",
+				"eureka"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 릴리아 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/lillia/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "maokai",
+			"nameKo": "마오카이",
+			"nameEn": "Maokai",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"infinite-recursion",
+				"quest-steel-your-heart",
+				"mad-scientist",
+				"courage-of-the-colossus",
+				"armored-impact"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "정령의 형상"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 마오카이 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/maokai/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "malzahar",
+			"nameKo": "말자하",
+			"nameEn": "Malzahar",
+			"roles": ["마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"erosion",
+				"homeguard",
+				"infernal-conduit",
+				"giant-slayer",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 말자하 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/malzahar/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "mel",
+			"nameKo": "멜",
+			"nameEn": "Mel",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["skilled-sniper"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 멜 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/mel/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["386699"]
+		},
+		{
+			"id": "mordekaiser",
+			"nameKo": "모데카이저",
+			"nameEn": "Mordekaiser",
+			"roles": ["브루저", "마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"takeem-down-down-down",
+				"the-boom-and-the-bass",
+				"armored-impact",
+				"ethereal-weapon",
+				"lich-brain"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "정령의 형상"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 모데카이저 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/mordekaiser/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "morgana",
+			"nameKo": "모르가나",
+			"nameEn": "Morgana",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"shrink-engine",
+				"infinite-recursion",
+				"homeguard",
+				"mad-scientist",
+				"bees"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 모르가나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/morgana/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "dr-mundo",
+			"nameKo": "문도 박사",
+			"nameEn": "Dr. Mundo",
+			"roles": ["탱커", "브루저"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"circle-of-death",
+				"goliath",
+				"quest-steel-your-heart",
+				"tank-engine",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 문도 박사 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/drmundo/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "milio",
+			"nameKo": "밀리오",
+			"nameEn": "Milio",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"windspeakers-blessing",
+				"shrink-engine",
+				"infinite-recursion",
+				"enchanting-butterflies",
+				"wee-woo-wee-woo"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["월석 재생기", "속삭이는 머리띠", "불타는 향로"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 밀리오 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/milio/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "bard",
+			"nameKo": "바드",
+			"nameEn": "Bard",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"mercys-strike",
+				"quest-wooglets-witchcap",
+				"adapt",
+				"the-boom-and-the-bass",
+				"marksmage"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "리치베인", "내셔의 이빨"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 바드 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/bard/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "vex",
+			"nameKo": "벡스",
+			"nameEn": "Vex",
+			"roles": ["마법사"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"bees",
+				"quest-wooglets-witchcap",
+				"recoil",
+				"mad-scientist",
+				"warlock-juicebox"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 벡스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/vex/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "velkoz",
+			"nameKo": "벨코즈",
+			"nameEn": "Vel'Koz",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["homeguard", "bees", "multishot", "infinite-recursion", "giant-slayer"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 벨코즈 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/velkoz/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "briar",
+			"nameKo": "브라이어",
+			"nameEn": "Briar",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"the-boom-and-the-bass",
+				"armored-impact",
+				"mystic-punch",
+				"ultra-hydra",
+				"takeem-down-down-down"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 브라이어 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/briar/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "viktor",
+			"nameKo": "빅토르",
+			"nameEn": "Viktor",
+			"roles": ["마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["skilled-sniper", "pursuit-of-haste"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 빅토르 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/viktor/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["564400"]
+		},
+		{
+			"id": "poppy",
+			"nameKo": "뽀삐",
+			"nameEn": "Poppy",
+			"roles": ["탱커", "브루저"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"quest-steel-your-heart",
+				"the-boom-and-the-bass",
+				"pressure-cooker",
+				"goliath"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "워모그의 갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 뽀삐 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/poppy/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "samira",
+			"nameKo": "사미라",
+			"nameEn": "Samira",
+			"roles": ["원거리 딜러", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"still-here",
+				"soul-siphon",
+				"escape-plan",
+				"blunt-force",
+				"clown-college"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 사미라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/samira/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "sion",
+			"nameKo": "사이온",
+			"nameEn": "Sion",
+			"roles": ["탱커", "브루저"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"quest-steel-your-heart",
+				"goliath",
+				"pressure-cooker",
+				"heavy-hitter",
+				"upgrade-immolate"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "워모그의 갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 사이온 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/sion/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "senna",
+			"nameKo": "세나",
+			"nameEn": "Senna",
+			"roles": ["서포터", "원거리 딜러"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"stackosaurusrex",
+				"bees",
+				"upgrade-sword-of-blossoming-dawn",
+				"enchanting-butterflies",
+				"the-boom-and-the-bass"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "고속 연사포", "무한의 대검"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 세나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/senna/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "seraphine",
+			"nameKo": "세라핀",
+			"nameEn": "Seraphine",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"infinite-recursion",
+				"shrink-engine",
+				"eureka",
+				"from-downtown",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "라일라이의 수정홀", "리안드리의 고통"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 세라핀 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/seraphine/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "sejuani",
+			"nameKo": "세주아니",
+			"nameEn": "Sejuani",
+			"roles": ["탱커"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"quest-steel-your-heart",
+				"goliath",
+				"tank-engine",
+				"heavy-hitter"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 세주아니 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/sejuani/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "shen",
+			"nameKo": "쉔",
+			"nameEn": "Shen",
+			"roles": ["탱커"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"quest-steel-your-heart",
+				"heavy-hitter",
+				"goliath",
+				"tank-engine",
+				"armored-impact"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "끝없는 절망", "워모그의 갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 쉔 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/shen/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "sivir",
+			"nameKo": "시비르",
+			"nameEn": "Sivir",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"soul-siphon",
+				"still-here",
+				"quest-urfs-champion",
+				"blunt-force",
+				"flow-of-spirit"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["윤 탈 야생화살", "나보리 명멸검", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 시비르 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/sivir/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "syndra",
+			"nameKo": "신드라",
+			"nameEn": "Syndra",
+			"roles": ["마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["eureka", "homeguard", "bees", "infinite-recursion", "mad-scientist"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 신드라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/syndra/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "ahri",
+			"nameKo": "아리",
+			"nameEn": "Ahri",
+			"roles": ["마법사", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"eureka",
+				"quest-wooglets-witchcap",
+				"infinite-recursion",
+				"warlock-juicebox",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아리 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ahri/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "amumu",
+			"nameKo": "아무무",
+			"nameEn": "Amumu",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"stay-resolute",
+				"armored-impact",
+				"takeem-down-down-down",
+				"infernal-conduit",
+				"quest-steel-your-heart"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아무무 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/amumu/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "aurelion-sol",
+			"nameKo": "아우렐리온 솔",
+			"nameEn": "Aurelion Sol",
+			"roles": ["마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["ice-cold"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["영겁의 지팡이", "라일라이의 수정홀", "리안드리의 고통"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아우렐리온 솔 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/aurelionsol/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["386699"]
+		},
+		{
+			"id": "ivern",
+			"nameKo": "아이번",
+			"nameEn": "Ivern",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"group-hug",
+				"windspeakers-blessing",
+				"enchanting-butterflies",
+				"shrink-engine",
+				"wee-woo-wee-woo"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["월석 재생기", "속삭이는 머리띠", "불타는 향로"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아이번 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ivern/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "akali",
+			"nameKo": "아칼리",
+			"nameEn": "Akali",
+			"roles": ["암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"takeem-down-down-down",
+				"warlock-juicebox",
+				"the-boom-and-the-bass",
+				"quest-wooglets-witchcap",
+				"escape-plan"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["마법공학 총검", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아칼리 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/akali/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "aatrox",
+			"nameKo": "아트록스",
+			"nameEn": "Aatrox",
+			"roles": ["브루저"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"the-boom-and-the-bass",
+				"takeem-down-down-down",
+				"mosh-monster",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "갈라진 하늘", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아트록스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/aatrox/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "aphelios",
+			"nameKo": "아펠리오스",
+			"nameEn": "Aphelios",
+			"roles": ["원거리 딜러"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["dual-wield"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 아펠리오스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/aphelios/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["386699"]
+		},
+		{
+			"id": "alistar",
+			"nameKo": "알리스타",
+			"nameEn": "Alistar",
+			"roles": ["탱커", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"pressure-cooker",
+				"quest-steel-your-heart",
+				"upgrade-immolate",
+				"cruelty",
+				"infinite-recursion"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 알리스타 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/alistar/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "ambessa",
+			"nameKo": "암베사",
+			"nameEn": "Ambessa",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"takeem-down-down-down",
+				"the-boom-and-the-bass",
+				"swift-and-safe",
+				"blunt-force",
+				"tooth-fairy"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "월식", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 암베사 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ambessa/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "elise",
+			"nameKo": "엘리스",
+			"nameEn": "Elise",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"bees",
+				"the-boom-and-the-bass",
+				"warlock-juicebox",
+				"giant-slayer",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 엘리스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/elise/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "aurora",
+			"nameKo": "오로라",
+			"nameEn": "Aurora",
+			"roles": ["마법사", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["ethereal-weapon"],
+			"avoidAugmentIds": ["bees", "the-boom-and-the-bass"],
+			"avoidNoteKo": "bees: 벌 피해로 패시브를 쌓을 목적으로는 피하는 후보입니다. 패시브가 적용되지 않았다는 보고가 반복됩니다. the-boom-and-the-bass: 환영 무기와 함께 골라도 기대한 발동이 없었다는 직접 후기가 있습니다.",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 오로라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/aurora/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "ornn",
+			"nameKo": "오른",
+			"nameEn": "Ornn",
+			"roles": ["탱커"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"tank-engine",
+				"quest-steel-your-heart",
+				"armored-impact",
+				"heavy-hitter",
+				"pressure-cooker"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 오른 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ornn/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "orianna",
+			"nameKo": "오리아나",
+			"nameEn": "Orianna",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"bees",
+				"eureka",
+				"infinite-recursion",
+				"quest-wooglets-witchcap",
+				"homeguard"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 오리아나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/orianna/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "olaf",
+			"nameKo": "올라프",
+			"nameEn": "Olaf",
+			"roles": ["브루저"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"takeem-down-down-down",
+				"the-boom-and-the-bass",
+				"ultra-hydra",
+				"final-form",
+				"armored-impact"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["발걸음 분쇄기", "실험적 마공학판", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 올라프 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/olaf/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "warwick",
+			"nameKo": "워윅",
+			"nameEn": "Warwick",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"ultra-hydra",
+				"takeem-down-down-down",
+				"the-boom-and-the-bass",
+				"circle-of-death"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "몰락한 왕의 검", "정령의 형상"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 워윅 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/warwick/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "yunara",
+			"nameKo": "유나라",
+			"nameEn": "Yunara",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"still-here",
+				"dual-wield",
+				"soul-siphon",
+				"master-of-duality",
+				"quest-urfs-champion"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["윤 탈 야생화살", "루난의 허리케인", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 유나라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/yunara/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "yuumi",
+			"nameKo": "유미",
+			"nameEn": "Yuumi",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"enchanting-butterflies",
+				"windspeakers-blessing",
+				"infinite-recursion",
+				"shrink-engine",
+				"sonata"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["월석 재생기", "속삭이는 머리띠", "불타는 향로"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 유미 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/yuumi/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "evelynn",
+			"nameKo": "이블린",
+			"nameEn": "Evelynn",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"from-beginning-to-end",
+				"the-boom-and-the-bass",
+				"upgrade-stormsurge",
+				"giant-slayer",
+				"clown-college"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["리치베인", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 이블린 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/evelynn/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "ezreal",
+			"nameKo": "이즈리얼",
+			"nameEn": "Ezreal",
+			"roles": ["원거리 딜러", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"the-boom-and-the-bass",
+				"bees",
+				"jeweled-gauntlet",
+				"blue-barrier",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["삼위일체", "마나무네", "쇼진의 창"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 이즈리얼 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ezreal/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "illaoi",
+			"nameKo": "일라오이",
+			"nameEn": "Illaoi",
+			"roles": ["브루저", "탱커"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"quest-steel-your-heart",
+				"goliath",
+				"mad-scientist",
+				"tank-engine",
+				"bonk"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "갈라진 하늘", "정령의 형상"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 일라오이 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/illaoi/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "xayah",
+			"nameKo": "자야",
+			"nameEn": "Xayah",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["still-here", "dual-wield", "escape-plan", "soul-siphon", "giant-slayer"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "나보리 명멸검", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 자야 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/xayah/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "zyra",
+			"nameKo": "자이라",
+			"nameEn": "Zyra",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["infernal-conduit"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 자이라 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/zyra/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["386699"]
+		},
+		{
+			"id": "zac",
+			"nameKo": "자크",
+			"nameEn": "Zac",
+			"roles": ["탱커", "브루저"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"circle-of-death",
+				"goliath",
+				"tank-engine",
+				"quest-steel-your-heart",
+				"stay-resolute"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "정령의 형상", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 자크 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/zac/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "zaahen",
+			"nameKo": "자헨",
+			"nameEn": "Zaahen",
+			"roles": ["브루저"],
+			"difficulty": "쉬움",
+			"combos": [],
+			"goodAugmentIds": [
+				"the-boom-and-the-bass",
+				"armored-impact",
+				"ultra-hydra",
+				"takeem-down-down-down",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "갈라진 하늘", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 자헨 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/zaahen/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "janna",
+			"nameKo": "잔나",
+			"nameEn": "Janna",
+			"roles": ["서포터", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"windspeakers-blessing",
+				"enchanting-butterflies",
+				"shrink-engine",
+				"wee-woo-wee-woo",
+				"infinite-recursion"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["월석 재생기", "속삭이는 머리띠", "불타는 향로"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 잔나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/janna/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "xerath",
+			"nameKo": "제라스",
+			"nameEn": "Xerath",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["ultimate-recursion"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 제라스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/xerath/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": ["386699"]
+		},
+		{
+			"id": "zeri",
+			"nameKo": "제리",
+			"nameEn": "Zeri",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"the-boom-and-the-bass",
+				"still-here",
+				"soul-siphon",
+				"giant-slayer",
+				"escape-plan"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["윤 탈 야생화살", "루난의 허리케인", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 제리 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/zeri/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "zoe",
+			"nameKo": "조이",
+			"nameEn": "Zoe",
+			"roles": ["마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"biggest-snowball-ever",
+				"bees",
+				"from-beginning-to-end",
+				"homeguard",
+				"upgrade-stormsurge"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 조이 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/zoe/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "ziggs",
+			"nameKo": "직스",
+			"nameEn": "Ziggs",
+			"roles": ["마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["bees", "homeguard", "giant-slayer", "infinite-recursion", "eureka"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 직스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ziggs/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "jhin",
+			"nameKo": "진",
+			"nameEn": "Jhin",
+			"roles": ["원거리 딜러", "마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"the-boom-and-the-bass",
+				"bees",
+				"giant-slayer",
+				"quest-urfs-champion",
+				"tripleshot"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 진 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/jhin/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "jinx",
+			"nameKo": "징크스",
+			"nameEn": "Jinx",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"still-here",
+				"dual-wield",
+				"soul-siphon",
+				"quest-urfs-champion",
+				"blunt-force"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "루난의 허리케인", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 징크스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/jinx/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "chogath",
+			"nameKo": "초가스",
+			"nameEn": "Cho'Gath",
+			"roles": ["탱커", "마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"quest-steel-your-heart",
+				"tank-engine",
+				"goliath",
+				"heavy-hitter",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "워모그의 갑옷", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 초가스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/chogath/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "karma",
+			"nameKo": "카르마",
+			"nameEn": "Karma",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"infinite-recursion",
+				"enchanting-butterflies",
+				"shrink-engine",
+				"wee-woo-wee-woo",
+				"group-hug"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 카르마 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/karma/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "camille",
+			"nameKo": "카밀",
+			"nameEn": "Camille",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"armored-impact",
+				"the-boom-and-the-bass",
+				"ultra-hydra",
+				"escape-plan",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["삼위일체", "갈라진 하늘", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 카밀 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/camille/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kassadin",
+			"nameKo": "카사딘",
+			"nameEn": "Kassadin",
+			"roles": ["암살자", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"blue-barrier",
+				"mind-to-matter",
+				"final-form",
+				"takeem-down-down-down",
+				"warlock-juicebox"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "루덴의 메아리"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 카사딘 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/kassadin/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "cassiopeia",
+			"nameKo": "카시오페아",
+			"nameEn": "Cassiopeia",
+			"roles": ["마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"infernal-conduit",
+				"blue-barrier",
+				"tripleshot",
+				"phenomenal-evil",
+				"giant-slayer"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "리안드리의 고통"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 카시오페아 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/cassiopeia/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "khazix",
+			"nameKo": "카직스",
+			"nameEn": "Kha'Zix",
+			"roles": ["암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"bees",
+				"from-beginning-to-end",
+				"clown-college",
+				"the-boom-and-the-bass",
+				"mad-scientist"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "세릴다의 원한"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 카직스 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/khazix/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kalista",
+			"nameKo": "칼리스타",
+			"nameEn": "Kalista",
+			"roles": ["원거리 딜러"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["still-here", "dual-wield", "outlaws-grit", "swift-and-safe"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["몰락한 왕의 검", "구인수의 격노검", "루난의 허리케인"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 칼리스타 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/kalista/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kennen",
+			"nameKo": "케넨",
+			"nameEn": "Kennen",
+			"roles": ["마법사"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"clown-college",
+				"quest-wooglets-witchcap",
+				"eureka",
+				"warlock-juicebox",
+				"bees"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["마법공학 로켓 벨트", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 케넨 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/kennen/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kayn",
+			"nameKo": "케인",
+			"nameEn": "Kayn",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"spin-to-win",
+				"tooth-fairy",
+				"mad-scientist",
+				"blunt-force",
+				"shadow-runner"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "원칙의 원형낫", "죽음의 무도"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 케인 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/kayn/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kayle",
+			"nameKo": "케일",
+			"nameEn": "Kayle",
+			"roles": ["원거리 딜러", "마법사"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["zealot", "ethereal-weapon", "master-of-duality", "bees", "mystic-punch"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["몰락한 왕의 검", "구인수의 격노검", "경계"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 케일 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/kayle/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "quinn",
+			"nameKo": "퀸",
+			"nameEn": "Quinn",
+			"roles": ["원거리 딜러", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["dual-wield", "still-here", "soul-siphon", "clown-college", "blunt-force"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 퀸 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/quinn/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "ksante",
+			"nameKo": "크산테",
+			"nameEn": "K'Sante",
+			"roles": ["탱커", "브루저"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["armored-impact"],
+			"avoidAugmentIds": ["the-boom-and-the-bass"],
+			"avoidNoteKo": "the-boom-and-the-bass: 기본 공격 동작이 끊겼다는 보고와 짧은 사거리 때문에 패배했다는 후기가 있습니다. 확정 버그 판정은 아닙니다.",
+			"items": {
+				"core": ["강철심장", "얼어붙은 건틀릿", "끝없는 절망"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 크산테 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/ksante/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kled",
+			"nameKo": "클레드",
+			"nameEn": "Kled",
+			"roles": ["브루저"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"quest-steel-your-heart",
+				"ultra-hydra",
+				"still-here",
+				"heavy-hitter",
+				"goliath"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "거대한 히드라", "지배자의 피갑옷"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 클레드 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/kled/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "qiyana",
+			"nameKo": "키아나",
+			"nameEn": "Qiyana",
+			"roles": ["암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["overloaded", "shadow-runner", "clown-college", "swift-and-safe", "bees"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "원칙의 원형낫"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 키아나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/qiyana/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "kindred",
+			"nameKo": "킨드레드",
+			"nameEn": "Kindred",
+			"roles": ["원거리 딜러"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"still-here",
+				"dual-wield",
+				"soul-siphon",
+				"giant-slayer",
+				"the-boom-and-the-bass"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "몰락한 왕의 검", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 킨드레드 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/kindred/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "talon",
+			"nameKo": "탈론",
+			"nameEn": "Talon",
+			"roles": ["암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"clown-college",
+				"final-form",
+				"ultra-hydra",
+				"mad-scientist",
+				"the-boom-and-the-bass"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "원칙의 원형낫"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 탈론 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/talon/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "taliyah",
+			"nameKo": "탈리야",
+			"nameEn": "Taliyah",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"warlock-juicebox",
+				"homeguard",
+				"mad-scientist",
+				"giant-slayer",
+				"from-beginning-to-end"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["루덴의 메아리", "그림자불꽃", "라바돈의 죽음모자"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 탈리야 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/taliyah/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "tristana",
+			"nameKo": "트리스타나",
+			"nameEn": "Tristana",
+			"roles": ["원거리 딜러", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": ["dual-wield", "still-here", "soul-siphon", "blunt-force", "escapade"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["징수의 총", "나보리 명멸검", "무한의 대검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 트리스타나 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/tristana/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "tryndamere",
+			"nameKo": "트린다미어",
+			"nameEn": "Tryndamere",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"still-here",
+				"scopiest-weapons",
+				"dual-wield",
+				"ultra-hydra",
+				"scopier-weapons"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["강철심장", "몰락한 왕의 검", "나보리 명멸검"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 트린다미어 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/tryndamere/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "pyke",
+			"nameKo": "파이크",
+			"nameEn": "Pyke",
+			"roles": ["서포터", "암살자"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"shadow-runner",
+				"clown-college",
+				"mad-scientist",
+				"the-boom-and-the-bass",
+				"infinite-recursion"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "원칙의 원형낫", "징수의 총"],
+				"boots": "신속의 장화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 파이크 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/pyke/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "pantheon",
+			"nameKo": "판테온",
+			"nameEn": "Pantheon",
+			"roles": ["브루저", "암살자"],
+			"difficulty": "보통",
+			"combos": [],
+			"goodAugmentIds": [
+				"ultra-hydra",
+				"takeem-down-down-down",
+				"clown-college",
+				"the-boom-and-the-bass",
+				"armored-impact"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["오만", "징수의 총", "월식"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 판테온 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/pantheon/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "fiddlesticks",
+			"nameKo": "피들스틱",
+			"nameEn": "Fiddlesticks",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"clown-college",
+				"upgrade-zhonyas",
+				"quest-wooglets-witchcap",
+				"escape-plan",
+				"from-beginning-to-end"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 피들스틱 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/fiddlesticks/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "heimerdinger",
+			"nameKo": "하이머딩거",
+			"nameEn": "Heimerdinger",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": [
+				"minionmancer",
+				"quest-wooglets-witchcap",
+				"phenomenal-evil",
+				"homeguard",
+				"erosion"
+			],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "라일라이의 수정홀"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 하이머딩거 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/heimerdinger/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
+		},
+		{
+			"id": "hwei",
+			"nameKo": "흐웨이",
+			"nameEn": "Hwei",
+			"roles": ["마법사", "서포터"],
+			"difficulty": "어려움",
+			"combos": [],
+			"goodAugmentIds": ["erosion", "homeguard", "giant-slayer", "blue-barrier", "mad-scientist"],
+			"avoidAugmentIds": [],
+			"avoidNoteKo": "",
+			"items": {
+				"core": ["어둠불꽃 횃불", "리안드리의 고통", "그림자불꽃"],
+				"boots": "탐욕의 군화",
+				"situational": [],
+				"confidence": "low",
+				"noteKo": "기본 빌드는 arammayhem 흐웨이 핵심 빌드 선택률 1위입니다.",
+				"sources": ["https://arammayhem.com/ko-kr/build/hwei/"]
+			},
+			"playKo": [],
+			"playSources": [],
+			"beginnerTipKo": "",
+			"communityEvidenceIds": []
 		}
 	],
 	"statsMeaningKo": "winRate와 pickRate는 백분율입니다. scope=single-augment는 챔피언+증강 하나, augment+item은 챔피언+증강 하나+명시한 완성 아이템 세 개입니다. combo 범위의 통계는 확보하지 못했습니다. sourcePatch는 사이트 원문 표기를 보존합니다. gamesApproximate=true이면 반드시 약 표시와 gamesDisplay를 함께 보여 주세요. 없는 픽률을 0으로 채우지 않습니다."

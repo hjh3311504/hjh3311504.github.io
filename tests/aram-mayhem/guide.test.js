@@ -154,7 +154,7 @@ test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루
 	const armored = guide.champions.filter((champion) =>
 		champion.builds.some((build) => build.key === 'aug-armored-impact')
 	);
-	assert.equal(armored.length, 23);
+	assert.equal(armored.length, 24);
 	for (const champion of armored) {
 		const index = champion.builds.findIndex((build) => build.key === 'aug-armored-impact');
 		const vest = champion.builds[index + 1];
@@ -218,6 +218,17 @@ test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피�
 		if (champion.roles.includes('탱커')) {
 			assert.equal(champion.builds[0].core[0], '강철심장', `${champion.id} 탱커 1코어`);
 		}
+	}
+});
+
+test('조합 근거가 없는 챔피언도 기본 빌드와 나오면 좋은 증강을 보여 준다', () => {
+	// 별명 원본의 챔피언 전체(173명)가 가이드에 있다.
+	assert.equal(guide.champions.length, 173);
+	const plain = guide.champions.filter((champion) => !champion.combos.length);
+	assert.ok(plain.length > 0);
+	for (const champion of plain) {
+		assert.ok(champion.builds.length > 0, champion.id);
+		assert.ok(champion.good.length > 0, `${champion.id} 나오면 좋은 증강`);
 	}
 });
 

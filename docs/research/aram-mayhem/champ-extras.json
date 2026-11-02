@@ -385,6 +385,486 @@
 			"id": "shyvana",
 			"avoidItems": [],
 			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "galio",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "nami",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "nocturne",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "nunu-willump",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "nidalee",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "neeko",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "nilah",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "darius",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "diana",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "draven",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "rakan",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "renata-glasc",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "renekton",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "rek-sai",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "rell",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "locke",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "leblanc",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "riven",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "lissandra",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "lillia",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "maokai",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "malzahar",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "mel",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "mordekaiser",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "morgana",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "dr-mundo",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "milio",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "bard",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "vex",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "velkoz",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "briar",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "viktor",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "poppy",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "samira",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "sion",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "senna",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "seraphine",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "sejuani",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "shen",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "sivir",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "syndra",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "ahri",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "amumu",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "aurelion-sol",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "ivern",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "akali",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "aatrox",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "aphelios",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "alistar",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "ambessa",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "elise",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "aurora",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "ornn",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "orianna",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "olaf",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "warwick",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "yunara",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "yuumi",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "evelynn",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "ezreal",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "illaoi",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "xayah",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "zyra",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "zac",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "zaahen",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "janna",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "xerath",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "zeri",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "zoe",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "ziggs",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "jhin",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "jinx",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "chogath",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "karma",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "camille",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kassadin",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "cassiopeia",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "khazix",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kalista",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kennen",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kayn",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kayle",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "quinn",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "ksante",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kled",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "qiyana",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "kindred",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "talon",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "taliyah",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "tristana",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "tryndamere",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "pyke",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "pantheon",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "fiddlesticks",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "heimerdinger",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
+		},
+		{
+			"id": "hwei",
+			"avoidItems": [],
+			"extraGoodAugmentIds": []
 		}
 	]
 }

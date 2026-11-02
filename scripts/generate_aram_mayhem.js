@@ -233,7 +233,7 @@ for (const champion of research.champions) {
 		}))
 		// 강력 추천 조합을 먼저 보여 준다. 같은 등급은 조사 순서를 유지한다.
 		.sort((a, b) => (a.level === 'strong' ? 0 : 1) - (b.level === 'strong' ? 0 : 1));
-	if (!combos.length) continue;
+	// 조합 근거가 없는 챔피언도 기본 빌드와 나오면 좋은 증강만으로 넣는다(2026-11-02 사용자 결정).
 	for (const combo of combos) combo.augmentIds.forEach((id) => usedAugments.add(id));
 
 	const base = sourceBuilds?.defaultBuild ?? champion.items;
