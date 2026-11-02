@@ -31,13 +31,6 @@ html[data-theme='dark'] .aram-page {
 }
 
 /* 챔피언 고르기 */
-.aram-roles {
-	margin-top: var(--space-12);
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--space-8);
-	margin-bottom: var(--space-12);
-}
 .aram-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
@@ -45,6 +38,97 @@ html[data-theme='dark'] .aram-page {
 	margin: 0 0 var(--space-24);
 	padding: 0;
 	list-style: none;
+}
+/* 초성 색인과 초성 묶음이 함께 쓰는 크기. 좁은 화면 값은 640px 이하 media query에서 바꾼다. */
+.aram-picker {
+	--aram-index-rows: 1;
+	--aram-index-button: 36px;
+	--aram-initial-col: 56px;
+	--aram-initial-gap: var(--space-12);
+	/* 색인 아래로 띄울 거리: 붙는 위치 8px + 색인 높이(테두리 2px, 위아래 여백, 줄마다 버튼, 줄 사이 간격) + 여유 8px */
+	--aram-index-offset: calc(
+		var(--space-8) + 2px + var(--space-4) * 2 + var(--aram-index-rows) * var(--aram-index-button) +
+			(var(--aram-index-rows) - 1) * var(--space-4) + var(--space-8)
+	);
+}
+/* 초성 색인: 스크롤해도 화면 위에 붙어 있고, 누르면 그 초성 묶음으로 이동한다. */
+.aram-index {
+	position: sticky;
+	top: var(--space-8);
+	z-index: 5;
+	display: grid;
+	grid-template-columns: repeat(14, minmax(0, 1fr));
+	gap: var(--space-4);
+	margin: var(--space-12) 0;
+	padding: var(--space-4);
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-md);
+	background: var(--ui-surface);
+}
+.aram-index-link.ui-button {
+	min-width: 0;
+	min-height: var(--aram-index-button);
+	padding: 0;
+	font-size: var(--font-size-20);
+	font-weight: 800;
+}
+/* 검색으로 빈 초성은 링크가 없다. 누를 수 없다는 것이 보이게 흐리게 둔다. */
+.aram-index-link.ui-button[aria-disabled='true'] {
+	opacity: 0.3;
+}
+/* 1200px 이하는 왼쪽 위에 떠 있는 메뉴 버튼(왼쪽 8px, 너비 44px)이 색인 앞쪽을 가리므로 그 자리를 비운다. 본문 여백이 40px이면 16px, 760px 이하의 20px이면 36px가 필요하다. */
+@media (max-width: 1200px) {
+	.aram-index {
+		padding-left: var(--space-16);
+	}
+}
+@media (max-width: 760px) {
+	.aram-index {
+		padding-left: var(--space-36);
+	}
+}
+/* 허브 타일은 초성 묶음으로 나눈다. 묶음 사이에 얇은 선을 두고 묶음 안 격자는 아래 여백을 뺀다. */
+.aram-initials {
+	margin: 0 0 var(--space-24);
+	padding: 0;
+	list-style: none;
+}
+.aram-initial-row {
+	display: grid;
+	/* 초성 열 너비에 타일과의 간격까지 담아, .aram-initial과 같은 두 값만 쓴다. */
+	grid-template-columns: calc(var(--aram-initial-col) + var(--aram-initial-gap)) 1fr;
+	padding: var(--space-12) 0;
+	border-top: 1px solid var(--ui-border);
+}
+/* 색인으로 이동한 묶음과 키보드로 고른 타일이 붙어 있는 색인 아래에 가려지지 않게 한다. */
+.aram-initial-row,
+.aram-initial-row .aram-pick {
+	scroll-margin-top: var(--aram-index-offset);
+}
+.aram-initial-row:first-child {
+	border-top: 0;
+}
+.aram-initial-row .aram-grid {
+	grid-column: 2;
+	margin: 0;
+}
+/* 초성은 첫 타일 칸 안에 있다. 격자 칸은 같은 줄 높이로 늘어나므로, 칸 왼쪽 밖의 초성 열에 위아래를 채워 두면 이름이 두 줄인 줄에서도 첫 줄의 세로 가운데에 온다. */
+.aram-initial-row .aram-grid > li:first-child {
+	position: relative;
+}
+.aram-initial {
+	position: absolute;
+	top: 0;
+	right: calc(100% + var(--aram-initial-gap));
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--aram-initial-col);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-32);
+	font-weight: 800;
+	line-height: 1;
 }
 /* 이름이 두 줄인 타일(트위스티드 페이트)이 있어도 같은 줄의 타일 높이를 맞추고 아이콘을 위에 둔다. */
 .aram-grid > li {
@@ -933,6 +1017,18 @@ html[data-theme='dark'] .aram-page {
 }
 
 @media (max-width: 640px) {
+	/* 좁은 화면은 색인을 7개씩 두 줄로 둬서 누르기 쉬운 너비를 지킨다. */
+	.aram-picker {
+		--aram-index-rows: 2;
+		--aram-initial-col: 36px;
+		--aram-initial-gap: var(--space-8);
+	}
+	.aram-index {
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+	}
+	.aram-initial {
+		font-size: var(--font-size-24);
+	}
 	.aram-search-fab.ui-button {
 		right: var(--space-16);
 		bottom: var(--space-16);

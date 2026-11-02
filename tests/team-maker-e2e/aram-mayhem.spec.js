@@ -179,11 +179,21 @@ test('예전 #챔피언 주소는 챔피언 공략 페이지로 옮긴다', asyn
 	await expect(page).toHaveURL(/\/aram-mayhem#%E0$/);
 });
 
-test('허브 검색은 이름·별명·초성과 역할로 챔피언 목록을 거른다', async ({ page }) => {
+test('허브 검색은 이름·별명·초성으로 챔피언 목록을 거른다', async ({ page }) => {
 	await openHub(page);
+	// 역할 버튼은 두지 않는다.
+	await expect(page.getByRole('group', { name: '역할로 거르기' })).toHaveCount(0);
+	// 타일은 초성별로 묶이고 쌍자음 챔피언은 기본 자음 묶음에 들어간다.
+	await expect(picker(page).getByRole('list')).toHaveCount(14);
+	await expect(
+		picker(page).getByRole('list', { name: 'ㅂ 챔피언' }).getByRole('link', { name: '뽀삐' })
+	).toBeVisible();
 	const box = page.getByRole('searchbox', { name: '챔피언 이름 검색' });
 	await box.fill('켄치');
 	await expect(picker(page).getByRole('link')).toHaveText(['탐 켄치']);
+	// 거르고 나서 빈 초성 묶음은 숨긴다.
+	await expect(picker(page).getByRole('list')).toHaveCount(1);
+	await expect(picker(page).getByRole('list', { name: 'ㅌ 챔피언' })).toBeVisible();
 	await box.fill('마이');
 	await expect(picker(page).getByRole('link')).toHaveText(['마스터 이']);
 	await box.fill('ㅌㅁ');
@@ -197,13 +207,55 @@ test('허브 검색은 이름·별명·초성과 역할로 챔피언 목록을 �
 	).toHaveText('트페');
 
 	await box.fill('');
-	await page
-		.getByRole('group', { name: '역할로 거르기' })
-		.getByRole('button', { name: '탱커' })
-		.click();
-	const names = (await picker(page).getByRole('link').allTextContents()).map((n) => n.trim());
-	expect(names).toContain('브라움');
-	expect(names).not.toContain('티모');
+	await expect(picker(page).getByRole('list')).toHaveCount(14);
+});
+
+test('허브의 초성 색인은 그 묶음으로 이동하고 검색으로 빈 초성은 누를 수 없다', async ({
+	page
+}) => {
+	await openHub(page);
+	const index = page.getByRole('navigation', { name: '초성으로 이동' });
+	await expect(index.getByRole('link')).toHaveCount(14);
+	await index.getByRole('link', { name: 'ㅋ', exact: true }).click();
+	await expect(page).toHaveURL(/#aram-initial-/);
+	// 이동한 묶음은 화면 위에 붙어 있는 색인 아래에 보인다.
+	const group = picker(page).getByRole('list', { name: 'ㅋ 챔피언' });
+	await expect(group).toBeInViewport();
+	await expect
+		.poll(async () => (await group.boundingBox()).y - (await index.boundingBox()).y)
+		.toBeGreaterThan((await index.boundingBox()).height);
+
+	// 빈 초성은 자리를 지킨 채 링크 없이 흐리게 보인다.
+	const box = page.getByRole('searchbox', { name: '챔피언 이름 검색' });
+	const disabled = index.locator('[aria-disabled="true"]');
+	await box.fill('ㅌㅁ');
+	await expect(index.getByRole('link')).toHaveText(['ㅌ']);
+	await expect(disabled).toHaveCount(13);
+	await expect(disabled.first()).toHaveCSS('opacity', '0.3');
+	// 검색 결과가 없어도 색인은 남고 모든 초성이 흐려진다.
+	await box.fill('없는 이름');
+	await expect(index).toBeVisible();
+	await expect(disabled).toHaveCount(14);
+});
+
+test('허브 타일에 키보드 초점이 가면 붙어 있는 색인에 가려지지 않는다', async ({ page }) => {
+	await openHub(page);
+	const index = page.getByRole('navigation', { name: '초성으로 이동' });
+	const tiles = picker(page).getByRole('list', { name: 'ㅋ 챔피언' }).getByRole('link');
+	// ㅋ 묶음 첫 줄을 붙어 있는 색인 밑(화면 위 20px)에 두고 두 번째 타일에 초점을 둔다.
+	await tiles.nth(1).evaluate((tile) => {
+		document.documentElement.style.scrollBehavior = 'auto';
+		window.scrollTo(0, tile.getBoundingClientRect().top + window.scrollY - 20);
+		tile.focus({ preventScroll: true });
+	});
+	const indexBox = await index.boundingBox();
+	expect((await tiles.first().boundingBox()).y).toBeLessThan(indexBox.y + indexBox.height);
+	// Shift+Tab으로 색인에 가려진 첫 타일로 가면 화면이 움직여 색인 아래에 보인다.
+	await page.keyboard.press('Shift+Tab');
+	await expect(tiles.first()).toBeFocused();
+	expect((await tiles.first().boundingBox()).y).toBeGreaterThanOrEqual(
+		indexBox.y + indexBox.height
+	);
 });
 
 test('떠 있는 검색 버튼과 / 키로 검색 창을 열고 키보드로 챔피언을 고른다', async ({ page }) => {
