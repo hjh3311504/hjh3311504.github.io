@@ -709,6 +709,7 @@ html[data-theme='dark'] .aram-page {
 	background: var(--aram-tile);
 	color: var(--ui-text-muted);
 	font-weight: 700;
+	text-align: center;
 }
 .aram-anvils tbody th {
 	width: 1%;
