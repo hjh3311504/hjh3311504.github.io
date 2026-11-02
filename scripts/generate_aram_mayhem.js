@@ -213,6 +213,39 @@ function useBuild(build) {
 	}
 }
 
+// 모루작 빌드의 추천 모루 선택지에 붙일 능력치 아이콘(icons 키).
+const ANVIL_STAT_ICONS = {
+	'방어구 관통력': ['armorPen'],
+	'모든 피해 흡혈': ['omnivamp'],
+	방어력: ['armor'],
+	'방어력 + 마법 저항력': ['armor', 'magicResist'],
+	'물리 관통력': ['armorPen']
+};
+/** 증강 공략의 다른 템트리(모루작 빌드)를 증강 공략과 챔피언 빌드 탭이 함께 쓰는 모양으로 바꾼다. */
+function extraBuildView(build) {
+	for (const tier of build.anvils ?? []) {
+		for (const pick of tier.picks) {
+			if (!ANVIL_STAT_ICONS[pick.statKo]) missing.push(`모루 능력치 아이콘: ${pick.statKo}`);
+		}
+	}
+	return {
+		core: build.core,
+		joins: build.core.map((item) => (build.withPrevious ?? []).includes(item)),
+		notes: build.notesKo ?? [],
+		play: build.playKo.map(parsePlain),
+		caution: build.cautionKo ?? '',
+		anvils: (build.anvils ?? []).map((tier) => ({
+			tier: tier.tier,
+			picks: tier.picks.map((pick) => ({
+				stat: pick.statKo,
+				icons: ANVIL_STAT_ICONS[pick.statKo] ?? [],
+				value: pick.valueKo,
+				why: pick.whyKo
+			}))
+		}))
+	};
+}
+
 const champions = [];
 for (const champion of research.champions) {
 	const skillKeys = new Set();
@@ -266,19 +299,17 @@ for (const champion of research.champions) {
 			skillOrder: comboBuild.build.skillOrder ?? [],
 			play: play && !play.samePlay ? (play.playKo ?? []).map((t) => parse(t, skillKeys)) : []
 		});
-		// 장갑 충격의 쇠사슬 조끼 빌드처럼 증강 공략에 적은 다른 템트리를 그 증강 빌드 바로 뒤에 붙인다.
+		// 장갑 충격의 모루작 빌드처럼 증강 공략에 적은 다른 템트리를 그 증강 빌드 바로 뒤에 붙인다.
 		for (const id of comboBuild.triggerAugmentIds) {
 			for (const extra of extraBuildsByAugment[id] ?? []) {
 				buildTabs.push({
 					key: `aug-${comboBuild.triggerAugmentIds.join('-')}-${extra.key}`,
 					trigger: comboBuild.triggerAugmentIds,
 					variant: extra.labelKo,
-					core: extra.core,
-					notes: extra.notesKo ?? [],
 					boots: '',
 					situational: [],
 					skillOrder: [],
-					play: extra.playKo.map(parsePlain)
+					...extraBuildView(extra)
 				});
 			}
 		}
@@ -384,9 +415,7 @@ for (const entry of augmentGuideData.augments) {
 		builds: extraBuilds.map((build) => ({
 			key: build.key,
 			label: build.labelKo,
-			core: build.core,
-			notes: build.notesKo ?? [],
-			play: build.playKo.map(parsePlain)
+			...extraBuildView(build)
 		}))
 	};
 }
@@ -417,9 +446,15 @@ for (const id of [...usedAugments].sort()) {
 
 // 템트리의 '모루'는 상점 아이템 이름이 아니라 능력치 모루다. 문장 타일과 같은 아이콘을 쓴다(아래 icons.anvil).
 const ANVIL = '모루';
+// 모루작 빌드의 '2티어 신발'은 특정 신발이 아니라 아무 2단계 신발이다. 기본 장화(1001) 아이콘을 쓴다.
+const TIER2_BOOTS = '2티어 신발';
 const items = {};
 for (const name of [...usedItems].sort()) {
 	if (name === ANVIL) continue;
+	if (name === TIER2_BOOTS) {
+		items[name] = await saveIcon(`${DDRAGON}/img/item/1001.png`, 'items', 1001, 64);
+		continue;
+	}
 	const id = itemIdByName[name.replace(/\s+/g, '')];
 	if (!id) {
 		missing.push(`아이템: ${name}`);
@@ -462,6 +497,18 @@ const icons = {
 		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalempen.png`,
 		'stats',
 		'magic-penetration',
+		32
+	),
+	magicResist: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalemr.png`,
+		'stats',
+		'magic-resist',
+		32
+	),
+	omnivamp: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalesv.png`,
+		'stats',
+		'omnivamp',
 		32
 	)
 };

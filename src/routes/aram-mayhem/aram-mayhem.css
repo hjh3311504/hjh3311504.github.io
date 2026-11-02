@@ -676,6 +676,90 @@ html[data-theme='dark'] .aram-page {
 	color: var(--ui-text-muted);
 	font-weight: 400;
 }
+.aram-core li.aram-core-with::before {
+	content: '+';
+}
+
+/* 모루작 빌드: 저점 안내와 등급별 추천 모루 선택지 */
+.aram-caution {
+	margin: var(--space-12) 0 0;
+	padding: var(--space-8) var(--space-12);
+	border-left: 3px solid var(--aram-strong);
+	border-radius: 0 var(--ui-radius-sm) var(--ui-radius-sm) 0;
+	background: color-mix(in srgb, var(--aram-strong), transparent 90%);
+	font-size: var(--font-size-14);
+	line-height: 1.6;
+}
+.aram-anvils {
+	display: grid;
+	gap: var(--space-12);
+}
+.aram-anvil-tier {
+	display: grid;
+	grid-template-columns: 64px minmax(0, 1fr);
+	align-items: start;
+	gap: var(--space-12);
+}
+.aram-anvil-badge {
+	margin: 0;
+	padding: var(--space-4) 0;
+	border-radius: var(--ui-radius-sm);
+	color: var(--color-aram-on-tier);
+	font-size: var(--font-size-12);
+	font-weight: 700;
+	text-align: center;
+}
+.aram-anvil-badge-silver {
+	background: var(--color-aram-silver);
+}
+.aram-anvil-badge-gold {
+	background: var(--color-aram-gold);
+}
+.aram-anvil-badge-prismatic {
+	background: linear-gradient(
+		135deg,
+		var(--color-aram-prism-pink),
+		var(--color-aram-prism-violet) 45%,
+		var(--color-aram-prism-cyan)
+	);
+}
+.aram-anvil-picks {
+	display: grid;
+	gap: var(--space-8);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.aram-anvil-picks li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-4) var(--space-8);
+	font-size: var(--font-size-14);
+	line-height: 1.5;
+}
+.aram-anvil-stat {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-4);
+	padding: var(--space-2) var(--space-8);
+	border-radius: var(--ui-radius-sm);
+	background: var(--aram-tile);
+}
+.aram-anvil-stat img {
+	width: 16px;
+	height: 16px;
+}
+.aram-anvil-stat strong,
+.aram-anvil-value {
+	white-space: nowrap;
+}
+.aram-anvil-value {
+	color: var(--ui-text-muted);
+}
+.aram-anvil-why {
+	color: var(--ui-text-muted);
+}
 .aram-core img {
 	width: 32px;
 	height: 32px;
@@ -844,6 +928,14 @@ html[data-theme='dark'] .aram-page {
 	}
 	.aram-build-tab.ui-button {
 		width: 100%;
+	}
+	.aram-anvil-tier {
+		grid-template-columns: 1fr;
+		gap: var(--space-8);
+	}
+	.aram-anvil-badge {
+		justify-self: start;
+		padding: var(--space-2) var(--space-12);
 	}
 	.aram-boxes,
 	.aram-role-items {

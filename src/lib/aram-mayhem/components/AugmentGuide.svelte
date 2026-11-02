@@ -1,5 +1,6 @@
 <script>
 	import { TIER_LABEL } from '../guide.js';
+	import AnvilPicks from './AnvilPicks.svelte';
 	import ChampionTiles from './ChampionTiles.svelte';
 	import CoreItems from './CoreItems.svelte';
 	import RichText from './RichText.svelte';
@@ -41,7 +42,7 @@
 	{#each extraBuilds as build (build.key)}
 		<div class="aram-card">
 			<p class="aram-sub-heading">{build.label}</p>
-			<CoreItems items={build.core} notes={build.notes} {guide} />
+			<CoreItems items={build.core} notes={build.notes} joins={build.joins} {guide} />
 			{#if build.play.length}
 				<ol class="aram-steps">
 					{#each build.play as parts, index (index)}
@@ -49,6 +50,7 @@
 					{/each}
 				</ol>
 			{/if}
+			<AnvilPicks {build} {guide} />
 		</div>
 	{/each}
 

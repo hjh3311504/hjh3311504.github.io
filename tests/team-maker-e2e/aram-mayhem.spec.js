@@ -73,7 +73,7 @@ test('허브의 꼭 읽어야 할 증강 공략에서 증강 공략으로 가고
 		page.getByRole('heading', { name: '증바람 장갑 충격 공략', level: 1 })
 	).toBeVisible();
 	await expect(page).toHaveTitle(/증바람 장갑 충격\(장충\) 공략$/);
-	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 주고, 쇠사슬 조끼 6개 템트리를 그 아래에 더한다.
+	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 주고, 모루작 빌드를 그 아래에 더한다.
 	await expect(page.getByRole('list', { name: '코어 아이템 구매 순서' })).toHaveCount(2);
 	// 어울리는 챔피언은 조합 카드 없이 허브와 같은 챔피언 타일로만 보여 준다.
 	await expect(page.getByRole('heading', { name: '어울리는 챔피언 24명', level: 3 })).toBeVisible();
@@ -113,28 +113,27 @@ test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카�
 	await expect(page.getByRole('heading', { name: /어울리는 챔피언/ })).toHaveCount(0);
 });
 
-test('장갑 충격 공략과 챔피언 빌드 탭에 쇠사슬 조끼 6개 → 해신 작쇼 → 모루 템트리를 보여 준다', async ({
-	page
-}) => {
+test('장갑 충격 공략과 챔피언 빌드 탭에 모루작 빌드와 추천 모루를 보여 준다', async ({ page }) => {
 	await page.goto(`${HUB_PATH}/augments/armored-impact`);
-	const vest = page.locator('.aram-card', { hasText: '쇠사슬 조끼 6개' });
-	await expect(vest.locator('.aram-item-note')).toHaveText(['6개', '반복 구매']);
-	await expect(vest.locator('.aram-item')).toHaveText([
-		'쇠사슬 조끼 6개',
-		'해신 작쇼',
-		'모루 반복 구매'
-	]);
-	await expect(vest.locator('.aram-stat-icon img')).toHaveCount(1);
-	await expect(vest.getByRole('listitem').filter({ hasText: '방어력을 고르세요' })).toHaveCount(1);
+	const vest = page.locator('.aram-card', { hasText: '모루작 빌드' });
+	const items = ['쇠사슬 조끼', '2티어 신발', '해신 작쇼', '모루 반복 구매'];
+	await expect(vest.locator('.aram-item')).toHaveText(items);
+	await expect(vest.locator('.aram-core-with')).toHaveText('2티어 신발');
+	await expect(vest.locator('.aram-caution')).toContainText('저점이 낮아요');
+	await expect(vest.locator('.aram-anvil-badge')).toHaveText(['프리즘', '골드', '실버']);
+	await expect(
+		vest.getByRole('region', { name: '프리즘 모루' }).locator('.aram-anvil-stat strong')
+	).toHaveText(['방어구 관통력', '모든 피해 흡혈']);
 
 	await page.goto(`${HUB_PATH}/rammus`);
 	// 버튼 사이의 · 기호는 화면 읽기에서 빠진다.
-	await page.getByRole('button', { name: '장갑 충격 쇠사슬 조끼 6개' }).click();
+	await page.getByRole('button', { name: '장갑 충격 모루작 빌드' }).click();
 	const core = page.getByRole('list', { name: '코어 아이템 구매 순서' });
-	await expect(core.locator('.aram-item')).toHaveText([
-		'쇠사슬 조끼 6개',
-		'해신 작쇼',
-		'모루 반복 구매'
+	await expect(core.locator('.aram-item')).toHaveText(items);
+	await expect(page.locator('.aram-builds .aram-anvil-badge')).toHaveText([
+		'프리즘',
+		'골드',
+		'실버'
 	]);
 	// 완전히 다른 템트리라 기본 빌드와 비교한 추가·변경 표시는 하지 않는다.
 	await expect(core.locator('.aram-mark')).toHaveCount(0);
