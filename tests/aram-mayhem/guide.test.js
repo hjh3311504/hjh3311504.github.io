@@ -102,6 +102,7 @@ test('추천 아이템 제목은 코어 개수에 맞춘다', () => {
 
 test('허브 타일은 긴 이름만 줄임말로 보여 준다', () => {
 	assert.equal(tileName({ id: 'twisted-fate', nameKo: '트위스티드 페이트' }), '트페');
+	assert.equal(tileName({ id: 'renata-glasc', nameKo: '레나타 글라스크' }), '레나타');
 	assert.equal(tileName({ id: 'teemo', nameKo: '티모' }), '티모');
 });
 
@@ -122,7 +123,7 @@ test('생성된 가이드 데이터는 참조가 모두 연결되어 있다', ()
 		assert.ok(champion.builds.length > 0, `${champion.id} 빌드`);
 		assert.equal(champion.builds[0].key, 'base');
 		for (const build of champion.builds) {
-			// 쇠사슬 조끼 6개 빌드처럼 아이템 칸을 모두 채우는 빌드는 신발이 없다.
+			// 모루작 빌드처럼 신발을 코어에 넣은 다른 템트리(variant)는 신발 칸이 따로 없다.
 			for (const item of [
 				...build.core,
 				...(build.variant ? [] : [build.boots]),
@@ -150,36 +151,63 @@ test('생성된 가이드 데이터는 참조가 모두 연결되어 있다', ()
 	}
 });
 
-test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루 빌드도 바로 뒤에 보여 준다', () => {
+test('장갑 충격 빌드가 있는 챔피언은 모루작 빌드도 바로 뒤에 보여 준다', () => {
 	const armored = guide.champions.filter((champion) =>
 		champion.builds.some((build) => build.key === 'aug-armored-impact')
 	);
-	assert.equal(armored.length, 23);
+	assert.equal(armored.length, 24);
+	const [anvilBuild] = guide.augments['armored-impact'].guide.builds;
 	for (const champion of armored) {
 		const index = champion.builds.findIndex((build) => build.key === 'aug-armored-impact');
 		const vest = champion.builds[index + 1];
 		assert.equal(vest.key, 'aug-armored-impact-chain-vest', champion.id);
 		assert.deepEqual(vest.trigger, ['armored-impact']);
-		assert.equal(vest.variant, '쇠사슬 조끼 6개');
-		assert.deepEqual(vest.core, ['쇠사슬 조끼', '모루']);
-		// 모루는 문장 타일과 같은 초록 모루 아이콘을 쓴다.
-		assert.equal(guide.items['모루'], guide.icons.anvil);
-		assert.deepEqual(vest.notes, ['6개', '반복 구매']);
-		assert.equal(vest.play.length, 2);
+		assert.equal(vest.variant, '모루작 빌드');
+		// 쇠사슬 조끼와 2티어 신발은 함께 사므로 화살표 대신 +로 잇는다.
+		assert.deepEqual(vest.core, ['쇠사슬 조끼', '2티어 신발', '해신 작쇼', '모루']);
+		assert.deepEqual(vest.joins, [false, true, false, false]);
+		assert.deepEqual(vest.notes, ['', '', '', '반복 구매']);
+		assert.equal(vest.play.length, 3);
+		// 챔피언 빌드 탭도 증강 공략과 같은 저점 안내와 추천 모루를 보여 준다.
+		assert.equal(vest.caution, anvilBuild.caution);
+		assert.deepEqual(vest.anvils, anvilBuild.anvils);
+	}
+	// 모루는 문장 타일과 같은 초록 모루 아이콘, 2티어 신발은 기본 장화 아이콘을 쓴다.
+	assert.equal(guide.items['모루'], guide.icons.anvil);
+	assert.match(guide.items['2티어 신발'], /\/items\/1001\.webp$/);
+	assert.match(anvilBuild.caution, /저점이 낮아요/);
+	// 추천 모루는 프리즘, 골드·실버 두 묶음이고 1순위·2순위 능력치 이름만 보여 준다.
+	const names = (group) => group.priorities.map((stats) => stats.map((pick) => pick.stat));
+	assert.deepEqual(
+		anvilBuild.anvils.map((group) => group.tiers),
+		[['prismatic'], ['gold', 'silver']]
+	);
+	assert.deepEqual(names(anvilBuild.anvils[0]), [
+		['방어구 관통력', '모든 피해 흡혈'],
+		['이동 속도', '강인함', '체력과 크기']
+	]);
+	assert.deepEqual(names(anvilBuild.anvils[1]), [
+		['방어력', '방어력 + 마법 저항력'],
+		['물리 관통력', '체력', '스킬 가속', '스킬 가속 + 공격 속도', '마법 저항력']
+	]);
+	for (const pick of anvilBuild.anvils.flatMap((group) => group.priorities.flat())) {
+		assert.deepEqual(Object.keys(pick).sort(), ['icons', 'stat'], pick.stat);
+		assert.ok(pick.icons.length > 0, pick.stat);
+		for (const key of pick.icons) assert.ok(guide.icons[key], `${pick.stat} ${key}`);
 	}
 	// 기본 빌드 아래에는 마지막 아이템이 도미닉 경의 인사인 이유를 타일과 함께 보여 준다.
 	const why = guide.augments['armored-impact'].guide.coreWhy;
 	assert.ok(why.some((part) => part.t === 'stat' && part.v === '방어구 관통력'));
+	assert.ok(why.some((part) => part.t === 'stat' && part.v === '방어력'));
 	assert.ok(why.some((part) => part.t === 'item' && part.v === '도미닉 경의 인사'));
-	// 증강 공략에도 같은 템트리를 보여 준다.
 	assert.deepEqual(
 		guide.augments['armored-impact'].guide.builds.map((build) => build.label),
-		['쇠사슬 조끼 6개']
+		['모루작 빌드']
 	);
 });
 
-// 애니·우디르는 사용자 지시로 기본 빌드 1코어에만 악의를 둔다.
-const MALIGNANCE_OK = new Set(['annie', 'udyr']);
+// 애니·우디르는 기본 빌드 1코어, 카사딘은 기본 빌드 3코어에만 사용자 지시로 악의를 둔다.
+const MALIGNANCE_OK = { annie: 0, udyr: 0, kassadin: 2 };
 const ALLOWED_BOOTS = new Set([
 	'탐욕의 군화',
 	'신속의 장화',
@@ -188,13 +216,16 @@ const ALLOWED_BOOTS = new Set([
 	'광전사의 군화'
 ]);
 
-test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피바라기 금지, 도미닉과 필멸자를 함께 추천하지 않음, 횃불·루덴은 추천 아이템 칸에 넣지 않음, 정한 신발만 추천', () => {
+test('가이드 아이템 규칙: 악의(애니·우디르 1코어·카사딘 3코어 제외)·피바라기 금지, 도미닉과 필멸자를 함께 추천하지 않음, 횃불·루덴은 추천 아이템 칸에 넣지 않음, 정한 신발만 추천', () => {
 	for (const champion of guide.champions) {
 		for (const build of champion.builds) {
 			const all = [...build.core, ...build.situational.map((row) => row.item)];
-			const allowed =
-				MALIGNANCE_OK.has(champion.id) && build.key === 'base' && build.core[0] === '악의';
-			assert.ok(!all.slice(allowed ? 1 : 0).includes('악의'), `${champion.id} 악의`);
+			const slot = MALIGNANCE_OK[champion.id];
+			const allowed = build.key === 'base' && slot !== undefined && build.core[slot] === '악의';
+			assert.ok(
+				!all.filter((_, index) => !(allowed && index === slot)).includes('악의'),
+				`${champion.id} 악의`
+			);
 			assert.ok(!all.includes('피바라기'), `${champion.id} 피바라기`);
 			// 도미닉 경의 인사가 있는 빌드는 필멸자의 운명 대신 처형인의 대검을 추천한다.
 			assert.ok(
@@ -218,6 +249,17 @@ test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피�
 		if (champion.roles.includes('탱커')) {
 			assert.equal(champion.builds[0].core[0], '강철심장', `${champion.id} 탱커 1코어`);
 		}
+	}
+});
+
+test('조합 근거가 없는 챔피언도 기본 빌드와 나오면 좋은 증강을 보여 준다', () => {
+	// 별명 원본의 챔피언 전체(173명)가 가이드에 있다.
+	assert.equal(guide.champions.length, 173);
+	const plain = guide.champions.filter((champion) => !champion.combos.length);
+	assert.ok(plain.length > 0);
+	for (const champion of plain) {
+		assert.ok(champion.builds.length > 0, champion.id);
+		assert.ok(champion.good.length > 0, `${champion.id} 나오면 좋은 증강`);
 	}
 });
 

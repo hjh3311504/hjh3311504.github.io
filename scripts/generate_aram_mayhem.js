@@ -6,7 +6,7 @@ import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import * as prettier from 'prettier';
 import sharp from 'sharp';
-import { fixParticles, segment } from '../src/lib/aram-mayhem/text.js';
+import { STAT_ICONS, fixParticles, segment } from '../src/lib/aram-mayhem/text.js';
 
 const DATA_DIR = 'docs/research/aram-mayhem';
 const CACHE_DIR = '.cache/aram-mayhem';
@@ -213,6 +213,42 @@ function useBuild(build) {
 	}
 }
 
+// 모루작 빌드의 추천 모루 선택지에 붙일 능력치 아이콘(icons 키).
+const ANVIL_STAT_ICONS = {
+	'방어구 관통력': ['armorPen'],
+	'모든 피해 흡혈': ['omnivamp'],
+	'이동 속도': ['moveSpeed'],
+	강인함: ['tenacity'],
+	'체력과 크기': ['health'],
+	방어력: ['armor'],
+	'방어력 + 마법 저항력': ['armor', 'magicResist'],
+	'물리 관통력': ['armorPen'],
+	체력: ['health'],
+	'마법 저항력': ['magicResist'],
+	'스킬 가속': ['haste'],
+	'스킬 가속 + 공격 속도': ['haste', 'attackSpeed']
+};
+/** 증강 공략의 다른 템트리(모루작 빌드)를 증강 공략과 챔피언 빌드 탭이 함께 쓰는 모양으로 바꾼다. */
+function extraBuildView(build) {
+	for (const stat of (build.anvils ?? []).flatMap((group) => group.priorities.flat())) {
+		if (!ANVIL_STAT_ICONS[stat]) missing.push(`모루 능력치 아이콘: ${stat}`);
+	}
+	return {
+		core: build.core,
+		joins: build.core.map((item) => (build.withPrevious ?? []).includes(item)),
+		notes: build.notesKo ?? [],
+		play: build.playKo.map(parsePlain),
+		caution: build.cautionKo ?? '',
+		// 등급 묶음마다 1순위·2순위 능력치. 수치와 설명은 보여 주지 않는다(2026-11-02 사용자 결정).
+		anvils: (build.anvils ?? []).map((group) => ({
+			tiers: group.tiers,
+			priorities: group.priorities.map((stats) =>
+				stats.map((stat) => ({ stat, icons: ANVIL_STAT_ICONS[stat] ?? [] }))
+			)
+		}))
+	};
+}
+
 const champions = [];
 for (const champion of research.champions) {
 	const skillKeys = new Set();
@@ -233,7 +269,7 @@ for (const champion of research.champions) {
 		}))
 		// 강력 추천 조합을 먼저 보여 준다. 같은 등급은 조사 순서를 유지한다.
 		.sort((a, b) => (a.level === 'strong' ? 0 : 1) - (b.level === 'strong' ? 0 : 1));
-	if (!combos.length) continue;
+	// 조합 근거가 없는 챔피언도 기본 빌드와 나오면 좋은 증강만으로 넣는다(2026-11-02 사용자 결정).
 	for (const combo of combos) combo.augmentIds.forEach((id) => usedAugments.add(id));
 
 	const base = sourceBuilds?.defaultBuild ?? champion.items;
@@ -266,19 +302,17 @@ for (const champion of research.champions) {
 			skillOrder: comboBuild.build.skillOrder ?? [],
 			play: play && !play.samePlay ? (play.playKo ?? []).map((t) => parse(t, skillKeys)) : []
 		});
-		// 장갑 충격의 쇠사슬 조끼 빌드처럼 증강 공략에 적은 다른 템트리를 그 증강 빌드 바로 뒤에 붙인다.
+		// 장갑 충격의 모루작 빌드처럼 증강 공략에 적은 다른 템트리를 그 증강 빌드 바로 뒤에 붙인다.
 		for (const id of comboBuild.triggerAugmentIds) {
 			for (const extra of extraBuildsByAugment[id] ?? []) {
 				buildTabs.push({
 					key: `aug-${comboBuild.triggerAugmentIds.join('-')}-${extra.key}`,
 					trigger: comboBuild.triggerAugmentIds,
 					variant: extra.labelKo,
-					core: extra.core,
-					notes: extra.notesKo ?? [],
 					boots: '',
 					situational: [],
 					skillOrder: [],
-					play: extra.playKo.map(parsePlain)
+					...extraBuildView(extra)
 				});
 			}
 		}
@@ -362,7 +396,7 @@ for (const entry of augmentGuideData.augments) {
 	usedAugments.add(entry.id);
 	const roleItems = entry.roleItems ?? [];
 	const extraBuilds = entry.builds ?? [];
-	roleItems.forEach((row) => usedItems.add(row.item));
+	roleItems.forEach((row) => row.items.forEach((item) => usedItems.add(item)));
 	extraBuilds.forEach((build) => build.core.forEach((item) => usedItems.add(item)));
 	// 근거 글 번호는 조사 기록에 있어야 한다.
 	for (const id of [
@@ -378,15 +412,13 @@ for (const entry of augmentGuideData.augments) {
 		tips: (entry.tipsKo ?? []).map(parsePlain),
 		roleItems: roleItems.map((row) => ({
 			role: row.roleKo,
-			item: row.item,
+			items: row.items,
 			why: parsePlain(row.whyKo)
 		})),
 		builds: extraBuilds.map((build) => ({
 			key: build.key,
 			label: build.labelKo,
-			core: build.core,
-			notes: build.notesKo ?? [],
-			play: build.playKo.map(parsePlain)
+			...extraBuildView(build)
 		}))
 	};
 }
@@ -417,9 +449,15 @@ for (const id of [...usedAugments].sort()) {
 
 // 템트리의 '모루'는 상점 아이템 이름이 아니라 능력치 모루다. 문장 타일과 같은 아이콘을 쓴다(아래 icons.anvil).
 const ANVIL = '모루';
+// 모루작 빌드의 '2티어 신발'은 특정 신발이 아니라 아무 2단계 신발이다. 기본 장화(1001) 아이콘을 쓴다.
+const TIER2_BOOTS = '2티어 신발';
 const items = {};
 for (const name of [...usedItems].sort()) {
 	if (name === ANVIL) continue;
+	if (name === TIER2_BOOTS) {
+		items[name] = await saveIcon(`${DDRAGON}/img/item/1001.png`, 'items', 1001, 64);
+		continue;
+	}
 	const id = itemIdByName[name.replace(/\s+/g, '')];
 	if (!id) {
 		missing.push(`아이템: ${name}`);
@@ -437,13 +475,19 @@ const itemAliases = Object.fromEntries(
 	Object.entries(aliasData.items).filter(([name, list]) => name in items && list.length)
 );
 
-// 문장 타일용 아이콘: 능력치 모루(초록 모루 아이템 220000), 스킬 가속(룬 능력치 조각), 관통력(게임 글자 아이콘)
+// 문장 타일용 아이콘: 능력치 모루(초록 모루 아이템 220000), 스킬 가속(룬 능력치 조각), 나머지 능력치(게임 글자 아이콘)
 const icons = {
 	anvil: await saveIcon(`${DDRAGON}/img/item/220000.png`, 'stats', 'anvil', 48),
 	haste: await saveIcon(
 		`${CDRAGON}/v1/perk-images/statmods/statmodscdrscalingicon.png`,
 		'stats',
 		'ability-haste',
+		32
+	),
+	armor: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalearmor.png`,
+		'stats',
+		'armor',
 		32
 	),
 	armorPen: await saveIcon(
@@ -457,8 +501,84 @@ const icons = {
 		'stats',
 		'magic-penetration',
 		32
+	),
+	magicResist: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalemr.png`,
+		'stats',
+		'magic-resist',
+		32
+	),
+	health: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalehealth.png`,
+		'stats',
+		'health',
+		32
+	),
+	attackSpeed: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scaleas.png`,
+		'stats',
+		'attack-speed',
+		32
+	),
+	moveSpeed: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalems.png`,
+		'stats',
+		'move-speed',
+		32
+	),
+	tenacity: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scaletenacity.png`,
+		'stats',
+		'tenacity',
+		32
+	),
+	omnivamp: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalesv.png`,
+		'stats',
+		'omnivamp',
+		32
+	),
+	attackDamage: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalead.png`,
+		'stats',
+		'attack-damage',
+		32
+	),
+	abilityPower: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scaleap.png`,
+		'stats',
+		'ability-power',
+		32
+	),
+	critChance: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalecrit.png`,
+		'stats',
+		'crit-chance',
+		32
+	),
+	critDamage: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalecritmult.png`,
+		'stats',
+		'crit-damage',
+		32
+	),
+	mana: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalemana.png`,
+		'stats',
+		'mana',
+		32
+	),
+	range: await saveIcon(
+		`${CDRAGON}/assets/ux/fonts/texticons/lol/statsicon/scalerange.png`,
+		'stats',
+		'range',
+		32
 	)
 };
+// 문장 타일로 바꾸는 능력치 이름마다 아이콘이 있어야 한다.
+for (const [name, key] of Object.entries(STAT_ICONS)) {
+	if (!icons[key]) missing.push(`능력치 타일 아이콘: ${name}`);
+}
 
 if (usedItems.has(ANVIL)) items[ANVIL] = icons.anvil;
 

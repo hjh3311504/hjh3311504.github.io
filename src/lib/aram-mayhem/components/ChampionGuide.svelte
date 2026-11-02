@@ -31,8 +31,11 @@
 
 	<div class="aram-section-head">
 		<h3>증강 추천</h3>
-		<ComboLegend />
+		{#if champion.combos.length}<ComboLegend />{/if}
 	</div>
+	{#if !champion.combos.length}
+		<p class="aram-note">아직 검증된 조합이 없어요. 아래 증강이 나오면 골라 보세요.</p>
+	{/if}
 	{#each champion.combos as combo (combo.title)}
 		<ComboCard
 			{combo}
@@ -45,7 +48,7 @@
 
 	<div class="aram-boxes">
 		<AugmentBox
-			title="이것도 나오면 좋아요"
+			title={champion.combos.length ? '이것도 나오면 좋아요' : '나오면 좋은 증강'}
 			ids={champion.good}
 			empty="위 조합의 증강을 먼저 챙기세요."
 			tone="good"

@@ -1,8 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { resolve } from '$app/paths';
 	import { Button, EmptyState, FormField } from '$lib/components/ui';
-	import { ALL_ROLES, filterChampions, roleOptions, tileName } from '../guide.js';
+	import { ALL_ROLES, filterChampions, roleOptions } from '../guide.js';
+	import ChampionTiles from './ChampionTiles.svelte';
 
 	// 허브의 챔피언 목록. 타일은 챔피언 공략 페이지 링크라서 검색엔진도 따라간다.
 	let { champions } = $props();
@@ -42,23 +42,7 @@
 		{/each}
 	</div>
 	{#if visible.length}
-		<ul class="aram-grid" aria-label="챔피언 고르기">
-			{#each visible as champion (champion.id)}
-				<li>
-					<Button
-						class="aram-pick"
-						variant="ghost"
-						href={resolve('/aram-mayhem/[champion]', { champion: champion.id })}
-						aria-label={tileName(champion) === champion.nameKo
-							? undefined
-							: `${tileName(champion)} (${champion.nameKo})`}
-					>
-						<img src={champion.icon} alt="" width="48" height="48" decoding="async" />
-						{tileName(champion)}
-					</Button>
-				</li>
-			{/each}
-		</ul>
+		<ChampionTiles champions={visible} label="챔피언 고르기" />
 	{:else}
 		<EmptyState title="찾는 챔피언이 아직 가이드에 없어요." />
 	{/if}

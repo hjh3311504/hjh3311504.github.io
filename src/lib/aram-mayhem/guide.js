@@ -6,7 +6,7 @@ export const TIER_LABEL = { silver: '실버', gold: '골드', prismatic: '프리
 
 /** 가이드에 있는 역할만 정해진 순서로 돌려준다. */
 /** 허브 타일에서 두 줄로 넘어가는 긴 이름은 사용자가 정한 줄임말로 보여 준다. */
-const TILE_NAMES = { 'twisted-fate': '트페' };
+const TILE_NAMES = { 'twisted-fate': '트페', 'renata-glasc': '레나타' };
 export const tileName = (champion) => TILE_NAMES[champion.id] ?? champion.nameKo;
 
 export function roleOptions(champions) {

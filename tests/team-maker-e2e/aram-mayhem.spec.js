@@ -73,14 +73,19 @@ test('허브의 꼭 읽어야 할 증강 공략에서 증강 공략으로 가고
 		page.getByRole('heading', { name: '증바람 장갑 충격 공략', level: 1 })
 	).toBeVisible();
 	await expect(page).toHaveTitle(/증바람 장갑 충격\(장충\) 공략$/);
-	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 주고, 쇠사슬 조끼 6개 템트리를 그 아래에 더한다.
+	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 주고, 모루작 빌드를 그 아래에 더한다.
 	await expect(page.getByRole('list', { name: '코어 아이템 구매 순서' })).toHaveCount(2);
-	await page.getByRole('link', { name: '트런들' }).click();
+	// 어울리는 챔피언은 조합 카드 없이 허브와 같은 챔피언 타일로만 보여 준다.
+	await expect(page.getByRole('heading', { name: '어울리는 챔피언 24명', level: 3 })).toBeVisible();
+	const tiles = page.getByRole('list', { name: '어울리는 챔피언' }).getByRole('link');
+	await expect(tiles).toHaveCount(24);
+	await expect(page.locator('.aram-combo')).toHaveCount(0);
+	await tiles.filter({ hasText: '트런들' }).click();
 	await expect(page).toHaveURL(/\/aram-mayhem\/trundle$/);
 	await expect(championName(page)).toHaveText('트런들');
 });
 
-test('운명의 무기 공략은 챔피언 대신 AD·AP 1코어 카드 2개를 출처 없이 보여 준다', async ({
+test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카드 3개를 출처 없이 보여 준다', async ({
 	page
 }) => {
 	await openHub(page);
@@ -95,30 +100,48 @@ test('운명의 무기 공략은 챔피언 대신 AD·AP 1코어 카드 2개를 
 	// 관통력 100%를 강조하고 관통력은 아이콘 타일로 보여 준다.
 	// %와 '까지' 사이에는 줄바꿈을 막는 단어 잇기 문자가 있다.
 	await expect(page.locator('.aram-aug-lead')).toContainText(/100%\u2060까지/);
-	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(2);
+	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(3);
 	const cards = page.locator('.aram-role-items > li');
-	await expect(cards).toHaveCount(2);
+	await expect(cards).toHaveCount(3);
 	await expect(cards.nth(0)).toContainText('AD 챔피언');
 	await expect(cards.nth(0)).toContainText('도미닉 경의 인사');
 	await expect(cards.nth(1)).toContainText('AP 챔피언');
-	await expect(cards.nth(1)).toContainText('무덤꽃');
+	await expect(cards.nth(1).locator('.aram-item')).toHaveText(['무덤꽃', '공허의 지팡이']);
+	await expect(cards.nth(2)).toContainText('암살자 챔피언');
+	await expect(cards.nth(2)).toContainText('독사의 송곳니');
 	await expect(page.locator('.aram-sources')).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: /어울리는 챔피언/ })).toHaveCount(0);
 });
 
-test('장갑 충격 공략과 챔피언 빌드 탭에 쇠사슬 조끼 6개 + 모루 템트리를 보여 준다', async ({
-	page
-}) => {
+test('장갑 충격 공략과 챔피언 빌드 탭에 모루작 빌드와 추천 모루를 보여 준다', async ({ page }) => {
 	await page.goto(`${HUB_PATH}/augments/armored-impact`);
-	const vest = page.locator('.aram-card', { hasText: '쇠사슬 조끼 6개' });
-	await expect(vest.locator('.aram-item-note')).toHaveText(['6개', '반복 구매']);
-	await expect(vest.getByRole('listitem').filter({ hasText: '방어력을 고르세요' })).toHaveCount(1);
+	const vest = page.locator('.aram-card', { hasText: '모루작 빌드' });
+	const items = ['쇠사슬 조끼', '2티어 신발', '해신 작쇼', '모루 반복 구매'];
+	await expect(vest.locator('.aram-item')).toHaveText(items);
+	await expect(vest.locator('.aram-core-with')).toHaveText('2티어 신발');
+	await expect(vest.locator('.aram-caution')).toContainText('저점이 낮아요');
+	await expect(vest.locator('.aram-anvil-badge')).toHaveText(['프리즘', '골드', '실버']);
+	// 줄은 등급, 칸은 1순위·2순위인 표다.
+	await expect(vest.getByRole('columnheader')).toHaveText(['등급', '1순위', '2순위']);
+	const prism = vest.getByRole('row', { name: '프리즘 모루' });
+	await expect(prism.locator('td').first().locator('.aram-anvil-stat')).toHaveText([
+		'방어구 관통력',
+		'모든 피해 흡혈'
+	]);
+	await expect(
+		vest.getByRole('row', { name: '골드·실버 모루' }).locator('td').nth(1)
+	).toContainText('스킬 가속 + 공격 속도');
 
 	await page.goto(`${HUB_PATH}/rammus`);
 	// 버튼 사이의 · 기호는 화면 읽기에서 빠진다.
-	await page.getByRole('button', { name: '장갑 충격 쇠사슬 조끼 6개' }).click();
+	await page.getByRole('button', { name: '장갑 충격 모루작 빌드' }).click();
 	const core = page.getByRole('list', { name: '코어 아이템 구매 순서' });
-	await expect(core.locator('.aram-item')).toHaveText(['쇠사슬 조끼 6개', '모루 반복 구매']);
+	await expect(core.locator('.aram-item')).toHaveText(items);
+	await expect(page.locator('.aram-builds .aram-anvil-badge')).toHaveText([
+		'프리즘',
+		'골드',
+		'실버'
+	]);
 	// 완전히 다른 템트리라 기본 빌드와 비교한 추가·변경 표시는 하지 않는다.
 	await expect(core.locator('.aram-mark')).toHaveCount(0);
 });
@@ -282,8 +305,7 @@ test('접은 조합 카드는 다른 챔피언을 봤다가 돌아와도 접혀 
 test('조합 카드의 플레이 영상은 자동 재생하지 않는다', async ({ page }) => {
 	for (const [path, combo, id] of [
 		['kaisa', 'W만으로 패시브 터트리기', 'TXJnV9S1t8g'],
-		['malphite', '방어력 기반 평타', 'Vx5VH92Zd2I'],
-		['augments/armored-impact', '방어력 기반 평타', 'Vx5VH92Zd2I']
+		['malphite', '방어력 기반 평타', 'Vx5VH92Zd2I']
 	]) {
 		await page.goto(`${HUB_PATH}/${path}`);
 		const frame = page
