@@ -1506,7 +1506,11 @@
 					"title": "마나를 체력과 주문력으로",
 					"augmentIds": ["mind-to-matter", "adapt"],
 					"requiredAugmentIds": ["mind-to-matter", "adapt"],
-					"whyKo": "정신 변환은 마나 > 체력, 지배자의 피갑옷은 체력 > 공격력, 적응형 능력치는 공격력 > 주문력으로 바꿔 줍니다.",
+					"stepsKo": [
+						"정신 변환: 마나 > 체력",
+						"지배자의 피갑옷: 체력 > 공격력",
+						"적응형 능력치: 공격력 > 주문력"
+					],
 					"rating": "S",
 					"evidenceLevel": "user",
 					"evidence": [],
