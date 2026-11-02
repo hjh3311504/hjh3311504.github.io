@@ -449,16 +449,14 @@ for (const id of [...usedAugments].sort()) {
 
 // 템트리의 '모루'는 상점 아이템 이름이 아니라 능력치 모루다. 문장 타일과 같은 아이콘을 쓴다(아래 icons.anvil).
 const ANVIL = '모루';
-// 모루작 빌드의 '2티어 신발'은 특정 신발이 아니라 아무 2단계 신발이다. 기본 장화(1001) 아이콘을 쓴다.
+// 모루작 빌드의 '2티어 신발'은 특정 신발이 아니라 아무 2단계 신발이다.
+// 아수라장 기본 신발인 탐욕의 군화 아이콘을 쓴다(2026-11-02 사용자 결정).
 const TIER2_BOOTS = '2티어 신발';
+const TIER2_BOOTS_ICON = '탐욕의 군화';
 const items = {};
 for (const name of [...usedItems].sort()) {
 	if (name === ANVIL) continue;
-	if (name === TIER2_BOOTS) {
-		items[name] = await saveIcon(`${DDRAGON}/img/item/1001.png`, 'items', 1001, 64);
-		continue;
-	}
-	const id = itemIdByName[name.replace(/\s+/g, '')];
+	const id = itemIdByName[(name === TIER2_BOOTS ? TIER2_BOOTS_ICON : name).replace(/\s+/g, '')];
 	if (!id) {
 		missing.push(`아이템: ${name}`);
 		items[name] = null;
