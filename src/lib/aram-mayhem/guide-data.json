@@ -670,6 +670,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -703,6 +707,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -1389,6 +1397,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -1422,6 +1434,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -1859,6 +1875,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -1892,6 +1912,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -3051,6 +3075,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -3084,6 +3112,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -3683,6 +3715,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -3716,6 +3752,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -3981,6 +4021,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -4014,6 +4058,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -4922,6 +4970,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -4955,6 +5007,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -5765,6 +5821,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -5798,6 +5858,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -7315,6 +7379,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -7348,6 +7416,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -7812,6 +7884,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -7845,6 +7921,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -8460,6 +8540,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -8493,6 +8577,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -8812,6 +8900,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -8845,6 +8937,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -9334,6 +9430,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -9367,6 +9467,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -10151,6 +10255,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -10184,6 +10292,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -10845,6 +10957,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -10878,6 +10994,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -11248,6 +11368,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -11281,6 +11405,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -12212,6 +12340,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -12245,6 +12377,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -14380,6 +14516,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -14413,6 +14553,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -15221,6 +15365,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -15254,6 +15402,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -15546,6 +15698,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -15579,6 +15735,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -16026,6 +16186,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -16059,6 +16223,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -17065,6 +17233,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -17098,6 +17270,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -20263,6 +20439,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -20296,6 +20476,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -20870,6 +21054,10 @@
 									{
 										"stat": "강인함",
 										"icons": ["tenacity"]
+									},
+									{
+										"stat": "체력과 크기",
+										"icons": ["health"]
 									}
 								]
 							]
@@ -20903,6 +21091,10 @@
 									{
 										"stat": "스킬 가속 + 공격 속도",
 										"icons": ["haste", "attackSpeed"]
+									},
+									{
+										"stat": "마법 저항력",
+										"icons": ["magicResist"]
 									}
 								]
 							]
@@ -22617,6 +22809,10 @@
 										{
 											"stat": "강인함",
 											"icons": ["tenacity"]
+										},
+										{
+											"stat": "체력과 크기",
+											"icons": ["health"]
 										}
 									]
 								]
@@ -22650,6 +22846,10 @@
 										{
 											"stat": "스킬 가속 + 공격 속도",
 											"icons": ["haste", "attackSpeed"]
+										},
+										{
+											"stat": "마법 저항력",
+											"icons": ["magicResist"]
 										}
 									]
 								]

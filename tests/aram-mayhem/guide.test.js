@@ -184,11 +184,11 @@ test('장갑 충격 빌드가 있는 챔피언은 모루작 빌드도 바로 뒤
 	);
 	assert.deepEqual(names(anvilBuild.anvils[0]), [
 		['방어구 관통력', '모든 피해 흡혈'],
-		['이동 속도', '강인함']
+		['이동 속도', '강인함', '체력과 크기']
 	]);
 	assert.deepEqual(names(anvilBuild.anvils[1]), [
 		['방어력', '방어력 + 마법 저항력'],
-		['물리 관통력', '체력', '스킬 가속', '스킬 가속 + 공격 속도']
+		['물리 관통력', '체력', '스킬 가속', '스킬 가속 + 공격 속도', '마법 저항력']
 	]);
 	for (const pick of anvilBuild.anvils.flatMap((group) => group.priorities.flat())) {
 		assert.deepEqual(Object.keys(pick).sort(), ['icons', 'stat'], pick.stat);

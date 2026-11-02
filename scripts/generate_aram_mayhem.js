@@ -219,10 +219,12 @@ const ANVIL_STAT_ICONS = {
 	'모든 피해 흡혈': ['omnivamp'],
 	'이동 속도': ['moveSpeed'],
 	강인함: ['tenacity'],
+	'체력과 크기': ['health'],
 	방어력: ['armor'],
 	'방어력 + 마법 저항력': ['armor', 'magicResist'],
 	'물리 관통력': ['armorPen'],
 	체력: ['health'],
+	'마법 저항력': ['magicResist'],
 	'스킬 가속': ['haste'],
 	'스킬 가속 + 공격 속도': ['haste', 'attackSpeed']
 };
