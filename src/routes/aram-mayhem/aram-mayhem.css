@@ -690,26 +690,44 @@ html[data-theme='dark'] .aram-page {
 	line-height: 1.8;
 }
 .aram-anvils {
-	display: grid;
-	gap: var(--space-12);
+	width: 100%;
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-md);
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
 }
-.aram-anvil-tier {
-	display: grid;
-	grid-template-columns: 64px minmax(0, 1fr);
-	align-items: start;
-	gap: var(--space-12);
+.aram-anvils th,
+.aram-anvils td {
+	padding: var(--space-12) var(--space-16);
+	border-top: 1px solid var(--ui-border);
+	text-align: left;
+	vertical-align: middle;
+}
+.aram-anvils thead th {
+	border-top: 0;
+	background: var(--aram-tile);
+	color: var(--ui-text-muted);
+	font-weight: 700;
+}
+.aram-anvils tbody th {
+	width: 1%;
+}
+.aram-anvils td {
+	width: 50%;
 }
 .aram-anvil-badges {
 	display: grid;
 	gap: var(--space-4);
 }
 .aram-anvil-badge {
-	padding: var(--space-4) 0;
+	padding: var(--space-2) var(--space-12);
 	border-radius: var(--ui-radius-sm);
 	color: var(--color-aram-on-tier);
 	font-size: var(--font-size-16);
 	font-weight: 700;
 	text-align: center;
+	white-space: nowrap;
 }
 .aram-anvil-badge-silver {
 	background: var(--color-aram-silver);
@@ -725,28 +743,16 @@ html[data-theme='dark'] .aram-page {
 		var(--color-aram-prism-cyan)
 	);
 }
-.aram-anvil-picks {
-	display: grid;
-	gap: var(--space-8);
-	margin: 0;
+.aram-anvil-rank-name {
+	display: none;
 }
-.aram-anvil-rank {
-	display: flex;
-	align-items: flex-start;
-	gap: var(--space-8);
-}
-.aram-anvil-rank dt {
-	flex: none;
-	padding: var(--space-2) 0;
-	color: var(--ui-text-muted);
-	font-weight: 700;
-	line-height: 1.5;
-}
-.aram-anvil-rank dd {
+.aram-anvil-stats {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--space-4) var(--space-8);
-	margin: 0;
+	gap: var(--space-8);
+}
+.aram-anvil-first .aram-anvil-stat {
+	box-shadow: inset 0 0 0 2px var(--aram-good);
 }
 .aram-anvil-stat {
 	display: inline-flex;
@@ -929,15 +935,31 @@ html[data-theme='dark'] .aram-page {
 	.aram-build-tab.ui-button {
 		width: 100%;
 	}
-	.aram-anvil-tier {
-		grid-template-columns: 1fr;
-		gap: var(--space-8);
+	/* 좁은 화면: 표 머리를 숨기고 등급마다 배지 → 1순위 → 2순위로 쌓는다. */
+	.aram-anvils,
+	.aram-anvils tbody,
+	.aram-anvils tr,
+	.aram-anvils th,
+	.aram-anvils td {
+		display: block;
+	}
+	.aram-anvils thead {
+		display: none;
+	}
+	.aram-anvils tbody th,
+	.aram-anvils td {
+		width: auto;
+		background: var(--aram-tile);
 	}
 	.aram-anvil-badges {
 		display: flex;
 	}
-	.aram-anvil-badge {
-		padding: var(--space-2) var(--space-12);
+	.aram-anvil-rank-name {
+		display: block;
+		margin-bottom: var(--space-4);
+		color: var(--ui-text-muted);
+		font-size: var(--font-size-14);
+		font-weight: 700;
 	}
 	.aram-boxes,
 	.aram-role-items {
