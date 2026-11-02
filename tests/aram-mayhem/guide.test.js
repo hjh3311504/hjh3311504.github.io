@@ -172,9 +172,9 @@ test('장갑 충격 빌드가 있는 챔피언은 모루작 빌드도 바로 뒤
 		assert.equal(vest.caution, anvilBuild.caution);
 		assert.deepEqual(vest.anvils, anvilBuild.anvils);
 	}
-	// 모루는 문장 타일과 같은 초록 모루 아이콘, 2티어 신발은 기본 장화 아이콘을 쓴다.
+	// 모루는 문장 타일과 같은 초록 모루 아이콘, 2티어 신발은 탐욕의 군화 아이콘을 쓴다.
 	assert.equal(guide.items['모루'], guide.icons.anvil);
-	assert.match(guide.items['2티어 신발'], /\/items\/1001\.webp$/);
+	assert.equal(guide.items['2티어 신발'], guide.items['탐욕의 군화']);
 	assert.match(anvilBuild.caution, /저점이 낮아요/);
 	// 추천 모루는 프리즘, 골드·실버 두 묶음이고 1순위·2순위 능력치 이름만 보여 준다.
 	const names = (group) => group.priorities.map((stats) => stats.map((pick) => pick.stat));
