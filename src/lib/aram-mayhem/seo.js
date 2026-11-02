@@ -118,7 +118,7 @@ export function augmentSeo(id, guide) {
 		? `증바람 ${label} 템트리는 ${itemOrder(guide, core)}입니다. 어울리는 챔피언은`
 		: `증바람 ${label} 증강과 어울리는 챔피언은`;
 	const roleItems = (augment.guide?.roleItems ?? [])
-		.map((row) => `${row.role} ${itemName(guide, row.item)}`)
+		.map((row) => `${row.role} ${row.items.map(({ item }) => itemName(guide, item)).join('·')}`)
 		.join(', ');
 	const search = augment.guide?.search ? ` ${augment.guide.search}` : '';
 	const summary = entries.length

@@ -1,12 +1,10 @@
 <script>
-	import { resolve } from '$app/paths';
 	import { TIER_LABEL } from '../guide.js';
+	import ChampionTiles from './ChampionTiles.svelte';
 	import CoreItems from './CoreItems.svelte';
-	import ComboCard from './ComboCard.svelte';
-	import ComboLegend from './ComboLegend.svelte';
 	import RichText from './RichText.svelte';
 
-	// 증강 공략: 증강 효과와 어울리는 챔피언별 템트리·조합. 챔피언 이름은 챔피언 공략 페이지 링크다.
+	// 증강 공략: 증강 효과·템트리와 어울리는 챔피언 타일. 타일은 챔피언 공략 페이지 링크다.
 	// core: 모든 챔피언이 같은 템트리를 쓰면 위에 한 번만 보여 준다.
 	// augment.guide: 챔피언 조합 없이 정리한 1코어 추천과 팁(운명의 무기), 다른 템트리(장갑 충격 쇠사슬 조끼).
 	// 출처는 보여 주지 않는다.
@@ -63,13 +61,17 @@
 			{#each augment.guide.roleItems as row (row.role)}
 				<li class="aram-card">
 					<p class="aram-sub-heading">{row.role}</p>
-					<span class="aram-item">
-						{#if guide.items[row.item]}
-							<img src={guide.items[row.item]} alt="" width="32" height="32" decoding="async" />
-						{/if}
-						<span>{row.item}</span>
-					</span>
-					<p class="aram-why"><RichText parts={row.why} champion={null} {guide} /></p>
+					{#each row.items as { item, why } (item)}
+						<div class="aram-role-item">
+							<span class="aram-item">
+								{#if guide.items[item]}
+									<img src={guide.items[item]} alt="" width="32" height="32" decoding="async" />
+								{/if}
+								<span>{item}</span>
+							</span>
+							<p class="aram-why"><RichText parts={why} champion={null} {guide} /></p>
+						</div>
+					{/each}
 				</li>
 			{/each}
 		</ul>
@@ -86,28 +88,7 @@
 	{/if}
 
 	{#if entries.length}
-		<div class="aram-section-head">
-			<h3>어울리는 챔피언 {entries.length}명</h3>
-			<ComboLegend />
-		</div>
+		<h3>어울리는 챔피언 {entries.length}명</h3>
+		<ChampionTiles champions={entries.map(({ champion }) => champion)} label="어울리는 챔피언" />
 	{/if}
-	{#each entries as { champion, combos, build } (champion.id)}
-		<section class="aram-aug-champ" aria-labelledby={`aram-aug-champ-${champion.id}`}>
-			<h4 id={`aram-aug-champ-${champion.id}`}>
-				<a href={resolve('/aram-mayhem/[champion]', { champion: champion.id })}>
-					<img src={champion.icon} alt="" width="40" height="40" loading="lazy" decoding="async" />
-					{champion.nameKo}
-				</a>
-			</h4>
-			{#if build && !core}
-				<div class="aram-card">
-					<p class="aram-sub-heading">{augment.nameKo} 템트리</p>
-					<CoreItems items={build.core} {guide} />
-				</div>
-			{/if}
-			{#each combos as combo (combo.title)}
-				<ComboCard {combo} {champion} {guide} />
-			{/each}
-		</section>
-	{/each}
 </article>

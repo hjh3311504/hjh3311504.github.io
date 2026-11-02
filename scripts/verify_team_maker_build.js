@@ -650,7 +650,7 @@ for (const champion of aramGuide.champions) {
 	if (crumbs?.itemListElement?.at(-1)?.item !== `https://hjh3311504.github.io${pathname}`)
 		throw new Error(`${name}의 이동 경로 구조화 데이터가 올바르지 않습니다.`);
 }
-// 증강 공략 페이지: 허브 링크, sitemap, 제목, 검색 버튼·범례, 어울리는 챔피언의 공략 링크,
+// 증강 공략 페이지: 허브 링크, sitemap, 제목, 검색 버튼, 어울리는 챔피언 타일의 공략 링크,
 // 이동 경로와 챔피언 목록 구조화 데이터.
 for (const id of AUGMENT_PAGE_IDS) {
 	const pathname = augmentPath(id);
@@ -666,20 +666,24 @@ for (const id of AUGMENT_PAGE_IDS) {
 		`<link rel="canonical" href="https://hjh3311504.github.io${pathname}"`,
 		'id="aram-augment-name"',
 		'role="combobox"',
-		// 챔피언 조합이 있으면 범례와 챔피언 공략 링크, 1코어 추천만 있으면 추천 아이템
+		// 챔피언 조합이 있으면 챔피언 타일 목록과 공략 링크, 1코어 추천만 있으면 추천 아이템
 		...(seo.entries.length
 			? [
-					'class="aram-legend"',
+					`aria-label="어울리는 챔피언"`,
 					...seo.entries.map(({ champion }) => `href="${championPath(champion.id)}"`)
 				]
 			: [
 					'class="aram-role-items"',
-					...aramGuide.augments[id].guide.roleItems.map((row) => `<span>${row.item}</span>`)
+					...aramGuide.augments[id].guide.roleItems.flatMap((row) =>
+						row.items.map(({ item }) => `<span>${item}</span>`)
+					)
 				])
 	]) {
 		if (!document.includes(marker))
 			throw new Error(`${name} HTML에서 ${marker} 표시를 찾지 못했습니다.`);
 	}
+	if (document.includes('class="aram-legend"') || document.includes('class="aram-combo'))
+		throw new Error(`${name}에는 조합 카드와 범례를 두지 않습니다.`);
 	if ((document.match(/<h1\b/g)?.length ?? 0) !== 1)
 		throw new Error(`${name}의 h1은 1개여야 합니다.`);
 	await checkAramImages(document, name);

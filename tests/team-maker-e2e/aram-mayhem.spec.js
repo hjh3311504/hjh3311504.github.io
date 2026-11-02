@@ -75,12 +75,17 @@ test('허브의 꼭 읽어야 할 증강 공략에서 증강 공략으로 가고
 	await expect(page).toHaveTitle(/증바람 장갑 충격\(장충\) 공략$/);
 	// 모든 챔피언이 같은 템트리라 위에 한 번만 보여 주고, 쇠사슬 조끼 6개 템트리를 그 아래에 더한다.
 	await expect(page.getByRole('list', { name: '코어 아이템 구매 순서' })).toHaveCount(2);
-	await page.getByRole('link', { name: '트런들' }).click();
+	// 어울리는 챔피언은 조합 카드 없이 허브와 같은 챔피언 타일로만 보여 준다.
+	await expect(page.getByRole('heading', { name: '어울리는 챔피언 24명', level: 3 })).toBeVisible();
+	const tiles = page.getByRole('list', { name: '어울리는 챔피언' }).getByRole('link');
+	await expect(tiles).toHaveCount(24);
+	await expect(page.locator('.aram-combo')).toHaveCount(0);
+	await tiles.filter({ hasText: '트런들' }).click();
 	await expect(page).toHaveURL(/\/aram-mayhem\/trundle$/);
 	await expect(championName(page)).toHaveText('트런들');
 });
 
-test('운명의 무기 공략은 챔피언 대신 AD·AP 1코어 카드 2개를 출처 없이 보여 준다', async ({
+test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카드 3개를 출처 없이 보여 준다', async ({
 	page
 }) => {
 	await openHub(page);
@@ -97,11 +102,13 @@ test('운명의 무기 공략은 챔피언 대신 AD·AP 1코어 카드 2개를 
 	await expect(page.locator('.aram-aug-lead')).toContainText(/100%\u2060까지/);
 	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(2);
 	const cards = page.locator('.aram-role-items > li');
-	await expect(cards).toHaveCount(2);
+	await expect(cards).toHaveCount(3);
 	await expect(cards.nth(0)).toContainText('AD 챔피언');
 	await expect(cards.nth(0)).toContainText('도미닉 경의 인사');
 	await expect(cards.nth(1)).toContainText('AP 챔피언');
-	await expect(cards.nth(1)).toContainText('무덤꽃');
+	await expect(cards.nth(1).locator('.aram-item')).toHaveText(['무덤꽃', '공허의 지팡이']);
+	await expect(cards.nth(2)).toContainText('암살자 챔피언');
+	await expect(cards.nth(2)).toContainText('독사의 송곳니');
 	await expect(page.locator('.aram-sources')).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: /어울리는 챔피언/ })).toHaveCount(0);
 });
@@ -282,8 +289,7 @@ test('접은 조합 카드는 다른 챔피언을 봤다가 돌아와도 접혀 
 test('조합 카드의 플레이 영상은 자동 재생하지 않는다', async ({ page }) => {
 	for (const [path, combo, id] of [
 		['kaisa', 'W만으로 패시브 터트리기', 'TXJnV9S1t8g'],
-		['malphite', '방어력 기반 평타', 'Vx5VH92Zd2I'],
-		['augments/armored-impact', '방어력 기반 평타', 'Vx5VH92Zd2I']
+		['malphite', '방어력 기반 평타', 'Vx5VH92Zd2I']
 	]) {
 		await page.goto(`${HUB_PATH}/${path}`);
 		const frame = page

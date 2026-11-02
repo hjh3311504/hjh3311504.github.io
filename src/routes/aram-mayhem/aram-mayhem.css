@@ -249,7 +249,7 @@ html[data-theme='dark'] .aram-page {
 /* 1코어 추천(AD·AP): 넓은 화면은 2열, 좁은 화면은 1열 */
 .aram-role-items {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	gap: var(--space-12);
 	margin: 0 0 var(--space-12);
 	padding: 0;
@@ -261,32 +261,16 @@ html[data-theme='dark'] .aram-page {
 .aram-role-items .aram-item {
 	display: inline-flex;
 }
+/* 한 카드에 추천 아이템이 여럿이면 아이템마다 이유를 붙여 위아래로 나눈다. */
+.aram-role-item + .aram-role-item {
+	margin-top: var(--space-12);
+	padding-top: var(--space-12);
+	border-top: 1px solid var(--ui-border);
+}
 .aram-role-items .aram-item img {
 	width: 32px;
 	height: 32px;
 	border-radius: 6px;
-}
-.aram-aug-champ + .aram-aug-champ {
-	margin-top: var(--space-24);
-}
-.aram-aug-champ h4 {
-	margin: 0 0 var(--space-8);
-	font-size: var(--font-size-18);
-	line-height: 1.4;
-}
-.aram-aug-champ h4 a {
-	display: inline-flex;
-	align-items: center;
-	gap: var(--space-8);
-	color: var(--ui-text);
-}
-.aram-aug-champ h4 a:hover {
-	color: var(--ui-primary);
-}
-.aram-aug-champ h4 img {
-	width: 40px;
-	height: 40px;
-	border-radius: 8px;
 }
 .aram-detail h3 {
 	margin: var(--space-32) 0 var(--space-12);

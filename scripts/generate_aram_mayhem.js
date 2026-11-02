@@ -362,12 +362,12 @@ for (const entry of augmentGuideData.augments) {
 	usedAugments.add(entry.id);
 	const roleItems = entry.roleItems ?? [];
 	const extraBuilds = entry.builds ?? [];
-	roleItems.forEach((row) => usedItems.add(row.item));
+	roleItems.forEach((row) => row.items.forEach(({ item }) => usedItems.add(item)));
 	extraBuilds.forEach((build) => build.core.forEach((item) => usedItems.add(item)));
 	// 근거 글 번호는 조사 기록에 있어야 한다.
 	for (const id of [
 		entry.tipEvidencePostIds ?? [],
-		...roleItems.map((row) => row.evidencePostIds)
+		...roleItems.flatMap((row) => row.items.map((item) => item.evidencePostIds))
 	].flat()) {
 		if (!postById[id]) missing.push(`디시 글: ${id}`);
 	}
@@ -378,8 +378,7 @@ for (const entry of augmentGuideData.augments) {
 		tips: (entry.tipsKo ?? []).map(parsePlain),
 		roleItems: roleItems.map((row) => ({
 			role: row.roleKo,
-			item: row.item,
-			why: parsePlain(row.whyKo)
+			items: row.items.map(({ item, whyKo }) => ({ item, why: parsePlain(whyKo) }))
 		})),
 		builds: extraBuilds.map((build) => ({
 			key: build.key,
