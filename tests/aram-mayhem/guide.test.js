@@ -102,6 +102,7 @@ test('추천 아이템 제목은 코어 개수에 맞춘다', () => {
 
 test('허브 타일은 긴 이름만 줄임말로 보여 준다', () => {
 	assert.equal(tileName({ id: 'twisted-fate', nameKo: '트위스티드 페이트' }), '트페');
+	assert.equal(tileName({ id: 'renata-glasc', nameKo: '레나타 글라스크' }), '레나타');
 	assert.equal(tileName({ id: 'teemo', nameKo: '티모' }), '티모');
 });
 
@@ -178,8 +179,8 @@ test('장갑 충격 빌드가 있는 챔피언은 쇠사슬 조끼 6개 + 모루
 	);
 });
 
-// 애니·우디르는 사용자 지시로 기본 빌드 1코어에만 악의를 둔다.
-const MALIGNANCE_OK = new Set(['annie', 'udyr']);
+// 애니·우디르는 기본 빌드 1코어, 카사딘은 기본 빌드 3코어에만 사용자 지시로 악의를 둔다.
+const MALIGNANCE_OK = { annie: 0, udyr: 0, kassadin: 2 };
 const ALLOWED_BOOTS = new Set([
 	'탐욕의 군화',
 	'신속의 장화',
@@ -188,13 +189,16 @@ const ALLOWED_BOOTS = new Set([
 	'광전사의 군화'
 ]);
 
-test('가이드 아이템 규칙: 악의(애니·우디르 1코어 제외)·피바라기 금지, 도미닉과 필멸자를 함께 추천하지 않음, 횃불·루덴은 추천 아이템 칸에 넣지 않음, 정한 신발만 추천', () => {
+test('가이드 아이템 규칙: 악의(애니·우디르 1코어·카사딘 3코어 제외)·피바라기 금지, 도미닉과 필멸자를 함께 추천하지 않음, 횃불·루덴은 추천 아이템 칸에 넣지 않음, 정한 신발만 추천', () => {
 	for (const champion of guide.champions) {
 		for (const build of champion.builds) {
 			const all = [...build.core, ...build.situational.map((row) => row.item)];
-			const allowed =
-				MALIGNANCE_OK.has(champion.id) && build.key === 'base' && build.core[0] === '악의';
-			assert.ok(!all.slice(allowed ? 1 : 0).includes('악의'), `${champion.id} 악의`);
+			const slot = MALIGNANCE_OK[champion.id];
+			const allowed = build.key === 'base' && slot !== undefined && build.core[slot] === '악의';
+			assert.ok(
+				!all.filter((_, index) => !(allowed && index === slot)).includes('악의'),
+				`${champion.id} 악의`
+			);
 			assert.ok(!all.includes('피바라기'), `${champion.id} 피바라기`);
 			// 도미닉 경의 인사가 있는 빌드는 필멸자의 운명 대신 처형인의 대검을 추천한다.
 			assert.ok(

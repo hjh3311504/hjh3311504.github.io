@@ -6801,7 +6801,7 @@
 			"avoidAugmentIds": [],
 			"avoidNoteKo": "",
 			"items": {
-				"core": ["윤 탈 야생화살", "나보리 명멸검", "무한의 대검"],
+				"core": ["징수의 총", "나보리 명멸검", "무한의 대검"],
 				"boots": "탐욕의 군화",
 				"situational": [],
 				"confidence": "low",
@@ -7797,7 +7797,7 @@
 			"avoidAugmentIds": [],
 			"avoidNoteKo": "",
 			"items": {
-				"core": ["영겁의 지팡이", "대천사의 지팡이", "루덴의 메아리"],
+				"core": ["영겁의 지팡이", "대천사의 지팡이", "악의"],
 				"boots": "탐욕의 군화",
 				"situational": [],
 				"confidence": "low",
@@ -8005,7 +8005,7 @@
 			"avoidAugmentIds": ["the-boom-and-the-bass"],
 			"avoidNoteKo": "the-boom-and-the-bass: 기본 공격 동작이 끊겼다는 보고와 짧은 사거리 때문에 패배했다는 후기가 있습니다. 확정 버그 판정은 아닙니다.",
 			"items": {
-				"core": ["강철심장", "얼어붙은 건틀릿", "끝없는 절망"],
+				"core": ["강철심장", "끝없는 절망", "워모그의 갑옷"],
 				"boots": "탐욕의 군화",
 				"situational": [],
 				"confidence": "low",
@@ -8086,7 +8086,7 @@
 			"avoidAugmentIds": [],
 			"avoidNoteKo": "",
 			"items": {
-				"core": ["징수의 총", "몰락한 왕의 검", "무한의 대검"],
+				"core": ["징수의 총", "무한의 대검", "도미닉 경의 인사"],
 				"boots": "탐욕의 군화",
 				"situational": [],
 				"confidence": "low",
