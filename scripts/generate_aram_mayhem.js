@@ -405,7 +405,38 @@ for (const entry of augmentGuideData.augments) {
 	].flat()) {
 		if (!postById[id]) missing.push(`디시 글: ${id}`);
 	}
+	// 함께 고르면 좋은 증강(떴다, 징크스의 속전속결·보석 건틀릿). 이동 속도 표는 로켓 속도보다 느린 상대 속도만 둔다.
+	const synergyIds = new Set();
+	const synergies = (entry.synergies ?? []).map((synergy) => {
+		usedAugments.add(synergy.augmentId);
+		const table = synergy.speedTable;
+		// 같은 증강이나 같은 상대 속도가 두 번 들어가면 화면의 each key가 겹친다.
+		// 이동 속도 표의 계산식·제목·안내 문장은 속전속결·로켓 전용이다.
+		const duplicate = synergyIds.has(synergy.augmentId);
+		synergyIds.add(synergy.augmentId);
+		if (
+			duplicate ||
+			!synergy.leadKo ||
+			(table &&
+				!(
+					synergy.augmentId === 'dont-blink' &&
+					Number.isInteger(table.ownSpeed) &&
+					table.enemySpeeds?.length &&
+					new Set(table.enemySpeeds).size === table.enemySpeeds.length &&
+					table.enemySpeeds.every((speed) => Number.isInteger(speed) && speed < table.ownSpeed)
+				))
+		) {
+			throw new Error(`어울리는 증강 정보가 잘못됨: ${entry.id} ${synergy.augmentId}`);
+		}
+		return {
+			augment: synergy.augmentId,
+			lead: parsePlain(synergy.leadKo),
+			note: synergy.noteKo ? parsePlain(synergy.noteKo) : [],
+			...(table && { speedTable: { own: table.ownSpeed, enemies: table.enemySpeeds } })
+		};
+	});
 	augmentGuides[entry.id] = {
+		...(synergies.length && { synergies }),
 		lead: entry.leadKo ? parsePlain(entry.leadKo) : [],
 		coreWhy: entry.coreWhyKo ? parsePlain(entry.coreWhyKo) : [],
 		search: entry.searchKo ?? '',

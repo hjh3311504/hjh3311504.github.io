@@ -230,12 +230,14 @@
 	--color-arena-dark-accent-soft: rgb(106 201 178 / 15%);
 	--color-arena-dark-minimap: rgb(31 41 50 / 85%);
 	--color-arena-dark-shadow: rgb(0 0 0 / 35%);
-	/* 칼바람 아수라장 가이드: 증강 등급 테두리와 게임 아이콘 바탕 */
-	--color-aram-silver: #9aa6b2;
-	--color-aram-gold: #d4a33b;
-	--color-aram-prism-pink: #ff7ac3;
-	--color-aram-prism-violet: #8f7bff;
-	--color-aram-prism-cyan: #43d1ff;
+	/* 칼바람 아수라장 가이드: 증강 등급 색(금속 광택: 밝은 shine → 진한 색)과 게임 아이콘 바탕 */
+	--color-aram-silver: #a9b6c3;
+	--color-aram-silver-shine: #eef2f6;
+	--color-aram-gold: #e0a526;
+	--color-aram-gold-shine: #ffe9a6;
+	--color-aram-prism-pink: #ffd0ea;
+	--color-aram-prism-violet: #d3c6ff;
+	--color-aram-prism-cyan: #aeeeff;
 	--color-aram-icon-background: #1e2328;
 	--color-aram-on-tier: #1e2328;
 }

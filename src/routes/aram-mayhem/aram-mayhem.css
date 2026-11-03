@@ -1,5 +1,18 @@
 /* 칼바람 아수라장 증강 가이드 */
 .aram-page {
+	/* 증강 등급 색: 아이콘 테두리, 등급 뱃지, 추천 모루 표 배지가 함께 쓴다. */
+	--aram-tier-silver: linear-gradient(
+		135deg,
+		var(--color-aram-silver-shine),
+		var(--color-aram-silver)
+	);
+	--aram-tier-gold: linear-gradient(135deg, var(--color-aram-gold-shine), var(--color-aram-gold));
+	--aram-tier-prismatic: linear-gradient(
+		135deg,
+		var(--color-aram-prism-pink),
+		var(--color-aram-prism-violet),
+		var(--color-aram-prism-cyan)
+	);
 	--aram-strong: var(--color-orange);
 	--aram-good: var(--color-green);
 	--aram-bad: var(--ui-danger);
@@ -307,6 +320,13 @@ html[data-theme='dark'] .aram-page {
 	color: var(--ui-text-muted);
 	font-size: var(--font-size-14);
 }
+/* 증강 등급 뱃지: 등급 색을 꽉 채우고 진한 글자로 쓴다. 바탕은 아래 등급 색 규칙에서 정한다. */
+/* 등급 이름은 작은 글꼴에, 증강은 전체 글꼴에 있어 글꼴 파일이 섞이면 높이가 어긋날 수 있다. 전체 글꼴 하나로 그린다. */
+.aram-tag.aram-tier-badge {
+	color: var(--color-aram-on-tier);
+	font-family: 'SUIT Full', system-ui, sans-serif;
+	font-weight: 700;
+}
 /* 증강 공략 */
 /* .aram-ring(40px)이 뒤에 있으므로 두 class를 함께 써서 64px를 지킨다. */
 .aram-ring.aram-ring-head {
@@ -518,19 +538,20 @@ html[data-theme='dark'] .aram-page {
 	border-radius: 8px;
 	background: var(--color-aram-icon-background);
 }
-.aram-ring-silver {
-	background: var(--color-aram-silver);
+.aram-ring-silver,
+.aram-tier-badge-silver,
+.aram-anvil-badge-silver {
+	background: var(--aram-tier-silver);
 }
-.aram-ring-gold {
-	background: var(--color-aram-gold);
+.aram-ring-gold,
+.aram-tier-badge-gold,
+.aram-anvil-badge-gold {
+	background: var(--aram-tier-gold);
 }
-.aram-ring-prismatic {
-	background: linear-gradient(
-		135deg,
-		var(--color-aram-prism-pink),
-		var(--color-aram-prism-violet) 45%,
-		var(--color-aram-prism-cyan)
-	);
+.aram-ring-prismatic,
+.aram-tier-badge-prismatic,
+.aram-anvil-badge-prismatic {
+	background: var(--aram-tier-prismatic);
 }
 .aram-aug-small .aram-ring {
 	width: 32px;
@@ -571,10 +592,16 @@ html[data-theme='dark'] .aram-page {
 	word-break: keep-all;
 	overflow-wrap: anywhere;
 }
+/*
+ * 타일 글자는 문장 글자와 같은 기준선에 둔다. 글자(baseline 정렬)가 타일의 기준선이 되고
+ * 아이콘만 타일 가운데에 둔다. 그래서 어느 문장·글자 크기에 넣어도 따로 보정하지 않는다.
+ * 글자 줄 높이가 아이콘(24px)보다 낮으면 글자가 위로 쏠리므로 줄 높이를 24px 이상으로 둔다.
+ * 타일이 flex·grid 안에 있으면 vertical-align은 무시되고 부모 정렬을 따른다.
+ */
 .aram-ic,
 .aram-ic.ui-button {
 	display: inline-flex;
-	align-items: center;
+	align-items: baseline;
 	gap: var(--space-4);
 	min-height: 0;
 	margin: 0 var(--space-2);
@@ -585,16 +612,20 @@ html[data-theme='dark'] .aram-page {
 	color: var(--ui-text);
 	font-size: inherit;
 	font-weight: 600;
-	line-height: 1.5;
-	vertical-align: middle;
+	line-height: max(1.5em, 24px);
+	vertical-align: baseline;
 	white-space: nowrap;
 }
-/* 한글은 글자 높이가 낮아 middle 정렬만으로는 타일이 글자보다 약 2px 내려간다. 문장 안 타일만 글자 중심에 맞춘다. */
-.aram-why .aram-ic,
-.aram-steps .aram-ic,
-.aram-aug-lead .aram-ic {
-	position: relative;
-	top: -0.15em;
+.aram-ic > img,
+.aram-ic > .aram-ring,
+.aram-ic > .aram-stat-icon,
+.aram-ic > .aram-key {
+	align-self: center;
+}
+/* 키만 보이는 스킬 타일처럼 글자가 없는 타일도 기준선이 생기도록 폭 없는 글자를 둔다. gap만큼 되돌린다. */
+.aram-ic::after {
+	content: '\200b';
+	margin-left: calc(-1 * var(--space-4));
 }
 .aram-ic img {
 	flex: none;
@@ -679,6 +710,64 @@ html[data-theme='dark'] .aram-page {
 	width: 100%;
 	height: 100%;
 	border: 0;
+}
+/* 어울리는 증강(떴다, 징크스): 증강마다 카드 하나를 세로로 쌓는다. 글자는 단어 단위로 줄바꿈한다. */
+.aram-synergies {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	word-break: keep-all;
+}
+.aram-synergy-partner {
+	display: flex;
+	align-items: center;
+	gap: var(--space-12);
+	margin-bottom: var(--space-16);
+}
+.aram-synergy-partner .aram-ring {
+	flex: none;
+}
+.aram-synergy-partner p {
+	margin: 0;
+}
+.aram-synergy-partner .aram-sub-heading {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+	margin: 0 0 var(--space-4);
+}
+.aram-speed-table {
+	width: 100%;
+	border: 1px solid var(--ui-border);
+	border-radius: var(--ui-radius-md);
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	font-size: var(--font-size-16);
+}
+.aram-speed-table caption {
+	margin-bottom: var(--space-8);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+	font-weight: 700;
+	text-align: left;
+}
+.aram-speed-table th,
+.aram-speed-table td {
+	width: 50%;
+	padding: var(--space-8) var(--space-16);
+	border-top: 1px solid var(--ui-border);
+	text-align: center;
+}
+.aram-speed-table thead th {
+	border-top: 0;
+	background: var(--aram-tile);
+	color: var(--ui-text-muted);
+	font-size: var(--font-size-14);
+}
+.aram-speed-table td {
+	color: var(--aram-strong);
+	font-weight: 700;
 }
 /* 조합 출처: 설명보다 작고 흐리게 카드 오른쪽에 둔다. */
 .aram-sources {
@@ -816,20 +905,6 @@ html[data-theme='dark'] .aram-page {
 	font-weight: 700;
 	text-align: center;
 	white-space: nowrap;
-}
-.aram-anvil-badge-silver {
-	background: var(--color-aram-silver);
-}
-.aram-anvil-badge-gold {
-	background: var(--color-aram-gold);
-}
-.aram-anvil-badge-prismatic {
-	background: linear-gradient(
-		135deg,
-		var(--color-aram-prism-pink),
-		var(--color-aram-prism-violet) 45%,
-		var(--color-aram-prism-cyan)
-	);
 }
 .aram-anvil-rank-name {
 	display: none;

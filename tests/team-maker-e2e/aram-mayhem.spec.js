@@ -108,6 +108,39 @@ test('허브는 꼭 읽어야 할 증강 공략을 챔피언 이름 검색 위�
 	await expect(page.getByRole('heading', { name: '어울리는 챔피언 16명', level: 3 })).toBeVisible();
 });
 
+test('떴다, 징크스 공략은 어울리는 증강으로 속전속결과 보석 건틀릿을 출처 없이 보여 준다', async ({
+	page
+}) => {
+	await openHub(page);
+	const link = page
+		.getByRole('region', { name: '꼭 읽어야 할 증강 공략' })
+		.getByRole('link', { name: /떴다, 징크스/ });
+	await expect(link).toContainText('로켓 피해 증폭');
+	await link.click();
+	await expect(page).toHaveURL(/\/aram-mayhem\/augments\/get-jinxed$/);
+	await expect(
+		page.getByRole('heading', { name: '증바람 떴다, 징크스 공략', level: 1 })
+	).toBeVisible();
+	// 제목은 쉼표 없이 검색하는 이름을 쓴다.
+	await expect(page).toHaveTitle(/증바람 떴다 징크스 공략/);
+	await expect(
+		page.getByRole('heading', { name: '함께 고르면 좋은 증강', level: 3 })
+	).toBeVisible();
+	const cards = page.locator('.aram-synergies > li');
+	await expect(cards).toHaveCount(2);
+	await expect(cards.nth(0).locator('.aram-sub-heading')).toContainText('속전속결');
+	await expect(cards.nth(1).locator('.aram-sub-heading')).toContainText('보석 건틀릿');
+	await expect(cards.nth(1)).toContainText('로켓 피해에도 치명타가 터져요.');
+	// 로켓 이동 속도 1400과 상대 이동 속도의 차이 10마다 피해가 1% 늘어난다.
+	const table = page.getByRole('table', { name: /로켓 이동 속도 1400일 때/ });
+	await expect(table.getByRole('row')).toHaveCount(4);
+	await expect(table.getByRole('row', { name: /400/ }).getByRole('cell')).toHaveText('+100%');
+	// 출처·영상과 어울리는 챔피언 목록은 없다.
+	await expect(page.locator('.aram-detail iframe')).toHaveCount(0);
+	await expect(page.locator('.aram-detail .aram-sources')).toHaveCount(0);
+	await expect(page.getByRole('list', { name: '어울리는 챔피언' })).toHaveCount(0);
+});
+
 test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카드 3개를 출처 없이 보여 준다', async ({
 	page
 }) => {
@@ -409,5 +442,98 @@ test('좁은 화면에서도 가로로 넘치지 않는다', async ({ page }) =>
 			() => document.documentElement.scrollWidth - document.documentElement.clientWidth
 		);
 		expect(overflow, path).toBeLessThanOrEqual(0);
+	}
+});
+
+test('문장 속 아이콘 타일은 어느 문장에 넣어도 문장 글자와 같은 높이에 놓인다', async ({
+	page
+}) => {
+	// 타일 글자와 바로 옆 문장 글자의 아래선, 아이콘·스킬 키 상자와 문장 글자의 세로 중심을 비교한다.
+	// 키만 보이는 스킬 타일처럼 글자가 없는 타일도 잰다.
+	// 보정 class가 없는 새 문장(글자 크기·줄 높이 여러 개)에 종류별 타일을 넣어도 맞아야 한다.
+	const measure = () => {
+		const textRect = (node, start, end) => {
+			const range = document.createRange();
+			if (start === undefined) range.selectNodeContents(node);
+			else {
+				range.setStart(node, start);
+				range.setEnd(node, end);
+			}
+			return range.getBoundingClientRect();
+		};
+		const isText = (node) => node?.nodeType === 3 && node.textContent.trim();
+		const middle = (rect) => (rect.top + rect.bottom) / 2;
+		const gap = (tile) => {
+			const label = [...tile.childNodes].reverse().find(isText);
+			let near = tile.nextSibling;
+			while (near && !isText(near)) near = near.nextSibling;
+			let index = near?.textContent.search(/\S/);
+			if (!near) {
+				near = tile.previousSibling;
+				while (near && !isText(near)) near = near.previousSibling;
+				index = near?.textContent.search(/\S\s*$/);
+			}
+			if (!near) return null;
+			const word = textRect(near, index, index + 1);
+			const box = tile.getBoundingClientRect();
+			if (word.top > box.bottom || word.bottom < box.top) return null;
+			const icon = tile.querySelector('img, .aram-ring, .aram-stat-icon');
+			const key = tile.querySelector('.aram-key');
+			return {
+				name: label?.textContent.trim() ?? tile.title,
+				baseline: label ? Math.abs(textRect(label).bottom - word.bottom) : 0,
+				icon: icon ? Math.abs(middle(icon.getBoundingClientRect()) - middle(word)) : 0,
+				key: key ? Math.abs(middle(key.getBoundingClientRect()) - middle(word)) : 0
+			};
+		};
+		const tiles = [...document.querySelectorAll('.aram-ic')].filter(
+			(tile) =>
+				tile.getClientRects().length &&
+				!/flex|grid/.test(getComputedStyle(tile.parentElement).display)
+		);
+		const kinds = {
+			키: '.aram-ic-key-only',
+			스킬: '.aram-ic:has(.aram-key):not(.aram-ic-key-only)',
+			증강: '.aram-ic:has(.aram-ring)',
+			능력치: '.aram-ic:has(.aram-stat-icon)',
+			아이템: '.aram-ic:not(:has(.aram-key, .aram-ring, .aram-stat-icon))'
+		};
+		const found = Object.entries(kinds)
+			.map(([kind, selector]) => [kind, tiles.find((tile) => tile.matches(selector))])
+			.filter(([, tile]) => tile);
+		const samples = found.map(([, tile]) => tile);
+		const probes = [];
+		for (const sample of samples) {
+			for (const size of [14, 16, 20]) {
+				for (const lineHeight of ['1.4', '2.4']) {
+					const sentence = document.createElement('div');
+					sentence.style.cssText = `font-size:${size}px;line-height:${lineHeight}`;
+					sentence.append('앞 글자 ', sample.cloneNode(true), '가 뒤 글자');
+					document.querySelector('.aram-page').append(sentence);
+					probes.push(gap(sentence.firstElementChild));
+					sentence.remove();
+				}
+			}
+		}
+		return {
+			kinds: found.map(([kind]) => kind),
+			rows: [...tiles.map(gap), ...probes].filter(Boolean)
+		};
+	};
+	for (const [path, kinds] of [
+		['/aram-mayhem/augments/get-jinxed', ['증강', '능력치']],
+		['/aram-mayhem/master-yi', ['스킬', '증강', '아이템']],
+		['/aram-mayhem/lee-sin', ['키']]
+	]) {
+		await page.goto(path);
+		await page.evaluate(() => document.fonts.ready);
+		const result = await page.evaluate(measure);
+		// 키만 보이는 스킬 타일 등 그 페이지에 있는 타일 종류를 모두 잰다.
+		expect(result.kinds, `${path} 타일 종류`).toEqual(expect.arrayContaining(kinds));
+		for (const row of result.rows) {
+			expect(row.baseline, `${path} ${row.name} 글자 아래선`).toBeLessThan(0.75);
+			expect(row.icon, `${path} ${row.name} 아이콘 중심`).toBeLessThan(1);
+			expect(row.key, `${path} ${row.name} 스킬 키 중심`).toBeLessThan(1);
+		}
 	}
 });

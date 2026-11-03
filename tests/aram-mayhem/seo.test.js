@@ -97,7 +97,8 @@ test('증강 공략 문구는 증강 별명·어울리는 챔피언·공통 템�
 	assert.deepEqual(aramAugmentPaths(), [
 		'/aram-mayhem/augments/armored-impact',
 		'/aram-mayhem/augments/bees',
-		'/aram-mayhem/augments/weapon-of-destiny'
+		'/aram-mayhem/augments/weapon-of-destiny',
+		'/aram-mayhem/augments/get-jinxed'
 	]);
 	const armored = augmentSeo('armored-impact', guide);
 	assert.equal(armored.title, '증바람 장갑 충격(장충) 공략');
@@ -161,11 +162,40 @@ test('증강 공략 문구는 증강 별명·어울리는 챔피언·공통 템�
 	for (const id of AUGMENT_PAGE_IDS) {
 		assert.ok(guide.augments[id], id);
 		const seo = augmentSeo(id, guide);
-		assert.ok(seo.entries.length > 0 || guide.augments[id].guide?.roleItems.length > 0, id);
+		const augmentGuide = guide.augments[id].guide;
+		assert.ok(
+			seo.entries.length > 0 ||
+				augmentGuide?.roleItems.length > 0 ||
+				augmentGuide?.synergies?.length > 0,
+			id
+		);
 		assert.ok(seo.description.includes('도파민'), id);
 		// 허브 링크에 보여 줄 한 줄 소개가 있다.
 		assert.ok(AUGMENT_PAGE_HOOKS[id], id);
 	}
+});
+
+test('떴다, 징크스 공략은 제목에 쉼표 없는 검색어를 쓰고 어울리는 증강을 검색 설명에 넣는다', () => {
+	const seo = augmentSeo('get-jinxed', guide);
+	// 제목은 많이 검색하는 '떴다 징크스', h1과 검색 설명은 공식 이름 '떴다, 징크스'라 둘 다 페이지에 있다.
+	assert.equal(seo.title, '증바람 떴다 징크스 공략');
+	assert.equal(seo.heading, '증바람 떴다, 징크스 공략');
+	assert.deepEqual(seo.entries, []);
+	assert.ok(
+		seo.description.startsWith(
+			'증바람 떴다, 징크스와 어울리는 증강은 속전속결·보석 건틀릿(보건)입니다. 로켓을 타면 이동 속도가 1400까지 올라'
+		)
+	);
+	const { synergies, ...rest } = guide.augments['get-jinxed'].guide;
+	assert.deepEqual(
+		synergies.map((synergy) => synergy.augment),
+		['dont-blink', 'jeweled-gauntlet']
+	);
+	for (const synergy of synergies) assert.ok(guide.augments[synergy.augment].icon);
+	assert.deepEqual(synergies[0].speedTable, { own: 1400, enemies: [350, 400, 450] });
+	// 출처와 영상은 보여 주지 않는다.
+	assert.equal(rest.sources, undefined);
+	assert.equal(rest.video, undefined);
 });
 
 test('운명의 무기 공략은 챔피언 없이 AD·AP·암살자 1코어를 검색 설명에 넣는다', () => {
