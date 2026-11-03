@@ -13,9 +13,15 @@ export const aramChampionPaths = (guide = guideData) =>
 export const AUGMENT_PAGE_HOOKS = {
 	'armored-impact': '탱커가 딜러로',
 	bees: '광역 데미지 딜링',
-	'weapon-of-destiny': '방마관 100% 만들기'
+	'weapon-of-destiny': '방마관 100% 만들기',
+	'get-jinxed': '로켓 피해 증폭'
 };
 export const AUGMENT_PAGE_IDS = Object.keys(AUGMENT_PAGE_HOOKS);
+/**
+ * 페이지 제목에 공식 이름 대신 쓸 검색어. 공식 이름의 쉼표 없이 검색하는 이름만 적는다.
+ * 검색엔진은 쉼표를 무시하므로 쉼표 있는 이름으로도 찾고, h1과 검색 설명은 공식 이름을 쓴다.
+ */
+const AUGMENT_TITLE_NAMES = { 'get-jinxed': '떴다 징크스' };
 export const augmentPath = (id) => `${HUB_PATH}/augments/${id}`;
 export const aramAugmentPaths = () => AUGMENT_PAGE_IDS.map(augmentPath);
 
@@ -43,6 +49,8 @@ function finalConsonant(word) {
 }
 /** 을/를을 붙인다. */
 const object = (word) => `${word}${finalConsonant(word) ? '을' : '를'}`;
+/** 와/과를 붙인다. */
+const along = (word) => `${word}${finalConsonant(word) ? '과' : '와'}`;
 /** 로/으로를 붙인다. ㄹ 받침(8번) 뒤에는 '로'다. */
 const toward = (word) => `${word}${[0, 8].includes(finalConsonant(word)) ? '로' : '으로'}`;
 
@@ -121,11 +129,17 @@ export function augmentSeo(id, guide) {
 		.map((row) => `${row.role} ${row.items.map((item) => itemName(guide, item)).join('·')}`)
 		.join(', ');
 	const search = augment.guide?.search ? ` ${augment.guide.search}` : '';
+	// 챔피언 없이 어울리는 증강만 정리한 증강(떴다, 징크스)은 그 증강들을 적는다.
+	const synergies = (augment.guide?.synergies ?? [])
+		.map((synergy) => augmentName(guide, synergy.augment))
+		.join('·');
 	const summary = entries.length
 		? `${lead} ${names} ${entries.length}명입니다.${search}`
-		: `증바람 ${label} 1코어 추천은 ${roleItems}입니다.${search}`;
+		: synergies
+			? `증바람 ${along(label)} 어울리는 증강은 ${synergies}입니다.${search}`
+			: `증바람 ${label} 1코어 추천은 ${roleItems}입니다.${search}`;
 	return {
-		title: `증바람 ${label} 공략`,
+		title: `증바람 ${withAlias(AUGMENT_TITLE_NAMES[id] ?? augment.nameKo, augment.aliases)} 공략`,
 		heading: `증바람 ${augment.nameKo} 공략`,
 		description: `${summary} 칼바람 아수라장 ${guide.patch} 패치 기준이며 통계 티어가 아닌 도파민 빌드입니다.`,
 		entries,

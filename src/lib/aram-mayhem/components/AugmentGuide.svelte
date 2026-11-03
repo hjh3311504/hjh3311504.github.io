@@ -9,9 +9,14 @@
 	// core: 모든 챔피언이 같은 템트리를 쓰면 위에 한 번만 보여 준다.
 	// augment.guide: 챔피언 조합 없이 정리한 1코어 추천과 팁(운명의 무기), 다른 템트리(장갑 충격 모루작 빌드).
 	// 팁만 있는 증강(벌이다!!!)은 알아 둘 점만 더한다.
+	// 어울리는 증강(떴다, 징크스의 속전속결·보석 건틀릿)은 증강마다 카드 하나에 효과·강조 문장·안내·이동 속도 표를 둔다.
 	// 출처는 보여 주지 않는다.
 	let { augment, entries, core, guide } = $props();
 	let extraBuilds = $derived(augment.guide?.builds ?? []);
+	let synergies = $derived(augment.guide?.synergies ?? []);
+	// 속전속결: 상대보다 이동 속도가 10 빠를 때마다 피해가 1% 늘어난다.
+	// 이동 속도 표는 계산식·표 제목·안내 문장 모두 속전속결·로켓 전용이다.
+	const bonus = (own, enemy) => Math.floor((own - enemy) / 10);
 </script>
 
 <article class="aram-detail" aria-labelledby="aram-augment-name">
@@ -22,11 +27,61 @@
 		<div>
 			<h2 id="aram-augment-name">{augment.nameKo}</h2>
 			<div class="aram-tags">
-				<span class="aram-tag">{TIER_LABEL[augment.tier]} 증강</span>
+				<span class={`aram-tag aram-tier-badge aram-tier-badge-${augment.tier}`}
+					>{TIER_LABEL[augment.tier]} 증강</span
+				>
 			</div>
 		</div>
 	</header>
 	<p class="aram-aug-effect">{augment.effectKo}</p>
+
+	{#if synergies.length}
+		<h3>함께 고르면 좋은 증강</h3>
+		<ul class="aram-synergies" role="list">
+			{#each synergies as synergy (synergy.augment)}
+				{@const partner = guide.augments[synergy.augment]}
+				<li class="aram-card">
+					<div class="aram-synergy-partner">
+						<span class={`aram-ring aram-ring-${partner.tier}`}>
+							<img src={partner.icon} alt="" width="40" height="40" />
+						</span>
+						<div>
+							<p class="aram-sub-heading">
+								{partner.nameKo}
+								<span class={`aram-tag aram-tier-badge aram-tier-badge-${partner.tier}`}
+									>{TIER_LABEL[partner.tier]} 증강</span
+								>
+							</p>
+							<p>{partner.effectKo}</p>
+						</div>
+					</div>
+					<p class="aram-aug-lead"><RichText parts={synergy.lead} champion={null} {guide} /></p>
+					{#if synergy.note.length}
+						<p class="aram-hint"><RichText parts={synergy.note} champion={null} {guide} /></p>
+					{/if}
+					{#if synergy.speedTable}
+						<table class="aram-speed-table">
+							<caption>로켓 이동 속도 {synergy.speedTable.own}일 때 {partner.nameKo} 효과</caption>
+							<thead>
+								<tr><th scope="col">상대 이동 속도</th><th scope="col">늘어나는 피해</th></tr>
+							</thead>
+							<tbody>
+								{#each synergy.speedTable.enemies as enemy (enemy)}
+									<tr>
+										<th scope="row">{enemy}</th>
+										<td>+{bonus(synergy.speedTable.own, enemy)}%</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+						<p class="aram-hint">
+							{partner.nameKo}은 상대보다 이동 속도가 10 빠를 때마다 피해가 1% 늘어나요.
+						</p>
+					{/if}
+				</li>
+			{/each}
+		</ul>
+	{/if}
 
 	{#if core || extraBuilds.length}
 		<h3>{augment.nameKo} 템트리</h3>
