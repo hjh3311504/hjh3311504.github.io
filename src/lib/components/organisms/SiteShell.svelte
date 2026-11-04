@@ -4,6 +4,7 @@
 	import { Button, IconButton } from '$lib/components/ui';
 	import { theme } from '$lib/stores/theme.js';
 	import SiteNav from './SiteNav.svelte';
+	import AppUpdateNotice from './AppUpdateNotice.svelte';
 
 	export let active = 'home';
 	export let variant = 'home';
@@ -257,6 +258,8 @@
 			</div>
 		</div>
 	{/if}
+	<!-- 사이트 테마 색상을 그대로 쓰도록 shell 안에 둔다. -->
+	<AppUpdateNotice />
 </div>
 
 <style>
