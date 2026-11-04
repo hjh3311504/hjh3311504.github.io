@@ -1,7 +1,7 @@
 <script>
 	import { setContext, onDestroy, onMount } from 'svelte';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
-	import { page } from '$app/state';
+	import { page, updated } from '$app/state';
 	import { dev } from '$app/environment';
 	import * as publicEnv from '$env/static/public';
 	import { ANALYTICS_CONTEXT, createAnalytics, isPublicPath } from '$lib/analytics/tracker.js';
@@ -35,21 +35,24 @@
 	onMount(() => markLocalPreview({ window, document, dev }));
 
 	const leavesAds = (url) => adsLoaded && adsenseExcludedPaths.includes(url.pathname);
+	// 새 배포가 감지되면 다음 이동을 새 문서로 불러와 예전 코드를 계속 쓰지 않게 한다.
+	const needsFreshDocument = (url) => leavesAds(url) || updated.current;
 
 	beforeNavigate(({ to, type, willUnload, cancel }) => {
 		if (
 			to &&
 			!willUnload &&
-			(tracker?.requiresDocumentNavigation(to.url) || (type !== 'popstate' && leavesAds(to.url)))
+			(tracker?.requiresDocumentNavigation(to.url) ||
+				(type !== 'popstate' && needsFreshDocument(to.url)))
 		) {
 			cancel();
 			window.location.assign(to.url.href);
 		}
 	});
 
-	afterNavigate(() => {
+	afterNavigate(({ type }) => {
 		// 뒤로·앞으로 가기는 취소하면 주소 복구와 이동이 겹치므로, 도착한 뒤 새로 불러온다.
-		if (leavesAds(page.url)) {
+		if (leavesAds(page.url) || (type === 'popstate' && updated.current)) {
 			window.location.reload();
 			return;
 		}

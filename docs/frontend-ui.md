@@ -53,6 +53,8 @@
 
 접는 섹션도 `Section`의 `variant`와 `padding`을 사용한다. 기본값은 `variant="card" padding="card"`다. Team Maker에서는 기존 카드와 같은 `variant="raised" padding="none" class="card"`를 사용한다. `ToolPageLayout`의 제목 영역과 첫 섹션 사이는 모든 밀도에서32px다.
 
+새 배포 안내는 `SiteShell` 안의 `AppUpdateNotice`가 담당한다. `svelte.config.js`의 `version.pollInterval`에 따라 5분마다, 그리고 탭으로 돌아올 때 최대 1분에 한 번 `_app/version.json`을 확인한다. 새 버전을 찾으면 화면 아래에 안내를 띄운다. 진행 중인 경기와 입력을 지키기 위해 자동으로 새로고침하지 않는다. 다음 페이지 이동과 뒤로 가기는 `+layout.svelte`에서 새 문서로 불러온다. 배포 버전 이름은 commit과 공개 글 목록으로 정한다. 매일 예약 build가 같은 내용을 다시 배포해도 안내가 뜨지 않게 하기 위해서다. 화면 아래에 떠 있는 버튼이 있는 페이지는 `--app-update-offset`으로 안내를 그 위에 올린다. 안내를 닫으면 들어오기 전 위치로 focus를 돌려주고, 그 요소가 사라졌으면 `main`으로 보낸다.
+
 프로젝트·블로그의 개인정보처리방침·저작권 표시는 `ToolPageFooter`로 통일한다. 본문과32px 간격을 두고 글자 크기는12px로 표시한다. 블로그 목록과 상세에는 `showRss`를 지정한다. 페이지에서 푸터의 글자나 구분선을 따로 덮어쓰지 않는다.
 
 ### 본문·사이드바와 목록 공통 스타일

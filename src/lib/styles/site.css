@@ -36,6 +36,10 @@ body {
 	min-height: 100vh;
 	position: relative;
 }
+/* 새 배포 안내를 닫은 뒤처럼 프로그램이 본문으로 focus를 옮길 때 본문 전체에 테두리를 그리지 않는다. */
+main[tabindex='-1']:focus {
+	outline: none;
+}
 h1,
 h2,
 h3,
