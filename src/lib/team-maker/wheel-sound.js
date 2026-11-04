@@ -4,6 +4,15 @@ import { WHEEL_SPIN_EASING } from './core.js';
 export const WHEEL_PIN_COUNT = 24;
 // 빠른 구간에도 타건음 사이에 여백을 둔다(초당 최대24회).
 export const WHEEL_SOUND_MIN_INTERVAL_MS = 1000 / 24;
+// 빠른 구간의 기본 음량이다.
+export const WHEEL_SOUND_GAIN = 0.5;
+// 짧은 틱은 홀로 울리면 작게 들리므로 간격이 80ms에서 600ms로 넓어지는 동안 최대5dB 키운다.
+export const WHEEL_SOUND_MAX_BOOST_DB = 5;
+
+export function calculateWheelSoundGain(gap) {
+	const ratio = Math.log(Math.max(gap, 80) / 80) / Math.log(600 / 80);
+	return WHEEL_SOUND_GAIN * 10 ** ((Math.min(ratio, 1) * WHEEL_SOUND_MAX_BOOST_DB) / 20);
+}
 
 function bezier(t, first, second) {
 	return 3 * (1 - t) ** 2 * t * first + 3 * (1 - t) * t ** 2 * second + t ** 3;

@@ -402,6 +402,8 @@ test('돌림판이 선택한 조각의 가운데를 포인터에 맞춘다', () 
 		const pickedCenter = pickedIndex * segmentDegrees + segmentDegrees / 2;
 		const stoppedAngle = (((rotation + pickedCenter) % 360) + 360) % 360;
 		assert.ok(Math.abs(stoppedAngle) < 1e-9 || Math.abs(stoppedAngle - 360) < 1e-9);
+		// 6.5초 동안 12바퀴 이상, 13바퀴 미만을 돈다.
+		assert.ok(rotation - 127.25 >= 360 * 12 && rotation - 127.25 < 360 * 13);
 	}
 });
 

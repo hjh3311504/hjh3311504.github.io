@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
 	calculateWheelPinTimes,
+	calculateWheelSoundGain,
 	calculateWheelSoundTimes,
 	WHEEL_PIN_COUNT,
 	WHEEL_SOUND_MIN_INTERVAL_MS
@@ -82,4 +83,17 @@ test('회전량과 상관없이 핀 간격이 같고 실제 CSS 감속 곡선에
 		}
 		assert.ok(times.at(-1) - times.at(-2) > times[1] - times[0]);
 	}
+});
+
+test('간격이 넓어질수록 틱 음량을 최대5dB까지 키운다', () => {
+	assert.equal(calculateWheelSoundGain(0), 0.5);
+	assert.equal(calculateWheelSoundGain(1000 / 24), 0.5);
+	assert.equal(calculateWheelSoundGain(80), 0.5);
+	const max = 0.5 * 10 ** (5 / 20);
+	assert.ok(Math.abs(calculateWheelSoundGain(600) - max) < 1e-12);
+	assert.equal(calculateWheelSoundGain(1300), calculateWheelSoundGain(600));
+	const gains = [100, 200, 300, 450].map(calculateWheelSoundGain);
+	assert.ok(
+		gains.every((gain, index) => gain > 0.5 && gain < max && (!index || gain > gains[index - 1]))
+	);
 });

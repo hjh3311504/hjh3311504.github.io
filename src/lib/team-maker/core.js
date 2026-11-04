@@ -151,7 +151,7 @@ export function calculateWheelTargetRotation(currentRotation, segmentCount, pick
 	}
 
 	const segmentDegrees = 360 / segmentCount;
-	const baseRotation = currentRotation + 360 * 8;
+	const baseRotation = currentRotation + 360 * 12;
 	const pickedCenter = pickedIndex * segmentDegrees + segmentDegrees / 2;
 	return baseRotation + ((360 - ((baseRotation + pickedCenter) % 360)) % 360);
 }

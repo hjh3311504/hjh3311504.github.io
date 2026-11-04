@@ -1,0 +1,28 @@
+{
+	"provider": "Agent Audio MCP",
+	"model": "stable-audio-3-medium",
+	"date": "2026-11-04",
+	"source_duration_seconds": 2,
+	"prompt": "One single plastic clicker tick, like a roulette or prize wheel pointer flicking past a peg. Crisp, punchy mid-high 'tick' with a firm hard plastic body around 2 to 4 kilohertz, sharp attack, 30 millisecond decay into silence. Clean and pleasant, not hissy, not harsh. Dry close microphone, exactly one isolated tick, no reverb, no metallic ring, no voice, no music.",
+	"source_sha256": "8a04deb173dd68ed1929c6c50c0303e601970211f7ad3990d23a48196a785948",
+	"processing": {
+		"trim_start_seconds": 0.003,
+		"trim_end_seconds": 0.048,
+		"highpass_hz": 250,
+		"lowpass_hz": 9000,
+		"fade_in_seconds": 0.001,
+		"fade_out_start_seconds": 0.025,
+		"fade_out_seconds": 0.02,
+		"gain_db": 0,
+		"channels": 1
+	},
+	"sha256": "dd87aa8a2418e8f1185d6606298f964e111505f67897df06a11a85846b1a81b8",
+	"listening_review": false,
+	"verification": {
+		"duration_seconds": 0.045,
+		"sample_rate": 44100,
+		"rms_dbfs": -25.09,
+		"peak_dbfs": -4.65,
+		"samples_at_or_above_full_scale": 0
+	}
+}
