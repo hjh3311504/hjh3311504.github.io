@@ -1,7 +1,7 @@
 import { createLifetime } from './lifecycle.js';
-import { calculateWheelSoundTimes } from './wheel-sound.js';
+import { calculateWheelSoundGain, calculateWheelSoundTimes } from './wheel-sound.js';
 
-const wheelPinUrl = new URL('./sounds/wheel-pin-tuk.wav', import.meta.url).href;
+const wheelPinUrl = new URL('./sounds/wheel-pin-tick.wav', import.meta.url).href;
 
 export function createAudio({ getState, $, persist }) {
 	const lifetime = createLifetime();
@@ -113,13 +113,13 @@ export function createAudio({ getState, $, persist }) {
 			const duration = Number(spin.animation.effect.getTiming().duration);
 			const times = calculateWheelSoundTimes(spin.fromRotation, spin.toRotation, duration);
 			const now = context.currentTime;
-			for (const time of times) {
+			for (const [index, time] of times.entries()) {
 				// 로딩·음소거·탭 전환 중 지나간 핀을 한꺼번에 재생하지 않는다.
 				if (time < elapsed) continue;
 				const source = context.createBufferSource();
 				const gain = context.createGain();
 				source.buffer = buffer;
-				gain.gain.value = 0.5;
+				gain.gain.value = calculateWheelSoundGain(index ? time - times[index - 1] : 0);
 				source.connect(gain).connect(context.destination);
 				trackAudioSource(source);
 				on(

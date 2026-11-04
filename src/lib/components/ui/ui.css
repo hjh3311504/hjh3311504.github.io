@@ -242,8 +242,10 @@ html[data-theme='dark'] .site-shell {
 	box-shadow: 0 24px 56px var(--color-box-shadow-18);
 }
 
+/* 창이 본문을 가운데 정렬해도 제목줄은 창 너비를 채워 닫기 버튼을 오른쪽 끝에 둔다. */
 .ui-dialog-header {
 	display: flex;
+	align-self: stretch;
 	align-items: flex-start;
 	justify-content: space-between;
 	gap: var(--space-16);
@@ -251,6 +253,8 @@ html[data-theme='dark'] .site-shell {
 
 .ui-dialog-heading-copy {
 	min-width: 0;
+	word-break: keep-all;
+	overflow-wrap: anywhere;
 }
 
 .ui-dialog-heading-copy > :is(h1, h2, h3, p) {

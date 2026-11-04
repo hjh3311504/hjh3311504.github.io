@@ -58,7 +58,7 @@ test('실제 CSS 회전과 같은 시각에 핀 소리를 예약하고 감속·�
 	const sources = await page.evaluate(() => window.__pinSources);
 	expect(sources.length).toBeLessThan(90);
 	expect(
-		sources.every((item) => Math.abs(item.duration - 0.07) < 0.001 && item.when >= item.now)
+		sources.every((item) => Math.abs(item.duration - 0.045) < 0.001 && item.when >= item.now)
 	).toBe(true);
 	const starts = sources.map((item) => item.when);
 	const gaps = starts.slice(1).map((time, index) => time - starts[index]);
@@ -98,7 +98,7 @@ test('실제 CSS 회전과 같은 시각에 핀 소리를 예약하고 감속·�
 		.poll(() => page.evaluate(() => window.__pinSources.length))
 		.toBeGreaterThan(sources.length);
 	const second = await page.evaluate((count) => window.__pinSources.slice(count), sources.length);
-	expect(Number(second[0].from.match(/-?[\d.]+/)[0])).toBeGreaterThan(2800);
+	expect(Number(second[0].from.match(/-?[\d.]+/)[0])).toBeGreaterThanOrEqual(360 * 12);
 	await dialog.getByRole('button', { name: '바로 뽑기' }).click();
 	expect(
 		await page.evaluate(() => window.__pinSources.every((item) => item.ended || item.stopped))
