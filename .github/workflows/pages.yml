@@ -48,14 +48,6 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: build
-      - name: Share PR site
-        if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v7
-        with:
-          name: pr-site
-          path: build/
-          if-no-files-found: error
-          retention-days: 1
 
   checks:
     if: github.event_name == 'pull_request'
@@ -77,13 +69,13 @@ jobs:
       - name: Check SvelteKit
         run: npm run check
       - name: Test site logic
-        run: npm test
+        # 오래 걸리는 구슬 레이스 물리 테스트는 marble-logic job에서 따로 실행한다.
+        run: npm run test:logic
       - name: Test browser shard planner
         run: node --test tests/ci/*.test.js
 
-  marble-performance:
+  marble-logic:
     if: github.event_name == 'pull_request'
-    needs: site-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -95,13 +87,30 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Download tested site
-        uses: actions/download-artifact@v8
+      - name: Test marble race logic
+        run: npm run test:marble-race
+
+  marble-performance:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          name: pr-site
-          path: build
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build tested site
+        # site-build를 기다리지 않도록 같은 commit과 같은 PR 설정으로 직접 build한다.
+        env:
+          PUBLIC_CF_WEB_ANALYTICS_TOKEN: '00000000000000000000000000000000'
+          PUBLIC_ANALYTICS_ORIGIN: 'https://analytics.example'
+        run: npm run build
       - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps --only-shell chromium
       - name: Measure request-driven baseline on the same runner
         continue-on-error: true
         env:
@@ -151,11 +160,11 @@ jobs:
 
   browser:
     if: github.event_name == 'pull_request'
-    needs: site-build
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        # scripts/plan_browser_shards.js의 shardCount와 같아야 한다.
+        shard: [1, 2, 3, 4, 5, 6]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -167,17 +176,19 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Download tested site
-        uses: actions/download-artifact@v8
-        with:
-          name: pr-site
-          path: build
+      - name: Build tested site
+        # site-build를 기다리지 않도록 같은 commit과 같은 PR 설정으로 직접 build한다.
+        env:
+          PUBLIC_CF_WEB_ANALYTICS_TOKEN: '00000000000000000000000000000000'
+          PUBLIC_ANALYTICS_ORIGIN: 'https://analytics.example'
+        run: npm run build
       - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps --only-shell chromium
       - name: Plan and verify browser shards
         run: node scripts/plan_browser_shards.js
       - name: Test site in browser
-        run: npm run test:e2e:built -- --test-list output/playwright/shards/${{ matrix.shard }}.txt
+        # runner의 CPU 4개 중 2개씩 써서 파일 단위로 동시에 실행한다. 성능 측정 job은 1개씩 유지한다.
+        run: npm run test:e2e:built -- --workers=2 --test-list output/playwright/shards/${{ matrix.shard }}.txt
       - name: Save browser test report
         if: always()
         uses: actions/upload-artifact@v7
@@ -191,7 +202,7 @@ jobs:
   # 기존 필수 검사 이름을 유지하고 실패·취소·예상 밖 생략을 성공으로 처리하지 않는다.
   build:
     if: always() && (github.event_name == 'pull_request' || github.ref == 'refs/heads/main')
-    needs: [site-build, checks, marble-performance, browser]
+    needs: [site-build, checks, marble-logic, marble-performance, browser]
     runs-on: ubuntu-latest
     steps:
       - name: Require all checks
@@ -199,12 +210,14 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           SITE_RESULT: ${{ needs.site-build.result }}
           CHECKS_RESULT: ${{ needs.checks.result }}
+          MARBLE_LOGIC_RESULT: ${{ needs.marble-logic.result }}
           PERFORMANCE_RESULT: ${{ needs.marble-performance.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
         run: |
           test "$SITE_RESULT" = success
           if [ "$EVENT_NAME" = pull_request ]; then
             test "$CHECKS_RESULT" = success
+            test "$MARBLE_LOGIC_RESULT" = success
             test "$PERFORMANCE_RESULT" = success
             test "$BROWSER_RESULT" = success
           fi

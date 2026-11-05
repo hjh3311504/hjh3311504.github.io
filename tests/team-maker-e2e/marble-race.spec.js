@@ -355,6 +355,10 @@ test.describe('구슬 레이스 재질층과 녹음', () => {
 				await page.getByLabel('끝 순위').fill('2');
 			}
 			await page.getByRole('button', { name: '레이스 시작 ▶', exact: true }).first().click();
+			// 결과 처리를 확인하는 검사라 실제 경기를 2배속으로 진행해 기다리는 시간을 줄인다.
+			const speed = page.getByRole('button', { name: '경기 배속 전환', exact: true });
+			await speed.click();
+			await expect(speed).toHaveText('2배속');
 			// 경기가 끝나면 결과 창을 남긴 채 출발 준비로 돌아간다.
 			await expect(
 				page.getByRole('button', { name: '한 번 더 굴리기 ↻', exact: true })
