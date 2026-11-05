@@ -1,7 +1,7 @@
 const localColor = '#d15a16';
 const localIcon = `data:image/svg+xml,${encodeURIComponent(
 	// static/favicon.svg와 같은 θ 로고를 주황 바탕으로 표시한다.
-	`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><path fill="${localColor}" d="M22 0H74Q96 0 96 22V74Q96 96 74 96H22Q0 96 0 74V22Q0 0 22 0Z"/><g fill="#fff" transform="translate(9.6 9.6) scale(.8)"><path fill-rule="evenodd" d="M34 8H64L82 26V56C82 77 70 88 49 88H30L14 72V39C14 19 20 8 34 8ZM45 17C58 17 65 27 66 43H31V38C31 25 35 17 45 17ZM31 52H66C66 70 59 79 49 79C37 79 31 70 31 57Z"/><path d="M7 42L32 44H65L89 41V53L65 51H32L7 54Z"/></g></svg>`
+	`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><path fill="${localColor}" d="M22 0H74Q96 0 96 22V74Q96 96 74 96H22Q0 96 0 74V22Q0 0 22 0Z"/><g fill="#fff" transform="translate(9.6 9.6) scale(.8)"><path fill-rule="evenodd" d="M34 8H64L82 26V56C82 77 70 88 49 88H30H10.63979C7.63979 88 5.518604 87.5 1.862584 82.278663C1.164947 81.282334 1.413545 80.029206 3.13979 80.5C7.53979 81.7 14 82 14 72V39C14 19 20 8 34 8ZM45 17C58 17 65 27 66 43H31V38C31 25 35 17 45 17ZM31 52H66C66 70 59 79 49 79C37 79 31 70 31 57Z"/><path d="M7 42L32 44H65L89 41V53L65 51H32L7 54Z"/></g></svg>`
 )}`;
 
 // 개발 서버와 로컬 정적 preview를 탭에서 구분한다. 배포 사이트에는 적용하지 않는다.
