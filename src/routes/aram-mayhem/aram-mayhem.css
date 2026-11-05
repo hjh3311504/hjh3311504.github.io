@@ -19,16 +19,23 @@
 	--aram-tile: var(--ui-surface-soft);
 	--aram-tile-hover: color-mix(in srgb, var(--ui-text), transparent 92%);
 	--aram-accent-soft: color-mix(in srgb, var(--ui-primary), transparent 90%);
+	/* 색인으로 고른 초성: 묶음 테두리·초성 글자와 색인 버튼 바탕, 그 버튼의 글자 색 */
+	--aram-jump: var(--ui-danger);
+	--aram-on-jump: var(--color-white);
 	line-height: 1.6;
 }
 html[data-theme='dark'] .aram-page {
 	--aram-strong: var(--color-orange-2);
 	--aram-good: var(--color-green-2);
+	--aram-jump: var(--color-danger-fill);
+	--aram-on-jump: var(--color-on-danger);
 }
 @media (prefers-color-scheme: dark) {
 	html[data-theme='auto'] .aram-page {
 		--aram-strong: var(--color-orange-2);
 		--aram-good: var(--color-green-2);
+		--aram-jump: var(--color-danger-fill);
+		--aram-on-jump: var(--color-on-danger);
 	}
 }
 
@@ -52,13 +59,13 @@ html[data-theme='dark'] .aram-page {
 	padding: 0;
 	list-style: none;
 }
-/* 초성 색인과 초성 묶음이 함께 쓰는 크기. 좁은 화면 값은 640px 이하 media query에서 바꾼다. */
+/* 초성 색인과 초성 묶음이 함께 쓰는 크기. 좁은 화면 값은 760px·640px 이하 media query에서 바꾼다. */
 .aram-picker {
 	--aram-index-rows: 1;
-	--aram-index-button: 36px;
+	--aram-index-button: 44px;
 	--aram-initial-col: 56px;
 	--aram-initial-gap: var(--space-12);
-	/* 색인 아래로 띄울 거리: 붙는 위치 8px + 색인 높이(테두리 2px, 위아래 여백, 줄마다 버튼, 줄 사이 간격) + 여유 8px */
+	/* 색인 아래로 띄울 거리: 붙는 위치 8px + 색인 높이(테두리 2px, 위아래 여백, 줄마다 버튼, 줄 사이 간격) + 여유 8px. 폭이 모자라 버튼이 줄어들면 실제보다 조금 넉넉하다. */
 	--aram-index-offset: calc(
 		var(--space-8) + 2px + var(--space-4) * 2 + var(--aram-index-rows) * var(--aram-index-button) +
 			(var(--aram-index-rows) - 1) * var(--space-4) + var(--space-8)
@@ -69,35 +76,48 @@ html[data-theme='dark'] .aram-page {
 	position: sticky;
 	top: var(--space-8);
 	z-index: 5;
+	/* 버튼은 정사각형으로 두고 남는 폭은 버튼 사이에 고르게 나눈다. 폭이 모자라면 버튼이 정사각형을 지킨 채 줄어든다. */
 	display: grid;
-	grid-template-columns: repeat(14, minmax(0, 1fr));
+	grid-template-columns: repeat(14, minmax(0, var(--aram-index-button)));
+	justify-content: space-between;
 	gap: var(--space-4);
 	margin: var(--space-12) 0;
-	padding: var(--space-4);
+	padding: var(--space-4) var(--space-16);
 	border: 1px solid var(--ui-border);
 	border-radius: var(--ui-radius-md);
 	background: var(--ui-surface);
 }
 .aram-index-link.ui-button {
+	width: 100%;
 	min-width: 0;
-	min-height: var(--aram-index-button);
+	height: auto;
+	min-height: 0;
+	aspect-ratio: 1;
 	padding: 0;
-	font-size: var(--font-size-20);
+	font-size: var(--font-size-24);
 	font-weight: 800;
+}
+/* 색인으로 고른 초성 버튼은 붉게 채워 지금 고른 초성을 알려 준다. */
+.aram-index-link.ui-button[aria-current],
+.aram-index-link.ui-button[aria-current]:hover {
+	background: var(--aram-jump);
+	color: var(--aram-on-jump);
 }
 /* 검색으로 빈 초성은 링크가 없다. 누를 수 없다는 것이 보이게 흐리게 둔다. */
 .aram-index-link.ui-button[aria-disabled='true'] {
 	opacity: 0.3;
 }
-/* 1200px 이하는 왼쪽 위에 떠 있는 메뉴 버튼(왼쪽 8px, 너비 44px)이 색인 앞쪽을 가리므로 그 자리를 비운다. 본문 여백이 40px이면 16px, 760px 이하의 20px이면 36px가 필요하다. */
-@media (max-width: 1200px) {
-	.aram-index {
-		padding-left: var(--space-16);
-	}
-}
+/* 760px 이하는 색인을 7개씩 두 줄로 둬서 큰 버튼을 지킨다. 1200px 이하는 왼쪽 위에 떠 있는 메뉴 버튼(왼쪽 8px, 너비 44px)이 색인 앞쪽을 가린다. 본문 여백이 40px이면 기본 왼쪽 여백 16px로 충분하고, 760px 이하의 20px이면 36px가 필요하다. */
 @media (max-width: 760px) {
+	.aram-picker {
+		--aram-index-rows: 2;
+	}
 	.aram-index {
+		grid-template-columns: repeat(7, minmax(0, var(--aram-index-button)));
 		padding-left: var(--space-36);
+	}
+	.aram-index-link.ui-button {
+		font-size: var(--font-size-22);
 	}
 }
 /* 허브 타일은 초성 묶음으로 나눈다. 묶음 사이에 얇은 선을 두고 묶음 안 격자는 아래 여백을 뺀다. */
@@ -112,6 +132,11 @@ html[data-theme='dark'] .aram-page {
 	grid-template-columns: calc(var(--aram-initial-col) + var(--aram-initial-gap)) 1fr;
 	padding: var(--space-12) 0;
 	border-top: 1px solid var(--ui-border);
+	outline: 2px solid transparent;
+	outline-offset: -2px;
+	transition:
+		background-color 0.2s,
+		outline-color 0.2s;
 }
 /* 색인으로 이동한 묶음과 키보드로 고른 타일이 붙어 있는 색인 아래에 가려지지 않게 한다. */
 .aram-initial-row,
@@ -120,6 +145,26 @@ html[data-theme='dark'] .aram-page {
 }
 .aram-initial-row:first-child {
 	border-top: 0;
+}
+/* 색인으로 고른 묶음은 좌우로 8px 넓힌 붉은 테두리의 둥근 카드로 감싸고 초성을 붉게 둔다. 바깥 여백을 같은 만큼 줄여 타일 자리는 움직이지 않고, 카드 위아래의 구분선은 숨긴다. */
+.aram-initial-row[data-active] {
+	margin-inline: calc(var(--space-8) * -1);
+	padding-inline: var(--space-8);
+	border-top-color: transparent;
+	border-radius: var(--ui-radius-lg);
+	outline-color: var(--aram-jump);
+	background: color-mix(in srgb, var(--aram-jump), transparent 93%);
+}
+.aram-initial-row[data-active] + .aram-initial-row {
+	border-top-color: transparent;
+}
+.aram-initial-row[data-active] .aram-initial {
+	color: var(--aram-jump);
+}
+@media (prefers-reduced-motion: reduce) {
+	.aram-initial-row {
+		transition: none;
+	}
 }
 .aram-initial-row .aram-grid {
 	grid-column: 2;
@@ -1096,14 +1141,9 @@ html[data-theme='dark'] .aram-page {
 }
 
 @media (max-width: 640px) {
-	/* 좁은 화면은 색인을 7개씩 두 줄로 둬서 누르기 쉬운 너비를 지킨다. */
 	.aram-picker {
-		--aram-index-rows: 2;
 		--aram-initial-col: 36px;
 		--aram-initial-gap: var(--space-8);
-	}
-	.aram-index {
-		grid-template-columns: repeat(7, minmax(0, 1fr));
 	}
 	.aram-initial {
 		font-size: var(--font-size-24);
