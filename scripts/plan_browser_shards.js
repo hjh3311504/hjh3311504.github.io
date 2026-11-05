@@ -2,35 +2,43 @@ import { spawnSync } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
-// PR 실행36246906247의 파일별 초. 배치에만 쓰며 검사 조건에는 영향을 주지 않는다.
-const measuredSeconds = {
-	'button-states.spec.js': 27,
-	'footer.spec.js': 2.6,
-	'home-spacing.spec.js': 2.2,
-	'marble-celebration.spec.js': 6.4,
-	'marble-element-skills.spec.js': 19.3,
-	'marble-expansion.spec.js': 17,
+// PR 실행 41975981116의 파일별 초. 따로 나누는 긴 경기 검사는 빼고 셌다.
+// 배치에만 쓰며 검사 조건에는 영향을 주지 않는다. 표에 없는 파일은 검사 1개당 5초로 본다.
+export const measuredSeconds = {
+	'analytics.spec.js': 15.7,
+	'app-update.spec.js': 3.6,
+	'aram-mayhem.spec.js': 22.9,
+	'bracket.spec.js': 44.4,
+	'button-states.spec.js': 34.5,
+	'footer.spec.js': 7.6,
+	'home-spacing.spec.js': 4.1,
+	'marble-celebration.spec.js': 7.3,
+	'marble-element-skills.spec.js': 20.3,
+	'marble-expansion.spec.js': 20.1,
 	'marble-focus.spec.js': 3.6,
-	'marble-improvements.spec.js': 44.8,
-	'marble-last-winner.spec.js': 28.7,
-	'marble-no-respawn.spec.js': 7.8,
-	'marble-pins.spec.js': 24.8,
-	'marble-preview.spec.js': 4.6,
-	'marble-race.spec.js': 293.3,
-	'marble-rebound.spec.js': 10,
-	'marble-render-worker.spec.js': 6.8,
-	'marble-rendering.spec.js': 43.4,
-	'marble-result-reset.spec.js': 11,
-	'marble-skills.spec.js': 33.4,
-	'marble-start-positions.spec.js': 1,
-	'marble-visibility.spec.js': 9,
-	'marble-winner-range.spec.js': 6.4,
-	'navigation.spec.js': 1,
-	'site-assets.spec.js': 2.2,
-	'stats-images.spec.js': 1.2,
-	'team-maker.spec.js': 58.6,
-	'ui-consistency.spec.js': 13
+	'marble-improvements.spec.js': 54,
+	'marble-last-winner.spec.js': 33.3,
+	'marble-no-respawn.spec.js': 7.9,
+	'marble-pins.spec.js': 26.4,
+	'marble-preview.spec.js': 5.1,
+	'marble-race.spec.js': 80,
+	'marble-rebound.spec.js': 10.6,
+	'marble-render-worker.spec.js': 7.2,
+	'marble-rendering.spec.js': 39.6,
+	'marble-result-reset.spec.js': 44,
+	'marble-skills.spec.js': 34.8,
+	'marble-start-positions.spec.js': 1.2,
+	'marble-visibility.spec.js': 10.2,
+	'marble-winner-range.spec.js': 7.4,
+	'navigation.spec.js': 5.3,
+	'site-assets.spec.js': 4.5,
+	'stats-images.spec.js': 1.5,
+	'team-maker.spec.js': 75.2,
+	'ui-consistency.spec.js': 12.1,
+	'wheel-audio.spec.js': 21.7
 };
+// 2배속으로 진행하는 긴 경기 검사 1개의 예상 초.
+const longRaceSeconds = 32;
 
 export function collectTests(report) {
 	const tests = [];
@@ -70,15 +78,12 @@ export function planShards(tests, count = 4) {
 				test.file === 'marble-race.spec.js' &&
 				test.title.endsWith(': 중복 이름을 별도 구슬로 처리하고 최종 당첨자를 표시한다')
 		);
-		for (const test of longRaces) groups.push({ tests: [test], seconds: 55 });
+		for (const test of longRaces) groups.push({ tests: [test], seconds: longRaceSeconds });
 		const rest = fileTests.filter((test) => !longRaces.includes(test));
 		if (rest.length) {
 			groups.push({
 				tests: rest,
-				seconds: Math.max(
-					1,
-					(measuredSeconds[fileTests[0].file] ?? fileTests.length * 5) - longRaces.length * 55
-				)
+				seconds: measuredSeconds[fileTests[0].file] ?? rest.length * 5
 			});
 		}
 	}
@@ -110,6 +115,11 @@ function listTests(args) {
 function main() {
 	const all = listTests(['--test-list-invert', 'tests/team-maker-e2e/marble-priority.txt']);
 	if (!all.length) throw new Error('분할할 브라우저 검사가 없습니다.');
+	const unmeasured = [...new Set(all.map((test) => test.file))].filter(
+		(file) => !(file in measuredSeconds)
+	);
+	// 새 파일도 배치는 되지만 시간 차이가 커질 수 있어 표 갱신을 알린다.
+	if (unmeasured.length) console.warn(`실측 시간이 없는 파일: ${unmeasured.join(', ')}`);
 	const shards = planShards(all);
 	const directory = 'output/playwright/shards';
 	mkdirSync(directory, { recursive: true });
@@ -124,13 +134,13 @@ function main() {
 		}
 		selected.push(...actual.map((test) => test.id));
 		console.log(
-			`${index + 1}번: ${actual.length}개, 이전 실행 기준약${shard.seconds.toFixed(1)}초`
+			`${index + 1}번: ${actual.length}개, 이전 실행 기준 약 ${shard.seconds.toFixed(1)}초`
 		);
 	}
 	if (new Set(selected).size !== all.length || selected.length !== all.length) {
 		throw new Error('분할 검사에 중복 또는 누락이 있습니다.');
 	}
-	console.log(`전체${all.length}개를 중복·누락 없이 배치했습니다.`);
+	console.log(`전체 ${all.length}개를 중복·누락 없이 배치했습니다.`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

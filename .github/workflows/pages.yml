@@ -101,7 +101,7 @@ jobs:
           name: pr-site
           path: build
       - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps --only-shell chromium
       - name: Measure request-driven baseline on the same runner
         continue-on-error: true
         env:
@@ -173,11 +173,12 @@ jobs:
           name: pr-site
           path: build
       - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps --only-shell chromium
       - name: Plan and verify browser shards
         run: node scripts/plan_browser_shards.js
       - name: Test site in browser
-        run: npm run test:e2e:built -- --test-list output/playwright/shards/${{ matrix.shard }}.txt
+        # runner의 CPU 4개 중 2개씩 써서 파일 단위로 동시에 실행한다. 성능 측정 job은 1개씩 유지한다.
+        run: npm run test:e2e:built -- --workers=2 --test-list output/playwright/shards/${{ matrix.shard }}.txt
       - name: Save browser test report
         if: always()
         uses: actions/upload-artifact@v7
