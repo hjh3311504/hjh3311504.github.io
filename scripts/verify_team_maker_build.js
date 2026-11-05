@@ -34,6 +34,7 @@ const requiredFiles = [
 	'build/images/aram-mayhem-open-graph-1200x630.png',
 	'build/licenses/SUIT-LICENSE.txt',
 	'build/licenses/SUITE-LICENSE.txt',
+	'build/licenses/GmarketSans-LICENSE.txt',
 	'build/licenses/site-LICENSE.txt',
 	'build/licenses/THIRD_PARTY_NOTICES.md',
 	'build/index.html',

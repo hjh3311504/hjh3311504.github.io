@@ -7,6 +7,7 @@ export const publishedLicenses = [
 	['licenses/Bootstrap-Icons-LICENSE.txt', 'Bootstrap-Icons-LICENSE.txt'],
 	['src/lib/team-maker/fonts/SUIT-LICENSE.txt', 'SUIT-LICENSE.txt'],
 	['src/lib/team-maker/fonts/SUITE-LICENSE.txt', 'SUITE-LICENSE.txt'],
+	['src/lib/team-maker/fonts/GmarketSans-LICENSE.txt', 'GmarketSans-LICENSE.txt'],
 	['node_modules/fontkit/README.md', 'fontkit-NOTICE.md'],
 	['node_modules/fontkit/package.json', 'fontkit-package.json'],
 	['node_modules/brotli/readme.md', 'brotli-NOTICE.md'],
