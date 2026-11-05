@@ -1,0 +1,43 @@
+{
+  "directory": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final",
+  "selection": "05 사선으로 자른 끝",
+  "favicon": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/favicon.svg",
+    "viewBox": "0 0 64 64",
+    "usage": "파란 타일 위 흰 로고; static/favicon.svg를 대체할 수 있는 독립 SVG"
+  },
+  "favicon16": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/favicon-16.svg",
+    "viewBox": "0 0 64 64",
+    "usage": "16px 전용 파란 타일 favicon"
+  },
+  "symbol": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/symbol.svg",
+    "usage": "투명 배경의 파란 심볼"
+  },
+  "symbol16": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/symbol-16.svg",
+    "usage": "16px 전용 투명 파란 심볼"
+  },
+  "onNavy": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/symbol-on-navy.svg",
+    "usage": "투명 배경 흰 심볼; 남색 홈 C안에 배치"
+  },
+  "navyPreview": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/navy-preview.svg",
+    "usage": "남색 바탕 위 밝은 파랑 심볼의 비교용 이미지"
+  },
+  "lockupLight": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/lockup-light.svg",
+    "usage": "파란 심볼 + 남색 글자; 밝은 사이드바"
+  },
+  "lockupDark": {
+    "file": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/lockup-dark.svg",
+    "usage": "흰 심볼 + 흰 글자; 어두운 사이드바"
+  },
+  "png": [
+    "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/favicon-16.png",
+    "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/favicon-32.png",
+    "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-logo/codex-v4/final/favicon-64.png"
+  ]
+}

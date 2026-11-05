@@ -7,9 +7,9 @@
 	import { contactEmail, siteBaseUrl, image as shareImage } from '$lib/data/meta.js';
 	import '$lib/blog/prose.css';
 
-	const pageTitle = "소개와 문의 | Lake's develog";
+	const pageTitle = '소개와 문의 | Seta Lab';
 	const description =
-		"Lake's develog는 파일·이미지·데이터 문제를 직접 실험해 정리한 가이드와 설치 없이 쓰는 브라우저 도구를 운영합니다. 글을 쓰는 방식과 문의 방법을 안내합니다.";
+		'Seta Lab은 파일·이미지·데이터 문제를 직접 실험해 정리한 가이드와 설치 없이 쓰는 브라우저 도구를 운영합니다. 글을 쓰는 방식과 문의 방법을 안내합니다.';
 	const repositoryUrl = 'https://github.com/hjh3311504/hjh3311504.github.io';
 	const noticesUrl =
 		'https://github.com/hjh3311504/hjh3311504.github.io/blob/main/THIRD_PARTY_NOTICES.md';
@@ -23,7 +23,7 @@
 		description,
 		mainEntity: {
 			'@type': 'Person',
-			name: 'Lake',
+			name: 'Seta',
 			url: `${siteBaseUrl}/about`,
 			email: `mailto:${contactEmail}`,
 			sameAs: ['https://github.com/hjh3311504']
@@ -41,7 +41,7 @@
 	<meta property="og:url" content={`${siteBaseUrl}/about`} />
 	<meta property="og:type" content="profile" />
 	<meta property="og:image" content={shareImage} />
-	<meta property="og:image:alt" content="Lake's develog 소개" />
+	<meta property="og:image:alt" content="Seta Lab 소개" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={description} />
@@ -60,8 +60,8 @@
 			<div class="blog-prose about-content">
 				<h2>이 사이트에서 다루는 것</h2>
 				<p>
-					Lake's develog는 운영자 Lake가 혼자 만들고 관리하는 개인 사이트입니다. 직접 쓰려고 만든
-					도구를 공개하면서 시작했고, 지금은 두 가지를 다룹니다.
+					Seta Lab은 운영자 Seta가 혼자 만들고 관리하는 개인 사이트입니다. 직접 쓰려고 만든 도구를
+					공개하면서 시작했고, 지금은 두 가지를 다룹니다.
 				</p>
 				<ul>
 					<li>

@@ -221,7 +221,7 @@ test('공통 메뉴는 데스크톱 고정과 드로워 전환, 모바일 탐색
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 
-	await expect(page.getByRole('heading', { name: "Lake's develog", level: 1 })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Seta Lab', level: 1 })).toBeVisible();
 	await expect(page.getByRole('complementary')).toBeVisible();
 	await expect(page.getByRole('link', { name: '홈' })).toHaveAttribute('aria-current', 'page');
 	await expect(page.getByRole('link', { name: /팀 메이커 도구/ })).toBeVisible();
@@ -431,7 +431,7 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	}
 	await expect(guide.locator('.guide-steps > li')).toHaveCount(3);
 	await expect(guide.locator('.faq-item')).toHaveCount(6);
-	await expect(page.locator('footer').getByText("© 2026 Lake's develog")).toBeVisible();
+	await expect(page.locator('footer').getByText('© 2026 Seta Lab')).toBeVisible();
 	const collapsibleSections = guide.locator('.seo-details');
 	await expect(collapsibleSections).toHaveCount(4);
 	for (const section of await collapsibleSections.all()) {

@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>{heading} | Lake's develog</title>
+	<title>{heading} | Seta Lab</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 

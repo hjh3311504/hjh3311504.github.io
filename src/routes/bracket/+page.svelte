@@ -10,7 +10,7 @@
 	import BracketBulkDialog from '$lib/bracket/components/BracketBulkDialog.svelte';
 	import BracketConfirmDialog from '$lib/bracket/components/BracketConfirmDialog.svelte';
 	import BracketView from '$lib/bracket/components/BracketView.svelte';
-	import { siteBaseUrl, image as shareImage } from '$lib/data/meta.js';
+	import { siteBaseUrl } from '$lib/data/meta.js';
 	import {
 		MAX_TEAMS,
 		bracketProgress,
@@ -32,6 +32,7 @@
 	} from '$lib/bracket/teams.js';
 	import { loadState, saveState, takeImport } from '$lib/bracket/storage.js';
 	import './bracket.css';
+	const shareImage = `${siteBaseUrl}/images/bracket-open-graph-1200x630.png`;
 
 	const pageTitle = '무료 대진표 만들기 | 토너먼트 부전승 자동 배치';
 	const description =
@@ -261,11 +262,12 @@
 	<meta property="og:url" content={`${siteBaseUrl}/bracket`} />
 	<meta property="og:type" content="website" />
 	<meta property="og:image" content={shareImage} />
-	<meta property="og:image:alt" content="Lake가 만든 무료 온라인 도구" />
+	<meta property="og:image:alt" content="2~32팀 토너먼트 대진표를 만드는 Seta Lab 무료 도구" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={shareImage} />
+	<meta name="twitter:image:alt" content="2~32팀 토너먼트 대진표를 만드는 Seta Lab 무료 도구" />
 </svelte:head>
 
 <SiteShell active="bracket" variant="bracket">

@@ -1,0 +1,90 @@
+{
+  "desktop": {
+    "width": 1440,
+    "document": 1440,
+    "height": 3337,
+    "cards": 8,
+    "overflow": [],
+    "missingUse": []
+  },
+  "mobile": {
+    "width": 390,
+    "document": 390,
+    "height": 6172,
+    "cards": 8,
+    "overflow": [],
+    "missingUse": []
+  },
+  "standalone": {
+    "width": 390,
+    "document": 390,
+    "height": 6172,
+    "cards": 8,
+    "overflow": [],
+    "missingUse": []
+  },
+  "fontLoaded": true,
+  "externalRequests": [
+    "https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.woff2"
+  ],
+  "failedRequests": [],
+  "pageErrors": [],
+  "downloads": [
+    {
+      "kind": "symbol",
+      "file": "01-original-v3-10.svg",
+      "validSVG": true
+    },
+    {
+      "kind": "tile",
+      "file": "01-original-v3-10-tile.svg",
+      "validSVG": true
+    },
+    {
+      "kind": "lockup",
+      "file": "01-original-v3-10-lockup.svg",
+      "validSVG": true
+    },
+    {
+      "kind": "final",
+      "file": "favicon.svg",
+      "validSVG": true,
+      "matchesFile": true
+    },
+    {
+      "kind": "final",
+      "file": "favicon-16.svg",
+      "validSVG": true,
+      "matchesFile": true
+    },
+    {
+      "kind": "final",
+      "file": "lockup-light.svg",
+      "validSVG": true,
+      "matchesFile": true
+    },
+    {
+      "kind": "final",
+      "file": "lockup-dark.svg",
+      "validSVG": true,
+      "matchesFile": true
+    }
+  ],
+  "svgCount": 64,
+  "svgWithTextOrExternalContent": [],
+  "originalMatches": {
+    "normal": true,
+    "small": true
+  },
+  "finalFavicon": {
+    "viewBox64": true,
+    "width": 64,
+    "height": 64
+  },
+  "htmlBytes": 70476,
+  "htmlLimit": 524288,
+  "underLimit": true,
+  "png16": 16,
+  "png32": 16,
+  "finalPng": 3
+}

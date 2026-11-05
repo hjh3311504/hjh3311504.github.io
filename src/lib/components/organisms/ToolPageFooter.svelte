@@ -9,7 +9,7 @@
 		<a href={resolve('/privacy')}>개인정보처리방침</a>
 		{#if showRss}<a href={resolve('/rss.xml')} data-sveltekit-reload>RSS 구독</a>{/if}
 	</div>
-	<span>© 2026 Lake's develog</span>
+	<span>© 2026 Seta Lab</span>
 </footer>
 
 <style>

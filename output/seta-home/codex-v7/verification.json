@@ -1,0 +1,1122 @@
+{
+  "brandViewBox": {
+    "original": "0 0 96 96",
+    "used": "0 0 96 96",
+    "matches": true
+  },
+  "audits": [
+    {
+      "id": "A-desktop-light",
+      "width": 1440,
+      "documentWidth": 1440,
+      "height": 2731,
+      "contentWidth": 1100,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 24
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 24
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 24
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 22
+        }
+      ],
+      "summaryLines": [
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#fff",
+        "text": "#31302e",
+        "muted": "#615d59",
+        "border": "#e6e6e6",
+        "primary": "#0075de"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "A-desktop-dark",
+      "width": 1440,
+      "documentWidth": 1440,
+      "height": 2731,
+      "contentWidth": 1100,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 24
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 24
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 24
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 22
+        }
+      ],
+      "summaryLines": [
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#262523",
+        "text": "#f2f0ed",
+        "muted": "#c3bdb6",
+        "border": "#403d3a",
+        "primary": "#62aef0"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "A-mobile-light",
+      "width": 390,
+      "documentWidth": 390,
+      "height": 4426,
+      "contentWidth": 358,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 20
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 20
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 20
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#fff",
+        "text": "#31302e",
+        "muted": "#615d59",
+        "border": "#e6e6e6",
+        "primary": "#0075de"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "A-mobile-dark",
+      "width": 390,
+      "documentWidth": 390,
+      "height": 4426,
+      "contentWidth": 358,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 20
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 20
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 20
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#262523",
+        "text": "#f2f0ed",
+        "muted": "#c3bdb6",
+        "border": "#403d3a",
+        "primary": "#62aef0"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "B-desktop-light",
+      "width": 1440,
+      "documentWidth": 1440,
+      "height": 2910,
+      "contentWidth": 1100,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 24
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 20
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 20
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 20
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 20
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 20
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 20
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 20
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 20
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 20
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 24
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 22
+        }
+      ],
+      "summaryLines": [
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "theme": {
+        "surface": "#fff",
+        "text": "#31302e",
+        "muted": "#615d59",
+        "border": "#e6e6e6",
+        "primary": "#0075de"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "B-desktop-dark",
+      "width": 1440,
+      "documentWidth": 1440,
+      "height": 2910,
+      "contentWidth": 1100,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 24
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 20
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 20
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 20
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 20
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 20
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 20
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 20
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 20
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 20
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 24
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 22
+        }
+      ],
+      "summaryLines": [
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "theme": {
+        "surface": "#262523",
+        "text": "#f2f0ed",
+        "muted": "#c3bdb6",
+        "border": "#403d3a",
+        "primary": "#62aef0"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "B-mobile-light",
+      "width": 390,
+      "documentWidth": 390,
+      "height": 4404,
+      "contentWidth": 358,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 20
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 20
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 20
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#fff",
+        "text": "#31302e",
+        "muted": "#615d59",
+        "border": "#e6e6e6",
+        "primary": "#0075de"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "B-mobile-dark",
+      "width": 390,
+      "documentWidth": 390,
+      "height": 4404,
+      "contentWidth": 358,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 20
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 20
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 20
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#262523",
+        "text": "#f2f0ed",
+        "muted": "#c3bdb6",
+        "border": "#403d3a",
+        "primary": "#62aef0"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "C-desktop-light",
+      "width": 1440,
+      "documentWidth": 1440,
+      "height": 2621,
+      "contentWidth": 1100,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 24
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 24
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 24
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#fff",
+        "text": "#31302e",
+        "muted": "#615d59",
+        "border": "#e6e6e6",
+        "primary": "#0075de"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "C-desktop-dark",
+      "width": 1440,
+      "documentWidth": 1440,
+      "height": 2621,
+      "contentWidth": 1100,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 24
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 24
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 24
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#262523",
+        "text": "#f2f0ed",
+        "muted": "#c3bdb6",
+        "border": "#403d3a",
+        "primary": "#62aef0"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "C-mobile-light",
+      "width": 390,
+      "documentWidth": 390,
+      "height": 4660,
+      "contentWidth": 358,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 20
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 20
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 20
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#fff",
+        "text": "#31302e",
+        "muted": "#615d59",
+        "border": "#e6e6e6",
+        "primary": "#0075de"
+      },
+      "unexpectedCollapse": 0
+    },
+    {
+      "id": "C-mobile-dark",
+      "width": 390,
+      "documentWidth": 390,
+      "height": 4660,
+      "contentWidth": 358,
+      "postCount": 9,
+      "guideUses": 4,
+      "issues": [],
+      "hiddenGuide": [],
+      "overflow": [],
+      "oddFonts": [],
+      "headings": [
+        {
+          "text": "최신 블로그 글",
+          "font": 20
+        },
+        {
+          "text": "QR 코드의 SVG 저장이 안 될 때: 제목의 이모지부터 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "웹페이지를 PDF로 보관할 때: 마지막 쪽과 원문 링크까지 확인하세요",
+          "font": 18
+        },
+        {
+          "text": "대진표에서 승자를 잘못 눌렀다면: 결승 결과까지 고치는 방법",
+          "font": 18
+        },
+        {
+          "text": "파일 링크를 눌렀는데 저장 대신 내용이 보일 때: 열기와 다운로드 구분하기",
+          "font": 18
+        },
+        {
+          "text": "JSON 파일을 가져오지 못할 때: 쉼표·따옴표·주석 확인하기",
+          "font": 18
+        },
+        {
+          "text": "1MB 파일인데 업로드가 안 될 때: MB·MiB와 바이트 수 확인하기",
+          "font": 18
+        },
+        {
+          "text": "텍스트 파일이 줄마다 다르게 비교될 때: LF·CRLF와 마지막 빈 줄 확인하기",
+          "font": 18
+        },
+        {
+          "text": "CSV 코드의 앞자리 0이 사라질 때: 숫자 대신 텍스트로 가져오기",
+          "font": 18
+        },
+        {
+          "text": "사진을 공유하기 전 위치 정보 확인하기: GPS만 복사본에서 지우는 방법",
+          "font": 18
+        },
+        {
+          "text": "어떤 도구를 쓰면 될까요?",
+          "font": 20
+        },
+        {
+          "text": "만든 사람과 문의",
+          "font": 20
+        }
+      ],
+      "summaryLines": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "theme": {
+        "surface": "#262523",
+        "text": "#f2f0ed",
+        "muted": "#c3bdb6",
+        "border": "#403d3a",
+        "primary": "#62aef0"
+      },
+      "unexpectedCollapse": 0
+    }
+  ],
+  "screenshots": [
+    {
+      "variant": "A",
+      "layout": "desktop",
+      "theme": "light",
+      "file": "A-desktop-light.png",
+      "width": 1440,
+      "height": 2731
+    },
+    {
+      "variant": "A",
+      "layout": "desktop",
+      "theme": "dark",
+      "file": "A-desktop-dark.png",
+      "width": 1440,
+      "height": 2731
+    },
+    {
+      "variant": "A",
+      "layout": "mobile",
+      "theme": "light",
+      "file": "A-mobile-light.png",
+      "width": 390,
+      "height": 4426
+    },
+    {
+      "variant": "A",
+      "layout": "mobile",
+      "theme": "dark",
+      "file": "A-mobile-dark.png",
+      "width": 390,
+      "height": 4426
+    },
+    {
+      "variant": "B",
+      "layout": "desktop",
+      "theme": "light",
+      "file": "B-desktop-light.png",
+      "width": 1440,
+      "height": 2910
+    },
+    {
+      "variant": "B",
+      "layout": "desktop",
+      "theme": "dark",
+      "file": "B-desktop-dark.png",
+      "width": 1440,
+      "height": 2910
+    },
+    {
+      "variant": "B",
+      "layout": "mobile",
+      "theme": "light",
+      "file": "B-mobile-light.png",
+      "width": 390,
+      "height": 4404
+    },
+    {
+      "variant": "B",
+      "layout": "mobile",
+      "theme": "dark",
+      "file": "B-mobile-dark.png",
+      "width": 390,
+      "height": 4404
+    },
+    {
+      "variant": "C",
+      "layout": "desktop",
+      "theme": "light",
+      "file": "C-desktop-light.png",
+      "width": 1440,
+      "height": 2621
+    },
+    {
+      "variant": "C",
+      "layout": "desktop",
+      "theme": "dark",
+      "file": "C-desktop-dark.png",
+      "width": 1440,
+      "height": 2621
+    },
+    {
+      "variant": "C",
+      "layout": "mobile",
+      "theme": "light",
+      "file": "C-mobile-light.png",
+      "width": 390,
+      "height": 4660
+    },
+    {
+      "variant": "C",
+      "layout": "mobile",
+      "theme": "dark",
+      "file": "C-mobile-dark.png",
+      "width": 390,
+      "height": 4660
+    }
+  ],
+  "controls": [
+    {
+      "layout": "desktop",
+      "theme": "light",
+      "visible": 3
+    },
+    {
+      "layout": "desktop",
+      "theme": "dark",
+      "visible": 3
+    },
+    {
+      "layout": "mobile",
+      "theme": "light",
+      "visible": 3
+    },
+    {
+      "layout": "mobile",
+      "theme": "dark",
+      "visible": 3
+    }
+  ],
+  "pageErrors": [],
+  "failedRequests": [],
+  "htmlBytes": 237864,
+  "htmlLimit": 524288,
+  "sourcePosts": 9,
+  "allContentEqual": true,
+  "allGuideVisible": true,
+  "allWidthsFit": true,
+  "allEvenFonts": true
+}

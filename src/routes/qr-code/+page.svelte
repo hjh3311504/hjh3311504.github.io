@@ -11,7 +11,7 @@
 	import ToolPageLayout from '$lib/components/organisms/ToolPageLayout.svelte';
 	import ToolPageFooter from '$lib/components/organisms/ToolPageFooter.svelte';
 
-	import { siteBaseUrl, image as shareImage } from '$lib/data/meta.js';
+	import { siteBaseUrl } from '$lib/data/meta.js';
 
 	import { prepareTitle } from '$lib/qr-code/title.js';
 	import { pendingTitle } from '$lib/qr-code/title-layout.js';
@@ -27,6 +27,7 @@
 		createQrImage
 	} from '$lib/qr-code/qr.js';
 	import './qr-code.css';
+	const shareImage = `${siteBaseUrl}/images/qr-code-open-graph-1200x630.png`;
 
 	const pageTitle = '무료 QR 코드 만들기 | 주소·텍스트를 이미지로';
 	const description =
@@ -335,11 +336,18 @@
 	<meta property="og:url" content={`${siteBaseUrl}/qr-code`} />
 	<meta property="og:type" content="website" />
 	<meta property="og:image" content={shareImage} />
-	<meta property="og:image:alt" content="Lake가 만든 무료 온라인 도구" />
+	<meta
+		property="og:image:alt"
+		content="주소를 QR 코드로 만들어 저장·인쇄하는 Seta Lab 무료 도구"
+	/>
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={shareImage} />
+	<meta
+		name="twitter:image:alt"
+		content="주소를 QR 코드로 만들어 저장·인쇄하는 Seta Lab 무료 도구"
+	/>
 </svelte:head>
 
 <SiteShell active="qr-code" variant="qr-code">

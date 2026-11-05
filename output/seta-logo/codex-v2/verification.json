@@ -1,0 +1,25 @@
+{
+  "desktop": {
+    "width": 1440,
+    "document": 1440,
+    "height": 2877,
+    "cards": 8,
+    "overflow": []
+  },
+  "mobile": {
+    "width": 390,
+    "document": 390,
+    "overflow": []
+  },
+  "standalone": {
+    "imageCount": 64,
+    "allEmbedded": true,
+    "broken": []
+  },
+  "brokenImages": [],
+  "externalRequests": [],
+  "pageErrors": [],
+  "svgCount": 24,
+  "iconCount": 8,
+  "svgWithTextOrExternalContent": []
+}

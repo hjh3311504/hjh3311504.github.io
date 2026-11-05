@@ -1,0 +1,389 @@
+{
+  "layout": {
+    "viewport": 1440,
+    "document": 1440,
+    "height": 6047,
+    "cards": 5,
+    "missingUse": [],
+    "scenes": [
+      {
+        "type": "desktop-scene",
+        "width": 1100,
+        "height": 340,
+        "contentOverflow": false,
+        "copyHeight": 59.1875,
+        "graphicInside": true
+      },
+      {
+        "type": "mobile-scene",
+        "width": 390,
+        "height": 487,
+        "contentOverflow": false,
+        "copyHeight": 50.375,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 47.7877197265625,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene thumb-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 20.8984375,
+        "graphicInside": true
+      },
+      {
+        "type": "desktop-scene",
+        "width": 1100,
+        "height": 340,
+        "contentOverflow": false,
+        "copyHeight": 59.1875,
+        "graphicInside": true
+      },
+      {
+        "type": "mobile-scene",
+        "width": 390,
+        "height": 487,
+        "contentOverflow": false,
+        "copyHeight": 50.375,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 47.78759765625,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene thumb-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 20.8984375,
+        "graphicInside": true
+      },
+      {
+        "type": "desktop-scene",
+        "width": 1100,
+        "height": 340,
+        "contentOverflow": false,
+        "copyHeight": 59.1875,
+        "graphicInside": true
+      },
+      {
+        "type": "mobile-scene",
+        "width": 390,
+        "height": 487,
+        "contentOverflow": false,
+        "copyHeight": 50.375,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 47.78759765625,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene thumb-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 20.8984375,
+        "graphicInside": true
+      },
+      {
+        "type": "desktop-scene",
+        "width": 1100,
+        "height": 340,
+        "contentOverflow": false,
+        "copyHeight": 59.1875,
+        "graphicInside": true
+      },
+      {
+        "type": "mobile-scene",
+        "width": 390,
+        "height": 487,
+        "contentOverflow": false,
+        "copyHeight": 50.375,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 47.78759765625,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene thumb-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 20.8984375,
+        "graphicInside": true
+      },
+      {
+        "type": "desktop-scene",
+        "width": 1100,
+        "height": 340,
+        "contentOverflow": false,
+        "copyHeight": 59.1875,
+        "graphicInside": true
+      },
+      {
+        "type": "mobile-scene",
+        "width": 390,
+        "height": 487,
+        "contentOverflow": false,
+        "copyHeight": 50.375,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 47.78759765625,
+        "graphicInside": true
+      },
+      {
+        "type": "og-scene thumb-scene",
+        "width": 1200,
+        "height": 630,
+        "contentOverflow": false,
+        "copyHeight": 20.8984375,
+        "graphicInside": true
+      }
+    ]
+  },
+  "cardChecks": [
+    {
+      "id": "00",
+      "baseline": true,
+      "expectedCards": 3,
+      "actualCards": 3,
+      "tools": [],
+      "frontTileAfterCards": null
+    },
+    {
+      "id": "01",
+      "baseline": false,
+      "expectedCards": 3,
+      "actualCards": 3,
+      "tools": [
+        "bracket",
+        "team",
+        "qr"
+      ],
+      "frontTileAfterCards": true
+    },
+    {
+      "id": "02",
+      "baseline": false,
+      "expectedCards": 5,
+      "actualCards": 5,
+      "tools": [
+        "blog",
+        "bracket",
+        "qr",
+        "team",
+        "marble"
+      ],
+      "frontTileAfterCards": true
+    },
+    {
+      "id": "03",
+      "baseline": false,
+      "expectedCards": 3,
+      "actualCards": 3,
+      "tools": [
+        "blog",
+        "team",
+        "qr"
+      ],
+      "frontTileAfterCards": true
+    },
+    {
+      "id": "04",
+      "baseline": false,
+      "expectedCards": 4,
+      "actualCards": 4,
+      "tools": [
+        "team",
+        "qr",
+        "marble",
+        "blog"
+      ],
+      "frontTileAfterCards": true
+    }
+  ],
+  "baselineUnchanged": true,
+  "thumbnailSizes": [
+    {
+      "id": "00",
+      "width": 300,
+      "height": 158
+    },
+    {
+      "id": "01",
+      "width": 300,
+      "height": 158
+    },
+    {
+      "id": "02",
+      "width": 300,
+      "height": 158
+    },
+    {
+      "id": "03",
+      "width": 300,
+      "height": 158
+    },
+    {
+      "id": "04",
+      "width": 300,
+      "height": 158
+    }
+  ],
+  "standalone": {
+    "missingUse": [],
+    "cards": 5
+  },
+  "fontLoaded": true,
+  "externalRequests": [
+    "https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.woff2"
+  ],
+  "failedRequests": [],
+  "pageErrors": [],
+  "downloads": [
+    {
+      "file": "hero-01.svg",
+      "matchesFile": true
+    },
+    {
+      "file": "hero-03.svg",
+      "matchesFile": true
+    },
+    {
+      "file": "hero-04.svg",
+      "matchesFile": true
+    }
+  ],
+  "svgChecks": [
+    {
+      "file": "hero-00.svg",
+      "viewBox400x320": true,
+      "markPathsUnchanged": true,
+      "hasRenderedText": false,
+      "hasExternalContent": false,
+      "hasAnimation": false
+    },
+    {
+      "file": "hero-01.svg",
+      "viewBox400x320": true,
+      "markPathsUnchanged": true,
+      "hasRenderedText": false,
+      "hasExternalContent": false,
+      "hasAnimation": false
+    },
+    {
+      "file": "hero-02.svg",
+      "viewBox400x320": true,
+      "markPathsUnchanged": true,
+      "hasRenderedText": false,
+      "hasExternalContent": false,
+      "hasAnimation": false
+    },
+    {
+      "file": "hero-03.svg",
+      "viewBox400x320": true,
+      "markPathsUnchanged": true,
+      "hasRenderedText": false,
+      "hasExternalContent": false,
+      "hasAnimation": false
+    },
+    {
+      "file": "hero-04.svg",
+      "viewBox400x320": true,
+      "markPathsUnchanged": true,
+      "hasRenderedText": false,
+      "hasExternalContent": false,
+      "hasAnimation": false
+    }
+  ],
+  "exportTextChecks": [
+    {
+      "file": "mobile-00.png",
+      "brightTitlePixels": 1446,
+      "titleVisible": true
+    },
+    {
+      "file": "og-00.png",
+      "brightTitlePixels": 7471,
+      "titleVisible": true
+    },
+    {
+      "file": "mobile-01.png",
+      "brightTitlePixels": 1446,
+      "titleVisible": true
+    },
+    {
+      "file": "og-01.png",
+      "brightTitlePixels": 7471,
+      "titleVisible": true
+    },
+    {
+      "file": "mobile-02.png",
+      "brightTitlePixels": 1446,
+      "titleVisible": true
+    },
+    {
+      "file": "og-02.png",
+      "brightTitlePixels": 7471,
+      "titleVisible": true
+    },
+    {
+      "file": "mobile-03.png",
+      "brightTitlePixels": 1446,
+      "titleVisible": true
+    },
+    {
+      "file": "og-03.png",
+      "brightTitlePixels": 7471,
+      "titleVisible": true
+    },
+    {
+      "file": "mobile-04.png",
+      "brightTitlePixels": 1446,
+      "titleVisible": true
+    },
+    {
+      "file": "og-04.png",
+      "brightTitlePixels": 7471,
+      "titleVisible": true
+    }
+  ],
+  "htmlBytes": 124642,
+  "htmlLimit": 524288,
+  "outputs": {
+    "svg": 5,
+    "newVariants": 4,
+    "heroPNG": 5,
+    "mobilePNG": 5,
+    "ogPNG": 5,
+    "thumbnailPNG": 5,
+    "ogDimensions": "1200×630"
+  }
+}

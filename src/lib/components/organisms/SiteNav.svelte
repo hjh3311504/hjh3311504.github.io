@@ -22,7 +22,10 @@
 
 <div class="site-nav">
 	<div class="site-nav-heading">
-		<Button class="site-name" href={resolve('/')} variant="ghost">Lake's develog</Button>
+		<Button class="site-name" href={resolve('/')} variant="ghost">
+			<img class="site-logo" src={resolve('/favicon.svg')} alt="" width="24" height="24" />
+			Seta Lab
+		</Button>
 
 		{#if showTheme}
 			<IconButton class="nav-icon-button" onclick={onTheme} label={`테마 변경, 현재 ${themeLabel}`}>
@@ -358,6 +361,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
+		gap: var(--space-8);
 		padding: 0;
 		overflow: hidden;
 		color: var(--shell-text-heading);
@@ -371,6 +375,10 @@
 		white-space: nowrap;
 		background: transparent;
 		border: 0;
+	}
+
+	:global(.site-logo) {
+		flex: none;
 	}
 
 	:global(.nav-icon-button) {

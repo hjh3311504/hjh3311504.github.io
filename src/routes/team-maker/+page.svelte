@@ -6,7 +6,7 @@
 	import ToolPageFooter from '$lib/components/organisms/ToolPageFooter.svelte';
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { DisclosureSection } from '$lib/components/ui';
-	import { siteBaseUrl } from '$lib/data/meta.js';
+	import { siteBaseUrl, websiteNode } from '$lib/data/meta.js';
 	import { mountTeamMaker } from '$lib/team-maker/app.js';
 	import ParticipantsSection from '$lib/team-maker/components/ParticipantsSection.svelte';
 	import TeamSettingsSection from '$lib/team-maker/components/TeamSettingsSection.svelte';
@@ -30,13 +30,7 @@
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@graph': [
-			{
-				'@type': 'WebSite',
-				'@id': `${siteBaseUrl}/#website`,
-				url: `${siteBaseUrl}/`,
-				name: "Lake's develog",
-				inLanguage: 'ko-KR'
-			},
+			websiteNode,
 			{
 				'@type': 'WebPage',
 				'@id': `${teamMakerUrl}#webpage`,
@@ -87,7 +81,7 @@
 				],
 				author: {
 					'@type': 'Person',
-					name: 'Lake',
+					name: 'Seta',
 					url: 'https://github.com/hjh3311504'
 				}
 			}
@@ -106,7 +100,7 @@
 	<title>{seoTitle}</title>
 	<meta name="description" content={seoDescription} />
 	<meta name="keywords" content="팀짜기, 조짜기, 팀 나누기, 랜덤 팀 배정, 팀 메이커" />
-	<meta name="author" content="Lake" />
+	<meta name="author" content="Seta" />
 	<meta name="application-name" content="팀 메이커" />
 	<meta
 		name="robots"
@@ -117,7 +111,7 @@
 
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="ko_KR" />
-	<meta property="og:site_name" content="Lake's develog" />
+	<meta property="og:site_name" content="Seta Lab" />
 	<meta property="og:title" content={seoTitle} />
 	<meta property="og:description" content={seoDescription} />
 	<meta property="og:url" content={teamMakerUrl} />
