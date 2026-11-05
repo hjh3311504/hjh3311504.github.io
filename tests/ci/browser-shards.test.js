@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { collectTests, planShards } from '../../scripts/plan_browser_shards.js';
+import { collectTests, planShards, shardCount } from '../../scripts/plan_browser_shards.js';
 
 function entry(file, title, project = 'chromium') {
 	return {
@@ -73,4 +74,14 @@ test('같은 줄에서 만든 여러 검사와 중첩 제목·project를 구분�
 	assert.equal(new Set(tests.map((item) => item.id)).size, 4);
 	assert.equal(tests[0].selector, '[chromium] › race.spec.js › 경기 › 처음');
 	assert.equal(tests[3].selector, '[webkit] › race.spec.js › 경기 › 마지막');
+});
+
+test('workflow의 browser matrix는 배치 스크립트의 분할 수와 같다', () => {
+	const workflow = readFileSync('.github/workflows/pages.yml', 'utf8');
+	const matrix = workflow.match(/^\s+shard: \[([\d, ]+)\]$/m);
+	assert.ok(matrix, 'browser matrix를 찾지 못했습니다.');
+	assert.deepEqual(
+		matrix[1].split(',').map(Number),
+		Array.from({ length: shardCount }, (_, index) => index + 1)
+	);
 });

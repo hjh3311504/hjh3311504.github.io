@@ -61,7 +61,10 @@ export function collectTests(report) {
 	return tests;
 }
 
-export function planShards(tests, count = 4) {
+// .github/workflows/pages.yml의 browser matrix와 같아야 한다.
+export const shardCount = 6;
+
+export function planShards(tests, count = shardCount) {
 	if (!Number.isInteger(count) || count < 1) throw new Error('분할 수는 양의 정수여야 합니다.');
 	const files = new Map();
 	for (const test of tests) {
