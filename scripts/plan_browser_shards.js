@@ -37,8 +37,8 @@ export const measuredSeconds = {
 	'ui-consistency.spec.js': 12.1,
 	'wheel-audio.spec.js': 21.7
 };
-// 2배속으로 진행하는 긴 경기 검사 1개의 예상 초.
-const longRaceSeconds = 32;
+// 2배속으로 진행하는 긴 경기 검사 1개의 예상 초(PR #83 실측 32~47초).
+const longRaceSeconds = 40;
 
 export function collectTests(report) {
 	const tests = [];
