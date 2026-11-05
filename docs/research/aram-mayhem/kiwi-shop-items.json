@@ -1,6 +1,6 @@
 {
-	"patch": "26.21",
-	"source": "Data Dragon 16.21.1 ko_KR + 클라이언트 map12 KIWI 상점 목록",
+	"patch": "26.22",
+	"source": "Data Dragon 16.21.1 ko_KR + 클라이언트 map12 KIWI 상점 목록. 2026-11-06 Data Dragon 16.22.1과 대조해 번호·이름·가격이 모두 같고 새 아이템이 없음을 확인했다.",
 	"items": [
 		{
 			"id": 1001,

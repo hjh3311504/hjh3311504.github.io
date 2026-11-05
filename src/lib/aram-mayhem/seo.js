@@ -14,7 +14,7 @@ export const aramChampionPaths = (guide = guideData) =>
 export const AUGMENT_PAGE_HOOKS = {
 	'armored-impact': '탱커가 딜러로',
 	bees: '광역 데미지 딜링',
-	'weapon-of-destiny': '방마관 100% 만들기',
+	'weapon-of-destiny': '흡혈·이속 키우기',
 	'get-jinxed': '로켓 피해 증폭'
 };
 export const AUGMENT_PAGE_IDS = Object.keys(AUGMENT_PAGE_HOOKS);

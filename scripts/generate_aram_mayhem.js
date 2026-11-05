@@ -15,9 +15,9 @@ const IMAGE_DIR = 'static/images/aram-mayhem';
 const NEXT_IMAGE_DIR = `${CACHE_DIR}/images-next`;
 const IMAGE_URL = '/images/aram-mayhem';
 const OUTPUT = 'src/lib/aram-mayhem/guide-data.json';
-const DDRAGON_VERSION = '16.21.1';
+const DDRAGON_VERSION = '16.22.1';
 const DDRAGON = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}`;
-// CommunityDragon은 패치(16.21) 단위로 고정해 다시 생성해도 같은 아이콘을 받는다.
+// CommunityDragon은 패치(16.22) 단위로 고정해 다시 생성해도 같은 아이콘을 받는다.
 const CDRAGON_VERSION = DDRAGON_VERSION.split('.').slice(0, 2).join('.');
 const CDRAGON = `https://raw.communitydragon.org/${CDRAGON_VERSION}/plugins/rcp-be-lol-game-data/global/default`;
 

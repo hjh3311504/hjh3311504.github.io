@@ -19,7 +19,7 @@ import {
 const yi = guide.champions.find((champion) => champion.id === 'master-yi');
 
 test('별명 원본은 리그 오브 레전드 챔피언 전체와 가이드 챔피언을 모두 담는다', () => {
-	// Data Dragon 16.21.1 한국어 챔피언 수. 생성 script가 이름까지 대조한다.
+	// Data Dragon 16.22.1 한국어 챔피언 수. 생성 script가 이름까지 대조한다.
 	assert.equal(Object.keys(aliases.champions).length, 173);
 	for (const champion of guide.champions) {
 		assert.ok(champion.nameKo in aliases.champions, champion.nameKo);
@@ -52,7 +52,7 @@ test('챔피언 제목은 증바람·별명만 쓰고 증강·템트리·패치�
 	// 검색 결과는 설명 앞부분만 보여 주므로 챔피언 이름과 템트리로 시작한다.
 	assert.equal(
 		seo.description,
-		`증바람 마스터 이(마이) ${seo.summary} 칼바람 아수라장 26.21 패치 기준이며 통계 티어가 아닌 도파민 빌드입니다.`
+		`증바람 마스터 이(마이) ${seo.summary} 칼바람 아수라장 26.22 패치 기준이며 통계 티어가 아닌 도파민 빌드입니다.`
 	);
 });
 
@@ -198,13 +198,13 @@ test('떴다, 징크스 공략은 제목에 쉼표 없는 검색어를 쓰고 �
 	assert.equal(rest.video, undefined);
 });
 
-test('운명의 무기 공략은 챔피언 없이 AD·AP·암살자 1코어를 검색 설명에 넣는다', () => {
+test('운명의 무기 공략은 챔피언 없이 브루저·AD·AP·암살자 1코어를 검색 설명에 넣는다', () => {
 	const seo = augmentSeo('weapon-of-destiny', guide);
 	assert.equal(seo.title, '증바람 운명의 무기(운무) 공략');
 	assert.deepEqual(seo.entries, []);
 	assert.ok(
 		seo.description.startsWith(
-			'증바람 운명의 무기(운무) 1코어 추천은 AD 챔피언 도미닉 경의 인사, AP 챔피언 무덤꽃·공허의 지팡이, 암살자 챔피언 독사의 송곳니입니다. 중첩을 쌓으면 관통력이 100%까지 오릅니다.'
+			'증바람 운명의 무기(운무) 1코어 추천은 브루저 끝없는 갈망, AD 챔피언 유령 무희·도미닉 경의 인사, AP 챔피언 폭풍 쇄도·무덤꽃·공허의 지팡이, 암살자 챔피언 독사의 송곳니입니다. 관통력 대신 모든 피해 흡혈과 이동 속도를 키웁니다.'
 		)
 	);
 	// 추천 아이템마다 아이콘이 있고, 이 페이지는 출처를 보여 주지 않는다.
@@ -212,8 +212,9 @@ test('운명의 무기 공략은 챔피언 없이 AD·AP·암살자 1코어를 �
 	assert.deepEqual(
 		roleItems.map((row) => [row.role, row.items]),
 		[
-			['AD 챔피언', ['도미닉 경의 인사']],
-			['AP 챔피언', ['무덤꽃', '공허의 지팡이']],
+			['브루저', ['끝없는 갈망']],
+			['AD 챔피언', ['유령 무희', '도미닉 경의 인사']],
+			['AP 챔피언', ['폭풍 쇄도', '무덤꽃', '공허의 지팡이']],
 			['암살자 챔피언', ['독사의 송곳니']]
 		]
 	);
@@ -222,15 +223,27 @@ test('운명의 무기 공략은 챔피언 없이 AD·AP·암살자 1코어를 �
 		assert.equal(row.sources, undefined);
 	}
 	assert.deepEqual(Object.keys(rest).sort(), ['builds', 'coreWhy', 'lead', 'search', 'tips']);
-	// 관통력은 아이콘 타일로 보여 준다.
+	// 모든 피해 흡혈·이동 속도는 아이콘 타일로 보여 준다.
 	assert.deepEqual(
 		roleItems.map((row) => row.why.filter((part) => part.t === 'stat').map((part) => part.v)),
-		[['방어구 관통력'], ['마법 관통력', '스킬 가속'], ['물리 관통력']]
+		[
+			['모든 피해 흡혈'],
+			['이동 속도', '방어구 관통력'],
+			['이동 속도', '마법 관통력', '스킬 가속'],
+			['물리 관통력']
+		]
 	);
 	// 설명 속 아이템 이름도 타일로 보여 준다.
 	assert.deepEqual(
 		roleItems.map((row) => row.why.filter((part) => part.t === 'item').map((part) => part.v)),
-		[[], ['무덤꽃'], ['독사의 송곳니']]
+		[
+			[],
+			['유령 무희', '도미닉 경의 인사'],
+			['폭풍 쇄도', '무덤꽃', '공허의 지팡이', '무덤꽃'],
+			['독사의 송곳니']
+		]
 	);
-	assert.ok(guide.icons.armorPen && guide.icons.magicPen);
+	assert.ok(
+		guide.icons.omnivamp && guide.icons.moveSpeed && guide.icons.armorPen && guide.icons.magicPen
+	);
 });

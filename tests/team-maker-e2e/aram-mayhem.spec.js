@@ -141,30 +141,35 @@ test('떴다, 징크스 공략은 어울리는 증강으로 속전속결과 보�
 	await expect(page.getByRole('list', { name: '어울리는 챔피언' })).toHaveCount(0);
 });
 
-test('운명의 무기 공략은 챔피언 대신 AD·AP·암살자 1코어 카드 3개를 출처 없이 보여 준다', async ({
+test('운명의 무기 공략은 챔피언 대신 브루저·AD·AP·암살자 1코어 카드 4개를 출처 없이 보여 준다', async ({
 	page
 }) => {
 	await openHub(page);
 	const link = page
 		.getByRole('region', { name: '꼭 읽어야 할 증강 공략' })
 		.getByRole('link', { name: /운명의 무기/ });
-	await expect(link).toContainText('방마관 100% 만들기');
+	await expect(link).toContainText('흡혈·이속 키우기');
 	await link.click();
 	await expect(page).toHaveURL(/\/aram-mayhem\/augments\/weapon-of-destiny$/);
 	await expect(page).toHaveTitle(/증바람 운명의 무기\(운무\) 공략$/);
 	await expect(page.getByRole('heading', { name: '1코어 추천', level: 3 })).toBeVisible();
-	// 관통력 100%를 강조하고 관통력은 아이콘 타일로 보여 준다.
-	// %와 '까지' 사이에는 줄바꿈을 막는 단어 잇기 문자가 있다.
-	await expect(page.locator('.aram-aug-lead')).toContainText(/100%\u2060까지/);
-	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(3);
+	// 모든 피해 흡혈·이동 속도를 강조하고 아이콘 타일로 보여 준다.
+	await expect(page.locator('.aram-aug-lead')).toContainText('관통력 상승량이 너프돼서');
+	await expect(page.locator('.aram-aug-lead .aram-stat-icon img')).toHaveCount(2);
 	const cards = page.locator('.aram-role-items > li');
-	await expect(cards).toHaveCount(3);
-	await expect(cards.nth(0)).toContainText('AD 챔피언');
-	await expect(cards.nth(0)).toContainText('도미닉 경의 인사');
-	await expect(cards.nth(1)).toContainText('AP 챔피언');
-	await expect(cards.nth(1).locator('.aram-item')).toHaveText(['무덤꽃', '공허의 지팡이']);
-	await expect(cards.nth(2)).toContainText('암살자 챔피언');
-	await expect(cards.nth(2)).toContainText('독사의 송곳니');
+	await expect(cards).toHaveCount(4);
+	await expect(cards.nth(0)).toContainText('브루저');
+	await expect(cards.nth(0).locator('.aram-item')).toHaveText(['끝없는 갈망']);
+	await expect(cards.nth(1)).toContainText('AD 챔피언');
+	await expect(cards.nth(1).locator('.aram-item')).toHaveText(['유령 무희', '도미닉 경의 인사']);
+	await expect(cards.nth(2)).toContainText('AP 챔피언');
+	await expect(cards.nth(2).locator('.aram-item')).toHaveText([
+		'폭풍 쇄도',
+		'무덤꽃',
+		'공허의 지팡이'
+	]);
+	await expect(cards.nth(3)).toContainText('암살자 챔피언');
+	await expect(cards.nth(3).locator('.aram-item')).toHaveText(['독사의 송곳니']);
 	await expect(page.locator('.aram-sources')).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: /어울리는 챔피언/ })).toHaveCount(0);
 });
