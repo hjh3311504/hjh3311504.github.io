@@ -390,7 +390,7 @@ html[data-theme='dark'] .aram-page {
 	border-radius: var(--ui-radius-md);
 	background: var(--aram-accent-soft);
 }
-/* 1코어 추천 위의 강조 문장(관통력 100%) */
+/* 1코어 추천과 어울리는 증강 카드의 강조 문장 */
 .aram-aug-lead {
 	margin: 0 0 var(--space-12);
 	font-size: var(--font-size-18);
@@ -399,10 +399,10 @@ html[data-theme='dark'] .aram-page {
 	word-break: keep-all;
 	overflow-wrap: anywhere;
 }
-/* 1코어 추천(AD·AP): 넓은 화면은 2열, 좁은 화면은 1열 */
+/* 1코어 추천(브루저·AD·AP·암살자 카드 4개): 넓은 화면은 2열, 좁은 화면은 1열 */
 .aram-role-items {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: var(--space-12);
 	margin: 0 0 var(--space-12);
 	padding: 0;
