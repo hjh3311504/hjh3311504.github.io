@@ -91,3 +91,14 @@
 		U+d560, U+d568-d569, U+d56d, U+d574, U+d588, U+d604, U+d648, U+d654-d655, U+d65c, U+d68c,
 		U+d69f, U+d6a8, U+d788, U+d78c;
 }
+
+/* 홈 소개 제목 Seta Lab 전용. Gmarket Sans Bold의 영문·숫자만 남긴 수정본이라 OFL 예약 이름 대신 다른 이름을 쓴다. */
+
+@font-face {
+	font-family: 'Seta Title';
+	font-style: normal;
+	font-weight: 700 900;
+	font-display: swap;
+	src: url('$lib/team-maker/fonts/seta-title.woff2') format('woff2');
+	unicode-range: U+20-7e;
+}

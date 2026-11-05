@@ -65,12 +65,15 @@ SVG 원본 코드는 `static/images/team-maker/*.svg` 파일 자체에 있습니
 
 ## 글꼴
 
-| 자료  | 제작자·출처                                  | 이용 조건                 | 원문                                         |
-| ----- | -------------------------------------------- | ------------------------- | -------------------------------------------- |
-| SUIT  | SUNN · https://github.com/sun-typeface/SUIT  | SIL Open Font License 1.1 | `src/lib/team-maker/fonts/SUIT-LICENSE.txt`  |
-| SUITE | SUNN · https://github.com/sun-typeface/SUITE | SIL Open Font License 1.1 | `src/lib/team-maker/fonts/SUITE-LICENSE.txt` |
+| 자료         | 제작자·출처                                              | 이용 조건                                                    | 원문                                               |
+| ------------ | -------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------- |
+| SUIT         | SUNN · https://github.com/sun-typeface/SUIT              | SIL Open Font License 1.1                                    | `src/lib/team-maker/fonts/SUIT-LICENSE.txt`        |
+| SUITE        | SUNN · https://github.com/sun-typeface/SUITE             | SIL Open Font License 1.1                                    | `src/lib/team-maker/fonts/SUITE-LICENSE.txt`       |
+| Gmarket Sans | eBay Korea(현 Gmarket) · https://corp.gmarket.com/fonts/ | SIL Open Font License 1.1 기반 G마켓 산스 라이선스(6항 추가) | `src/lib/team-maker/fonts/GmarketSans-LICENSE.txt` |
 
 전체 글꼴과 Team Maker용 글자 모음에는 같은 글꼴 라이선스를 적용합니다. 코드 라이선스 변경은 글꼴에 적용하지 않습니다. 배포 결과의 `/licenses/SUIT-LICENSE.txt`와 `/licenses/SUITE-LICENSE.txt`에 원문을 포함합니다.
+
+홈 소개 제목과 공유 이미지의 사이트 이름 `Seta Lab`에는 2026-11-05에 공식 배포본에서 받은 Gmarket Sans Bold(TTF)를 씁니다. 영문·숫자·기본 문장부호(U+0020~U+007E)만 남긴 WOFF2 수정본 `src/lib/team-maker/fonts/seta-title.woff2`로 제공하며 `scripts/generate_title_font.py`로 만듭니다. 원본은 예약 글꼴 이름(Reserved Font Name) `Gmarket Sans Font`를 두므로 OFL에 따라 수정본의 글꼴 이름을 `Seta Title`로 바꿨습니다. 저작권 표시와 라이선스 정보는 글꼴 안에 남겼고, 원문은 배포 결과의 `/licenses/GmarketSans-LICENSE.txt`에 포함합니다. 이 라이선스는 OFL 1.1 조항에 저작권자가 글꼴 사용 결과물을 홍보에 쓸 수 있다는 6항(사용자가 명시적으로 거부하면 제외)을 더한 문구입니다.
 
 ## GitHub 아이콘
 

@@ -12,9 +12,9 @@ QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/
 
 개발 서버와 `localhost`·`127.*`·`[::1]`의 정적 preview에서는 탭 제목 앞에 `[로컬]`을 붙이고 favicon을 주황색으로 표시합니다. 내부 페이지 이동에도 유지됩니다. `theme-color`를 지원하는 브라우저에서는 브라우저 UI에도 주황색을 적용합니다. 일반 데스크톱 브라우저의 탭 배경색은 사이트에서 강제로 바꿀 수 없습니다. 실제 배포 주소의 제목·favicon·색상은 유지합니다. 구현은 `src/lib/local-preview.js`입니다.
 
-홈은 `src/routes/+page.svelte`, 최신 글 데이터는 `src/routes/+page.server.js`, 공통 오류 안내는 `src/lib/components/organisms/ErrorPage.svelte`에서 관리합니다. 정적 404와 SvelteKit 오류 화면이 같은 안내를 사용합니다. 공통 기본 CSS와 글꼴 선언은 `src/lib/styles/`에 있습니다. 글꼴은 사이트 안의 SUIT·SUITE 파일로 제공하며 외부 CDN에 요청하지 않습니다. Team Maker는 작은 글꼴을 먼저 받고 이름을 입력할 때 전체 글꼴로 보완합니다.
+홈은 `src/routes/+page.svelte`, 최신 글 데이터는 `src/routes/+page.server.js`, 공통 오류 안내는 `src/lib/components/organisms/ErrorPage.svelte`에서 관리합니다. 정적 404와 SvelteKit 오류 화면이 같은 안내를 사용합니다. 공통 기본 CSS와 글꼴 선언은 `src/lib/styles/`에 있습니다. 글꼴은 사이트 안의 SUIT·SUITE 파일과 홈 제목 Seta Lab 전용 Seta Title 파일로 제공하며 외부 CDN에 요청하지 않습니다. Team Maker는 작은 글꼴을 먼저 받고 이름을 입력할 때 전체 글꼴로 보완합니다.
 
-홈·Team Maker·ASMR 구슬 레이스·QR 코드·대진표·아수라장 가이드 공유 이미지는 1200×630 PNG입니다. `scripts/generate_site_assets.js`의 문구와 카드 배치를 수정한 뒤 아래 명령을 실행하세요. 생성에는 Playwright Chromium이 필요합니다. `static/favicon.svg`를 수정해도 같은 명령으로 PNG·ICO를 다시 만듭니다.
+홈·Team Maker·ASMR 구슬 레이스·QR 코드·대진표·아수라장 가이드 공유 이미지는 1200×630 PNG입니다. `scripts/generate_site_assets.js`의 문구와 카드 배치를 수정한 뒤 아래 명령을 실행하세요. 생성에는 Playwright Chromium이 필요합니다. `static/favicon.svg`를 수정해도 같은 명령으로 PNG·ICO를 다시 만듭니다. 공유 이미지의 사이트 이름 `Seta Lab`은 홈 소개 제목과 같은 `Seta Title` 글꼴(Gmarket Sans Bold 영문 수정본)을 쓰고, 나머지 제목은 SUITE를 씁니다. 글꼴을 읽지 못하면 생성이 멈춥니다. 글꼴 파일은 [공식 TTF 묶음](https://corp.gmarket.com/fonts/GmarketSansTTF.zip)의 Bold 파일로 `uvx --from 'fonttools[woff]==4.68.0' python scripts/generate_title_font.py <GmarketSansTTFBold.ttf>`를 실행해 만듭니다. Python 라이브러리 fontTools는 `uvx`가 임시로 설치합니다. 같은 원본이면 같은 파일이 나옵니다.
 
 ```shell
 npx playwright install chromium

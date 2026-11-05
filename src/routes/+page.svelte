@@ -12,6 +12,7 @@
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
 	import { categories, formatDate } from '$lib/blog/catalog.js';
+	import setaTitleFont from '$lib/team-maker/fonts/seta-title.woff2?url';
 
 	let { data } = $props();
 
@@ -78,6 +79,7 @@
 </script>
 
 <svelte:head>
+	<link rel="preload" href={setaTitleFont} as="font" type="font/woff2" crossorigin="anonymous" />
 	<title>{title}</title>
 	<link rel="canonical" href={siteBaseUrl} />
 	<meta name="keywords" content={keywords.join(', ')} />
@@ -469,13 +471,16 @@
 		font-family: 'SUITE', 'SUITE Full', 'SUIT', sans-serif;
 	}
 
+	/* 사이트 이름 Seta Lab만 Seta Title(Gmarket Sans Bold 영문 수정본)로 쓴다. */
 	.home-hero h1 {
 		margin: 0;
 		color: var(--color-white);
+		font-family: 'Seta Title', 'SUITE', 'SUITE Full', 'SUIT', sans-serif;
 		font-size: var(--font-size-48);
 		font-weight: 700;
 		line-height: 1.15;
-		letter-spacing: -0.75px;
+		/* 공유 이미지(76px에 2px, 약 0.026em)와 같은 비율로 자간을 넓힌다. */
+		letter-spacing: 0.026em;
 	}
 
 	:global(.github-link:focus-visible) {

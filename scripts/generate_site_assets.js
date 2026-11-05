@@ -6,16 +6,19 @@ import sharp from 'sharp';
 const font = async (name) =>
 	(await readFile(`src/lib/team-maker/fonts/${name}-Variable.woff2`)).toString('base64');
 const [suit, suite] = await Promise.all([font('SUIT'), font('SUITE')]);
+// 사이트 이름 Seta Lab은 홈 제목과 같은 Seta Title(Gmarket Sans Bold 영문 수정본)로 쓴다.
+const titleFont = (await readFile('src/lib/team-maker/fonts/seta-title.woff2')).toString('base64');
 const logo = (await readFile('static/favicon.svg', 'utf8')).replace('<svg ', '<svg class="logo" ');
 // 홈 공유 이미지는 홈 소개 영역과 같은 그림을 쓴다.
 const heroArt = await readFile('static/images/home/seta-lab-hero.svg', 'utf8');
 const styles = `
 @font-face { font-family: SUIT; src: url(data:font/woff2;base64,${suit}); font-weight: 100 900; }
 @font-face { font-family: SUITE; src: url(data:font/woff2;base64,${suite}); font-weight: 100 900; }
+@font-face { font-family: 'Seta Title'; src: url(data:font/woff2;base64,${titleFont}); font-weight: 700 900; unicode-range: U+20-7E; }
 * { box-sizing: border-box; }
 body { margin: 0; width: 1200px; height: 630px; font-family: SUIT, sans-serif; color: #1c1e26; background: #f6f5f4; }
 main { position: relative; display: flex; align-items: center; gap: 44px; width: 100%; height: 100%; padding: 64px; background: linear-gradient(135deg, #e4effa 0%, #f6f5f4 55%); }
-.brand { position: absolute; top: 42px; left: 64px; display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 700; color: #615d59; }
+.brand { position: absolute; top: 42px; left: 64px; display: flex; align-items: center; gap: 10px; font-family: 'Seta Title', SUIT; font-size: 19px; font-weight: 700; letter-spacing: 0.5px; color: #615d59; }
 .logo { display: block; width: 28px; height: 28px; }
 .copy { flex: 0 0 450px; }
 .eyebrow { color: #0075de; font-size: 22px; font-weight: 750; margin: 0 0 18px; }
@@ -30,7 +33,7 @@ h1 { font-family: SUITE; font-size: 76px; line-height: 1.06; letter-spacing: -3p
 .team h2 { margin: 0 0 18px; font-family: SUITE; font-size: 24px; }
 .person { display: block; margin-top: 9px; padding: 10px 8px; border: 1px solid #e7ecf2; border-radius: 8px; font-size: 21px; font-weight: 600; }
 .result-note { margin: 20px 0 0; color: #0075de; font-size: 18px; font-weight: 700; }
-.home h1 { font-size: 76px; letter-spacing: -2px; }
+.home h1 { font-family: 'Seta Title', SUITE; font-size: 76px; letter-spacing: 2px; }
 main.navy { background: #0d2a47; color: #fff; }
 .navy .brand, .navy .url { color: #c7d7e8; }
 .navy .eyebrow { color: #7fc0ff; }
@@ -176,6 +179,24 @@ try {
 			`<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>${asset.title}</title><style>${styles}</style></head><body><main class="${asset.theme ?? ''}"><div class="brand">${logo} Seta Lab</div>${asset.body}<span class="url">${asset.url}</span></main></body></html>`
 		);
 		await page.evaluate(() => document.fonts.ready);
+		// 글꼴을 읽지 못하면 대체 글꼴로 조용히 그려지므로 생성을 멈춘다.
+		const missingFonts = await page.evaluate(async () => {
+			const checks = [
+				['SUIT', '400 20px SUIT'],
+				['SUITE', '850 76px SUITE'],
+				['Seta Title', '700 76px "Seta Title"']
+			];
+			const missing = [];
+			for (const [name, font] of checks) {
+				const loaded = await document.fonts.load(font, 'Seta Lab 가').catch(() => []);
+				if (!loaded.some((face) => face.status === 'loaded')) missing.push(name);
+			}
+			return missing;
+		});
+		if (missingFonts.length)
+			throw new Error(
+				`${asset.name} 공유 이미지에서 글꼴을 읽지 못했습니다: ${missingFonts.join(', ')}`
+			);
 		const overflow = await page.evaluate(() =>
 			[...document.querySelectorAll('main *')].some(
 				(element) => element.scrollWidth > element.clientWidth + 1
