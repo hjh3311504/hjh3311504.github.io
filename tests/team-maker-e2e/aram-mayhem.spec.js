@@ -249,6 +249,11 @@ test('허브의 초성 색인은 그 묶음으로 이동하고 검색으로 빈 
 	await openHub(page);
 	const index = page.getByRole('navigation', { name: '초성으로 이동' });
 	await expect(index.getByRole('link')).toHaveCount(14);
+	// 초성 버튼은 정사각형이다.
+	for (const link of await index.getByRole('link').all()) {
+		const { width, height } = await link.boundingBox();
+		expect(width).toBe(height);
+	}
 	await index.getByRole('link', { name: 'ㅋ', exact: true }).click();
 	await expect(page).toHaveURL(/#aram-initial-/);
 	// 이동한 묶음은 화면 위에 붙어 있는 색인 아래에 보인다.
@@ -257,6 +262,37 @@ test('허브의 초성 색인은 그 묶음으로 이동하고 검색으로 빈 
 	await expect
 		.poll(async () => (await group.boundingBox()).y - (await index.boundingBox()).y)
 		.toBeGreaterThan((await index.boundingBox()).height);
+	// 고른 묶음은 붉은 테두리 카드로 감싸고 화면 세로 가운데에 둔다. 색인의 그 초성 버튼도 붉게 채운다.
+	const row = page.locator('#aram-initial-ㅋ');
+	await expect(row).toHaveAttribute('data-active', 'true');
+	await expect(page.locator('.aram-initial-row[data-active]')).toHaveCount(1);
+	await expect(index.locator('[aria-current]')).toHaveText(['ㅋ']);
+	await expect(index.getByRole('link', { name: 'ㅋ', exact: true })).toHaveAttribute(
+		'aria-current',
+		'location'
+	);
+	// 카드가 좌우로 넓어져도 타일 자리는 다른 묶음과 같다.
+	expect((await group.getByRole('link').first().boundingBox()).x).toBe(
+		(await page.locator('#aram-initial-ㄱ').getByRole('link').first().boundingBox()).x
+	);
+	await expect(row.locator('.aram-initial')).not.toHaveCSS(
+		'color',
+		await page
+			.locator('#aram-initial-ㄱ .aram-initial')
+			.evaluate((el) => getComputedStyle(el).color)
+	);
+	const viewport = page.viewportSize();
+	await expect
+		.poll(async () => {
+			const rowBox = await row.boundingBox();
+			return Math.abs(rowBox.y + rowBox.height / 2 - viewport.height / 2);
+		})
+		.toBeLessThan(2);
+	// 다른 초성을 누르면 카드와 색인 표시가 그 초성으로 옮겨 간다.
+	await index.getByRole('link', { name: 'ㄱ', exact: true }).click();
+	await expect(page.locator('#aram-initial-ㄱ')).toHaveAttribute('data-active', 'true');
+	await expect(row).not.toHaveAttribute('data-active');
+	await expect(index.locator('[aria-current]')).toHaveText(['ㄱ']);
 
 	// 빈 초성은 자리를 지킨 채 링크 없이 흐리게 보인다.
 	const box = page.getByRole('searchbox', { name: '챔피언 이름 검색' });
@@ -265,10 +301,44 @@ test('허브의 초성 색인은 그 묶음으로 이동하고 검색으로 빈 
 	await expect(index.getByRole('link')).toHaveText(['ㅌ']);
 	await expect(disabled).toHaveCount(13);
 	await expect(disabled.first()).toHaveCSS('opacity', '0.3');
+	// 고른 초성이 검색으로 비면 색인 표시도 없앤다.
+	await expect(index.locator('[aria-current]')).toHaveCount(0);
 	// 검색 결과가 없어도 색인은 남고 모든 초성이 흐려진다.
 	await box.fill('없는 이름');
 	await expect(index).toBeVisible();
 	await expect(disabled).toHaveCount(14);
+});
+
+test('보조 키를 누르고 초성 색인을 누르면 새 탭으로 열고 현재 화면은 그대로 둔다', async ({
+	page,
+	context
+}) => {
+	await openHub(page);
+	const index = page.getByRole('navigation', { name: '초성으로 이동' });
+	const popup = context.waitForEvent('page');
+	await index
+		.getByRole('link', { name: 'ㅋ', exact: true })
+		.click({ modifiers: ['ControlOrMeta'] });
+	expect((await popup).url()).toMatch(/#aram-initial-/);
+	await expect(page).not.toHaveURL(/#aram-initial-/);
+	await expect(page.locator('.aram-initial-row[data-active]')).toHaveCount(0);
+	await expect(index.locator('[aria-current]')).toHaveCount(0);
+});
+
+test('화면보다 긴 초성 묶음은 가운데 대신 붙어 있는 색인 바로 아래에 맞춘다', async ({ page }) => {
+	await page.setViewportSize({ width: 390, height: 740 });
+	await openHub(page);
+	const index = page.getByRole('navigation', { name: '초성으로 이동' });
+	await index.getByRole('link', { name: 'ㅅ', exact: true }).click();
+	const row = page.locator('#aram-initial-ㅅ');
+	await expect(row).toHaveAttribute('data-active', 'true');
+	// 묶음 위쪽이 색인 바로 아래(여유 8px)에 온다. 부드러운 스크롤이 끝날 때까지 기다린다.
+	await expect
+		.poll(async () => {
+			const indexBox = await index.boundingBox();
+			return Math.abs((await row.boundingBox()).y - (indexBox.y + indexBox.height) - 8);
+		})
+		.toBeLessThanOrEqual(1);
 });
 
 test('허브 타일에 키보드 초점이 가면 붙어 있는 색인에 가려지지 않는다', async ({ page }) => {
