@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { replaceState } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { Button, EmptyState, FormField } from '$lib/components/ui';
 	import { filterChampions, groupByInitial } from '../guide.js';
 	import ChampionTiles from './ChampionTiles.svelte';
@@ -34,9 +35,8 @@
 		const top = Math.max((window.innerHeight - rect.height) / 2, indexBottom);
 		window.scrollTo({ top: window.scrollY + rect.top - top });
 		// 주소의 #초성은 남기되 방문 기록은 늘리지 않는다. 키보드 사용자는 그 묶음의 첫 타일부터 이어 간다.
-		const url = new URL(window.location.href);
-		url.hash = `aram-initial-${initial}`;
-		replaceState(url, {});
+		// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve()로 만든 허브 주소에 #초성만 붙인다.
+		replaceState(`${resolve('/aram-mayhem')}#aram-initial-${initial}`, {});
 		row.querySelector('a')?.focus({ preventScroll: true });
 	}
 
