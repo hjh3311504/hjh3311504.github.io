@@ -15,7 +15,6 @@
 	--font-size-32: 32px;
 	--font-size-34: 34px;
 	--font-size-36: 36px;
-	--font-size-44: 44px;
 	--font-size-48: 48px;
 	--space-2: 2px;
 	--space-4: 4px;
@@ -49,8 +48,13 @@
 	--color-background-3: #3274d9;
 	--color-box-shadow-9: rgb(50 116 217 / 70%);
 	--color-primary: #0075de;
+	/* Seta Lab 홈 소개 영역의 남색 바탕과 그 위 글자 색 */
+	--color-brand-navy: #0d2a47;
+	--color-brand-sky: #7fc0ff;
+	--color-brand-mist: #c7d7e8;
+	/* 홈 칼바람 아수라장 카드 아이콘. QR 보라색과 구분한다. */
+	--color-rose: #db2777;
 	--color-box-shadow-10: rgb(0 117 222 / 22%);
-	--color-box-shadow-11: rgb(0 117 222 / 50%);
 	--color-canvas-light: #f6f5f4;
 	--color-text-light: #31302e;
 	--color-canvas-dark: #1a1918;

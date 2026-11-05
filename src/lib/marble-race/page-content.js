@@ -1,4 +1,4 @@
-import { siteBaseUrl } from '../data/meta.js';
+import { siteBaseUrl, websiteNode } from '../data/meta.js';
 
 export const pageName = 'ASMR 구슬 레이스';
 export const seoTitle = 'ASMR 구슬 레이스 | 이름 적힌 구슬로 뽑는 무료 추첨 도구';
@@ -83,13 +83,7 @@ export const faqs = [
 export const structuredData = {
 	'@context': 'https://schema.org',
 	'@graph': [
-		{
-			'@type': 'WebSite',
-			'@id': `${siteBaseUrl}/#website`,
-			url: `${siteBaseUrl}/`,
-			name: "Lake's develog",
-			inLanguage: 'ko-KR'
-		},
+		websiteNode,
 		{
 			'@type': 'WebPage',
 			'@id': `${pageUrl}#webpage`,
@@ -133,7 +127,7 @@ export const structuredData = {
 				'도착 순위와 당첨 결과 복사',
 				'현재 브라우저에 명단과 설정 저장'
 			],
-			author: { '@type': 'Person', name: 'Lake', url: 'https://github.com/hjh3311504' }
+			author: { '@type': 'Person', name: 'Seta', url: 'https://github.com/hjh3311504' }
 		}
 	]
 };

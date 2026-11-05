@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+	body { margin: 0; padding: 16px; font-family: 'SUIT Variable', SUIT, system-ui, sans-serif; background: var(--background, #fff); color: var(--foreground, #222); }
+	h2 { font-size: 17px; margin: 4px 0 6px; }
+	.note { font-size: 13px; color: var(--muted-foreground, #666); margin: 0 0 14px; line-height: 1.6; }
+	.logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-bottom: 28px; }
+	.logo-card { border: 1px solid var(--border, #ddd); border-radius: 12px; overflow: hidden; background: var(--card, #fff); }
+	.logo-card header { padding: 10px 12px 2px; font-weight: 750; font-size: 14px; }
+	.logo-card p { margin: 0; padding: 0 12px 10px; font-size: 12px; line-height: 1.5; color: var(--muted-foreground, #666); }
+	/* 로고 미리보기 영역은 사이트 색을 고정해서 보여 줍니다. */
+	.stage { display: grid; grid-template-columns: 1fr 1fr; }
+	.stage > div { display: grid; place-items: center; padding: 14px 0; }
+	.light { background: #f6f5f4; }
+	.dark { background: #191919; }
+	.sizes { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #fff; border-top: 1px solid #eee; color: #1c1e26; }
+	.lockup { white-space: nowrap; display: flex; align-items: center; gap: 7px; font-weight: 750; font-size: 15px; margin-left: auto; }
+	.tab { white-space: nowrap; display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 6px 6px 0 0; background: #e8eaed; font-size: 11px; color: #333; }
+
+	.copies { display: grid; gap: 12px; }
+	.copy { border-radius: 14px; background: #0d2a47; color: #fff; padding: 20px 22px; display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
+	.copy .num { font-size: 11px; font-weight: 700; color: #0d2a47; background: #7fc0ff; border-radius: 4px; padding: 2px 6px; display: inline-block; margin-bottom: 8px; }
+	.copy .eyebrow { color: #7fc0ff; font-weight: 750; font-size: 13px; margin-bottom: 4px; }
+	.copy h3 { margin: 0 0 6px; font-size: 28px; font-weight: 850; letter-spacing: -1px; }
+	.copy .desc { margin: 0; color: #c7d7e8; line-height: 1.6; font-size: 14px; }
+	.copy .why { margin-top: 10px; font-size: 12px; color: #9fb6cc; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+	<defs>
+		<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0075de"/><stop offset="1" stop-color="#14b8a6"/></linearGradient>
+	</defs>
+	<!-- 1 현재 -->
+	<symbol id="l1" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#0075de"/><ellipse cx="32" cy="32" rx="12.5" ry="19" fill="none" stroke="#fff" stroke-width="6.5"/><path d="M19 32h26" stroke="#fff" stroke-width="6"/></symbol>
+	<!-- 2 링 -->
+	<symbol id="l2" viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="#0075de" stroke-width="8"/><path d="M6 32h52" stroke="#0075de" stroke-width="8" stroke-linecap="round"/></symbol>
+	<!-- 3 각도 -->
+	<symbol id="l3" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#0d2a47"/><path d="M14 49h37M14 49 41 15" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M32 49a18 18 0 0 0-6.8-14.1" stroke="#7fc0ff" stroke-width="5" stroke-linecap="round" fill="none"/></symbol>
+	<!-- 4 실험 플라스크 -->
+	<symbol id="l4" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#0075de"/><path d="M19.4 40h25.2l4.4 8q2 4-3 4H18q-5 0-3-4z" fill="#7fc0ff"/><path d="M27 13v13L15 48q-2 4 3 4h28q5 0 3-4L37 26V13M23 13h18" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="46" r="2.2" fill="#fff"/></symbol>
+	<!-- 5 Sθ 모노그램 -->
+	<symbol id="l5" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#1c1e26"/><text x="32" y="43" text-anchor="middle" font-family="'SUIT Variable', SUIT, sans-serif" font-weight="850" font-size="29" letter-spacing="-1" fill="#fff">S<tspan fill="#5cb0ff">θ</tspan></text></symbol>
+	<!-- 6 열린 θ -->
+	<symbol id="l6" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="url(#g1)"/><ellipse cx="32" cy="32" rx="12" ry="19" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-dasharray="20 10 40 10 20"/><path d="M21 32h22" stroke="#fff" stroke-width="6" stroke-linecap="round"/></symbol>
+	<!-- 7 기울인 θ -->
+	<symbol id="l7" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#0075de"/><g transform="translate(32 32) skewX(-14) translate(-32 -32)"><ellipse cx="32" cy="32" rx="11" ry="18" fill="none" stroke="#fff" stroke-width="6"/><path d="M20 32h24" stroke="#fff" stroke-width="5.5" stroke-linecap="round"/></g></symbol>
+	<!-- 8 점 θ -->
+	<symbol id="l8" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#fff" stroke="#d9dde3" stroke-width="2"/><ellipse cx="32" cy="32" rx="13" ry="20" fill="none" stroke="#0075de" stroke-width="7"/><circle cx="32" cy="32" r="5" fill="#ff7a45"/></symbol>
+</svg>
+
+<h2>로고 시안 8개</h2>
+<p class="note">각 카드는 밝은 화면, 어두운 화면, 브라우저 탭 크기(16px·32px), 사이드바 표시 순서로 보여 줘요. 1번은 지금 로고예요.</p>
+<div class="logos" id="logos"></div>
+
+<h2>부제목과 소개 문구 후보 4개</h2>
+<p class="note">C안 소개 영역에 넣은 모습이에요. 뱃지는 뺐어요. 위 작은 글씨가 부제목, 큰 글씨 아래가 소개 문구예요.</p>
+<div class="copies" id="copies"></div>
+
+<script>
+	const logos = [
+		['l1', '1. 지금 로고', '파란 둥근 사각형 안에 θ를 넣었어요. 비교용이에요.'],
+		['l2', '2. 링 θ', '배경 없이 원과 가로선만 써요. 가장 단순해서 작은 크기에서도 또렷해요.'],
+		['l3', '3. 각도 θ', '수학에서 θ가 각도를 뜻하는 점을 살렸어요. 남색 바탕이라 C안 소개 영역과 어울려요.'],
+		['l4', '4. 실험 플라스크', '“Lab”을 실험 플라스크로 표현했어요. 액체의 수평선이 θ의 가로선 역할을 해요.'],
+		['l5', '5. Sθ 모노그램', 'Seta의 S와 θ를 붙인 글자 로고예요. 이름을 가장 직접 드러내요.'],
+		['l6', '6. 열린 θ', 'θ 위아래를 살짝 끊고 파랑→청록 그라데이션을 넣었어요. 가볍고 현대적인 느낌이에요.'],
+		['l7', '7. 기울인 θ', '원 모양 배지에 수학 교과서처럼 비스듬한 θ를 넣었어요. 부드러운 느낌이에요.'],
+		['l8', '8. 점 θ', '가로선 대신 주황 점을 넣었어요. 흰 바탕이라 밝고 눈에 띄어요.']
+	];
+	const use = (id, size) => `<svg width="${size}" height="${size}" aria-hidden="true"><use href="#${id}"/></svg>`;
+	document.getElementById('logos').innerHTML = logos.map(([id, name, desc]) => `
+		<article class="logo-card">
+			<header>${name}</header><p>${desc}</p>
+			<div class="stage"><div class="light">${use(id, 76)}</div><div class="dark">${use(id, 76)}</div></div>
+			<div class="sizes">${use(id, 16)}${use(id, 32)}<span class="tab">${use(id, 14)}Seta Lab</span><span class="lockup">${use(id, 24)}Seta Lab</span></div>
+		</article>`).join('');
+
+	const copies = [
+		['필요한 도구와 가이드를 한곳에', '설치나 가입 없이 브라우저에서 바로 쓰는 무료 도구와,<br>직접 해 보고 정리한 가이드를 만듭니다.', '추천: 사이트에 무엇이 있는지 가장 분명하게 알려 줘요. 심사에서도 사이트 목적이 잘 드러나요.'],
+		['무료 웹 도구와 활용 가이드', '팀 나누기, 추첨, QR 코드처럼 자주 필요한 일을<br>브라우저에서 바로 해결하세요. 쓰는 방법도 글로 정리합니다.', '예시를 들어 처음 온 사람도 바로 이해해요. 도구가 늘면 예시를 바꿔야 해요.'],
+		['일상을 조금 더 편하게', '번거로운 일을 쉽게 끝내는 작은 도구를 만들고,<br>알아 두면 좋은 방법을 글로 나눕니다.', '가장 부드럽고 넓은 표현이에요. 대신 무엇을 하는 곳인지는 덜 구체적이에요.'],
+		['작은 도구, 쓸모 있는 기록', '누구나 바로 쓸 수 있는 무료 도구와<br>직접 확인한 사용 팁을 나눕니다.', '짧고 기억하기 쉬워요. ‘Lab’ 이름과 어울리는 담백한 말투예요.']
+	];
+	document.getElementById('copies').innerHTML = copies.map(([eyebrow, desc, why], i) => `
+		<section class="copy">
+			<div>
+				<span class="num">문구 ${i + 1}</span>
+				<div class="eyebrow">${eyebrow}</div>
+				<h3>Seta Lab</h3>
+				<p class="desc">${desc}</p>
+				<div class="why">${why}</div>
+			</div>
+			${use('l1', 96)}
+		</section>`).join('');
+</script>
+</body>
+</html>

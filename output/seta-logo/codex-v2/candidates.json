@@ -1,0 +1,84 @@
+[
+  {
+    "slug": "serif-theta",
+    "name": "활자 θ",
+    "kind": "θ · 굵기 대비",
+    "connection": "그리스 문자 θ를 두꺼운 세로획과 가는 연결획으로 다시 그렸습니다.",
+    "detail": "교차점의 벌어짐과 양끝의 작은 돌출부를 맞춘 활자형입니다.",
+    "id": "01",
+    "file": "01-serif-theta",
+    "lockWidth": 310
+  },
+  {
+    "slug": "single-stroke-theta",
+    "name": "한 획 θ",
+    "kind": "θ · 이어 쓰기",
+    "connection": "가로획에서 시작해 바깥 고리를 한 번에 돌아 이어지는 θ입니다.",
+    "detail": "둥근 시작점과 부푼 아래 곡선이 손으로 쓴 듯한 흐름을 만듭니다.",
+    "id": "02",
+    "file": "02-single-stroke-theta",
+    "lockWidth": 310
+  },
+  {
+    "slug": "carved-theta",
+    "name": "절삭 θ",
+    "kind": "θ · 파낸 공간",
+    "connection": "θ의 위아래 공간을 각진 덩어리 안에 파냈습니다.",
+    "detail": "바깥 모서리와 안쪽 곡선의 차이가 작은 크기에서도 남습니다.",
+    "id": "03",
+    "file": "03-carved-theta",
+    "lockWidth": 310
+  },
+  {
+    "slug": "woven-s-theta",
+    "name": "교차 Sθ",
+    "kind": "S + θ · 합자",
+    "connection": "Seta의 S 안쪽을 θ의 가로획과 오른쪽 곡선으로 이어 붙였습니다.",
+    "detail": "S의 흐름을 앞에 두고 θ가 같은 획을 나누어 쓰도록 했습니다.",
+    "id": "04",
+    "file": "04-woven-s-theta",
+    "lockWidth": 310
+  },
+  {
+    "slug": "seta-theta-wordmark",
+    "name": "Sθta",
+    "kind": "Seta · 워드마크",
+    "connection": "Seta의 e를 θ와 닮은 글자로 바꿔 이름 속에 세타를 넣었습니다.",
+    "detail": "탭에는 바꾼 e·θ를, 사이드바에는 전체 이름을 사용합니다.",
+    "wordmark": true,
+    "id": "05",
+    "file": "05-seta-theta-wordmark",
+    "lockWidth": 310
+  },
+  {
+    "slug": "cut-seta-s",
+    "name": "세타 S",
+    "kind": "S · 전용 레터링",
+    "connection": "Seta의 첫 글자 S를 넓은 획과 비스듬한 끝으로 직접 그렸습니다.",
+    "detail": "리본 장식 없이 글자 자체의 두 공간과 무게를 맞췄습니다.",
+    "id": "06",
+    "file": "06-cut-seta-s",
+    "lockWidth": 310
+  },
+  {
+    "slug": "hangul-seta",
+    "name": "세타 자모",
+    "kind": "세타 · 한글 레터링",
+    "connection": "한글 세타의 ㅅ·ㅔ·ㅌ·ㅏ를 짧고 굵은 획으로 직접 그렸습니다.",
+    "detail": "작은 크기에서 자모가 붙지 않도록 획 사이를 벌렸습니다.",
+    "korean": true,
+    "id": "07",
+    "file": "07-hangul-seta",
+    "lockWidth": 193
+  },
+  {
+    "slug": "hangul-initials",
+    "name": "ㅅㅌ 합자",
+    "kind": "ㅅ + ㅌ · 한글 합자",
+    "connection": "세타의 첫 자음 ㅅ과 ㅌ을 하나의 굵은 마크로 이어 붙였습니다.",
+    "detail": "ㅅ의 사선과 ㅌ의 세 가로획을 각각 읽을 수 있게 남겼습니다.",
+    "id": "08",
+    "file": "08-hangul-initials",
+    "lockWidth": 310
+  }
+]

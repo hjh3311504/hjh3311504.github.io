@@ -1,0 +1,82 @@
+[
+  {
+    "slug": "folded-ribbon",
+    "name": "접힌 리본",
+    "type": "추상 · S 이니셜",
+    "concept": "한 줄의 리본을 접어, 해 보고 다듬는 Seta의 S를 만들었습니다.",
+    "point": "단단한 인상 · 작은 아이콘에 유리",
+    "id": "01",
+    "file": "01-folded-ribbon",
+    "lockWidth": 310
+  },
+  {
+    "slug": "field-notes",
+    "name": "펼친 기록",
+    "type": "책 · 도구와 기록",
+    "concept": "펼친 두 장의 기록에 책갈피를 더해, 도구와 가이드를 함께 담았습니다.",
+    "point": "차분한 인상 · 블로그와 도구를 함께 표현",
+    "id": "02",
+    "file": "02-field-notes",
+    "lockWidth": 310
+  },
+  {
+    "slug": "tool-bloom",
+    "name": "쓸모꽃",
+    "type": "추상 · 모듈",
+    "concept": "서로 다른 다섯 조각이 모여, 작은 도구가 늘어나는 실험실을 그렸습니다.",
+    "point": "밝은 인상 · 여러 도구를 묶는 상징",
+    "id": "03",
+    "file": "03-tool-bloom",
+    "lockWidth": 310
+  },
+  {
+    "slug": "curious-otter",
+    "name": "호기심 수달",
+    "type": "마스코트 · 캐릭터",
+    "concept": "손으로 만지고 살펴보는 수달을, 친근한 세타랩의 얼굴로 만들었습니다.",
+    "point": "친근한 인상 · 닉네임과 함께 기억하기 쉬움",
+    "id": "04",
+    "file": "04-curious-otter",
+    "lockWidth": 310
+  },
+  {
+    "slug": "guide-bird",
+    "name": "길잡이 새",
+    "type": "심볼 · 종이 새",
+    "concept": "앞으로 향하는 새와 접힌 종이를 겹쳐, 바로 써 보는 가벼움을 담았습니다.",
+    "point": "경쾌한 인상 · 홈의 남색 소개 영역과 조화",
+    "id": "05",
+    "file": "05-guide-bird",
+    "lockWidth": 310
+  },
+  {
+    "slug": "seta-type",
+    "name": "세타 활자",
+    "type": "워드마크 · 이름 중심",
+    "concept": "크게 쓴 S와 작은 밑줄을 짝지어, 이름을 앞세운 활자 로고를 만들었습니다.",
+    "point": "명료한 인상 · 가로 워드마크를 주인공으로 사용",
+    "id": "06",
+    "file": "06-seta-type",
+    "lockWidth": 264
+  },
+  {
+    "slug": "workbench",
+    "name": "작은 작업대",
+    "type": "심볼 · 도구 상자",
+    "concept": "열린 뚜껑과 정돈된 서랍으로, 필요한 도구를 꺼내 쓰는 공간을 표현했습니다.",
+    "point": "실용적인 인상 · 무료 브라우저 도구에 초점",
+    "id": "07",
+    "file": "07-workbench",
+    "lockWidth": 310
+  },
+  {
+    "slug": "idea-sprout",
+    "name": "자라는 생각",
+    "type": "유기적 추상 · 새싹",
+    "concept": "작은 씨앗에서 두 잎이 펴지듯, 직접 한 실험이 쓸모로 자라는 모습을 담았습니다.",
+    "point": "부드러운 인상 · 개인 실험과 기록에 초점",
+    "id": "08",
+    "file": "08-idea-sprout",
+    "lockWidth": 310
+  }
+]

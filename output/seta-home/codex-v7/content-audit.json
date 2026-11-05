@@ -1,0 +1,50 @@
+{
+  "source": "build/index.html",
+  "snapshot": "/Users/hwangjunho/orca/workspaces/hjh3311504.github.io/ningyo/output/seta-home/codex-v7/source-content.json",
+  "snapshotSHA256": "58e43450606bef070c4155d1f0125adca1ae164a4c63e3d0910963ec3b918530",
+  "models": 12,
+  "postsPerModel": 9,
+  "originalLowerLinksPerModel": 19,
+  "checked": {
+    "posts": [
+      "분류",
+      "게시일 표시",
+      "게시일 datetime",
+      "제목",
+      "전체 요약 원문",
+      "글 링크"
+    ],
+    "guide": [
+      "영역 제목",
+      "도입 문장",
+      "용도 제목4개",
+      "용도 설명4개",
+      "도구 링크4개",
+      "마지막 예시 문단"
+    ],
+    "author": [
+      "영역 제목",
+      "두 문단 전체",
+      "공개 소스와 변경 기록 링크",
+      "출처·라이선스 목록 링크",
+      "소개와 문의 링크"
+    ],
+    "footer": [
+      "소개·문의 링크",
+      "개인정보처리방침 링크",
+      "© 2026 Seta Lab"
+    ]
+  },
+  "allEqual": true,
+  "differences": [],
+  "allGuidanceInitiallyVisible": true,
+  "summaryMaxVisibleLines": 2,
+  "themesMatchCurrentSite": true,
+  "desktopContentWidths": [
+    1100
+  ],
+  "mobileViewWidths": [
+    390
+  ],
+  "staticHTML": "모든 원문은 index.html에 그대로 포함; 안내문 접기 없음; 비교 화면의 크기·테마 전환만 제어"
+}

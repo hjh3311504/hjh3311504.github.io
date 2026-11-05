@@ -41,7 +41,7 @@ image_pdf = OUTPUT / "image-only.pdf"
 def start(file):
     doc = canvas.Canvas(str(file), pagesize=A4, invariant=1, pageCompression=1)
     doc.setTitle("문서 검색 실험 - 파일연습")
-    doc.setAuthor("Lake")
+    doc.setAuthor("Seta")
     doc.setSubject("블로그용 자체 제작 예제. 실제 주문 정보가 아닙니다.")
     return doc
 
@@ -81,7 +81,7 @@ for index, (label, value) in enumerate([
 line(doc, "확인 순서", 48, 177, 17)
 line(doc, "1. 파일연습 검색   2. 수량 복사   3. 원문과 대조", 48, 143, 13)
 line(doc, "실제 개인정보나 거래 내역은 포함하지 않았습니다.", 48, 88, 11, "#607080")
-line(doc, "Lake's develog · 파일·문서 문제 해결", 48, 52, 10, "#607080")
+line(doc, "Seta Lab · 파일·문서 문제 해결", 48, 52, 10, "#607080")
 doc.showPage()
 doc.save()
 

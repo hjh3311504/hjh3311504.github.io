@@ -9,9 +9,9 @@
 	import '$lib/blog/prose.css';
 
 	const analytics = getContext(ANALYTICS_CONTEXT);
-	const pageTitle = "개인정보처리방침 | Lake's develog";
+	const pageTitle = '개인정보처리방침 | Seta Lab';
 	const description =
-		"Lake's develog가 브라우저에 저장하는 정보, 방문 통계, YouTube 영상, Google AdSense 광고 쿠키와 문의 방법을 안내합니다.";
+		'Seta Lab이 브라우저에 저장하는 정보, 방문 통계, YouTube 영상, Google AdSense 광고 쿠키와 문의 방법을 안내합니다.';
 	const feedbackUrl =
 		'https://github.com/hjh3311504/hjh3311504.github.io/issues/new?template=feedback.yml';
 </script>
@@ -25,7 +25,7 @@
 	<meta property="og:url" content={`${siteBaseUrl}/privacy`} />
 	<meta property="og:type" content="website" />
 	<meta property="og:image" content={shareImage} />
-	<meta property="og:image:alt" content="Lake's develog 개인정보처리방침" />
+	<meta property="og:image:alt" content="Seta Lab 개인정보처리방침" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={description} />
@@ -37,7 +37,7 @@
 		<Section variant="card" padding="card" aria-label="개인정보처리방침 본문">
 			<div class="blog-prose privacy-content">
 				<p class="policy-meta">
-					운영자: Lake · 적용일: <time datetime="2026-10-31">2026년 10월 31일</time>
+					운영자: Seta · 적용일: <time datetime="2026-10-31">2026년 10월 31일</time>
 				</p>
 
 				<h2>브라우저에 저장하는 정보</h2>

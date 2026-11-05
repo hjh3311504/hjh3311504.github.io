@@ -1,0 +1,56 @@
+{
+  "desktop": {
+    "width": 1440,
+    "document": 1440,
+    "height": 3861,
+    "cards": 10,
+    "overflow": [],
+    "missingUse": []
+  },
+  "mobile": {
+    "width": 390,
+    "document": 390,
+    "height": 7225,
+    "cards": 10,
+    "overflow": [],
+    "missingUse": []
+  },
+  "standalone": {
+    "width": 390,
+    "document": 390,
+    "height": 7225,
+    "cards": 10,
+    "overflow": [],
+    "missingUse": []
+  },
+  "fontLoaded": true,
+  "externalRequests": [
+    "https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.woff2"
+  ],
+  "failedRequests": [],
+  "pageErrors": [],
+  "downloads": [
+    {
+      "kind": "symbol",
+      "file": "01-balanced-serif.svg",
+      "validSVG": true
+    },
+    {
+      "kind": "tile",
+      "file": "01-balanced-serif-tile.svg",
+      "validSVG": true
+    },
+    {
+      "kind": "lockup",
+      "file": "01-balanced-serif-lockup.svg",
+      "validSVG": true
+    }
+  ],
+  "svgCount": 70,
+  "svgWithTextOrExternalContent": [],
+  "htmlBytes": 66965,
+  "htmlLimit": 524288,
+  "underLimit": true,
+  "png16": 20,
+  "png32": 20
+}

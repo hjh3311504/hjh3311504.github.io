@@ -15,7 +15,7 @@ for (const route of [
 		const footer = page.locator('footer');
 		const about = footer.getByRole('link', { name: '소개·문의', exact: true });
 		const privacy = footer.getByRole('link', { name: '개인정보처리방침', exact: true });
-		const copyright = footer.getByText("© 2026 Lake's develog", { exact: true });
+		const copyright = footer.getByText('© 2026 Seta Lab', { exact: true });
 		await expect(about).toHaveAttribute('href', '/about');
 		await expect(privacy).toHaveAttribute('href', '/privacy');
 		if (route !== '/') {

@@ -707,7 +707,7 @@
 <svelte:head>
 	<title>{seoTitle}</title>
 	<meta name="description" content={seoDescription} />
-	<meta name="author" content="Lake" />
+	<meta name="author" content="Seta" />
 	<meta name="application-name" content={pageName} />
 	<meta
 		name="robots"
@@ -716,7 +716,7 @@
 	<link rel="canonical" href={pageUrl} />
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="ko_KR" />
-	<meta property="og:site_name" content="Lake's develog" />
+	<meta property="og:site_name" content="Seta Lab" />
 	<meta property="og:title" content={seoTitle} />
 	<meta property="og:description" content={seoDescription} />
 	<meta property="og:url" content={pageUrl} />

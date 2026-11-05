@@ -3,7 +3,7 @@ import { siteBaseUrl, image, imageAlt } from '../data/meta.js';
 export const blogTitle = '블로그';
 export const blogDescription =
 	'파일·이미지·데이터를 다루다 막히는 문제를 직접 실험해 정리하고, 도구 사용법을 소개합니다.';
-export const author = { name: 'Lake', url: `${siteBaseUrl}/about` };
+export const author = { name: 'Seta', url: `${siteBaseUrl}/about` };
 export const programs = {
 	'team-maker': { name: '팀 메이커', href: '/team-maker' },
 	'qr-code': { name: 'QR 코드 만들기', href: '/qr-code' },
@@ -69,7 +69,7 @@ export function rss(posts) {
 		.join('\n');
 	return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
-<title>${xmlEscape(blogTitle)} | Lake's develog</title><link>${absoluteUrl('/blog')}</link>
+<title>${xmlEscape(blogTitle)} | Seta Lab</title><link>${absoluteUrl('/blog')}</link>
 <description>${xmlEscape(blogDescription)}</description><language>ko-KR</language>
 <atom:link href="${absoluteUrl('/rss.xml')}" rel="self" type="application/rss+xml"/>
 ${items}</channel></rss>`;

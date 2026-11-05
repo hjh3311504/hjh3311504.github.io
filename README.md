@@ -14,20 +14,20 @@ QR 화면은 `src/lib/qr-code/components/`, 구슬 레이스 화면은 `src/lib/
 
 홈은 `src/routes/+page.svelte`, 최신 글 데이터는 `src/routes/+page.server.js`, 공통 오류 안내는 `src/lib/components/organisms/ErrorPage.svelte`에서 관리합니다. 정적 404와 SvelteKit 오류 화면이 같은 안내를 사용합니다. 공통 기본 CSS와 글꼴 선언은 `src/lib/styles/`에 있습니다. 글꼴은 사이트 안의 SUIT·SUITE 파일로 제공하며 외부 CDN에 요청하지 않습니다. Team Maker는 작은 글꼴을 먼저 받고 이름을 입력할 때 전체 글꼴로 보완합니다.
 
-홈·Team Maker·ASMR 구슬 레이스 공유 이미지는 1200×630 PNG입니다. `scripts/generate_site_assets.js`의 문구와 카드 배치를 수정한 뒤 아래 명령을 실행하세요. 생성에는 Playwright Chromium이 필요합니다. `static/favicon.svg`를 수정해도 같은 명령으로 PNG·ICO를 다시 만듭니다.
+홈·Team Maker·ASMR 구슬 레이스·QR 코드·대진표·아수라장 가이드 공유 이미지는 1200×630 PNG입니다. `scripts/generate_site_assets.js`의 문구와 카드 배치를 수정한 뒤 아래 명령을 실행하세요. 생성에는 Playwright Chromium이 필요합니다. `static/favicon.svg`를 수정해도 같은 명령으로 PNG·ICO를 다시 만듭니다.
 
 ```shell
 npx playwright install chromium
 npm run generate:assets
 ```
 
-홈 이미지는 `static/images/site-open-graph-1200x630.png`, Team Maker 이미지는 `static/images/team-maker-open-graph-1200x630.png`입니다. 공개 이미지 파일은 배포에 필요하므로 원본 코드와 함께 commit합니다. Team Maker 이미지에는 가상 참가자 6명만 사용합니다. 공유 서비스에 이전 이미지가 남으면 배포 후 해당 서비스에서 링크 미리보기 캐시를 갱신하세요.
+파일은 `static/images/이름-open-graph-1200x630.png`이고 이름은 `site`(홈·소개·개인정보처리방침·블로그 기본값), `team-maker`, `marble-race`, `qr-code`, `bracket`, `aram-mayhem`(허브·챔피언·증강 페이지 공통)입니다. 홈 이미지는 홈 소개 그림 `static/images/home/seta-lab-hero.svg`를 함께 사용합니다. 공개 이미지 파일은 배포에 필요하므로 원본 코드와 함께 commit합니다. Team Maker 이미지에는 가상 참가자 6명만 사용합니다. QR 이미지의 무늬는 읽히지 않는 장식이고, 아수라장 이미지에는 Riot Games의 그림을 넣지 않습니다. 공유 서비스에 이전 이미지가 남으면 배포 후 해당 서비스에서 링크 미리보기 캐시를 갱신하세요.
 
 ## 라이선스
 
 배포 라이선스의 원본 경로는 설치된 파일명의 대소문자까지 일치시켜야 합니다. `npm test`의 라이선스 경로 검사가 macOS에서도 Linux 배포 환경의 대소문자 오류를 잡습니다.
 
-현재 자체 코드는 [MIT](./LICENSE)를 따릅니다. 저작권자는 Lake (hjh3311504)입니다. 템플릿 정리 후 홈·공통 UI를 원본과 대조한 [적용 근거](./docs/adr/2026-09-11-현재-자체-코드에-MIT-적용.md)를 기록했습니다.
+현재 자체 코드는 [MIT](./LICENSE)를 따릅니다. 저작권자는 Seta (hjh3311504)입니다. 템플릿 정리 후 홈·공통 UI를 원본과 대조한 [적용 근거](./docs/adr/2026-09-11-현재-자체-코드에-MIT-적용.md)를 기록했습니다.
 
 글꼴, 외부 아이콘, 기존 Team Maker 이미지와 보존용 설계 자료는 자체 코드의 MIT 범위와 구분합니다. SUIT·SUITE는 OFL 1.1, 홈 GitHub 아이콘은 Bootstrap Icons의 MIT 고지를 유지합니다. 기존 Team Maker 이미지와 보존용 설계 자료에는 이번 MIT를 적용하지 않습니다. 정확한 경로와 조건은 [출처·라이선스 목록](./THIRD_PARTY_NOTICES.md)을 확인하세요. build의 `/licenses/`에는 자체 MIT와 외부 글꼴·아이콘·실행 의존성의 원문을 함께 포함합니다.
 
@@ -477,7 +477,7 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 
 ## 블로그 운영
 
-홈의 둘러보기 맨 위에서 블로그로 이동할 수 있습니다. 블로그 아이콘은 회색빛 파란색 배경으로 구분합니다. 소개 바로 아래의 최신 블로그 글에는 공개 글을 게시일 내림차순으로 최대9개 표시합니다. 제목은 모두 표시하고 요약은 최대2줄로 줄입니다. 같은 날짜는 slug순으로 정렬합니다. 제목·요약·종류·게시일과 전체 글 링크를 제공하며, 공개 글이 없으면 준비 안내를 표시합니다. 새 글을 공개하고 다시 build·배포하면 홈 목록도 갱신됩니다.
+홈의 둘러보기 마지막 카드에서 블로그로 이동할 수 있습니다. 블로그 아이콘은 회색빛 파란색 배경으로 구분합니다. 둘러보기 아래의 최신 블로그 글에는 공개 글을 게시일 내림차순으로 최대9개 표시합니다. 제목은 모두 표시하고 요약은 최대2줄로 줄입니다. 같은 날짜는 slug순으로 정렬합니다. 제목·요약·종류·게시일과 전체 글 링크를 제공하며, 공개 글이 없으면 준비 안내를 표시합니다. 새 글을 공개하고 다시 build·배포하면 홈 목록도 갱신됩니다.
 
 블로그 목록은 `/blog`, 글 상세는 `/blog/<slug>`, 구독 주소는 `/rss.xml`입니다. 마지막 슬래시는 사용하지 않습니다. 정적 결과는 `build/blog.html`, `build/blog/<slug>.html`, `build/rss.xml`입니다. SvelteKit의 페이지 이동용 `__data.json`도 글 목록·상세·도구별 폴더에 생성됩니다. 도구 HTML은 기존처럼 `build/team-maker.html` 등의 형태를 유지합니다. 기존 도구와 블로그 목록·공개 글을 같은 sitemap에 포함합니다.
 
@@ -508,7 +508,7 @@ published: false
 ---
 ```
 
-블로그는 도구 사용법과 파일·이미지·데이터 문제 해결 가이드를 다룹니다. `program`은 선택 항목입니다. 관련 프로그램이 있을 때만 `team-maker`, `qr-code`, `marble-race`, `bracket` 중 하나를 지정하세요. `category`는 글의 주제입니다. `introduction`(도구 소개), `tool`(도구 활용), `image`(이미지·사진), `data`(데이터·텍스트), `file`(파일·링크) 중 하나를 고르세요. 프로그램과 관계없는 가이드는 `program`을 생략하고 다루는 대상에 맞는 주제를 지정합니다. 주제를 나눈 이유는 [AdSense 재심사 결정](docs/adr/2026-10-25-AdSense-재심사-다른-서비스명과-블로그-주제-분류.md)에 있습니다. 작성자는 현재 사이트 운영자인 Lake를 공통으로 사용합니다. 기능 변경을 알리는 글에는 실제 적용일 `releaseDate: '2026-09-29'`와 존재하는 버전 `version: '1.2.0'`을 선택적으로 넣을 수 있습니다. 버전이 없다면 생략하세요.
+블로그는 도구 사용법과 파일·이미지·데이터 문제 해결 가이드를 다룹니다. `program`은 선택 항목입니다. 관련 프로그램이 있을 때만 `team-maker`, `qr-code`, `marble-race`, `bracket` 중 하나를 지정하세요. `category`는 글의 주제입니다. `introduction`(도구 소개), `tool`(도구 활용), `image`(이미지·사진), `data`(데이터·텍스트), `file`(파일·링크) 중 하나를 고르세요. 프로그램과 관계없는 가이드는 `program`을 생략하고 다루는 대상에 맞는 주제를 지정합니다. 주제를 나눈 이유는 [AdSense 재심사 결정](docs/adr/2026-10-25-AdSense-재심사-다른-서비스명과-블로그-주제-분류.md)에 있습니다. 작성자는 현재 사이트 운영자인 Seta를 공통으로 사용합니다. 기능 변경을 알리는 글에는 실제 적용일 `releaseDate: '2026-09-29'`와 존재하는 버전 `version: '1.2.0'`을 선택적으로 넣을 수 있습니다. 버전이 없다면 생략하세요.
 
 날짜는 따옴표로 감싼 `YYYY-MM-DD` 형식이며 한국 시간 자정을 기준으로 판정합니다. `published: true`는 공개 승인, `publishedAt`은 공개일입니다. 미래 날짜라면 예약 상태로 두었다가 공개일 이후 build부터 포함합니다. `published: false`는 날짜가 지나도 초안입니다. 수정일은 게시일보다 빠를 수 없고 실제 수정일만 작성합니다. build가 날짜를 덮어쓰지 않습니다.
 

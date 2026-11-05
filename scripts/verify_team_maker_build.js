@@ -29,6 +29,9 @@ const requiredFiles = [
 	'build/favicon.ico',
 	'build/images/site-open-graph-1200x630.png',
 	'build/images/marble-race-open-graph-1200x630.png',
+	'build/images/qr-code-open-graph-1200x630.png',
+	'build/images/bracket-open-graph-1200x630.png',
+	'build/images/aram-mayhem-open-graph-1200x630.png',
 	'build/licenses/SUIT-LICENSE.txt',
 	'build/licenses/SUITE-LICENSE.txt',
 	'build/licenses/site-LICENSE.txt',
@@ -176,7 +179,8 @@ for (const [name, document] of [
 	) {
 		throw new Error(`${name} HTML에 템플릿 또는 외부 글꼴의 흔적이 남아 있습니다.`);
 	}
-	if (!document.includes('favicon.svg')) throw new Error(`${name} HTML에 Lake favicon이 없습니다.`);
+	if (!document.includes('favicon.svg'))
+		throw new Error(`${name} HTML에 Seta Lab favicon이 없습니다.`);
 	if (name === '404' || name === '개인정보처리방침') {
 		if (/<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle|googlesyndication)/i.test(document)) {
 			throw new Error(`${name} HTML에 광고 스크립트가 있습니다.`);
@@ -194,7 +198,11 @@ for (const [name, document] of [
 }
 for (const [name, document] of [
 	['site', homeHtml],
-	['team-maker', html]
+	['team-maker', html],
+	['qr-code', qrHtml],
+	['bracket', bracketHtml],
+	['aram-mayhem', aramHtml],
+	['aram-mayhem', aramSampleHtml]
 ]) {
 	const imagePath = `/images/${name}-open-graph-1200x630.png`;
 	const metadata = await sharp(path.join(root, 'build', imagePath)).metadata();
@@ -216,7 +224,7 @@ const siteLicense = await readFile('LICENSE', 'utf8');
 if (
 	packageInfo.license !== 'MIT' ||
 	!siteLicense.startsWith('MIT License\n') ||
-	!siteLicense.includes('Copyright (c) 2026 Lake (hjh3311504)')
+	!siteLicense.includes('Copyright (c) 2026 Seta (hjh3311504)')
 ) {
 	throw new Error('자체 코드의 MIT 라이선스와 패키지 고지가 일치하지 않습니다.');
 }
@@ -592,8 +600,11 @@ const aramJsonLd = (document, name) => {
 	return graph;
 };
 // 챔피언 아이콘과 증강 아이콘은 외부 주소가 아니라 사이트에 함께 배포한 파일을 쓴다.
+// 공통 사이드바의 사이트 로고(/favicon.svg)는 가이드 이미지가 아니므로 제외한다.
 async function checkAramImages(document, name) {
-	const images = [...document.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map((match) => match[1]);
+	const images = [...document.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)]
+		.map((match) => match[1])
+		.filter((src) => src !== '/favicon.svg');
 	if (!images.length || images.some((src) => !src.startsWith('/images/aram-mayhem/')))
 		throw new Error(`${name} 이미지는 /images/aram-mayhem/ 아래 파일이어야 합니다.`);
 	for (const src of new Set(images)) await access(path.join(root, 'build', src.slice(1)));

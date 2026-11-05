@@ -2,6 +2,7 @@
 // "증바람"은 증강 칼바람(아수라장)을 부르는 말이다. 별명은 docs/research/aram-mayhem/aliases.json에서 온다.
 
 import guideData from './guide-data.json' with { type: 'json' };
+import { websiteNode } from '../data/meta.js';
 
 export const HUB_PATH = '/aram-mayhem';
 export const championPath = (id) => `${HUB_PATH}/${id}`;
@@ -160,13 +161,7 @@ export const championList = (champions, name = '증바람 챔피언별 공략') 
 export function structuredData({ siteBaseUrl, path, title, description, crumbs, list }) {
 	const url = `${siteBaseUrl}${path}`;
 	const graph = [
-		{
-			'@type': 'WebSite',
-			'@id': `${siteBaseUrl}/#website`,
-			url: `${siteBaseUrl}/`,
-			name: "Lake's develog",
-			inLanguage: 'ko-KR'
-		},
+		websiteNode,
 		{
 			'@type': 'WebPage',
 			'@id': `${url}#webpage`,

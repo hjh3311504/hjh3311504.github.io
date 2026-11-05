@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-	<title>{title} | Lake's develog</title>
+	<title>{title} | Seta Lab</title>
 	<meta name="description" content={description} />
 	<meta
 		name="robots"

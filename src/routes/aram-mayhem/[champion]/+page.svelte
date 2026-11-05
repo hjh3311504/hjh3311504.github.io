@@ -10,8 +10,9 @@
 	import AramLegal from '$lib/aram-mayhem/components/AramLegal.svelte';
 	import guide from '$lib/aram-mayhem/guide-data.json';
 	import { HUB_PATH, championPath, championSeo, structuredData } from '$lib/aram-mayhem/seo.js';
-	import { siteBaseUrl, image as shareImage } from '$lib/data/meta.js';
+	import { siteBaseUrl } from '$lib/data/meta.js';
 	import '../aram-mayhem.css';
+	const shareImage = `${siteBaseUrl}/images/aram-mayhem-open-graph-1200x630.png`;
 
 	let { data } = $props();
 	let champion = $derived(guide.champions.find((c) => c.id === data.championId));
@@ -24,7 +25,7 @@
 			title: seo.title,
 			description: seo.description,
 			crumbs: [
-				{ name: "Lake's develog", path: '/' },
+				{ name: 'Seta Lab', path: '/' },
 				{ name: '증바람 공략', path: HUB_PATH },
 				{ name: seo.heading, path: championPath(champion.id) }
 			]
@@ -47,11 +48,12 @@
 	<meta property="og:url" content={pageUrl} />
 	<meta property="og:type" content="article" />
 	<meta property="og:image" content={shareImage} />
-	<meta property="og:image:alt" content="Lake가 만든 무료 온라인 도구" />
+	<meta property="og:image:alt" content="칼바람 아수라장 챔피언별 추천 증강 조합 가이드" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={seo.title} />
 	<meta name="twitter:description" content={seo.description} />
 	<meta name="twitter:image" content={shareImage} />
+	<meta name="twitter:image:alt" content="칼바람 아수라장 챔피언별 추천 증강 조합 가이드" />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html structuredDataScript}
 </svelte:head>
