@@ -12,7 +12,6 @@
 	import SiteShell from '$lib/components/organisms/SiteShell.svelte';
 	import { Button, Section, SectionHeader, Surface } from '$lib/components/ui';
 	import { categories, formatDate } from '$lib/blog/catalog.js';
-	import setaTitleFont from '$lib/team-maker/fonts/seta-title.woff2?url';
 
 	let { data } = $props();
 
@@ -79,7 +78,6 @@
 </script>
 
 <svelte:head>
-	<link rel="preload" href={setaTitleFont} as="font" type="font/woff2" crossorigin="anonymous" />
 	<title>{title}</title>
 	<link rel="canonical" href={siteBaseUrl} />
 	<meta name="keywords" content={keywords.join(', ')} />
