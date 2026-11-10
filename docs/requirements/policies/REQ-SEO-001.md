@@ -3,8 +3,8 @@
 ## 문서와 URL
 
 - 문서 언어: `ko`
-- 공개 URL과 canonical: `https://hjh3311504.github.io/team-maker`
-- sitemap: `https://hjh3311504.github.io/sitemap.xml`
+- 공개 URL과 canonical: `https://setalab.kr/team-maker`
+- sitemap: `https://setalab.kr/sitemap.xml`
 - 마지막 슬래시는 사용하지 않는다.
 
 ## 검색 문구

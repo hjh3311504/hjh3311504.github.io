@@ -417,7 +417,7 @@ test('검색 안내 본문은 PC와 모바일에서 제목 구조와 한 열 배
 	await expect(page.locator('h1')).toHaveCount(1);
 	await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
 		'href',
-		'https://hjh3311504.github.io/team-maker'
+		'https://setalab.kr/team-maker'
 	);
 
 	const guide = page.getByTestId('team-maker-guide');

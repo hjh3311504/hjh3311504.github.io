@@ -33,7 +33,7 @@ npm run generate:assets
 
 이 저장소가 시작된 Matheus Fantinel의 SvelteKit Static Blog Template과 과거 commit의 GPLv3 조건은 변경하지 않습니다.
 
-[Team Maker 바로 사용하기](https://hjh3311504.github.io/team-maker) — 이름을 입력하면 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 프로그램입니다. 같은 팀·다른 팀 규칙, 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.
+[Team Maker 바로 사용하기](https://setalab.kr/team-maker) — 이름을 입력하면 참가자를 고르게 나누는 무료 온라인 팀짜기·조짜기 프로그램입니다. 같은 팀·다른 팀 규칙, 명단 저장, 승패 기록과 무작위 추첨을 지원합니다.
 
 ## 도구 안내와 재심사 준비
 
@@ -195,6 +195,8 @@ SVG의 viewBox 비율은 이전 PNG와 같게 맞춰 기존 CSS 크기에서 배
 
 ## 배포
 
+운영 주소는 `https://setalab.kr`입니다. 도메인은 가비아에서 관리하고 GitHub Pages에 연결합니다. 기준 주소는 `src/lib/data/meta.js`의 `siteBaseUrl`이며 canonical·sitemap·RSS·구조화 데이터가 이 값을 씁니다. `static/CNAME`과 저장소 **Settings → Pages**의 Custom domain도 같은 도메인이어야 합니다. 이전 주소 `hjh3311504.github.io`는 GitHub Pages가 새 주소로 301 이동합니다. 브라우저 저장 데이터는 주소마다 따로 보관되므로 이전 주소에 저장한 명단·맵·설정은 새 주소로 옮겨지지 않습니다. 결정 배경은 [독자 도메인 ADR](docs/adr/2026-11-10-독자-도메인-setalab-kr.md)에 있습니다.
+
 `.github/workflows/pages.yml`은 실행 시점에 따라 작업을 나눕니다.
 
 | 시점                       | 실행 작업                                                               | 배포 |
@@ -228,14 +230,14 @@ Cloudflare Web Analytics의 무료 서비스를 사용합니다. 동의 버튼 �
 
 ### 계정과 배포 설정
 
-1. [Cloudflare Web Analytics](https://dash.cloudflare.com/?to=/:account/web-analytics)에서 **Add a site**를 선택하고 `hjh3311504.github.io`를 등록하세요. GitHub Pages와 현재 주소를 그대로 사용합니다. 도메인 이전과 별도 서버는 필요하지 않습니다.
+1. [Cloudflare Web Analytics](https://dash.cloudflare.com/?to=/:account/web-analytics)에서 **Add a site**를 선택하고 `setalab.kr`을 등록하세요. 별도 서버는 필요하지 않습니다.
 2. **Manage site**에서 설치 코드의 `data-cf-beacon` 안에 있는 `token` 값을 복사하세요. 사이트 식별용 공개 토큰이며 Cloudflare API 비밀 키와 다릅니다.
 3. GitHub 저장소 **Settings → Secrets and variables → Actions → Variables**에 다음 값을 등록하세요.
 
-| 변수                            | 값                                                  |
-| ------------------------------- | --------------------------------------------------- |
-| `PUBLIC_CF_WEB_ANALYTICS_TOKEN` | 발급된32자리 사이트 토큰                            |
-| `PUBLIC_ANALYTICS_ORIGIN`       | `https://hjh3311504.github.io` (마지막 슬래시 없음) |
+| 변수                            | 값                                        |
+| ------------------------------- | ----------------------------------------- |
+| `PUBLIC_CF_WEB_ANALYTICS_TOKEN` | 발급된32자리 사이트 토큰                  |
+| `PUBLIC_ANALYTICS_ORIGIN`       | `https://setalab.kr` (마지막 슬래시 없음) |
 
 `main` build만 운영 설정을 사용합니다. 둘 중 하나가 없거나 잘못되면 태그를 실행하지 않습니다. 변경 후 build·배포해야 적용됩니다. 이전 `PUBLIC_GA_MEASUREMENT_ID`는 더 이상 읽지 않습니다. PR build는 예약 도메인·가짜 토큰을 사용하며 운영 배포에 사용하지 않습니다. 로컬 설정 목록은 `.env.example`을 참고하세요.
 
@@ -284,7 +286,7 @@ CF_ANALYTICS_BEACON_PATH=/tmp/cloudflare-beacon.js npm run test:e2e:built -- tes
 
 승인 전에는 수동 광고 칸을 만들지 않습니다. 승인 뒤 광고 위치는 AdSense의 자동 광고 설정이나 별도 디자인 승인으로 정하세요. 브라우저 검사는 `tests/team-maker-e2e/helpers/adsense.js`로 AdSense 요청을 막거나 빈 응답으로 바꿉니다.
 
-사이트 등록은 이 GitHub Pages root 도메인을 기준으로 진행하세요. `static/ads.txt`는 `/ads.txt`로 배포되므로 root 사이트 전체에 영향을 줍니다.
+사이트 등록은 `setalab.kr` root 도메인을 기준으로 진행하세요. `static/ads.txt`는 `/ads.txt`로 배포되므로 root 사이트 전체에 영향을 줍니다.
 
 ## 애드센스 재심사 준비
 

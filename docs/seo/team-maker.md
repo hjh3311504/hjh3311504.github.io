@@ -2,13 +2,13 @@
 
 ## 목표와 기준 URL
 
-- 공개 페이지: `https://hjh3311504.github.io/team-maker`
-- sitemap: `https://hjh3311504.github.io/sitemap.xml`
+- 공개 페이지: `https://setalab.kr/team-maker` (2026-11-10 이전 `https://hjh3311504.github.io/team-maker`)
+- sitemap: `https://setalab.kr/sitemap.xml`
 - 목표 검색어: `팀짜기`, `조짜기`, `팀 나누기`, `랜덤 팀 배정`
 - 대상 검색엔진: Google, 네이버
 - 운영 기간: 2026년9월부터 2027년2월까지 6개월
 
-광고, 새 도메인, 유료 SEO 도구는 사용하지 않는다. Google Analytics 같은 방문자 추적 script도 추가하지 않는다. 검색 성과는 Google Search Console과 네이버 서치어드바이저에서만 확인한다.
+유료 SEO 도구는 사용하지 않는다. 처음에는 광고와 새 도메인도 쓰지 않기로 했지만, 광고는 [AdSense 재심사 결정](../adr/2026-10-15-AdSense-재심사-신뢰-페이지와-광고-코드.md), 도메인은 [독자 도메인 결정](../adr/2026-11-10-독자-도메인-setalab-kr.md)으로 바뀌었다. Google Analytics 같은 방문자 추적 script도 추가하지 않는다. 검색 성과는 Google Search Console과 네이버 서치어드바이저에서만 확인한다.
 
 ## 배포 뒤 등록 점검
 
