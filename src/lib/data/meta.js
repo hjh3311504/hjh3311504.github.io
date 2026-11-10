@@ -1,5 +1,5 @@
 // 공개 사이트의 검색·공유 정보입니다.
-export const siteBaseUrl = 'https://hjh3311504.github.io';
+export const siteBaseUrl = 'https://setalab.kr';
 export const keywords = [
 	'Seta Lab',
 	'세타랩',

@@ -212,7 +212,7 @@ for (const [name, document] of [
 	}
 	for (const attribute of ['property="og:image"', 'name="twitter:image"']) {
 		const tag = document.match(new RegExp(`<meta\\b[^>]*${attribute}[^>]*>`))?.[0];
-		if (!tag?.includes(`https://hjh3311504.github.io${imagePath}`)) {
+		if (!tag?.includes(`https://setalab.kr${imagePath}`)) {
 			throw new Error(`${name} 공유 이미지 연결이 올바르지 않습니다.`);
 		}
 	}
@@ -261,7 +261,7 @@ for (const [name, document, pathname] of [
 ]) {
 	if ((document.match(/<h1\b/g)?.length ?? 0) !== 1)
 		throw new Error(`${name}의 h1은 1개여야 합니다.`);
-	if (!document.includes(`<link rel="canonical" href="https://hjh3311504.github.io/${pathname}"`)) {
+	if (!document.includes(`<link rel="canonical" href="https://setalab.kr/${pathname}"`)) {
 		throw new Error(`${name} HTML의 canonical 주소가 올바르지 않습니다.`);
 	}
 	if (/<meta\s+name="robots"\s+content="noindex/.test(document)) {
@@ -312,16 +312,16 @@ const requiredHtml = [
 	'<html lang="ko">',
 	`<title>${seoTitle}</title>`,
 	`<meta name="description" content="${seoDescription}"`,
-	'<link rel="canonical" href="https://hjh3311504.github.io/team-maker"',
+	'<link rel="canonical" href="https://setalab.kr/team-maker"',
 	`<meta property="og:title" content="${seoTitle}"`,
 	`<meta property="og:description" content="${seoDescription}"`,
-	'<meta property="og:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
+	'<meta property="og:image" content="https://setalab.kr/images/team-maker-open-graph-1200x630.png"',
 	'<meta property="og:image:width" content="1200"',
 	'<meta property="og:image:height" content="630"',
 	'<meta name="twitter:card" content="summary_large_image"',
 	`<meta name="twitter:title" content="${seoTitle}"`,
 	`<meta name="twitter:description" content="${seoDescription}"`,
-	'<meta name="twitter:image" content="https://hjh3311504.github.io/images/team-maker-open-graph-1200x630.png"',
+	'<meta name="twitter:image" content="https://setalab.kr/images/team-maker-open-graph-1200x630.png"',
 	'<h2 id="how-to-title">3단계로 팀 나누기</h2>',
 	'<h2 id="use-cases-title">이럴 때 사용하세요</h2>',
 	'<h2 id="features-title">팀 메이커의 주요 기능</h2>',
@@ -424,7 +424,7 @@ if (!structuredDataMatch) {
 }
 const structuredData = JSON.parse(structuredDataMatch[1]);
 const webApplication = structuredData['@graph']?.find((item) => item['@type'] === 'WebApplication');
-if (!webApplication || webApplication.url !== 'https://hjh3311504.github.io/team-maker') {
+if (!webApplication || webApplication.url !== 'https://setalab.kr/team-maker') {
 	throw new Error('Team Maker WebApplication 구조화 데이터의 URL이 올바르지 않습니다.');
 }
 if (webApplication.description !== seoDescription) {
@@ -550,16 +550,16 @@ for (const marker of [
 	'data-ui-section-header',
 	'data-ui-empty-state',
 	'data-ui-disclosure',
-	'href="https://hjh3311504.github.io/qr-code"'
+	'href="https://setalab.kr/qr-code"'
 ]) {
 	if (!qrHtml.includes(marker))
 		throw new Error(`QR 코드 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
 }
 for (const pathname of ['about', 'privacy']) {
-	if (!sitemapHtml.includes(`<loc>https://hjh3311504.github.io/${pathname}</loc>`))
+	if (!sitemapHtml.includes(`<loc>https://setalab.kr/${pathname}</loc>`))
 		throw new Error(`sitemap에 /${pathname} 주소가 없습니다.`);
 }
-if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/qr-code</loc>'))
+if (!sitemapHtml.includes('<loc>https://setalab.kr/qr-code</loc>'))
 	throw new Error('sitemap에 QR 코드 주소가 없습니다.');
 if ((qrHtml.match(/<h1\b/g)?.length ?? 0) !== 1) throw new Error('QR 코드의 h1은 1개여야 합니다.');
 console.log('QR 코드 정적 페이지와 sitemap 검증 통과');
@@ -571,7 +571,7 @@ for (const marker of [
 	'id="bracket-faq-title"',
 	'data-ui-section',
 	'data-ui-empty-state',
-	'<link rel="canonical" href="https://hjh3311504.github.io/bracket"'
+	'<link rel="canonical" href="https://setalab.kr/bracket"'
 ]) {
 	if (!bracketHtml.includes(marker))
 		throw new Error(`대진표 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
@@ -581,7 +581,7 @@ if (/<ins\b[^>]*adsbygoogle/i.test(bracketHtml))
 	throw new Error('대진표 HTML에 광고 영역이 있습니다.');
 if ((bracketHtml.match(/<h1\b/g)?.length ?? 0) !== 1)
 	throw new Error('대진표의 h1은 1개여야 합니다.');
-if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/bracket</loc>'))
+if (!sitemapHtml.includes('<loc>https://setalab.kr/bracket</loc>'))
 	throw new Error('sitemap에 대진표 주소가 없습니다.');
 for (const [name, document] of [
 	['홈', homeHtml],
@@ -616,7 +616,7 @@ for (const marker of [
 	'id="aram-howto-title"',
 	'id="aram-basis-title"',
 	'aria-label="챔피언 고르기"',
-	'<link rel="canonical" href="https://hjh3311504.github.io/aram-mayhem"'
+	'<link rel="canonical" href="https://setalab.kr/aram-mayhem"'
 ]) {
 	if (!aramHtml.includes(marker))
 		throw new Error(`아수라장 가이드 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
@@ -629,7 +629,7 @@ const hubList = aramJsonLd(aramHtml, '아수라장 가이드').find(
 );
 if (hubList?.itemListElement?.length !== aramGuide.champions.length)
 	throw new Error('아수라장 가이드의 챔피언 목록 구조화 데이터 수가 맞지 않습니다.');
-if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/aram-mayhem</loc>'))
+if (!sitemapHtml.includes('<loc>https://setalab.kr/aram-mayhem</loc>'))
 	throw new Error('sitemap에 아수라장 가이드 주소가 없습니다.');
 if (!/href="(?:\.\/|\/)aram-mayhem"/.test(homeHtml))
 	throw new Error('홈 HTML에 아수라장 가이드 링크가 없습니다.');
@@ -642,11 +642,11 @@ for (const champion of aramGuide.champions) {
 	// 허브의 챔피언 타일은 검색엔진이 따라갈 수 있는 정적 링크다.
 	if (!aramHtml.includes(`href="${pathname}"`))
 		throw new Error(`아수라장 가이드 허브에 ${champion.nameKo} 공략 링크가 없습니다.`);
-	if (!sitemapHtml.includes(`<loc>https://hjh3311504.github.io${pathname}</loc>`))
+	if (!sitemapHtml.includes(`<loc>https://setalab.kr${pathname}</loc>`))
 		throw new Error(`sitemap에 ${name} 주소가 없습니다.`);
 	for (const marker of [
 		`<title>${seo.title}</title>`,
-		`<link rel="canonical" href="https://hjh3311504.github.io${pathname}"`,
+		`<link rel="canonical" href="https://setalab.kr${pathname}"`,
 		`<h2 id="aram-champion-name">${champion.nameKo}</h2>`,
 		'role="combobox"'
 	]) {
@@ -659,7 +659,7 @@ for (const champion of aramGuide.champions) {
 		throw new Error(`${name}에는 다른 챔피언 공략 링크를 두지 않습니다.`);
 	await checkAramImages(document, name);
 	const crumbs = aramJsonLd(document, name).find((item) => item['@type'] === 'BreadcrumbList');
-	if (crumbs?.itemListElement?.at(-1)?.item !== `https://hjh3311504.github.io${pathname}`)
+	if (crumbs?.itemListElement?.at(-1)?.item !== `https://setalab.kr${pathname}`)
 		throw new Error(`${name}의 이동 경로 구조화 데이터가 올바르지 않습니다.`);
 }
 // 증강 공략 페이지: 허브 링크, sitemap, 제목, 검색 버튼, 어울리는 챔피언 타일의 공략 링크,
@@ -671,11 +671,11 @@ for (const id of AUGMENT_PAGE_IDS) {
 	const document = await readFile(path.join(root, `build${pathname}.html`), 'utf8');
 	if (!aramHtml.includes(`href="${pathname}"`))
 		throw new Error(`아수라장 가이드 허브에 ${name} 링크가 없습니다.`);
-	if (!sitemapHtml.includes(`<loc>https://hjh3311504.github.io${pathname}</loc>`))
+	if (!sitemapHtml.includes(`<loc>https://setalab.kr${pathname}</loc>`))
 		throw new Error(`sitemap에 ${name} 주소가 없습니다.`);
 	for (const marker of [
 		`<title>${seo.title}</title>`,
-		`<link rel="canonical" href="https://hjh3311504.github.io${pathname}"`,
+		`<link rel="canonical" href="https://setalab.kr${pathname}"`,
 		'id="aram-augment-name"',
 		'role="combobox"',
 		// 챔피언 조합이 있으면 챔피언 타일 목록과 공략 링크, 어울리는 증강이 있으면 증강 카드와 (있으면) 이동 속도 표,
@@ -718,7 +718,7 @@ for (const id of AUGMENT_PAGE_IDS) {
 	if ((list?.itemListElement?.length ?? 0) !== seo.entries.length)
 		throw new Error(`${name}의 챔피언 목록 구조화 데이터 수가 맞지 않습니다.`);
 	const crumbs = graph.find((item) => item['@type'] === 'BreadcrumbList');
-	if (crumbs?.itemListElement?.at(-1)?.item !== `https://hjh3311504.github.io${pathname}`)
+	if (crumbs?.itemListElement?.at(-1)?.item !== `https://setalab.kr${pathname}`)
 		throw new Error(`${name}의 이동 경로 구조화 데이터가 올바르지 않습니다.`);
 }
 // 추천 기준은 통계 티어가 아니라 재미 위주 빌드라고 밝힌다. 안내 문구에 디시인사이드를 적지 않는다.
@@ -744,14 +744,14 @@ for (const marker of [
 	'첫번째',
 	'마지막',
 	'여러명',
-	'href="https://hjh3311504.github.io/marble-race"'
+	'href="https://setalab.kr/marble-race"'
 ]) {
 	if (!marbleHtml.includes(marker))
 		throw new Error(`구슬 레이스 HTML에서 ${marker} 표시를 찾지 못했습니다.`);
 }
 if ((marbleHtml.match(/<h1\b/g)?.length ?? 0) !== 1)
 	throw new Error('구슬 레이스의 h1은 1개여야 합니다.');
-if (!sitemapHtml.includes('<loc>https://hjh3311504.github.io/marble-race</loc>'))
+if (!sitemapHtml.includes('<loc>https://setalab.kr/marble-race</loc>'))
 	throw new Error('sitemap에 구슬 레이스 주소가 없습니다.');
 for (const document of [homeHtml, html, qrHtml]) {
 	if (!/href="(?:\.\/|\/)marble-race"/.test(document))

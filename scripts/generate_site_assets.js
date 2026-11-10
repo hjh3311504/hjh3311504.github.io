@@ -131,38 +131,38 @@ const pages = [
 		name: 'marble-race',
 		title: 'ASMR 구슬 레이스',
 		body: `<div class="copy marble-copy"><p class="eyebrow">무료 구슬 추첨기 · 랜덤 뽑기</p><h1>ASMR<br>구슬 레이스</h1><p class="description">이름을 넣고, 소리로 즐기는 추첨<br>수업에서도 방송에서도</p></div><div class="preview marble-preview"><div class="preview-heading">톡톡, 뽁뽁! <span class="count">이름을 건 레이스</span></div><div class="marbles"><span class="marble">토끼</span><span class="marble">고양이</span><span class="marble">오리</span></div><div class="sound-tiles">${Array.from({ length: 28 }, (_, i) => `<span class="sound-tile">${i < 14 ? ['A', 'S', 'M', 'R', 'K', 'E', 'Y'][i % 7] : '●'}</span>`).join('')}</div><p class="marble-note">첫번째 · 마지막 · 여러명 · n번째</p></div>`,
-		url: 'hjh3311504.github.io/marble-race'
+		url: 'setalab.kr/marble-race'
 	},
 	{
 		name: 'team-maker',
 		title: '팀 메이커',
 		body: `<div class="copy"><p class="eyebrow">무료 온라인 도구</p><h1>팀 메이커</h1><p class="description">스포츠·게임·모임을 위한<br>무료 팀짜기·조짜기</p></div><div class="preview"><div class="preview-heading">팀 배정 결과 <span class="count">6명 · 3팀</span></div><div class="teams">${teams}</div><p class="result-note">함께할 팀, 간편하게 나누세요.</p></div>`,
-		url: 'hjh3311504.github.io/team-maker'
+		url: 'setalab.kr/team-maker'
 	},
 	{
 		name: 'qr-code',
 		title: 'QR 코드 만들기',
 		body: `<div class="copy"><p class="eyebrow">무료 QR 코드 생성기</p><h1>QR 코드<br>만들기</h1><p class="description">주소와 텍스트를 QR로 만들고<br>저장·복사·인쇄까지</p></div><div class="preview qr-preview"><div class="qr-code">${qrCells}</div><div class="qr-meta"><h2>모임 참여 신청</h2><p>제목을 붙여 저장하고<br>A4 한 장에 12개 인쇄</p><div class="chip-row"><span class="chip primary">PNG 저장</span><span class="chip">복사</span><span class="chip">인쇄</span></div></div></div>`,
-		url: 'hjh3311504.github.io/qr-code'
+		url: 'setalab.kr/qr-code'
 	},
 	{
 		name: 'bracket',
 		title: '대진표 만들기',
 		body: `<div class="copy"><p class="eyebrow">무료 토너먼트 도구</p><h1>대진표<br>만들기</h1><p class="description">2~32팀 토너먼트를 만들고<br>이긴 팀을 눌러 우승까지</p></div><div class="preview"><div class="preview-heading">4팀 토너먼트 <span class="count">결승 · 우승</span></div>${bracketSvg}</div>`,
-		url: 'hjh3311504.github.io/bracket'
+		url: 'setalab.kr/bracket'
 	},
 	{
 		name: 'aram-mayhem',
 		title: '칼바람 아수라장 증강 가이드',
 		body: `<div class="copy"><p class="eyebrow">칼바람 아수라장</p><h1>증강<br>가이드</h1><p class="description">챔피언별 추천 증강 조합과<br>코어 아이템 순서 정리</p></div><div class="preview aram-preview"><div class="preview-heading">챔피언 공략 <span class="count">증강 · 아이템</span></div>${aramRows}</div>`,
-		url: 'hjh3311504.github.io/aram-mayhem'
+		url: 'setalab.kr/aram-mayhem'
 	},
 	{
 		name: 'site',
 		title: 'Seta Lab',
 		theme: 'navy',
 		body: `<div class="copy home"><p class="eyebrow">필요한 도구를 한곳에</p><h1>Seta Lab</h1><p class="description">설치나 가입 없이 브라우저에서<br>바로 쓰는 무료 도구</p></div><div class="hero-art">${heroArt}</div>`,
-		url: 'hjh3311504.github.io'
+		url: 'setalab.kr'
 	}
 ];
 

@@ -55,7 +55,7 @@ try {
 	const server = new Server(manifest);
 	await server.init({ env: {} });
 	const respond = (pathname) =>
-		server.respond(new Request(`https://hjh3311504.github.io${pathname}`), {
+		server.respond(new Request(`https://setalab.kr${pathname}`), {
 			getClientAddress: () => '127.0.0.1'
 		});
 	assert.deepEqual(await entries(), [{ slug: publicPost.slug }]);

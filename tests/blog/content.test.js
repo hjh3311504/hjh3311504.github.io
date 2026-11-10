@@ -259,9 +259,7 @@ test('RSS 특수문자·고정 식별자와 구조화 데이터의 날짜·기�
 	const xml = rss([post]);
 	assert.ok(xml.includes('A &amp; B &lt;새 글&gt;'));
 	assert.ok(xml.includes('&quot;소개&quot; &amp; 안내'));
-	assert.ok(
-		xml.includes('<guid isPermaLink="true">https://hjh3311504.github.io/blog/sample</guid>')
-	);
+	assert.ok(xml.includes('<guid isPermaLink="true">https://setalab.kr/blog/sample</guid>'));
 	const schema = structuredPost(post);
 	assert.equal(schema.headline, post.title);
 	assert.equal(schema.datePublished, '2026-09-29T00:00:00+09:00');
