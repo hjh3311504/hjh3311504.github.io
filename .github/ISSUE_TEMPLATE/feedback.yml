@@ -21,7 +21,7 @@ body:
     attributes:
       label: 발생한 페이지
       description: 문제가 발생한 URL 또는 화면 이름을 적어 주세요.
-      placeholder: 예) 팀 만들기 결과, 전체 기록, https://hjh3311504.github.io/team-maker
+      placeholder: 예) 팀 만들기 결과, 전체 기록, https://setalab.kr/team-maker
     validations:
       required: true
   - type: textarea
