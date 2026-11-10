@@ -99,3 +99,70 @@ Google 안내는 고유하고 유용한 내용, 쉬운 탐색, 약속한 정보 
 2. 겹치거나 짧은 글(CSV 3개, QR 2개)을 합치거나 보강할지 검토한다.
 3. 배포 뒤 Search Console에 sitemap을 다시 제출하고 색인된 페이지 수를 확인한다.
 4. 배포 뒤 최소 3~4주 운영 기록을 쌓고 재심사를 요청한다.
+
+## 5번째 거절 뒤 점검 (2026-11-10)
+
+2026-11-09에 다시 거절됐다. 사유 문구는 아직 기록하지 않았다. 커뮤니티 사례 29개와 Google 공식 자료를 조사했다. 조사 결과는 로컬 `output/adsense-research/RESULT.md`에 있으며 저장소에 올리지 않는다. 사용자가 고른 2가지 점검을 진행했다.
+
+### 블로그 28개 비교
+
+글마다 해결하는 문제, 직접 만든 예제, 가까운 글과의 차이를 비교했다. 같은 답을 반복하는 글은 없어서 합친 글은 없다. 본문에 연결한 예제 파일과 그림은 모두 `static/`에 있다.
+
+| 묶음                 | 글                                                                                                                                                                                                                                                                                     | 판단                                                                                                                  |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 도구 소개 3개        | `team-maker-introduction`, `qr-code-introduction`, `marble-race-introduction`                                                                                                                                                                                                          | 사용 순서와 한계를 다룬다. 문제 해결 글의 내용을 짧게 요약한 문단이 있어 해당 글로 연결했다.                          |
+| 팀 메이커·대진표 3개 | `team-maker-rule-conflicts`, `browser-local-storage`, `bracket-result-correction`                                                                                                                                                                                                      | 배정 실패4가지, 저장 위치, 결과 수정을 각각 재현한다. 유지.                                                           |
+| QR 3개               | `qr-code-readability`, `qr-code-url-length`, `qr-svg-title-troubleshooting`                                                                                                                                                                                                            | 여백·크기, 주소 길이·칸 크기, SVG 제목 글자를 다룬다. 원인과 해결이 달라 유지.                                        |
+| CSV 3개              | `csv-korean-encoding`, `csv-columns-and-quotes`, `csv-leading-zeros`                                                                                                                                                                                                                   | 글자 깨짐, 열 밀림, 앞자리0을 다룬다. 서로 다른 증상과 예제 파일이 있어 유지. 인코딩 글은 열 밀림을 짧게 언급만 한다. |
+| 이미지·사진 5개      | `jpg-vs-png-for-text`, `image-size-vs-quality`, `png-transparent-background`, `image-orientation-metadata`, `photo-location-metadata`                                                                                                                                                  | 저장 형식, 용량, 투명 배경, 회전 정보, 위치 정보를 다룬다. 측정 파일이 서로 달라 유지.                                |
+| 파일·텍스트 11개     | `file-extension-vs-format`, `file-hash-comparison`, `file-size-mb-mib`, `filename-sorting`, `zip-compression-size`, `text-file-line-endings`, `json-syntax-troubleshooting`, `pdf-text-search-troubleshooting`, `webpage-pdf-check`, `browser-file-download`, `url-special-characters` | 주제가 겹치지 않는다. 확장자 글과 투명 PNG 글은 둘 다 PNG를 쓰지만 질문이 다르다. 유지.                               |
+
+수정한 글은 2개다. `team-maker-introduction`의 규칙 충돌 문단은 `team-maker-rule-conflicts`로, `qr-code-introduction`의 SVG 질문은 `qr-svg-title-troubleshooting`으로 연결했다. 소개 글이 같은 답을 따로 설명하는 대신 자세한 글로 안내하게 했다. 두 글의 `updatedAt`은 2026-11-10이다.
+
+### 심사 시점 기록
+
+거절일은 사용자가 알려 준 날짜다. 배포 시각은 `main`의 merge와 GitHub Pages workflow 기록이다. Pages workflow는 예약 글 공개를 위해 매일 한국 시간 새벽에도 실행된다.
+
+| 날짜(한국 시간)  | 일                                                                                  |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| 9월 중순 이전    | 1·2번째 거절. 정확한 날짜 미기록.                                                   |
+| 2026-09-19 23:47 | 도구 안내 보강 배포(`37ab85b`)                                                      |
+| 2026-10-14 04:09 | 실험 글 7편과 재현 자료 배포(`5a7a142`). 이후 10월 5일~11월 2일 글을 예약 공개했다. |
+| 2026-10-15       | 3번째 거절                                                                          |
+| 2026-10-25       | 4번째 거절. 같은 날 02:52 콘텐츠·이미지 출처 정비 배포(`3c21217`)                   |
+| 2026-10-26~11-03 | 아수라장 가이드 추가. 챔피언 페이지 173개와 증강 페이지를 차례로 배포했다.          |
+| 2026-11-05 13:45 | Seta Lab 리브랜딩 배포(`df8fff5`)                                                   |
+| 2026-11-06 14:44 | 마지막 내용 변경 배포(`0a88c6d`). 이후 11-10까지는 같은 commit을 다시 build했다.    |
+| 2026-11-09       | 5번째 거절. 신청일은 기록이 없다.                                                   |
+
+5번째 신청일이 11월 5일 이전이면 심사는 리브랜딩 전 사이트를 봤을 수 있다.
+
+### Search Console 상태 (2026-11-10 확인)
+
+URL 검사의 ‘최근 크롤링’ 날짜다. 검색용 크롤러 기록이며 AdSense 크롤러의 방문 기록은 아니다.
+
+| 주소                                                               | 상태                                        | 최근 크롤링               |
+| ------------------------------------------------------------------ | ------------------------------------------- | ------------------------- |
+| `/`                                                                | 등록됨                                      | 2026-11-05 14:03          |
+| `/blog`                                                            | 등록됨                                      | 2026-10-25 02:57          |
+| `/blog/csv-korean-encoding`                                        | 등록됨                                      | 2026-11-03 17:22          |
+| `/team-maker`                                                      | 등록됨                                      | 2026-10-19 21:04          |
+| `/aram-mayhem`                                                     | 등록됨                                      | 2026-10-26 23:14          |
+| `/aram-mayhem/augments/bees`, `/blog/qr-svg-title-troubleshooting` | 등록됨                                      | 화면에서 날짜를 읽지 못함 |
+| `/about`                                                           | 등록 안 됨: Google에 아직 알려지지 않은 URL | 없음                      |
+| `/aram-mayhem/garen`                                               | 등록 안 됨: Google에 아직 알려지지 않은 URL | 없음                      |
+
+- 제출한 sitemap 5개(`/sitemap.xml`, `/sitemap.xml?v=2`, `/sitemap`, `/rss.xml`, `/rss`)가 모두 ‘가져올 수 없음’이고 발견한 페이지는 0개다. 가장 최근 제출은 11월 3일의 `/sitemap.xml`이다.
+- 같은 날 공개 `sitemap.xml`은 HTTP 200, `application/xml`, XML 문법 정상, 주소 214개였다. `robots.txt`도 sitemap을 안내한다. 사이트 쪽 오류는 찾지 못했다.
+- 페이지 보고서(11월 6일 갱신)는 색인 34개, 미색인 5개로 Google이 아는 주소가 39개뿐이다. sitemap 214개의 약18%다. 미색인 5개는 ‘크롤링됨 - 현재 색인이 생성되지 않음’이며 `sitemap.xml`, `sitemap.xml?v=2`, `rss.xml`, `qr-code-introduction`, `marble-race-introduction`이다.
+- 실적 보고서의 전체 웹 검색 클릭은 788회다. 최근 클릭이 늘어난 페이지로 `/aram-mayhem/augments/bees`가 표시됐다.
+
+Google은 sitemap을 읽지 못해 링크와 수동 색인 요청으로만 주소를 찾고 있다. 소개 페이지가 검색에 알려지지 않은 것도 이 때문일 수 있다. AdSense 심사는 별도 크롤러가 하므로 이 상태를 거절 원인으로 단정하지 않는다.
+
+2026-11-10에 공개 사이트를 다시 확인했다.
+
+- 홈, 소개, 방침, 도구4개, 블로그 목록·글, 아수라장 목록·챔피언·증강 페이지가 HTTP 200으로 응답했다. 이동(redirect)은 없었다.
+- 모든 페이지의 canonical이 자기 주소를 가리켰다. 초기 HTML에 본문이 들어 있었다.
+- 방침을 뺀 확인 페이지에 AdSense 코드가 있었다. 없는 주소는 404와 `noindex`로 응답했다.
+- `ads.txt`, `robots.txt`, `sitemap.xml`이 정상 응답했다.
+- 표본 챔피언 페이지 `garen`의 본문은 메뉴를 포함해 약800자였다. 증강 페이지 `armored-impact`는 약1,000자였다. 짧은 상세 페이지 점검은 이번 범위에서 제외했다.

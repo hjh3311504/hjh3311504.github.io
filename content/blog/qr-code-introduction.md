@@ -5,7 +5,7 @@ summary: '주소를 QR 코드로 바꾸고 저장·인쇄하는 과정을 화면
 program: qr-code
 category: introduction
 publishedAt: '2026-09-29'
-updatedAt: '2026-10-15'
+updatedAt: '2026-11-10'
 published: true
 ---
 
@@ -81,7 +81,7 @@ Android와 iOS에서는 저장 창이 열리고 실제 PNG 이미지가 보입�
 
 ### 제목에 이모지를 넣었더니 SVG로 저장되지 않아요.
 
-SVG는 제목을 도형으로 바꿔 저장합니다. 이모지처럼 지원하지 않는 글자가 있으면 SVG 저장이 제한됩니다. 이때는 PNG로 저장하세요.
+SVG는 제목을 도형으로 바꿔 저장합니다. 이모지처럼 지원하지 않는 글자가 있으면 SVG 저장이 제한됩니다. 이때는 PNG로 저장하세요. 제목을 고쳐 SVG로 저장하는 방법은 [QR 코드의 SVG 저장이 안 될 때](/blog/qr-svg-title-troubleshooting)에 있습니다.
 
 ### 화면에서는 읽히는데 종이에서는 안 읽혀요.
 
