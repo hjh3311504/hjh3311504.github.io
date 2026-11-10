@@ -16,7 +16,7 @@
 
 - [x] Google Search Console에서 기존 소유 확인 상태를 점검한다.
 - [x] 네이버 서치어드바이저에서 기존 소유 확인 상태를 점검한다.
-- [ ] 두 서비스에 `https://hjh3311504.github.io/sitemap.xml`을 제출한다.
+- [x] 두 서비스에 `https://setalab.kr/sitemap.xml`을 제출한다. 2026-11-10 Google 도메인 속성(성공, 214개)과 네이버(RSS 포함)에 제출했다. 이전 주소의 제출 기록은 각 서비스의 이전 속성에 남아 있다.
 - [ ] Google URL 검사에서 `/team-maker`의 실시간 URL을 검사하고 색인을 한 번 요청한다.
 - [ ] 네이버 웹 페이지 수집에서 `/team-maker` 수집을 한 번 요청한다.
 - [x] 공개 페이지가 HTTP 200으로 열리는지 확인한다.

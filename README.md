@@ -195,7 +195,7 @@ SVG의 viewBox 비율은 이전 PNG와 같게 맞춰 기존 CSS 크기에서 배
 
 ## 배포
 
-운영 주소는 `https://setalab.kr`입니다. 도메인은 가비아에서 관리하고 GitHub Pages에 연결합니다. 기준 주소는 `src/lib/data/meta.js`의 `siteBaseUrl`이며 canonical·sitemap·RSS·구조화 데이터가 이 값을 씁니다. `static/CNAME`과 저장소 **Settings → Pages**의 Custom domain도 같은 도메인이어야 합니다. 이전 주소 `hjh3311504.github.io`는 GitHub Pages가 새 주소로 301 이동합니다. 브라우저 저장 데이터는 주소마다 따로 보관되므로 이전 주소에 저장한 명단·맵·설정은 새 주소로 옮겨지지 않습니다. 결정 배경은 [독자 도메인 ADR](docs/adr/2026-11-10-독자-도메인-setalab-kr.md)에 있습니다.
+운영 주소는 `https://setalab.kr`입니다. 도메인은 가비아에서 관리하고 GitHub Pages에 연결합니다. 기준 주소는 `src/lib/data/meta.js`의 `siteBaseUrl`이며 canonical·sitemap·RSS·구조화 데이터가 이 값을 씁니다. 도메인 연결은 저장소 **Settings → Pages**의 Custom domain이 기준입니다. Actions 배포는 `static/CNAME`을 읽지 않으며, 이 파일은 같은 도메인을 기록해 두는 용도입니다. 이전 주소 `hjh3311504.github.io`는 GitHub Pages가 새 주소로 301 이동합니다. 브라우저 저장 데이터는 주소마다 따로 보관되므로 이전 주소에 저장한 명단·맵·설정은 새 주소로 옮겨지지 않습니다. 결정 배경은 [독자 도메인 ADR](docs/adr/2026-11-10-독자-도메인-setalab-kr.md)에 있습니다.
 
 `.github/workflows/pages.yml`은 실행 시점에 따라 작업을 나눕니다.
 
