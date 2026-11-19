@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { stubAdsense } from './helpers/adsense.js';
+import guide from '../../src/lib/aram-mayhem/guide-data.json' with { type: 'json' };
 
 const HUB_PATH = '/aram-mayhem';
 const browserErrors = new WeakMap();
@@ -21,7 +22,7 @@ test.beforeEach(async ({ page }) => {
 test.afterEach(async ({ page }, testInfo) => {
 	// 없는 주소는 404 응답을 콘솔 오류로 남기므로 그 검사만 제외한다.
 	const errors = browserErrors.get(page);
-	if (testInfo.title.includes('없는 챔피언')) return;
+	if (testInfo.title.startsWith('없는 챔피언')) return;
 	expect(errors).toEqual([]);
 });
 
@@ -49,6 +50,58 @@ async function goByName(page, query, name) {
 	await suggestions(page).getByRole('option', { name }).click();
 	await expect(championName(page)).toHaveText(name);
 }
+
+const adsenseScript = (page) => page.locator('script[src*="adsbygoogle.js"]');
+// 조합이 없는 챔피언과, 검색에서 이름이 하나만 맞는 조합 있는 챔피언을 가이드 데이터에서 고른다.
+const unindexedChampion = guide.champions.find((champion) => !champion.combos.length);
+const indexedChampion = guide.champions.find(
+	(champion) =>
+		champion.combos.length &&
+		guide.champions.filter((other) => other.nameKo.includes(champion.nameKo)).length === 1
+);
+
+test('조합 없는 챔피언 공략은 noindex이고 허브에서 이동하면 새 문서로 불러와 광고 코드가 없다', async ({
+	page
+}) => {
+	await openHub(page);
+	await expect(adsenseScript(page)).toHaveCount(1);
+	// 이미 실행된 광고 코드는 태그를 지워도 남으므로 문서가 새로 불렸는지 확인한다.
+	await page.evaluate(() => {
+		window.hubDocument = true;
+	});
+	await picker(page).locator(`a[href="${HUB_PATH}/${unindexedChampion.id}"]`).click();
+	await expect(page).toHaveURL(new RegExp(`${HUB_PATH}/${unindexedChampion.id}$`));
+	await expect(championName(page)).toHaveText(unindexedChampion.nameKo);
+	expect(await page.evaluate(() => window.hubDocument)).toBeUndefined();
+	await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+	await expect(adsenseScript(page)).toHaveCount(0);
+	// 조합이 있는 챔피언으로 가면 noindex 없이 광고 코드를 다시 넣는다.
+	await goByName(page, indexedChampion.nameKo, indexedChampion.nameKo);
+	await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+	await expect(adsenseScript(page)).toHaveCount(1);
+});
+
+test('인코딩한 조합 없는 챔피언 주소로 이동해도 새 문서로 불러온다', async ({ page }) => {
+	// 방문 통계를 거부하면 통계 때문에 새 문서로 불러오지 않으므로 광고 제외 판정만 확인할 수 있다.
+	await page.addInitScript(() => {
+		if (localStorage.getItem('juno.develog.analytics-consent:v1') === null)
+			localStorage.setItem('juno.develog.analytics-consent:v1', 'denied');
+	});
+	await openHub(page);
+	const encodedPath = `${HUB_PATH}/%${unindexedChampion.id.charCodeAt(0).toString(16)}${unindexedChampion.id.slice(1)}`;
+	await page.evaluate((href) => {
+		window.hubDocument = true;
+		const link = document.createElement('a');
+		link.href = href;
+		link.id = 'encoded-champion-link';
+		link.textContent = '인코딩한 주소';
+		document.querySelector('main').prepend(link);
+	}, encodedPath);
+	await page.locator('#encoded-champion-link').click();
+	await expect(championName(page)).toHaveText(unindexedChampion.nameKo);
+	expect(await page.evaluate(() => window.hubDocument)).toBeUndefined();
+	await expect(adsenseScript(page)).toHaveCount(0);
+});
 
 test('허브의 챔피언 타일은 챔피언 공략 페이지로 이동한다', async ({ page }) => {
 	await openHub(page);

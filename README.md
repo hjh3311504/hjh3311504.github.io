@@ -282,7 +282,7 @@ CF_ANALYTICS_BEACON_PATH=/tmp/cloudflare-beacon.js npm run test:e2e:built -- tes
 
 ## 광고 코드
 
-`src/routes/+layout.svelte`가 공개 페이지의 `<head>`에 AdSense 코드를 넣습니다. 게시자 ID는 `src/lib/data/meta.js`의 `adsenseClient`이며 `static/ads.txt`와 같아야 합니다. 대상은 방문 통계의 공개 경로(`src/lib/analytics/tracker.js`의 `basePaths`와 공개 글)입니다. `/privacy`(`adsenseExcludedPaths`), 404·오류 화면, 초안·예약 글과 개발 서버에는 넣지 않습니다. `/privacy`는 Google CMP 동의 메시지에 연결하므로 광고 코드를 두면 안 됩니다. `npm run verify:team-maker`가 이 조건을 검사합니다.
+`src/routes/+layout.svelte`가 공개 페이지의 `<head>`에 AdSense 코드를 넣습니다. 게시자 ID는 `src/lib/data/meta.js`의 `adsenseClient`이며 `static/ads.txt`와 같아야 합니다. 대상은 방문 통계의 공개 경로(`src/lib/analytics/tracker.js`의 `basePaths`와 공개 글)입니다. `/privacy`(`adsenseExcludedPaths`), 404·오류 화면, 초안·예약 글과 개발 서버에는 넣지 않습니다. 검증된 조합이 없는 아수라장 챔피언 공략도 방문 통계 공개 경로에는 있지만 광고 코드는 넣지 않습니다. 이 주소는 `src/routes/+layout.server.js`가 layout data의 `adsenseExcludedPaths`로 더합니다. `/privacy`는 Google CMP 동의 메시지에 연결하므로 광고 코드를 두면 안 됩니다. `npm run verify:team-maker`가 이 조건을 검사합니다.
 
 승인 전에는 수동 광고 칸을 만들지 않습니다. 승인 뒤 광고 위치는 AdSense의 자동 광고 설정이나 별도 디자인 승인으로 정하세요. 브라우저 검사는 `tests/team-maker-e2e/helpers/adsense.js`로 AdSense 요청을 막거나 빈 응답으로 바꿉니다.
 
@@ -360,7 +360,7 @@ QR과 Team Maker의 번호가 있는 섹션 제목은 `SectionHeader`의 `step` 
 
 ## 칼바람 아수라장 증강 가이드
 
-허브 주소는 `/aram-mayhem`, 챔피언 공략은 `/aram-mayhem/챔피언id`(예: `/aram-mayhem/master-yi`), 증강 공략은 `/aram-mayhem/augments/증강id`(예: `/aram-mayhem/augments/armored-impact`)입니다. 로컬 주소는 `http://localhost:5173/aram-mayhem`입니다. 정적 결과는 `build/aram-mayhem.html`, `build/aram-mayhem/챔피언id.html`, `build/aram-mayhem/augments/증강id.html`입니다. 홈·소개·공통 메뉴에서 허브로 연결하고, sitemap에는 허브와 챔피언·증강 공략을 모두 넣습니다. 요구사항은 [REQ-ARAM](docs/requirements/aram-mayhem.yaml), 화면은 [SCR-WEB-009](docs/design/screens/SCR-WEB-009.md), 결정은 [가이드 추가 ADR](docs/adr/2026-10-26-칼바람-아수라장-증강-가이드-추가.md)과 [챔피언별 주소 ADR](docs/adr/2026-10-27-아수라장-챔피언별-주소와-검색-문구.md), [증강별 공략 ADR](docs/adr/2026-10-27-아수라장-증강별-공략-페이지.md)을 따릅니다.
+허브 주소는 `/aram-mayhem`, 챔피언 공략은 `/aram-mayhem/챔피언id`(예: `/aram-mayhem/master-yi`), 증강 공략은 `/aram-mayhem/augments/증강id`(예: `/aram-mayhem/augments/armored-impact`)입니다. 로컬 주소는 `http://localhost:5173/aram-mayhem`입니다. 정적 결과는 `build/aram-mayhem.html`, `build/aram-mayhem/챔피언id.html`, `build/aram-mayhem/augments/증강id.html`입니다. 홈·소개·공통 메뉴에서 허브로 연결하고, sitemap에는 허브, 증강 공략, 검증된 조합이 있는 챔피언 공략을 넣습니다. 조합이 없는 챔피언 공략은 `noindex`이고 AdSense 코드도 넣지 않습니다. 조합을 더하면 자동으로 다시 포함됩니다([결정](docs/adr/2026-11-19-조합-없는-챔피언-공략-noindex.md)). 요구사항은 [REQ-ARAM](docs/requirements/aram-mayhem.yaml), 화면은 [SCR-WEB-009](docs/design/screens/SCR-WEB-009.md), 결정은 [가이드 추가 ADR](docs/adr/2026-10-26-칼바람-아수라장-증강-가이드-추가.md)과 [챔피언별 주소 ADR](docs/adr/2026-10-27-아수라장-챔피언별-주소와-검색-문구.md), [증강별 공략 ADR](docs/adr/2026-10-27-아수라장-증강별-공략-페이지.md)을 따릅니다.
 
 - 조사 원본: `docs/research/aram-mayhem/`의 JSON. 조합은 `champions.json`, 빌드는 `builds.json`, 증강 빌드 운영 방법은 `build-play.json`, 신발은 `boots.json`, 추가 추천 증강은 `champ-extras.json`, 디시 글 정보는 `community-posts.json`, 챔피언 없이 정리한 증강 공략은 `augment-guides.json`, 챔피언·증강·아이템 별명은 `aliases.json`에서 고칩니다.
 - 화면 데이터와 아이콘: 원본을 고친 뒤 `npm run generate:aram-mayhem`을 실행하면 `src/lib/aram-mayhem/guide-data.json`과 `static/images/aram-mayhem/`이 다시 만들어집니다. 두 결과를 함께 commit합니다. 내려받은 원본은 `.cache/aram-mayhem`에 남고 Git에서 제외합니다. 찾지 못한 챔피언·증강·아이템이 있으면 생성이 실패합니다.

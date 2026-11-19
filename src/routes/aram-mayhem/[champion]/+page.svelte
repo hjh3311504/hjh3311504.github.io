@@ -9,7 +9,13 @@
 	import ChampionGuide from '$lib/aram-mayhem/components/ChampionGuide.svelte';
 	import AramLegal from '$lib/aram-mayhem/components/AramLegal.svelte';
 	import guide from '$lib/aram-mayhem/guide-data.json';
-	import { HUB_PATH, championPath, championSeo, structuredData } from '$lib/aram-mayhem/seo.js';
+	import {
+		HUB_PATH,
+		championPath,
+		championSeo,
+		isIndexedChampion,
+		structuredData
+	} from '$lib/aram-mayhem/seo.js';
 	import { siteBaseUrl } from '$lib/data/meta.js';
 	import '../aram-mayhem.css';
 	const shareImage = `${siteBaseUrl}/images/aram-mayhem-open-graph-1200x630.png`;
@@ -43,6 +49,8 @@
 	<title>{seo.title}</title>
 	<meta name="description" content={seo.description} />
 	<link rel="canonical" href={pageUrl} />
+	<!-- 검증된 조합이 없는 공략은 검색에 내보내지 않는다. 링크는 따라가게 둔다. -->
+	{#if !isIndexedChampion(champion)}<meta name="robots" content="noindex" />{/if}
 	<meta property="og:title" content={seo.title} />
 	<meta property="og:description" content={seo.description} />
 	<meta property="og:url" content={pageUrl} />

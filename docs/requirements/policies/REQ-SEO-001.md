@@ -38,4 +38,4 @@ Open Graph와 Twitter의 제목·설명은 검색 문구와 같은 값을 사용
 
 ## 오류 화면
 
-404와 동적 오류 화면은 `noindex`를 제공한다. 정적 404에는 홈을 가리키는 canonical을 넣지 않는다. 정상 홈의 canonical과 Team Maker 검색 정보는 유지한다.
+404와 동적 오류 화면은 `noindex`를 제공한다. 검증된 조합이 없는 아수라장 챔피언 공략도 `noindex`로 두고 sitemap에서 뺀다. 이 페이지의 canonical은 자기 주소를 유지한다. 정적 404에는 홈을 가리키는 canonical을 넣지 않는다. 정상 홈의 canonical과 Team Maker 검색 정보는 유지한다.

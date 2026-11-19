@@ -20,6 +20,7 @@ import {
 	augmentSeo,
 	championPath,
 	championSeo,
+	isIndexedChampion,
 	hubSeo
 } from '../src/lib/aram-mayhem/seo.js';
 
@@ -627,7 +628,12 @@ await checkAramImages(aramHtml, '아수라장 가이드');
 const hubList = aramJsonLd(aramHtml, '아수라장 가이드').find(
 	(item) => item['@type'] === 'ItemList'
 );
-if (hubList?.itemListElement?.length !== aramGuide.champions.length)
+const hubListUrls = (hubList?.itemListElement ?? []).map((item) => item.url).join('\n');
+const indexedChampionUrls = aramGuide.champions
+	.filter(isIndexedChampion)
+	.map((champion) => `https://setalab.kr${championPath(champion.id)}`)
+	.join('\n');
+if (hubListUrls !== indexedChampionUrls)
 	throw new Error('아수라장 가이드의 챔피언 목록 구조화 데이터 수가 맞지 않습니다.');
 if (!sitemapHtml.includes('<loc>https://setalab.kr/aram-mayhem</loc>'))
 	throw new Error('sitemap에 아수라장 가이드 주소가 없습니다.');
@@ -642,8 +648,15 @@ for (const champion of aramGuide.champions) {
 	// 허브의 챔피언 타일은 검색엔진이 따라갈 수 있는 정적 링크다.
 	if (!aramHtml.includes(`href="${pathname}"`))
 		throw new Error(`아수라장 가이드 허브에 ${champion.nameKo} 공략 링크가 없습니다.`);
-	if (!sitemapHtml.includes(`<loc>https://setalab.kr${pathname}</loc>`))
-		throw new Error(`sitemap에 ${name} 주소가 없습니다.`);
+	// 검증된 조합이 없는 공략은 noindex로 두고 sitemap과 AdSense 코드에서 뺀다.
+	const indexed = isIndexedChampion(champion);
+	if (sitemapHtml.includes(`<loc>https://setalab.kr${pathname}</loc>`) !== indexed)
+		throw new Error(`sitemap의 ${name} 주소 포함 여부가 noindex 기준과 다릅니다.`);
+	if (/<meta name="robots" content="noindex"/.test(document) === indexed)
+		throw new Error(`${name}의 noindex 표시가 조합 유무와 맞지 않습니다.`);
+	const publisher = document.match(adsenseScript)?.[1];
+	if (indexed ? publisher !== adsTxtPublisher : /googlesyndication/.test(document))
+		throw new Error(`${name}의 AdSense 코드 포함 여부가 noindex 기준과 다릅니다.`);
 	for (const marker of [
 		`<title>${seo.title}</title>`,
 		`<link rel="canonical" href="https://setalab.kr${pathname}"`,

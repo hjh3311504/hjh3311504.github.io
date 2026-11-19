@@ -7,11 +7,14 @@ import {
 	AUGMENT_PAGE_IDS,
 	aramAugmentPaths,
 	aramChampionPaths,
+	aramIndexedChampionPaths,
+	aramUnindexedChampionPaths,
 	augmentSeo,
 	championList,
 	championPath,
 	championSeo,
 	hubSeo,
+	isIndexedChampion,
 	structuredData,
 	withAlias
 } from '../../src/lib/aram-mayhem/seo.js';
@@ -39,6 +42,18 @@ test('챔피언 공략 주소는 마지막 슬래시 없이 챔피언 id를 붙�
 	// 기호만 뺀 별명은 이름 뒤에 다시 붙이지 않는다.
 	assert.equal(withAlias('벌이다!!!', ['벌이다', '벌']), '벌이다!!!(벌)');
 	assert.equal(withAlias('벌이다!!!', ['벌이다']), '벌이다!!!');
+});
+
+test('검증된 조합이 없는 챔피언 공략만 sitemap·광고 대상에서 뺀다', () => {
+	const indexed = aramIndexedChampionPaths();
+	const unindexed = aramUnindexedChampionPaths();
+	assert.equal(indexed.length + unindexed.length, guide.champions.length);
+	assert.ok(indexed.includes(championPath('master-yi')));
+	for (const champion of guide.champions) {
+		const path = championPath(champion.id);
+		assert.equal(indexed.includes(path), champion.combos.length > 0, champion.id);
+		assert.equal(unindexed.includes(path), !isIndexedChampion(champion), champion.id);
+	}
 });
 
 test('챔피언 제목은 증바람·별명만 쓰고 증강·템트리·패치는 검색 설명에 넣는다', () => {
