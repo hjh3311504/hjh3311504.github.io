@@ -628,7 +628,12 @@ await checkAramImages(aramHtml, '아수라장 가이드');
 const hubList = aramJsonLd(aramHtml, '아수라장 가이드').find(
 	(item) => item['@type'] === 'ItemList'
 );
-if (hubList?.itemListElement?.length !== aramGuide.champions.filter(isIndexedChampion).length)
+const hubListUrls = (hubList?.itemListElement ?? []).map((item) => item.url).join('\n');
+const indexedChampionUrls = aramGuide.champions
+	.filter(isIndexedChampion)
+	.map((champion) => `https://setalab.kr${championPath(champion.id)}`)
+	.join('\n');
+if (hubListUrls !== indexedChampionUrls)
 	throw new Error('아수라장 가이드의 챔피언 목록 구조화 데이터 수가 맞지 않습니다.');
 if (!sitemapHtml.includes('<loc>https://setalab.kr/aram-mayhem</loc>'))
 	throw new Error('sitemap에 아수라장 가이드 주소가 없습니다.');

@@ -282,7 +282,7 @@ CF_ANALYTICS_BEACON_PATH=/tmp/cloudflare-beacon.js npm run test:e2e:built -- tes
 
 ## 광고 코드
 
-`src/routes/+layout.svelte`가 공개 페이지의 `<head>`에 AdSense 코드를 넣습니다. 게시자 ID는 `src/lib/data/meta.js`의 `adsenseClient`이며 `static/ads.txt`와 같아야 합니다. 대상은 방문 통계의 공개 경로(`src/lib/analytics/tracker.js`의 `basePaths`와 공개 글)입니다. `/privacy`(`adsenseExcludedPaths`), 404·오류 화면, 초안·예약 글과 개발 서버에는 넣지 않습니다. `/privacy`는 Google CMP 동의 메시지에 연결하므로 광고 코드를 두면 안 됩니다. `npm run verify:team-maker`가 이 조건을 검사합니다.
+`src/routes/+layout.svelte`가 공개 페이지의 `<head>`에 AdSense 코드를 넣습니다. 게시자 ID는 `src/lib/data/meta.js`의 `adsenseClient`이며 `static/ads.txt`와 같아야 합니다. 대상은 방문 통계의 공개 경로(`src/lib/analytics/tracker.js`의 `basePaths`와 공개 글)입니다. `/privacy`(`adsenseExcludedPaths`), 404·오류 화면, 초안·예약 글과 개발 서버에는 넣지 않습니다. 검증된 조합이 없는 아수라장 챔피언 공략도 방문 통계 공개 경로에는 있지만 광고 코드는 넣지 않습니다. 이 주소는 `src/routes/+layout.server.js`가 layout data의 `adsenseExcludedPaths`로 더합니다. `/privacy`는 Google CMP 동의 메시지에 연결하므로 광고 코드를 두면 안 됩니다. `npm run verify:team-maker`가 이 조건을 검사합니다.
 
 승인 전에는 수동 광고 칸을 만들지 않습니다. 승인 뒤 광고 위치는 AdSense의 자동 광고 설정이나 별도 디자인 승인으로 정하세요. 브라우저 검사는 `tests/team-maker-e2e/helpers/adsense.js`로 AdSense 요청을 막거나 빈 응답으로 바꿉니다.
 
