@@ -1,7 +1,7 @@
 import { publicPosts } from '$lib/server/blog.js';
 import { postPath } from '$lib/blog/catalog.js';
 import { siteBaseUrl } from '$lib/data/meta';
-import { aramAugmentPaths, aramChampionPaths } from '$lib/aram-mayhem/seo.js';
+import { aramAugmentPaths, aramIndexedChampionPaths } from '$lib/aram-mayhem/seo.js';
 
 export const prerender = true;
 
@@ -19,7 +19,9 @@ export async function GET() {
 	].map((pathname) => ({
 		pathname
 	}));
-	pages.push(...[...aramChampionPaths(), ...aramAugmentPaths()].map((pathname) => ({ pathname })));
+	pages.push(
+		...[...aramIndexedChampionPaths(), ...aramAugmentPaths()].map((pathname) => ({ pathname }))
+	);
 	pages.push(
 		...(await publicPosts()).map((post) => ({
 			pathname: postPath(post.slug),

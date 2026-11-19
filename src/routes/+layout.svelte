@@ -21,10 +21,12 @@
 		status: 'idle'
 	});
 	setContext(ANALYTICS_CONTEXT, analytics);
+	// 광고 제외 경로에는 layout data가 더한 조합 없는 챔피언 공략도 들어 있다.
+	const excludedPaths = $derived(page.data.adsenseExcludedPaths ?? adsenseExcludedPaths);
 	const showAds = $derived(
 		!dev &&
 			page.status === 200 &&
-			!adsenseExcludedPaths.includes(page.url.pathname) &&
+			!excludedPaths.includes(page.url.pathname) &&
 			isPublicPath(page.url.pathname, page.data.analyticsPublicPaths ?? [])
 	);
 	// 한 번 실행된 광고 코드는 태그를 지워도 남으므로, 광고 제외 경로로 갈 때는 문서를 새로 불러온다.
@@ -34,7 +36,7 @@
 	});
 	onMount(() => markLocalPreview({ window, document, dev }));
 
-	const leavesAds = (url) => adsLoaded && adsenseExcludedPaths.includes(url.pathname);
+	const leavesAds = (url) => adsLoaded && excludedPaths.includes(url.pathname);
 	// 새 배포가 감지되면 다음 이동을 새 문서로 불러와 예전 코드를 계속 쓰지 않게 한다.
 	const needsFreshDocument = (url) => leavesAds(url) || updated.current;
 

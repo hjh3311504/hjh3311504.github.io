@@ -6,9 +6,23 @@ import { websiteNode } from '../data/meta.js';
 
 export const HUB_PATH = '/aram-mayhem';
 export const championPath = (id) => `${HUB_PATH}/${id}`;
-/** sitemap과 공개 경로 목록에 넣을 챔피언 공략 주소. */
+/** 방문 통계 공개 경로에 넣을 모든 챔피언 공략 주소. */
 export const aramChampionPaths = (guide = guideData) =>
 	guide.champions.map((champion) => championPath(champion.id));
+/**
+ * 검증된 증강 조합이 있는 챔피언만 검색·광고 대상으로 둔다.
+ * 조합이 없는 페이지는 아이템 목록뿐이라 noindex로 두고 sitemap과 AdSense 코드에서 뺀다.
+ * 조합을 더하면 자동으로 다시 포함된다.
+ */
+export const isIndexedChampion = (champion) => champion.combos.length > 0;
+/** sitemap에 넣을 챔피언 공략 주소. */
+export const aramIndexedChampionPaths = (guide = guideData) =>
+	guide.champions.filter(isIndexedChampion).map((champion) => championPath(champion.id));
+/** noindex로 두고 광고 코드를 넣지 않는 챔피언 공략 주소. */
+export const aramUnindexedChampionPaths = (guide = guideData) =>
+	guide.champions
+		.filter((champion) => !isIndexedChampion(champion))
+		.map((champion) => championPath(champion.id));
 
 /** 증강 공략 페이지를 만드는 증강과 허브 링크의 한 줄 소개. 증강 이름으로 많이 검색하는 것만 고른다. */
 export const AUGMENT_PAGE_HOOKS = {

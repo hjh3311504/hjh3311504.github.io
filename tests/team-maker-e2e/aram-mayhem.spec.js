@@ -50,6 +50,23 @@ async function goByName(page, query, name) {
 	await expect(championName(page)).toHaveText(name);
 }
 
+const adsenseScript = (page) => page.locator('script[src*="adsbygoogle.js"]');
+
+test('조합 없는 챔피언 공략은 noindex이고 허브에서 이동해도 광고 코드가 없다', async ({ page }) => {
+	await openHub(page);
+	await expect(adsenseScript(page)).toHaveCount(1);
+	// 크산테는 검증된 조합이 없어 검색·광고 대상에서 뺀다.
+	await picker(page).getByRole('link', { name: '크산테' }).click();
+	await expect(page).toHaveURL(/\/aram-mayhem\/ksante$/);
+	await expect(championName(page)).toHaveText('크산테');
+	await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+	await expect(adsenseScript(page)).toHaveCount(0);
+	// 조합이 있는 챔피언으로 가면 noindex 없이 광고 코드를 다시 넣는다.
+	await goByName(page, '티모', '티모');
+	await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+	await expect(adsenseScript(page)).toHaveCount(1);
+});
+
 test('허브의 챔피언 타일은 챔피언 공략 페이지로 이동한다', async ({ page }) => {
 	await openHub(page);
 	await picker(page).getByRole('link', { name: '티모' }).click();

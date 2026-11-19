@@ -16,6 +16,7 @@
 		HUB_PATH,
 		championList,
 		hubSeo,
+		isIndexedChampion,
 		structuredData
 	} from '$lib/aram-mayhem/seo.js';
 	import { siteBaseUrl } from '$lib/data/meta.js';
@@ -33,7 +34,8 @@
 			{ name: 'Seta Lab', path: '/' },
 			{ name: '증바람 공략', path: HUB_PATH }
 		],
-		list: championList(guide.champions)
+		// 구조화 데이터 목록에는 noindex가 아닌 공략만 넣는다. 화면의 타일은 모든 챔피언을 보여 준다.
+		list: championList(guide.champions.filter(isIndexedChampion))
 	});
 
 	onMount(() => {
